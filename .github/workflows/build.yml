@@ -57,14 +57,14 @@ jobs:
              
     # List artifacts
     - name: List artifacts
-      run: cd splogparser\\dist && dir && cd ..\\..
+      run: cd src\\dist && dir && cd ..\\..
       
     # Zip artifacts
     - uses: thedoctor0/zip-release@main
       with:
         type: 'zip'
         filename: 'release.zip'
-        path: .\\splogparser\\dist\\
+        path: .\\src\\dist\\
         
     # Create Release
     - name: Create Release
