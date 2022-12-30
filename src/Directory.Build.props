@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Default properties -->
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+ 
+   <!-- Distribute Targets to the Distribution folder, but not Test Projects -->
+  <PropertyGroup>
+    <IsTestProject Condition="'$(IsTestProject)' == ''">false</IsTestProject>
+	<IsTestProject Condition="$(MSBuildProjectName.EndsWith('Tests'))">true</IsTestProject>
+  </PropertyGroup>
+ 
+
+  <PropertyGroup>
+    <IsMainProject Condition="'$(IsMainProject)' == ''">false</IsMainProject>
+	<IsMainProject Condition="$(MSBuildProjectName.EndsWith('splogparser'))">true</IsMainProject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsTestProject)' == 'false'">
+	<PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)..\dist</PostBuildEvent>  
+  </PropertyGroup>  
+  
+  <PropertyGroup Condition="'$(IsMainProject)' == 'true'">
+	<PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\$(MSBuildProjectName).exe" $(SolutionDir)..\dist</PostBuildEvent>  
+  </PropertyGroup> 
+  
+  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <IntermediateOutputPath>$(BinarySandbox)\_Intermediate\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <IntermediateOutputPath>$(BinarySandbox)\_IntermediateDebug\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Disable code analysis treating warning as errors -->
+    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- TargetFrameworkVersion -->
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+	<RuntimeIdentifier>win</RuntimeIdentifier>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Stop code analysis -->
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+
+  <!-- Custom 'Package' target used by WiX projects -->
+  <Target Name="Package" />
+</Project>

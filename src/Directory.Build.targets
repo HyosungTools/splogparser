@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+ <Target 
+    Name="RunUnitTests"
+	Condition="$(TargetPath.EndsWith('Tests.dll'))"
+    Inputs="$(TargetPath)"
+    Outputs="$(TargetPath).LastUnitTestsSucceeded">
+	<Exec Command="vstest.console.exe $(TargetPath)" />
+ </Target>
+</Project>

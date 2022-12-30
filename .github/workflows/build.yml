@@ -1,0 +1,87 @@
+name: build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+    
+env:
+  REPO: HyosungTools/sp-logparser
+
+jobs:
+  build:
+    # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-dotnet@v1
+    
+    # Semantic Versioning
+    - name: Semantic versioning  
+      id: versioning
+      uses: PaulHatch/semantic-version@v4.0.2
+      with:
+        branch: main
+        tag_prefix: "v"
+        major_pattern: "break:"
+        minor_pattern: "feat:"
+        format: "v${major}.${minor}.${patch}-prerelease${increment}"    
+
+    # Install MSBuild tools and add to Path
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+        vs-version: '17.4'
+    
+    # List the packages restored
+    - name: List dependencies restored
+      run: dotnet restore src\\splogparser.sln /p:Configuration="Release" /p:Platform="Any CPU"
+            
+    # List SDKs
+    - name: List SDKs
+      run: dotnet --list-sdks
+      
+    # Make the Target Directory
+    #- name: Make dist directory
+    #  run: cd sp-logparser && mkdir dist && cd ..
+      
+    # Build
+    - name: Build
+      run: msbuild src\\splogparser.sln /m:1 /t:Clean,Build /p:Configuration="Release" /p:Platform="Any CPU" /nodeReuse:false
+
+    # Setup VSTest 
+    - name: Setup VSTest Path
+      uses: darenm/Setup-VSTest@v1.2
+                 
+    # Test - Run 
+    - name: Test
+      run: msbuild src\\splogparser.sln /t:RunUnitTests /p:Configuration="Release" /p:Platform="Any CPU"
+             
+    # List artifacts
+    - name: List artifacts
+      run: cd splogparser\\dist && dir && cd ..\\..
+      
+    # Zip artifacts
+    - uses: thedoctor0/zip-release@main
+      with:
+        type: 'zip'
+        filename: 'release.zip'
+        path: .\\splogparser\\dist\\
+        
+    # Create Release
+    - name: Create Release
+      if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+      uses: ncipollo/release-action@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.github_token }}
+      with:
+        artifacts: release.zip
+        generateReleaseNotes: true
+        tag: ${{ steps.versioning.outputs.version }}
+        name: ${{ steps.versioning.outputs.version }}
+        allowUpdates: true
+        prerelease: true        
