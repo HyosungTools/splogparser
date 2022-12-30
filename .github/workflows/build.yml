@@ -57,14 +57,14 @@ jobs:
              
     # List artifacts
     - name: List artifacts
-      run: cd src\\dist && dir && cd ..\\..
+      run: cd dist && dir && cd ..
       
     # Zip artifacts
     - uses: thedoctor0/zip-release@main
       with:
         type: 'zip'
         filename: 'release.zip'
-        path: .\\src\\dist\\
+        path: .\\dist\\
         
     # Create Release
     - name: Create Release
