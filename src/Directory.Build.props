@@ -15,11 +15,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(IsTestProject)' == 'false'">
-	<PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)..\dist</PostBuildEvent>  
+	<PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist</PostBuildEvent>  
   </PropertyGroup>  
   
   <PropertyGroup Condition="'$(IsMainProject)' == 'true'">
-	<PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\$(MSBuildProjectName).exe" $(SolutionDir)..\dist</PostBuildEvent>  
+	<PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\$(MSBuildProjectName).exe" $(SolutionDir)\..\dist</PostBuildEvent>  
   </PropertyGroup> 
   
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">

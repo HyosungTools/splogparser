@@ -55,6 +55,10 @@ jobs:
     - name: Test
       run: msbuild src\\splogparser.sln /t:RunUnitTests /p:Configuration="Release" /p:Platform="Any CPU"
              
+    # Where am I? 
+    - name: Where am I
+      run: dir
+      
     # List artifacts
     - name: List artifacts
       run: cd dist && dir && cd ..
