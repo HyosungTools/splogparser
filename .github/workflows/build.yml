@@ -7,18 +7,16 @@ on:
     branches: [ "main" ]
     
 env:
-  REPO: HyosungTools/sp-logparser
+  REPO: HyosungTools/splogparser
 
 jobs:
   build:
     # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md
     runs-on: windows-2022
-    timeout-minutes: 15
     steps:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - uses: actions/setup-dotnet@v1
     
     # Semantic Versioning
     - name: Semantic versioning  
@@ -39,16 +37,16 @@ jobs:
     
     # List the packages restored
     - name: List dependencies restored
-      run: dotnet restore src\\splogparser.sln /p:Configuration="Release" /p:Platform="Any CPU"
+      run: cd src && nuget restore && cd .. 
+                  
+    # Install Office - https://github.com/actions/runner-images/issues/1117
+    - name: Install Office
+      run: choco install office365business 
+      
+    # Make dist directory
+    - name: Make Dir
+      run: mkdir dist
             
-    # List SDKs
-    - name: List SDKs
-      run: dotnet --list-sdks
-      
-    # Make the Target Directory
-    #- name: Make dist directory
-    #  run: cd sp-logparser && mkdir dist && cd ..
-      
     # Build
     - name: Build
       run: msbuild src\\splogparser.sln /m:1 /t:Clean,Build /p:Configuration="Release" /p:Platform="Any CPU" /nodeReuse:false
@@ -60,17 +58,17 @@ jobs:
     # Test - Run 
     - name: Test
       run: msbuild src\\splogparser.sln /t:RunUnitTests /p:Configuration="Release" /p:Platform="Any CPU"
-             
+      
     # List artifacts
     - name: List artifacts
-      run: cd splogparser\\dist && dir && cd ..\\..
+      run: cd dist && dir && cd ..
       
     # Zip artifacts
     - uses: thedoctor0/zip-release@main
       with:
         type: 'zip'
         filename: 'release.zip'
-        path: .\\splogparser\\dist\\
+        path: .\\dist\\
         
     # Create Release
     - name: Create Release
