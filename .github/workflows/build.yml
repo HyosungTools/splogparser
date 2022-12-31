@@ -41,7 +41,11 @@ jobs:
                   
     # Install Office - https://github.com/actions/runner-images/issues/1117
     - name: Install Office
-      run: choco install office365business    
+      run: choco install office365business 
+      
+    # Make dist directory
+    - name: Make Dir
+      run: mkdir dist
             
     # Build
     - name: Build
@@ -54,10 +58,6 @@ jobs:
     # Test - Run 
     - name: Test
       run: msbuild src\\splogparser.sln /t:RunUnitTests /p:Configuration="Release" /p:Platform="Any CPU"
-             
-    # Where am I? 
-    - name: Where am I
-      run: dir
       
     # List artifacts
     - name: List artifacts
