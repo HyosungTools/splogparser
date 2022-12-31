@@ -1,6 +1,7 @@
 ﻿using Contract;
 using System;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using Excel = Microsoft.Office.Interop.Excel;
 
@@ -269,7 +270,7 @@ namespace Impl
                            Operator: Excel.XlFormatConditionOperator.xlEqual,
                            Formula1: "=0");
 
-                        //fc.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                        fc.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
                     }
 
 
