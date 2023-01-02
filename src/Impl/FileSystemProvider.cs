@@ -90,7 +90,21 @@ namespace Impl
       {
          try
          {
-            Directory.Delete(path, recursive);
+            string[] files = Directory.GetFiles(path);
+            string[] dirs = Directory.GetDirectories(path);
+
+            foreach (string file in files)
+            {
+               File.SetAttributes(file, FileAttributes.Normal);
+               File.Delete(file);
+            }
+
+            foreach (string dir in dirs)
+            {
+               DeleteDir(dir, recursive);
+            }
+
+            Directory.Delete(path, false);
          }
          catch (Exception e)
          {

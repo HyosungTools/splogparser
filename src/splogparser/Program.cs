@@ -91,7 +91,7 @@ namespace splogparser
             }
          }
 
-         string excelFileName = ctx.WorkFolder + "\\" + Path.GetFileNameWithoutExtension(ctx.ZipFileName) + ".xls";
+         string excelFileName = ctx.WorkFolder + "\\" + Path.GetFileNameWithoutExtension(ctx.ZipFileName) + ".xlsx";
 
          // if the Excel file exists, delete it.
          Console.WriteLine("If the Excel file exists, delete it:");
