@@ -167,7 +167,7 @@ namespace Impl
       /// <returns>True if the write is successful, false otherwise.</returns>
       public virtual bool WriteExcelFile()
       {
-         string excelFileName = ctx.WorkFolder + "\\" + Path.GetFileNameWithoutExtension(ctx.ZipFileName) + ".xls";
+         string excelFileName = ctx.WorkFolder + "\\" + Path.GetFileNameWithoutExtension(ctx.ZipFileName) + ".xlsx";
          Console.WriteLine("Write DataTable to Excel:" + excelFileName);
 
          // create Excel 
