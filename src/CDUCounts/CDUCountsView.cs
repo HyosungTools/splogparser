@@ -2,15 +2,16 @@
 using Impl;
 using System.ComponentModel.Composition;
 
-namespace HDCUView
+namespace CDUCountsView
 {
+
    [Export(typeof(IView))]
-   public class HDCUView : BaseView, IView
+   public class CDUCountsView : BaseView, IView
    {
       /// <summary>
       /// Constructor
       /// </summary>
-      public HDCUView() : base("CDM", "CDU") { }
+      public CDUCountsView() : base("CDM", "DISP") { }
 
       /// <summary>
       /// Creates an HCDU Table instance. 
@@ -19,7 +20,7 @@ namespace HDCUView
       /// <returns>new HCDU table</returns>
       protected override BaseTable CreateTableInstance(IContext ctx)
       {
-         return new HDCUTable(ctx, viewName);
+         return new CDUCountsTable(ctx, viewName);
       }
    }
 }
