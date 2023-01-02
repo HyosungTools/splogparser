@@ -10,10 +10,10 @@ using sp_logparser;
 
 namespace splogparser
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
+   class Program
+   {
+      static void Main(string[] args)
+      {
          if (args.Length < 1)
          {
             Console.WriteLine("sp-logparser + <zipfile>");
@@ -131,5 +131,5 @@ namespace splogparser
          }
          Console.WriteLine("Application End");
       }
-    }
+   }
 }

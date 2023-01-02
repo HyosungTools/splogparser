@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Impl", "Impl\Impl.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImplTests", "ImplTests\ImplTests.csproj", "{F82644B9-650F-466A-A294-570787BAD8CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDUCountsView", "CDUCounts\CDUCountsView.csproj", "{39120EB8-02C2-439E-8139-BC47CA0545DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{F82644B9-650F-466A-A294-570787BAD8CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F82644B9-650F-466A-A294-570787BAD8CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F82644B9-650F-466A-A294-570787BAD8CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39120EB8-02C2-439E-8139-BC47CA0545DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39120EB8-02C2-439E-8139-BC47CA0545DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39120EB8-02C2-439E-8139-BC47CA0545DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39120EB8-02C2-439E-8139-BC47CA0545DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
