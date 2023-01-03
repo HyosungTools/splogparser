@@ -62,6 +62,12 @@ namespace CDUCountsView
                return;
             }
 
+            if (logLine.Contains("ulCashInCount") ||
+                logLine.Contains("cSerialNum"))
+            {
+               return; 
+            }
+
             // This log line is for us if it contains all these markers
             if (!( logLine.Contains("lpResult =") &&
                    logLine.Contains("usTellerID=") &&
@@ -126,9 +132,12 @@ namespace CDUCountsView
                valuesList.Remove("ulValues");
 
                // the currency list should be the same size as the values list, if not, insert until its the same size
+               ctx.ConsoleWriteLogLine(string.Format(@"currencyList: {0} valuesList:{1}", currencyList.Count, valuesList.Count));
+               int rjCount = 0;
                while (currencyList.Count < valuesList.Count)
                {
-                  currencyList.Insert(0, "Reject");
+                  currencyList.Insert(0, string.Format("Rjct{0}",++rjCount));
+                  ctx.ConsoleWriteLogLine(string.Format(@"Adding the column name: Rjct{0}", rjCount));
                }
 
                string[] currencyArray = currencyList.ToArray();
@@ -145,14 +154,10 @@ namespace CDUCountsView
 
                   colName = currencyArray[i] + (valuesArray[i] == "0" ? " " : valuesArray[i]) + "(Current)";
                   this.dTable.Columns.Add(colName, typeof(string));
-                  _columnNames.Add(colName); 
-               }
+                  _columnNames.Add(colName);
 
-               // resize the member variables _initialList and _currentList so we can do comparisons later
-               for (int i = 0; i < _columnNames.Count; i++)
-               {
                   _initialList.Add(string.Empty);
-                  _currentList.Add(string.Empty); 
+                  _currentList.Add(string.Empty);
                }
 
                firstParse = false;
@@ -192,6 +197,19 @@ namespace CDUCountsView
             // trim cCurrencyID and ulValues from the lists
             initialList.Remove("ulInitialCount");
             currentList.Remove("ulCount");
+
+            ctx.ConsoleWriteLogLine(
+               string.Format(@"_initialList:{0} _currentList:{1} initialList:{2} currentList:{3} _columnNames:{4} ",
+                               _initialList.Count, _currentList.Count, initialList.Count, currentList.Count, _columnNames.Count)
+               ); 
+
+            //
+            if (this._initialList.Count > initialList.Count || this._currentList.Count > currentList.Count)
+            {
+               // something went wrong, throw this out
+               ctx.ConsoleWriteLogLine("Unexpected values");
+               return;
+            }
 
             // if the values are identical to the previously stored values, dont bother writing. 
             bool listsAreEqual = this._initialList.Count == initialList.Count && 
