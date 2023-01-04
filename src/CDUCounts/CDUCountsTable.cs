@@ -198,11 +198,6 @@ namespace CDUCountsView
             initialList.Remove("ulInitialCount");
             currentList.Remove("ulCount");
 
-            ctx.ConsoleWriteLogLine(
-               string.Format(@"_initialList:{0} _currentList:{1} initialList:{2} currentList:{3} _columnNames:{4} ",
-                               _initialList.Count, _currentList.Count, initialList.Count, currentList.Count, _columnNames.Count)
-               ); 
-
             //
             if (this._initialList.Count > initialList.Count || this._currentList.Count > currentList.Count)
             {

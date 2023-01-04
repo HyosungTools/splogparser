@@ -216,7 +216,14 @@ namespace Impl
          // finished with the title row, now point to the next row
          rowOffset++;
 
-         DataView dataView = new DataView(dTable);
+         // remove duplicate rows
+         DataTable distinctTable = dTable.DefaultView.ToTable( /*distinct*/ true);
+
+         // create a view
+         DataView dataView = new DataView(distinctTable);
+
+         // sort by time
+         dataView.Sort = "Time ASC";
 
          // create a 2D array of the cell contents, we have to massage the data because there
          // are some things Excel does not like
