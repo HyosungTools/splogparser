@@ -214,7 +214,7 @@ namespace Impl
          return returnMe;
       }
 
-      public static bool ExtractZipFiles(IContext ctx, string currentFolder)
+      private static bool _ExtractZipFiles(IContext ctx, string currentFolder)
       {
          string[] zipFiles = ctx.ioProvider.GetFiles(currentFolder, "*.zip");
          foreach (string zipFile in zipFiles)
@@ -236,16 +236,23 @@ namespace Impl
          foreach (var directory in Directory.GetDirectories(currentFolder))
          {
             ctx.ConsoleWriteLogLine("Iterating into: " + directory);
-            ExtractZipFiles(ctx, directory);
+            _ExtractZipFiles(ctx, directory);
          }
 
          return true;
       }
 
+      public static bool ExtractZipFiles(IContext ctx)
+      {
+         // Extract current zip file
+         ctx.ioProvider.ExtractToDirectory(ctx.ZipFileName, ctx.WorkFolder + "\\" + ctx.SubFolder);
+         return _ExtractZipFiles(ctx, ctx.WorkFolder + "\\" + ctx.SubFolder);
+      }
+
       public static bool FindAllTraceFiles(IContext ctx)
       {
          ctx.ConsoleWriteLogLine("Unzipping the archive...");
-         if (!Utilities.ExtractZipFiles(ctx, ctx.WorkFolder))
+         if (!Utilities.ExtractZipFiles(ctx))
          {
             return false;
          }
