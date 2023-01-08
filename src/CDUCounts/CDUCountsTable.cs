@@ -37,7 +37,7 @@ namespace CDUCountsView
          this._currentList = new List<string>(); 
 
          // for our view we want '0' to render as ' ' in the worksheet
-         zeroAsBlank = true;
+         _zeroAsBlank = true;
 
          InitDataTable();
 
