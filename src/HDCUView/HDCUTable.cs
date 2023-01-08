@@ -22,7 +22,7 @@ namespace HDCUView
       public HDCUTable(IContext ctx, string viewName) : base(ctx, viewName)
       {
          // for our view we want '0' to render as ' ' in the worksheet
-         zeroAsBlank = true;
+         _zeroAsBlank = true;
 
          this.listPositions = new List<string>(new string[] { "Taken", "Stacker", "Output", "Transpt" });
 

@@ -65,6 +65,7 @@ namespace Impl
          int startPos = subLogLine.IndexOf(startStr);
          if (startPos >= 0)
          {
+            startPos = startPos + startStr.Length; 
             int endPos = subLogLine.IndexOf(endStr, startPos + 1);
             if (endPos > 0)
             {
@@ -274,6 +275,68 @@ namespace Impl
 
          ctx.nwlogFiles = tempList.ToArray();
          return true;
+      }
+
+      /// <summary>
+      /// Convert an fwType to string based on this mapping
+      /// 
+      /// /* values of WFSCIMCASHIN.fwType */
+      /// #define WFS_CIM_TYPERECYCLING (1)
+      /// #define WFS_CIM_TYPECASHIN (2)
+      /// #define WFS_CIM_TYPEREPCONTAINER (3)
+      /// #define WFS_CIM_TYPERETRACTCASSETTE (4)
+      /// #define WFS_CIM_TYPEREJECT (5)
+      /// #define WFS_CIM_TYPECDMSPECIFIC (6)
+      /// </summary>
+      /// <param name="fwType"></param>
+      /// <returns></returns>
+
+
+      public static string CashInTypeName(int fwType)
+      {
+         string typeName = "UNKNW";
+         switch (fwType)
+         {
+            case 1: // WFS_CIM_TYPERECYCLING
+               typeName = "RECYC";
+               break;
+            case 2: // WFS_CIM_TYPECASHIN
+               typeName = "CASHIN";
+               break;
+            case 3: // WFS_CIM_TYPEREPCONTAINER
+               typeName = "REPCON";
+               break;
+            case 4: // WFS_CIM_TYPERETRACTCASSETTE
+               typeName = "RETRAC";
+               break;
+            case 5: // WFS_CIM_TYPEREJECT
+               typeName = "REJECT";
+               break;
+            case 6: // WFS_CIM_TYPECDMSPECIFIC
+               typeName = "CMDSPC";
+               break;
+            default:
+               break;
+         }
+         return typeName; 
+      }
+
+      public static bool ListsAreEqual(List<string> firstList, List<string> secondList)
+      {
+         bool listsAreEqual = firstList.Count == secondList.Count;
+
+         if (listsAreEqual)
+         {
+            string[] firstArray = firstList.ToArray();
+            string[] secondArray = secondList.ToArray(); 
+
+            for (int i = 0; i < firstArray.Length && listsAreEqual; i++)
+            {
+               listsAreEqual = listsAreEqual && firstArray[i] == secondList[i];
+            }
+         }
+
+         return listsAreEqual;
       }
    }
 }

@@ -45,7 +45,7 @@ namespace Impl
       /// <summary>
       /// Flags if a zero in the worksheet should be shown a blank+
       /// </summary>
-      protected bool zeroAsBlank = false;
+      protected bool _zeroAsBlank = false;
       /// <summary>
       /// grab the date/time from a logline
       /// </summary>
@@ -270,7 +270,7 @@ namespace Impl
                dispenseRange.Value2 = rowData;
                dispenseRange.VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
 
-               if (zeroAsBlank)
+               if (_zeroAsBlank)
                {
                   // blank out any zeros in the range for readability
                   Excel.FormatCondition fc = (Excel.FormatCondition)dispenseRange.FormatConditions.Add(
