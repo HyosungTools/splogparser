@@ -72,7 +72,7 @@ namespace HDCUView
 
             DataRow dataRow = dTable.NewRow();
 
-            dataRow["Time"] = Utilities.GetTimeFromLogLine(logLine);
+            dataRow["Time"] = LogTime.GetTimeFromLogLine(logLine);
 
             string subLogLine = logLine;
 
@@ -80,40 +80,40 @@ namespace HDCUView
 
             (bool found, string foundStr, string subLogLine) result;
 
-            result = Utilities.FindByMarker(subLogLine, "Shutter Open = [", 1);
+            result = LogFind.FindByMarker(subLogLine, "Shutter Open = [", 1);
             dataRow["ShtrOpn"] = result.foundStr;
             subLogLine = result.subLogLine;
 
             // ITem Taken = [1]
             // Stacker Empty = [1], Output Position Empty = [1], Transport Empty = [1]
 
-            result = Utilities.FindByMarker(subLogLine, "ITem Taken = [", 1);
+            result = LogFind.FindByMarker(subLogLine, "ITem Taken = [", 1);
             dataRow["Taken"] = Utilities.Flip(result.foundStr);
             subLogLine = result.subLogLine;
 
-            result = Utilities.FindByMarker(subLogLine, "Stacker Empty = [", 1);
+            result = LogFind.FindByMarker(subLogLine, "Stacker Empty = [", 1);
             dataRow["Stacker"] = Utilities.Flip(result.foundStr);
             subLogLine = result.subLogLine;
 
-            result = Utilities.FindByMarker(subLogLine, "Output Position Empty = [", 1);
+            result = LogFind.FindByMarker(subLogLine, "Output Position Empty = [", 1);
             dataRow["Output"] = Utilities.Flip(result.foundStr);
             subLogLine = result.subLogLine;
 
-            result = Utilities.FindByMarker(subLogLine, "Transport Empty = [", 1);
+            result = LogFind.FindByMarker(subLogLine, "Transport Empty = [", 1);
             dataRow["Transpt"] = Utilities.Flip(result.foundStr);
             subLogLine = result.subLogLine;
 
             // Reject Full = [0], Missing = [0]
 
-            result = Utilities.FindByMarker(subLogLine, "Reject Full = [", 1);
+            result = LogFind.FindByMarker(subLogLine, "Reject Full = [", 1);
             dataRow["RjFull"] = result.foundStr;
             subLogLine = result.subLogLine;
 
-            result = Utilities.FindByMarker(subLogLine, "Missing = [", 1);
+            result = LogFind.FindByMarker(subLogLine, "Missing = [", 1);
             dataRow["RjMiss"] = result.foundStr;
             subLogLine = result.subLogLine;
 
-            result = Utilities.FindByMarker(subLogLine, "CDU Dock Position = [", 1);
+            result = LogFind.FindByMarker(subLogLine, "CDU Dock Position = [", 1);
             dataRow["UnDock"] = Utilities.Flip(result.foundStr);
             subLogLine = result.subLogLine;
 
@@ -121,15 +121,15 @@ namespace HDCUView
 
             for (int i = 1; i <= 6; i++)
             {
-               result = Utilities.FindByMarker(subLogLine, "Missing = [", 1);
+               result = LogFind.FindByMarker(subLogLine, "Missing = [", 1);
                dataRow["C" + i.ToString() + "Miss"] = result.foundStr;
                subLogLine = result.subLogLine;
 
-               result = Utilities.FindByMarker(subLogLine, "Empty = [", 1);
+               result = LogFind.FindByMarker(subLogLine, "Empty = [", 1);
                dataRow["C" + i.ToString() + "Emty"] = result.foundStr;
                subLogLine = result.subLogLine;
 
-               result = Utilities.FindByMarker(subLogLine, "Low = [", 1);
+               result = LogFind.FindByMarker(subLogLine, "Low = [", 1);
                dataRow["C" + i.ToString() + "Low"] = result.foundStr;
                subLogLine = result.subLogLine;
             }
