@@ -87,7 +87,7 @@ namespace CDUCountsView
             char[] delimiterChars = { ' ', ',', '.', ':', '\t' };
 
             // isolate the logDate
-            logDate = Utilities.GetTimeFromLogLine(logLine);
+            logDate = LogTime.GetTimeFromLogLine(logLine);
 
             if (firstParse)
             {
@@ -102,7 +102,7 @@ namespace CDUCountsView
                // Reject(Initial), Reject(Current), USD5(Initial), USD5(Current), USD20(Initial), USD20(Current). 
 
                // continue to read lines until you find the cCurrencyID line
-               (bool found, string oneLine, string subLogLine) currencyLine = Utilities.FindLine(subLogLine, "cCurrencyID");
+               (bool found, string oneLine, string subLogLine) currencyLine = LogLine.FindLine(subLogLine, "cCurrencyID");
                if (!currencyLine.found)
                {
                   // can't continue 
@@ -113,7 +113,7 @@ namespace CDUCountsView
                string currencyRow = currencyLine.oneLine;
 
                // continue to read lines until you find the ulValues line
-               (bool found, string oneLine, string subLogLine) valueLine = Utilities.FindLine(subLogLine, "ulValues");
+               (bool found, string oneLine, string subLogLine) valueLine = LogLine.FindLine(subLogLine, "ulValues");
                if (!valueLine.found)
                {
                   // can't continue 
@@ -169,7 +169,7 @@ namespace CDUCountsView
             // ulCount           0     1986     5131
             //
             // Use these values to populate the row of the table. 
-            (bool found, string oneLine, string subLogLine) initialLine = Utilities.FindLine(subLogLine, "ulInitialCount");
+            (bool found, string oneLine, string subLogLine) initialLine = LogLine.FindLine(subLogLine, "ulInitialCount");
             if (!initialLine.found)
             {
                // can't continue 
@@ -180,7 +180,7 @@ namespace CDUCountsView
             string initialRow = initialLine.oneLine;
 
             // continue to read lines until you find the ulValues line
-            (bool found, string oneLine, string subLogLine) currentLine = Utilities.FindLine(subLogLine, "ulCount");
+            (bool found, string oneLine, string subLogLine) currentLine = LogLine.FindLine(subLogLine, "ulCount");
             if (!currentLine.found)
             {
                // can't continue 

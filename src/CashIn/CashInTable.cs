@@ -53,7 +53,7 @@ namespace CashIn
       private (bool found, string foundStr, string subLogLine) Find(string logLine, string mark, int size)
       {
          (bool found, string foundStr, string subLogLine) result;
-         result = Utilities.FindByMarker(logLine, mark, size);
+         result = LogFind.FindByMarker(logLine, mark, size);
          if (!result.found)
          {
             // can't continue 
@@ -73,7 +73,7 @@ namespace CashIn
       private (bool found, string foundStr, string subLogLine) Find(string logLine, string mark, string endMark)
       {
          (bool found, string foundStr, string subLogLine) result;
-         result = Utilities.FindByMarker(logLine, mark, endMark);
+         result = LogFind.FindByMarker(logLine, mark, endMark);
          if (!result.found)
          {
             // can't continue 
@@ -108,7 +108,7 @@ namespace CashIn
             List<string> currentList = new List<string>();
 
             // isolate the logDate
-            logDate = Utilities.GetTimeFromLogLine(logLine);
+            logDate = LogTime.GetTimeFromLogLine(logLine);
 
 
             (bool found, string foundStr, string subLogLine) result;
