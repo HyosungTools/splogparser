@@ -53,7 +53,7 @@ namespace CDUCountsView
       /// Process one line from the merged log file. 
       /// </summary>
       /// <param name="logLine">logline from the file</param>
-      public override void ProcessRow(string logLine)
+      public override void ProcessRow(string traceFile, string logLine)
       {
          try
          {
@@ -81,13 +81,12 @@ namespace CDUCountsView
                return;
             }
 
+            base.ProcessRow(traceFile, logLine); 
+
             // found one for us
             string subLogLine = logLine;
             //(bool found, string foundStr, string subLogLine) result;
             char[] delimiterChars = { ' ', ',', '.', ':', '\t' };
-
-            // isolate the logDate
-            logDate = LogTime.GetTimeFromLogLine(logLine);
 
             if (firstParse)
             {
@@ -229,7 +228,8 @@ namespace CDUCountsView
 
                DataRow dataRow = dTable.NewRow();
 
-               dataRow["Time"] = logDate;
+               dataRow["File"] = _traceFile;
+               dataRow["Time"] = _logDate;
 
                // now add the columns to the table - but if the previous value is the same, write and empty string
                // for example, only report Initial Value once because it never changes. 

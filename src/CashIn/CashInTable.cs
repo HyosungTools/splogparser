@@ -87,7 +87,7 @@ namespace CashIn
       /// Process one line from the merged log file. 
       /// </summary>
       /// <param name="logLine">logline from the file</param>
-      public override void ProcessRow(string logLine)
+      public override void ProcessRow(string traceFile, string logLine)
       {
          try
          {
@@ -103,12 +103,12 @@ namespace CashIn
                return;
             }
 
+            base.ProcessRow(traceFile, logLine);
+
             string subLogLine = logLine;
             List<string> columnNames = new List<string>();
             List<string> currentList = new List<string>();
 
-            // isolate the logDate
-            logDate = LogTime.GetTimeFromLogLine(logLine);
 
 
             (bool found, string foundStr, string subLogLine) result;
@@ -246,7 +246,8 @@ namespace CashIn
                // add the values as a first row
                DataRow dataRow = dTable.NewRow();
 
-               dataRow["Time"] = logDate;
+               dataRow["File"] = _traceFile; 
+               dataRow["Time"] = _logDate;
 
                string[] _columnNamesArray = _columnNames.ToArray(); 
                string[] _currentValues = _currentList.ToArray();

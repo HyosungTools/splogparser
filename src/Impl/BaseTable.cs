@@ -47,9 +47,13 @@ namespace Impl
       /// </summary>
       protected bool _zeroAsBlank = false;
       /// <summary>
+      /// trace file of the log line
+      /// </summary>
+      protected string _traceFile = string.Empty; 
+      /// <summary>
       /// grab the date/time from a logline
       /// </summary>
-      protected string logDate = string.Empty;
+      protected string _logDate = string.Empty;
 
       /// <summary>
       /// constructor
@@ -76,6 +80,7 @@ namespace Impl
       {
          Console.WriteLine("BaseTable.InitDataTable");
 
+         dTable.Columns.Add("File", typeof(string));      // logfile
          dTable.Columns.Add("Time", typeof(string));      // timestamp
 
          Console.WriteLine("BaseTable.InitDataTable complete");
@@ -155,8 +160,10 @@ namespace Impl
       /// <summary>
       /// Process a log line. 
       /// </summary>
-      public virtual void ProcessRow(string logLine)
+      public virtual void ProcessRow(string traceFile, string logLine)
       {
+         _traceFile = traceFile; 
+         _logDate = LogTime.GetTimeFromLogLine(logLine);
          return;
       }
 

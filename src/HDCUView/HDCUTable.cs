@@ -55,7 +55,7 @@ namespace HDCUView
       /// Process one line from the merged log file. 
       /// </summary>
       /// <param name="logLine">logline from the file</param>
-      public override void ProcessRow(string logLine)
+      public override void ProcessRow(string traceFile, string logLine)
       {
          try
          {
@@ -70,9 +70,12 @@ namespace HDCUView
                return;
             }
 
+            base.ProcessRow(traceFile, logLine);
+
             DataRow dataRow = dTable.NewRow();
 
-            dataRow["Time"] = LogTime.GetTimeFromLogLine(logLine);
+            dataRow["File"] = _traceFile;
+            dataRow["Time"] = _logDate; 
 
             string subLogLine = logLine;
 
