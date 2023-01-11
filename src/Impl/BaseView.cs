@@ -65,7 +65,7 @@ namespace Impl
                      try
                      {
                         // pass the log line to the View for (possible) processing
-                        bTable.ProcessRow(reader.ReadLine());
+                        bTable.ProcessRow(ctx.ioProvider.GetFileName(traceFile), reader.ReadLine());
                      }
                      catch (Exception ex)
                      {
