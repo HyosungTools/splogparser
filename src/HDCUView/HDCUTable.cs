@@ -11,8 +11,6 @@ namespace HDCUView
    /// </summary>
    internal class HDCUTable : BaseTable
    {
-      /// Holds a list of Positions 
-      private List<string> listPositions;
 
       /// <summary>
       /// constructor
@@ -24,8 +22,6 @@ namespace HDCUView
          // for our view we want '0' to render as ' ' in the worksheet
          _zeroAsBlank = true;
 
-         this.listPositions = new List<string>(new string[] { "Taken", "Stacker", "Output", "Transpt" });
-
          InitDataTable();
       }
 
@@ -33,15 +29,8 @@ namespace HDCUView
       {
          base.InitDataTable();
 
-         this.dTable.Columns.Add("ShtrOpn", typeof(string));
-         foreach (string strPosition in this.listPositions)
-         {
-            this.dTable.Columns.Add(strPosition, typeof(string));
-         }
-
          this.dTable.Columns.Add("RjFull", typeof(string));
          this.dTable.Columns.Add("RjMiss", typeof(string));
-         this.dTable.Columns.Add("UnDock", typeof(string));
 
          for (int i = 1; i <= 6; i++)
          {
@@ -49,6 +38,26 @@ namespace HDCUView
             this.dTable.Columns.Add("C" + i.ToString() + "Emty", typeof(string));
             this.dTable.Columns.Add("C" + i.ToString() + "Low", typeof(string));
          }
+      }
+
+      /// <summary>
+      /// Wrapper function to call Utilities.FindByMarker but also handle return error logging
+      /// </summary>
+      /// <param name="logLine">the current log line</param>
+      /// <param name="mark">string to search for in the log line (start marker)</param>
+      /// <param name="endMark"></param>
+      /// <returns>substring of logline book-ended by mark and endMark, or error.</returns>
+      private (bool found, string foundStr, string subLogLine) Find(string logLine, string mark, string endMark)
+      {
+         (bool found, string foundStr, string subLogLine) result;
+         result = LogFind.FindByMarker(logLine, mark, endMark);
+         if (!result.found)
+         {
+            // can't continue 
+            ctx.ConsoleWriteLogLine("CashInTable.ProcessRow - Failed to find '" + mark + "'");
+            return (false, string.Empty, logLine);
+         }
+         return (true, result.foundStr, result.subLogLine);
       }
 
       /// <summary>
@@ -65,7 +74,15 @@ namespace HDCUView
             }
 
             // This log line is for us if it contains HCDUSensor::UpdateSensor
-            if (!(logLine.Contains("HCDUSensor::UpdateSensor") && logLine.Length > 1000))
+            if (!(logLine.Contains("HCDUSensor::UpdateSensor") && 
+                  logLine.Contains("Shutter Open = [") &&
+                  logLine.Contains("ITem Taken = [") &&
+                  logLine.Contains("Stacker Empty = [") &&
+                  logLine.Contains("Reject Full = [") &&
+                  logLine.Contains("Carriage Home Position = [") &&
+                  logLine.Contains("Cst#1 Missing = [") &&
+                  logLine.Contains("Cst#2 Missing = [") &&
+                  logLine.Contains("Cst#3 Missing = [")))
             {
                return;
             }
@@ -83,58 +100,58 @@ namespace HDCUView
 
             (bool found, string foundStr, string subLogLine) result;
 
-            result = LogFind.FindByMarker(subLogLine, "Shutter Open = [", 1);
-            dataRow["ShtrOpn"] = result.foundStr;
-            subLogLine = result.subLogLine;
-
-            // ITem Taken = [1]
-            // Stacker Empty = [1], Output Position Empty = [1], Transport Empty = [1]
-
-            result = LogFind.FindByMarker(subLogLine, "ITem Taken = [", 1);
-            dataRow["Taken"] = Utilities.Flip(result.foundStr);
-            subLogLine = result.subLogLine;
-
-            result = LogFind.FindByMarker(subLogLine, "Stacker Empty = [", 1);
-            dataRow["Stacker"] = Utilities.Flip(result.foundStr);
-            subLogLine = result.subLogLine;
-
-            result = LogFind.FindByMarker(subLogLine, "Output Position Empty = [", 1);
-            dataRow["Output"] = Utilities.Flip(result.foundStr);
-            subLogLine = result.subLogLine;
-
-            result = LogFind.FindByMarker(subLogLine, "Transport Empty = [", 1);
-            dataRow["Transpt"] = Utilities.Flip(result.foundStr);
-            subLogLine = result.subLogLine;
-
             // Reject Full = [0], Missing = [0]
 
-            result = LogFind.FindByMarker(subLogLine, "Reject Full = [", 1);
+            result = Find(subLogLine, "Reject Full = [", "]");
+            if (!result.found)
+            {
+               return;
+            }
+            subLogLine = result.subLogLine;
+
             dataRow["RjFull"] = result.foundStr;
+
+
+            result = Find(subLogLine, "Missing = [", "]");
+            if (!result.found)
+            {
+               return;
+            }
             subLogLine = result.subLogLine;
 
-            result = LogFind.FindByMarker(subLogLine, "Missing = [", 1);
             dataRow["RjMiss"] = result.foundStr;
-            subLogLine = result.subLogLine;
-
-            result = LogFind.FindByMarker(subLogLine, "CDU Dock Position = [", 1);
-            dataRow["UnDock"] = Utilities.Flip(result.foundStr);
-            subLogLine = result.subLogLine;
 
             // Cst#1 Missing = [0], Empty = [0], Low = [0]
 
             for (int i = 1; i <= 6; i++)
             {
-               result = LogFind.FindByMarker(subLogLine, "Missing = [", 1);
+               result = Find(subLogLine, "Missing = [", "]");
+               if (!result.found)
+               {
+                  return;
+               }
+               subLogLine = result.subLogLine;
+
                dataRow["C" + i.ToString() + "Miss"] = result.foundStr;
+
+
+               result = Find(subLogLine, "Empty = [", "]");
+               if (!result.found)
+               {
+                  return;
+               }
                subLogLine = result.subLogLine;
 
-               result = LogFind.FindByMarker(subLogLine, "Empty = [", 1);
                dataRow["C" + i.ToString() + "Emty"] = result.foundStr;
+
+               result = Find(subLogLine, "Low = [", "]");
+               if (!result.found)
+               {
+                  return;
+               }
                subLogLine = result.subLogLine;
 
-               result = LogFind.FindByMarker(subLogLine, "Low = [", 1);
                dataRow["C" + i.ToString() + "Low"] = result.foundStr;
-               subLogLine = result.subLogLine;
             }
 
             dTable.Rows.Add(dataRow);
