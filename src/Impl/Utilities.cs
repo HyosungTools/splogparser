@@ -84,7 +84,7 @@ namespace Impl
          ctx.ConsoleWriteLogLine("Unzip complete.");
 
          // find all nwlog files
-         string[] tempFiles = ctx.ioProvider.GetFiles(ctx.WorkFolder, "*.nwlog");
+         string[] tempFiles = ctx.ioProvider.GetFiles(ctx.WorkFolder + "\\" + ctx.SubFolder, "*.nwlog");
 
          // reduce to nwlog files in the [SP] subfolder, if any
          List<string> tempList = new List<string>();

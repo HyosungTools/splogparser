@@ -255,14 +255,14 @@ namespace CashIn
 
                for (int i = 0; i < _currentValues.Length; i++)
                {
-                  //if (_currentValues[i] == currentValues[i])
-                  //{
-                  //   dataRow[_columnNamesArray[i]] = string.Empty;
-                  //}
-                  //else
-                  //{
+                  if (_currentValues[i] == currentValues[i])
+                  {
+                     dataRow[_columnNamesArray[i]] = string.Empty;
+                  }
+                  else
+                  {
                      dataRow[_columnNamesArray[i]] = currentValues[i];
-                  //}
+                  }
                }
 
                dTable.Rows.Add(dataRow);
