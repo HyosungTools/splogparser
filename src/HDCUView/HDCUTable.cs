@@ -22,22 +22,27 @@ namespace HDCUView
          // for our view we want '0' to render as ' ' in the worksheet
          _zeroAsBlank = true;
 
-         InitDataTable();
+         InitDataTable(viewName);
       }
 
-      protected override void InitDataTable()
+      /// <summary>
+      /// Create a table with a given name, at the same time add columns. 
+      /// </summary>
+      /// <param name="tableName">name of the table to create</param>
+      /// <returns></returns>
+      protected override bool InitDataTable(string tableName)
       {
-         base.InitDataTable();
-
-         this.dTable.Columns.Add("RjFull", typeof(string));
-         this.dTable.Columns.Add("RjMiss", typeof(string));
+         base.InitDataTable(tableName);
+         AddColumn(tableName, "RjFull");
+         AddColumn(tableName, "RjMiss");
 
          for (int i = 1; i <= 6; i++)
          {
-            this.dTable.Columns.Add("C" + i.ToString() + "Miss", typeof(string));
-            this.dTable.Columns.Add("C" + i.ToString() + "Emty", typeof(string));
-            this.dTable.Columns.Add("C" + i.ToString() + "Low", typeof(string));
+            AddColumn(tableName, "C" + i.ToString() + "Miss");
+            AddColumn(tableName, "C" + i.ToString() + "Emty");
+            AddColumn(tableName, "C" + i.ToString() + "Low");
          }
+         return true;
       }
 
       /// <summary>
@@ -74,7 +79,7 @@ namespace HDCUView
             }
 
             // This log line is for us if it contains HCDUSensor::UpdateSensor
-            if (!(logLine.Contains("HCDUSensor::UpdateSensor") && 
+            if (!(logLine.Contains("HCDUSensor::UpdateSensor") &&
                   logLine.Contains("Shutter Open = [") &&
                   logLine.Contains("ITem Taken = [") &&
                   logLine.Contains("Stacker Empty = [") &&
@@ -89,10 +94,14 @@ namespace HDCUView
 
             base.ProcessRow(traceFile, logLine);
 
-            DataRow dataRow = dTable.NewRow();
+            (bool success, DataRow dataRow) newRow = NewRow(viewName);
+            if (!newRow.success)
+            {
+               ctx.ConsoleWriteLogLine("Failed to add row to table '" + viewName + "'");
+            }
 
-            dataRow["File"] = _traceFile;
-            dataRow["Time"] = _logDate; 
+            newRow.dataRow["File"] = _traceFile;
+            newRow.dataRow["Time"] = _logDate;
 
             string subLogLine = logLine;
 
@@ -109,7 +118,7 @@ namespace HDCUView
             }
             subLogLine = result.subLogLine;
 
-            dataRow["RjFull"] = result.foundStr;
+            newRow.dataRow["RjFull"] = result.foundStr;
 
 
             result = Find(subLogLine, "Missing = [", "]");
@@ -119,7 +128,7 @@ namespace HDCUView
             }
             subLogLine = result.subLogLine;
 
-            dataRow["RjMiss"] = result.foundStr;
+            newRow.dataRow["RjMiss"] = result.foundStr;
 
             // Cst#1 Missing = [0], Empty = [0], Low = [0]
 
@@ -132,7 +141,7 @@ namespace HDCUView
                }
                subLogLine = result.subLogLine;
 
-               dataRow["C" + i.ToString() + "Miss"] = result.foundStr;
+               newRow.dataRow["C" + i.ToString() + "Miss"] = result.foundStr;
 
 
                result = Find(subLogLine, "Empty = [", "]");
@@ -142,7 +151,7 @@ namespace HDCUView
                }
                subLogLine = result.subLogLine;
 
-               dataRow["C" + i.ToString() + "Emty"] = result.foundStr;
+               newRow.dataRow["C" + i.ToString() + "Emty"] = result.foundStr;
 
                result = Find(subLogLine, "Low = [", "]");
                if (!result.found)
@@ -151,10 +160,10 @@ namespace HDCUView
                }
                subLogLine = result.subLogLine;
 
-               dataRow["C" + i.ToString() + "Low"] = result.foundStr;
+               newRow.dataRow["C" + i.ToString() + "Low"] = result.foundStr;
             }
 
-            dTable.Rows.Add(dataRow);
+            AddRow(viewName, newRow.dataRow);
 
          }
          catch (Exception e)

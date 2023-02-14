@@ -56,6 +56,7 @@ jobs:
       uses: darenm/Setup-VSTest@v1.2
                  
     # Test - Run 
+    # C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\CommonExtensions\Microsoft\TestWindow
     - name: Test
       run: msbuild src\\splogparser.sln /t:RunUnitTests /p:Configuration="Release" /p:Platform="Any CPU"
       

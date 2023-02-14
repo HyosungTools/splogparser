@@ -31,16 +31,16 @@ namespace CashIn
          _firstParse = true;
          _usCount = 0; 
 
-         InitDataTable();
+         InitDataTable(viewName);
 
       }
 
       /// <summary>
       /// Initialize the Database Table
       /// </summary>
-      protected override void InitDataTable()
+      protected override bool InitDataTable(string tableName)
       {
-         base.InitDataTable();
+         return base.InitDataTable(viewName);
       }
 
       /// <summary>
@@ -204,13 +204,13 @@ namespace CashIn
                   foreach (string colName in columnNamesArray)
                   {
                      ctx.ConsoleWriteLogLine("add column name to the table: " + colName);
-                     this.dTable.Columns.Add(colName, typeof(string));
+                     AddColumn(viewName, colName);
                   }
                }
                catch (Exception e)
                {
                   ctx.ConsoleWriteLogLine("Exception Setting Columns Up: " + e.Message);
-                  return; 
+                  return;
                }
 
                // as part of a first-pass parse, set up _colunNames and re-size _currentList to 
@@ -244,10 +244,15 @@ namespace CashIn
             if (!Utilities.ListsAreEqual(this._currentList, currentList))
             {
                // add the values as a first row
-               DataRow dataRow = dTable.NewRow();
+               (bool success, DataRow dataRow) newRow = NewRow(viewName);
+               if (!newRow.success)
+               {
+                  ctx.ConsoleWriteLogLine("Failed to create new row for table '" + viewName + "'");
+                  return;
+               }
 
-               dataRow["File"] = _traceFile; 
-               dataRow["Time"] = _logDate;
+               newRow.dataRow["File"] = _traceFile;
+               newRow.dataRow["Time"] = _logDate;
 
                string[] _columnNamesArray = _columnNames.ToArray(); 
                string[] _currentValues = _currentList.ToArray();
@@ -257,15 +262,15 @@ namespace CashIn
                {
                   if (_currentValues[i] == currentValues[i])
                   {
-                     dataRow[_columnNamesArray[i]] = string.Empty;
+                     newRow.dataRow[_columnNamesArray[i]] = string.Empty;
                   }
                   else
                   {
-                     dataRow[_columnNamesArray[i]] = currentValues[i];
+                     newRow.dataRow[_columnNamesArray[i]] = currentValues[i];
                   }
                }
 
-               dTable.Rows.Add(dataRow);
+               AddRow(viewName, newRow.dataRow);
             }
 
             _columnNames = columnNames;
