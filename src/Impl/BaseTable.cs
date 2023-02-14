@@ -33,7 +33,7 @@ namespace Impl
       /// <summary>
       /// Data table that will become Excel worksheet. 
       /// </summary>
-      protected System.Data.DataTable dTable;
+      protected DataSet dTableSet;
       /// <summary>
       /// Manages writing to the log file. 
       /// </summary>
@@ -49,7 +49,7 @@ namespace Impl
       /// <summary>
       /// trace file of the log line
       /// </summary>
-      protected string _traceFile = string.Empty; 
+      protected string _traceFile = string.Empty;
       /// <summary>
       /// grab the date/time from a logline
       /// </summary>
@@ -64,7 +64,7 @@ namespace Impl
       {
          Console.WriteLine("BaseTable.constructor");
 
-         dTable = new System.Data.DataTable();
+         dTableSet = new DataSet(viewName);
          id = 0;
          this.ctx = ctx;
          this.viewName = viewName;
@@ -74,16 +74,68 @@ namespace Impl
       }
 
       /// <summary>
-      /// Initializes the data table. 
+      /// Add/Initialize a named datatable to the data set. 
+      /// At the same time add 2 coumns - File and Time. 
       /// </summary>
-      protected virtual void InitDataTable()
+      /// <returns>bool</returns>
+      protected virtual bool InitDataTable(string tableName)
       {
-         Console.WriteLine("BaseTable.InitDataTable");
+         dTableSet.Tables.Add(tableName);
+         (bool success, DataColumn datacolumn) result = AddColumn(tableName, "File");
+         if (result.success)
+         {
+            result = AddColumn(tableName, "Time");
+         }
+         return result.success;
+      }
 
-         dTable.Columns.Add("File", typeof(string));      // logfile
-         dTable.Columns.Add("Time", typeof(string));      // timestamp
+      /// <summary>
+      /// Add Column to a named Table
+      /// </summary>
+      /// <returns>void</returns>
+      protected (bool success, DataColumn dataColumn) AddColumn(string tableName, string columnName)
+      {
+         int dTableIndex = dTableSet.Tables.IndexOf(tableName);
+         if (dTableIndex < 0)
+         {
+            ctx.ConsoleWriteLogLine("Could not find table: " + tableName + " to add column '" + columnName + "'");
+            return (false, null);
+         }
+         return (true, dTableSet.Tables[dTableIndex].Columns.Add(columnName, typeof(string)));
+      }
 
-         Console.WriteLine("BaseTable.InitDataTable complete");
+      /// <summary>
+      /// Create a Row for the named Table. 
+      /// </summary>
+      /// <param name="tableName">name of the table for the new row</param>
+      /// <returns>tuple: success and dataRow</returns>
+      protected (bool success, DataRow dataRow) NewRow(string tableName)
+      {
+         int dTableIndex = dTableSet.Tables.IndexOf(tableName);
+         if (dTableIndex < 0)
+         {
+            ctx.ConsoleWriteLogLine("Could not find table '" + tableName + "' to create row.");
+            return (false, null);
+         }
+         return (true, dTableSet.Tables[dTableIndex].NewRow());
+      }
+
+      /// <summary>
+      /// Add a Row to the Table. The View populate the row, this method adds it to the table
+      /// </summary>
+      /// <param name="tableName">Name of the Table where the row should be added. </param>
+      /// <param name="dataRow">Data Row to add to the table</param>
+      /// <returns>true if successful, false otherwise</returns>
+      protected bool AddRow(string tableName, DataRow dataRow)
+      {
+         int dTableIndex = dTableSet.Tables.IndexOf(tableName);
+         if (dTableIndex < 0)
+         {
+            Console.WriteLine("Could not file table '" + tableName + "' to add row.");
+            return false;
+         }
+         dTableSet.Tables[dTableIndex].Rows.Add(dataRow);
+         return true;
       }
 
       public bool WriteXmlFile()
@@ -91,9 +143,8 @@ namespace Impl
          string outFile = ctx.WorkFolder + "\\" + viewName + ".xml";
          try
          {
-            dTable.TableName = Path.GetFileNameWithoutExtension(outFile);
-            ctx.ConsoleWriteLogLine("Write out the merged logs to " + outFile);
-            dTable.WriteXml(outFile, XmlWriteMode.WriteSchema);
+            ctx.ConsoleWriteLogLine("Write out data set to " + outFile);
+            dTableSet.WriteXml(outFile, XmlWriteMode.WriteSchema);
          }
          catch (InvalidOperationException ex)
          {
@@ -121,11 +172,7 @@ namespace Impl
          string strInFile = ctx.WorkFolder + "\\" + viewName + ".xml";
          try
          {
-            dTable = new System.Data.DataTable
-            {
-               TableName = Path.GetFileNameWithoutExtension(strInFile)
-            };
-            dTable.ReadXml(strInFile);
+            dTableSet.ReadXml(strInFile);
          }
          catch (InvalidOperationException ex)
          {
@@ -162,7 +209,7 @@ namespace Impl
       /// </summary>
       public virtual void ProcessRow(string traceFile, string logLine)
       {
-         _traceFile = traceFile; 
+         _traceFile = traceFile;
          _logDate = LogTime.GetTimeFromLogLine(logLine);
          return;
       }
@@ -201,108 +248,113 @@ namespace Impl
             activeBook = excelApp.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
          }
 
-         // instantiate excel objects (application, workbook, worksheets)
-         Console.WriteLine("Instantiate Excel objects...");
-         Excel._Worksheet activeSheet = (Excel._Worksheet)activeBook.Sheets.Add(Before: activeBook.Sheets[activeBook.Sheets.Count]);
-         activeSheet.Activate();
-         activeSheet.Name = viewName;
-
-         // add column headers -----------------------------------------------------
-         Console.WriteLine("Add column headers...");
-
-         int rowOffset = 1; // offset for derived data and links
-         int colOffset = 1; // offset for derived data and links
-
-         // add columns based on the data table
-         int colCount = dTable.Columns.Count;
-         for (int colNum = 0; colNum < colCount; colNum++)
+         // for each table in the dataset
+         // For each table in the DataSet, print the row values.
+         foreach (DataTable dTable in dTableSet.Tables)
          {
-            activeSheet.Cells[rowOffset, colOffset + colNum] = dTable.Columns[colNum].ToString();
-         }
+            // instantiate excel objects (application, workbook, worksheets)
+            Console.WriteLine("Instantiate Excel objects...");
+            Excel._Worksheet activeSheet = (Excel._Worksheet)activeBook.Sheets.Add(Before: activeBook.Sheets[activeBook.Sheets.Count]);
+            activeSheet.Activate();
+            activeSheet.Name = viewName;
 
-         // finished with the title row, now point to the next row
-         rowOffset++;
+            // add column headers -----------------------------------------------------
+            Console.WriteLine("Add column headers...");
 
-         // remove duplicate rows
-         DataTable distinctTable = dTable.DefaultView.ToTable( /*distinct*/ true);
+            int rowOffset = 1; // offset for derived data and links
+            int colOffset = 1; // offset for derived data and links
 
-         // create a view
-         DataView dataView = new DataView(distinctTable);
-
-         // sort by time
-         dataView.Sort = "Time ASC";
-
-         // create a 2D array of the cell contents, we have to massage the data because there
-         // are some things Excel does not like
-
-         Console.WriteLine("Create a 2D array of the cell contents..." + excelFileName);
-         int rowIndex = 0;
-         object[,] rowData = new object[dataView.Count, colCount];
-         foreach (DataRowView dataRow in dataView)
-         {
-            for (int colIndex = 0; colIndex < colCount; colIndex++)
+            // add columns based on the data table
+            int colCount = dTable.Columns.Count;
+            for (int colNum = 0; colNum < colCount; colNum++)
             {
-               if (!Convert.IsDBNull(dataRow[colIndex]))
+               activeSheet.Cells[rowOffset, colOffset + colNum] = dTable.Columns[colNum].ToString();
+            }
+
+            // finished with the title row, now point to the next row
+            rowOffset++;
+
+            // remove duplicate rows
+            DataTable distinctTable = dTable.DefaultView.ToTable( /*distinct*/ true);
+
+            // create a view
+            DataView dataView = new DataView(distinctTable);
+
+            // sort by time
+            dataView.Sort = "Time ASC";
+
+            // create a 2D array of the cell contents, we have to massage the data because there
+            // are some things Excel does not like
+
+            Console.WriteLine("Create a 2D array of the cell contents..." + excelFileName);
+            int rowIndex = 0;
+            object[,] rowData = new object[dataView.Count, colCount];
+            foreach (DataRowView dataRow in dataView)
+            {
+               for (int colIndex = 0; colIndex < colCount; colIndex++)
                {
-                  // unless we know the data is all numberrs (e.g. Dispense) we need to check for values 
-                  // starting with = and replace them with '= or else this procedure blows up
-                  string val = dataRow[colIndex].ToString();
-                  if (val.StartsWith("="))
+                  if (!Convert.IsDBNull(dataRow[colIndex]))
                   {
-                     val = "'" + val;
+                     // unless we know the data is all numberrs (e.g. Dispense) we need to check for values 
+                     // starting with = and replace them with '= or else this procedure blows up
+                     string val = dataRow[colIndex].ToString();
+                     if (val.StartsWith("="))
+                     {
+                        val = "'" + val;
+                     }
+                     rowData[rowIndex, colIndex] = val;
                   }
-                  rowData[rowIndex, colIndex] = val;
+                  else
+                  {
+                     rowData[rowIndex, colIndex] = "";
+                  }
                }
-               else
-               {
-                  rowData[rowIndex, colIndex] = "";
-               }
+               rowIndex++;
             }
-            rowIndex++;
-         }
 
-         if (rowIndex > 0)
-         {
-
-            try
+            if (rowIndex > 0)
             {
-               // set format for date/time column to be readable
-               Console.WriteLine("Set the formula for the date/time column...");
-               Microsoft.Office.Interop.Excel.Range timeColumn = activeSheet.Range[activeSheet.Cells[rowOffset, 1], activeSheet.Cells[dataView.Count + 1, 1]];
-               timeColumn.Cells.NumberFormat = "YYYY-MM-ddTHH:mm:ss.000";
-               timeColumn.Cells.ColumnWidth = 20;
 
-               // copy the 2D data array into the excel worksheet starting at rowOffset, colOffset
-               Microsoft.Office.Interop.Excel.Range dispenseRange = activeSheet.Range[activeSheet.Cells[rowOffset, colOffset], activeSheet.Cells[dataView.Count + rowOffset - 1, colCount + colOffset - 1]];
-               dispenseRange.Value2 = rowData;
-               dispenseRange.VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
-
-               if (_zeroAsBlank)
+               try
                {
-                  // blank out any zeros in the range for readability
-                  Excel.FormatCondition fc = (Excel.FormatCondition)dispenseRange.FormatConditions.Add(
-                     Type: Excel.XlFormatConditionType.xlCellValue,
-                     Operator: Excel.XlFormatConditionOperator.xlEqual,
-                     Formula1: "=0");
+                  // set format for date/time column to be readable
+                  Console.WriteLine("Set the formula for the date/time column...");
+                  Microsoft.Office.Interop.Excel.Range timeColumn = activeSheet.Range[activeSheet.Cells[rowOffset, 1], activeSheet.Cells[dataView.Count + 1, 1]];
+                  timeColumn.Cells.NumberFormat = "YYYY-MM-ddTHH:mm:ss.000";
+                  timeColumn.Cells.ColumnWidth = 20;
 
-                  fc.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                  // copy the 2D data array into the excel worksheet starting at rowOffset, colOffset
+                  Microsoft.Office.Interop.Excel.Range dispenseRange = activeSheet.Range[activeSheet.Cells[rowOffset, colOffset], activeSheet.Cells[dataView.Count + rowOffset - 1, colCount + colOffset - 1]];
+                  dispenseRange.Value2 = rowData;
+                  dispenseRange.VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+
+                  if (_zeroAsBlank)
+                  {
+                     // blank out any zeros in the range for readability
+                     Excel.FormatCondition fc = (Excel.FormatCondition)dispenseRange.FormatConditions.Add(
+                        Type: Excel.XlFormatConditionType.xlCellValue,
+                        Operator: Excel.XlFormatConditionOperator.xlEqual,
+                        Formula1: "=0");
+
+                     fc.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                  }
+
+
+                  // enable autofilter for all cells
+                  Console.WriteLine("Enable autofilter for all cells...");
+                  Microsoft.Office.Interop.Excel.Range allCellRange = null;
+                  allCellRange = (Excel.Range)activeSheet.Range[activeSheet.Cells[1, 1], activeSheet.Cells[dataView.Count, colCount + 2]];
+                  allCellRange.AutoFilter(2, Type.Missing, Excel.XlAutoFilterOperator.xlAnd, Type.Missing, true);
+
+                  // freeze the top row so that column headers are always visible when scrolling
+                  activeSheet.Application.ActiveWindow.SplitRow = 1;
+                  activeSheet.Application.ActiveWindow.FreezePanes = true;
+
                }
-
-
-               // enable autofilter for all cells
-               Console.WriteLine("Enable autofilter for all cells...");
-               Microsoft.Office.Interop.Excel.Range allCellRange = null;
-               allCellRange = (Excel.Range)activeSheet.Range[activeSheet.Cells[1, 1], activeSheet.Cells[dataView.Count, colCount + 2]];
-               allCellRange.AutoFilter(2, Type.Missing, Excel.XlAutoFilterOperator.xlAnd, Type.Missing, true);
-
-               // freeze the top row so that column headers are always visible when scrolling
-               activeSheet.Application.ActiveWindow.SplitRow = 1;
-               activeSheet.Application.ActiveWindow.FreezePanes = true;
-
-            }
-            catch (Exception ex)
-            {
-               Console.WriteLine("EXCEPTION:" + ex.Message);
+               catch (Exception ex)
+               {
+                  Console.WriteLine("EXCEPTION:" + ex.Message);
+               }
             }
          }
 

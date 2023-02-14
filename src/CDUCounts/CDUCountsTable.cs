@@ -39,14 +39,13 @@ namespace CDUCountsView
          // for our view we want '0' to render as ' ' in the worksheet
          _zeroAsBlank = true;
 
-         InitDataTable();
+         InitDataTable(viewName);
 
       }
 
-      protected override void InitDataTable()
+      protected override bool InitDataTable(string tableName)
       {
-         base.InitDataTable();
-
+         return base.InitDataTable(tableName);
       }
 
       /// <summary>
@@ -148,11 +147,11 @@ namespace CDUCountsView
                for (int i = 0; i < currencyArray.Length; i++)
                {
                   colName = currencyArray[i] + (valuesArray[i] == "0" ? " " : valuesArray[i]) + "(Initial)";
-                  this.dTable.Columns.Add(colName, typeof(string));
-                  _columnNames.Add(colName); 
+                  AddColumn(viewName, colName);
+                  _columnNames.Add(colName);
 
                   colName = currencyArray[i] + (valuesArray[i] == "0" ? " " : valuesArray[i]) + "(Current)";
-                  this.dTable.Columns.Add(colName, typeof(string));
+                  AddColumn(viewName, colName);
                   _columnNames.Add(colName);
 
                   _initialList.Add(string.Empty);
@@ -226,10 +225,15 @@ namespace CDUCountsView
                string[] initialArray = initialList.ToArray();
                string[] currentArray = currentList.ToArray();
 
-               DataRow dataRow = dTable.NewRow();
+               (bool success, DataRow dataRow) newRow = NewRow(viewName);
+               if (!newRow.success)
+               {
+                  ctx.ConsoleWriteLogLine("Failed to create row for table '" + viewName + "'");
+                  return;
+               }
 
-               dataRow["File"] = _traceFile;
-               dataRow["Time"] = _logDate;
+               newRow.dataRow["File"] = _traceFile;
+               newRow.dataRow["Time"] = _logDate;
 
                // now add the columns to the table - but if the previous value is the same, write and empty string
                // for example, only report Initial Value once because it never changes. 
@@ -239,27 +243,27 @@ namespace CDUCountsView
                {
                   if (_initialArray[i] == initialArray[i])
                   {
-                     dataRow[columnNameArray[columnNameArrayCount++]] = string.Empty;
+                     newRow.dataRow[columnNameArray[columnNameArrayCount++]] = string.Empty;
                   }
                   else
                   {
-                     dataRow[columnNameArray[columnNameArrayCount++]] = initialArray[i];
+                     newRow.dataRow[columnNameArray[columnNameArrayCount++]] = initialArray[i];
 
                   }
 
                   if (_currentArray[i] == currentArray[i])
                   {
-                     dataRow[columnNameArray[columnNameArrayCount++]] = string.Empty;
+                     newRow.dataRow[columnNameArray[columnNameArrayCount++]] = string.Empty;
 
                   }
                   else
                   {
-                     dataRow[columnNameArray[columnNameArrayCount++]] = currentArray[i];
+                     newRow.dataRow[columnNameArray[columnNameArrayCount++]] = currentArray[i];
 
                   }
                }
 
-               dTable.Rows.Add(dataRow);
+               AddRow(viewName, newRow.dataRow);
 
                // store off these values so we can compare next time. 
                this._initialList = initialList;
