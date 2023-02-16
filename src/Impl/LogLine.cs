@@ -18,7 +18,7 @@ namespace Impl
       WFS_CMD_CDM_DISPENSE,
       WFS_CMD_CDM_PRESENT,
       WFS_CMD_CDM_REJECT,
-      WFS_CMD_CMD_RETRACT,
+      WFS_CMD_CDM_RETRACT,
       WFS_CMD_CDM_RESET,
       WFS_SRVE_CDM_CASHUNITINFOCHANGED,
       WFS_SRVE_CDM_ITEMSTAKEN,
@@ -127,7 +127,7 @@ namespace Impl
             if (cmdDispense.Match(logLine).Success) return XFSType.WFS_CMD_CDM_DISPENSE;
             if (cmdPresent.Match(logLine).Success) return XFSType.WFS_CMD_CDM_PRESENT;
             if (cmdReject.Match(logLine).Success) return XFSType.WFS_CMD_CDM_REJECT;
-            if (cmdRetract.Match(logLine).Success) return XFSType.WFS_CMD_CMD_RETRACT;
+            if (cmdRetract.Match(logLine).Success) return XFSType.WFS_CMD_CDM_RETRACT;
             if (cmdReset.Match(logLine).Success) return XFSType.WFS_CMD_CDM_RESET;
 
             /* Test for EVENTS */

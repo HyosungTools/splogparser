@@ -151,7 +151,7 @@ lpResult =
 ";
 
          XFSType xfsType = LogLine.IdentifyLine(logLine);
-         Assert.IsTrue(xfsType == XFSType.WFS_CMD_CMD_RETRACT);
+         Assert.IsTrue(xfsType == XFSType.WFS_CMD_CDM_RETRACT);
       }
       [TestMethod]
       public void Identify_WFS_CMD_CDM_RESET()
