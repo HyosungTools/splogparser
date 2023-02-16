@@ -142,7 +142,7 @@ namespace Impl
             default:
                break;
          }
-         return typeName; 
+         return typeName;
       }
 
       public static bool ListsAreEqual(List<string> firstList, List<string> secondList)
@@ -152,7 +152,7 @@ namespace Impl
          if (listsAreEqual)
          {
             string[] firstArray = firstList.ToArray();
-            string[] secondArray = secondList.ToArray(); 
+            string[] secondArray = secondList.ToArray();
 
             for (int i = 0; i < firstArray.Length && listsAreEqual; i++)
             {

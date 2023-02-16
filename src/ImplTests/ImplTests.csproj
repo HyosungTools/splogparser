@@ -49,6 +49,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IdentifyLineTest.cs" />
     <Compile Include="LogFindTests.cs" />
     <Compile Include="LogLineTests.cs" />
     <Compile Include="LogTimeTests.cs" />

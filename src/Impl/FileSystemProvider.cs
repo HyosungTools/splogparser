@@ -136,7 +136,7 @@ namespace Impl
 
       public string GetFileName(string path)
       {
-         return Path.GetFileName(path); 
+         return Path.GetFileName(path);
       }
 
       public string GetFileNameWithoutExtension(string fullFileName)
