@@ -22,6 +22,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDUCountsView", "CDUCounts\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashIn", "CashIn\CashIn.csproj", "{11BD6BA3-C66F-414D-A8CA-D2327E78A9E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDMView", "CDMView\CDMView.csproj", "{1D0E5765-4FB9-437C-AD8A-7BE981229677}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIMView", "CIMView\CIMView.csproj", "{F033262D-EBA0-4F61-A530-EAAA91066ADB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +60,14 @@ Global
 		{11BD6BA3-C66F-414D-A8CA-D2327E78A9E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11BD6BA3-C66F-414D-A8CA-D2327E78A9E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11BD6BA3-C66F-414D-A8CA-D2327E78A9E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D0E5765-4FB9-437C-AD8A-7BE981229677}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D0E5765-4FB9-437C-AD8A-7BE981229677}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D0E5765-4FB9-437C-AD8A-7BE981229677}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D0E5765-4FB9-437C-AD8A-7BE981229677}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F033262D-EBA0-4F61-A530-EAAA91066ADB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F033262D-EBA0-4F61-A530-EAAA91066ADB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F033262D-EBA0-4F61-A530-EAAA91066ADB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F033262D-EBA0-4F61-A530-EAAA91066ADB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
