@@ -19,7 +19,7 @@ namespace CDMView
       /// <returns>new CDM table</returns>
       protected override BaseTable CreateTableInstance(IContext ctx)
       {
-         return new CDMTable(ctx, viewName);
+         return new CDMTable(ctx, viewName, "CDMViewSchema.xsd");
       }
    }
 }

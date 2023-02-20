@@ -97,45 +97,80 @@ namespace Impl
          return (false, string.Empty, logLine);
       }
 
-      public static XFSType IdentifyLine(string logLine)
+      /// <summary>
+      /// Attempt to Match the RegEx and if successful, truncate the line to after the match. 
+      /// Truncate so the remainder starts with lpResult
+      /// </summary>
+      /// <param name="regEx">Regular Expression to search for</param>
+      /// <param name="logLine">Log Line to search</param>
+      /// <returns>tuple: success (t/f) and log line </returns>
+      private static (bool success, string xfsLine)  GenericMatch(Regex regEx, string logLine)
       {
-         XFSType returnType = XFSType.None;
+         string matchLine = logLine; 
+         Match m = regEx.Match(matchLine);
+         if (m.Success)
+         {
+            string subLogLine = logLine.Substring(m.Index + m.Length + 4);
+            return (true, subLogLine);
+         }
+
+         return (false, logLine);
+      }
+
+      public static (XFSType xfsType, string xfsLine) IdentifyLine(string logLine)
+      {
+         (bool success, string xfsLine) result; 
 
          /* CDM */
          if (logLine.Contains("GETINFO[3") || logLine.Contains("EXECUTE[3") || logLine.Contains("SERVICE_EVENT[3"))
          {
             /* INFO */
-            Regex infoStatus = new Regex("GETINFO.301.*WFS_GETINFO_COMPLETE");
-            Regex infoCashUnit = new Regex("GETINFO.303.*WFS_GETINFO_COMPLETE");
+            Regex infoStatus = new Regex("GETINFO.301.[0-9]+WFS_GETINFO_COMPLETE");
+            Regex infoCashUnit = new Regex("GETINFO.303.[0-9]+WFS_GETINFO_COMPLETE");
 
             /* EXECUTE */
-            Regex cmdDispense = new Regex("EXECUTE.302.*WFS_EXECUTE_COMPLETE");
-            Regex cmdPresent = new Regex("EXECUTE.303.*WFS_EXECUTE_COMPLETE");
-            Regex cmdReject = new Regex("EXECUTE.304.*WFS_EXECUTE_COMPLETE");
-            Regex cmdRetract = new Regex("EXECUTE.305.*WFS_EXECUTE_COMPLETE");
-            Regex cmdReset = new Regex("EXECUTE.321.*WFS_EXECUTE_COMPLETE");
+            Regex cmdDispense = new Regex("EXECUTE.302.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex cmdPresent = new Regex("EXECUTE.303.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex cmdReject = new Regex("EXECUTE.304.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex cmdRetract = new Regex("EXECUTE.305.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex cmdReset = new Regex("EXECUTE.321.[0-9]+WFS_EXECUTE_COMPLETE");
 
             /* EVENTS */
-            Regex evtCashUnitChange = new Regex("SERVICE_EVENT.304.*WFS_SERVICE_EVENT");
-            Regex evtItemsTaken = new Regex("SERVICE_EVENT.309.*WFS_SERVICE_EVENT");
+            Regex evtCashUnitChange = new Regex("SERVICE_EVENT.304.[0-9]+WFS_SERVICE_EVENT");
+            Regex evtItemsTaken = new Regex("SERVICE_EVENT.309.[0-9]+WFS_SERVICE_EVENT");
 
             /* Test for INFO */
-            if (infoStatus.Match(logLine).Success) return XFSType.WFS_INF_CDM_STATUS;
-            if (infoCashUnit.Match(logLine).Success) return XFSType.WFS_INF_CDM_CASH_UNIT_INFO;
+            result = GenericMatch(infoStatus, logLine);
+            if (result.success) return (XFSType.WFS_INF_CDM_STATUS, result.xfsLine);
+
+            result = GenericMatch(infoCashUnit, logLine);
+            if (result.success) return (XFSType.WFS_INF_CDM_CASH_UNIT_INFO, result.xfsLine);
 
             /* Test for EXECUTE */
-            if (cmdDispense.Match(logLine).Success) return XFSType.WFS_CMD_CDM_DISPENSE;
-            if (cmdPresent.Match(logLine).Success) return XFSType.WFS_CMD_CDM_PRESENT;
-            if (cmdReject.Match(logLine).Success) return XFSType.WFS_CMD_CDM_REJECT;
-            if (cmdRetract.Match(logLine).Success) return XFSType.WFS_CMD_CDM_RETRACT;
-            if (cmdReset.Match(logLine).Success) return XFSType.WFS_CMD_CDM_RESET;
+            result = GenericMatch(cmdDispense, logLine);
+            if (result.success) return (XFSType.WFS_CMD_CDM_DISPENSE, result.xfsLine);
+
+            result = GenericMatch(cmdPresent, logLine);
+            if (result.success) return (XFSType.WFS_CMD_CDM_PRESENT, result.xfsLine);
+
+            result = GenericMatch(cmdReject, logLine);
+            if (result.success) return (XFSType.WFS_CMD_CDM_REJECT, result.xfsLine);
+
+            result = GenericMatch(cmdRetract, logLine);
+            if (result.success) return (XFSType.WFS_CMD_CDM_RETRACT, result.xfsLine);
+
+            result = GenericMatch(cmdReset, logLine);
+            if (result.success) return (XFSType.WFS_CMD_CDM_RESET, result.xfsLine);
 
             /* Test for EVENTS */
-            if (evtCashUnitChange.Match(logLine).Success) return XFSType.WFS_SRVE_CDM_CASHUNITINFOCHANGED;
-            if (evtItemsTaken.Match(logLine).Success) return XFSType.WFS_SRVE_CDM_ITEMSTAKEN;
+            result = GenericMatch(evtCashUnitChange, logLine);
+            if (result.success) return (XFSType.WFS_SRVE_CDM_CASHUNITINFOCHANGED, result.xfsLine);
+
+            result = GenericMatch(evtItemsTaken, logLine);
+            if (result.success) return (XFSType.WFS_SRVE_CDM_ITEMSTAKEN, result.xfsLine);
 
             /* We should have matched something */
-            return XFSType.Error;
+            return (XFSType.Error, string.Empty);
          }
 
          /* CIM */
@@ -143,56 +178,87 @@ namespace Impl
              logLine.Contains("USER_EVENT[13") || logLine.Contains("EXECUTE_EVENT[13"))
          {
             /* INFO */
-            Regex infoStatus = new Regex("GETINFO.1301.*WFS_GETINFO_COMPLETE");
-            Regex infoCashUnit = new Regex("GETINFO.1303.*WFS_GETINFO_COMPLETE");
-            Regex infoCashInStatus = new Regex("GETINFO.1307.*WFS_GETINFO_COMPLETE");
+            Regex infoStatus = new Regex("GETINFO.1301.[0-9]+WFS_GETINFO_COMPLETE");
+            Regex infoCashUnit = new Regex("GETINFO.1303.[0-9]+WFS_GETINFO_COMPLETE");
+            Regex infoCashInStatus = new Regex("GETINFO.1307.[0-9]+WFS_GETINFO_COMPLETE");
 
             /* EXECUTE */
-            Regex cmdCashInStart = new Regex("EXECUTE.1301.*WFS_EXECUTE_COMPLETE");
-            Regex cmdCashIn = new Regex("EXECUTE.1302.*WFS_EXECUTE_COMPLETE");
-            Regex cmdCashInEnd = new Regex("EXECUTE.1303.*WFS_EXECUTE_COMPLETE");
-            Regex cmdCashInRollback = new Regex("EXECUTE.1304.*WFS_EXECUTE_COMPLETE");
-            Regex cmdCashInRetract = new Regex("EXECUTE.1305.*WFS_EXECUTE_COMPLETE");
-            Regex cmdCashInReset = new Regex("EXECUTE.1313.*WFS_EXECUTE_COMPLETE");
+            Regex cmdCashInStart = new Regex("EXECUTE.1301.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex cmdCashIn = new Regex("EXECUTE.1302.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex cmdCashInEnd = new Regex("EXECUTE.1303.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex cmdCashInRollback = new Regex("EXECUTE.1304.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex cmdCashInRetract = new Regex("EXECUTE.1305.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex cmdCashInReset = new Regex("EXECUTE.1313.[0-9]+WFS_EXECUTE_COMPLETE");
 
             /* Events */
-            Regex evtCashUnitThreshold = new Regex("USER_EVENT.1303.*WFS_USER_EVENT");
-            Regex evtCashUnitInfoChanged = new Regex("SERVICE_EVENT.1304.*WFS_SERVICE_EVENT");
-            Regex evtItemsTaken = new Regex("SERVICE_EVENT.1307.*WFS_SERVICE_EVENT");
-            Regex evtInputRefused = new Regex("EXECUTE_EVENT.1309.*WFS_EXECUTE_EVENT");
-            Regex evtItemsPresented = new Regex("SERVICE_EVENT.1310.*WFS_SERVICE_EVENT");
-            Regex evtItemsInserted = new Regex("SERVICE_EVENT.1311.*WFS_SERVICE_EVENT");
-            Regex evtNoteError = new Regex("EXECUTE_EVENT.1312.*WFS_EXECUTE_EVENT");
-            Regex evtMediaDetected = new Regex("SERVICE_EVENT.1314.*WFS_SERVICE_EVENT");
+            Regex evtCashUnitThreshold = new Regex("USER_EVENT.1303.[0-9]+WFS_USER_EVENT");
+            Regex evtCashUnitInfoChanged = new Regex("SERVICE_EVENT.1304.[0-9]+WFS_SERVICE_EVENT");
+            Regex evtItemsTaken = new Regex("SERVICE_EVENT.1307.[0-9]+WFS_SERVICE_EVENT");
+            Regex evtInputRefused = new Regex("EXECUTE_EVENT.1309.[0-9]+WFS_EXECUTE_EVENT");
+            Regex evtItemsPresented = new Regex("SERVICE_EVENT.1310.[0-9]+WFS_SERVICE_EVENT");
+            Regex evtItemsInserted = new Regex("SERVICE_EVENT.1311.[0-9]+WFS_SERVICE_EVENT");
+            Regex evtNoteError = new Regex("EXECUTE_EVENT.1312.[0-9]+WFS_EXECUTE_EVENT");
+            Regex evtMediaDetected = new Regex("SERVICE_EVENT.1314.[0-9]+WFS_SERVICE_EVENT");
 
             /* Test for INFO */
-            if (infoStatus.Match(logLine).Success) return XFSType.WFS_INF_CIM_STATUS;
-            if (infoCashUnit.Match(logLine).Success) return XFSType.WFS_INF_CIM_CASH_UNIT_INFO;
-            if (infoCashInStatus.Match(logLine).Success) return XFSType.WFS_INF_CIM_CASH_IN_STATUS;
+            result = GenericMatch(infoStatus, logLine);
+            if (result.success) return (XFSType.WFS_INF_CIM_STATUS, result.xfsLine);
+
+            result = GenericMatch(infoCashUnit, logLine);
+            if (result.success) return (XFSType.WFS_INF_CIM_CASH_UNIT_INFO, result.xfsLine);
+
+            result = GenericMatch(infoCashInStatus, logLine);
+            if (result.success) return (XFSType.WFS_INF_CIM_CASH_IN_STATUS, result.xfsLine);
 
             /* Test for EXECUTE */
-            if (cmdCashInStart.Match(logLine).Success) return XFSType.WFS_CMD_CIM_CASH_IN_START;
-            if (cmdCashIn.Match(logLine).Success) return XFSType.WFS_CMD_CIM_CASH_IN;
-            if (cmdCashInEnd.Match(logLine).Success) return XFSType.WFS_CMD_CIM_CASH_IN_END;
-            if (cmdCashInRollback.Match(logLine).Success) return XFSType.WFS_CMD_CIM_CASH_IN_ROLLBACK;
-            if (cmdCashInRetract.Match(logLine).Success) return XFSType.WFS_CMD_CIM_RETRACT;
-            if (cmdCashInReset.Match(logLine).Success) return XFSType.WFS_CMD_CIM_RESET;
+            result = GenericMatch(cmdCashInStart, logLine);
+            if (result.success) return (XFSType.WFS_CMD_CIM_CASH_IN_START, result.xfsLine);
+
+            result = GenericMatch(cmdCashIn, logLine);
+            if (result.success) return (XFSType.WFS_CMD_CIM_CASH_IN, result.xfsLine);
+
+            result = GenericMatch(cmdCashInEnd, logLine);
+            if (result.success) return (XFSType.WFS_CMD_CIM_CASH_IN_END, result.xfsLine);
+
+            result = GenericMatch(cmdCashInRollback, logLine);
+            if (result.success) return (XFSType.WFS_CMD_CIM_CASH_IN_ROLLBACK, result.xfsLine);
+
+            result = GenericMatch(cmdCashInRetract, logLine);
+            if (result.success) return (XFSType.WFS_CMD_CIM_RETRACT, result.xfsLine);
+
+            result = GenericMatch(cmdCashInReset, logLine);
+            if (result.success) return (XFSType.WFS_CMD_CIM_RESET, result.xfsLine);
 
             /* Test for EVENTS */
-            if (evtCashUnitThreshold.Match(logLine).Success) return XFSType.WFS_USRE_CIM_CASHUNITTHRESHOLD;
-            if (evtCashUnitInfoChanged.Match(logLine).Success) return XFSType.WFS_SRVE_CIM_CASHUNITINFOCHANGED;
-            if (evtItemsTaken.Match(logLine).Success) return XFSType.WFS_SRVE_CIM_ITEMSTAKEN;
-            if (evtInputRefused.Match(logLine).Success) return XFSType.WFS_EXEE_CIM_INPUTREFUSE;
-            if (evtItemsPresented.Match(logLine).Success) return XFSType.WFS_SRVE_CIM_ITEMSPRESENTED;
-            if (evtItemsInserted.Match(logLine).Success) return XFSType.WFS_SRVE_CIM_ITEMSINSERTED;
-            if (evtNoteError.Match(logLine).Success) return XFSType.WFS_EXEE_CIM_NOTEERROR;
-            if (evtMediaDetected.Match(logLine).Success) return XFSType.WFS_SRVE_CIM_MEDIADETECTED;
+            result = GenericMatch(evtCashUnitThreshold, logLine);
+            if (result.success) return (XFSType.WFS_USRE_CIM_CASHUNITTHRESHOLD, result.xfsLine);
+
+            result = GenericMatch(evtCashUnitInfoChanged, logLine);
+            if (result.success) return (XFSType.WFS_SRVE_CIM_CASHUNITINFOCHANGED, result.xfsLine);
+
+            result = GenericMatch(evtItemsTaken, logLine);
+            if (result.success) return (XFSType.WFS_SRVE_CIM_ITEMSTAKEN, result.xfsLine);
+
+            result = GenericMatch(evtInputRefused, logLine);
+            if (result.success) return (XFSType.WFS_EXEE_CIM_INPUTREFUSE, result.xfsLine);
+
+            result = GenericMatch(evtItemsPresented, logLine);
+            if (result.success) return (XFSType.WFS_SRVE_CIM_ITEMSPRESENTED, result.xfsLine);
+
+            result = GenericMatch(evtItemsInserted, logLine);
+            if (result.success) return (XFSType.WFS_SRVE_CIM_ITEMSINSERTED, result.xfsLine);
+
+            result = GenericMatch(evtNoteError, logLine);
+            if (result.success) return (XFSType.WFS_EXEE_CIM_NOTEERROR, result.xfsLine);
+
+            result = GenericMatch(evtMediaDetected, logLine);
+            if (result.success) return (XFSType.WFS_SRVE_CIM_MEDIADETECTED, result.xfsLine);
 
             /* We should have matched something */
-            return XFSType.Error;
+            return (XFSType.Error, string.Empty);
          }
 
-         return returnType;
+         return (XFSType.None, logLine);
       }
    }
 }

@@ -1,0 +1,50 @@
+<?xml version="1.0" standalone="yes"?>
+<CDM>
+  <Messages>
+    <type>fwDevice</type>
+    <code>0</code>
+    <brief>ONLINE</brief>
+    <description>The device is online.</description>
+	
+	<type>fwDevice</type>
+    <code>1</code>
+    <brief>OFFLINE</brief>
+    <description>The device is offline.</description>
+	
+	<type>fwDevice</type>
+    <code>2</code>
+    <brief>PWROFF</brief>
+    <description>The device is powered off or physically not connected.</description>
+	
+	<type>fwDevice</type>
+    <code>3</code>
+    <brief>NODEV</brief>
+    <description>The device is not intended to be there.</description>
+	
+	<type>fwDevice</type>
+    <code>4</code>
+    <brief>HWERR</brief>
+    <description>The device is inoperable due to a hardware error.</description>
+	
+	<type>fwDevice</type>
+    <code>5</code>
+    <brief>USRERR</brief>
+    <description>The device is present but a person is preventing proper device operation.</description>
+	
+	<type>fwDevice</type>
+    <code>6</code>
+    <brief>BUSY</brief>
+    <description>The device is busy and unable to process an execute command at this time.</description>
+	
+	<type>fwDevice</type>
+    <code>7</code>
+    <brief>FRAUD</brief>
+    <description>The device is present but is inoperable because it has detected a fraud attempt.</description>
+	
+	<type>fwDevice</type>
+    <code>8</code>
+    <brief>FRAUD?</brief>
+    <description>The device has detected a potential fraud attempt and is capable of remaining in service.</description>
+	
+  </Messages>
+</CDM>

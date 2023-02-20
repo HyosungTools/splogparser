@@ -10,7 +10,7 @@ namespace HDCUView
       /// <summary>
       /// Constructor
       /// </summary>
-      public HDCUView() : base("CDM", "CDU") { }
+      public HDCUView() : base("CDM3", "CDU") { }
 
       /// <summary>
       /// Creates an HCDU Table instance. 

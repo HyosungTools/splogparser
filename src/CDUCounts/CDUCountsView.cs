@@ -11,7 +11,7 @@ namespace CDUCountsView
       /// <summary>
       /// Constructor
       /// </summary>
-      public CDUCountsView() : base("CDM", "DISP") { }
+      public CDUCountsView() : base("CDM2", "DISP") { }
 
       /// <summary>
       /// Creates an HCDU Table instance. 
