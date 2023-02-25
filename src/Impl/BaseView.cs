@@ -87,7 +87,6 @@ namespace Impl
 
          // create a Table Instance and load up the xml file
          BaseTable bTable = CreateTableInstance(ctx);
-         bTable.ReadXmlFile();
 
          // write to Excel
          bTable.WriteExcelFile();

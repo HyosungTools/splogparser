@@ -18,16 +18,6 @@ namespace CIMView
          // for our view we want '0' to render as ' ' in the worksheet
          _zeroAsBlank = true;
 
-         InitDataTable(viewName);
-      }
-      /// <summary>
-      /// Create a table with a given name, at the same time add columns. 
-      /// </summary>
-      /// <param name="tableName">name of the table to create</param>
-      /// <returns></returns>
-      protected override bool InitDataTable(string tableName)
-      {
-         return true;
       }
 
       /// <summary>
@@ -38,7 +28,7 @@ namespace CIMView
       {
          try
          {
-            (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+            (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
             switch (result.xfsType)
             {
                case XFSType.WFS_INF_CIM_STATUS:

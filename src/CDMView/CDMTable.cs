@@ -13,10 +13,10 @@ namespace CDMView
       /// </summary>
       /// <param name="ctx">Context for the command.</param>
       /// <param name="viewName">The (unique) name of the view being created.</param>
-      public CDMTable(IContext ctx, string viewName, string schemaName) : base(ctx, viewName, schemaName)
+      public CDMTable(IContext ctx, string viewName) : base(ctx, viewName)
       {
          // for our view we want '0' to render as ' ' in the worksheet
-         _zeroAsBlank = true;
+         _zeroAsBlank = false;
       }
 
       /// <summary>
@@ -27,7 +27,7 @@ namespace CDMView
       {
          try
          {
-            (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+            (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
 
             switch (result.xfsType)
             {
@@ -97,8 +97,8 @@ namespace CDMView
                      //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_EXEE_CIM_INPUTREFUSE");
                      break;
                   }
-               default: 
-                     break;
+               default:
+                  break;
 
             }
          }
@@ -107,65 +107,71 @@ namespace CDMView
             ctx.LogWriteLine("CDMTable.ProcessRow EXCEPTION:" + e.Message);
          }
       }
+
+      protected (bool success, DataRow dataRow) FindMessages(string type, string code)
+      {
+         // Create an array for the key values to find.
+         object[] findByKeys = new object[2];
+
+         // Set the values of the keys to find.
+         findByKeys[0] = type;
+         findByKeys[1] = code;
+
+         DataRow foundRow = dTableSet.Tables["Messages"].Rows.Find(findByKeys);
+         if (foundRow != null)
+         {
+            return (true, foundRow);
+         }
+         else
+         {
+            return (false, null);
+         }
+      }
       protected void WFS_IN_CDM_STATUS(string xfsLine)
       {
          try
          {
-            DataTable statusTable = null;
-            foreach (DataTable table in dTableSet.Tables)
-            {
-               if (table.TableName == "Status")
-               {
-                  statusTable = table;
-               }
-            }
-            if (statusTable == null)
-            {
-               ctx.ConsoleWriteLogLine("ERROR : Could not find status table");
-               return;
-            }
+            DataRow newRow = dTableSet.Tables["Status"].NewRow();
 
-            DataRow dataRow = statusTable.NewRow();
-
-            dataRow["file"] = _traceFile;
-            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
-            dataRow["error"] = lpResult.hResult(xfsLine);
-
+            newRow["file"] = _traceFile;
+            newRow["time"] = lpResult.tsTimestamp(xfsLine);
+            newRow["error"] = lpResult.hResult(xfsLine);
 
             (bool success, string xfsMatch, string subLogLine) result;
 
+            // fwDevice
             result = _wfs_cmd_status.fwDevice(xfsLine);
-            dataRow["status"] = result.xfsMatch;
+            if (result.success) newRow["status"] = result.xfsMatch.Trim();
 
             result = _wfs_cmd_status.fwDispenser(result.subLogLine);
-            dataRow["dispenser"] = result.xfsMatch;
- 
+            if (result.success) newRow["dispenser"] = result.xfsMatch.Trim();
+
             result = _wfs_cmd_status.fwIntermediateStacker(result.subLogLine);
-            dataRow["intstack"] = result.xfsMatch;
+            if (result.success) newRow["intstack"] = result.xfsMatch.Trim();
 
             result = _wfs_cmd_status.fwShutter(result.subLogLine);
-            dataRow["shutter"] = result.xfsMatch;
+            if (result.success) newRow["shutter"] = result.xfsMatch.Trim();
 
             result = _wfs_cmd_status.fwPositionStatus(result.subLogLine);
-            dataRow["posstatus"] = result.xfsMatch;
- 
+            if (result.success) newRow["posstatus"] = result.xfsMatch.Trim();
+
             result = _wfs_cmd_status.fwTransport(result.subLogLine);
-            dataRow["transport"] = result.xfsMatch;
+            if (result.success) newRow["transport"] = result.xfsMatch.Trim();
 
             result = _wfs_cmd_status.fwTransportStatus(result.subLogLine);
-            dataRow["transstat"] = result.xfsMatch;
- 
-            result = _wfs_cmd_status.wDevicePosition(result.subLogLine);
-            dataRow["position"] = result.xfsMatch;
+            if (result.success) newRow["transstat"] = result.xfsMatch.Trim();
 
-            statusTable.Rows.Add(dataRow);
+            result = _wfs_cmd_status.wDevicePosition(result.subLogLine);
+            if (result.success) newRow["position"] = result.xfsMatch.Trim();
+
+            dTableSet.Tables["Status"].Rows.Add(newRow);
          }
          catch (Exception e)
          {
             ctx.ConsoleWriteLogLine("Exception : " + e.Message);
          }
 
-         return; 
+         return;
       }
    }
 }

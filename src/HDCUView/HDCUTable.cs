@@ -22,7 +22,6 @@ namespace HDCUView
          // for our view we want '0' to render as ' ' in the worksheet
          _zeroAsBlank = true;
 
-         InitDataTable(viewName);
       }
 
       /// <summary>
@@ -30,7 +29,7 @@ namespace HDCUView
       /// </summary>
       /// <param name="tableName">name of the table to create</param>
       /// <returns></returns>
-      protected override bool InitDataTable(string tableName)
+      protected override void InitDataTable(string tableName)
       {
          base.InitDataTable(tableName);
          AddColumn(tableName, "RjFull");
@@ -42,7 +41,7 @@ namespace HDCUView
             AddColumn(tableName, "C" + i.ToString() + "Emty");
             AddColumn(tableName, "C" + i.ToString() + "Low");
          }
-         return true;
+         return;
       }
 
       /// <summary>
@@ -100,8 +99,8 @@ namespace HDCUView
                ctx.ConsoleWriteLogLine("Failed to add row to table '" + viewName + "'");
             }
 
-            newRow.dataRow["File"] = _traceFile;
-            newRow.dataRow["Time"] = _logDate;
+            newRow.dataRow["file"] = _traceFile;
+            newRow.dataRow["time"] = _logDate;
 
             string subLogLine = logLine;
 

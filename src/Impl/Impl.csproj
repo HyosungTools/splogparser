@@ -43,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTableOps.cs" />
     <Compile Include="BaseTable.cs" />
     <Compile Include="BaseView.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="FileSystemProvider.cs" />
+    <Compile Include="IdentifyLines.cs" />
     <Compile Include="LogFind.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="LogTime.cs" />

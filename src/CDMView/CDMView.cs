@@ -10,7 +10,7 @@ namespace CDMView
       /// <summary>
       /// Constructor
       /// </summary>
-      CDMView() : base("CDM", "CDM") { }
+      CDMView() : base("CDM", "CDMView") { }
 
       /// <summary>
       /// Creates an CDM Table instance. 
@@ -19,7 +19,9 @@ namespace CDMView
       /// <returns>new CDM table</returns>
       protected override BaseTable CreateTableInstance(IContext ctx)
       {
-         return new CDMTable(ctx, viewName, "CDMViewSchema.xsd");
+         CDMTable cdmTable = new CDMTable(ctx, viewName);
+         cdmTable.ReadXmlFile();
+         return cdmTable;
       }
    }
 }

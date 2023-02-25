@@ -20,7 +20,9 @@ namespace CDUCountsView
       /// <returns>new HCDU table</returns>
       protected override BaseTable CreateTableInstance(IContext ctx)
       {
-         return new CDUCountsTable(ctx, viewName);
+         CDUCountsTable cduCountsTable = new CDUCountsTable(ctx, viewName);
+         cduCountsTable.ReadXmlFile();
+         return cduCountsTable;
       }
    }
 }

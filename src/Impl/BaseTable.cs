@@ -65,6 +65,12 @@ namespace Impl
          Console.WriteLine("BaseTable.constructor");
 
          dTableSet = new DataSet(viewName);
+         if (ctx.ioProvider.Exists(ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xsd"))
+         {
+            ctx.ConsoleWriteLogLine("Schema files exists, loading : " + ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xsd");
+            dTableSet.ReadXmlSchema(ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xsd");
+         }
+
          id = 0;
          this.ctx = ctx;
          this.viewName = viewName;
@@ -74,40 +80,19 @@ namespace Impl
       }
 
       /// <summary>
-      /// constructor
-      /// </summary>
-      /// <param name="ctx">The context for the instruction</param>
-      /// <param name="viewName">The (unique) name of the view being created.</param>
-      /// <param name="schemaName">The name of the schema file to load</param>
-      public BaseTable(IContext ctx, string viewName, string schemaName)
-      {
-         ctx.ConsoleWriteLogLine("BaseTable.constructor");
-
-         dTableSet = new DataSet(viewName);
-         dTableSet.ReadXmlSchema(schemaName);
-         id = 0;
-         this.ctx = ctx;
-         this.viewName = viewName;
-
-         ctx.ConsoleWriteLogLine("BaseTable.constructor complete");
-
-      }
-
-
-      /// <summary>
       /// Add/Initialize a named datatable to the data set. 
       /// At the same time add 2 coumns - File and Time. 
       /// </summary>
       /// <returns>bool</returns>
-      protected virtual bool InitDataTable(string tableName)
+      protected virtual void InitDataTable(string tableName)
       {
-         dTableSet.Tables.Add(tableName);
-         (bool success, DataColumn datacolumn) result = AddColumn(tableName, "File");
-         if (result.success)
-         {
-            result = AddColumn(tableName, "Time");
-         }
-         return result.success;
+         ctx.ConsoleWriteLogLine("base.InitDataTable - adding table '" + tableName + "'");
+         DataTable dTable = dTableSet.Tables.Add();
+         dTable.TableName = tableName;
+         ctx.ConsoleWriteLogLine("base.InitDataTable - adding columns file and time to table '" + tableName + "'");
+         AddColumn(tableName, "file");
+         AddColumn(tableName, "time");
+         return;
       }
 
       /// <summary>
@@ -190,10 +175,27 @@ namespace Impl
       /// <returns>true if the read is successful, false otherwise. </returns>
       public bool ReadXmlFile()
       {
+         // if the work folder xml file exists, load it
          string strInFile = ctx.WorkFolder + "\\" + viewName + ".xml";
+         if (!ctx.ioProvider.Exists(strInFile))
+         {
+            // otherwise fall back to the default xml file, if it exists, load it
+            strInFile = ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xml";
+         }
+
          try
          {
-            dTableSet.ReadXml(strInFile);
+            // if the XML file exists, load it
+            if (ctx.ioProvider.Exists(strInFile))
+            {
+               dTableSet.ReadXml(strInFile);
+            }
+            else
+            {
+               // if there is no XML file, initialize the db Table in code
+               ctx.ConsoleWriteLogLine("base.ReadXMLFile - Calling InitDataTable (" + viewName + ")");
+               InitDataTable(viewName); 
+            }
          }
          catch (InvalidOperationException ex)
          {
@@ -280,11 +282,16 @@ namespace Impl
                continue; 
             }
 
+            if (dTable.TableName == "Messages")
+            {
+               continue; 
+            }
+
             // instantiate excel objects (application, workbook, worksheets)
             ctx.ConsoleWriteLogLine("Instantiate Excel objects...");
             Excel._Worksheet activeSheet = (Excel._Worksheet)activeBook.Sheets.Add(Before: activeBook.Sheets[activeBook.Sheets.Count]);
             activeSheet.Activate();
-            activeSheet.Name = viewName;
+            activeSheet.Name = dTable.TableName;
 
             // add column headers -----------------------------------------------------
             ctx.ConsoleWriteLogLine("Add column headers...");

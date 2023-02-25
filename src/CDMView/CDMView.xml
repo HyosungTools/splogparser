@@ -1,232 +1,312 @@
 <?xml version="1.0" standalone="yes"?>
 <CDM>
-  <Messages>
 
     <!-- fwDevice -->
-
+  <Messages>
     <type>fwDevice</type>
     <code>0</code>
     <brief>ONLINE</brief>
     <description>The device is online.</description>
-	
+  </Messages>
+  
+  <Messages>	
 	<type>fwDevice</type>
     <code>1</code>
     <brief>OFFLINE</brief>
     <description>The device is offline.</description>
-	
+  </Messages>
+  
+  <Messages>	
 	<type>fwDevice</type>
     <code>2</code>
     <brief>PWROFF</brief>
     <description>The device is powered off or physically not connected.</description>
-	
+  </Messages>
+  
+  <Messages>	
 	<type>fwDevice</type>
     <code>3</code>
     <brief>NODEV</brief>
     <description>The device is not intended to be there.</description>
-	
+  </Messages>
+
+  <Messages>	
 	<type>fwDevice</type>
     <code>4</code>
     <brief>HWERR</brief>
     <description>The device is inoperable due to a hardware error.</description>
-	
+  </Messages>
+
+  <Messages>	
 	<type>fwDevice</type>
     <code>5</code>
     <brief>USRERR</brief>
     <description>The device is present but a person is preventing proper device operation.</description>
-	
+  </Messages>
+
+  <Messages>	
 	<type>fwDevice</type>
     <code>6</code>
     <brief>BUSY</brief>
     <description>The device is busy and unable to process an execute command at this time.</description>
-	
+  </Messages>
+
+  <Messages>	
 	<type>fwDevice</type>
     <code>7</code>
     <brief>FRAUD</brief>
     <description>The device is present but is inoperable because it has detected a fraud attempt.</description>
-	
+  </Messages>
+
+  <Messages>	
 	<type>fwDevice</type>
     <code>8</code>
     <brief>FRAUD?</brief>
     <description>The device has detected a potential fraud attempt and is capable of remaining in service.</description>
-	
+  </Messages>
+
     <!-- fwDispenser-->
 
+  <Messages>
 	<type>fwDispenser</type>
     <code>0</code>
     <brief>OK</brief>
     <description>All cash units present are in a good state.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwDispenser</type>
     <code>1</code>
     <brief>STATE</brief>
     <description>One or more of the cash units is in a low, empty, inoperative or manipulated condition.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwDispenser</type>
     <code>2</code>
     <brief>STOP</brief>
     <description>Due to a cash unit failure dispensing is impossible.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwDispenser</type>
     <code>3</code>
     <brief>UNKN</brief>
     <description>Due to a hardware error or other condition, the state of the cash units cannot be determined.</description>
-
+  </Messages>
+  
     <!-- fwIntermediateStacker -->
 
-	<type>fwIntermediateStacker</type>
+  <Messages>
+    <type>fwIntermediateStacker</type>
     <code>0</code>
     <brief>EMPTY</brief>
     <description>The intermediate stacker is empty.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwIntermediateStacker</type>
     <code>1</code>
     <brief>NOTEMPTY</brief>
     <description>The intermediate stacker is not empty. The items have not been in customer access.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwIntermediateStacker</type>
     <code>2</code>
     <brief>NOTEMPTYCUST</brief>
     <description>The intermediate stacker is not empty. The items have been in customer access.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwIntermediateStacker</type>
     <code>3</code>
     <brief>NOTEMPTYUNK</brief>
     <description>The intermediate stacker is not empty. It is not known if the items have been in customer access.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwIntermediateStacker</type>
     <code>4</code>
     <brief>UNKN</brief>
     <description>Due to a hardware error or other condition, the state of the intermediate stacker cannot be determined.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwIntermediateStacker</type>
     <code>5</code>
     <brief>NOSUP</brief>
     <description>The physical device has no intermediate stacker.</description>
-
+  </Messages>
+  
     <!-- fwShutter -->
 
+  <Messages>
 	<type>fwShutter</type>
     <code>0</code>
     <brief>CLOSED</brief>
     <description>The shutter is operational and is closed.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwShutter</type>
     <code>1</code>
     <brief>OPEN</brief>
     <description>The shutter is operational and is open.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwShutter</type>
     <code>2</code>
     <brief>JAM</brief>
     <description>The shutter is jammed and is not operational.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwShutter</type>
     <code>3</code>
     <brief>UNKN</brief>
     <description>Due to a hardware error or other condition, the state of the shutter cannot be determined.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwShutter</type>
     <code>4</code>
     <brief>NOSUP</brief>
     <description>The physical device has no shutter or shutter state reporting is not supported.</description>
-
+  </Messages>
+  
     <!-- fwPositionStatus -->
 
+  <Messages>
 	<type>fwPositionStatus</type>
     <code>0</code>
     <brief>EMPTY</brief>
     <description>The output position is empty.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwPositionStatus</type>
     <code>1</code>
     <brief>NOTEMPTY</brief>
     <description>The output position is not empty.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwPositionStatus</type>
     <code>2</code>
     <brief>UNKN</brief>
     <description>Due to a hardware error or other condition, the state of the output position cannot be determined.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwPositionStatus</type>
     <code>3</code>
     <brief>UNKN</brief>
     <description>Due to a hardware error or other condition, the state of the output position cannot be determined.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwPositionStatus</type>
     <code>4</code>
     <brief>NOSUP</brief>
     <description>The device is not capable of reporting whether or not items are at the output position.</description>
-
+  </Messages>
+  
     <!-- fwTransport -->
 
+  <Messages>
 	<type>fwTransport</type>
     <code>0</code>
     <brief>OK</brief>
     <description>The transport is in a good state.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwTransport</type>
     <code>1</code>
     <brief>INOP</brief>
     <description>The transport is inoperative due to a hardware failure or media jam.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwTransport</type>
     <code>2</code>
     <brief>UNKN</brief>
     <description>Due to a hardware error or other condition, the state of the transport cannot be determined.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwTransport</type>
     <code>3</code>
     <brief>NOSUP</brief>
     <description>The physical device has no transport or transport state reporting is not supported.</description>
-
+  </Messages>
+  
     <!-- fwTransportStatus -->
 
+  <Messages>
 	<type>fwTransportStatus</type>
     <code>0</code>
     <brief>EMPTY</brief>
     <description>The transport is empty.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwTransportStatus</type>
     <code>1</code>
     <brief>NOTEMPTY</brief>
     <description>The transport is not empty.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwTransportStatus</type>
     <code>2</code>
     <brief>NOTEMPTYCUST</brief>
     <description>Items which a customer has had access to are on the transport.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwTransportStatus</type>
     <code>3</code>
     <brief>NOTEMPTYUNKN</brief>
     <description>Due to a hardware error or other condition it is not known whether there are items on the transport.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>fwTransportStatus</type>
     <code>4</code>
     <brief>NOSUP</brief>
     <description>The device is not capable of reporting whether items are on the transport.</description>
-
+  </Messages>
+  
     <!-- wDevicePosition -->
 
+  <Messages>
 	<type>wDevicePosition</type>
     <code>0</code>
     <brief>INPOS</brief>
     <description>The device is in its normal operating position, or is fixed in place and cannot be moved.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>wDevicePosition</type>
     <code>1</code>
     <brief>NOTINPOS</brief>
     <description>The device has been removed from its normal operating position.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>wDevicePosition</type>
     <code>2</code>
     <brief>UNKN</brief>
     <description>Due to a hardware error or other condition, the position of the device cannot be determined.</description>
-
+  </Messages>
+  
+  <Messages>
 	<type>wDevicePosition</type>
     <code>3</code>
     <brief>NOSUP</brief>
     <description>The physical device does not have the capability of detecting the position.</description>
-    
   </Messages>
 </CDM>

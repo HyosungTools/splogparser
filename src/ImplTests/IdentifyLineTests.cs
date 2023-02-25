@@ -24,7 +24,7 @@ lpQueryDetails = NULL
 )
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.None);
       }
 
@@ -43,7 +43,7 @@ lpResult =
 	u.dwCommandCode = [301],
 	lpBuffer = [0x05c29b94]
 ";
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_INF_CDM_STATUS);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
          Console.WriteLine(result.xfsLine);
@@ -65,7 +65,7 @@ lpResult =
 	lpBuffer = [0x33b3493c]
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_INF_CDM_CASH_UNIT_INFO);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
          Console.WriteLine(result.xfsLine); 
@@ -94,7 +94,7 @@ lpResult =
 	}
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CDM_DISPENSE);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -115,7 +115,7 @@ lpResult =
 }
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CDM_PRESENT);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -135,7 +135,7 @@ lpResult =
 	lpBuffer = NULL
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CDM_REJECT);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -157,7 +157,7 @@ lpResult =
 }
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CDM_RETRACT);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -178,7 +178,7 @@ lpResult =
 }
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CDM_RESET);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -202,7 +202,7 @@ lpResult =
 	lpBuffer = [0x1f053fdc]
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_SRVE_CDM_CASHUNITINFOCHANGED);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -222,7 +222,7 @@ lpResult =
 	lpBuffer = NULL
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_SRVE_CDM_ITEMSTAKEN);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -252,7 +252,7 @@ lpResult =
 		{
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_INF_CIM_STATUS);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -273,7 +273,7 @@ lpResult =
 	lpBuffer = [0x35aa51b4]
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_INF_CIM_CASH_UNIT_INFO);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -294,7 +294,7 @@ lpResult =
 	lpBuffer = [0x0c5d121c]
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_INF_CIM_CASH_IN_STATUS);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -316,7 +316,7 @@ lpResult =
 	lpBuffer = NULL
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_CASH_IN_START);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -339,7 +339,7 @@ lpResult =
 	{
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_CASH_IN);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -362,7 +362,7 @@ lpResult =
 	{
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_CASH_IN_END);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -384,7 +384,7 @@ lpResult =
 	lpBuffer = NULL
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_CASH_IN_ROLLBACK);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -406,7 +406,7 @@ lpResult =
 	lpBuffer = NULL
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_RETRACT);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -428,7 +428,7 @@ lpResult =
 	lpBuffer = NULL
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_RESET);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -451,7 +451,7 @@ lpResult =
 	{
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_USRE_CIM_CASHUNITTHRESHOLD);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -473,7 +473,7 @@ lpResult =
 	lpBuffer = [0x78763efc]
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_SRVE_CIM_CASHUNITINFOCHANGED);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -495,7 +495,7 @@ lpResult =
 	lpBuffer = NULL
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_SRVE_CIM_ITEMSTAKEN);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -520,7 +520,7 @@ lpResult =
 	}
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_EXEE_CIM_INPUTREFUSE);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -547,7 +547,7 @@ lpResult =
 	}
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_SRVE_CIM_ITEMSPRESENTED);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -569,7 +569,7 @@ lpResult =
 	lpBuffer = NULL
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_SRVE_CIM_ITEMSINSERTED);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -590,7 +590,7 @@ lpResult =
 	u.dwEventID = [1309],
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_EXEE_CIM_NOTEERROR);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
@@ -612,7 +612,7 @@ lpResult =
 	lpBuffer = NULL
 ";
 
-         (XFSType xfsType, string xfsLine) result = LogLine.IdentifyLine(logLine);
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_SRVE_CIM_MEDIADETECTED);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
