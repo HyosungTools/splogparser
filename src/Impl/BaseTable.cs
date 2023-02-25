@@ -65,6 +65,12 @@ namespace Impl
          Console.WriteLine("BaseTable.constructor");
 
          dTableSet = new DataSet(viewName);
+         if (ctx.ioProvider.Exists(ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xsd"))
+         {
+            ctx.ConsoleWriteLogLine("Schema files exists, loading : " + ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xsd");
+            dTableSet.ReadXmlSchema(ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xsd");
+         }
+
          id = 0;
          this.ctx = ctx;
          this.viewName = viewName;
@@ -78,15 +84,15 @@ namespace Impl
       /// At the same time add 2 coumns - File and Time. 
       /// </summary>
       /// <returns>bool</returns>
-      protected virtual bool InitDataTable(string tableName)
+      protected virtual void InitDataTable(string tableName)
       {
-         dTableSet.Tables.Add(tableName);
-         (bool success, DataColumn datacolumn) result = AddColumn(tableName, "File");
-         if (result.success)
-         {
-            result = AddColumn(tableName, "Time");
-         }
-         return result.success;
+         ctx.ConsoleWriteLogLine("base.InitDataTable - adding table '" + tableName + "'");
+         DataTable dTable = dTableSet.Tables.Add();
+         dTable.TableName = tableName;
+         ctx.ConsoleWriteLogLine("base.InitDataTable - adding columns file and time to table '" + tableName + "'");
+         AddColumn(tableName, "file");
+         AddColumn(tableName, "time");
+         return;
       }
 
       /// <summary>
@@ -169,10 +175,27 @@ namespace Impl
       /// <returns>true if the read is successful, false otherwise. </returns>
       public bool ReadXmlFile()
       {
+         // if the work folder xml file exists, load it
          string strInFile = ctx.WorkFolder + "\\" + viewName + ".xml";
+         if (!ctx.ioProvider.Exists(strInFile))
+         {
+            // otherwise fall back to the default xml file, if it exists, load it
+            strInFile = ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xml";
+         }
+
          try
          {
-            dTableSet.ReadXml(strInFile);
+            // if the XML file exists, load it
+            if (ctx.ioProvider.Exists(strInFile))
+            {
+               dTableSet.ReadXml(strInFile);
+            }
+            else
+            {
+               // if there is no XML file, initialize the db Table in code
+               ctx.ConsoleWriteLogLine("base.ReadXMLFile - Calling InitDataTable (" + viewName + ")");
+               InitDataTable(viewName); 
+            }
          }
          catch (InvalidOperationException ex)
          {
@@ -225,26 +248,26 @@ namespace Impl
          Console.WriteLine("Write DataTable to Excel:" + excelFileName);
 
          // create Excel 
-         Console.WriteLine("Create Excel..." + excelFileName);
+         ctx.ConsoleWriteLogLine("Create Excel..." + excelFileName);
          Excel.Application excelApp = new Excel.Application
          {
             Visible = false,
             DisplayAlerts = false
          };
 
-         Console.WriteLine("Instantiate excel objects (application, workbook, worksheets)...");
+         ctx.ConsoleWriteLogLine("Instantiate excel objects (application, workbook, worksheets)...");
          Excel.Workbook activeBook;
 
          if (File.Exists(excelFileName))
          {
             // open existing
-            Console.WriteLine("Opening existing workbook...");
+            ctx.ConsoleWriteLogLine("Opening existing workbook...");
             activeBook = excelApp.Workbooks.Open(excelFileName);
          }
          else
          {
             // create new 
-            Console.WriteLine("Creating new workbook...");
+            ctx.ConsoleWriteLogLine("Creating new workbook...");
             activeBook = excelApp.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
          }
 
@@ -252,14 +275,26 @@ namespace Impl
          // For each table in the DataSet, print the row values.
          foreach (DataTable dTable in dTableSet.Tables)
          {
+            ctx.ConsoleWriteLogLine("DataTable: " + dTable.TableName);
+            ctx.ConsoleWriteLogLine("DataTable: " + dTable.TableName + " has " + dTable.Rows.Count.ToString() + " rows.");
+            if (dTable.Rows.Count == 0)
+            {
+               continue; 
+            }
+
+            if (dTable.TableName == "Messages")
+            {
+               continue; 
+            }
+
             // instantiate excel objects (application, workbook, worksheets)
-            Console.WriteLine("Instantiate Excel objects...");
+            ctx.ConsoleWriteLogLine("Instantiate Excel objects...");
             Excel._Worksheet activeSheet = (Excel._Worksheet)activeBook.Sheets.Add(Before: activeBook.Sheets[activeBook.Sheets.Count]);
             activeSheet.Activate();
-            activeSheet.Name = viewName;
+            activeSheet.Name = dTable.TableName;
 
             // add column headers -----------------------------------------------------
-            Console.WriteLine("Add column headers...");
+            ctx.ConsoleWriteLogLine("Add column headers...");
 
             int rowOffset = 1; // offset for derived data and links
             int colOffset = 1; // offset for derived data and links
@@ -268,6 +303,7 @@ namespace Impl
             int colCount = dTable.Columns.Count;
             for (int colNum = 0; colNum < colCount; colNum++)
             {
+               ctx.ConsoleWriteLogLine("Adding column header: " + dTable.Columns[colNum].ToString());
                activeSheet.Cells[rowOffset, colOffset + colNum] = dTable.Columns[colNum].ToString();
             }
 
@@ -276,6 +312,7 @@ namespace Impl
 
             // remove duplicate rows
             DataTable distinctTable = dTable.DefaultView.ToTable( /*distinct*/ true);
+            ctx.ConsoleWriteLogLine("DataTable: " + dTable.TableName + " has " + distinctTable.Rows.Count.ToString() + " distinct rows.");
 
             // create a view
             DataView dataView = new DataView(distinctTable);
@@ -286,7 +323,7 @@ namespace Impl
             // create a 2D array of the cell contents, we have to massage the data because there
             // are some things Excel does not like
 
-            Console.WriteLine("Create a 2D array of the cell contents..." + excelFileName);
+            ctx.ConsoleWriteLogLine("Create a 2D array of the cell contents..." + excelFileName);
             int rowIndex = 0;
             object[,] rowData = new object[dataView.Count, colCount];
             foreach (DataRowView dataRow in dataView)
@@ -341,7 +378,7 @@ namespace Impl
 
 
                   // enable autofilter for all cells
-                  Console.WriteLine("Enable autofilter for all cells...");
+                  ctx.ConsoleWriteLogLine("Enable autofilter for all cells...");
                   Microsoft.Office.Interop.Excel.Range allCellRange = null;
                   allCellRange = (Excel.Range)activeSheet.Range[activeSheet.Cells[1, 1], activeSheet.Cells[dataView.Count, colCount + 2]];
                   allCellRange.AutoFilter(2, Type.Missing, Excel.XlAutoFilterOperator.xlAnd, Type.Missing, true);
@@ -353,24 +390,24 @@ namespace Impl
                }
                catch (Exception ex)
                {
-                  Console.WriteLine("EXCEPTION:" + ex.Message);
+                  ctx.ConsoleWriteLogLine("EXCEPTION:" + ex.Message);
                }
             }
          }
 
          // save the file
-         Console.WriteLine("Save the file : " + excelFileName);
+         ctx.ConsoleWriteLogLine("Save the file : " + excelFileName);
          Excel.Workbook workBook = excelApp.ActiveWorkbook;
          workBook.SaveAs(excelFileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing,
                      Type.Missing, Type.Missing);
 
          // shutdown excel
-         Console.WriteLine("Shutdown Excel...");
+         ctx.ConsoleWriteLogLine("Shutdown Excel...");
          activeBook.Close();
          excelApp.Quit();
 
-         Console.WriteLine("Finished writing Excel.");
-         Console.WriteLine("Wrote Excel file: " + excelFileName);
+         ctx.ConsoleWriteLogLine("Finished writing Excel.");
+         ctx.ConsoleWriteLogLine("Wrote Excel file: " + excelFileName);
          return true;
       }
    }

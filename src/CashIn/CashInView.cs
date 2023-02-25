@@ -10,7 +10,7 @@ namespace CashIn
       /// <summary>
       /// Constructor
       /// </summary>
-      public CashInView() : base("CIM", "1303.CashIn") { }
+      public CashInView() : base("CIM2", "1303.CashIn") { }
 
       /// <summary>
       /// Creates an HCDU Table instance. 
@@ -19,7 +19,9 @@ namespace CashIn
       /// <returns>new HCDU table</returns>
       protected override BaseTable CreateTableInstance(IContext ctx)
       {
-         return new CashInTable(ctx, viewName);
+         CashInTable cashInTable = new CashInTable(ctx, viewName);
+         cashInTable.ReadXmlFile();
+         return cashInTable;
       }
    }
 }

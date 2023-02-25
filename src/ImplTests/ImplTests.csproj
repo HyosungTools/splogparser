@@ -49,13 +49,15 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IdentifyLineTest.cs" />
+    <Compile Include="IdentifyLineTests.cs" />
     <Compile Include="LogFindTests.cs" />
     <Compile Include="LogLineTests.cs" />
     <Compile Include="LogTimeTests.cs" />
+    <Compile Include="lpResultTests.cs" />
     <Compile Include="TraceFileReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UtilitiesTests.cs" />
+    <Compile Include="_wfs_cmd_statusTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

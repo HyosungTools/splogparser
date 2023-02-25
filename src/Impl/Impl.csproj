@@ -43,17 +43,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTableOps.cs" />
     <Compile Include="BaseTable.cs" />
     <Compile Include="BaseView.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="FileSystemProvider.cs" />
+    <Compile Include="IdentifyLines.cs" />
     <Compile Include="LogFind.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="LogTime.cs" />
+    <Compile Include="lpResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LogLine.cs" />
     <Compile Include="TraceFileReader.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="_wfs_cmd_status.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contract\Contract.csproj">

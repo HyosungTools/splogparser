@@ -18,7 +18,5 @@ namespace Impl
          }
          return logTime;
       }
-
-
    }
 }

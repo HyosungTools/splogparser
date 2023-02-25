@@ -1,7 +1,6 @@
 ﻿using Contract;
 using Impl;
 using System;
-using System.Collections.Generic;
 using System.Data;
 
 namespace CDMView
@@ -17,19 +16,7 @@ namespace CDMView
       public CDMTable(IContext ctx, string viewName) : base(ctx, viewName)
       {
          // for our view we want '0' to render as ' ' in the worksheet
-         _zeroAsBlank = true;
-
-         InitDataTable(viewName);
-      }
-
-      /// <summary>
-      /// Create a table with a given name, at the same time add columns. 
-      /// </summary>
-      /// <param name="tableName">name of the table to create</param>
-      /// <returns></returns>
-      protected override bool InitDataTable(string tableName)
-      {
-         return true;
+         _zeroAsBlank = false;
       }
 
       /// <summary>
@@ -40,76 +27,78 @@ namespace CDMView
       {
          try
          {
-            XFSType xfsType = LogLine.IdentifyLine(logLine);
-            switch (xfsType)
+            (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+
+            switch (result.xfsType)
             {
                case XFSType.WFS_INF_CDM_STATUS:
                   {
-                     ctx.ConsoleWriteLogLine("CDM XFSType.WFS_INF_CDM_STATUS");
+                     base.ProcessRow(traceFile, logLine);
+                     WFS_IN_CDM_STATUS(result.xfsLine);
                      break;
                   }
                case XFSType.WFS_INF_CDM_CASH_UNIT_INFO:
                   {
-                     ctx.ConsoleWriteLogLine("CDM XFSType.WFS_INF_CDM_CASH_UNIT_INFO");
+                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_INF_CDM_CASH_UNIT_INFO");
                      break;
                   }
                case XFSType.WFS_CMD_CDM_DISPENSE:
                   {
-                     ctx.ConsoleWriteLogLine("CDM XFSType.WFS_CMD_CDM_DISPENSE");
+                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_CMD_CDM_DISPENSE");
                      break;
                   }
                case XFSType.WFS_CMD_CDM_PRESENT:
                   {
-                     ctx.ConsoleWriteLogLine("CDM XFSType.WFS_CMD_CDM_PRESENT");
+                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_CMD_CDM_PRESENT");
                      break;
                   }
                case XFSType.WFS_CMD_CDM_REJECT:
                   {
-                     ctx.ConsoleWriteLogLine("CDM XFSType.WFS_CMD_CDM_REJECT");
+                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_CMD_CDM_REJECT");
                      break;
                   }
                case XFSType.WFS_CMD_CDM_RETRACT:
                   {
-                     ctx.ConsoleWriteLogLine("CDM XFSType.WFS_CMD_CDM_RETRACT");
+                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_CMD_CDM_RETRACT");
                      break;
                   }
                case XFSType.WFS_CMD_CDM_RESET:
                   {
-                     ctx.ConsoleWriteLogLine("CDM XFSType.WFS_CMD_CDM_RESET");
+                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_CMD_CDM_RESET");
                      break;
                   }
                case XFSType.WFS_SRVE_CDM_CASHUNITINFOCHANGED:
                   {
-                     ctx.ConsoleWriteLogLine("CDM XFSType.WFS_SRVE_CDM_CASHUNITINFOCHANGED");
+                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_SRVE_CDM_CASHUNITINFOCHANGED");
                      break;
                   }
                case XFSType.WFS_SRVE_CDM_ITEMSTAKEN:
                   {
-                     ctx.ConsoleWriteLogLine("CDM XFSType.WFS_SRVE_CDM_ITEMSTAKEN");
+                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_SRVE_CDM_ITEMSTAKEN");
                      break;
                   }
                case XFSType.WFS_USRE_CIM_CASHUNITTHRESHOLD:
                   {
-                     ctx.ConsoleWriteLogLine("CDM XFSType.WFS_USRE_CIM_CASHUNITTHRESHOLD");
+                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_USRE_CIM_CASHUNITTHRESHOLD");
                      break;
                   }
                case XFSType.WFS_SRVE_CIM_CASHUNITINFOCHANGED:
                   {
-                     ctx.ConsoleWriteLogLine("CDM XFSType.WFS_SRVE_CIM_CASHUNITINFOCHANGED");
+                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_SRVE_CIM_CASHUNITINFOCHANGED");
                      break;
                   }
                case XFSType.WFS_SRVE_CIM_ITEMSTAKEN:
                   {
-                     ctx.ConsoleWriteLogLine("CDM XFSType.WFS_SRVE_CIM_ITEMSTAKEN");
+                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_SRVE_CIM_ITEMSTAKEN");
                      break;
                   }
                case XFSType.WFS_EXEE_CIM_INPUTREFUSE:
                   {
-                     ctx.ConsoleWriteLogLine("CDM XFSType.WFS_EXEE_CIM_INPUTREFUSE");
+                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_EXEE_CIM_INPUTREFUSE");
                      break;
                   }
-               default: 
-                     break;
+               default:
+                  break;
 
             }
          }
@@ -117,6 +106,72 @@ namespace CDMView
          {
             ctx.LogWriteLine("CDMTable.ProcessRow EXCEPTION:" + e.Message);
          }
+      }
+
+      protected (bool success, DataRow dataRow) FindMessages(string type, string code)
+      {
+         // Create an array for the key values to find.
+         object[] findByKeys = new object[2];
+
+         // Set the values of the keys to find.
+         findByKeys[0] = type;
+         findByKeys[1] = code;
+
+         DataRow foundRow = dTableSet.Tables["Messages"].Rows.Find(findByKeys);
+         if (foundRow != null)
+         {
+            return (true, foundRow);
+         }
+         else
+         {
+            return (false, null);
+         }
+      }
+      protected void WFS_IN_CDM_STATUS(string xfsLine)
+      {
+         try
+         {
+            DataRow newRow = dTableSet.Tables["Status"].NewRow();
+
+            newRow["file"] = _traceFile;
+            newRow["time"] = lpResult.tsTimestamp(xfsLine);
+            newRow["error"] = lpResult.hResult(xfsLine);
+
+            (bool success, string xfsMatch, string subLogLine) result;
+
+            // fwDevice
+            result = _wfs_cmd_status.fwDevice(xfsLine);
+            if (result.success) newRow["status"] = result.xfsMatch.Trim();
+
+            result = _wfs_cmd_status.fwDispenser(result.subLogLine);
+            if (result.success) newRow["dispenser"] = result.xfsMatch.Trim();
+
+            result = _wfs_cmd_status.fwIntermediateStacker(result.subLogLine);
+            if (result.success) newRow["intstack"] = result.xfsMatch.Trim();
+
+            result = _wfs_cmd_status.fwShutter(result.subLogLine);
+            if (result.success) newRow["shutter"] = result.xfsMatch.Trim();
+
+            result = _wfs_cmd_status.fwPositionStatus(result.subLogLine);
+            if (result.success) newRow["posstatus"] = result.xfsMatch.Trim();
+
+            result = _wfs_cmd_status.fwTransport(result.subLogLine);
+            if (result.success) newRow["transport"] = result.xfsMatch.Trim();
+
+            result = _wfs_cmd_status.fwTransportStatus(result.subLogLine);
+            if (result.success) newRow["transstat"] = result.xfsMatch.Trim();
+
+            result = _wfs_cmd_status.wDevicePosition(result.subLogLine);
+            if (result.success) newRow["position"] = result.xfsMatch.Trim();
+
+            dTableSet.Tables["Status"].Rows.Add(newRow);
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("Exception : " + e.Message);
+         }
+
+         return;
       }
    }
 }

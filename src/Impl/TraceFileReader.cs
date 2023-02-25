@@ -9,22 +9,22 @@ namespace Impl
    public class TraceFileReader
    {
       // entire trace file
-      char[] result;
+      char[] traceFile;
 
-      // pointer into the results array
-      int resultPos = 0;
+      // pointer into the traceFile
+      int traceFilePos = 0;
 
       /// <summary>
-      /// Constructor
+      /// Constructor - reads the entire trace file into the traceFile array
       /// </summary>
       /// <param name="trace">StreamReader pointing to the trace file to read</param>
       /// <param name="offset">Starting offset for log file parsing (default 0)</param>
       public TraceFileReader(StreamReader trace, int offset = 0)
       {
-         result = new char[trace.BaseStream.Length];
-         trace.Read(result, 0, (int)trace.BaseStream.Length);
+         traceFile = new char[trace.BaseStream.Length];
+         trace.Read(traceFile, 0, (int)trace.BaseStream.Length);
          trace.Close();
-         resultPos = offset;
+         traceFilePos = offset;
       }
 
       /// <summary>
@@ -33,7 +33,7 @@ namespace Impl
       /// <returns>true if read to EOF; false otherwise</returns>
       public bool EOF()
       {
-         return resultPos >= result.Length;
+         return traceFilePos >= traceFile.Length;
       }
 
       /// <summary>
@@ -42,6 +42,7 @@ namespace Impl
       /// <returns></returns>
       public string ReadLine()
       {
+         // builder will hold the line
          StringBuilder builder = new StringBuilder();
 
          bool endOfLine = false;
@@ -49,18 +50,19 @@ namespace Impl
          // while not EOL or EOF
          while (!endOfLine && !EOF())
          {
-            char c = result[resultPos];
+            char c = traceFile[traceFilePos];
             if (c < 128)
             {
                builder.Append(c);
 
+               // generally, '\n' means EOL
                if (c.Equals('\n'))
                {
-                  // if the next char after '\n' is a '\t', '{' or '(' we are not at EOL
-                  char cNext = result[resultPos + 1];
-                  endOfLine = !(cNext == '\t' || cNext == '(' || cNext == '{');
+                  // if the next char after '\n' is a '\t', '{', '(', '<', ' ', '-'  or letter, we are not at EOL
+                  char cNext = traceFile[traceFilePos + 1];
+                  endOfLine = !(cNext == '\t' || cNext == '(' || cNext == '{' || cNext == '<' || cNext == ' ' || cNext == '-' || char.IsLetter(cNext));
 
-                  // if we are at EOL and the next char was a ')' or '}' add it
+                  // if we are at EOL and the next char is a ')' or '}' add it
                   if (endOfLine)
                   {
                      if (cNext == ')' || cNext == '}')
@@ -70,7 +72,7 @@ namespace Impl
                   }
                }
             }
-            resultPos++;
+            traceFilePos++;
          }
 
          return builder.ToString();

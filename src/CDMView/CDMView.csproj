@@ -56,5 +56,16 @@
       <Name>Impl</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="CDMView.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CDMView.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\CDMView.xsd" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\CDMView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
+  </PropertyGroup>
 </Project>

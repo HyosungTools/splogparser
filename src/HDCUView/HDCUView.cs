@@ -10,7 +10,7 @@ namespace HDCUView
       /// <summary>
       /// Constructor
       /// </summary>
-      public HDCUView() : base("CDM", "CDU") { }
+      public HDCUView() : base("CDM3", "CDU") { }
 
       /// <summary>
       /// Creates an HCDU Table instance. 
@@ -19,7 +19,9 @@ namespace HDCUView
       /// <returns>new HCDU table</returns>
       protected override BaseTable CreateTableInstance(IContext ctx)
       {
-         return new HDCUTable(ctx, viewName);
+         HDCUTable cduTable = new HDCUTable(ctx, viewName);
+         cduTable.ReadXmlFile();
+         return cduTable;
       }
    }
 }

@@ -30,17 +30,6 @@ namespace CashIn
          _zeroAsBlank = true;
          _firstParse = true;
          _usCount = 0; 
-
-         InitDataTable(viewName);
-
-      }
-
-      /// <summary>
-      /// Initialize the Database Table
-      /// </summary>
-      protected override bool InitDataTable(string tableName)
-      {
-         return base.InitDataTable(viewName);
       }
 
       /// <summary>
@@ -251,8 +240,8 @@ namespace CashIn
                   return;
                }
 
-               newRow.dataRow["File"] = _traceFile;
-               newRow.dataRow["Time"] = _logDate;
+               newRow.dataRow["file"] = _traceFile;
+               newRow.dataRow["time"] = _logDate;
 
                string[] _columnNamesArray = _columnNames.ToArray(); 
                string[] _currentValues = _currentList.ToArray();

@@ -39,13 +39,6 @@ namespace CDUCountsView
          // for our view we want '0' to render as ' ' in the worksheet
          _zeroAsBlank = true;
 
-         InitDataTable(viewName);
-
-      }
-
-      protected override bool InitDataTable(string tableName)
-      {
-         return base.InitDataTable(tableName);
       }
 
       /// <summary>
@@ -232,8 +225,8 @@ namespace CDUCountsView
                   return;
                }
 
-               newRow.dataRow["File"] = _traceFile;
-               newRow.dataRow["Time"] = _logDate;
+               newRow.dataRow["file"] = _traceFile;
+               newRow.dataRow["time"] = _logDate;
 
                // now add the columns to the table - but if the previous value is the same, write and empty string
                // for example, only report Initial Value once because it never changes. 

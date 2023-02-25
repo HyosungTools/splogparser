@@ -19,7 +19,9 @@ namespace CIMView
       /// <returns>new HCDU table</returns>
       protected override BaseTable CreateTableInstance(IContext ctx)
       {
-         return new CIMTable(ctx, viewName);
+         CIMTable cimTable = new CIMTable(ctx, viewName);
+         cimTable.ReadXmlFile();
+         return cimTable;
       }
    }
 }
