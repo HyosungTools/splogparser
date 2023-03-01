@@ -130,6 +130,24 @@ namespace CDMView
          }
          ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table complete: rows after: {0}", dTableSet.Tables["Status"].Rows.Count));
 
+         // add English
+         string[,] colKeyMap = new string[8,2] 
+         {
+            {"status", "fwDevice" },
+            {"dispenser", "fwDispenser"},
+            {"intstack", "fwIntermediateStacker"},
+            {"shutter", "fwShutter"},
+            {"posstatus", "fwPositionStatus"},
+            {"transport", "fwTransport"},
+            {"transstat", "fwTransportStatus"},
+            {"position", "wDevicePosition"}
+         };
+
+         for (int i = 0; i < 8; i++)
+         {
+            result = DataTableOps.AddEnglishToTable(dTableSet.Tables["Status"], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
+         }
+
          return base.WriteExcelFile();
       }
 
@@ -168,24 +186,31 @@ namespace CDMView
             result = _wfs_cmd_status.fwDevice(xfsLine);
             if (result.success) newRow["status"] = result.xfsMatch.Trim();
 
+            // fwDispenser
             result = _wfs_cmd_status.fwDispenser(result.subLogLine);
             if (result.success) newRow["dispenser"] = result.xfsMatch.Trim();
 
+            // fwIntermediateStacker
             result = _wfs_cmd_status.fwIntermediateStacker(result.subLogLine);
             if (result.success) newRow["intstack"] = result.xfsMatch.Trim();
 
+            // fwShutter
             result = _wfs_cmd_status.fwShutter(result.subLogLine);
             if (result.success) newRow["shutter"] = result.xfsMatch.Trim();
 
+            // fwPositionStatus
             result = _wfs_cmd_status.fwPositionStatus(result.subLogLine);
             if (result.success) newRow["posstatus"] = result.xfsMatch.Trim();
 
+            // fwTransport
             result = _wfs_cmd_status.fwTransport(result.subLogLine);
             if (result.success) newRow["transport"] = result.xfsMatch.Trim();
 
+            // fwTransportStatus
             result = _wfs_cmd_status.fwTransportStatus(result.subLogLine);
             if (result.success) newRow["transstat"] = result.xfsMatch.Trim();
 
+            // wDevicePosition
             result = _wfs_cmd_status.wDevicePosition(result.subLogLine);
             if (result.success) newRow["position"] = result.xfsMatch.Trim();
 
