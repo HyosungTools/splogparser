@@ -47,8 +47,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTablesOpsTests.cs" />
     <Compile Include="IdentifyLineTests.cs" />
     <Compile Include="LogFindTests.cs" />
     <Compile Include="LogLineTests.cs" />
