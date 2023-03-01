@@ -1,6 +1,7 @@
 ﻿using Contract;
 using Impl;
 using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace CDMView
@@ -106,6 +107,30 @@ namespace CDMView
          {
             ctx.LogWriteLine("CDMTable.ProcessRow EXCEPTION:" + e.Message);
          }
+      }
+
+      /// <summary>
+      /// Prep the tables for Excel 
+      /// </summary>
+      /// <returns>true if the write was successful</returns>
+      public override bool WriteExcelFile()
+      {
+         //STATUS TABLE
+
+         // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
+         ctx.ConsoleWriteLogLine("Compress the Status Table: sort by time, visit every row and delete rows that are unchanged from their predecessor");
+         ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table start: rows before: {0}", dTableSet.Tables["Status"].Rows.Count));
+
+         // the list of columns to compare
+         string[] columns = new string[] { "error", "status", "dispenser", "intstack", "shutter", "posstatus", "transport", "transstat", "position" };
+         (bool success, string message) result = DataTableOps.DeleteUnchangedRowsInTable(dTableSet.Tables["Status"], "time ASC", columns);
+         if (!result.success)
+         {
+            ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
+         }
+         ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table complete: rows after: {0}", dTableSet.Tables["Status"].Rows.Count));
+
+         return base.WriteExcelFile();
       }
 
       protected (bool success, DataRow dataRow) FindMessages(string type, string code)

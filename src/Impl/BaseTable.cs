@@ -1,7 +1,6 @@
 ﻿using Contract;
 using System;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using Excel = Microsoft.Office.Interop.Excel;
 
@@ -194,7 +193,7 @@ namespace Impl
             {
                // if there is no XML file, initialize the db Table in code
                ctx.ConsoleWriteLogLine("base.ReadXMLFile - Calling InitDataTable (" + viewName + ")");
-               InitDataTable(viewName); 
+               InitDataTable(viewName);
             }
          }
          catch (InvalidOperationException ex)
@@ -279,12 +278,12 @@ namespace Impl
             ctx.ConsoleWriteLogLine("DataTable: " + dTable.TableName + " has " + dTable.Rows.Count.ToString() + " rows.");
             if (dTable.Rows.Count == 0)
             {
-               continue; 
+               continue;
             }
 
             if (dTable.TableName == "Messages")
             {
-               continue; 
+               continue;
             }
 
             // instantiate excel objects (application, workbook, worksheets)
