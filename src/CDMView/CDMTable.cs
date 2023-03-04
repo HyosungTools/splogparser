@@ -225,38 +225,22 @@ namespace CDMView
          return;
       }
 
-          //    <xs:element name = "Summary" >
-          //< xs:complexType>
-          //  <xs:sequence>
-          //    <xs:element name = "file" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "time" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "error" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "number" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "type" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "name" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "currency" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "denom" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "initial" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "min" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "max" type="xs:string" minOccurs="0" />
-          //  </xs:sequence>
-          //</xs:complexType>
 
-          //    <xs:element name = "CashUnit" >
-          //< xs:complexType>
-          //  <xs:sequence>
-          //    <xs:element name = "file" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "time" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "error" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "number" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "count" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "reject" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "status" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "dispensed" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "presented" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "retracted" type="xs:string" minOccurs="0" />
-          //    <xs:element name = "comment" type="xs:string" minOccurs="0" />
-          //  </xs:sequence>
+      //    <xs:element name = "CashUnit" >
+      //< xs:complexType>
+      //  <xs:sequence>
+      //    <xs:element name = "file" type="xs:string" minOccurs="0" />
+      //    <xs:element name = "time" type="xs:string" minOccurs="0" />
+      //    <xs:element name = "error" type="xs:string" minOccurs="0" />
+      //    <xs:element name = "number" type="xs:string" minOccurs="0" />
+      //    <xs:element name = "count" type="xs:string" minOccurs="0" />
+      //    <xs:element name = "reject" type="xs:string" minOccurs="0" />
+      //    <xs:element name = "status" type="xs:string" minOccurs="0" />
+      //    <xs:element name = "dispensed" type="xs:string" minOccurs="0" />
+      //    <xs:element name = "presented" type="xs:string" minOccurs="0" />
+      //    <xs:element name = "retracted" type="xs:string" minOccurs="0" />
+      //    <xs:element name = "comment" type="xs:string" minOccurs="0" />
+      //  </xs:sequence>
       protected void WFS_INF_CDM_CASH_UNIT_INFO(string xfsLine)
       {
          try
@@ -275,9 +259,14 @@ namespace CDMView
                   return;
                }
 
+               // how many logical units in the table. 
                int lUnitCount = int.Parse(result.xfsMatch.Trim());
-
                DataRow[] dataRowArr = new DataRow[lUnitCount];
+
+               for (int i = 0; i < lUnitCount; i++)
+               {
+                  dataRowArr[i] = dTableSet.Tables["Summary"].NewRow();
+               }
 
                for (int i = 0; i < lUnitCount; i++)
                {
@@ -285,15 +274,65 @@ namespace CDMView
                   dataRowArr[i]["time"] = lpResult.tsTimestamp(xfsLine);
                   dataRowArr[i]["error"] = lpResult.hResult(xfsLine);
 
-                  dataRowArr[i]["number"] = i.ToString(); 
+                  dataRowArr[i]["number"] = i.ToString();
                }
 
                (bool success, string[] xfsMatch, string subLogLine) results;
                results = _wfs_inf_cdm_cash_unit_info.usType(xfsLine);
 
+               for (int i = 0; i < lUnitCount; i++)
+               {
+                  dataRowArr[i]["type"] = results.xfsMatch[i];
+               }
 
+               results = _wfs_inf_cdm_cash_unit_info.cUnitID(results.subLogLine);
+
+               for (int i = 0; i < lUnitCount; i++)
+               {
+                  dataRowArr[i]["name"] = results.xfsMatch[i];
+               }
+
+               results = _wfs_inf_cdm_cash_unit_info.cCurrencyID(results.subLogLine);
+
+               for (int i = 0; i < lUnitCount; i++)
+               {
+                  dataRowArr[i]["currency"] = results.xfsMatch[i];
+               }
+
+               results = _wfs_inf_cdm_cash_unit_info.ulValues(results.subLogLine);
+
+               for (int i = 0; i < lUnitCount; i++)
+               {
+                  dataRowArr[i]["denom"] = results.xfsMatch[i];
+               }
+
+               results = _wfs_inf_cdm_cash_unit_info.ulInitialCount(results.subLogLine);
+
+               for (int i = 0; i < lUnitCount; i++)
+               {
+                  dataRowArr[i]["initial"] = results.xfsMatch[i];
+               }
+
+               results = _wfs_inf_cdm_cash_unit_info.ulMinimum(results.subLogLine);
+
+               for (int i = 0; i < lUnitCount; i++)
+               {
+                  dataRowArr[i]["min"] = results.xfsMatch[i];
+               }
+
+               results = _wfs_inf_cdm_cash_unit_info.ulMaximum(results.subLogLine);
+
+               for (int i = 0; i < lUnitCount; i++)
+               {
+                  dataRowArr[i]["max"] = results.xfsMatch[i];
+               }
+
+               for (int i = 0; i < lUnitCount; i++)
+               {
+                  dTableSet.Tables["Summary"].Rows.Add(dataRowArr[i]);
+               }
             }
-               else if (xfsLine.Contains("lppList ="))
+            else if (xfsLine.Contains("lppList ="))
             {
                // isolate count
                result = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine);
@@ -305,19 +344,7 @@ namespace CDMView
 
                int lUnitCount = int.Parse(result.xfsMatch.Trim());
 
-               for (int i = 0; i < lUnitCount; i++)
-               {
-                  DataRow newRow = dTableSet.Tables["Status"].NewRow();
-
-                  newRow["file"] = _traceFile;
-                  newRow["time"] = lpResult.tsTimestamp(xfsLine);
-                  newRow["error"] = lpResult.hResult(xfsLine);
-
-                  newRow["number"] = i.ToString();
-               }
             }
-
-
          }
          catch (Exception e)
          {
