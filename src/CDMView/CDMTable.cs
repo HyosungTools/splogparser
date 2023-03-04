@@ -40,6 +40,7 @@ namespace CDMView
                   }
                case XFSType.WFS_INF_CDM_CASH_UNIT_INFO:
                   {
+                     WFS_INF_CDM_CASH_UNIT_INFO(result.xfsLine);
                      //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_INF_CDM_CASH_UNIT_INFO");
                      break;
                   }
@@ -131,7 +132,7 @@ namespace CDMView
          ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table complete: rows after: {0}", dTableSet.Tables["Status"].Rows.Count));
 
          // add English
-         string[,] colKeyMap = new string[8,2] 
+         string[,] colKeyMap = new string[8, 2]
          {
             {"status", "fwDevice" },
             {"dispenser", "fwDispenser"},
@@ -183,35 +184,35 @@ namespace CDMView
             (bool success, string xfsMatch, string subLogLine) result;
 
             // fwDevice
-            result = _wfs_cmd_status.fwDevice(xfsLine);
+            result = _wfs_inf_cdm_status.fwDevice(xfsLine);
             if (result.success) newRow["status"] = result.xfsMatch.Trim();
 
             // fwDispenser
-            result = _wfs_cmd_status.fwDispenser(result.subLogLine);
+            result = _wfs_inf_cdm_status.fwDispenser(result.subLogLine);
             if (result.success) newRow["dispenser"] = result.xfsMatch.Trim();
 
             // fwIntermediateStacker
-            result = _wfs_cmd_status.fwIntermediateStacker(result.subLogLine);
+            result = _wfs_inf_cdm_status.fwIntermediateStacker(result.subLogLine);
             if (result.success) newRow["intstack"] = result.xfsMatch.Trim();
 
             // fwShutter
-            result = _wfs_cmd_status.fwShutter(result.subLogLine);
+            result = _wfs_inf_cdm_status.fwShutter(result.subLogLine);
             if (result.success) newRow["shutter"] = result.xfsMatch.Trim();
 
             // fwPositionStatus
-            result = _wfs_cmd_status.fwPositionStatus(result.subLogLine);
+            result = _wfs_inf_cdm_status.fwPositionStatus(result.subLogLine);
             if (result.success) newRow["posstatus"] = result.xfsMatch.Trim();
 
             // fwTransport
-            result = _wfs_cmd_status.fwTransport(result.subLogLine);
+            result = _wfs_inf_cdm_status.fwTransport(result.subLogLine);
             if (result.success) newRow["transport"] = result.xfsMatch.Trim();
 
             // fwTransportStatus
-            result = _wfs_cmd_status.fwTransportStatus(result.subLogLine);
+            result = _wfs_inf_cdm_status.fwTransportStatus(result.subLogLine);
             if (result.success) newRow["transstat"] = result.xfsMatch.Trim();
 
             // wDevicePosition
-            result = _wfs_cmd_status.wDevicePosition(result.subLogLine);
+            result = _wfs_inf_cdm_status.wDevicePosition(result.subLogLine);
             if (result.success) newRow["position"] = result.xfsMatch.Trim();
 
             dTableSet.Tables["Status"].Rows.Add(newRow);
@@ -222,6 +223,106 @@ namespace CDMView
          }
 
          return;
+      }
+
+          //    <xs:element name = "Summary" >
+          //< xs:complexType>
+          //  <xs:sequence>
+          //    <xs:element name = "file" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "time" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "error" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "number" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "type" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "name" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "currency" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "denom" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "initial" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "min" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "max" type="xs:string" minOccurs="0" />
+          //  </xs:sequence>
+          //</xs:complexType>
+
+          //    <xs:element name = "CashUnit" >
+          //< xs:complexType>
+          //  <xs:sequence>
+          //    <xs:element name = "file" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "time" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "error" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "number" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "count" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "reject" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "status" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "dispensed" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "presented" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "retracted" type="xs:string" minOccurs="0" />
+          //    <xs:element name = "comment" type="xs:string" minOccurs="0" />
+          //  </xs:sequence>
+      protected void WFS_INF_CDM_CASH_UNIT_INFO(string xfsLine)
+      {
+         try
+         {
+            (bool success, string xfsMatch, string subLogLine) result;
+
+            // there are two styles of log lines. If the log line contains 'lppList->' expect
+            // a table of data. If the log lines contains 'lppList =' expect a list
+            if (xfsLine.Contains("lppList->"))
+            {
+               // isolate count
+               result = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine);
+               if (!result.success)
+               {
+                  ctx.ConsoleWriteLogLine("Failed to isolate count from WFS_INF_CDM_CASH_UNIT_INFO message");
+                  return;
+               }
+
+               int lUnitCount = int.Parse(result.xfsMatch.Trim());
+
+               DataRow[] dataRowArr = new DataRow[lUnitCount];
+
+               for (int i = 0; i < lUnitCount; i++)
+               {
+                  dataRowArr[i]["file"] = _traceFile;
+                  dataRowArr[i]["time"] = lpResult.tsTimestamp(xfsLine);
+                  dataRowArr[i]["error"] = lpResult.hResult(xfsLine);
+
+                  dataRowArr[i]["number"] = i.ToString(); 
+               }
+
+               (bool success, string[] xfsMatch, string subLogLine) results;
+               results = _wfs_inf_cdm_cash_unit_info.usType(xfsLine);
+
+
+            }
+               else if (xfsLine.Contains("lppList ="))
+            {
+               // isolate count
+               result = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine);
+               if (!result.success)
+               {
+                  ctx.ConsoleWriteLogLine("Failed to isolate count from WFS_INF_CDM_CASH_UNIT_INFO message");
+                  return;
+               }
+
+               int lUnitCount = int.Parse(result.xfsMatch.Trim());
+
+               for (int i = 0; i < lUnitCount; i++)
+               {
+                  DataRow newRow = dTableSet.Tables["Status"].NewRow();
+
+                  newRow["file"] = _traceFile;
+                  newRow["time"] = lpResult.tsTimestamp(xfsLine);
+                  newRow["error"] = lpResult.hResult(xfsLine);
+
+                  newRow["number"] = i.ToString();
+               }
+            }
+
+
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("Exception : " + e.Message);
+         }
       }
    }
 }
