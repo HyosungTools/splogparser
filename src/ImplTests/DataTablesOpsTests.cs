@@ -196,7 +196,7 @@ namespace ImplTests
          foreach (DataRow dataRow in dTableSet.Tables["status"].Rows)
          {
             string thisTime = dataRow["time"].ToString();
-            Assert.IsTrue(string.Compare(dataRow["time"].ToString(), "2022/12/15 00:00 00.000") < 0);
+            Assert.IsTrue(string.Compare(dataRow["time"].ToString(), "2022/12/15 00:00 00.000") < 0); 
          }
       }
 
@@ -204,7 +204,7 @@ namespace ImplTests
       {
          DataRow dataRow = localTable.Rows[0];
          dataRow.Delete();
-         localTable.AcceptChanges();
+         localTable.AcceptChanges(); 
       }
 
       [TestMethod]
@@ -216,7 +216,7 @@ namespace ImplTests
 
          int rowCountBefore = dLocalTableSet.Tables["Status"].Rows.Count;
          PassTableByReference(dLocalTableSet.Tables["Status"]);
-
+         
          int rowCountAfter = dLocalTableSet.Tables["Status"].Rows.Count;
          Assert.IsTrue(rowCountBefore > rowCountAfter);
       }

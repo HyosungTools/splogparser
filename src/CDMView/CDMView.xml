@@ -6,63 +6,63 @@
     <type>fwDevice</type>
     <code>0</code>
     <brief>ONLINE</brief>
-    <description>The device is online.</description>
+    <description></description>
   </Messages>
   
   <Messages>	
 	<type>fwDevice</type>
     <code>1</code>
     <brief>OFFLINE</brief>
-    <description>The device is offline.</description>
+    <description></description>
   </Messages>
   
   <Messages>	
 	<type>fwDevice</type>
     <code>2</code>
     <brief>PWROFF</brief>
-    <description>The device is powered off or physically not connected.</description>
+    <description>Powered off or physically not connected</description>
   </Messages>
   
   <Messages>	
 	<type>fwDevice</type>
     <code>3</code>
     <brief>NODEV</brief>
-    <description>The device is not intended to be there.</description>
+    <description>The device is not intended to be there</description>
   </Messages>
 
   <Messages>	
 	<type>fwDevice</type>
     <code>4</code>
     <brief>HWERR</brief>
-    <description>The device is inoperable due to a hardware error.</description>
+    <description>Inoperable due to a hardware error</description>
   </Messages>
 
   <Messages>	
 	<type>fwDevice</type>
     <code>5</code>
     <brief>USRERR</brief>
-    <description>The device is present but a person is preventing proper device operation.</description>
+    <description>User is preventing proper device operation</description>
   </Messages>
 
   <Messages>	
 	<type>fwDevice</type>
     <code>6</code>
     <brief>BUSY</brief>
-    <description>The device is busy and unable to process an execute command at this time.</description>
+    <description>Unable to process an execute command at this time</description>
   </Messages>
 
   <Messages>	
 	<type>fwDevice</type>
     <code>7</code>
     <brief>FRAUD</brief>
-    <description>The device is present but is inoperable because it has detected a fraud attempt.</description>
+    <description>Inoperable because of detected fraud attempt</description>
   </Messages>
 
   <Messages>	
 	<type>fwDevice</type>
     <code>8</code>
     <brief>FRAUD?</brief>
-    <description>The device has detected a potential fraud attempt and is capable of remaining in service.</description>
+    <description>Potential fraud attempt detected</description>
   </Messages>
 
     <!-- fwDispenser-->
@@ -71,14 +71,14 @@
 	<type>fwDispenser</type>
     <code>0</code>
     <brief>OK</brief>
-    <description>All cash units present are in a good state.</description>
+    <description></description>
   </Messages>
   
   <Messages>
 	<type>fwDispenser</type>
     <code>1</code>
-    <brief>STATE</brief>
-    <description>One or more of the cash units is in a low, empty, inoperative or manipulated condition.</description>
+    <brief>WARN</brief>
+    <description>One or more cash units is low, empty, inoperative or manipulated</description>
   </Messages>
   
   <Messages>
@@ -101,28 +101,28 @@
     <type>fwIntermediateStacker</type>
     <code>0</code>
     <brief>EMPTY</brief>
-    <description>The intermediate stacker is empty.</description>
+    <description></description>
   </Messages>
   
   <Messages>
 	<type>fwIntermediateStacker</type>
     <code>1</code>
     <brief>NOTEMPTY</brief>
-    <description>The intermediate stacker is not empty. The items have not been in customer access.</description>
+    <description>The items have not been in customer access.</description>
   </Messages>
   
   <Messages>
 	<type>fwIntermediateStacker</type>
     <code>2</code>
     <brief>NOTEMPTYCUST</brief>
-    <description>The intermediate stacker is not empty. The items have been in customer access.</description>
+    <description>The items have been in customer access.</description>
   </Messages>
   
   <Messages>
 	<type>fwIntermediateStacker</type>
     <code>3</code>
     <brief>NOTEMPTYUNK</brief>
-    <description>The intermediate stacker is not empty. It is not known if the items have been in customer access.</description>
+    <description>It is not known if the items have been in customer access.</description>
   </Messages>
   
   <Messages>
@@ -145,21 +145,21 @@
 	<type>fwShutter</type>
     <code>0</code>
     <brief>CLOSED</brief>
-    <description>The shutter is operational and is closed.</description>
+    <description></description>
   </Messages>
   
   <Messages>
 	<type>fwShutter</type>
     <code>1</code>
     <brief>OPEN</brief>
-    <description>The shutter is operational and is open.</description>
+    <description></description>
   </Messages>
   
   <Messages>
 	<type>fwShutter</type>
     <code>2</code>
     <brief>JAM</brief>
-    <description>The shutter is jammed and is not operational.</description>
+    <description>Jammed and not operational.</description>
   </Messages>
   
   <Messages>
@@ -182,14 +182,14 @@
 	<type>fwPositionStatus</type>
     <code>0</code>
     <brief>EMPTY</brief>
-    <description>The output position is empty.</description>
+    <description></description>
   </Messages>
   
   <Messages>
 	<type>fwPositionStatus</type>
     <code>1</code>
     <brief>NOTEMPTY</brief>
-    <description>The output position is not empty.</description>
+    <description></description>
   </Messages>
   
   <Messages>
@@ -219,14 +219,14 @@
 	<type>fwTransport</type>
     <code>0</code>
     <brief>OK</brief>
-    <description>The transport is in a good state.</description>
+    <description></description>
   </Messages>
   
   <Messages>
 	<type>fwTransport</type>
     <code>1</code>
     <brief>INOP</brief>
-    <description>The transport is inoperative due to a hardware failure or media jam.</description>
+    <description>Inoperative due to hardware failure or media jam.</description>
   </Messages>
   
   <Messages>
@@ -249,14 +249,14 @@
 	<type>fwTransportStatus</type>
     <code>0</code>
     <brief>EMPTY</brief>
-    <description>The transport is empty.</description>
+    <description></description>
   </Messages>
   
   <Messages>
 	<type>fwTransportStatus</type>
     <code>1</code>
     <brief>NOTEMPTY</brief>
-    <description>The transport is not empty.</description>
+    <description></description>
   </Messages>
   
   <Messages>
@@ -286,7 +286,7 @@
 	<type>wDevicePosition</type>
     <code>0</code>
     <brief>INPOS</brief>
-    <description>The device is in its normal operating position, or is fixed in place and cannot be moved.</description>
+    <description></description>
   </Messages>
   
   <Messages>

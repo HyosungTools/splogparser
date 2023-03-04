@@ -64,7 +64,50 @@ namespace Impl
             dataRow.Delete();
          }
 
+         dataTable.AcceptChanges();
+
          return (true, string.Empty);
+      }
+
+      /// <summary>
+      /// Part of getting ready for Excel, convert numeric values to their English equivalent
+      /// </summary>
+      /// <param name="dataTable"></param>
+      /// <param name="messageTable"></param>
+      /// <returns></returns>
+      public static (bool success, string message) AddEnglishToTable(DataTable dataTable, DataTable messageTable, string column, string type)
+      {
+         // determine number of rows
+         int rowCount = dataTable.Rows.Count;
+         if (rowCount == 0)
+         {
+            return (true, string.Empty);
+         }
+
+         foreach (DataRow dataRow in dataTable.Rows)
+         {
+            if (dataRow[column].ToString() == string.Empty)
+               continue;
+
+            // Create an array for the key values to find.
+            object[] findByKeys = new object[2];
+
+            // Set the values of the keys to find.
+            findByKeys[0] = type;
+            findByKeys[1] = dataRow[column].ToString();
+
+            DataRow foundRow = messageTable.Rows.Find(findByKeys);
+            if (foundRow != null)
+            {
+               dataRow[column] = foundRow["brief"];
+               dataRow["comment"] = dataRow["comment"].ToString().TrimStart(',') + "," + foundRow["description"];
+            }
+         }
+
+         dataTable.AcceptChanges(); 
+
+         return (true, string.Empty);
+
       }
 
       /// <summary>

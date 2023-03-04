@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ImplTests
 {
    [TestClass]
-   public class _wfs_cmd_statusTests
+   public class _wfs_inf_cdm_statusTests
    {
       static string logLine = @"
 	{
@@ -33,73 +33,73 @@ namespace ImplTests
       [TestMethod]
       public void fwDevice()
       {
-         (bool success, string xfsMatch, string subLogLine) result = _wfs_cmd_status.fwDevice(logLine);
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_status.fwDevice(logLine);
          Assert.IsTrue(result.xfsMatch == "0");
       }
       [TestMethod]
       public void fwSafeDoor()
       {
-         (bool success, string xfsMatch, string subLogLine) result = _wfs_cmd_status.fwSafeDoor(logLine);
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_status.fwSafeDoor(logLine);
          Assert.IsTrue(result.xfsMatch == "1");
       }
       [TestMethod]
       public void fwDispenser()
       {
-         (bool success, string xfsMatch, string subLogLine) result = _wfs_cmd_status.fwDispenser(logLine);
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_status.fwDispenser(logLine);
          Assert.IsTrue(result.xfsMatch == "2");
       }
       [TestMethod]
       public void fwIntermediateStacker()
       {
-         (bool success, string xfsMatch, string subLogLine) result = _wfs_cmd_status.fwIntermediateStacker(logLine);
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_status.fwIntermediateStacker(logLine);
          Assert.IsTrue(result.xfsMatch == "3");
       }
       [TestMethod]
       public void fwPosition()
       {
-         (bool success, string xfsMatch, string subLogLine) result = _wfs_cmd_status.fwPosition(logLine);
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_status.fwPosition(logLine);
          Assert.IsTrue(result.xfsMatch == "4");
       }
       [TestMethod]
       public void fwShutter()
       {
-         (bool success, string xfsMatch, string subLogLine) result = _wfs_cmd_status.fwShutter(logLine);
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_status.fwShutter(logLine);
          Assert.IsTrue(result.xfsMatch == "5");
       }
       [TestMethod]
       public void fwPositionStatus()
       {
-         (bool success, string xfsMatch, string subLogLine) result = _wfs_cmd_status.fwPositionStatus(logLine);
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_status.fwPositionStatus(logLine);
          Assert.IsTrue(result.xfsMatch == "6");
       }
       [TestMethod]
       public void fwTransport()
       {
-         (bool success, string xfsMatch, string subLogLine) result = _wfs_cmd_status.fwTransport(logLine);
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_status.fwTransport(logLine);
          Assert.IsTrue(result.xfsMatch == "7");
       }
       [TestMethod]
       public void fwTransportStatus()
       {
-         (bool success, string xfsMatch, string subLogLine) result = _wfs_cmd_status.fwTransportStatus(logLine);
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_status.fwTransportStatus(logLine);
          Assert.IsTrue(result.xfsMatch == "8");
       }
       [TestMethod]
       public void wDevicePosition()
       {
-         (bool success, string xfsMatch, string subLogLine) result = _wfs_cmd_status.wDevicePosition(logLine);
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_status.wDevicePosition(logLine);
          Assert.IsTrue(result.xfsMatch == "9");
       }
       [TestMethod]
       public void usPowerSaveRecoveryTime()
       {
-         (bool success, string xfsMatch, string subLogLine) result = _wfs_cmd_status.usPowerSaveRecoveryTime(logLine);
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_status.usPowerSaveRecoveryTime(logLine);
          Assert.IsTrue(result.xfsMatch == "10");
       }
       [TestMethod]
       public void wAntiFraudModule()
       {
-         (bool success, string xfsMatch, string subLogLine) result = _wfs_cmd_status.wAntiFraudModule(logLine);
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_status.wAntiFraudModule(logLine);
          Assert.IsTrue(result.xfsMatch == "11");
       }
    }
