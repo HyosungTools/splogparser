@@ -43,7 +43,7 @@ namespace Impl
       /// <param name="regEx"></param>
       /// <param name="logLine"></param>
       /// <returns></returns>
-      private static (bool success, string[] xfsMatch, string subLogLine) GenericMatch(string regEx, string logLine)
+      private static (bool success, string[] xfsMatch, string subLogLine) GenericMatch(string logLine, string regEx)
       {
          Regex typeRegex = new Regex(regEx);
          Match m = typeRegex.Match(logLine);
@@ -57,41 +57,94 @@ namespace Impl
          return (false, null, logLine);
       }
 
+      /// <summary>
+      /// Similar to the above except here we are dealing with a list type log line, not a table, 
+      /// so we are returning distinct single values not a list. 
+      /// This is identical to the GenericMatch in _wft_inf_cdm_status so there's a case to abstract into a
+      /// separate class all the different regex functions
+      /// </summary>
+      /// <param name="regEx"></param>
+      /// <param name="logLine"></param>
+      /// <returns></returns>
+      private static (bool success, string xfsMatch, string subLogLine) GenericMatch2(string logLine, string regStr, string def = "0")
+      {
+         Regex timeRegex = new Regex(regStr);
+         Match m = timeRegex.Match(logLine);
+         if (m.Success)
+         {
+
+            return (true, m.Groups[1].Value, logLine.Substring(m.Index));
+         }
+
+         return (false, def, logLine);
+      }
+
       public static (bool success, string[] xfsMatch, string subLogLine) usType(string logLine)
       {
-         return GenericMatch("(?<=usType)(([ \\t]+\\d+)+)", logLine);
+         return GenericMatch(logLine, "(?<=usType)(([ \\t]+\\d+)+)");
       }
 
       public static (bool success, string[] xfsMatch, string subLogLine) cUnitID(string logLine)
       {
          // note it's \w+ 
-         return GenericMatch("(?<=cUnitID)(([ \\t]+\\w+)+)", logLine);
+         return GenericMatch(logLine, "(?<=cUnitID)(([ \\t]+\\w+)+)");
       }
 
       public static (bool success, string[] xfsMatch, string subLogLine) cCurrencyID(string logLine)
       {
          // note it's \w+
-         return GenericMatch("(?<=cCurrencyID)(([ \\t]+\\w+)+)", logLine);
+         return GenericMatch(logLine, "(?<=cCurrencyID)(([ \\t]+\\w+)+)");
       }
 
       public static (bool success, string[] xfsMatch, string subLogLine) ulValues(string logLine)
       {
-         return GenericMatch("(?<=ulValues)(([ \\t]+\\d+)+)", logLine);
+         return GenericMatch(logLine, "(?<=ulValues)(([ \\t]+\\d+)+)");
       }
 
       public static (bool success, string[] xfsMatch, string subLogLine) ulInitialCount(string logLine)
       {
-         return GenericMatch("(?<=ulInitialCount)(([ \\t]+\\d+)+)", logLine);
+         return GenericMatch(logLine, "(?<=ulInitialCount)(([ \\t]+\\d+)+)");
+      }
+
+      public static (bool success, string[] xfsMatch, string subLogLine) ulCount(string logLine)
+      {
+         return GenericMatch(logLine, "(?<=ulCount)(([ \\t]+\\d+)+)");
       }
 
       public static (bool success, string[] xfsMatch, string subLogLine) ulMinimum(string logLine)
       {
-         return GenericMatch("(?<=ulMinimum)(([ \\t]+\\d+)+)", logLine);
+         return GenericMatch(logLine, "(?<=ulMinimum)(([ \\t]+\\d+)+)");
       }
 
       public static (bool success, string[] xfsMatch, string subLogLine) ulMaximum(string logLine)
       {
-         return GenericMatch("(?<=ulMaximum)(([ \\t]+\\d+)+)", logLine);
+         return GenericMatch(logLine, "(?<=ulMaximum)(([ \\t]+\\d+)+)");
+      }
+
+      public static (bool success, string[] xfsMatch, string subLogLine) usStatus(string logLine)
+      {
+         return GenericMatch(logLine, "(?<=usStatus)(([ \\t]+\\d+)+)");
+      }
+
+      public static (bool success, string[] xfsMatch, string subLogLine) ulDispensedCount(string logLine)
+      {
+         return GenericMatch(logLine, "(?<=ulDispensedCount)(([ \\t]+\\d+)+)");
+      }
+
+      public static (bool success, string[] xfsMatch, string subLogLine) ulPresentedCount(string logLine)
+      {
+         return GenericMatch(logLine, "(?<=ulPresentedCount)(([ \\t]+\\d+)+)");
+      }
+
+      public static (bool success, string[] xfsMatch, string subLogLine) ulRetractedCount(string logLine)
+      {
+         return GenericMatch(logLine, "(?<=ulRetractedCount)(([ \\t]+\\d+)+)");
+      }
+
+      // usNumber  - we dont need to search for this in the table log line, only in the list log line
+      public static (bool success, string xfsMatch, string subLogLine) usNumber(string logLine)
+      {
+         return GenericMatch2(logLine, "(?<=usNumber = \\[)(\\d+)");
       }
    }
 }

@@ -64,11 +64,6 @@ namespace Impl
          Console.WriteLine("BaseTable.constructor");
 
          dTableSet = new DataSet(viewName);
-         if (ctx.ioProvider.Exists(ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xsd"))
-         {
-            ctx.ConsoleWriteLogLine("Schema files exists, loading : " + ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xsd");
-            dTableSet.ReadXmlSchema(ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xsd");
-         }
 
          id = 0;
          this.ctx = ctx;
@@ -145,10 +140,16 @@ namespace Impl
 
       public bool WriteXmlFile()
       {
-         string outFile = ctx.WorkFolder + "\\" + viewName + ".xml";
+         string outFile = string.Empty;
+
          try
          {
-            ctx.ConsoleWriteLogLine("Write out data set to " + outFile);
+            outFile = ctx.WorkFolder + "\\" + viewName + ".xsd";
+            ctx.ConsoleWriteLogLine(String.Format("Write out data schema to '{0}'",outFile));
+            dTableSet.WriteXmlSchema(outFile);
+
+            outFile = ctx.WorkFolder + "\\" + viewName + ".xml";
+            ctx.ConsoleWriteLogLine(String.Format("Write out data set to '{0}'", outFile));
             dTableSet.WriteXml(outFile, XmlWriteMode.WriteSchema);
          }
          catch (InvalidOperationException ex)
@@ -174,19 +175,38 @@ namespace Impl
       /// <returns>true if the read is successful, false otherwise. </returns>
       public bool ReadXmlFile()
       {
-         // if the work folder xml file exists, load it
-         string strInFile = ctx.WorkFolder + "\\" + viewName + ".xml";
-         if (!ctx.ioProvider.Exists(strInFile))
-         {
-            // otherwise fall back to the default xml file, if it exists, load it
-            strInFile = ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xml";
-         }
+         string inFile = string.Empty;
 
          try
          {
-            // if the XML file exists, load it
+            string strInFile = ctx.WorkFolder + "\\" + viewName + ".xsd";
+            if (!ctx.ioProvider.Exists(strInFile))
+            {
+               // otherwise fall back to the default xml file, if it exists, load it
+               strInFile = ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xsd";
+            }
+
             if (ctx.ioProvider.Exists(strInFile))
             {
+               ctx.ConsoleWriteLogLine("Schema files exists, loading : " + strInFile);
+               dTableSet.ReadXmlSchema(strInFile);
+            }
+            else
+            {
+               ctx.ConsoleWriteLogLine("Failed to load schema file : " + strInFile);
+            }
+
+            // if the work folder xml file exists, load it
+            strInFile = ctx.WorkFolder + "\\" + viewName + ".xml";
+            if (!ctx.ioProvider.Exists(strInFile))
+            {
+               // otherwise fall back to the default xml file, if it exists, load it
+               strInFile = ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xml";
+            }
+
+            if (ctx.ioProvider.Exists(strInFile))
+            {
+               ctx.ConsoleWriteLogLine("Data files exists, loading : " + strInFile);
                dTableSet.ReadXml(strInFile);
             }
             else
@@ -209,21 +229,43 @@ namespace Impl
             ctx.ConsoleWriteLogLine("Exception: " + ex.Message);
             return false;
          }
-         ctx.ConsoleWriteLogLine("Read XML file: " + strInFile);
+         ctx.ConsoleWriteLogLine("Read XML file: " + inFile);
          return true;
       }
 
       public bool CleanupXMLFile()
       {
-         string strInFile = ctx.WorkFolder + "\\" + viewName + ".xml";
-
-         if (File.Exists(strInFile))
+         string strInFile = string.Empty;
+         try
          {
-            ctx.ConsoleWriteLogLine("Deleting file : " + strInFile);
-            File.Delete(strInFile);
-            return true;
+
+            strInFile = ctx.WorkFolder + "\\" + viewName + ".xsd";
+            if (File.Exists(strInFile))
+            {
+               ctx.ConsoleWriteLogLine("Deleting file : " + strInFile);
+               File.Delete(strInFile);
+            }
+            strInFile = ctx.WorkFolder + "\\" + viewName + ".xml";
+            if (File.Exists(strInFile))
+            {
+               ctx.ConsoleWriteLogLine("Deleting file : " + strInFile);
+               File.Delete(strInFile);
+            }
          }
-         return false;
+         catch (InvalidOperationException ex)
+         {
+            //  a column type in the DataRow being written/read implements IDynamicMetaObjectProvider 
+            // and does not implement IXmlSerializable.
+            ctx.ConsoleWriteLogLine("Exception (InvalidOperationException): " + ex.Message);
+            return false;
+         }
+         catch (Exception ex)
+         {
+            // unknown exception 
+            ctx.ConsoleWriteLogLine("Exception: " + ex.Message);
+            return false;
+         }
+         return true;
       }
 
       /// <summary>
