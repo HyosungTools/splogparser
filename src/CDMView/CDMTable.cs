@@ -201,6 +201,40 @@ namespace CDMView
                }
             }
          }
+         try
+         {
+            // rename the cash units
+            foreach (DataTable dTable in dTableSet.Tables)
+            {
+               ctx.ConsoleWriteLogLine("Rename the Cash Units : Looking at table :" + dTable.TableName);
+               if (dTable.TableName.StartsWith("CashUnit-"))
+               {
+                  string cashUnitNumber = dTable.TableName.Replace("CashUnit-", string.Empty);
+                  DataRow[] dataRows = dTableSet.Tables["Summary"].Select(String.Format("number = {0}", cashUnitNumber));
+                  if (dataRows.Length == 1)
+                  {
+                     if (dataRows[0]["denom"].ToString().Trim() == "0")
+                     {
+                        // if currency is "" use the type (e.g. RETRACT, REJECT
+                        ctx.ConsoleWriteLogLine(String.Format("Changing table name from '{0}' to '{1}'", dTable.TableName, dataRows[0]["type"].ToString()));
+                        dTable.TableName = dataRows[0]["type"].ToString();
+                        dTable.AcceptChanges();
+                     }
+                     else
+                     {
+                        // otherwise combine the currency and denomination
+                        ctx.ConsoleWriteLogLine(String.Format("Changing table name from '{0}' to '{1}'", dTable.TableName, dataRows[0]["currency"].ToString() + dataRows[0]["denom"].ToString()));
+                        dTable.TableName = dataRows[0]["currency"].ToString() + dataRows[0]["denom"].ToString();
+                        dTable.AcceptChanges();
+                     }
+                  }
+               }
+            }
+         }
+         catch(Exception e)
+         {
+            ctx.ConsoleWriteLogLine("Exception : " + e.Message);
+         }
 
          return base.WriteExcelFile();
       }
