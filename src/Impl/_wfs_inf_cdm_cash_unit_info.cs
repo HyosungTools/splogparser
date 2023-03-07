@@ -126,6 +126,11 @@ namespace Impl
          return GenericMatch(logLine, "(?<=usStatus)(([ \\t]+\\d+)+)");
       }
 
+      public static (bool success, string[] xfsMatch, string subLogLine) ulRejectCount(string logLine)
+      {
+         return GenericMatch(logLine, "(?<=ulRejectCount)(([ \\t]+\\d+)+)");
+      }
+
       public static (bool success, string[] xfsMatch, string subLogLine) ulDispensedCount(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulDispensedCount)(([ \\t]+\\d+)+)");
@@ -145,6 +150,36 @@ namespace Impl
       public static (bool success, string xfsMatch, string subLogLine) usNumber(string logLine)
       {
          return GenericMatch2(logLine, "(?<=usNumber = \\[)(\\d+)");
+      }
+
+      // ulCount  - singular search from a list-style log line
+      public static (bool success, string xfsMatch, string subLogLine) ulCount2(string logLine)
+      {
+         return GenericMatch2(logLine, "(?<=ulCount = \\[)(\\d+)");
+      }
+
+      // ulRejectCount  - singular search from a list-style log line
+      public static (bool success, string xfsMatch, string subLogLine) ulRejectCount2(string logLine)
+      {
+         return GenericMatch2(logLine, "(?<=ulRejectCount = \\[)(\\d+)");
+      }
+
+      // ulDispensedCount  - singular search from a list-style log line
+      public static (bool success, string xfsMatch, string subLogLine) ulDispensedCount2(string logLine)
+      {
+         return GenericMatch2(logLine, "(?<=ulDispensedCount = \\[)(\\d+)");
+      }
+
+      // ulPresentedCount  - singular search from a list-style log line
+      public static (bool success, string xfsMatch, string subLogLine) ulPresentedCount2(string logLine)
+      {
+         return GenericMatch2(logLine, "(?<=ulPresentedCount = \\[)(\\d+)");
+      }
+
+      // ulRetractedCount  - singular search from a list-style log line
+      public static (bool success, string xfsMatch, string subLogLine) ulRetractedCount2(string logLine)
+      {
+         return GenericMatch2(logLine, "(?<=ulRetractedCount = \\[)(\\d+)");
       }
    }
 }

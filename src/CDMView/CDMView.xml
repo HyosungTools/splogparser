@@ -309,4 +309,148 @@
     <brief>NOSUP</brief>
     <description>The physical device does not have the capability of detecting the position.</description>
   </Messages>
+  
+  <!-- usType -->
+  
+  <Messages>
+    <type>usType</type>
+    <code>1</code>
+    <brief>NA</brief>
+    <description>Not applicable. Typically means cash unit is missing.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>usType</type>
+    <code>2</code>
+    <brief>REJECT</brief>
+    <description>Reject cash unit. This type will also indicate a combined reject/retract cash unit.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>usType</type>
+    <code>3</code>
+    <brief>CASH</brief>
+    <description>Cash unit containing bills.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>usType</type>
+    <code>4</code>
+    <brief>COINCYLINDER</brief>
+    <description>Coin cylinder.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>usType</type>
+    <code>5</code>
+    <brief>COINDISPENSER</brief>
+    <description>Coin dispenser.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>usType</type>
+    <code>6</code>
+    <brief>RETRACT</brief>
+    <description>Retract cash unit.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>usType</type>
+    <code>7</code>
+    <brief>COUPON</brief>
+    <description>Cash unit containing coupons or advertising material.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>usType</type>
+    <code>8</code>
+    <brief>DOCUMENT</brief>
+    <description>Cash unit containing documents</description>
+  </Messages> 
+  
+  <Messages>
+    <type>usType</type>
+    <code>11</code>
+    <brief>REPLEN</brief>
+    <description>Replenishment container</description>
+  </Messages> 
+  
+  <Messages>
+    <type>usType</type>
+    <code>12</code>
+    <brief>RECYCLING</brief>
+    <description>Recycling cash unit</description>
+  </Messages> 
+  
+  <!-- usStatus -->
+
+  <Messages>
+    <type>usStatus</type>
+    <code>0</code>
+    <brief>OK</brief>
+    <description>The cash unit is in a good state</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>1</code>
+    <brief>FULL</brief>
+    <description>The cash unit is full</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>2</code>
+    <brief>HIGH</brief>
+    <description>The cash unit is almost full</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>3</code>
+    <brief>LOW</brief>
+    <description>The cash unit is almost empty</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>4</code>
+    <brief>EMPTY</brief>
+    <description>The cash unit is empty</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>5</code>
+    <brief>INOP</brief>
+    <description>The cash unit is inoperative</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>6</code>
+    <brief>MISSING</brief>
+    <description>The cash unit is missing</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>7</code>
+    <brief>NOVAL</brief>
+    <description>Unavailable</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>8</code>
+    <brief>NOREF</brief>
+    <description>No Reference</description>
+  </Messages>
+
+  <Messages>
+    <type>usStatus</type>
+    <code>9</code>
+    <brief>INSERTED</brief>
+    <description>The cash unit has been inserted</description>
+  </Messages>   
 </CDM>
