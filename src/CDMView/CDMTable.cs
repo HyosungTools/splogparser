@@ -154,11 +154,11 @@ namespace CDMView
 
          // CashUnit Table
          ctx.ConsoleWriteLogLine("Compress the CashUnit Tables: sort by time, visit every row and delete rows that are unchanged from their predecessor");
- 
+
          // the list of columns to compare
          string[] cashUnitCols = new string[] { "error", "status", "count", "reject", "dispensed", "presented", "retracted" };
 
-         foreach(DataTable dTable in dTableSet.Tables)
+         foreach (DataTable dTable in dTableSet.Tables)
          {
             ctx.ConsoleWriteLogLine("Looking at table :" + dTable.TableName);
             if (dTable.TableName.StartsWith("CashUnit-"))
@@ -231,7 +231,7 @@ namespace CDMView
                }
             }
          }
-         catch(Exception e)
+         catch (Exception e)
          {
             ctx.ConsoleWriteLogLine("Exception : " + e.Message);
          }
@@ -335,81 +335,84 @@ namespace CDMView
                // how many logical units in the table. 
                int lUnitCount = int.Parse(result.xfsMatch.Trim());
 
+               // for the table format log line, build the Summary Table once
                if (!seenFirstFullCashUnitInfo)
                {
-                  seenFirstFullCashUnitInfo = true;
+                  seenFirstFullCashUnitInfo = true; 
+                  DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
 
-                  // create the new rows to hold the Summary of each Logical Cash Unit
-                  DataRow[] dataRowSummary = new DataRow[lUnitCount];
+                  // for each row, set the tracefile, timestamp and hresult
                   for (int i = 0; i < lUnitCount; i++)
                   {
-                     dataRowSummary[i] = dTableSet.Tables["Summary"].NewRow();
+                     dataRows[i + 1]["file"] = _traceFile;
+                     dataRows[i + 1]["time"] = lpResult.tsTimestamp(xfsLine);
+                     dataRows[i + 1]["error"] = lpResult.hResult(xfsLine);
                   }
 
-                  // for each new row, set the tracefile, timestamp and hresult
-                  for (int i = 0; i < lUnitCount; i++)
-                  {
-                     dataRowSummary[i]["file"] = _traceFile;
-                     dataRowSummary[i]["time"] = lpResult.tsTimestamp(xfsLine);
-                     dataRowSummary[i]["error"] = lpResult.hResult(xfsLine);
-                     dataRowSummary[i]["number"] = (i + 1).ToString();
-                  }
-
-                  results = _wfs_inf_cdm_cash_unit_info.usType(xfsLine);
+                  results = _wfs_inf_cdm_cash_unit_info.usTypesFromTable(xfsLine);
 
                   for (int i = 0; i < lUnitCount; i++)
                   {
-                     dataRowSummary[i]["type"] = results.xfsMatch[i];
+                     dataRows[i + 1]["type"] = results.xfsMatch[i];
                   }
 
-                  results = _wfs_inf_cdm_cash_unit_info.cUnitID(results.subLogLine);
+                  results = _wfs_inf_cdm_cash_unit_info.cUnitIDsFromTable(results.subLogLine);
 
                   for (int i = 0; i < lUnitCount; i++)
                   {
-                     dataRowSummary[i]["name"] = results.xfsMatch[i];
+                     dataRows[i + 1]["name"] = results.xfsMatch[i];
                   }
 
-                  results = _wfs_inf_cdm_cash_unit_info.cCurrencyID(results.subLogLine);
+                  results = _wfs_inf_cdm_cash_unit_info.cCurrencyIDsFromTable(results.subLogLine);
 
                   for (int i = 0; i < lUnitCount; i++)
                   {
-                     dataRowSummary[i]["currency"] = results.xfsMatch[i];
+                     dataRows[i + 1]["currency"] = results.xfsMatch[i];
                   }
 
-                  results = _wfs_inf_cdm_cash_unit_info.ulValues(results.subLogLine);
+                  results = _wfs_inf_cdm_cash_unit_info.ulValuesFromTable(results.subLogLine);
 
                   for (int i = 0; i < lUnitCount; i++)
                   {
-                     dataRowSummary[i]["denom"] = results.xfsMatch[i];
+                     dataRows[i + 1]["denom"] = results.xfsMatch[i];
                   }
 
-                  results = _wfs_inf_cdm_cash_unit_info.ulInitialCount(results.subLogLine);
+                  results = _wfs_inf_cdm_cash_unit_info.ulInitialCountsFromTable(results.subLogLine);
 
                   for (int i = 0; i < lUnitCount; i++)
                   {
-                     dataRowSummary[i]["initial"] = results.xfsMatch[i];
+                     dataRows[i + 1]["initial"] = results.xfsMatch[i];
                   }
 
-                  results = _wfs_inf_cdm_cash_unit_info.ulMinimum(results.subLogLine);
+                  results = _wfs_inf_cdm_cash_unit_info.ulMinimumsFromTable(results.subLogLine);
 
                   for (int i = 0; i < lUnitCount; i++)
                   {
-                     dataRowSummary[i]["min"] = results.xfsMatch[i];
+                     dataRows[i + 1]["min"] = results.xfsMatch[i];
                   }
 
-                  results = _wfs_inf_cdm_cash_unit_info.ulMaximum(results.subLogLine);
+                  results = _wfs_inf_cdm_cash_unit_info.ulMaximumsFromTable(results.subLogLine);
 
                   for (int i = 0; i < lUnitCount; i++)
                   {
-                     dataRowSummary[i]["max"] = results.xfsMatch[i];
+                     dataRows[i + 1]["max"] = results.xfsMatch[i];
                   }
 
-                  // add the new rows to the Summary table
-                  for (int i = 0; i < lUnitCount; i++)
+                  List<DataRow> deleteRows = new List<DataRow>();
+                  foreach (DataRow dataRow in dataRows)
                   {
-                     dTableSet.Tables["Summary"].Rows.Add(dataRowSummary[i]);
+                     if (dataRow["file"].ToString().Trim() == string.Empty)
+                     {
+                        deleteRows.Add(dataRow);
+                     }
                   }
 
+                  foreach (DataRow dataRow in deleteRows)
+                  {
+                     dataRow.Delete();
+                  }
+
+                  dTableSet.Tables["Summary"].AcceptChanges();
                   ctx.ConsoleWriteLogLine("CashUnit - we've built the Summary table, now on to the CashUnit table");
                }
 
@@ -430,42 +433,42 @@ namespace CDMView
                }
 
                // usStatus
-               results = _wfs_inf_cdm_cash_unit_info.usStatus(xfsLine);
+               results = _wfs_inf_cdm_cash_unit_info.usStatusFromTable(xfsLine);
                for (int i = 0; i < lUnitCount; i++)
                {
                   dataRowCashUnit[i]["status"] = results.xfsMatch[i];
                }
 
                // ulCount
-               results = _wfs_inf_cdm_cash_unit_info.ulCount(xfsLine);
+               results = _wfs_inf_cdm_cash_unit_info.ulCountsFromTable(xfsLine);
                for (int i = 0; i < lUnitCount; i++)
                {
                   dataRowCashUnit[i]["count"] = results.xfsMatch[i];
                }
 
                // ulRejectCount
-               results = _wfs_inf_cdm_cash_unit_info.ulRejectCount(xfsLine);
+               results = _wfs_inf_cdm_cash_unit_info.ulRejectCountsFromTable(xfsLine);
                for (int i = 0; i < lUnitCount; i++)
                {
                   dataRowCashUnit[i]["reject"] = results.xfsMatch[i];
                }
 
                // ulDispensedCount
-               results = _wfs_inf_cdm_cash_unit_info.ulDispensedCount(xfsLine);
+               results = _wfs_inf_cdm_cash_unit_info.ulDispensedCountsFromTable(xfsLine);
                for (int i = 0; i < lUnitCount; i++)
                {
                   dataRowCashUnit[i]["dispensed"] = results.xfsMatch[i];
                }
 
                // ulPresentedCount
-               results = _wfs_inf_cdm_cash_unit_info.ulPresentedCount(xfsLine);
+               results = _wfs_inf_cdm_cash_unit_info.ulPresentedCountsFromTable(xfsLine);
                for (int i = 0; i < lUnitCount; i++)
                {
                   dataRowCashUnit[i]["presented"] = results.xfsMatch[i];
                }
 
                // ulRetractedCount
-               results = _wfs_inf_cdm_cash_unit_info.ulRetractedCount(xfsLine);
+               results = _wfs_inf_cdm_cash_unit_info.ulRetractedCountsFromTable(xfsLine);
                for (int i = 0; i < lUnitCount; i++)
                {
                   dataRowCashUnit[i]["retracted"] = results.xfsMatch[i];
@@ -491,43 +494,97 @@ namespace CDMView
                   return;
                }
 
-               ctx.ConsoleWriteLogLine("Update CashUnit Table");
 
                // how many logical units in the list. 
                int lUnitCount = int.Parse(result.xfsMatch.Trim());
 
-               // we are going to create 1 CashUnit Row but populate a number of columns. 
-               DataRow dataRow = dTableSet.Tables["CashUnit"].NewRow();
-               foreach (DataColumn col in dataRow.Table.Columns)
-               {
-                  ctx.ConsoleWriteLogLine("DataColumn in Row : " + col.ColumnName);
-               }
+               DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
 
-               dataRow["file"] = _traceFile;
-               dataRow["time"] = lpResult.tsTimestamp(xfsLine);
-               dataRow["error"] = lpResult.hResult(xfsLine);
+               string thisNumberStartsHere = string.Empty; 
+               string nextNumberStartsHere = xfsLine; 
 
                for (int i = 0; i < lUnitCount; i++)
                {
-                  result = _wfs_inf_cdm_cash_unit_info.usNumber(xfsLine);
+                  // isolate usNumber
+                  result = _wfs_inf_cdm_cash_unit_info.usNumber(nextNumberStartsHere);
+                  int usNumber = int.Parse(result.xfsMatch.Trim());
 
-                  // we have the Logical Unit Number, now fill in the rest
-                  string usNumber = result.xfsMatch.Trim();
+                  // save off a marker to the start of this number
+                  thisNumberStartsHere = result.subLogLine;
 
-                  result = _wfs_inf_cdm_cash_unit_info.ulCount2(result.subLogLine);
-                  dataRow[usNumber + "-cnt"] = result.xfsMatch.Trim();
+                  ctx.ConsoleWriteLogLine(String.Format("lUnitCount: {0} usNumber:{1}", lUnitCount, usNumber));
 
-                  result = _wfs_inf_cdm_cash_unit_info.ulRejectCount2(result.subLogLine);
-                  dataRow[usNumber + "-rjt"] = result.xfsMatch.Trim();
+                  dataRows[usNumber]["file"] = _traceFile;
+                  dataRows[usNumber]["time"] = lpResult.tsTimestamp(xfsLine);
+                  dataRows[usNumber]["error"] = lpResult.hResult(xfsLine);
 
-                  result = _wfs_inf_cdm_cash_unit_info.ulDispensedCount2(result.subLogLine);
-                  dataRow[usNumber + "-disp"] = result.xfsMatch.Trim();
+                  // isolate usType
+                  result = _wfs_inf_cdm_cash_unit_info.usType(thisNumberStartsHere);
+                  dataRows[usNumber]["type"] = result.xfsMatch.Trim();
 
-                  result = _wfs_inf_cdm_cash_unit_info.ulPresentedCount2(result.subLogLine);
-                  dataRow[usNumber + "-pres"] = result.xfsMatch.Trim();
+                  // isolate cUnitID
+                  result = _wfs_inf_cdm_cash_unit_info.cUnitID(thisNumberStartsHere);
+                  dataRows[usNumber]["name"] = result.xfsMatch.Trim();
 
-                  result = _wfs_inf_cdm_cash_unit_info.ulRetractedCount2(result.subLogLine);
-                  dataRow[usNumber + "-ret"] = result.xfsMatch.Trim();
+                  // isolate cCurrencyID
+                  result = _wfs_inf_cdm_cash_unit_info.cCurrencyID(thisNumberStartsHere);
+                  dataRows[usNumber]["currency"] = result.xfsMatch.Trim();
+
+                  // isolate ulValues
+                  result = _wfs_inf_cdm_cash_unit_info.ulValue(thisNumberStartsHere);
+                  dataRows[usNumber]["denom"] = result.xfsMatch.Trim();
+
+                  // ulInitialCount
+                  result = _wfs_inf_cdm_cash_unit_info.ulInitialCount(thisNumberStartsHere);
+                  dataRows[usNumber]["initial"] = result.xfsMatch.Trim();
+
+                  // ulMinimum
+                  result = _wfs_inf_cdm_cash_unit_info.ulMinimum(thisNumberStartsHere);
+                  dataRows[usNumber]["min"] = result.xfsMatch.Trim();
+
+                  // ulMaximum
+                  result = _wfs_inf_cdm_cash_unit_info.ulMaximum(thisNumberStartsHere);
+                  dataRows[usNumber]["min"] = result.xfsMatch.Trim();
+
+                  dTableSet.Tables["Summary"].AcceptChanges();
+
+                  // Now use the usNumber to create and populate a row in the CashUnit- table
+                  DataRow cashUnitRow = dTableSet.Tables["CashUnit-" + usNumber.ToString()].NewRow();
+
+                  cashUnitRow["file"] = _traceFile;
+                  cashUnitRow["time"] = lpResult.tsTimestamp(xfsLine);
+                  cashUnitRow["error"] = lpResult.hResult(xfsLine);
+
+                  // isolate ulCount
+                  result = _wfs_inf_cdm_cash_unit_info.ulCount(thisNumberStartsHere);
+                  cashUnitRow["count"] = result.xfsMatch.Trim();
+
+                  // isolate ulRejectedCount
+                  result = _wfs_inf_cdm_cash_unit_info.ulRejectCount(thisNumberStartsHere);
+                  cashUnitRow["reject"] = result.xfsMatch.Trim();
+
+                  // isolate usStatus
+                  result = _wfs_inf_cdm_cash_unit_info.usStatus(thisNumberStartsHere);
+                  cashUnitRow["status"] = result.xfsMatch.Trim();
+
+                  // isolate ulDispensedCount
+                  result = _wfs_inf_cdm_cash_unit_info.ulDispensedCount(thisNumberStartsHere);
+                  cashUnitRow["dispensed"] = result.xfsMatch.Trim();
+
+                  // isolate ulPresentedCount
+                  result = _wfs_inf_cdm_cash_unit_info.ulPresentedCount(thisNumberStartsHere);
+                  cashUnitRow["presented"] = result.xfsMatch.Trim();
+
+                  // isolate ulRetractedCount
+                  result = _wfs_inf_cdm_cash_unit_info.ulRetractedCount(thisNumberStartsHere);
+                  cashUnitRow["retracted"] = result.xfsMatch.Trim();
+
+                  dTableSet.Tables["CashUnit-" + usNumber.ToString()].Rows.Add(cashUnitRow);
+                  dTableSet.Tables["CashUnit-" + usNumber.ToString()].AcceptChanges();
+
+                  // save this point as where to start looking for the next number
+                  nextNumberStartsHere = result.subLogLine;
+                  thisNumberStartsHere = string.Empty;
                }
             }
          }

@@ -44,10 +44,8 @@ namespace Impl
          string[] zipFiles = ctx.ioProvider.GetFiles(currentFolder, "*.zip");
          foreach (string zipFile in zipFiles)
          {
-            ctx.ConsoleWriteLogLine("ZipFile: " + zipFile);
             string newFolderName = ctx.ioProvider.GetFileNameWithoutExtension(zipFile);
 
-            ctx.ConsoleWriteLogLine("Create directory:" + currentFolder + "\\" + newFolderName);
             if (!ctx.ioProvider.CreateDirectory(currentFolder + "\\" + newFolderName))
             {
                ctx.ConsoleWriteLogLine("Failed to create directory:" + zipFile);
@@ -60,7 +58,6 @@ namespace Impl
 
          foreach (var directory in Directory.GetDirectories(currentFolder))
          {
-            ctx.ConsoleWriteLogLine("Iterating into: " + directory);
             _ExtractZipFiles(ctx, directory);
          }
 
