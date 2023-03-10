@@ -79,69 +79,69 @@ namespace Impl
          return (false, def, logLine);
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) usType(string logLine)
+      public static (bool success, string[] xfsMatch, string subLogLine) usTypesFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=usType)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) cUnitID(string logLine)
+      public static (bool success, string[] xfsMatch, string subLogLine) cUnitIDsFromTable(string logLine)
       {
          // note it's \w+ 
          return GenericMatch(logLine, "(?<=cUnitID)(([ \\t]+\\w+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) cCurrencyID(string logLine)
+      public static (bool success, string[] xfsMatch, string subLogLine) cCurrencyIDsFromTable(string logLine)
       {
          // note it's \w+
          return GenericMatch(logLine, "(?<=cCurrencyID)(([ \\t]+\\w+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulValues(string logLine)
+      public static (bool success, string[] xfsMatch, string subLogLine) ulValuesFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulValues)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulInitialCount(string logLine)
+      public static (bool success, string[] xfsMatch, string subLogLine) ulInitialCountsFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulInitialCount)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulCount(string logLine)
+      public static (bool success, string[] xfsMatch, string subLogLine) ulCountsFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulCount)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulMinimum(string logLine)
+      public static (bool success, string[] xfsMatch, string subLogLine) ulMinimumsFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulMinimum)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulMaximum(string logLine)
+      public static (bool success, string[] xfsMatch, string subLogLine) ulMaximumsFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulMaximum)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) usStatus(string logLine)
+      public static (bool success, string[] xfsMatch, string subLogLine) usStatusFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=usStatus)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulRejectCount(string logLine)
+      public static (bool success, string[] xfsMatch, string subLogLine) ulRejectCountsFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulRejectCount)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulDispensedCount(string logLine)
+      public static (bool success, string[] xfsMatch, string subLogLine) ulDispensedCountsFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulDispensedCount)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulPresentedCount(string logLine)
+      public static (bool success, string[] xfsMatch, string subLogLine) ulPresentedCountsFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulPresentedCount)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulRetractedCount(string logLine)
+      public static (bool success, string[] xfsMatch, string subLogLine) ulRetractedCountsFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulRetractedCount)(([ \\t]+\\d+)+)");
       }
@@ -152,34 +152,94 @@ namespace Impl
          return GenericMatch2(logLine, "(?<=usNumber = \\[)(\\d+)");
       }
 
+      // usType
+      public static (bool success, string xfsMatch, string subLogLine) usType(string logLine)
+      {
+         return GenericMatch2(logLine, "(?<=usType = \\[)(\\d+)");
+      }
+
+      // cUnitID
+      public static (bool success, string xfsMatch, string subLogLine) cUnitID(string logLine)
+      {
+         return GenericMatch2(logLine, "(?<=cUnitID = \\[)([a-zA-Z0-9]*)\\]");
+      }
+
+      // cCurrencyID
+      public static (bool success, string xfsMatch, string subLogLine) cCurrencyID(string logLine)
+      {
+         return GenericMatch2(logLine, "(?<=cCurrencyID = \\[)([a-zA-Z0-9 ]*)\\]");
+      }
+
+      // ulValues
+      public static (bool success, string xfsMatch, string subLogLine) ulValue(string logLine)
+      {
+         return GenericMatch2(logLine, "(?<=ulValues = \\[)(\\d+)");
+      }
+
+      // usStatus
+      public static (bool success, string xfsMatch, string subLogLine) usStatus(string logLine)
+      {
+         return GenericMatch2(logLine, "(?<=usStatus = \\[)(\\d+)");
+      }
+
+      // ulInitialCount
+      public static (bool success, string xfsMatch, string subLogLine) ulInitialCount(string logLine)
+      {
+         return GenericMatch2(logLine, "(?<=ulInitialCount = \\[)(\\d+)");
+      }
+
+      // ulMinimum
+      public static (bool success, string xfsMatch, string subLogLine) ulMinimum(string logLine)
+      {
+         return GenericMatch2(logLine, "(?<=ulMinimum = \\[)(\\d+)");
+      }
+
+      // ulMaximum
+      public static (bool success, string xfsMatch, string subLogLine) ulMaximum(string logLine)
+      {
+         return GenericMatch2(logLine, "(?<=ulMaximum = \\[)(\\d+)");
+      }
+
       // ulCount  - singular search from a list-style log line
-      public static (bool success, string xfsMatch, string subLogLine) ulCount2(string logLine)
+      public static (bool success, string xfsMatch, string subLogLine) ulCount(string logLine)
       {
          return GenericMatch2(logLine, "(?<=ulCount = \\[)(\\d+)");
       }
 
       // ulRejectCount  - singular search from a list-style log line
-      public static (bool success, string xfsMatch, string subLogLine) ulRejectCount2(string logLine)
+      public static (bool success, string xfsMatch, string subLogLine) ulRejectCount(string logLine)
       {
          return GenericMatch2(logLine, "(?<=ulRejectCount = \\[)(\\d+)");
       }
 
       // ulDispensedCount  - singular search from a list-style log line
-      public static (bool success, string xfsMatch, string subLogLine) ulDispensedCount2(string logLine)
+      public static (bool success, string xfsMatch, string subLogLine) ulDispensedCount(string logLine)
       {
+         // we are going to read the physical values because sometimes the logical values are missing (More Data)
+         // "((?<=}\\r\\n[ \\t]+ulDispensedCount = \\[)(\\d+))|(More Data)"
          return GenericMatch2(logLine, "(?<=ulDispensedCount = \\[)(\\d+)");
       }
 
       // ulPresentedCount  - singular search from a list-style log line
-      public static (bool success, string xfsMatch, string subLogLine) ulPresentedCount2(string logLine)
+      public static (bool success, string xfsMatch, string subLogLine) ulPresentedCount(string logLine)
       {
+         // we are going to read the physical values because sometimes the logical values are missing (More Data)
+         // "((?<=}\\r\\n[ \\t]+ulPresentedCount = \\[)(\\d+))|(More Data)"
          return GenericMatch2(logLine, "(?<=ulPresentedCount = \\[)(\\d+)");
       }
 
       // ulRetractedCount  - singular search from a list-style log line
-      public static (bool success, string xfsMatch, string subLogLine) ulRetractedCount2(string logLine)
+      public static (bool success, string xfsMatch, string subLogLine) ulRetractedCount(string logLine)
       {
+         // we are going to read the physical values because sometimes the logical values are missing (More Data)
+         // "((?<=}\\r\\n[ \\t]+ulRetractedCount = \\[)(\\d+))|(More Data)"
          return GenericMatch2(logLine, "(?<=ulRetractedCount = \\[)(\\d+)");
+      }
+
+      // lppPhysical  - singular search from a list-style log line
+      public static (bool success, string xfsMatch, string subLogLine) lppPhysical(string logLine)
+      {
+         return GenericMatch2(logLine, "(?<=lppPhysical = {.*})");
       }
    }
 }

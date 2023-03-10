@@ -1,6 +1,156 @@
 <?xml version="1.0" standalone="yes"?>
 <CDM>
 
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>0</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<min></min>
+	<max></max>
+	<comment></comment>
+  </Summary>
+  
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>1</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<min></min>
+	<max></max>
+	<comment></comment>
+  </Summary>
+  
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>2</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<min></min>
+	<max></max>
+	<comment></comment>
+  </Summary>
+  
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>3</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<min></min>
+	<max></max>
+	<comment></comment>
+  </Summary>
+  
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>4</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<min></min>
+	<max></max>
+	<comment></comment>
+  </Summary>
+  
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>5</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<min></min>
+	<max></max>
+	<comment></comment>
+  </Summary>
+  
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>6</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<min></min>
+	<max></max>
+	<comment></comment>
+  </Summary>
+  
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>7</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<min></min>
+	<max></max>
+	<comment></comment>
+  </Summary>
+  
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>8</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<min></min>
+	<max></max>
+	<comment></comment>
+  </Summary>
+  
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>9</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<min></min>
+	<max></max>
+	<comment></comment>
+  </Summary>
+  
     <!-- fwDevice -->
   <Messages>
     <type>fwDevice</type>
