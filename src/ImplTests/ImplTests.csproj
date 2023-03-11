@@ -60,6 +60,7 @@
     <Compile Include="TraceFileReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UtilitiesTests.cs" />
+    <Compile Include="_wfs_cmd_cdm_dispenseTests.cs" />
     <Compile Include="_wfs_inf_cdm_cash_unit_infoTests.cs" />
     <Compile Include="_wfs_inf_cdm_statusTests.cs" />
   </ItemGroup>
