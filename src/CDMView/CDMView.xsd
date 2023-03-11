@@ -28,14 +28,7 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="position" type="xs:string" minOccurs="0" />
-              <xs:element name="_x0024_1" type="xs:string" minOccurs="0" />
-              <xs:element name="_x0024_2" type="xs:string" minOccurs="0" />
-              <xs:element name="_x0024_5" type="xs:string" minOccurs="0" />
-              <xs:element name="_x0024_10" type="xs:string" minOccurs="0" />
-              <xs:element name="_x0024_20" type="xs:string" minOccurs="0" />
-              <xs:element name="_x0024_50" type="xs:string" minOccurs="0" />
-              <xs:element name="_x0024_100" type="xs:string" minOccurs="0" />
-              <xs:element name="comment" type="xs:string" minOccurs="0" />
+              <xs:element name="amount" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

@@ -9,7 +9,8 @@ namespace CDMView
 
    internal class CDMTable : BaseTable
    {
-      private bool seenFirstFullCashUnitInfo = false;
+      private bool have_seen_WFS_INF_CDM_CASH_UNIT_INFO = false;
+      private bool have_seen_WFS_CMD_CDM_DISPENSE = false;
 
       /// <summary>
       /// constructor
@@ -48,7 +49,8 @@ namespace CDMView
                   }
                case XFSType.WFS_CMD_CDM_DISPENSE:
                   {
-                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_CMD_CDM_DISPENSE");
+                     base.ProcessRow(traceFile, logLine);
+                     WFS_CMD_CDM_DISPENSE(result.xfsLine);
                      break;
                   }
                case XFSType.WFS_CMD_CDM_PRESENT:
@@ -336,9 +338,9 @@ namespace CDMView
                int lUnitCount = int.Parse(result.xfsMatch.Trim());
 
                // for the table format log line, build the Summary Table once
-               if (!seenFirstFullCashUnitInfo)
+               if (!have_seen_WFS_INF_CDM_CASH_UNIT_INFO)
                {
-                  seenFirstFullCashUnitInfo = true; 
+                  have_seen_WFS_INF_CDM_CASH_UNIT_INFO = true;
                   DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
 
                   // for each row, set the tracefile, timestamp and hresult
@@ -500,8 +502,8 @@ namespace CDMView
 
                DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
 
-               string thisNumberStartsHere = string.Empty; 
-               string nextNumberStartsHere = xfsLine; 
+               string thisNumberStartsHere = string.Empty;
+               string nextNumberStartsHere = xfsLine;
 
                for (int i = 0; i < lUnitCount; i++)
                {
@@ -591,6 +593,101 @@ namespace CDMView
          catch (Exception e)
          {
             ctx.ConsoleWriteLogLine("Exception : " + e.Message);
+         }
+      }
+
+      protected void WFS_CMD_CDM_DISPENSE(string xfsLine)
+      {
+         try
+         {
+            ctx.ConsoleWriteLogLine("WFS_CMD_CDM_DISPENSE enter");
+
+            // sometimes we get a single value back, sometimes we get a list
+            (bool success, string xfsMatch, string subLogLine) result;
+            (bool success, string[] xfsMatch, string subLogLine) results;
+
+            if (dTableSet.Tables["Summary"].Rows.Count == 0)
+            {
+               ctx.ConsoleWriteLogLine("WFS_CMD_CDM_DISPENSE no rows in the Summary table");
+               return;
+            }
+
+            int luCount = dTableSet.Tables["Summary"].Rows.Count;
+
+            if (!have_seen_WFS_CMD_CDM_DISPENSE)
+            {
+               // flag that we have see at least 1 _WFS_CMD_CDM_DISPENSE
+               have_seen_WFS_CMD_CDM_DISPENSE = true;
+               ctx.ConsoleWriteLogLine("WFS_CMD_CDM_DISPENSE first time in");
+
+               // a list of the logical units in number order
+               DataView view = dTableSet.Tables["Summary"].DefaultView;
+               view.Sort = "number ASC";
+
+               // create a column in the Dispense table for each logical unit (row) in the Summary table
+               for (int i = 0; i < dTableSet.Tables["Summary"].Rows.Count; i++)
+               {
+                  string columnName = string.Empty;
+                  if (view[i]["currency"].ToString().Trim() == "")
+                  {
+                     columnName = view[i]["name"].ToString();
+                  }
+                  else
+                  {
+                     columnName = view[i]["currency"].ToString() + view[i]["denom"].ToString();
+                  }
+                  ctx.ConsoleWriteLogLine("WFS_CMD_CDM_DISPENSE adding column name :" + columnName);
+                  dTableSet.Tables["Dispense"].Columns.Add(columnName, typeof(string));
+               }
+
+               dTableSet.Tables["Dispense"].Columns.Add("comment", typeof(string));
+               dTableSet.Tables["Dispense"].AcceptChanges();
+            }
+
+            // add new row
+            DataRow dataRow = dTableSet.Tables["Dispense"].Rows.Add();
+            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_CDM_DISPENSE create row of '{0}' columns ", dTableSet.Tables["Dispense"].Columns.Count));
+            dataRow["file"] = _traceFile;
+            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
+            dataRow["error"] = lpResult.hResult(xfsLine);
+
+            // position
+            dataRow["position"] = "Start";
+
+            // amount
+            result = _wfs_cmd_cdm_dispense.ulAmount(xfsLine);
+            dataRow["amount"] = result.xfsMatch.Trim();
+
+            // lpulValues
+            DataView dataView = dTableSet.Tables["Summary"].DefaultView;
+            dataView.Sort = "number ASC";
+
+            // usCount (should be equal to or less than luCount)
+            result = _wfs_cmd_cdm_dispense.usCount(xfsLine);
+            int usCount = int.Parse(result.xfsMatch.Trim());
+
+            // now use 'results' (not 'result'!) to access the lpulValues values
+            results = _wfs_cmd_cdm_dispense.lpulValues(result.subLogLine);
+
+            // populate the columns of the DataRow using lpulValues values
+            for (int i = 0; i < usCount; i++)
+            {
+               string columnName = string.Empty;
+               if (dataView[i]["currency"].ToString().Trim() == "")
+               {
+                  columnName = dataView[i]["name"].ToString();
+               }
+               else
+               {
+                  columnName = dataView[i]["currency"].ToString() + dataView[i]["denom"].ToString();
+               }
+               // only write non zero values for readability
+               dataRow[columnName] = results.xfsMatch[i].Trim() == "0" ? "" : results.xfsMatch[i].Trim();
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_CMD_CDM_DISPENSE Exception : " + e.Message);
          }
       }
    }

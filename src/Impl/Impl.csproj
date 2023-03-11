@@ -57,6 +57,7 @@
     <Compile Include="LogLine.cs" />
     <Compile Include="TraceFileReader.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="_wfs_cmd_cdm_dispense.cs" />
     <Compile Include="_wfs_inf_cdm_status.cs" />
     <Compile Include="_wfs_inf_cdm_cash_unit_info.cs" />
   </ItemGroup>
