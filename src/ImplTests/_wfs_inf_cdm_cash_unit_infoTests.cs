@@ -282,8 +282,8 @@ lpResult =
          // prove we can isolate the values and the resulting array is usCount long
          (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine);
 
-         (bool success, string[] xfsMatch, string subLogLine) valuesResult = _wfs_inf_cdm_cash_unit_info.usTypesFromTable(xfsLine);
-         Assert.IsTrue(valuesResult.xfsMatch.Length == int.Parse(countResult.xfsMatch));
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.usTypesFromTable(xfsLine);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
       }
       [TestMethod]
       public void Test_cUnitIDsFromTable()
@@ -292,8 +292,8 @@ lpResult =
          // prove we can isolate the values and the resulting array is usCount long
          (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine);
 
-         (bool success, string[] xfsMatch, string subLogLine) valuesResult = _wfs_inf_cdm_cash_unit_info.cUnitIDsFromTable(xfsLine);
-         Assert.IsTrue(valuesResult.xfsMatch.Length == int.Parse(countResult.xfsMatch));
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.cUnitIDsFromTable(xfsLine);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
       }
 
       [TestMethod]
@@ -303,8 +303,8 @@ lpResult =
          // prove we can isolate the values and the resulting array is usCount long
          (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine);
 
-         (bool success, string[] xfsMatch, string subLogLine) valuesResult = _wfs_inf_cdm_cash_unit_info.cCurrencyIDsFromTable(xfsLine);
-         Assert.IsTrue(valuesResult.xfsMatch.Length == int.Parse(countResult.xfsMatch));
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.cCurrencyIDsFromTable(xfsLine);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
       }
 
       [TestMethod]
@@ -314,8 +314,8 @@ lpResult =
          // prove we can isolate the values and the resulting array is usCount long
          (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine);
 
-         (bool success, string[] xfsMatch, string subLogLine) valuesResult = _wfs_inf_cdm_cash_unit_info.ulValuesFromTable(xfsLine);
-         Assert.IsTrue(valuesResult.xfsMatch.Length == int.Parse(countResult.xfsMatch));
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.ulValuesFromTable(xfsLine);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
       }
 
       [TestMethod]
@@ -325,8 +325,8 @@ lpResult =
          // prove we can isolate the values and the resulting array is usCount long
          (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine);
 
-         (bool success, string[] xfsMatch, string subLogLine) valuesResult = _wfs_inf_cdm_cash_unit_info.ulInitialCountsFromTable(xfsLine);
-         Assert.IsTrue(valuesResult.xfsMatch.Length == int.Parse(countResult.xfsMatch));
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.ulInitialCountsFromTable(xfsLine);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
       }
 
       [TestMethod]
@@ -336,8 +336,8 @@ lpResult =
          // prove we can isolate the values and the resulting array is usCount long
          (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine);
 
-         (bool success, string[] xfsMatch, string subLogLine) valuesResult = _wfs_inf_cdm_cash_unit_info.ulCountsFromTable(xfsLine);
-         Assert.IsTrue(valuesResult.xfsMatch.Length == int.Parse(countResult.xfsMatch));
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.ulCountsFromTable(xfsLine);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
       }
 
       [TestMethod]
@@ -347,8 +347,8 @@ lpResult =
          // prove we can isolate the values and the resulting array is usCount long
          (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine);
 
-         (bool success, string[] xfsMatch, string subLogLine) valuesResult = _wfs_inf_cdm_cash_unit_info.ulMinimumsFromTable(xfsLine);
-         Assert.IsTrue(valuesResult.xfsMatch.Length == int.Parse(countResult.xfsMatch));
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.ulMinimumsFromTable(xfsLine);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
       }
 
       [TestMethod]
@@ -358,8 +358,8 @@ lpResult =
          // prove we can isolate the values and the resulting array is usCount long
          (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine);
 
-         (bool success, string[] xfsMatch, string subLogLine) valuesResult = _wfs_inf_cdm_cash_unit_info.ulMaximumsFromTable(xfsLine);
-         Assert.IsTrue(valuesResult.xfsMatch.Length == int.Parse(countResult.xfsMatch));
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.ulMaximumsFromTable(xfsLine);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
       }
 
       [TestMethod]
