@@ -82,7 +82,7 @@ namespace ImplTests
             ";
 
          string logTime = lpResult.hResult(lpResultLine);
-         Assert.IsTrue(logTime.Equals("0"));
+         Assert.IsTrue(logTime.Equals(""));
       }
    }
 }

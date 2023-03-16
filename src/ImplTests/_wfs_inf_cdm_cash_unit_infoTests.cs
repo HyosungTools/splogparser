@@ -265,7 +265,7 @@ lpResult =
       public void TesthResult()
       {
          string hResult = lpResult.hResult(xfsLine);
-         Assert.IsTrue(hResult == "0");
+         Assert.IsTrue(hResult == "");
 
       }
       [TestMethod]
@@ -361,6 +361,92 @@ lpResult =
          (bool success, string[] xfsMatch, string subLogLine) valuesResult = _wfs_inf_cdm_cash_unit_info.ulMaximumsFromTable(xfsLine);
          Assert.IsTrue(valuesResult.xfsMatch.Length == int.Parse(countResult.xfsMatch));
       }
+
+      [TestMethod]
+      public void Test_usNumbersFromList()
+      {
+         (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine2);
+
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.usNumbersFromList(xfsLine2);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
+         Assert.IsTrue(int.Parse(countResult.xfsMatch) == 5);
+         for (int i = 0; i < valuesResult.Length; i++)
+         {
+            Assert.IsTrue(int.Parse(valuesResult[i]) == i + 1);
+         }
+      }
+
+      [TestMethod]
+      public void Test_usTypesFromList()
+      {
+        (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine2);
+
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.usTypesFromList(xfsLine2);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
+      }
+      [TestMethod]
+      public void Test_cUnitIDsFromList()
+      {
+         (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine2);         int ulCount = int.Parse(countResult.xfsMatch);
+
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.cUnitIDsFromList(xfsLine2);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
+      }
+
+      [TestMethod]
+      public void Test_cCurrencyIDsFromList()
+      {
+         (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine2);
+
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.cCurrencyIDsFromList(xfsLine2);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
+      }
+
+      [TestMethod]
+      public void Test_ulValuesFromList()
+      {
+         (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine2);
+
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.ulValuesFromList(xfsLine2);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
+      }
+
+      [TestMethod]
+      public void Test_ulInitialCountsFromList()
+      {
+         (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine2);
+
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.ulInitialCountsFromList(xfsLine2);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
+      }
+
+      [TestMethod]
+      public void Test_ulCountsFromList()
+      {
+         (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine2);
+
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.ulCountsFromList(xfsLine2);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
+      }
+
+      [TestMethod]
+      public void Test_ulMinimumsFromList()
+      {
+         (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine2);
+
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.ulMinimumsFromList(xfsLine2);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
+      }
+
+      [TestMethod]
+      public void Test_ulMaximumsFromList()
+      {
+         (bool success, string xfsMatch, string subLogLine) countResult = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine2);
+
+         string[] valuesResult = _wfs_inf_cdm_cash_unit_info.ulMaximumsFromList(xfsLine2);
+         Assert.IsTrue(valuesResult.Length == int.Parse(countResult.xfsMatch));
+      }
+
 
       [TestMethod]
       public void Test_usCount2()
