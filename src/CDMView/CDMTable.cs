@@ -49,38 +49,79 @@ namespace CDMView
                   }
                case XFSType.WFS_CMD_CDM_DISPENSE:
                   {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_CMD_CDM_DISPENSE(result.xfsLine);
+                     if (have_seen_WFS_INF_CDM_CASH_UNIT_INFO)
+                     {
+                        base.ProcessRow(traceFile, logLine);
+                        WFS_CMD_CDM_DISPENSE(result.xfsLine);
+                     }
+                     else
+                     {
+                        ctx.ConsoleWriteLogLine("have_not seen WFS_INF_CDM_CASH_UNIT_INFO");
+                     }
                      break;
                   }
                case XFSType.WFS_CMD_CDM_PRESENT:
                   {
-                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_CMD_CDM_PRESENT");
+                     if (have_seen_WFS_INF_CDM_CASH_UNIT_INFO)
+                     {
+                        base.ProcessRow(traceFile, logLine);
+                        WFS_CMD_CDM_PRESENT(result.xfsLine);
+                     }
+                     else
+                     {
+                        ctx.ConsoleWriteLogLine("have_not seen WFS_INF_CDM_CASH_UNIT_INFO");
+                     }
                      break;
                   }
                case XFSType.WFS_CMD_CDM_REJECT:
                   {
-                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_CMD_CDM_REJECT");
+                     if (have_seen_WFS_INF_CDM_CASH_UNIT_INFO)
+                     {
+                        base.ProcessRow(traceFile, logLine);
+                        WFS_CMD_CDM_REJECT(result.xfsLine);
+                     }
+                     else
+                     {
+                        ctx.ConsoleWriteLogLine("have_not seen WFS_INF_CDM_CASH_UNIT_INFO");
+                     }
                      break;
                   }
                case XFSType.WFS_CMD_CDM_RETRACT:
                   {
-                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_CMD_CDM_RETRACT");
+                     if (have_seen_WFS_INF_CDM_CASH_UNIT_INFO)
+                     {
+                        base.ProcessRow(traceFile, logLine);
+                        WFS_CMD_CDM_RETRACT(result.xfsLine);
+                     }
+                     else
+                     {
+                        ctx.ConsoleWriteLogLine("have_not seen WFS_INF_CDM_CASH_UNIT_INFO");
+                     }
                      break;
                   }
                case XFSType.WFS_CMD_CDM_RESET:
                   {
-                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_CMD_CDM_RESET");
+                     if (have_seen_WFS_INF_CDM_CASH_UNIT_INFO)
+                     {
+                        base.ProcessRow(traceFile, logLine);
+                        WFS_CMD_CDM_RESET(result.xfsLine);
+                     }
+                     else
+                     {
+                        ctx.ConsoleWriteLogLine("have_not seen WFS_INF_CDM_CASH_UNIT_INFO");
+                     }
                      break;
                   }
                case XFSType.WFS_SRVE_CDM_CASHUNITINFOCHANGED:
                   {
-                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_SRVE_CDM_CASHUNITINFOCHANGED");
+                     base.ProcessRow(traceFile, logLine);
+                     WFS_SRVE_CDM_CASHUNITINFOCHANGED(result.xfsLine); 
                      break;
                   }
                case XFSType.WFS_SRVE_CDM_ITEMSTAKEN:
                   {
-                     //ctx.ConsoleWriteLogLine("CDM XFSType.WFS_SRVE_CDM_ITEMSTAKEN");
+                     base.ProcessRow(traceFile, logLine);
+                     WFS_SRVE_CDM_ITEMSTAKEN(result.xfsLine);
                      break;
                   }
                case XFSType.WFS_USRE_CIM_CASHUNITTHRESHOLD:
@@ -264,6 +305,8 @@ namespace CDMView
       {
          try
          {
+            ctx.ConsoleWriteLogLine(String.Format("WFS_IN_CDM_STATUS tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+
             DataRow newRow = dTableSet.Tables["Status"].NewRow();
 
             newRow["file"] = _traceFile;
@@ -318,6 +361,8 @@ namespace CDMView
       {
          try
          {
+            ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CDM_CASH_UNIT_INFO tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+
             // sometimes we get a single value back, sometimes we get a list
             (bool success, string xfsMatch, string subLogLine) result;
             (bool success, string[] xfsMatch, string subLogLine) results;
@@ -326,11 +371,13 @@ namespace CDMView
             // a table of data. If the log lines contains 'lppList =' expect a list
             if (xfsLine.Contains("lppList->"))
             {
+               ctx.ConsoleWriteLogLine("WFS_INF_CDM_CASH_UNIT_INFO contains 'lppList->'");
+
                // isolate count
                result = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine);
                if (!result.success)
                {
-                  ctx.ConsoleWriteLogLine("Failed to isolate count from WFS_INF_CDM_CASH_UNIT_INFO message");
+                  ctx.ConsoleWriteLogLine("WFS_INF_CDM_CASH_UNIT_INFO Failed to isolate count from WFS_INF_CDM_CASH_UNIT_INFO message");
                   return;
                }
 
@@ -341,6 +388,8 @@ namespace CDMView
                if (!have_seen_WFS_INF_CDM_CASH_UNIT_INFO)
                {
                   have_seen_WFS_INF_CDM_CASH_UNIT_INFO = true;
+                  ctx.ConsoleWriteLogLine("WFS_INF_CDM_CASH_UNIT_INFO Setting have_seen_WFS_INF_CDM_CASH_UNIT_INFO to true");
+
                   DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
 
                   // for each row, set the tracefile, timestamp and hresult
@@ -415,7 +464,7 @@ namespace CDMView
                   }
 
                   dTableSet.Tables["Summary"].AcceptChanges();
-                  ctx.ConsoleWriteLogLine("CashUnit - we've built the Summary table, now on to the CashUnit table");
+                  ctx.ConsoleWriteLogLine("WFS_INF_CDM_CASH_UNIT_INFO we've built the Summary table, now on to the CashUnit table");
                }
 
                // create the new rows to hold the Summary of each Logical Cash Unit
@@ -488,105 +537,95 @@ namespace CDMView
             }
             else if (xfsLine.Contains("lppList ="))
             {
+
                // isolate count
                result = _wfs_inf_cdm_cash_unit_info.usCount(xfsLine);
                if (!result.success)
                {
-                  ctx.ConsoleWriteLogLine("Failed to isolate count from WFS_INF_CDM_CASH_UNIT_INFO message");
+                  ctx.ConsoleWriteLogLine("WFS_INF_CDM_CASH_UNIT_INFO Failed to isolate count from WFS_INF_CDM_CASH_UNIT_INFO message");
                   return;
                }
 
-
-               // how many logical units in the list. 
+               // how many logical units in the table. 
                int lUnitCount = int.Parse(result.xfsMatch.Trim());
 
-               DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
+               // isolate usNumber, usType, cUnitIDs, cCueencyID, ulValue, ulInitialCount, ulMinimum, ulMaximum 
+               string[] usNumbers = _wfs_inf_cdm_cash_unit_info.usNumbersFromList(xfsLine);
+               string[] usTypes = _wfs_inf_cdm_cash_unit_info.usTypesFromList(xfsLine);
+               string[] cInitIDs = _wfs_inf_cdm_cash_unit_info.cUnitIDsFromList(xfsLine);
+               string[] cCurrencyIDs = _wfs_inf_cdm_cash_unit_info.cCurrencyIDsFromList(xfsLine);
+               string[] ulValues = _wfs_inf_cdm_cash_unit_info.ulValuesFromList(xfsLine);
+               string[] ulInitialCounts = _wfs_inf_cdm_cash_unit_info.ulInitialCountsFromList(xfsLine);
+               string[] ulMinimums = _wfs_inf_cdm_cash_unit_info.ulMinimumsFromList(xfsLine);
+               string[] ulMaximums = _wfs_inf_cdm_cash_unit_info.ulMaximumsFromList(xfsLine);
+               string[] ulCounts = _wfs_inf_cdm_cash_unit_info.ulCountsFromList(xfsLine);
+               string[] ulRejectCounts = _wfs_inf_cdm_cash_unit_info.ulRejectCountsFromList(xfsLine);
+               string[] usStatuses = _wfs_inf_cdm_cash_unit_info.usStatusesFromList(xfsLine);
+               string[] ulDispensedCounts = _wfs_inf_cdm_cash_unit_info.ulDispensedCountsFromList(xfsLine);
+               string[] ulPresentedCounts = _wfs_inf_cdm_cash_unit_info.ulPresentedCountsFromLists(xfsLine);
+               string[] ulRetractedCounts = _wfs_inf_cdm_cash_unit_info.ulRetractedCountsFromList(xfsLine);
 
-               string thisNumberStartsHere = string.Empty;
-               string nextNumberStartsHere = xfsLine;
+               // for the list format log line, build the Summary Table once
+               if (!have_seen_WFS_INF_CDM_CASH_UNIT_INFO)
+               {
+                  have_seen_WFS_INF_CDM_CASH_UNIT_INFO = true;
+
+                  DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
+
+                  // for each row, set the tracefile, timestamp and hresult
+                  for (int i = 0; i < lUnitCount; i++)
+                  {
+                     dataRows[i + 1]["file"] = _traceFile;
+                     dataRows[i + 1]["time"] = lpResult.tsTimestamp(xfsLine);
+                     dataRows[i + 1]["error"] = lpResult.hResult(xfsLine);
+
+                     dataRows[i + 1]["type"] = usTypes[i];
+                     dataRows[i + 1]["name"] = cInitIDs[i];
+                     dataRows[i + 1]["currency"] = cCurrencyIDs[i];
+                     dataRows[i + 1]["denom"] = ulValues[i];
+                     dataRows[i + 1]["initial"] = ulInitialCounts[i];
+                     dataRows[i + 1]["min"] = ulMinimums[i];
+                     dataRows[i + 1]["max"] = ulMaximums[i];
+
+                     dTableSet.Tables["Summary"].AcceptChanges();
+                     ctx.ConsoleWriteLogLine("WFS_INF_CDM_CASH_UNIT_INFO we've built the Summary table, now on to the CashUnit table");
+                  }
+
+                  // clean up empty rows of the Summary table
+                  List<DataRow> deleteRows = new List<DataRow>();
+                  foreach (DataRow dataRow in dataRows)
+                  {
+                     if (dataRow["file"].ToString().Trim() == string.Empty)
+                     {
+                        deleteRows.Add(dataRow);
+                     }
+                  }
+
+                  foreach (DataRow dataRow in deleteRows)
+                  {
+                     dataRow.Delete();
+                  }
+               }
 
                for (int i = 0; i < lUnitCount; i++)
                {
-                  // isolate usNumber
-                  result = _wfs_inf_cdm_cash_unit_info.usNumber(nextNumberStartsHere);
-                  int usNumber = int.Parse(result.xfsMatch.Trim());
-
-                  // save off a marker to the start of this number
-                  thisNumberStartsHere = result.subLogLine;
-
-                  ctx.ConsoleWriteLogLine(String.Format("lUnitCount: {0} usNumber:{1}", lUnitCount, usNumber));
-
-                  dataRows[usNumber]["file"] = _traceFile;
-                  dataRows[usNumber]["time"] = lpResult.tsTimestamp(xfsLine);
-                  dataRows[usNumber]["error"] = lpResult.hResult(xfsLine);
-
-                  // isolate usType
-                  result = _wfs_inf_cdm_cash_unit_info.usType(thisNumberStartsHere);
-                  dataRows[usNumber]["type"] = result.xfsMatch.Trim();
-
-                  // isolate cUnitID
-                  result = _wfs_inf_cdm_cash_unit_info.cUnitID(thisNumberStartsHere);
-                  dataRows[usNumber]["name"] = result.xfsMatch.Trim();
-
-                  // isolate cCurrencyID
-                  result = _wfs_inf_cdm_cash_unit_info.cCurrencyID(thisNumberStartsHere);
-                  dataRows[usNumber]["currency"] = result.xfsMatch.Trim();
-
-                  // isolate ulValues
-                  result = _wfs_inf_cdm_cash_unit_info.ulValue(thisNumberStartsHere);
-                  dataRows[usNumber]["denom"] = result.xfsMatch.Trim();
-
-                  // ulInitialCount
-                  result = _wfs_inf_cdm_cash_unit_info.ulInitialCount(thisNumberStartsHere);
-                  dataRows[usNumber]["initial"] = result.xfsMatch.Trim();
-
-                  // ulMinimum
-                  result = _wfs_inf_cdm_cash_unit_info.ulMinimum(thisNumberStartsHere);
-                  dataRows[usNumber]["min"] = result.xfsMatch.Trim();
-
-                  // ulMaximum
-                  result = _wfs_inf_cdm_cash_unit_info.ulMaximum(thisNumberStartsHere);
-                  dataRows[usNumber]["min"] = result.xfsMatch.Trim();
-
-                  dTableSet.Tables["Summary"].AcceptChanges();
-
-                  // Now use the usNumber to create and populate a row in the CashUnit- table
-                  DataRow cashUnitRow = dTableSet.Tables["CashUnit-" + usNumber.ToString()].NewRow();
+                  // Now use the usNumbers to create and populate a row in the CashUnit- table
+                  DataRow cashUnitRow = dTableSet.Tables["CashUnit-" + usNumbers[i]].NewRow();
 
                   cashUnitRow["file"] = _traceFile;
                   cashUnitRow["time"] = lpResult.tsTimestamp(xfsLine);
                   cashUnitRow["error"] = lpResult.hResult(xfsLine);
 
-                  // isolate ulCount
-                  result = _wfs_inf_cdm_cash_unit_info.ulCount(thisNumberStartsHere);
-                  cashUnitRow["count"] = result.xfsMatch.Trim();
 
-                  // isolate ulRejectedCount
-                  result = _wfs_inf_cdm_cash_unit_info.ulRejectCount(thisNumberStartsHere);
-                  cashUnitRow["reject"] = result.xfsMatch.Trim();
+                  cashUnitRow["count"] = ulCounts[i];
+                  cashUnitRow["reject"] = ulRejectCounts[i];
+                  cashUnitRow["status"] = usStatuses[i];
+                  cashUnitRow["dispensed"] = ulDispensedCounts[i];
+                  cashUnitRow["presented"] = ulPresentedCounts[i]; 
+                  cashUnitRow["retracted"] = ulRetractedCounts[i];
 
-                  // isolate usStatus
-                  result = _wfs_inf_cdm_cash_unit_info.usStatus(thisNumberStartsHere);
-                  cashUnitRow["status"] = result.xfsMatch.Trim();
-
-                  // isolate ulDispensedCount
-                  result = _wfs_inf_cdm_cash_unit_info.ulDispensedCount(thisNumberStartsHere);
-                  cashUnitRow["dispensed"] = result.xfsMatch.Trim();
-
-                  // isolate ulPresentedCount
-                  result = _wfs_inf_cdm_cash_unit_info.ulPresentedCount(thisNumberStartsHere);
-                  cashUnitRow["presented"] = result.xfsMatch.Trim();
-
-                  // isolate ulRetractedCount
-                  result = _wfs_inf_cdm_cash_unit_info.ulRetractedCount(thisNumberStartsHere);
-                  cashUnitRow["retracted"] = result.xfsMatch.Trim();
-
-                  dTableSet.Tables["CashUnit-" + usNumber.ToString()].Rows.Add(cashUnitRow);
-                  dTableSet.Tables["CashUnit-" + usNumber.ToString()].AcceptChanges();
-
-                  // save this point as where to start looking for the next number
-                  nextNumberStartsHere = result.subLogLine;
-                  thisNumberStartsHere = string.Empty;
+                  dTableSet.Tables["CashUnit-" + usNumbers[i]].Rows.Add(cashUnitRow);
+                  dTableSet.Tables["CashUnit-" + usNumbers[i]].AcceptChanges();
                }
             }
          }
@@ -600,7 +639,7 @@ namespace CDMView
       {
          try
          {
-            ctx.ConsoleWriteLogLine("WFS_CMD_CDM_DISPENSE enter");
+            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_CDM_DISPENSE tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
 
             // sometimes we get a single value back, sometimes we get a list
             (bool success, string xfsMatch, string subLogLine) result;
@@ -652,7 +691,7 @@ namespace CDMView
             dataRow["error"] = lpResult.hResult(xfsLine);
 
             // position
-            dataRow["position"] = "Start";
+            dataRow["position"] = "Dispense";
 
             // amount
             result = _wfs_cmd_cdm_dispense.ulAmount(xfsLine);
@@ -684,10 +723,179 @@ namespace CDMView
                // only write non zero values for readability
                dataRow[columnName] = results.xfsMatch[i].Trim() == "0" ? "" : results.xfsMatch[i].Trim();
             }
+
+            dTableSet.Tables["Dispense"].AcceptChanges();
          }
          catch (Exception e)
          {
             ctx.ConsoleWriteLogLine("WFS_CMD_CDM_DISPENSE Exception : " + e.Message);
+         }
+      }
+
+      protected void WFS_CMD_CDM_PRESENT(string xfsLine)
+      {
+         try
+         {
+            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_CDM_PRESENT tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+
+            // add new row
+            DataRow dataRow = dTableSet.Tables["Dispense"].Rows.Add();
+            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_CDM_DISPENSE create row of '{0}' columns ", dTableSet.Tables["Dispense"].Columns.Count));
+            dataRow["file"] = _traceFile;
+            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
+            dataRow["error"] = lpResult.hResult(xfsLine);
+
+            // position
+            dataRow["position"] = "Present";
+            dTableSet.Tables["Dispense"].AcceptChanges();
+
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_CMD_CDM_DISPENSE Exception : " + e.Message);
+         }
+      }
+
+      protected void WFS_CMD_CDM_REJECT(string xfsLine)
+      {
+         try
+         {
+            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_CDM_REJECT tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+
+            // add new row
+            DataRow dataRow = dTableSet.Tables["Dispense"].Rows.Add();
+            dataRow["file"] = _traceFile;
+            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
+            dataRow["error"] = lpResult.hResult(xfsLine);
+
+            // position
+            dataRow["position"] = "Reject";
+            dTableSet.Tables["Dispense"].AcceptChanges();
+
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_CMD_CDM_REJECT Exception : " + e.Message);
+         }
+      }
+      protected void WFS_CMD_CDM_RETRACT(string xfsLine)
+      {
+         try
+         {
+            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_CDM_RETRACT tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+
+            // add new row
+            DataRow dataRow = dTableSet.Tables["Dispense"].Rows.Add();
+            dataRow["file"] = _traceFile;
+            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
+            dataRow["error"] = lpResult.hResult(xfsLine);
+
+            // position
+            dataRow["position"] = "Retract";
+            dTableSet.Tables["Dispense"].AcceptChanges();
+
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_CMD_CDM_RETRACT Exception : " + e.Message);
+         }
+      }
+
+      protected void WFS_CMD_CDM_RESET(string xfsLine)
+      {
+         try
+         {
+            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_CDM_RESET tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+
+            // add new row
+            DataRow dataRow = dTableSet.Tables["Dispense"].Rows.Add();
+            dataRow["file"] = _traceFile;
+            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
+            dataRow["error"] = lpResult.hResult(xfsLine);
+
+            // position
+            dataRow["position"] = "Reset";
+            dTableSet.Tables["Dispense"].AcceptChanges();
+
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_CMD_CDM_RESET Exception : " + e.Message);
+         }
+      }
+      protected void WFS_SRVE_CDM_CASHUNITINFOCHANGED(string xfsLine)
+      {
+         try
+         {
+            ctx.ConsoleWriteLogLine(String.Format("WFS_SRVE_CDM_CASHUNITINFOCHANGED tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+
+            // sometimes we get a single value back, sometimes we get a list
+            (bool success, string xfsMatch, string subLogLine) result;
+
+            // isolate usNumber
+            result = _wfs_inf_cdm_cash_unit_info.usNumber(xfsLine);
+            int usNumber = int.Parse(result.xfsMatch.Trim());
+
+            // Now use the usNumber to create and populate a row in the CashUnit- table
+            DataRow cashUnitRow = dTableSet.Tables["CashUnit-" + usNumber.ToString()].NewRow();
+
+            cashUnitRow["file"] = _traceFile;
+            cashUnitRow["time"] = lpResult.tsTimestamp(xfsLine);
+            cashUnitRow["error"] = lpResult.hResult(xfsLine);
+
+            // isolate ulCount
+            result = _wfs_inf_cdm_cash_unit_info.ulCount(result.subLogLine);
+            cashUnitRow["count"] = result.xfsMatch.Trim();
+
+            // isolate ulRejectedCount
+            result = _wfs_inf_cdm_cash_unit_info.ulRejectCount(result.subLogLine);
+            cashUnitRow["reject"] = result.xfsMatch.Trim();
+
+            // isolate usStatus
+            result = _wfs_inf_cdm_cash_unit_info.usStatus(result.subLogLine);
+            cashUnitRow["status"] = result.xfsMatch.Trim();
+
+            // isolate ulDispensedCount
+            result = _wfs_inf_cdm_cash_unit_info.ulDispensedCount(result.subLogLine);
+            cashUnitRow["dispensed"] = result.xfsMatch.Trim();
+
+            // isolate ulPresentedCount
+            result = _wfs_inf_cdm_cash_unit_info.ulPresentedCount(result.subLogLine);
+            cashUnitRow["presented"] = result.xfsMatch.Trim();
+
+            // isolate ulRetractedCount
+            result = _wfs_inf_cdm_cash_unit_info.ulRetractedCount(result.subLogLine);
+            cashUnitRow["retracted"] = result.xfsMatch.Trim();
+
+            dTableSet.Tables["CashUnit-" + usNumber.ToString()].Rows.Add(cashUnitRow);
+            dTableSet.Tables["CashUnit-" + usNumber.ToString()].AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_SRVE_CDM_CASHUNITINFOCHANGED Exception : " + e.Message);
+         }
+      }
+
+      protected void WFS_SRVE_CDM_ITEMSTAKEN(string xfsLine)
+      {
+         try
+         {
+            ctx.ConsoleWriteLogLine(String.Format("WFS_SRVE_CDM_ITEMSTAKEN tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+
+            // add new row
+            DataRow dataRow = dTableSet.Tables["Dispense"].Rows.Add();
+            dataRow["file"] = _traceFile;
+            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
+            dataRow["error"] = lpResult.hResult(xfsLine);
+
+            // position
+            dataRow["position"] = "Customer";
+            dTableSet.Tables["Dispense"].AcceptChanges();
+
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_SRVE_CDM_ITEMSTAKEN Exception : " + e.Message);
          }
       }
    }

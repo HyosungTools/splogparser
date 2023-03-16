@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -77,6 +78,40 @@ namespace Impl
          return (false, def, logLine);
       }
 
+
+      public static (string thisLogicalUnit, string nextLogicalUnits)  NextLogicalUnit(string logLine)
+      {
+         int indexOfOpenBracket = logLine.IndexOf('{');
+         if (indexOfOpenBracket < 0)
+         {
+            return (string.Empty, logLine);
+         }
+
+         string subLogLine = logLine.Substring(indexOfOpenBracket);
+         int endPos = -1;
+         int bracketCount = 0;
+
+         foreach (char c in subLogLine)
+         {
+            // endPos is the index of 'c'
+            endPos++;
+            if (c.Equals('{'))
+            {
+               bracketCount++;
+            }
+            else if (c.Equals('}'))
+            {
+               bracketCount--;
+            }
+            if (bracketCount == 0)
+            {
+               break;
+            }
+         }
+
+         return (subLogLine.Substring(0, endPos), subLogLine.Substring(endPos + 1));
+      }
+
       public static (bool success, string[] xfsMatch, string subLogLine) usTypesFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=usType)(([ \\t]+\\d+)+)");
@@ -142,6 +177,247 @@ namespace Impl
       public static (bool success, string[] xfsMatch, string subLogLine) ulRetractedCountsFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulRetractedCount)(([ \\t]+\\d+)+)");
+      }
+
+      public static string[] usNumbersFromList(string logLine)
+      {
+         List<string> values = new List<string>();
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_cash_unit_info.usCount(logLine);
+         if (result.success)
+         {
+            int usCount = int.Parse(result.xfsMatch.Trim()); 
+            (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(result.subLogLine);
+            for (int i = 0; i < usCount; i++)
+            {
+               values.Add(usNumber(logicalUnits.thisUnit).xfsMatch.Trim());
+               logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            }
+         }
+         return values.ToArray();
+      }
+
+      public static string[] usTypesFromList(string logLine)
+      {
+         List<string> values = new List<string>();
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_cash_unit_info.usCount(logLine);
+         if (result.success)
+         {
+            int usCount = int.Parse(result.xfsMatch.Trim());
+            (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(result.subLogLine);
+            for (int i = 0; i < usCount; i++)
+            {
+               values.Add(usType(logicalUnits.thisUnit).xfsMatch.Trim());
+               logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            }
+         }
+         return values.ToArray();
+      }
+
+      public static string[]  cUnitIDsFromList(string logLine)
+      {
+         List<string> values = new List<string>();
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_cash_unit_info.usCount(logLine);
+         if (result.success)
+         {
+            int usCount = int.Parse(result.xfsMatch.Trim());
+            (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(result.subLogLine);
+            for (int i = 0; i < usCount; i++)
+            {
+               values.Add(cUnitID(logicalUnits.thisUnit).xfsMatch.Trim());
+               logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            }
+         }
+         return values.ToArray();
+      }
+
+      public static string[] cCurrencyIDsFromList(string logLine)
+      {
+         List<string> values = new List<string>();
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_cash_unit_info.usCount(logLine);
+         if (result.success)
+         {
+            int usCount = int.Parse(result.xfsMatch.Trim());
+            (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(result.subLogLine);
+            for (int i = 0; i < usCount; i++)
+            {
+               values.Add(cCurrencyID(logicalUnits.thisUnit).xfsMatch.Trim());
+               logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            }
+         }
+         return values.ToArray();
+      }
+
+      public static string[] ulValuesFromList(string logLine)
+      {
+         List<string> values = new List<string>();
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_cash_unit_info.usCount(logLine);
+         if (result.success)
+         {
+            int usCount = int.Parse(result.xfsMatch.Trim());
+            (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(result.subLogLine);
+            for (int i = 0; i < usCount; i++)
+            {
+               values.Add(ulValue(logicalUnits.thisUnit).xfsMatch.Trim());
+               logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            }
+         }
+         return values.ToArray();
+      }
+
+      public static string[] ulInitialCountsFromList(string logLine)
+      {
+         List<string> values = new List<string>();
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_cash_unit_info.usCount(logLine);
+         if (result.success)
+         {
+            int usCount = int.Parse(result.xfsMatch.Trim());
+            (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(result.subLogLine);
+            for (int i = 0; i < usCount; i++)
+            {
+               values.Add(ulInitialCount(logicalUnits.thisUnit).xfsMatch.Trim());
+               logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            }
+         }
+         return values.ToArray();
+      }
+
+      public static string[] ulCountsFromList(string logLine)
+      {
+         List<string> values = new List<string>();
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_cash_unit_info.usCount(logLine);
+         if (result.success)
+         {
+            int usCount = int.Parse(result.xfsMatch.Trim());
+            (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(result.subLogLine);
+            for (int i = 0; i < usCount; i++)
+            {
+               values.Add(ulCount(logicalUnits.thisUnit).xfsMatch.Trim());
+               logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            }
+         }
+         return values.ToArray();
+      }
+
+      public static string[] ulMinimumsFromList(string logLine)
+      {
+         List<string> values = new List<string>();
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_cash_unit_info.usCount(logLine);
+         if (result.success)
+         {
+            int usCount = int.Parse(result.xfsMatch.Trim());
+            (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(result.subLogLine);
+            for (int i = 0; i < usCount; i++)
+            {
+               values.Add(ulMinimum(logicalUnits.thisUnit).xfsMatch.Trim());
+               logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            }
+         }
+         return values.ToArray();
+      }
+
+      public static string[] ulMaximumsFromList(string logLine)
+      {
+         List<string> values = new List<string>();
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_cash_unit_info.usCount(logLine);
+         if (result.success)
+         {
+            int usCount = int.Parse(result.xfsMatch.Trim());
+            (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(result.subLogLine);
+            for (int i = 0; i < usCount; i++)
+            {
+               values.Add(ulMaximum(logicalUnits.thisUnit).xfsMatch.Trim());
+               logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            }
+         }
+         return values.ToArray();
+      }
+
+      public static string[] ulRejectCountsFromList(string logLine)
+      {
+         List<string> values = new List<string>();
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_cash_unit_info.usCount(logLine);
+         if (result.success)
+         {
+            int usCount = int.Parse(result.xfsMatch.Trim());
+            (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(result.subLogLine);
+            for (int i = 0; i < usCount; i++)
+            {
+               values.Add(ulRejectCount(logicalUnits.thisUnit).xfsMatch.Trim());
+               logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            }
+         }
+         return values.ToArray();
+      }
+
+      public static string[] ulDispensedCountsFromList(string logLine)
+      {
+         List<string> values = new List<string>();
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_cash_unit_info.usCount(logLine);
+         if (result.success)
+         {
+            int usCount = int.Parse(result.xfsMatch.Trim());
+            (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(result.subLogLine);
+            for (int i = 0; i < usCount; i++)
+            {
+               values.Add(ulDispensedCount(logicalUnits.thisUnit).xfsMatch.Trim());
+               logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            }
+         }
+         return values.ToArray();
+      }
+
+      public static string[] ulPresentedCountsFromLists(string logLine)
+      {
+         List<string> values = new List<string>();
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_cash_unit_info.usCount(logLine);
+         if (result.success)
+         {
+            int usCount = int.Parse(result.xfsMatch.Trim());
+            (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(result.subLogLine);
+            for (int i = 0; i < usCount; i++)
+            {
+               values.Add(ulPresentedCount(logicalUnits.thisUnit).xfsMatch.Trim());
+               logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            }
+         }
+         return values.ToArray();
+      }
+
+      public static string[] ulRetractedCountsFromList(string logLine)
+      {
+         List<string> values = new List<string>();
+         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cdm_cash_unit_info.usCount(logLine);
+         if (result.success)
+         {
+            int usCount = int.Parse(result.xfsMatch.Trim());
+            (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(result.subLogLine);
+            for (int i = 0; i < usCount; i++)
+            {
+               values.Add(ulRetractedCount(logicalUnits.thisUnit).xfsMatch.Trim());
+               logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            }
+         }
+         return values.ToArray();
+      }
+
+      public static string[] usStatusesFromList(string logLine)
+      {
+         List<string> values = new List<string>();
+
+         // isolate count
+         (bool success, string xfsMatch, string subLogLine) result = usCount(logLine);
+         if (result.success)
+         {
+            int usCount = int.Parse(result.xfsMatch.Trim());
+            (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(result.subLogLine);
+            for (int i = 0; i < usCount; i++)
+            {
+               result = usStatus(logicalUnits.thisUnit);
+               values.Add(result.xfsMatch.Trim());
+               logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            }
+         }
+         return values.ToArray();
       }
 
       // usNumber  - we dont need to search for this in the table log line, only in the list log line

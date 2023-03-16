@@ -28,10 +28,10 @@ namespace Impl
          Match mtch = timeRegex.Match(logLine);
          if (mtch.Success)
          {
-            hResult = mtch.Groups[1].Value;
+            hResult = mtch.Groups[1].Value.Trim();
          }
 
-         return hResult;
+         return hResult == "0" ? "" : hResult;
       }
    }
 }
