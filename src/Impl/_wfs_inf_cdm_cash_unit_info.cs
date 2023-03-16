@@ -42,18 +42,18 @@ namespace Impl
       /// <param name="regEx"></param>
       /// <param name="logLine"></param>
       /// <returns></returns>
-      private static (bool success, string[] xfsMatch, string subLogLine) GenericMatch(string logLine, string regEx)
+      private static string[] GenericMatch(string logLine, string regEx)
       {
+         List<string> values = new List<string>();
          Regex typeRegex = new Regex(regEx);
          Match m = typeRegex.Match(logLine);
          if (m.Success)
          {
-            List<string> usTypes = m.Groups[0].Value.Split('\t').ToList();
-            usTypes.RemoveAll(s => s == "");
-            return (true, usTypes.ToArray(), logLine.Substring(m.Index));
+            values = m.Groups[0].Value.Split('\t').ToList();
+            values.RemoveAll(s => s == "");
          }
 
-         return (false, null, logLine);
+         return values.ToArray();
       }
 
       /// <summary>
@@ -71,7 +71,6 @@ namespace Impl
          Match m = timeRegex.Match(logLine);
          if (m.Success)
          {
-
             return (true, m.Groups[1].Value, logLine.Substring(m.Index));
          }
 
@@ -112,69 +111,79 @@ namespace Impl
          return (subLogLine.Substring(0, endPos), subLogLine.Substring(endPos + 1));
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) usTypesFromTable(string logLine)
+      public static string[] usNumbersFromTable(string logLine)
+      {
+         return GenericMatch(logLine, "(?<=usNumber)(([ \\t]+\\d+)+)");
+      }
+
+      public static string[] usTypesFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=usType)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) cUnitIDsFromTable(string logLine)
+      public static string[] cUnitIDsFromTable(string logLine)
       {
-         // note it's \w+ 
+         // note it's \w+
          return GenericMatch(logLine, "(?<=cUnitID)(([ \\t]+\\w+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) cCurrencyIDsFromTable(string logLine)
+      public static string[] cCurrencyIDsFromTable(string logLine)
       {
          // note it's \w+
          return GenericMatch(logLine, "(?<=cCurrencyID)(([ \\t]+\\w+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulValuesFromTable(string logLine)
+      public static string[] ulValuesFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulValues)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulInitialCountsFromTable(string logLine)
+      public static string[] ulInitialCountsFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulInitialCount)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulCountsFromTable(string logLine)
+      public static string[] ulCountsFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulCount)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulMinimumsFromTable(string logLine)
-      {
-         return GenericMatch(logLine, "(?<=ulMinimum)(([ \\t]+\\d+)+)");
-      }
-
-      public static (bool success, string[] xfsMatch, string subLogLine) ulMaximumsFromTable(string logLine)
-      {
-         return GenericMatch(logLine, "(?<=ulMaximum)(([ \\t]+\\d+)+)");
-      }
-
-      public static (bool success, string[] xfsMatch, string subLogLine) usStatusFromTable(string logLine)
+      public static string[] usStatusesFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=usStatus)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulRejectCountsFromTable(string logLine)
+      public static string[] ulMinimumsFromTable(string logLine)
+      {
+         return GenericMatch(logLine, "(?<=ulMinimum)(([ \\t]+\\d+)+)");
+      }
+
+      public static string[] ulMaximumsFromTable(string logLine)
+      {
+         return GenericMatch(logLine, "(?<=ulMaximum)(([ \\t]+\\d+)+)");
+      }
+
+      public static string[] usStatusFromTable(string logLine)
+      {
+         return GenericMatch(logLine, "(?<=usStatus)(([ \\t]+\\d+)+)");
+      }
+
+      public static string[] ulRejectCountsFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulRejectCount)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulDispensedCountsFromTable(string logLine)
+      public static string[] ulDispensedCountsFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulDispensedCount)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulPresentedCountsFromTable(string logLine)
+      public static string[] ulPresentedCountsFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulPresentedCount)(([ \\t]+\\d+)+)");
       }
 
-      public static (bool success, string[] xfsMatch, string subLogLine) ulRetractedCountsFromTable(string logLine)
+      public static string[] ulRetractedCountsFromTable(string logLine)
       {
          return GenericMatch(logLine, "(?<=ulRetractedCount)(([ \\t]+\\d+)+)");
       }

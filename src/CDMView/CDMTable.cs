@@ -365,7 +365,6 @@ namespace CDMView
 
             // sometimes we get a single value back, sometimes we get a list
             (bool success, string xfsMatch, string subLogLine) result;
-            (bool success, string[] xfsMatch, string subLogLine) results;
 
             // there are two styles of log lines. If the log line contains 'lppList->' expect
             // a table of data. If the log lines contains 'lppList =' expect a list
@@ -384,6 +383,22 @@ namespace CDMView
                // how many logical units in the table. 
                int lUnitCount = int.Parse(result.xfsMatch.Trim());
 
+               // isolate usNumber, usType, cUnitIDs, cCueencyID, ulValue, ulInitialCount, ulMinimum, ulMaximum 
+               string[] usNumbers = _wfs_inf_cdm_cash_unit_info.usNumbersFromTable(xfsLine);
+               string[] usTypes = _wfs_inf_cdm_cash_unit_info.usTypesFromTable(xfsLine);
+               string[] cInitIDs = _wfs_inf_cdm_cash_unit_info.cUnitIDsFromTable(xfsLine);
+               string[] cCurrencyIDs = _wfs_inf_cdm_cash_unit_info.cCurrencyIDsFromTable(xfsLine);
+               string[] ulValues = _wfs_inf_cdm_cash_unit_info.ulValuesFromTable(xfsLine);
+               string[] ulInitialCounts = _wfs_inf_cdm_cash_unit_info.ulInitialCountsFromTable(xfsLine);
+               string[] ulMinimums = _wfs_inf_cdm_cash_unit_info.ulMinimumsFromTable(xfsLine);
+               string[] ulMaximums = _wfs_inf_cdm_cash_unit_info.ulMaximumsFromTable(xfsLine);
+               string[] ulCounts = _wfs_inf_cdm_cash_unit_info.ulCountsFromTable(xfsLine);
+               string[] ulRejectCounts = _wfs_inf_cdm_cash_unit_info.ulRejectCountsFromTable(xfsLine);
+               string[] usStatuses = _wfs_inf_cdm_cash_unit_info.usStatusesFromTable(xfsLine);
+               string[] ulDispensedCounts = _wfs_inf_cdm_cash_unit_info.ulDispensedCountsFromTable(xfsLine);
+               string[] ulPresentedCounts = _wfs_inf_cdm_cash_unit_info.ulPresentedCountsFromTable(xfsLine);
+               string[] ulRetractedCounts = _wfs_inf_cdm_cash_unit_info.ulRetractedCountsFromTable(xfsLine);
+
                // for the table format log line, build the Summary Table once
                if (!have_seen_WFS_INF_CDM_CASH_UNIT_INFO)
                {
@@ -398,55 +413,14 @@ namespace CDMView
                      dataRows[i + 1]["file"] = _traceFile;
                      dataRows[i + 1]["time"] = lpResult.tsTimestamp(xfsLine);
                      dataRows[i + 1]["error"] = lpResult.hResult(xfsLine);
-                  }
 
-                  results = _wfs_inf_cdm_cash_unit_info.usTypesFromTable(xfsLine);
-
-                  for (int i = 0; i < lUnitCount; i++)
-                  {
-                     dataRows[i + 1]["type"] = results.xfsMatch[i];
-                  }
-
-                  results = _wfs_inf_cdm_cash_unit_info.cUnitIDsFromTable(results.subLogLine);
-
-                  for (int i = 0; i < lUnitCount; i++)
-                  {
-                     dataRows[i + 1]["name"] = results.xfsMatch[i];
-                  }
-
-                  results = _wfs_inf_cdm_cash_unit_info.cCurrencyIDsFromTable(results.subLogLine);
-
-                  for (int i = 0; i < lUnitCount; i++)
-                  {
-                     dataRows[i + 1]["currency"] = results.xfsMatch[i];
-                  }
-
-                  results = _wfs_inf_cdm_cash_unit_info.ulValuesFromTable(results.subLogLine);
-
-                  for (int i = 0; i < lUnitCount; i++)
-                  {
-                     dataRows[i + 1]["denom"] = results.xfsMatch[i];
-                  }
-
-                  results = _wfs_inf_cdm_cash_unit_info.ulInitialCountsFromTable(results.subLogLine);
-
-                  for (int i = 0; i < lUnitCount; i++)
-                  {
-                     dataRows[i + 1]["initial"] = results.xfsMatch[i];
-                  }
-
-                  results = _wfs_inf_cdm_cash_unit_info.ulMinimumsFromTable(results.subLogLine);
-
-                  for (int i = 0; i < lUnitCount; i++)
-                  {
-                     dataRows[i + 1]["min"] = results.xfsMatch[i];
-                  }
-
-                  results = _wfs_inf_cdm_cash_unit_info.ulMaximumsFromTable(results.subLogLine);
-
-                  for (int i = 0; i < lUnitCount; i++)
-                  {
-                     dataRows[i + 1]["max"] = results.xfsMatch[i];
+                     dataRows[i + 1]["type"] = usTypes[i];
+                     dataRows[i + 1]["name"] = cInitIDs[i];
+                     dataRows[i + 1]["currency"] = cCurrencyIDs[i];
+                     dataRows[i + 1]["denom"] = ulValues[i];
+                     dataRows[i + 1]["initial"] = ulInitialCounts[i];
+                     dataRows[i + 1]["min"] = ulMinimums[i];
+                     dataRows[i + 1]["max"] = ulMaximums[i];
                   }
 
                   List<DataRow> deleteRows = new List<DataRow>();
@@ -467,72 +441,24 @@ namespace CDMView
                   ctx.ConsoleWriteLogLine("WFS_INF_CDM_CASH_UNIT_INFO we've built the Summary table, now on to the CashUnit table");
                }
 
-               // create the new rows to hold the Summary of each Logical Cash Unit
-               DataRow[] dataRowCashUnit = new DataRow[lUnitCount];
-
                for (int i = 0; i < lUnitCount; i++)
                {
-                  dataRowCashUnit[i] = dTableSet.Tables["CashUnit-" + (i + 1).ToString()].NewRow();
-               }
+                  // Now use the usNumbers to create and populate a row in the CashUnit- table
+                  DataRow cashUnitRow = dTableSet.Tables["CashUnit-" + usNumbers[i]].NewRow();
 
-               // for each new row, set the tracefile, timestamp and hresult
-               for (int i = 0; i < lUnitCount; i++)
-               {
-                  dataRowCashUnit[i]["file"] = _traceFile;
-                  dataRowCashUnit[i]["time"] = lpResult.tsTimestamp(xfsLine);
-                  dataRowCashUnit[i]["error"] = lpResult.hResult(xfsLine);
-               }
+                  cashUnitRow["file"] = _traceFile;
+                  cashUnitRow["time"] = lpResult.tsTimestamp(xfsLine);
+                  cashUnitRow["error"] = lpResult.hResult(xfsLine);
 
-               // usStatus
-               results = _wfs_inf_cdm_cash_unit_info.usStatusFromTable(xfsLine);
-               for (int i = 0; i < lUnitCount; i++)
-               {
-                  dataRowCashUnit[i]["status"] = results.xfsMatch[i];
-               }
+                  cashUnitRow["count"] = ulCounts[i];
+                  cashUnitRow["reject"] = ulRejectCounts[i];
+                  cashUnitRow["status"] = usStatuses[i];
+                  cashUnitRow["dispensed"] = ulDispensedCounts[i];
+                  cashUnitRow["presented"] = ulPresentedCounts[i];
+                  cashUnitRow["retracted"] = ulRetractedCounts[i];
 
-               // ulCount
-               results = _wfs_inf_cdm_cash_unit_info.ulCountsFromTable(xfsLine);
-               for (int i = 0; i < lUnitCount; i++)
-               {
-                  dataRowCashUnit[i]["count"] = results.xfsMatch[i];
-               }
-
-               // ulRejectCount
-               results = _wfs_inf_cdm_cash_unit_info.ulRejectCountsFromTable(xfsLine);
-               for (int i = 0; i < lUnitCount; i++)
-               {
-                  dataRowCashUnit[i]["reject"] = results.xfsMatch[i];
-               }
-
-               // ulDispensedCount
-               results = _wfs_inf_cdm_cash_unit_info.ulDispensedCountsFromTable(xfsLine);
-               for (int i = 0; i < lUnitCount; i++)
-               {
-                  dataRowCashUnit[i]["dispensed"] = results.xfsMatch[i];
-               }
-
-               // ulPresentedCount
-               results = _wfs_inf_cdm_cash_unit_info.ulPresentedCountsFromTable(xfsLine);
-               for (int i = 0; i < lUnitCount; i++)
-               {
-                  dataRowCashUnit[i]["presented"] = results.xfsMatch[i];
-               }
-
-               // ulRetractedCount
-               results = _wfs_inf_cdm_cash_unit_info.ulRetractedCountsFromTable(xfsLine);
-               for (int i = 0; i < lUnitCount; i++)
-               {
-                  dataRowCashUnit[i]["retracted"] = results.xfsMatch[i];
-               }
-
-               for (int i = 0; i < lUnitCount; i++)
-               {
-                  dTableSet.Tables["CashUnit-" + (i + 1).ToString()].Rows.Add(dataRowCashUnit[i]);
-               }
-
-               for (int i = 0; i < lUnitCount; i++)
-               {
-                  dTableSet.Tables["CashUnit-" + (i + 1).ToString()].AcceptChanges();
+                  dTableSet.Tables["CashUnit-" + usNumbers[i]].Rows.Add(cashUnitRow);
+                  dTableSet.Tables["CashUnit-" + usNumbers[i]].AcceptChanges();
                }
             }
             else if (xfsLine.Contains("lppList ="))
@@ -615,7 +541,6 @@ namespace CDMView
                   cashUnitRow["file"] = _traceFile;
                   cashUnitRow["time"] = lpResult.tsTimestamp(xfsLine);
                   cashUnitRow["error"] = lpResult.hResult(xfsLine);
-
 
                   cashUnitRow["count"] = ulCounts[i];
                   cashUnitRow["reject"] = ulRejectCounts[i];
