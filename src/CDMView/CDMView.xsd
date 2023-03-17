@@ -29,6 +29,15 @@
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="position" type="xs:string" minOccurs="0" />
               <xs:element name="amount" type="xs:string" minOccurs="0" />
+              <xs:element name="LU1" type="xs:string" minOccurs="0" />
+              <xs:element name="LU2" type="xs:string" minOccurs="0" />
+              <xs:element name="LU3" type="xs:string" minOccurs="0" />
+              <xs:element name="LU4" type="xs:string" minOccurs="0" />
+              <xs:element name="LU5" type="xs:string" minOccurs="0" />
+              <xs:element name="LU6" type="xs:string" minOccurs="0" />
+              <xs:element name="LU7" type="xs:string" minOccurs="0" />
+              <xs:element name="LU8" type="xs:string" minOccurs="0" />
+              <xs:element name="LU9" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
