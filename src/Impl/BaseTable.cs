@@ -180,10 +180,12 @@ namespace Impl
          try
          {
             string strInFile = ctx.WorkFolder + "\\" + viewName + ".xsd";
+            ctx.ConsoleWriteLogLine("BaseTable ReadXmlFile :" + strInFile);
             if (!ctx.ioProvider.Exists(strInFile))
             {
                // otherwise fall back to the default xml file, if it exists, load it
                strInFile = ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xsd";
+               ctx.ConsoleWriteLogLine("BaseTable ReadXmlFile fallback to :" + strInFile);
             }
 
             if (ctx.ioProvider.Exists(strInFile))

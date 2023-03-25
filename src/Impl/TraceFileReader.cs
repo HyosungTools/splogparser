@@ -60,7 +60,7 @@ namespace Impl
                {
                   // if the next char after '\n' is a '\t', '{', '(', '<', ' ', '-'  or letter, we are not at EOL
                   char cNext = traceFile[traceFilePos + 1];
-                  endOfLine = !(cNext == '\t' || cNext == '(' || cNext == '{' || cNext == '<' || cNext == ' ' || cNext == '-' || char.IsLetter(cNext));
+                  endOfLine = !(cNext == '\r' || cNext == '\t' || cNext == '(' || cNext == '{' || cNext == '<' || cNext == ' ' || cNext == '-' || char.IsLetter(cNext));
 
                   // if we are at EOL and the next char is a ')' or '}' add it
                   if (endOfLine)

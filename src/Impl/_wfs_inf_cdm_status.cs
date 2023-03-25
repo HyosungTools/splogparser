@@ -21,67 +21,55 @@ namespace Impl
 
    public static class _wfs_inf_cdm_status 
    {
-      private static (bool success, string xfsMatch, string subLogLine) GenericMatch(string logLine, string regStr, string def = "0")
-      {
-         Regex timeRegex = new Regex(regStr);
-         Match m = timeRegex.Match(logLine);
-         if (m.Success)
-         {
-
-            return (true, m.Groups[1].Value, logLine.Substring(m.Index));
-         }
-
-         return (false, def, logLine);
-      }
       public static (bool success, string xfsMatch, string subLogLine) fwDevice(string logLine)
       {
-         return GenericMatch(logLine, "fwDevice = \\[(.*)\\]", "0");
+         return _wfs_base.GenericMatchList(logLine, "fwDevice = \\[(.*)\\]", "0");
       }
       public static (bool success, string xfsMatch, string subLogLine) fwSafeDoor(string logLine)
       {
-         return GenericMatch(logLine, "fwSafeDoor = \\[(.*)\\]", "0");
+         return _wfs_base.GenericMatchList(logLine, "fwSafeDoor = \\[(.*)\\]", "0");
       }
       public static (bool success, string xfsMatch, string subLogLine) fwDispenser(string logLine)
       {
-         return GenericMatch(logLine, "fwDispenser = \\[(.*)\\]", "0");
+         return _wfs_base.GenericMatchList(logLine, "fwDispenser = \\[(.*)\\]", "0");
       }
       public static (bool success, string xfsMatch, string subLogLine) fwIntermediateStacker(string logLine)
       {
-         return GenericMatch(logLine, "fwIntermediateStacker = \\[(.*)\\]", "0");
+         return _wfs_base.GenericMatchList(logLine, "fwIntermediateStacker = \\[(.*)\\]", "0");
       }
 
       // report on the first (output ?) position only. 
       public static (bool success, string xfsMatch, string subLogLine) fwPosition(string logLine)
       {
-         return GenericMatch(logLine, "fwPosition = \\[(.*)\\]", "0");
+         return _wfs_base.GenericMatchList(logLine, "fwPosition = \\[(.*)\\]", "0");
       }
       public static (bool success, string xfsMatch, string subLogLine) fwShutter(string logLine)
       {
-         return GenericMatch(logLine, "fwShutter = \\[(.*)\\]", "0");
+         return _wfs_base.GenericMatchList(logLine, "fwShutter = \\[(.*)\\]", "0");
       }
       public static (bool success, string xfsMatch, string subLogLine) fwPositionStatus(string logLine)
       {
-         return GenericMatch(logLine, "fwPositionStatus = \\[(.*)\\]", "0");
+         return _wfs_base.GenericMatchList(logLine, "fwPositionStatus = \\[(.*)\\]", "0");
       }
       public static (bool success, string xfsMatch, string subLogLine) fwTransport(string logLine)
       {
-         return GenericMatch(logLine, "fwTransport = \\[(.*)\\]", "0");
+         return _wfs_base.GenericMatchList(logLine, "fwTransport = \\[(.*)\\]", "0");
       }
       public static (bool success, string xfsMatch, string subLogLine) fwTransportStatus(string logLine)
       {
-         return GenericMatch(logLine, "fwTransportStatus = \\[(.*)\\]", "0");
+         return _wfs_base.GenericMatchList(logLine, "fwTransportStatus = \\[(.*)\\]", "0");
       }
       public static (bool success, string xfsMatch, string subLogLine) wDevicePosition(string logLine)
       {
-         return GenericMatch(logLine, "wDevicePosition = \\[(.*)\\]", "0");
+         return _wfs_base.GenericMatchList(logLine, "wDevicePosition = \\[(.*)\\]", "0");
       }
       public static (bool success, string xfsMatch, string subLogLine) usPowerSaveRecoveryTime(string logLine)
       {
-         return GenericMatch(logLine, "usPowerSaveRecoveryTime = \\[(.*)\\]", "0");
+         return _wfs_base.GenericMatchList(logLine, "usPowerSaveRecoveryTime = \\[(.*)\\]", "0");
       }
       public static (bool success, string xfsMatch, string subLogLine) wAntiFraudModule(string logLine)
       {
-         return GenericMatch(logLine, "wAntiFraudModule = \\[(.*)\\]", "0");
+         return _wfs_base.GenericMatchList(logLine, "wAntiFraudModule = \\[(.*)\\]", "0");
       }
    }
 }
