@@ -56,5 +56,16 @@
       <Name>Impl</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="CIMView.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CIMView.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\CIMView.xsd" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\CIMView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
+  </PropertyGroup>
 </Project>

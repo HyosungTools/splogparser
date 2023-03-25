@@ -155,63 +155,63 @@
   <Messages>
     <type>fwDevice</type>
     <code>0</code>
-    <brief>ONLINE</brief>
+    <brief>online</brief>
     <description></description>
   </Messages>
   
   <Messages>	
 	<type>fwDevice</type>
     <code>1</code>
-    <brief>OFFLINE</brief>
+    <brief>offline</brief>
     <description></description>
   </Messages>
   
   <Messages>	
 	<type>fwDevice</type>
     <code>2</code>
-    <brief>PWROFF</brief>
+    <brief>pwroff</brief>
     <description>Powered off or physically not connected</description>
   </Messages>
   
   <Messages>	
 	<type>fwDevice</type>
     <code>3</code>
-    <brief>NODEV</brief>
+    <brief>nodev</brief>
     <description>The device is not intended to be there</description>
   </Messages>
 
   <Messages>	
 	<type>fwDevice</type>
     <code>4</code>
-    <brief>HWERR</brief>
+    <brief>hwerror</brief>
     <description>Inoperable due to a hardware error</description>
   </Messages>
 
   <Messages>	
 	<type>fwDevice</type>
     <code>5</code>
-    <brief>USRERR</brief>
+    <brief>usrerror</brief>
     <description>User is preventing proper device operation</description>
   </Messages>
 
   <Messages>	
 	<type>fwDevice</type>
     <code>6</code>
-    <brief>BUSY</brief>
+    <brief>busy</brief>
     <description>Unable to process an execute command at this time</description>
   </Messages>
 
   <Messages>	
 	<type>fwDevice</type>
     <code>7</code>
-    <brief>FRAUD</brief>
+    <brief>fraud</brief>
     <description>Inoperable because of detected fraud attempt</description>
   </Messages>
 
   <Messages>	
 	<type>fwDevice</type>
     <code>8</code>
-    <brief>FRAUD?</brief>
+    <brief>fraud?</brief>
     <description>Potential fraud attempt detected</description>
   </Messages>
 
@@ -227,21 +227,21 @@
   <Messages>
 	<type>fwDispenser</type>
     <code>1</code>
-    <brief>WARN</brief>
+    <brief>warn</brief>
     <description>One or more cash units is low, empty, inoperative or manipulated</description>
   </Messages>
   
   <Messages>
 	<type>fwDispenser</type>
     <code>2</code>
-    <brief>STOP</brief>
+    <brief>stop</brief>
     <description>Due to a cash unit failure dispensing is impossible.</description>
   </Messages>
   
   <Messages>
 	<type>fwDispenser</type>
     <code>3</code>
-    <brief>UNKN</brief>
+    <brief>unkn</brief>
     <description>Due to a hardware error or other condition, the state of the cash units cannot be determined.</description>
   </Messages>
   
@@ -250,42 +250,42 @@
   <Messages>
     <type>fwIntermediateStacker</type>
     <code>0</code>
-    <brief>EMPTY</brief>
+    <brief>empty</brief>
     <description></description>
   </Messages>
   
   <Messages>
 	<type>fwIntermediateStacker</type>
     <code>1</code>
-    <brief>NOTEMPTY</brief>
+    <brief>notempty</brief>
     <description>The items have not been in customer access.</description>
   </Messages>
   
   <Messages>
 	<type>fwIntermediateStacker</type>
     <code>2</code>
-    <brief>NOTEMPTYCUST</brief>
+    <brief>notemptycust</brief>
     <description>The items have been in customer access.</description>
   </Messages>
   
   <Messages>
 	<type>fwIntermediateStacker</type>
     <code>3</code>
-    <brief>NOTEMPTYUNK</brief>
+    <brief>notemptyunkn</brief>
     <description>It is not known if the items have been in customer access.</description>
   </Messages>
   
   <Messages>
 	<type>fwIntermediateStacker</type>
     <code>4</code>
-    <brief>UNKN</brief>
+    <brief>unkn</brief>
     <description>Due to a hardware error or other condition, the state of the intermediate stacker cannot be determined.</description>
   </Messages>
   
   <Messages>
 	<type>fwIntermediateStacker</type>
     <code>5</code>
-    <brief>NOSUP</brief>
+    <brief>nosup</brief>
     <description>The physical device has no intermediate stacker.</description>
   </Messages>
   
@@ -294,35 +294,35 @@
   <Messages>
 	<type>fwShutter</type>
     <code>0</code>
-    <brief>CLOSED</brief>
+    <brief>closed</brief>
     <description></description>
   </Messages>
   
   <Messages>
 	<type>fwShutter</type>
     <code>1</code>
-    <brief>OPEN</brief>
+    <brief>open</brief>
     <description></description>
   </Messages>
   
   <Messages>
 	<type>fwShutter</type>
     <code>2</code>
-    <brief>JAM</brief>
+    <brief>jam</brief>
     <description>Jammed and not operational.</description>
   </Messages>
   
   <Messages>
 	<type>fwShutter</type>
     <code>3</code>
-    <brief>UNKN</brief>
+    <brief>unkn</brief>
     <description>Due to a hardware error or other condition, the state of the shutter cannot be determined.</description>
   </Messages>
   
   <Messages>
 	<type>fwShutter</type>
     <code>4</code>
-    <brief>NOSUP</brief>
+    <brief>nosup</brief>
     <description>The physical device has no shutter or shutter state reporting is not supported.</description>
   </Messages>
   
@@ -331,35 +331,35 @@
   <Messages>
 	<type>fwPositionStatus</type>
     <code>0</code>
-    <brief>EMPTY</brief>
+    <brief>empty</brief>
     <description></description>
   </Messages>
   
   <Messages>
 	<type>fwPositionStatus</type>
     <code>1</code>
-    <brief>NOTEMPTY</brief>
+    <brief>notempty</brief>
     <description></description>
   </Messages>
   
   <Messages>
 	<type>fwPositionStatus</type>
     <code>2</code>
-    <brief>UNKN</brief>
+    <brief>unkn</brief>
     <description>Due to a hardware error or other condition, the state of the output position cannot be determined.</description>
   </Messages>
   
   <Messages>
 	<type>fwPositionStatus</type>
     <code>3</code>
-    <brief>UNKN</brief>
+    <brief>unkn</brief>
     <description>Due to a hardware error or other condition, the state of the output position cannot be determined.</description>
   </Messages>
   
   <Messages>
 	<type>fwPositionStatus</type>
     <code>4</code>
-    <brief>NOSUP</brief>
+    <brief>nosup</brief>
     <description>The device is not capable of reporting whether or not items are at the output position.</description>
   </Messages>
   
@@ -368,28 +368,28 @@
   <Messages>
 	<type>fwTransport</type>
     <code>0</code>
-    <brief>OK</brief>
+    <brief>ok</brief>
     <description></description>
   </Messages>
   
   <Messages>
 	<type>fwTransport</type>
     <code>1</code>
-    <brief>INOP</brief>
+    <brief>inop</brief>
     <description>Inoperative due to hardware failure or media jam.</description>
   </Messages>
   
   <Messages>
 	<type>fwTransport</type>
     <code>2</code>
-    <brief>UNKN</brief>
+    <brief>unkn</brief>
     <description>Due to a hardware error or other condition, the state of the transport cannot be determined.</description>
   </Messages>
   
   <Messages>
 	<type>fwTransport</type>
     <code>3</code>
-    <brief>NOSUP</brief>
+    <brief>nosup</brief>
     <description>The physical device has no transport or transport state reporting is not supported.</description>
   </Messages>
   
@@ -398,35 +398,35 @@
   <Messages>
 	<type>fwTransportStatus</type>
     <code>0</code>
-    <brief>EMPTY</brief>
+    <brief>empty</brief>
     <description></description>
   </Messages>
   
   <Messages>
 	<type>fwTransportStatus</type>
     <code>1</code>
-    <brief>NOTEMPTY</brief>
+    <brief>notempty</brief>
     <description></description>
   </Messages>
   
   <Messages>
 	<type>fwTransportStatus</type>
     <code>2</code>
-    <brief>NOTEMPTYCUST</brief>
+    <brief>notemptycust</brief>
     <description>Items which a customer has had access to are on the transport.</description>
   </Messages>
   
   <Messages>
 	<type>fwTransportStatus</type>
     <code>3</code>
-    <brief>NOTEMPTYUNKN</brief>
+    <brief>notemptyunkn</brief>
     <description>Due to a hardware error or other condition it is not known whether there are items on the transport.</description>
   </Messages>
   
   <Messages>
 	<type>fwTransportStatus</type>
     <code>4</code>
-    <brief>NOSUP</brief>
+    <brief>nosup</brief>
     <description>The device is not capable of reporting whether items are on the transport.</description>
   </Messages>
   
@@ -435,28 +435,28 @@
   <Messages>
 	<type>wDevicePosition</type>
     <code>0</code>
-    <brief>INPOS</brief>
+    <brief>inpos</brief>
     <description></description>
   </Messages>
   
   <Messages>
 	<type>wDevicePosition</type>
     <code>1</code>
-    <brief>NOTINPOS</brief>
+    <brief>notinpos</brief>
     <description>The device has been removed from its normal operating position.</description>
   </Messages>
   
   <Messages>
 	<type>wDevicePosition</type>
     <code>2</code>
-    <brief>UNKN</brief>
+    <brief>unkn</brief>
     <description>Due to a hardware error or other condition, the position of the device cannot be determined.</description>
   </Messages>
   
   <Messages>
 	<type>wDevicePosition</type>
     <code>3</code>
-    <brief>NOSUP</brief>
+    <brief>nosup</brief>
     <description>The physical device does not have the capability of detecting the position.</description>
   </Messages>
   
@@ -465,70 +465,70 @@
   <Messages>
     <type>usType</type>
     <code>1</code>
-    <brief>NA</brief>
+    <brief>na</brief>
     <description>Not applicable. Typically means cash unit is missing.</description>
   </Messages> 
   
   <Messages>
     <type>usType</type>
     <code>2</code>
-    <brief>REJECT</brief>
+    <brief>reject</brief>
     <description>Reject cash unit. This type will also indicate a combined reject/retract cash unit.</description>
   </Messages> 
   
   <Messages>
     <type>usType</type>
     <code>3</code>
-    <brief>CASH</brief>
+    <brief>cash</brief>
     <description>Cash unit containing bills.</description>
   </Messages> 
   
   <Messages>
     <type>usType</type>
     <code>4</code>
-    <brief>COINCYLINDER</brief>
+    <brief>coincylinder</brief>
     <description>Coin cylinder.</description>
   </Messages> 
   
   <Messages>
     <type>usType</type>
     <code>5</code>
-    <brief>COINDISPENSER</brief>
+    <brief>coindispenser</brief>
     <description>Coin dispenser.</description>
   </Messages> 
   
   <Messages>
     <type>usType</type>
     <code>6</code>
-    <brief>RETRACT</brief>
+    <brief>retract</brief>
     <description>Retract cash unit.</description>
   </Messages> 
   
   <Messages>
     <type>usType</type>
     <code>7</code>
-    <brief>COUPON</brief>
+    <brief>coupon</brief>
     <description>Cash unit containing coupons or advertising material.</description>
   </Messages> 
   
   <Messages>
     <type>usType</type>
     <code>8</code>
-    <brief>DOCUMENT</brief>
+    <brief>document</brief>
     <description>Cash unit containing documents</description>
   </Messages> 
   
   <Messages>
     <type>usType</type>
     <code>11</code>
-    <brief>REPLEN</brief>
+    <brief>replen</brief>
     <description>Replenishment container</description>
   </Messages> 
   
   <Messages>
     <type>usType</type>
     <code>12</code>
-    <brief>RECYCLING</brief>
+    <brief>recycling</brief>
     <description>Recycling cash unit</description>
   </Messages> 
   
@@ -537,70 +537,70 @@
   <Messages>
     <type>usStatus</type>
     <code>0</code>
-    <brief>OK</brief>
-    <description>The cash unit is in a good state</description>
+    <brief>ok</brief>
+    <description></description>
   </Messages> 
 
   <Messages>
     <type>usStatus</type>
     <code>1</code>
-    <brief>FULL</brief>
+    <brief>full</brief>
     <description>The cash unit is full</description>
   </Messages> 
 
   <Messages>
     <type>usStatus</type>
     <code>2</code>
-    <brief>HIGH</brief>
+    <brief>high</brief>
     <description>The cash unit is almost full</description>
   </Messages> 
 
   <Messages>
     <type>usStatus</type>
     <code>3</code>
-    <brief>LOW</brief>
+    <brief>low</brief>
     <description>The cash unit is almost empty</description>
   </Messages> 
 
   <Messages>
     <type>usStatus</type>
     <code>4</code>
-    <brief>EMPTY</brief>
+    <brief>empty</brief>
     <description>The cash unit is empty</description>
   </Messages> 
 
   <Messages>
     <type>usStatus</type>
     <code>5</code>
-    <brief>INOP</brief>
+    <brief>inop</brief>
     <description>The cash unit is inoperative</description>
   </Messages> 
 
   <Messages>
     <type>usStatus</type>
     <code>6</code>
-    <brief>MISSING</brief>
+    <brief>missing</brief>
     <description>The cash unit is missing</description>
   </Messages> 
 
   <Messages>
     <type>usStatus</type>
     <code>7</code>
-    <brief>NOVAL</brief>
+    <brief>noval</brief>
     <description>Unavailable</description>
   </Messages> 
 
   <Messages>
     <type>usStatus</type>
     <code>8</code>
-    <brief>NOREF</brief>
+    <brief>noref</brief>
     <description>No Reference</description>
   </Messages>
 
   <Messages>
     <type>usStatus</type>
     <code>9</code>
-    <brief>INSERTED</brief>
+    <brief>inserted</brief>
     <description>The cash unit has been inserted</description>
   </Messages>   
 </CDM>

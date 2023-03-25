@@ -10,7 +10,7 @@ namespace CIMView
       /// <summary>
       /// Constructor
       /// </summary>
-      CIMView() : base("CIM", "CIM") { }
+      CIMView() : base("CIM", "CIMView") { }
 
       /// <summary>
       /// Creates an CIM Table instance. 

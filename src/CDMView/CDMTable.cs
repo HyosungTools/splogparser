@@ -37,7 +37,7 @@ namespace CDMView
                case XFSType.WFS_INF_CDM_STATUS:
                   {
                      base.ProcessRow(traceFile, logLine);
-                     WFS_IN_CDM_STATUS(result.xfsLine);
+                     WFS_INF_CDM_STATUS(result.xfsLine);
                      break;
                   }
                case XFSType.WFS_INF_CDM_CASH_UNIT_INFO:
@@ -190,7 +190,7 @@ namespace CDMView
 
          for (int i = 0; i < 8; i++)
          {
-            result = DataTableOps.AddEnglishToTable(dTableSet.Tables["Status"], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
+            result = DataTableOps.AddEnglishToTable(ctx, dTableSet.Tables["Status"], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
          }
 
          // SMMARY TABLE - Delete redundant lines from the Summary Table
@@ -238,7 +238,7 @@ namespace CDMView
 
          for (int i = 0; i < 1; i++)
          {
-            result = DataTableOps.AddEnglishToTable(dTableSet.Tables["Summary"], dTableSet.Tables["Messages"], summaryColMap[i, 0], summaryColMap[i, 1]);
+            result = DataTableOps.AddEnglishToTable(ctx, dTableSet.Tables["Summary"], dTableSet.Tables["Messages"], summaryColMap[i, 0], summaryColMap[i, 1]);
          }
 
          // add English
@@ -254,7 +254,7 @@ namespace CDMView
             {
                for (int i = 0; i < 1; i++)
                {
-                  result = DataTableOps.AddEnglishToTable(dTable, dTableSet.Tables["Messages"], cashUnitColMap[i, 0], cashUnitColMap[i, 1]);
+                  result = DataTableOps.AddEnglishToTable(ctx, dTable, dTableSet.Tables["Messages"], cashUnitColMap[i, 0], cashUnitColMap[i, 1]);
                }
             }
          }
@@ -323,11 +323,11 @@ namespace CDMView
             return (false, null);
          }
       }
-      protected void WFS_IN_CDM_STATUS(string xfsLine)
+      protected void WFS_INF_CDM_STATUS(string xfsLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_IN_CDM_STATUS tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+            ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CDM_STATUS tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
 
             DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
 
@@ -373,12 +373,11 @@ namespace CDMView
          }
          catch (Exception e)
          {
-            ctx.ConsoleWriteLogLine("WFS_IN_CDM_STATUS Exception : " + e.Message);
+            ctx.ConsoleWriteLogLine("WFS_INF_CDM_STATUS Exception : " + e.Message);
          }
 
          return;
       }
-
       protected void WFS_INF_CDM_CASH_UNIT_INFO(string xfsLine)
       {
          try
@@ -520,7 +519,6 @@ namespace CDMView
             ctx.ConsoleWriteLogLine("WFS_INF_CDM_CASH_UNIT_INFO  End of Function Exception : " + e.Message);
          }
       }
-
       protected void WFS_CMD_CDM_DISPENSE(string xfsLine)
       {
          try
@@ -565,7 +563,6 @@ namespace CDMView
             ctx.ConsoleWriteLogLine("WFS_CMD_CDM_DISPENSE Exception : " + e.Message);
          }
       }
-
       protected void WFS_CMD_CDM_PRESENT(string xfsLine)
       {
          try
@@ -590,7 +587,6 @@ namespace CDMView
             ctx.ConsoleWriteLogLine("WFS_CMD_CDM_PRESENT Exception : " + e.Message);
          }
       }
-
       protected void WFS_CMD_CDM_REJECT(string xfsLine)
       {
          try
@@ -639,7 +635,6 @@ namespace CDMView
             ctx.ConsoleWriteLogLine("WFS_CMD_CDM_RETRACT Exception : " + e.Message);
          }
       }
-
       protected void WFS_CMD_CDM_RESET(string xfsLine)
       {
          try
@@ -724,7 +719,6 @@ namespace CDMView
             ctx.ConsoleWriteLogLine("WFS_SRVE_CDM_CASHUNITINFOCHANGED Exception : " + e.Message);
          }
       }
-
       protected void WFS_SRVE_CDM_ITEMSTAKEN(string xfsLine)
       {
          try

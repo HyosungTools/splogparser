@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-
+using Contract;
 
 namespace Impl
 {
@@ -75,36 +75,45 @@ namespace Impl
       /// <param name="dataTable"></param>
       /// <param name="messageTable"></param>
       /// <returns></returns>
-      public static (bool success, string message) AddEnglishToTable(DataTable dataTable, DataTable messageTable, string column, string type)
+      public static (bool success, string message) AddEnglishToTable(IContext ctx, DataTable dataTable, DataTable messageTable, string column, string type)
       {
          // determine number of rows
          int rowCount = dataTable.Rows.Count;
          if (rowCount == 0)
          {
+            ctx.ConsoleWriteLogLine(String.Format("DataTable '{0}] has no rows!", dataTable.TableName));
             return (true, string.Empty);
          }
 
-         foreach (DataRow dataRow in dataTable.Rows)
+         try
          {
-            if (dataRow[column].ToString() == string.Empty)
-               continue;
-
-            // Create an array for the key values to find.
-            object[] findByKeys = new object[2];
-
-            // Set the values of the keys to find.
-            findByKeys[0] = type;
-            findByKeys[1] = dataRow[column].ToString();
-
-            DataRow foundRow = messageTable.Rows.Find(findByKeys);
-            if (foundRow != null)
+            foreach (DataRow dataRow in dataTable.Rows)
             {
-               dataRow[column] = foundRow["brief"];
-               dataRow["comment"] = dataRow["comment"].ToString().TrimStart(',') + "," + foundRow["description"];
-            }
-         }
+               if (String.IsNullOrEmpty(dataRow[column].ToString()))
+                  continue;
 
-         dataTable.AcceptChanges(); 
+               // Create an array for the key values to find.
+               object[] findByKeys = new object[2];
+
+               // Set the values of the keys to find.
+               findByKeys[0] = type;
+               findByKeys[1] = dataRow[column].ToString();
+
+               DataRow foundRow = messageTable.Rows.Find(findByKeys);
+               char[] trimChars = { ',' };
+               if (foundRow != null)
+               {
+                  dataRow[column] = foundRow["brief"];
+                  dataRow["comment"] = dataRow["comment"].ToString().TrimStart(trimChars) + "," + foundRow["description"];
+               }
+            }
+
+            dataTable.AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("EXCEPTION in Add English : {0}", e.Message));
+         }
 
          return (true, string.Empty);
 
@@ -135,6 +144,118 @@ namespace Impl
             dataHasChanged = false;
          }
          return dataHasChanged;
+      }
+
+      public static (bool success, string message) AddMoneyToTable(IContext ctx, DataTable dataTable, DataTable messageTable)
+      {
+         // determine number of rows
+         int rowCount = dataTable.Rows.Count;
+         if (rowCount == 0)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("DataTable '{0}] has no rows!", dataTable.TableName));
+            return (true, string.Empty);
+         }
+
+         foreach (DataRow dataRow in dataTable.Rows)
+         {
+            string[] moneyColumns = new string [] { "USD0", "USD1", "USD2", "USD5", "USD10", "USD20", "USD50", "USD100" };
+
+            foreach (string moneyColumn in moneyColumns)
+            {
+               // Create an array for the key values to find.
+               object[] findByKeys = new object[2];
+
+               // Set the values of the keys to find (e.g. {USD5, 5})
+               findByKeys[0] = "noteType";
+               findByKeys[1] = moneyColumn.Replace("USD", string.Empty);
+
+               DataRow foundRow = messageTable.Rows.Find(findByKeys);
+               if (foundRow == null)
+               {
+                  ctx.ConsoleWriteLogLine(String.Format("Failed to find entry for key '{0}' and '{1}'", findByKeys[0], findByKeys[1]));
+                  continue;
+               }
+
+               ctx.ConsoleWriteLogLine(String.Format("For '{0}' found '{1}'", moneyColumn, foundRow["description"].ToString()));
+
+               // the descripton field has the list of N columns (e.g. N7,N12,N17)
+               string[] nColumns = foundRow["description"].ToString().Split(',');
+
+               // sum the N columns and store the result in the USDx column - rinse repeat
+               int total = 0;
+               foreach (string nColumn in nColumns)
+               {
+                  // skip if null or empty
+                  if (String.IsNullOrEmpty(dataRow[nColumn].ToString()))
+                  {
+                     continue;
+                  }
+
+                  try
+                  {
+                     total += int.Parse(dataRow[nColumn].ToString());
+                     ctx.ConsoleWriteLogLine(String.Format("Running total : '{0}'", total));
+                  }
+                  catch (Exception e)
+                  {
+                     ctx.ConsoleWriteLogLine(String.Format("EXCEPTION in AddMoneyToTable : {0}", e.Message));
+                  }
+               }
+
+               if (total > 0)
+               {
+                  ctx.ConsoleWriteLogLine(String.Format("Setting column '{0}' to {0}", moneyColumn, total));
+                  dataRow[moneyColumn] = total.ToString();
+               }
+            }
+         }
+
+         dataTable.AcceptChanges();
+
+         return (true, string.Empty);
+
+      }
+
+      public static (bool success, string message) AddAmountToTable(IContext ctx, DataTable dataTable)
+      {
+         // determine number of rows
+         int rowCount = dataTable.Rows.Count;
+         if (rowCount == 0)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("DataTable '{0}] has no rows!", dataTable.TableName));
+            return (true, string.Empty);
+         }
+
+         try
+         {
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+               // only set the amount for 'End' deposits
+               if (!dataRow["position"].ToString().Equals("End"))
+                  continue; 
+
+               string[] moneyColumns = new string[] { "USD0", "USD1", "USD2", "USD5", "USD10", "USD20", "USD50", "USD100" };
+
+               int total = 0;
+               foreach (string moneyColumn in moneyColumns)
+               {
+                  if (String.IsNullOrEmpty(dataRow[moneyColumn].ToString()))
+                     continue;
+
+                  total += int.Parse(dataRow[moneyColumn].ToString()) * int.Parse(moneyColumn.Replace("USD", string.Empty));
+               }
+               dataRow["amount"] = total.ToString();
+            }
+         }
+         catch(Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("EXCEPTION Setting amount deposited: {0}", e.Message));
+         }
+
+         dataTable.AcceptChanges();
+
+         return (true, string.Empty);
+
       }
    }
 }
