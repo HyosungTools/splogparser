@@ -68,8 +68,8 @@
     <Compile Include="_wfs_cmd_cdm_dispenseTests.cs" />
     <Compile Include="_wfs_cmd_cim_cash_inTests.cs" />
     <Compile Include="_wfs_inf_cim_cash_in_statusTests.cs" />
-    <Compile Include="_wfs_inf_cim_cash_unit_infoTests.cs" />
-    <Compile Include="_wfs_inf_cdm_cash_unit_infoTests.cs" />
+    <Compile Include="_wfs_cim_cash_infoTests.cs" />
+    <Compile Include="_wfs_cdm_cu_infoTests.cs" />
     <Compile Include="_wfs_inf_cdm_statusTests.cs" />
     <Compile Include="_wfs_inf_cim_statusTests.cs" />
     <Compile Include="_wfs_note_numbersTests.cs" />

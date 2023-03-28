@@ -6,7 +6,7 @@ using Contract;
 
 namespace Impl
 {
-   public static class DataTableOps
+   public static class _datatable_ops
    {
       /// <summary>
       /// Given a data view of a table, sorted by time, starting at the bottom, 

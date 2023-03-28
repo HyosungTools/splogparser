@@ -129,22 +129,22 @@ namespace CIMView
       {
          try
          {
-            //STATUS TABLE
+            // S T A T U S   T A B L E
 
             // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
-            ctx.ConsoleWriteLogLine("Compress the CashInStatus Table: sort by time, visit every row and delete rows that are unchanged from their predecessor");
-            ctx.ConsoleWriteLogLine(String.Format("Compress the CashInStatus Table start: rows before: {0}", dTableSet.Tables["CashInStatus"].Rows.Count));
+            ctx.ConsoleWriteLogLine("Compress the Status Table: sort by time, visit every row and delete rows that are unchanged from their predecessor");
+            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table start: rows before: {0}", dTableSet.Tables["Status"].Rows.Count));
 
             // the list of columns to compare
             string[] columns = new string[] { "error", "status", "safedoor", "acceptor", "intstack", "stackitems" };
-            (bool success, string message) result = DataTableOps.DeleteUnchangedRowsInTable(dTableSet.Tables["CashInStatus"], "time ASC", columns);
+            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables["Status"], "time ASC", columns);
             if (!result.success)
             {
                ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
             }
-            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table complete: rows after: {0}", dTableSet.Tables["CashInStatus"].Rows.Count));
+            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table complete: rows after: {0}", dTableSet.Tables["Status"].Rows.Count));
 
-            // add English
+            // add English to the Status Table
             string[,] colKeyMap = new string[5, 2]
             {
                {"status", "fwDevice" },
@@ -156,11 +156,13 @@ namespace CIMView
 
             for (int i = 0; i < 5; i++)
             {
-               result = DataTableOps.AddEnglishToTable(ctx, dTableSet.Tables["CashInStatus"], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
+               result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables["Status"], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
             }
 
-            // SUMMARY TABLE - Delete redundant lines from the Summary Table
-            DataRow[] dataRows = dTableSet.Tables["CashInSummary"].Select();
+            // S U M M A R Y   T A B L E 
+
+            // delete redundant lines from the Summary Table
+            DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
             List<DataRow> deleteRows = new List<DataRow>();
             foreach (DataRow dataRow in dataRows)
             {
@@ -175,7 +177,19 @@ namespace CIMView
                dataRow.Delete();
             }
 
-            // CASH IN TABLE
+            // Add English to Summary Table
+            string[,] summaryColMap = new string[1, 2]
+            {
+            {"type", "fwType" }
+            };
+
+            for (int i = 0; i < 1; i++)
+            {
+               result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables["Summary"], dTableSet.Tables["Messages"], summaryColMap[i, 0], summaryColMap[i, 1]);
+            }
+
+
+            // C A S H  I N   T A B L E
             ctx.ConsoleWriteLogLine("Compress the CashIn Tables: sort by time, visit every row and delete rows that are unchanged from their predecessor");
 
             // the list of columns to compare
@@ -187,7 +201,7 @@ namespace CIMView
                if (dTable.TableName.StartsWith("CashIn-"))
                {
                   ctx.ConsoleWriteLogLine(String.Format("Compress the Table '{0}' rows before: {1}", dTable.TableName, dTable.Rows.Count));
-                  (bool success, string message) cashUnitResult = DataTableOps.DeleteUnchangedRowsInTable(dTable, "time ASC", cashUnitCols);
+                  (bool success, string message) cashUnitResult = _datatable_ops.DeleteUnchangedRowsInTable(dTable, "time ASC", cashUnitCols);
                   if (!cashUnitResult.success)
                   {
                      ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + cashUnitResult.message);
@@ -196,18 +210,7 @@ namespace CIMView
                }
             }
 
-            // add English 
-            string[,] summaryColMap = new string[1, 2]
-            {
-            {"type", "fwType" }
-            };
-
-            for (int i = 0; i < 1; i++)
-            {
-               result = DataTableOps.AddEnglishToTable(ctx, dTableSet.Tables["CashInSummary"], dTableSet.Tables["Messages"], summaryColMap[i, 0], summaryColMap[i, 1]);
-            }
-
-            // add English
+            // add English to CashIn Tables
             string[,] cashUnitColMap = new string[1, 2]
             {
             {"status", "usStatus" }
@@ -220,15 +223,18 @@ namespace CIMView
                {
                   for (int i = 0; i < 1; i++)
                   {
-                     result = DataTableOps.AddEnglishToTable(ctx, dTable, dTableSet.Tables["Messages"], cashUnitColMap[i, 0], cashUnitColMap[i, 1]);
+                     result = _datatable_ops.AddEnglishToTable(ctx, dTable, dTableSet.Tables["Messages"], cashUnitColMap[i, 0], cashUnitColMap[i, 1]);
                   }
                }
             }
 
+
+            // D E P O S I T   T A B L E
+
             // add English to Deposit
             string[,] depositColMap = new string[1, 2]
             {
-               {"status", "usStatus" }
+               {"status", "wStatus" }
             };
 
             try
@@ -240,7 +246,7 @@ namespace CIMView
                      ctx.ConsoleWriteLogLine(String.Format("Adding English to table '{0}'", dTable.TableName));
                      for (int i = 0; i < 1; i++)
                      {
-                        result = DataTableOps.AddEnglishToTable(ctx, dTable, dTableSet.Tables["Messages"], depositColMap[i, 0], depositColMap[i, 1]);
+                        result = _datatable_ops.AddEnglishToTable(ctx, dTable, dTableSet.Tables["Messages"], depositColMap[i, 0], depositColMap[i, 1]);
                      }
                   }
                }
@@ -250,7 +256,9 @@ namespace CIMView
                ctx.ConsoleWriteLogLine(String.Format("EXCEPTION adding English to to table:'{0}'", e.Message));
             }
 
-            // ADD MONEY TO TABLES
+
+            // A D D   M O N E Y   T O   T A B L E S
+
             try
             {
                foreach (DataTable dTable in dTableSet.Tables)
@@ -258,7 +266,7 @@ namespace CIMView
                   if (dTable.TableName.StartsWith("CashIn-") || dTable.TableName.Equals("Deposit"))
                   {
                      ctx.ConsoleWriteLogLine("Adding money to table :" + dTable.TableName);
-                     DataTableOps.AddMoneyToTable(ctx, dTable, dTableSet.Tables["Messages"]);
+                     _datatable_ops.AddMoneyToTable(ctx, dTable, dTableSet.Tables["Messages"]);
                   }
                }
             }
@@ -268,7 +276,9 @@ namespace CIMView
 
             }
 
-            // ADD AMOUNT TO THE DEPOSIT TABLE
+
+            // A D D   A M O U N T   T O   D E P O S I T   T A B L E
+
             try
             {
                foreach (DataTable dTable in dTableSet.Tables)
@@ -276,7 +286,7 @@ namespace CIMView
                   if (dTable.TableName.Equals("Deposit"))
                   {
                      ctx.ConsoleWriteLogLine("Adding money to table :" + dTable.TableName);
-                     DataTableOps.AddAmountToTable(ctx, dTable);
+                     _datatable_ops.AddAmountToTable(ctx, dTable);
                   }
                }
             }
@@ -299,7 +309,7 @@ namespace CIMView
                      string cashUnitNumber = dTable.TableName.Replace("CashIn-", string.Empty);
                      ctx.ConsoleWriteLogLine("cashUnitNumber :" + cashUnitNumber);
 
-                     dataRows = dTableSet.Tables["CashInSummary"].Select(String.Format("number = {0}", cashUnitNumber));
+                     dataRows = dTableSet.Tables["Summary"].Select(String.Format("number = {0}", cashUnitNumber));
                      if (dataRows.Length == 1)
                      {
                         if (dataRows[0]["denom"].ToString().Trim() == "0")
@@ -370,7 +380,7 @@ namespace CIMView
          {
             ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CIM_STATUS tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
 
-            DataRow dataRow = dTableSet.Tables["CashInStatus"].Rows.Add();
+            DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
 
             dataRow["file"] = _traceFile;
             dataRow["time"] = lpResult.tsTimestamp(xfsLine);
@@ -398,7 +408,7 @@ namespace CIMView
             result = _wfs_inf_cim_status.fwStackerItems(result.subLogLine);
             if (result.success) dataRow["stackitems"] = result.xfsMatch.Trim();
 
-            dTableSet.Tables["CashInStatus"].AcceptChanges();
+            dTableSet.Tables["Status"].AcceptChanges();
          }
          catch (Exception e)
          {
@@ -412,7 +422,7 @@ namespace CIMView
          {
             ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CIM_CASH_UNIT_INFO tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
 
-            _wfs_inf_cim_cash_unit_info cashInfo = new _wfs_inf_cim_cash_unit_info();
+            WFSCIMCASHINFO cashInfo = new WFSCIMCASHINFO(ctx);
             try
             {
                cashInfo.Initialize(xfsLine);
@@ -430,7 +440,7 @@ namespace CIMView
                   ctx.ConsoleWriteLogLine("WFS_INF_CIM_CASH_UNIT_INFO First time seeing CASH_UNIT_INFO, populate the Summary Table");
                   have_seen_WFS_INF_CIM_CASH_UNIT_INFO = true;
 
-                  DataRow[] dataRows = dTableSet.Tables["CashInSummary"].Select();
+                  DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
 
                   // for each row, set the tracefile, timestamp and hresult
                   for (int i = 0; i < cashInfo.lUnitCount; i++)
@@ -465,11 +475,11 @@ namespace CIMView
                      }
                      catch (Exception e)
                      {
-                        ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CIM_CASH_UNIT_INFO CashInSummary Table Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
+                        ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CIM_CASH_UNIT_INFO Summary Table Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
                      }
                   }
 
-                  dTableSet.Tables["CashInSummary"].AcceptChanges();
+                  dTableSet.Tables["Summary"].AcceptChanges();
                }
                catch (Exception e)
                {
@@ -512,8 +522,9 @@ namespace CIMView
                   {
                      for (int j = 0; j < 20; j++)
                      {
-                        if (cashInfo.noteNumbers[i, j].Length > 0 && cashInfo.noteNumbers[i, j].Contains(":"))
+                        if (!String.IsNullOrEmpty(cashInfo.noteNumbers[i, j]) && cashInfo.noteNumbers[i, j].Contains(":"))
                         {
+                           ctx.ConsoleWriteLogLine(String.Format("Setting Notes: i: {0} j: {1}, NoteNum: {2}", i, j, cashInfo.noteNumbers[i, j]));
                            string[] noteNum = cashInfo.noteNumbers[i, j].Split(':');
                            cashUnitRow["N" + noteNum[0]] = noteNum[1];
                         }
@@ -523,7 +534,6 @@ namespace CIMView
                   {
                      ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CDM_CASH_UNIT_INFO CashIn Setting Notes Exception {0}, {1}, {2}, {3}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message, i));
                   }
-
 
                   dTableSet.Tables["CashIn-" + cashInfo.usNumbers[i]].AcceptChanges();
                }
@@ -552,7 +562,7 @@ namespace CIMView
             result = _wfs_inf_cim_cash_in_status.usNumOfRefused(xfsLine);
             string usNumOfRefused = result.xfsMatch.Trim();
 
-            string[,] noteNumberList = _wfs_note_numbers.NoteNumberListFromList(1, result.subLogLine);
+            string[,] noteNumberList = _wfs_note_numbers.NoteNumberListFromList(result.subLogLine);
 
             // add new row
             DataRow dataRow = dTableSet.Tables["Deposit"].Rows.Add();
@@ -623,7 +633,7 @@ namespace CIMView
 
             // access the values
             (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cim_cash_in_status.usNumOfRefused(xfsLine);
-            string[,] noteNumberList = _wfs_note_numbers.NoteNumberListFromList(1, result.subLogLine);
+            string[,] noteNumberList = _wfs_note_numbers.NoteNumberListFromList(result.subLogLine);
 
             // add new row
             DataRow dataRow = dTableSet.Tables["Deposit"].Rows.Add();
@@ -666,7 +676,7 @@ namespace CIMView
          {
             ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_CIM_CASH_IN_END tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
 
-            _wfs_inf_cim_cash_unit_info cashInfo = new _wfs_inf_cim_cash_unit_info();
+            WFSCIMCASHINFO cashInfo = new WFSCIMCASHINFO(ctx);
             try
             {
                cashInfo.Initialize(xfsLine);
@@ -795,7 +805,7 @@ namespace CIMView
       {
          try
          {
-            _wfs_inf_cim_cash_unit_info cashInfo = new _wfs_inf_cim_cash_unit_info();
+            WFSCIMCASHINFO cashInfo = new WFSCIMCASHINFO(ctx);
             try
             {
                cashInfo.Initialize(xfsLine);
@@ -926,7 +936,7 @@ namespace CIMView
          {
             ctx.ConsoleWriteLogLine(String.Format("WFS_USRE_CIM_CASHUNITTHRESHOLD tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
 
-            _wfs_inf_cim_cash_unit_info cashInfo = new _wfs_inf_cim_cash_unit_info();
+            WFSCIMCASHINFO cashInfo = new WFSCIMCASHINFO(ctx);
             try
             {
                cashInfo.Initialize(xfsLine);
@@ -936,7 +946,7 @@ namespace CIMView
                ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CIM_CASH_UNIT_INFO Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
             }
 
-            DataRow[] dataRows = dTableSet.Tables["CashInSummary"].Select();
+            DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
             int i = int.Parse(cashInfo.usNumbers[0]);
 
             dataRows[i]["file"] = _traceFile;
@@ -962,7 +972,7 @@ namespace CIMView
          {
             ctx.ConsoleWriteLogLine(String.Format("WFS_SRVE_CIM_CASHUNITINFOCHANGED tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
 
-            _wfs_inf_cim_cash_unit_info cashInfo = new _wfs_inf_cim_cash_unit_info();
+            WFSCIMCASHINFO cashInfo = new WFSCIMCASHINFO(ctx);
             try
             {
                cashInfo.Initialize(xfsLine);
@@ -972,51 +982,64 @@ namespace CIMView
                ctx.ConsoleWriteLogLine(String.Format("WFS_SRVE_CIM_CASHUNITINFOCHANGED Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
             }
 
-            DataRow[] dataRows = dTableSet.Tables["CashInSummary"].Select();
-            int i = int.Parse(cashInfo.usNumbers[0]);
-
-            dataRows[i]["file"] = _traceFile;
-            dataRows[i]["time"] = lpResult.tsTimestamp(xfsLine);
-            dataRows[i]["error"] = lpResult.hResult(xfsLine);
-
-            dataRows[i]["type"] = cashInfo.fwTypes[0];
-            dataRows[i]["name"] = cashInfo.cUnitIDs[0];
-            dataRows[i]["currency"] = cashInfo.cCurrencyIDs[0];
-            dataRows[i]["denom"] = cashInfo.ulValues[0];
-            dataRows[i]["max"] = cashInfo.ulMaximums[0];
-
-            dTableSet.Tables["CashInSummary"].AcceptChanges();
-
-
-            string tableName = "CashIn-" + cashInfo.usNumbers[0];
-            DataRow cashUnitRow = dTableSet.Tables[tableName].Rows.Add();
-
-            cashUnitRow["file"] = _traceFile;
-            cashUnitRow["time"] = lpResult.tsTimestamp(xfsLine);
-            cashUnitRow["error"] = lpResult.hResult(xfsLine);
-
-            cashUnitRow["status"] = cashInfo.usStatuses[0];
-            cashUnitRow["cashin"] = cashInfo.ulCashInCounts[0];
-            cashUnitRow["count"] = cashInfo.ulCounts[0];
-
             try
             {
-               for (int j = 0; j < 20; j++)
-               {
-                  if (!String.IsNullOrEmpty(cashInfo.noteNumbers[0, j]) && cashInfo.noteNumbers[0, j].Contains(":"))
-                  {
-                     string[] noteNum = cashInfo.noteNumbers[0, j].Split(':');
-                     cashUnitRow["N" + noteNum[0]] = noteNum[1];
-                  }
-               }
+               DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
+               int i = int.Parse(cashInfo.usNumbers[0]);
+
+               dataRows[i]["file"] = _traceFile;
+               dataRows[i]["time"] = lpResult.tsTimestamp(xfsLine);
+               dataRows[i]["error"] = lpResult.hResult(xfsLine);
+
+               dataRows[i]["type"] = cashInfo.fwTypes[0];
+               dataRows[i]["name"] = cashInfo.cUnitIDs[0];
+               dataRows[i]["currency"] = cashInfo.cCurrencyIDs[0];
+               dataRows[i]["denom"] = cashInfo.ulValues[0];
+               dataRows[i]["max"] = cashInfo.ulMaximums[0];
+
+               dTableSet.Tables["Summary"].AcceptChanges();
             }
             catch (Exception e)
             {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_SRVE_CIM_CASHUNITINFOCHANGED CashIn Setting Notes Exception {0}, {1}, {2}, {3}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message, i));
+               ctx.ConsoleWriteLogLine(String.Format("WFS_SRVE_CIM_CASHUNITINFOCHANGED Updating Summary Table Exception {0}, {1}, {2}, {3}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
             }
 
+            try
+            {
+               string tableName = "CashIn-" + cashInfo.usNumbers[0];
+               DataRow cashUnitRow = dTableSet.Tables[tableName].Rows.Add();
 
-            dTableSet.Tables["CashIn-" + cashInfo.usNumbers[0]].AcceptChanges();
+               cashUnitRow["file"] = _traceFile;
+               cashUnitRow["time"] = lpResult.tsTimestamp(xfsLine);
+               cashUnitRow["error"] = lpResult.hResult(xfsLine);
+
+               cashUnitRow["status"] = cashInfo.usStatuses[0];
+               cashUnitRow["cashin"] = cashInfo.ulCashInCounts[0];
+               cashUnitRow["count"] = cashInfo.ulCounts[0];
+
+               try
+               {
+                  for (int j = 0; j < 20; j++)
+                  {
+                     if (!String.IsNullOrEmpty(cashInfo.noteNumbers[0, j]) && cashInfo.noteNumbers[0, j].Contains(":"))
+                     {
+                        string[] noteNum = cashInfo.noteNumbers[0, j].Split(':');
+                        cashUnitRow["N" + noteNum[0]] = noteNum[1];
+                     }
+                  }
+               }
+               catch (Exception e)
+               {
+                  ctx.ConsoleWriteLogLine(String.Format("WFS_SRVE_CIM_CASHUNITINFOCHANGED CashIn Setting Notes Exception {0}, {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
+               }
+
+
+               dTableSet.Tables["CashIn-" + cashInfo.usNumbers[0]].AcceptChanges();
+            }
+            catch (Exception e)
+            {
+               ctx.ConsoleWriteLogLine(String.Format("WFS_SRVE_CIM_CASHUNITINFOCHANGED Updating Summary Table Exception {0}, {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
+            }
 
          }
          catch (Exception e)

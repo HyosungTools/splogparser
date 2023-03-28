@@ -53,6 +53,7 @@ namespace Impl
 
          return (false, def, logLine);
       }
+
       /// <summary>
       /// Generic pull out usCount. There are two forms 'usCount=5' and 'usCount = [5]'
       /// </summary>
@@ -60,7 +61,7 @@ namespace Impl
       /// <param name="regStr">regular expression identifying usCount</param>
       /// <param name="def">default return value</param>
       /// <returns></returns>
-      public static int GenericMatchusCount(string logLine, string regStr, int def = 0)
+      public static int GenericMatchInt(string logLine, string regStr, int def = 0)
       {
          Regex countRegex = new Regex(regStr);
          Match m = countRegex.Match(logLine);
@@ -71,6 +72,7 @@ namespace Impl
 
          return def;
       }
+
       public static string[] Resize(string[] values, int ulCount, string defValue = "0")
       {
          int oldSize = values.Length;
@@ -81,6 +83,7 @@ namespace Impl
          }
          return values;
       }
+
       public static string[] TrimAll(string[] values)
       {
          return values.Select(value => value.Trim()).ToArray();

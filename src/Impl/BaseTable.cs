@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.IO;
+using System.Linq;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Impl
@@ -280,6 +281,15 @@ namespace Impl
          return;
       }
 
+      private static Random random = new Random();
+
+      public static string RandomString(int length)
+      {
+         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+         return new string(Enumerable.Repeat(chars, length)
+             .Select(s => s[random.Next(s.Length)]).ToArray());
+      }
+
       /// <summary>
       /// Write the DataTable out to an Excel worksheet. This is the heavy lift. Most of the write to Excel worksheets 
       /// happens here. 
@@ -287,6 +297,23 @@ namespace Impl
       /// <returns>True if the write is successful, false otherwise.</returns>
       public virtual bool WriteExcelFile()
       {
+         // Rename any datatable whose name will collidate with another
+         foreach (DataTable dTable in dTableSet.Tables)
+         {
+            if (dTable.TableName.Equals("Status") || 
+                dTable.TableName.Equals("Summary") || 
+                dTable.TableName.Equals("reject") ||
+                dTable.TableName.Equals("reject") ||
+                dTable.TableName.Equals("retract") ||
+                dTable.TableName.StartsWith("USD"))
+            {
+               string tablePrefix = viewName.Replace("View", "");
+               ctx.ConsoleWriteLogLine(String.Format("Rename DataTable from {0} to {1}", dTable.TableName, tablePrefix + dTable.TableName));
+               dTable.TableName = tablePrefix + dTable.TableName; 
+            }
+         }
+
+
          string excelFileName = ctx.WorkFolder + "\\" + Path.GetFileNameWithoutExtension(ctx.ZipFileName) + ".xlsx";
          Console.WriteLine("Write DataTable to Excel:" + excelFileName);
 
@@ -334,7 +361,17 @@ namespace Impl
             ctx.ConsoleWriteLogLine("Instantiate Excel objects...");
             Excel._Worksheet activeSheet = (Excel._Worksheet)activeBook.Sheets.Add(Before: activeBook.Sheets[activeBook.Sheets.Count]);
             activeSheet.Activate();
-            activeSheet.Name = dTable.TableName;
+            try
+            {
+               activeSheet.Name = dTable.TableName;
+            }
+            catch (Exception e)
+            {
+               ctx.ConsoleWriteLogLine("Exception in WriteExcelFile :" + e.Message);
+               ctx.ConsoleWriteLogLine("Exception in WriteExcelFile did not like dTable.TableName : " + dTable.TableName);
+               activeSheet.Name = dTable.TableName + RandomString(3);
+               ctx.ConsoleWriteLogLine("Renamed to : " + activeSheet.Name);
+            }
 
             // add column headers -----------------------------------------------------
             ctx.ConsoleWriteLogLine("Add column headers...");

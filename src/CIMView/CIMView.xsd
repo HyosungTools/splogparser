@@ -3,7 +3,7 @@
   <xs:element name="CDM" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="CashInStatus">
+        <xs:element name="Status">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="file" type="xs:string" minOccurs="0" />
@@ -36,6 +36,7 @@
 			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
+			  <xs:element name="comment" type="xs:string" minOccurs="0" />
 			  <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
@@ -57,11 +58,10 @@
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
 			  <xs:element name="N20" type="xs:string" minOccurs="0" />
-			  <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="CashInSummary">
+        <xs:element name="Summary">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="file" type="xs:string" minOccurs="0" />
@@ -101,6 +101,7 @@
 			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
 			  <xs:element name="N0" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />			  
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
               <xs:element name="N3" type="xs:string" minOccurs="0" />
@@ -121,7 +122,6 @@
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
 			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
-              <xs:element name="comment" type="xs:string" minOccurs="0" />
 		    </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -146,6 +146,7 @@
 			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
+			  <xs:element name="comment" type="xs:string" minOccurs="0" />
 			  <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
@@ -167,7 +168,6 @@
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
 			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
-			  <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -192,6 +192,7 @@
 			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
+			  <xs:element name="comment" type="xs:string" minOccurs="0" />
 			  <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
@@ -213,7 +214,6 @@
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
 			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
-			  <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -238,6 +238,7 @@
 			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
 			  <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
@@ -259,7 +260,6 @@
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
 			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
-              <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -284,6 +284,7 @@
 			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
 			  <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
@@ -305,7 +306,6 @@
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
 			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
-              <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -330,6 +330,7 @@
 			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
 			  <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
@@ -351,7 +352,6 @@
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
 			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
-              <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -376,6 +376,7 @@
 			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
 			  <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
@@ -397,7 +398,6 @@
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
 			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
-              <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -422,6 +422,7 @@
 			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
 			  <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
@@ -443,7 +444,6 @@
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
 			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
-              <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -468,6 +468,7 @@
 			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
 			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
 			  <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
@@ -489,7 +490,6 @@
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
 			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
-              <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
