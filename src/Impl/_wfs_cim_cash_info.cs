@@ -8,89 +8,13 @@ namespace Impl
    /// <summary>
    /// 
    /// </summary>
-   public class _wfs_inf_cim_cash_unit_info
+   public class _wfs_cim_cash_info
    {
-      public int lUnitCount { get; set; }
-      public string[] usNumbers { get; set; }
-      public string[] fwTypes { get; set; }
-      public string[] cUnitIDs { get; set; }
-      public string[] cCurrencyIDs { get; set; }
-      public string[] ulValues { get; set; }
-      public string[] ulCashInCounts { get; set; }
-      public string[] ulCounts { get; set; }
-      public string[] ulMaximums { get; set; }
-      public string[] usStatuses { get; set; }
-      public string[,] noteNumbers { get; set; }
-      public string[] ulInitialCounts { get; set; }
-      public string[] ulDispensedCounts { get; set; }
-      public string[] ulPresentedCounts { get; set; }
-      public string[] ulRetractedCounts { get; set; }
-      public string[] ulRejectCounts { get; set; }
-      public string[] ulMinimums { get; set; }
-
-      public string Initialize(string nwLogLine)
-      {
-
-         if (nwLogLine.Contains("lppCashIn->"))
-         {
-            // isolate count (e.g usCount=7)
-            (bool success, string xfsMatch, string subLogLine) result = _wfs_base.GenericMatch(nwLogLine, "(?<=usCount=)(\\d+)", "1");
-            lUnitCount = int.Parse(result.xfsMatch.Trim());
-
-            usNumbers = usNumbersFromTable(result.subLogLine);
-            fwTypes = fwTypesFromTable(result.subLogLine);
-            cUnitIDs = cUnitIDsFromTable(lUnitCount, result.subLogLine);
-            cCurrencyIDs = cCurrencyIDsFromTable(lUnitCount, result.subLogLine);
-            ulValues = ulValuesFromTable(result.subLogLine);
-            ulCashInCounts = ulCashInCountsFromTable(result.subLogLine);
-            ulCounts = ulCountsFromTable(result.subLogLine);
-            ulMaximums = ulMaximumsFromTable(result.subLogLine);
-            usStatuses = usStatusesFromTable(result.subLogLine);
-            noteNumbers = noteNumberListFromTable(lUnitCount, result.subLogLine);
-            ulInitialCounts = ulInitialCountsFromTable(result.subLogLine);
-            ulDispensedCounts = ulDispensedCountsFromTable(result.subLogLine);
-            ulPresentedCounts = ulPresentedCountsFromTable(result.subLogLine);
-            ulRetractedCounts = ulRetractedCountsFromTable(result.subLogLine);
-            ulRejectCounts = ulRejectCountsFromTable(result.subLogLine);
-            ulMinimums = ulMinimumsFromTable(result.subLogLine);
-         }
-         else
-         {
-            // isolate count (e.g usCount=7)
-            int ulCount = 1;
-            (int usCount, string subLogLine) result = _wfs_inf_cim_cash_unit_info.usCountFromList(nwLogLine);
-            if (result.usCount > 0)
-            {
-               ulCount = result.usCount; 
-            }
-             
-            usNumbers = usNumbersFromList(ulCount, result.subLogLine);
-            fwTypes = fwTypesFromList(ulCount, result.subLogLine);
-            cUnitIDs = cUnitIDsFromList(ulCount, result.subLogLine);
-            cCurrencyIDs = cCurrencyIDsFromList(ulCount, result.subLogLine);
-            ulValues = ulValuesFromList(ulCount, result.subLogLine);
-            ulCashInCounts = ulCashInCountsFromList(ulCount, result.subLogLine);
-            ulCounts = ulCountsFromList(ulCount, result.subLogLine);
-            ulMaximums = ulMaximumsFromList(ulCount, result.subLogLine);
-            usStatuses = usStatusesFromList(ulCount, result.subLogLine);
-            noteNumbers = noteNumberListFromList(ulCount, result.subLogLine);
-            ulInitialCounts = ulInitialCountsFromList(ulCount, result.subLogLine);
-            ulDispensedCounts = ulDispensedCountsFromList(ulCount, result.subLogLine);
-            ulPresentedCounts = ulPresentedCountsFromList(ulCount, result.subLogLine);
-            ulRetractedCounts = ulRetractedCountsFromList(ulCount, result.subLogLine);
-            ulRejectCounts = ulRejectCountsFromList(ulCount, result.subLogLine);
-            ulMinimums = ulMinimumsFromList(ulCount, result.subLogLine);
-         }
-
-         return nwLogLine;
-      }
-
       // T A B L E   A C C E S S   F U N C T I O N S
 
-      public static int usCountFromTable(string logLine)
+      public static (bool success, string xfsMatch, string subLogLine) usCountFromTable(string logLine, int lUnitCount = 1)
       {
-         // e.g. usCount=5
-         return _wfs_base.GenericMatchusCount(logLine, "(?<=usCount=)(\\d+)");
+         return _wfs_base.GenericMatch(logLine, "(?<=usCount=)(\\d+)", lUnitCount.ToString());
       }
 
       public static string[] usNumbersFromTable(string logLine)
@@ -103,20 +27,20 @@ namespace Impl
          return _wfs_base.GenericMatchTable(logLine, "(?<=fwType)(([ \\t]+\\d+)+)");
       }
 
-      public static string[] cUnitIDsFromTable(int usCount, string logLine)
+      public static string[] cUnitIDsFromTable(string logLine, int lUnitCount = 1)
       {
          // there are cases where the last LU is not defined so be prepared to resize.
          // note it's \w+
          string[] values = _wfs_base.GenericMatchTable(logLine, "(?<=cUnitID)(([ \\t]+\\w+)+)");
-         return _wfs_base.TrimAll(_wfs_base.Resize(values, usCount, ""));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values, lUnitCount, ""));
       }
 
-      public static string[] cCurrencyIDsFromTable(int usCount, string logLine)
+      public static string[] cCurrencyIDsFromTable(string logLine, int lUnitCount = 1)
       {
          // there are cases where the last LU is not defined so be prepared to resize.
          // note it's \w+
          string[] values = _wfs_base.GenericMatchTable(logLine, "(?<=cCurrencyID)(([ \\t]+\\w+)+)");
-         return _wfs_base.TrimAll(_wfs_base.Resize(values, usCount, ""));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values, lUnitCount, ""));
       }
 
       public static string[] ulValuesFromTable(string logLine)
@@ -180,9 +104,9 @@ namespace Impl
          return _wfs_base.GenericMatchTable(logLine, "(?<=usStatus)(([ \\t]+\\d+)+)");
       }
 
-      public static string[,] noteNumberListFromTable(int lUnitCount, string logLine)
+      public static string[,] noteNumberListFromTable(string logLine, int lUnitCount = 1)
       {
-         return _wfs_note_numbers.NoteNumberListFromTable(lUnitCount, logLine);
+         return _wfs_note_numbers.NoteNumberListFromTable(logLine, lUnitCount);
       }
 
       public static string[] ulMaximumsFromTable(string logLine)
@@ -197,256 +121,210 @@ namespace Impl
 
       // L I S T    A C C E S S    F U N C T I O N S 
 
-      /// <summary>
-      /// Given a list format pull off in strings the next logical unit for processing
-      /// </summary>
-      /// <param name="logLine"></param>
-      /// <returns></returns>
-      public static (string thisLogicalUnit, string nextLogicalUnits) NextLogicalUnit(string logLine)
+      public static (bool success, string xfsMatch, string subLogLine) usCountFromList(string logLine, int lUnitCount = 1)
       {
-         int indexOfOpenBracket = logLine.IndexOf('{');
-         if (indexOfOpenBracket < 0)
-         {
-            return (string.Empty, logLine);
-         }
-
-         string subLogLine = logLine.Substring(indexOfOpenBracket);
-         int endPos = -1;
-         int bracketCount = 0;
-
-         foreach (char c in subLogLine)
-         {
-            // endPos is the index of 'c'
-            endPos++;
-            if (c.Equals('{'))
-            {
-               bracketCount++;
-            }
-            else if (c.Equals('}'))
-            {
-               bracketCount--;
-            }
-            if (bracketCount == 0)
-            {
-               break;
-            }
-         }
-
-         return (subLogLine.Substring(0, endPos), subLogLine.Substring(endPos + 1));
+         return _wfs_base.GenericMatch(logLine, "(?<=usCount = )\\[(\\d+)\\]", lUnitCount.ToString());
       }
 
-      public static (int usCount, string subLogLine) usCountFromList(string logLine)
-      {
-         // e.g. usCount = [2]
-         Regex countRegex = new Regex("(?<=usCount = )\\[(\\d+)\\]");
-         Match m = countRegex.Match(logLine);
-         if (m.Success)
-         {
-            return (int.Parse(m.Groups[1].Value.Trim()), logLine.Substring(m.Index));
-         }
-
-         return (0, logLine);
-      }
-
-      public static string[] usNumbersFromList(int ulCount, string logLine)
+      public static string[] usNumbersFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
-         for (int i = 0; i < ulCount; i++)
+         for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(usNumber(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), ulCount));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), lUnitCount));
 
       }
 
-      public static string[] fwTypesFromList(int usCount, string logLine)
+      public static string[] fwTypesFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
-         for (int i = 0; i < usCount ; i++)
+         for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(fwType(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), lUnitCount));
       }
 
-      public static string[] cUnitIDsFromList(int usCount, string logLine)
+      public static string[] cUnitIDsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
-         for (int i = 0; i < usCount; i++)
+         for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(cUnitID(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount, ""));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), lUnitCount, ""));
       }
 
-      public static string[] cCurrencyIDsFromList(int usCount, string logLine)
+      public static string[] cCurrencyIDsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
-         for (int i = 0; i < usCount; i++)
+         for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(cCurrencyID(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount, ""));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), lUnitCount, ""));
       }
 
-      public static string[] ulValuesFromList(int usCount, string logLine)
+      public static string[] ulValuesFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
-         for (int i = 0; i < usCount; i++)
+         for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(ulValue(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), lUnitCount));
       }
 
-      public static string[] ulCashInCountsFromList(int usCount, string logLine)
+      public static string[] ulCashInCountsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
-         for (int i = 0; i < usCount; i++)
+         for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(ulCashInCount(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), lUnitCount));
       }
 
-      public static string[] ulCountsFromList(int usCount, string logLine)
+      public static string[] ulCountsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
-         for (int i = 0; i < usCount; i++)
+         for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(ulCount(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), lUnitCount));
       }
 
-      public static string[] ulMaximumsFromList(int usCount, string logLine)
+      public static string[] ulMaximumsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
-         for (int i = 0; i < usCount; i++)
+         for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(ulMaximum(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), lUnitCount));
       }
 
-      public static string[] usStatusesFromList(int usCount, string logLine)
+      public static string[] usStatusesFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
-         for (int i = 0; i < usCount; i++)
+         for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(usStatus(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), lUnitCount));
       }
 
-      public static string[,] noteNumberListFromList(int usCount, string logLine)
+      public static string[,] noteNumberListFromList(string logLine, int lUnitCount = 1)
       {
-         return _wfs_note_numbers.NoteNumberListFromList(usCount, logLine);
+         return _wfs_note_numbers.NoteNumberListFromList(logLine, lUnitCount);
       }
 
-      public static string[] ulInitialCountsFromList(int usCount, string logLine)
+      public static string[] ulInitialCountsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
-         for (int i = 0; i < usCount; i++)
+         for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(ulInitialCount(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), lUnitCount));
       }
 
-      public static string[] ulDispensedCountsFromList(int usCount, string logLine)
+      public static string[] ulDispensedCountsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
-         for (int i = 0; i < usCount; i++)
+         for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(ulDispensedCount(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), lUnitCount));
       }
 
-      public static string[] ulPresentedCountsFromList(int usCount, string logLine)
+      public static string[] ulPresentedCountsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
-         for (int i = 0; i < usCount; i++)
+         for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(ulPresentedCount(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), lUnitCount));
       }
 
-      public static string[] ulRetractedCountsFromList(int usCount, string logLine)
+      public static string[] ulRetractedCountsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
-         for (int i = 0; i < usCount; i++)
+         for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(ulRetractedCount(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), lUnitCount));
       }
 
-      public static string[] ulRejectCountsFromList(int usCount, string logLine)
+      public static string[] ulRejectCountsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
-         for (int i = 0; i < usCount; i++)
+         for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(ulRejectCount(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), lUnitCount));
       }
 
-      public static string[] ulMinimumsFromList(int usCount, string logLine)
+      public static string[] ulMinimumsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
-         for (int i = 0; i < usCount; i++)
+         for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(ulMinimum(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount));
+         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), lUnitCount));
       }
 
       // I N D I V I D U A L    A C C E S S O R S

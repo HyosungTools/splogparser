@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Impl
 {
-   public static class _wfs_inf_cim_status 
+   public static class _wfs_inf_cim_status
    {
       public static (bool success, string xfsMatch, string subLogLine) fwDevice(string logLine)
       {

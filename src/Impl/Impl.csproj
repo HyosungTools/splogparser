@@ -43,7 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataTableOps.cs" />
+    <Compile Include="WFSCDMCIM.cs" />
+    <Compile Include="WFSCDMCUINFO.cs" />
+    <Compile Include="WFSCIMCASHINFO.cs" />
+    <Compile Include="_datatable_ops.cs" />
     <Compile Include="BaseTable.cs" />
     <Compile Include="BaseView.cs" />
     <Compile Include="Context.cs" />
@@ -62,9 +65,9 @@
     <Compile Include="_wfs_cmd_cdm_dispense.cs" />
     <Compile Include="_wfs_cmd_cim_cash_in.cs" />
     <Compile Include="_wfs_inf_cim_cash_in_status.cs" />
-    <Compile Include="_wfs_inf_cim_cash_unit_info.cs" />
+    <Compile Include="_wfs_cim_cash_info.cs" />
     <Compile Include="_wfs_inf_cdm_status.cs" />
-    <Compile Include="_wfs_inf_cdm_cash_unit_info.cs" />
+    <Compile Include="_wfs_cdm_cu_info.cs" />
     <Compile Include="_wfs_inf_cim_status.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,7 @@ namespace Impl
    /// lpszExtra = [ErrorCode = 0000000, Description =[0000000]System OK!, ErrCode = 0000000, ErrMsg = System OK!, Position = Unknown, SP_Version = V 04.21.28, EP_Version = V 02.00.97, Boot_Version = D
    /// 
 
-   public static class _wfs_inf_cdm_status 
+   public static class _wfs_inf_cdm_status
    {
       public static (bool success, string xfsMatch, string subLogLine) fwDevice(string logLine)
       {

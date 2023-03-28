@@ -1,6 +1,6 @@
 <?xml version="1.0" standalone="yes"?>
 <CIM>
-  <CashInSummary>
+  <Summary>
     <file></file>
 	<time></time>
 	<error></error>
@@ -11,9 +11,9 @@
 	<denom></denom>
 	<max></max>
 	<comment></comment>
-  </CashInSummary>
+  </Summary>
 
-  <CashInSummary>
+  <Summary>
     <file></file>
 	<time></time>
 	<error></error>
@@ -24,9 +24,9 @@
 	<denom></denom>
 	<max></max>
 	<comment></comment>
-  </CashInSummary>
+  </Summary>
 
-  <CashInSummary>
+  <Summary>
     <file></file>
 	<time></time>
 	<error></error>
@@ -37,9 +37,9 @@
 	<denom></denom>
 	<max></max>
 	<comment></comment>
-  </CashInSummary>
+  </Summary>
 
-  <CashInSummary>
+  <Summary>
     <file></file>
 	<time></time>
 	<error></error>
@@ -50,9 +50,9 @@
 	<denom></denom>
 	<max></max>
 	<comment></comment>
-  </CashInSummary>
+  </Summary>
 
-  <CashInSummary>
+  <Summary>
     <file></file>
 	<time></time>
 	<error></error>
@@ -63,9 +63,9 @@
 	<denom></denom>
 	<max></max>
 	<comment></comment>
-  </CashInSummary>
+  </Summary>
 
-  <CashInSummary>
+  <Summary>
     <file></file>
 	<time></time>
 	<error></error>
@@ -76,9 +76,9 @@
 	<denom></denom>
 	<max></max>
 	<comment></comment>
-  </CashInSummary>
+  </Summary>
 
-  <CashInSummary>
+  <Summary>
     <file></file>
 	<time></time>
 	<error></error>
@@ -89,9 +89,9 @@
 	<denom></denom>
 	<max></max>
 	<comment></comment>
-  </CashInSummary>
+  </Summary>
 
-  <CashInSummary>
+  <Summary>
     <file></file>
 	<time></time>
 	<error></error>
@@ -102,9 +102,9 @@
 	<denom></denom>
 	<max></max>
 	<comment></comment>
-  </CashInSummary>
+  </Summary>
 
-  <CashInSummary>
+  <Summary>
     <file></file>
 	<time></time>
 	<error></error>
@@ -115,9 +115,9 @@
 	<denom></denom>
 	<max></max>
 	<comment></comment>
-  </CashInSummary>
+  </Summary>
 
-  <CashInSummary>
+  <Summary>
     <file></file>
 	<time></time>
 	<error></error>
@@ -128,7 +128,7 @@
 	<denom></denom>
 	<max></max>
 	<comment></comment>
-  </CashInSummary>
+  </Summary>
 
     <!-- fwDevice -->
   <Messages>
@@ -371,6 +371,50 @@
     <code>6</code>
     <brief>specific</brief>
     <description></description>
+  </Messages> 
+  
+  <!-- wStatus -->
+  
+  <Messages>
+    <type>wStatus</type>
+    <code>0</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+    <type>wStatus</type>
+    <code>1</code>
+    <brief>rollback</brief>
+    <description>transaction ended with a rollback</description>
+  </Messages> 
+
+  <Messages>
+    <type>wStatus</type>
+    <code>2</code>
+    <brief>active</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+    <type>wStatus</type>
+    <code>3</code>
+    <brief>retract</brief>
+    <description>transaction ended with a retract</description>
+  </Messages> 
+
+  <Messages>
+    <type>wStatus</type>
+    <code>4</code>
+    <brief>unknown</brief>
+    <description>state is unknown.</description>
+  </Messages> 
+
+  <Messages>
+    <type>wStatus</type>
+    <code>5</code>
+    <brief>reset</brief>
+    <description>transaction ended with a reset</description>
   </Messages> 
   
   <!-- usStatus -->

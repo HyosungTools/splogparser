@@ -31,7 +31,7 @@ namespace Impl
       {
          List<string> values = new List<string>();
          (bool success, string xfsMatch, string subLogLine) result = usNumOfNoteNumbers(logLine);
-         int usCount = int.Parse(result.xfsMatch.Trim()); 
+         int usCount = int.Parse(result.xfsMatch.Trim());
          (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(result.subLogLine);
 
          for (int i = 0; i < usCount; i++)

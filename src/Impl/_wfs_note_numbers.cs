@@ -8,10 +8,10 @@ namespace Impl
 {
    public static class _wfs_note_numbers
    {
-      public static string[,] NoteNumberListFromTable(int lUnitCount, string logLine)
+      public static string[,] NoteNumberListFromTable(string logLine, int lUnitCount = 1)
       {
          // resize the lpNoteNumberList array to hold all note numbers for all logical units
-         string [,] lpNoteNumberList = new string[lUnitCount, 20];
+         string[,] lpNoteNumberList = new string[lUnitCount, 20];
 
          int indexOfTable = logLine.IndexOf("lpNoteNumberList->");
          string subLogLine = logLine.Substring(indexOfTable + "lpNoteNumberList->\r\n".Length);
@@ -24,7 +24,7 @@ namespace Impl
          }
 
          // iterate over each line of the block and load up the array
-         int colCount = 0; 
+         int colCount = 0;
          char[] trimChars = { '\t' };
          (bool found, string oneLine, string subLogLine) result = LogLine.ReadNextLine(subLogLine);
 
@@ -43,7 +43,7 @@ namespace Impl
                else
                {
                   // store as a string 'noteID:count'
-                  lpNoteNumberList[i, colCount] = match[i + 1].Replace(']', ':').Replace("[","");
+                  lpNoteNumberList[i, colCount] = match[i + 1].Replace(']', ':').Replace("[", "");
                }
             }
             // move onto the next log line, to fill in the next column
@@ -53,7 +53,7 @@ namespace Impl
          return lpNoteNumberList;
       }
 
-      public static string[,] NoteNumberListFromList(int lUnitCount, string logLine)
+      public static string[,] NoteNumberListFromList(string logLine, int lUnitCount = 1)
       {
          string[,] lppNoteNumbers = new string[lUnitCount, 20];
          for (int i = 0; i < lUnitCount; i++)
@@ -64,7 +64,7 @@ namespace Impl
          // how many baknote types are there? 
          (bool success, string xfsMatch, string subLogLine) result = usNumOfNoteNumbers(logLine);
          if (result.success && int.Parse(result.xfsMatch.Trim()) == 0)
-            return lppNoteNumbers; 
+            return lppNoteNumbers;
 
          (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
 
@@ -80,8 +80,8 @@ namespace Impl
 
             logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
          }
-            
-         return lppNoteNumbers; 
+
+         return lppNoteNumbers;
       }
 
       // usNumOfNoteNumbers  - number of BankNote Types 

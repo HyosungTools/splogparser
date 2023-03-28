@@ -10,7 +10,7 @@ namespace Impl
       /// GenericMatch. for example
       /// The lpulValues line looks like this - and we want to isolate the 6 digits
       /// 		lpulValues = [0, 0, 0, 4, 4, 0],
-       /// </summary>
+      /// </summary>
       /// <param name="regEx"></param>
       /// <param name="logLine"></param>
       /// <returns></returns>
