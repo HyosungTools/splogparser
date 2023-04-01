@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Contract;
 
 namespace Impl
 {
-   public static class _wfs_base
+   public class WFS
    {
-      public static (bool success, string xfsMatch, string subLogLine) GenericMatch(string logLine, string regStr, string def = "0")
+      protected IContext ctx;
+
+      public WFS(IContext ctx)
+      {
+         this.ctx = ctx; 
+      }
+
+      public static (bool success, string xfsMatch, string subLogLine) WFSMatch(string logLine, string regStr, string def = "0")
       {
          Regex timeRegex = new Regex(regStr);
          Match m = timeRegex.Match(logLine);
@@ -19,7 +27,7 @@ namespace Impl
          return (false, def, logLine);
       }
 
-      public static string[] GenericMatchTable(string logLine, string regStr)
+      public static string[] WFSMatchTable(string logLine, string regStr)
       {
          List<string> values = new List<string>();
          Regex regEx = new Regex(regStr);
@@ -42,7 +50,7 @@ namespace Impl
       /// <param name="regEx"></param>
       /// <param name="logLine"></param>
       /// <returns></returns>
-      public static (bool success, string xfsMatch, string subLogLine) GenericMatchList(string logLine, string regStr, string def = "0")
+      public static (bool success, string xfsMatch, string subLogLine) WFSMatchList(string logLine, string regStr, string def = "0")
       {
          Regex regEx = new Regex(regStr);
          Match m = regEx.Match(logLine);
@@ -54,6 +62,25 @@ namespace Impl
          return (false, def, logLine);
       }
 
+
+      // e.g. lpulValues = [0, 0, 0, 4, 4, 0],
+      public static (bool success, string[] xfsMatch, string subLogLine) WFSMatchListToArray(string logLine, string regStr)
+      {
+         Regex typeRegex = new Regex(regStr);
+         Match m = typeRegex.Match(logLine);
+         if (m.Success)
+         {
+            List<string> usTypes = m.Groups[0].Value.Split(',').ToList();
+            usTypes.RemoveAll(s => s == "");
+            string[] usTypesArray = usTypes.ToArray();
+            for (int i = 0; i < usTypesArray.Length; i++)
+               usTypesArray[i] = usTypesArray[i].Trim();
+            return (true, usTypesArray, logLine.Substring(m.Index));
+         }
+
+         return (false, null, logLine);
+      }
+
       /// <summary>
       /// Generic pull out usCount. There are two forms 'usCount=5' and 'usCount = [5]'
       /// </summary>
@@ -61,7 +88,7 @@ namespace Impl
       /// <param name="regStr">regular expression identifying usCount</param>
       /// <param name="def">default return value</param>
       /// <returns></returns>
-      public static int GenericMatchInt(string logLine, string regStr, int def = 0)
+      public static int WFSMatchInt(string logLine, string regStr, int def = 0)
       {
          Regex countRegex = new Regex(regStr);
          Match m = countRegex.Match(logLine);

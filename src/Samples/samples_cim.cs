@@ -1,5 +1,5 @@
 ﻿
-namespace ImplTests
+namespace Samples
 {
    public static class samples_cim
    {
@@ -15,11 +15,11 @@ lpResult =
 	u.dwCommandCode = [1301],
 	lpBuffer = [0x00447e44]
 	{
-		fwDevice = [0],
-		fwSafeDoor = [1],
-		fwAcceptor = [1],
-		fwIntermediateStacker = [0],
-		fwStackerItems = [4],
+		fwDevice = [1],
+		fwSafeDoor = [2],
+		fwAcceptor = [3],
+		fwIntermediateStacker = [4],
+		fwStackerItems = [5],
 		bDropBox = [0],
 		lppPositions =
 		{
@@ -720,7 +720,7 @@ lpResult =
 	lpBuffer = [0x0c5d121c]
 	{
 		wStatus = [2],
-		usNumOfRefused = [0],
+		usNumOfRefused = [3],
 		lpNoteNumberList = 
 		{
 			usNumOfNoteNumbers = [0],

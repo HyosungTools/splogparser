@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F82644B9-650F-466A-A294-570787BAD8CC}</ProjectGuid>
+    <ProjectGuid>{40F0653E-6960-45B2-AF29-83F4FAB34442}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ImplTests</RootNamespace>
-    <AssemblyName>ImplTests</AssemblyName>
+    <RootNamespace>WFSTests</RootNamespace>
+    <AssemblyName>WFSTests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -47,28 +47,22 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataTablesOpsTests.cs" />
-    <Compile Include="LogFindTests.cs" />
-    <Compile Include="LogLineTests.cs" />
-    <Compile Include="LogTimeTests.cs" />
-    <Compile Include="lpResultTests.cs" />
-    <Compile Include="IdentifyLineTests.cs" />
-    <Compile Include="TraceFileReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UtilitiesTests.cs" />
+    <Compile Include="WFSCDMCUINFOTests.cs" />
+    <Compile Include="WFSCDMDENOMINATIONTests.cs" />
+    <Compile Include="WFSCDMSTATUSTests.cs" />
+    <Compile Include="WFSCIMCASHINFOTests.cs" />
+    <Compile Include="WFSCIMCASHINSTATUSTests.cs" />
+    <Compile Include="WFSCIMNOTENUMBERLISTTests.cs" />
+    <Compile Include="WFSCIMSTATUSTests.cs" />
+    <Compile Include="_wfs_cmd_cim_cash_inTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Contract\Contract.csproj">
-      <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
-      <Name>Contract</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Impl\Impl.csproj">
       <Project>{f89403e5-4c5c-4d8f-8401-b2d56f6d8a2b}</Project>
       <Name>Impl</Name>
@@ -76,6 +70,10 @@
     <ProjectReference Include="..\Samples\SampleTests.csproj">
       <Project>{915d5fb6-69c8-4bab-984b-090801a300ca}</Project>
       <Name>SampleTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WFS\WFS.csproj">
+      <Project>{8685a55b-44fe-4e97-a4d6-2915d537af3e}</Project>
+      <Name>WFS</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

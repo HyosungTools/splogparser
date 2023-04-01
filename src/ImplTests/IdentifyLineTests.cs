@@ -1,8 +1,9 @@
 ﻿using System;
+using Samples;
 using Impl;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ImplTests
+namespace SPLogParserTests
 {
    [TestClass]
    public class IdentifyLineTests

@@ -1,9 +1,10 @@
-﻿using Impl;
+﻿using Samples;
+using Impl;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Text;
 
-namespace ImplTests
+namespace SPLogParserTests
 {
    /// <summary>
    /// Test different end-of-line scenarios when reading an nwlog file. 

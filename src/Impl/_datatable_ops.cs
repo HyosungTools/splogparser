@@ -158,7 +158,7 @@ namespace Impl
 
          foreach (DataRow dataRow in dataTable.Rows)
          {
-            string[] moneyColumns = new string [] { "USD0", "USD1", "USD2", "USD5", "USD10", "USD20", "USD50", "USD100" };
+            string[] moneyColumns = new string[] { "USD0", "USD1", "USD2", "USD5", "USD10", "USD20", "USD50", "USD100" };
 
             foreach (string moneyColumn in moneyColumns)
             {
@@ -176,8 +176,6 @@ namespace Impl
                   continue;
                }
 
-               ctx.ConsoleWriteLogLine(String.Format("For '{0}' found '{1}'", moneyColumn, foundRow["description"].ToString()));
-
                // the descripton field has the list of N columns (e.g. N7,N12,N17)
                string[] nColumns = foundRow["description"].ToString().Split(',');
 
@@ -194,7 +192,6 @@ namespace Impl
                   try
                   {
                      total += int.Parse(dataRow[nColumn].ToString());
-                     ctx.ConsoleWriteLogLine(String.Format("Running total : '{0}'", total));
                   }
                   catch (Exception e)
                   {
@@ -204,7 +201,6 @@ namespace Impl
 
                if (total > 0)
                {
-                  ctx.ConsoleWriteLogLine(String.Format("Setting column '{0}' to {0}", moneyColumn, total));
                   dataRow[moneyColumn] = total.ToString();
                }
             }
@@ -232,7 +228,7 @@ namespace Impl
             {
                // only set the amount for 'End' deposits
                if (!dataRow["position"].ToString().Equals("End"))
-                  continue; 
+                  continue;
 
                string[] moneyColumns = new string[] { "USD0", "USD1", "USD2", "USD5", "USD10", "USD20", "USD50", "USD100" };
 
@@ -247,7 +243,7 @@ namespace Impl
                dataRow["amount"] = total.ToString();
             }
          }
-         catch(Exception e)
+         catch (Exception e)
          {
             ctx.ConsoleWriteLogLine(String.Format("EXCEPTION Setting amount deposited: {0}", e.Message));
          }

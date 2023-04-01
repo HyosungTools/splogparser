@@ -1,13 +1,12 @@
-﻿using Impl;
+﻿using Samples;
 using System.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text;
 using System.IO;
 using System.Xml;
 using System;
 using System.Collections.Generic;
 
-namespace ImplTests
+namespace SPLogParserTests
 {
    [TestClass]
    public class DataTablesOpsTests

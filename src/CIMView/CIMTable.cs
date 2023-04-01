@@ -380,33 +380,20 @@ namespace CIMView
          {
             ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CIM_STATUS tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
 
+            WFSCIMSTATUS cimStatus = new WFSCIMSTATUS(ctx);
+            cimStatus.Initialize(xfsLine);
+
             DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
 
             dataRow["file"] = _traceFile;
             dataRow["time"] = lpResult.tsTimestamp(xfsLine);
             dataRow["error"] = lpResult.hResult(xfsLine);
 
-            (bool success, string xfsMatch, string subLogLine) result;
-
-            // fwDevice
-            result = _wfs_inf_cim_status.fwDevice(xfsLine);
-            if (result.success) dataRow["status"] = result.xfsMatch.Trim();
-
-            // fwSafeDoor
-            result = _wfs_inf_cim_status.fwSafeDoor(result.subLogLine);
-            if (result.success) dataRow["safedoor"] = result.xfsMatch.Trim();
-
-            // fwAcceptor
-            result = _wfs_inf_cim_status.fwAcceptor(result.subLogLine);
-            if (result.success) dataRow["acceptor"] = result.xfsMatch.Trim();
-
-            // fwIntermediateStacker
-            result = _wfs_inf_cim_status.fwIntermediateStacker(result.subLogLine);
-            if (result.success) dataRow["intstack"] = result.xfsMatch.Trim();
-
-            // fwStackerItems
-            result = _wfs_inf_cim_status.fwStackerItems(result.subLogLine);
-            if (result.success) dataRow["stackitems"] = result.xfsMatch.Trim();
+            dataRow["status"] = cimStatus.fwDevice;
+            dataRow["safedoor"] = cimStatus.fwSafeDoor;
+            dataRow["acceptor"] = cimStatus.fwAcceptor;
+            dataRow["intstack"] = cimStatus.fwIntStacker;
+            dataRow["stackitems"] = cimStatus.fwStackerItems;
 
             dTableSet.Tables["Status"].AcceptChanges();
          }
@@ -524,7 +511,6 @@ namespace CIMView
                      {
                         if (!String.IsNullOrEmpty(cashInfo.noteNumbers[i, j]) && cashInfo.noteNumbers[i, j].Contains(":"))
                         {
-                           ctx.ConsoleWriteLogLine(String.Format("Setting Notes: i: {0} j: {1}, NoteNum: {2}", i, j, cashInfo.noteNumbers[i, j]));
                            string[] noteNum = cashInfo.noteNumbers[i, j].Split(':');
                            cashUnitRow["N" + noteNum[0]] = noteNum[1];
                         }
@@ -553,16 +539,8 @@ namespace CIMView
       {
          try
          {
-            // access the values
-            (bool success, string xfsMatch, string subLogLine) result;
-
-            result = _wfs_inf_cim_cash_in_status.wStatus(xfsLine);
-            string wStatus = result.xfsMatch.Trim();
-
-            result = _wfs_inf_cim_cash_in_status.usNumOfRefused(xfsLine);
-            string usNumOfRefused = result.xfsMatch.Trim();
-
-            string[,] noteNumberList = _wfs_note_numbers.NoteNumberListFromList(result.subLogLine);
+            WFSCIMCASHINSTATUS cashIn = new WFSCIMCASHINSTATUS(ctx);
+            cashIn.Initialize(xfsLine);
 
             // add new row
             DataRow dataRow = dTableSet.Tables["Deposit"].Rows.Add();
@@ -572,16 +550,16 @@ namespace CIMView
             dataRow["error"] = lpResult.hResult(xfsLine);
 
             // position
-            dataRow["status"] = wStatus;
-            dataRow["refused"] = usNumOfRefused;
+            dataRow["status"] = cashIn.wStatus;
+            dataRow["refused"] = cashIn.usNumOfRefused;
 
             try
             {
                for (int j = 0; j < 20; j++)
                {
-                  if (!String.IsNullOrEmpty(noteNumberList[0, j]) && noteNumberList[0, j].Contains(":"))
+                  if (!String.IsNullOrEmpty(cashIn.noteNumbers[0, j]) && cashIn.noteNumbers[0, j].Contains(":"))
                   {
-                     string[] noteNum = noteNumberList[0, j].Split(':');
+                     string[] noteNum = cashIn.noteNumbers[0, j].Split(':');
                      dataRow["N" + noteNum[0]] = noteNum[1];
                   }
                }
@@ -629,11 +607,10 @@ namespace CIMView
          try
          {
             ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_CIM_CASH_IN tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-            ctx.ConsoleWriteLogLine(xfsLine);
 
             // access the values
             (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cim_cash_in_status.usNumOfRefused(xfsLine);
-            string[,] noteNumberList = _wfs_note_numbers.NoteNumberListFromList(result.subLogLine);
+            string[,] noteNumberList = WFSCIMNOTENUMBERLIST.NoteNumberListFromList(result.subLogLine);
 
             // add new row
             DataRow dataRow = dTableSet.Tables["Deposit"].Rows.Add();
@@ -797,7 +774,7 @@ namespace CIMView
          }
          catch (Exception e)
          {
-            ctx.ConsoleWriteLogLine("WFS_CMD_CIM_CAWFS_CMD_CIM_CASH_IN_ROLLBACKSH_IN_ROLLBACK Exception : " + e.Message);
+            ctx.ConsoleWriteLogLine("WFS_CMD_CIM_CASH_IN_ROLLBACK Exception : " + e.Message);
          }
       }
 
