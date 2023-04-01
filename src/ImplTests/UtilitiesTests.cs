@@ -1,7 +1,7 @@
-﻿using Impl;
+﻿using Samples;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ImplTests
+namespace SPLogParserTests
 {
    [TestClass]
    public class UtilitiesTests

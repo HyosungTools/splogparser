@@ -12,19 +12,19 @@ namespace Impl
       // wStatus  - 
       public static (bool success, string xfsMatch, string subLogLine) wStatus(string logLine)
       {
-         return _wfs_base.GenericMatchList(logLine, "(?<=wStatus = \\[)(\\d+)");
+         return WFS.WFSMatchList(logLine, "(?<=wStatus = \\[)(\\d+)");
       }
 
       // usNumOfRefused  - 
       public static (bool success, string xfsMatch, string subLogLine) usNumOfRefused(string logLine)
       {
-         return _wfs_base.GenericMatchList(logLine, "(?<=usNumOfRefused = \\[)(\\d+)");
+         return WFS.WFSMatchList(logLine, "(?<=usNumOfRefused = \\[)(\\d+)");
       }
 
       // usNumOfNoteNumbers  - 
       public static (bool success, string xfsMatch, string subLogLine) usNumOfNoteNumbers(string logLine)
       {
-         return _wfs_base.GenericMatchList(logLine, "(?<=usNumOfNoteNumbers = \\[)(\\d+)");
+         return WFS.WFSMatchList(logLine, "(?<=usNumOfNoteNumbers = \\[)(\\d+)");
       }
 
       public static string[] usNoteIDsFromList(string logLine)
@@ -32,12 +32,12 @@ namespace Impl
          List<string> values = new List<string>();
          (bool success, string xfsMatch, string subLogLine) result = usNumOfNoteNumbers(logLine);
          int usCount = int.Parse(result.xfsMatch.Trim());
-         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(result.subLogLine);
+         (string thisUnit, string nextUnits) logicalUnits = WFS.NextLogicalUnit(result.subLogLine);
 
          for (int i = 0; i < usCount; i++)
          {
             values.Add(usNoteID(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = WFS.NextLogicalUnit(logicalUnits.nextUnits);
          }
          return values.ToArray();
       }
@@ -47,26 +47,26 @@ namespace Impl
          List<string> values = new List<string>();
          (bool success, string xfsMatch, string subLogLine) result = usNumOfNoteNumbers(logLine);
          int usCount = int.Parse(result.xfsMatch.Trim());
-         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(result.subLogLine);
+         (string thisUnit, string nextUnits) logicalUnits = WFS.NextLogicalUnit(result.subLogLine);
 
          for (int i = 0; i < usCount; i++)
          {
             values.Add(ulCount(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = WFS.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount));
+         return WFS.TrimAll(WFS.Resize(values.ToArray(), usCount));
       }
 
       // usNoteID
       public static (bool success, string xfsMatch, string subLogLine) usNoteID(string logLine)
       {
-         return _wfs_base.GenericMatchList(logLine, "(?<=usNoteID = \\[)(\\d+)");
+         return WFS.WFSMatchList(logLine, "(?<=usNoteID = \\[)(\\d+)");
       }
 
       // ulCount
       public static (bool success, string xfsMatch, string subLogLine) ulCount(string logLine)
       {
-         return _wfs_base.GenericMatchList(logLine, "(?<=ulCount = \\[)(\\d+)");
+         return WFS.WFSMatchList(logLine, "(?<=ulCount = \\[)(\\d+)");
       }
 
    }

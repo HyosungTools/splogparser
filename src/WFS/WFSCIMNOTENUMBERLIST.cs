@@ -1,13 +1,35 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using Contract;
 
 namespace Impl
 {
-   public static class _wfs_note_numbers
+   public class WFSCIMNOTENUMBERLIST : WFS
    {
+      public string[,] lppNoteNumbers { get; set; }
+
+
+      public WFSCIMNOTENUMBERLIST(IContext ctx) : base(ctx)
+      { }
+
+
+      public string Initialize(string logLine, int lUnitCount = 1)
+      {
+         int indexOfTable = logLine.IndexOf("lpNoteNumberList->");
+         int indexOfList = logLine.IndexOf("lppNoteNumber =");
+
+         if (indexOfTable > 0)
+         {
+            lppNoteNumbers = NoteNumberListFromTable(logLine, lUnitCount);
+         }
+
+         else if (indexOfList > 0 || logLine.Contains("usNoteID = ["))
+         {
+            lppNoteNumbers = NoteNumberListFromList(logLine, lUnitCount);
+         }
+
+         return logLine;
+      }
+
       public static string[,] NoteNumberListFromTable(string logLine, int lUnitCount = 1)
       {
          // resize the lpNoteNumberList array to hold all note numbers for all logical units
@@ -55,18 +77,17 @@ namespace Impl
 
       public static string[,] NoteNumberListFromList(string logLine, int lUnitCount = 1)
       {
-         string[,] lppNoteNumbers = new string[lUnitCount, 20];
-         for (int i = 0; i < lUnitCount; i++)
-            for (int j = 0; j < 20; j++)
-               lppNoteNumbers[i, j] = null;
-
+         // resize the lpNoteNumberList array to hold all note numbers for all logical units
+         string[,] lpNoteNumberList = new string[lUnitCount, 20];
 
          // how many baknote types are there? 
          (bool success, string xfsMatch, string subLogLine) result = usNumOfNoteNumbers(logLine);
          if (result.success && int.Parse(result.xfsMatch.Trim()) == 0)
-            return lppNoteNumbers;
+         {
+            return lpNoteNumberList;
+         }
 
-         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = WFS.NextLogicalUnit(logLine);
 
          for (int i = 0; i < lUnitCount; i++)
          {
@@ -75,61 +96,65 @@ namespace Impl
 
             for (int j = 0; j < usNoteIDs.Length; j++)
             {
-               lppNoteNumbers[i, j] = usNoteIDs[j] + ":" + ulCounts[j];
+               lpNoteNumberList[i, j] = usNoteIDs[j] + ":" + ulCounts[j];
             }
 
-            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = WFS.NextLogicalUnit(logicalUnits.nextUnits);
          }
 
-         return lppNoteNumbers;
+         return lpNoteNumberList; 
       }
 
       // usNumOfNoteNumbers  - number of BankNote Types 
       public static (bool success, string xfsMatch, string subLogLine) usNumOfNoteNumbers(string logLine)
       {
-         return _wfs_base.GenericMatchList(logLine, "(?<=usNumOfNoteNumbers = \\[)(\\d+)");
+         return WFS.WFSMatchList(logLine, "(?<=usNumOfNoteNumbers = \\[)(\\d+)");
       }
 
       public static string[] usNoteIDsFromList(string logLine)
       {
          List<string> values = new List<string>();
+
          (bool success, string xfsMatch, string subLogLine) result = usNumOfNoteNumbers(logLine);
          int usCount = int.Parse(result.xfsMatch.Trim());
-         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(result.subLogLine);
+
+         (string thisUnit, string nextUnits) logicalUnits = WFS.NextLogicalUnit(result.subLogLine);
 
          for (int i = 0; i < usCount; i++)
          {
             values.Add(usNoteID(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = WFS.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount));
+         return WFS.TrimAll(WFS.Resize(values.ToArray(), usCount));
       }
 
       public static string[] ulCountsFromList(string logLine)
       {
          List<string> values = new List<string>();
+
          (bool success, string xfsMatch, string subLogLine) result = usNumOfNoteNumbers(logLine);
          int usCount = int.Parse(result.xfsMatch.Trim());
-         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(result.subLogLine);
+
+         (string thisUnit, string nextUnits) logicalUnits = WFS.NextLogicalUnit(result.subLogLine);
 
          for (int i = 0; i < usCount; i++)
          {
             values.Add(ulCount(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = WFS.NextLogicalUnit(logicalUnits.nextUnits);
          }
-         return _wfs_base.TrimAll(_wfs_base.Resize(values.ToArray(), usCount));
+         return WFS.TrimAll(WFS.Resize(values.ToArray(), usCount));
       }
 
       // usNoteID  
       public static (bool success, string xfsMatch, string subLogLine) usNoteID(string logLine)
       {
-         return _wfs_base.GenericMatchList(logLine, "(?<=usNoteID = \\[)(\\d+)");
+         return WFS.WFSMatchList(logLine, "(?<=usNoteID = \\[)(\\d+)");
       }
 
       // ulCount  - singular search from a list-style log line
       public static (bool success, string xfsMatch, string subLogLine) ulCount(string logLine)
       {
-         return _wfs_base.GenericMatchList(logLine, "(?<=ulCount = \\[)(\\d+)");
+         return WFS.WFSMatchList(logLine, "(?<=ulCount = \\[)(\\d+)");
       }
    }
 }

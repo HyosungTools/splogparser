@@ -1,7 +1,7 @@
 ﻿using Impl;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ImplTests
+namespace SPLogParserTests
 {
    [TestClass]
    public class _wfs_cmd_cim_cash_inTests

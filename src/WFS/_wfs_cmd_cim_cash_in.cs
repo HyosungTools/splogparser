@@ -23,12 +23,12 @@ namespace Impl
       {
          List<string> values = new List<string>();
          (int usCount, string subLogLine) result = usNumOfNoteNumbers(logLine);
-         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(result.subLogLine);
+         (string thisUnit, string nextUnits) logicalUnits = WFS.NextLogicalUnit(result.subLogLine);
 
          for (int i = 0; i < result.usCount; i++)
          {
             values.Add(usNoteID(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = WFS.NextLogicalUnit(logicalUnits.nextUnits);
          }
          return values.ToArray();
       }
@@ -37,12 +37,12 @@ namespace Impl
       {
          List<string> values = new List<string>();
          (int usCount, string subLogLine) result = usNumOfNoteNumbers(logLine);
-         (string thisUnit, string nextUnits) logicalUnits = _wfs_base.NextLogicalUnit(result.subLogLine);
+         (string thisUnit, string nextUnits) logicalUnits = WFS.NextLogicalUnit(result.subLogLine);
 
          for (int i = 0; i < result.usCount; i++)
          {
             values.Add(ulCount(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = _wfs_base.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = WFS.NextLogicalUnit(logicalUnits.nextUnits);
          }
          return values.ToArray();
       }
@@ -50,13 +50,13 @@ namespace Impl
       // usNoteID
       public static (bool success, string xfsMatch, string subLogLine) usNoteID(string logLine)
       {
-         return _wfs_base.GenericMatchList(logLine, "(?<=usNoteID = \\[)(\\d+)");
+         return WFS.WFSMatch(logLine, "(?<=usNoteID = \\[)(\\d+)");
       }
 
       // ulCount
       public static (bool success, string xfsMatch, string subLogLine) ulCount(string logLine)
       {
-         return _wfs_base.GenericMatchList(logLine, "(?<=ulCount = \\[)(\\d+)");
+         return WFS.WFSMatch(logLine, "(?<=ulCount = \\[)(\\d+)");
       }
    }
 

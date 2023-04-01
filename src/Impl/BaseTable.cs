@@ -146,7 +146,7 @@ namespace Impl
          try
          {
             outFile = ctx.WorkFolder + "\\" + viewName + ".xsd";
-            ctx.ConsoleWriteLogLine(String.Format("Write out data schema to '{0}'",outFile));
+            ctx.ConsoleWriteLogLine(String.Format("Write out data schema to '{0}'", outFile));
             dTableSet.WriteXmlSchema(outFile);
 
             outFile = ctx.WorkFolder + "\\" + viewName + ".xml";
@@ -300,8 +300,8 @@ namespace Impl
          // Rename any datatable whose name will collidate with another
          foreach (DataTable dTable in dTableSet.Tables)
          {
-            if (dTable.TableName.Equals("Status") || 
-                dTable.TableName.Equals("Summary") || 
+            if (dTable.TableName.Equals("Status") ||
+                dTable.TableName.Equals("Summary") ||
                 dTable.TableName.Equals("reject") ||
                 dTable.TableName.Equals("reject") ||
                 dTable.TableName.Equals("retract") ||
@@ -309,7 +309,7 @@ namespace Impl
             {
                string tablePrefix = viewName.Replace("View", "");
                ctx.ConsoleWriteLogLine(String.Format("Rename DataTable from {0} to {1}", dTable.TableName, tablePrefix + dTable.TableName));
-               dTable.TableName = tablePrefix + dTable.TableName; 
+               dTable.TableName = tablePrefix + dTable.TableName;
             }
          }
 

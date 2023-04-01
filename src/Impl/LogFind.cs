@@ -1,5 +1,4 @@
 ﻿
-
 namespace Impl
 {
    public static class LogFind

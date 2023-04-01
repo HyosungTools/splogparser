@@ -55,6 +55,10 @@
       <Project>{f89403e5-4c5c-4d8f-8401-b2d56f6d8a2b}</Project>
       <Name>Impl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WFS\WFS.csproj">
+      <Project>{8685a55b-44fe-4e97-a4d6-2915d537af3e}</Project>
+      <Name>WFS</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="CIMView.xsd" />
