@@ -37,3 +37,11 @@ C:\ATMD4555> splogparser 20221116175903.zip
 ```
 The application will run and generate two files: a log file for the run called 20221116175903.log and an Excel spreadsheet called 20221116175903.xls.
 
+## Known Issues
+
+Its a really dumb install. If you are upgrading, unzip to a clean folder (or clear out the existing folder) so you don't accidentally pick up stuff from the previous release. 
+
+It doesn't work well for machines with Cash and Coin. It doesn't understand the difference. 
+
+I've seen the unzip part fail twice. I don't know why. The workaround is to unzip the log file manually, zip up the [SP] subfolder and use that zip. You can throw any zip file at the parser as long as there's an SP folder inside the zip it should work. 
+
