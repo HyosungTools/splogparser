@@ -5,29 +5,80 @@ on:
       - 'v*'
 
 env:
-  REPO: HyosungTools/sp-logparser  
+  REPO: HyosungTools/splogparser
 
 jobs:
   release:
     # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md
     runs-on: windows-2022
-    timeout-minutes: 15
-    
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          # Fetch all commits
-          fetch-depth: 0
-
-      - name: Set environment variables
-        run: |
-          cat >> $GITHUB_ENV << EOF
-          VERSION=${GITHUB_REF##*/}
-          EOF
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
     
-      - uses: ncipollo/release-action@v1
-        with:
-          artifacts: ""
-          generateReleaseNotes: true
-          bodyFile: "body.md"
+    # Semantic Versioning
+    - name: Semantic versioning  
+      id: versioning
+      uses: PaulHatch/semantic-version@v4.0.2
+      with:
+        branch: main
+        tag_prefix: "v"
+        major_pattern: "break:"
+        minor_pattern: "feat:"
+        format: "v${major}.${minor}.${patch}"   
+    
+    # Install MSBuild tools and add to Path
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+        vs-version: '17.4'
+    
+    # List the packages restored
+    - name: List dependencies restored
+      run: cd src && nuget restore && cd .. 
+                  
+    # Install Office - https://github.com/actions/runner-images/issues/1117
+    - name: Install Office
+      run: choco install office365business 
+      
+    # Make dist directory
+    - name: Make Dir
+      run: mkdir dist
+            
+    # Build
+    - name: Build
+      run: msbuild src\\splogparser.sln /m:1 /t:Clean,Build /p:Configuration="Release" /p:Platform="Any CPU" /nodeReuse:false
+
+    # Setup VSTest 
+    - name: Setup VSTest Path
+      uses: darenm/Setup-VSTest@v1.2
+                 
+    # Test - Run 
+    # C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\CommonExtensions\Microsoft\TestWindow
+    - name: Test
+      run: msbuild src\\splogparser.sln /t:RunUnitTests /p:Configuration="Release" /p:Platform="Any CPU"
+      
+    # List artifacts
+    - name: List artifacts
+      run: cd dist && dir && cd ..
+      
+    # Zip artifacts
+    - uses: thedoctor0/zip-release@main
+      with:
+        type: 'zip'
+        filename: 'release.zip'
+        path: .\\dist\\
+        
+    # Create Release
+    - name: Create Release
+      if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+      uses: ncipollo/release-action@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.github_token }}
+      with:
+        artifacts: release.zip
+        generateReleaseNotes: true
+        tag: ${{ steps.versioning.outputs.version }}
+        name: ${{ steps.versioning.outputs.version }}
+        allowUpdates: true
+        prerelease: true   
