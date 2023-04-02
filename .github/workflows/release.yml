@@ -23,8 +23,8 @@ jobs:
       with:
         branch: main
         tag_prefix: "v"
-        major_pattern: "*break:"
-        minor_pattern: "*feat:"
+        major_pattern: "break:"
+        minor_pattern: "feat:"
         format: "v${major}.${minor}.${patch}"   
     
     # Install MSBuild tools and add to Path
@@ -81,4 +81,4 @@ jobs:
         tag: ${{ steps.versioning.outputs.version }}
         name: ${{ steps.versioning.outputs.version }}
         allowUpdates: true
-        prerelease: true   
+        prerelease: false   
