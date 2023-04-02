@@ -609,7 +609,7 @@ namespace CIMView
             ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_CIM_CASH_IN tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
 
             // access the values
-            (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cim_cash_in_status.usNumOfRefused(xfsLine);
+            (bool success, string xfsMatch, string subLogLine) result = WFSCIMCASHINSTATUS.usNumOfRefusedFromList(xfsLine);
             string[,] noteNumberList = WFSCIMNOTENUMBERLIST.NoteNumberListFromList(result.subLogLine);
 
             // add new row

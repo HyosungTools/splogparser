@@ -142,7 +142,7 @@ namespace SPLogParserTests
       [TestMethod]
       public void Test_WFS_INF_CIM_CASH_IN_STATUS_1()
       {
-         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cim_cash_in_status.usNumOfRefused(samples_cim.WFS_INF_CIM_CASH_IN_STATUS_1);
+         (bool success, string xfsMatch, string subLogLine) result = WFSCIMCASHINSTATUS.usNumOfRefusedFromList(samples_cim.WFS_INF_CIM_CASH_IN_STATUS_1);
          string[,] noteNumberList = WFSCIMNOTENUMBERLIST.NoteNumberListFromList(result.subLogLine);
          Assert.IsTrue(noteNumberList[0, 0] == null);
       }
@@ -150,7 +150,7 @@ namespace SPLogParserTests
       [TestMethod]
       public void Test_WFS_INF_CIM_CASH_IN_STATUS_2()
       {
-         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cim_cash_in_status.usNumOfRefused(samples_cim.WFS_INF_CIM_CASH_IN_STATUS_2);
+         (bool success, string xfsMatch, string subLogLine) result = WFSCIMCASHINSTATUS.usNumOfRefusedFromList(samples_cim.WFS_INF_CIM_CASH_IN_STATUS_2);
          string[,] noteNumberList = WFSCIMNOTENUMBERLIST.NoteNumberListFromList(result.subLogLine);
          Assert.IsTrue(noteNumberList[0, 0] == "15:6");
       }
@@ -158,7 +158,7 @@ namespace SPLogParserTests
       [TestMethod]
       public void Test_WFS_INF_CIM_CASH_IN_STATUS_3()
       {
-         (bool success, string xfsMatch, string subLogLine) result = _wfs_inf_cim_cash_in_status.usNumOfRefused(samples_cim.WFS_INF_CIM_CASH_IN_STATUS_3);
+         (bool success, string xfsMatch, string subLogLine) result = WFSCIMCASHINSTATUS.usNumOfRefusedFromList(samples_cim.WFS_INF_CIM_CASH_IN_STATUS_3);
          string[,] noteNumberList = WFSCIMNOTENUMBERLIST.NoteNumberListFromList(result.subLogLine);
          Assert.IsTrue(noteNumberList[0, 0] == "1:48");
          Assert.IsTrue(noteNumberList[0, 1] == "13:2");

@@ -50,8 +50,6 @@
     <Compile Include="WFSCIMCASHINSTATUS.cs" />
     <Compile Include="WFSCIMNOTENUMBERLIST.cs" />
     <Compile Include="WFSCIMSTATUS.cs" />
-    <Compile Include="_wfs_cmd_cim_cash_in.cs" />
-    <Compile Include="_wfs_inf_cim_cash_in_status.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contract\Contract.csproj">
