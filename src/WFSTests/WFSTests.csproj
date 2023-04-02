@@ -57,7 +57,6 @@
     <Compile Include="WFSCIMCASHINSTATUSTests.cs" />
     <Compile Include="WFSCIMNOTENUMBERLISTTests.cs" />
     <Compile Include="WFSCIMSTATUSTests.cs" />
-    <Compile Include="_wfs_cmd_cim_cash_inTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
