@@ -97,7 +97,7 @@ namespace Impl
 
                // Set the values of the keys to find.
                findByKeys[0] = type;
-               findByKeys[1] = dataRow[column].ToString();
+               findByKeys[1] = dataRow[column].ToString().Trim();
 
                DataRow foundRow = messageTable.Rows.Find(findByKeys);
                char[] trimChars = { ',' };

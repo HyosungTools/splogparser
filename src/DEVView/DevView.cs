@@ -2,26 +2,26 @@
 using Impl;
 using System.ComponentModel.Composition;
 
-namespace CashIn
+namespace DeviceView
 {
    [Export(typeof(IView))]
-   public class CashInView : BaseView, IView
+   public class DevView : BaseView, IView
    {
       /// <summary>
       /// Constructor
       /// </summary>
-      public CashInView() : base("CIM2", "1303.CashIn") { }
+      DevView() : base("DEV", "DEVView") { }
 
       /// <summary>
-      /// Creates an HCDU Table instance. 
+      /// Creates an CDM Table instance. 
       /// </summary>
       /// <param name="ctx">Context for the command. </param>
-      /// <returns>new HCDU table</returns>
+      /// <returns>new CDM table</returns>
       protected override BaseTable CreateTableInstance(IContext ctx)
       {
-         CashInTable cashInTable = new CashInTable(ctx, viewName);
-         cashInTable.ReadXmlFile();
-         return cashInTable;
+         DEVTable devTable = new DEVTable(ctx, viewName);
+         devTable.ReadXmlFile();
+         return devTable;
       }
    }
 }
