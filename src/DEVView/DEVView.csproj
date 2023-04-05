@@ -4,14 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{39120EB8-02C2-439E-8139-BC47CA0545DA}</ProjectGuid>
+    <ProjectGuid>{8E362443-5492-4058-87C2-1D6BC0FCF070}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CDUCounts</RootNamespace>
-    <AssemblyName>CDUCounts</AssemblyName>
+    <RootNamespace>DEVView</RootNamespace>
+    <AssemblyName>DEVView</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,8 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CDUCountsTable.cs" />
-    <Compile Include="CDUCountsView.cs" />
+    <Compile Include="DEVTable.cs" />
+    <Compile Include="DevView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +57,21 @@
       <Project>{f89403e5-4c5c-4d8f-8401-b2d56f6d8a2b}</Project>
       <Name>Impl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WFS\WFS.csproj">
+      <Project>{8685a55b-44fe-4e97-a4d6-2915d537af3e}</Project>
+      <Name>WFS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DEVView.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DEVView.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\DEVView.xsd" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\DEVView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -12,18 +12,7 @@ namespace SPLogParserTests
       [TestMethod]
       public void Identify_None()
       {
-         string logLine = @"
-46.4570011INFORMATION0010WFPGetInfo0030HSERVICE=21, 
-SrvcVersion=3(03)01204294967295023600087674410003SIU0003SPI00102023/01/24001208:50 46.4570007XFS_CMD0012GETINFO
-[801]0151hResult[0] = WFPGetInfo(
-hService = [21],
-dwCategory = [801],
-dwTimeOut = [0],
-hWnd = [0x00010666],
-ReqID = [850],
-lpQueryDetails = NULL
-)
-";
+         string logLine = samples_general.WFS_NONE; 
 
          (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.None);
@@ -485,6 +474,139 @@ lpQueryDetails = NULL
          string logLine = samples_cim.WFS_SRVE_CIM_MEDIADETECTED_1;
          (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_SRVE_CIM_MEDIADETECTED);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      }
+
+      [TestMethod]
+      public void Identify_WFS_INF_PTR_STATUS()
+      {
+         string logLine = samples_general.WFS_INF_PTR_STATUS;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_INF_PTR_STATUS);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      }
+
+      [TestMethod]
+      public void Identify_WFS_INF_IDC_STATUS()
+      {
+         string logLine = samples_general.WFS_INF_IDC_STATUS;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_INF_IDC_STATUS);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      }
+
+      [TestMethod]
+      public void Identify_WFS_INF_CDM_STATUS()
+      {
+         string logLine = samples_general.WFS_INF_CDM_STATUS;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_INF_CDM_STATUS);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      }
+
+      [TestMethod]
+      public void Identify_WFS_INF_PIN_STATUS()
+      {
+         string logLine = samples_general.WFS_INF_PIN_STATUS;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_INF_PIN_STATUS);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      }
+
+      [Ignore]
+      [TestMethod]
+      public void Identify_WFS_INF_CHK_STATUS()
+      {
+         // TODO 
+
+      }
+
+      [Ignore]
+      [TestMethod]
+      public void Identify_WFS_INF_DEP_STATUS()
+      {
+         // TODO
+      }
+
+      [TestMethod]
+      public void Identify_WFS_INF_TTU_STATUS()
+      {
+         string logLine = samples_general.WFS_INF_TTU_STATUS;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_INF_TTU_STATUS);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      }
+
+      [TestMethod]
+      public void Identify_WFS_INF_SIU_STATUS()
+      {
+         string logLine = samples_general.WFS_INF_SIU_STATUS;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_INF_SIU_STATUS);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      }
+
+      [TestMethod]
+      public void Identify_WFS_INF_VDM_STATUS()
+      {
+         string logLine = samples_general.WFS_INF_VDM_STATUS;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_INF_VDM_STATUS);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      }
+
+      [TestMethod]
+      public void Identify_WFS_INF_CAM_STATUS()
+      {
+         string logLine = samples_general.WFS_INF_CAM_STATUS;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_INF_CAM_STATUS);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      }
+
+      [Ignore]
+      [TestMethod]
+      public void Identify_WFS_INF_ALM_STATUS()
+      {
+         // TODO 
+      }
+
+      [Ignore]
+      [TestMethod]
+      public void Identify_WFS_INF_CEU_STATUS()
+      {
+         // TODO 
+      }
+
+      [TestMethod]
+      public void Identify_WFS_INF_CIM_STATUS()
+      {
+         string logLine = samples_general.WFS_INF_CIM_STATUS;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_INF_CIM_STATUS);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      }
+
+      [Ignore]
+      [TestMethod]
+      public void Identify_WFS_INF_CRD_STATUS()
+      {
+         // TODO 
+      }
+
+      [Ignore]
+      [TestMethod]
+      public void Identify_WFS_INF_BCR_STATUS()
+      {
+         // TODO 
+      }
+
+      [TestMethod]
+      public void Identify_WFS_INF_IPM_STATUS()
+      {
+         string logLine = samples_general.WFS_INF_IPM_STATUS;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_INF_IPM_STATUS);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
    }

@@ -49,6 +49,7 @@
     <Compile Include="WFSCIMCASHINFO.cs" />
     <Compile Include="WFSCIMCASHINSTATUS.cs" />
     <Compile Include="WFSCIMNOTENUMBERLIST.cs" />
+    <Compile Include="WFSDEVSTATUS.cs" />
     <Compile Include="WFSCIMSTATUS.cs" />
   </ItemGroup>
   <ItemGroup>

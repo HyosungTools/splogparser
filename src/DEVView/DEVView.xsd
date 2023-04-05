@@ -1,0 +1,48 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="DEV" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="DEV" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Status">
+          <xs:complexType>
+            <xs:sequence>
+			  <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="PTR" type="xs:string" minOccurs="0" />
+              <xs:element name="IDC" type="xs:string" minOccurs="0" />
+              <xs:element name="CDM" type="xs:string" minOccurs="0" />
+              <xs:element name="PIN" type="xs:string" minOccurs="0" />
+              <xs:element name="CHK" type="xs:string" minOccurs="0" />
+              <xs:element name="DEP" type="xs:string" minOccurs="0" />
+              <xs:element name="TTU" type="xs:string" minOccurs="0" />
+              <xs:element name="SIU" type="xs:string" minOccurs="0" />
+              <xs:element name="VDM" type="xs:string" minOccurs="0" />
+              <xs:element name="CAM" type="xs:string" minOccurs="0" />
+              <xs:element name="ALM" type="xs:string" minOccurs="0" />
+			  <xs:element name="CIM" type="xs:string" minOccurs="0" />
+			  <xs:element name="BCR" type="xs:string" minOccurs="0" />      
+			  <xs:element name="IPM" type="xs:string" minOccurs="0" /> 
+			  <xs:element name="comment" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Messages">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="type" type="xs:string" />
+              <xs:element name="code" type="xs:string" />
+              <xs:element name="brief" type="xs:string" minOccurs="0" />
+              <xs:element name="description" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//Messages" />
+      <xs:field xpath="type" />
+      <xs:field xpath="code" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
