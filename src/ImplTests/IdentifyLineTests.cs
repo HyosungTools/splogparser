@@ -79,6 +79,16 @@ namespace SPLogParserTests
       }
 
       [TestMethod]
+      public void Identify_WFS_INF_CDM_PRESENT_STATUS()
+      {
+         string logLine = samples_cdm.WFS_INF_CDM_PRESENT_STATUS;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_INF_CDM_PRESENT_STATUS);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+         Console.WriteLine(result.xfsLine);
+      }
+
+      [TestMethod]
       public void Identify_WFS_CMD_CDM_DISPENSE()
       {
          string logLine = samples_cdm.WFS_CMD_CDM_DISPENSE_1;

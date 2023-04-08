@@ -424,8 +424,7 @@ namespace CIMView
                try
                {
                   // First time seeing CASH_UNIT_INFO, populate the Summary Table
-                  ctx.ConsoleWriteLogLine("WFS_INF_CIM_CASH_UNIT_INFO First time seeing CASH_UNIT_INFO, populate the Summary Table");
-                  have_seen_WFS_INF_CIM_CASH_UNIT_INFO = true;
+                  // have_seen_WFS_INF_CIM_CASH_UNIT_INFO = true;
 
                   DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
 
@@ -435,7 +434,8 @@ namespace CIMView
                      try
                      {
                         // Now use the usNumbers to create and populate a row in the CashUnit-x table
-                        if (int.Parse(cashInfo.usNumbers[i].Trim()) < 1)
+                        int usNumber = int.Parse(cashInfo.usNumbers[i].Trim());
+                        if (usNumber < 1)
                         {
                            // We have to check because some log lines are truncated (i.e. "more data")
                            // and produce bad results
@@ -443,22 +443,15 @@ namespace CIMView
                            continue;
                         }
 
-                        if (cashInfo.ulCounts[i] == "0" && cashInfo.ulCashInCounts[i] == "0" && cashInfo.usStatuses[i] == "0")
-                        {
-                           // again truncated log lines result in garbage output
-                           ctx.ConsoleWriteLogLine("usNumbers[i] == 0, continue");
-                           continue;
-                        }
+                        dataRows[usNumber]["file"] = _traceFile;
+                        dataRows[usNumber]["time"] = lpResult.tsTimestamp(xfsLine);
+                        dataRows[usNumber]["error"] = lpResult.hResult(xfsLine);
 
-                        dataRows[i + 1]["file"] = _traceFile;
-                        dataRows[i + 1]["time"] = lpResult.tsTimestamp(xfsLine);
-                        dataRows[i + 1]["error"] = lpResult.hResult(xfsLine);
-
-                        dataRows[i + 1]["type"] = cashInfo.fwTypes[i];
-                        dataRows[i + 1]["name"] = cashInfo.cUnitIDs[i];
-                        dataRows[i + 1]["currency"] = cashInfo.cCurrencyIDs[i];
-                        dataRows[i + 1]["denom"] = cashInfo.ulValues[i];
-                        dataRows[i + 1]["max"] = cashInfo.ulMaximums[i];
+                        dataRows[usNumber]["type"] = cashInfo.fwTypes[i];
+                        dataRows[usNumber]["name"] = cashInfo.cUnitIDs[i];
+                        dataRows[usNumber]["currency"] = cashInfo.cCurrencyIDs[i];
+                        dataRows[usNumber]["denom"] = cashInfo.ulValues[i];
+                        dataRows[usNumber]["max"] = cashInfo.ulMaximums[i];
                      }
                      catch (Exception e)
                      {
@@ -479,7 +472,8 @@ namespace CIMView
                try
                {
                   // Now use the usNumbers to create and populate a row in the CashUnit-x table
-                  if (int.Parse(cashInfo.usNumbers[i].Trim()) < 1)
+                  int usNumber = int.Parse(cashInfo.usNumbers[i].Trim());
+                  if (usNumber < 1)
                   {
                      // We have to check because some log lines are truncated (i.e. "more data")
                      // and produce bad results
@@ -487,14 +481,7 @@ namespace CIMView
                      continue;
                   }
 
-                  if (cashInfo.ulCounts[i] == "0" && cashInfo.ulCashInCounts[i] == "0" && cashInfo.usStatuses[i] == "0")
-                  {
-                     // again truncated log lines result in garbage output
-                     ctx.ConsoleWriteLogLine("usNumbers[i] == 0, continue");
-                     continue;
-                  }
-
-                  string tableName = "CashIn-" + cashInfo.usNumbers[i].Trim();
+                  string tableName = "CashIn-" + usNumber.ToString();
                   DataRow cashUnitRow = dTableSet.Tables[tableName].Rows.Add();
 
                   cashUnitRow["file"] = _traceFile;
@@ -521,7 +508,7 @@ namespace CIMView
                      ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CDM_CASH_UNIT_INFO CashIn Setting Notes Exception {0}, {1}, {2}, {3}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message, i));
                   }
 
-                  dTableSet.Tables["CashIn-" + cashInfo.usNumbers[i]].AcceptChanges();
+                  dTableSet.Tables[tableName].AcceptChanges();
                }
                catch (Exception e)
                {
@@ -591,7 +578,7 @@ namespace CIMView
             dataRow["error"] = lpResult.hResult(xfsLine);
 
             // position
-            dataRow["position"] = "Start";
+            dataRow["position"] = "start";
             dataRow["refused"] = "";
 
             dTableSet.Tables["Deposit"].AcceptChanges();
@@ -636,7 +623,7 @@ namespace CIMView
             }
 
             // position
-            dataRow["position"] = "CashIn";
+            dataRow["position"] = "cash in";
             dataRow["refused"] = "";
 
             dTableSet.Tables["Deposit"].AcceptChanges();
@@ -671,7 +658,7 @@ namespace CIMView
             dataRow["error"] = lpResult.hResult(xfsLine);
 
             // position
-            dataRow["position"] = "End";
+            dataRow["position"] = "end";
             dataRow["refused"] = "";
 
             try
@@ -697,7 +684,8 @@ namespace CIMView
                try
                {
                   // Now use the usNumbers to create and populate a row in the CashUnit-x table
-                  if (int.Parse(cashInfo.usNumbers[i].Trim()) < 1)
+                  int usNumber = int.Parse(cashInfo.usNumbers[i].Trim());
+                  if (usNumber < 1)
                   {
                      // We have to check because some log lines are truncated (i.e. "more data")
                      // and produce bad results
@@ -705,14 +693,7 @@ namespace CIMView
                      continue;
                   }
 
-                  if (cashInfo.ulCounts[i] == "0" && cashInfo.ulCashInCounts[i] == "0" && cashInfo.usStatuses[i] == "0")
-                  {
-                     // again truncated log lines result in garbage output
-                     ctx.ConsoleWriteLogLine("usNumbers[i] == 0, continue");
-                     continue;
-                  }
-
-                  string tableName = "CashIn-" + cashInfo.usNumbers[i].Trim();
+                  string tableName = "CashIn-" + usNumber.ToString();
                   DataRow cashUnitRow = dTableSet.Tables[tableName].Rows.Add();
 
                   cashUnitRow["file"] = _traceFile;
@@ -739,7 +720,7 @@ namespace CIMView
                      ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_CIM_CASH_IN_END CashIn Setting Notes Exception {0}, {1}, {2}, {3}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message, i));
                   }
 
-                  dTableSet.Tables["CashIn-" + cashInfo.usNumbers[i]].AcceptChanges();
+                  dTableSet.Tables[tableName].AcceptChanges();
                }
                catch (Exception e)
                {
@@ -767,7 +748,7 @@ namespace CIMView
             dataRow["error"] = lpResult.hResult(xfsLine);
 
             // position
-            dataRow["position"] = "Rollback";
+            dataRow["position"] = "rollback";
             dataRow["refused"] = "";
 
             dTableSet.Tables["Deposit"].AcceptChanges();
@@ -800,7 +781,7 @@ namespace CIMView
             dataRow["error"] = lpResult.hResult(xfsLine);
 
             // position
-            dataRow["position"] = "Retract";
+            dataRow["position"] = "retract";
             dataRow["refused"] = "";
 
             try
@@ -896,7 +877,7 @@ namespace CIMView
             dataRow["error"] = lpResult.hResult(xfsLine);
 
             // position
-            dataRow["position"] = "Reset";
+            dataRow["position"] = "reset";
             dataRow["refused"] = "";
 
             dTableSet.Tables["Deposit"].AcceptChanges();
@@ -1039,7 +1020,7 @@ namespace CIMView
             dataRow["error"] = lpResult.hResult(xfsLine);
 
             // position
-            dataRow["position"] = "Items Taken";
+            dataRow["position"] = "items taken";
             dataRow["refused"] = "";
 
             dTableSet.Tables["Deposit"].AcceptChanges();

@@ -38,6 +38,7 @@
               <xs:element name="LU7" type="xs:string" minOccurs="0" />
               <xs:element name="LU8" type="xs:string" minOccurs="0" />
               <xs:element name="LU9" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />			  
             </xs:sequence>
           </xs:complexType>
         </xs:element>
