@@ -45,6 +45,7 @@
     <Compile Include="WFS.cs" />
     <Compile Include="WFSCDMCUINFO.cs" />
     <Compile Include="WFSCDMDENOMINATION.cs" />
+    <Compile Include="WFSCDMPRESENTSTATUS.cs" />
     <Compile Include="WFSCDMSTATUS.cs" />
     <Compile Include="WFSCIMCASHINFO.cs" />
     <Compile Include="WFSCIMCASHINSTATUS.cs" />

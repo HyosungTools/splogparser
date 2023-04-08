@@ -603,4 +603,28 @@
     <brief>inserted</brief>
     <description>The cash unit has been inserted</description>
   </Messages>   
+  
+  <!-- wPresentState --> 
+
+  <Messages>
+    <type>wPresentState</type>
+    <code>1</code>
+    <brief>presented</brief>
+    <description>The items were presented.</description>
+  </Messages>  
+
+  <Messages>
+    <type>wPresentState</type>
+    <code>2</code>
+    <brief>not presented</brief>
+    <description>The customer has not had access to the items</description>
+  </Messages> 
+
+  <Messages>
+    <type>wPresentState</type>
+    <code>3</code>
+    <brief>unknown</brief>
+    <description></description>
+  </Messages>  
+ 
 </CDM>

@@ -13,6 +13,7 @@ namespace Impl
       /* 3 - CDM */
       WFS_INF_CDM_STATUS,
       WFS_INF_CDM_CASH_UNIT_INFO,
+      WFS_INF_CDM_PRESENT_STATUS,
       WFS_CMD_CDM_DISPENSE,
       WFS_CMD_CDM_PRESENT,
       WFS_CMD_CDM_REJECT,
@@ -121,6 +122,7 @@ namespace Impl
             /* INFO */
             Regex wfs_inf_cdm_status = new Regex("GETINFO.301.[0-9]+WFS_GETINFO_COMPLETE");
             Regex wfs_inf_cdm_cash_unit_info = new Regex("GETINFO.303.[0-9]+WFS_GETINFO_COMPLETE");
+            Regex WFS_INF_CDM_PRESENT_STATUS = new Regex("GETINFO.309.[0-9]+WFS_GETINFO_COMPLETE");
 
             /* EXECUTE */
             Regex wfs_cmd_cdm_dispense = new Regex("EXECUTE.302.[0-9]+WFS_EXECUTE_COMPLETE");
@@ -139,6 +141,9 @@ namespace Impl
 
             result = GenericMatch(wfs_inf_cdm_cash_unit_info, logLine);
             if (result.success) return (XFSType.WFS_INF_CDM_CASH_UNIT_INFO, result.xfsLine);
+
+            result = GenericMatch(WFS_INF_CDM_PRESENT_STATUS, logLine);
+            if (result.success) return (XFSType.WFS_INF_CDM_PRESENT_STATUS, result.xfsLine);
 
             /* Test for EXECUTE */
             result = GenericMatch(wfs_cmd_cdm_dispense, logLine);
