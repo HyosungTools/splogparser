@@ -47,3 +47,17 @@ It doesn't work well for machines with Cash and Coin. It doesn't understand the 
 
 I've seen the unzip part fail twice. I don't know why. The workaround is to unzip the log file manually, zip up the [SP] subfolder and use that zip. You can throw any zip file at the parser as long as there's an SP folder inside the zip it should work. 
 
+# How to Contribute
+
+Anyone can contribute. Please read the notes on: 
+
+- [Development Environment](https://github.com/HyosungTools/docs/blob/main/DevelopmentEnvironment.md)
+- [Making a Change](https://github.com/HyosungTools/docs/blob/main/MakingChanges.md)
+
+After that you might want to read up on: 
+
+- [General Design](https://github.com/HyosungTools/splogparser/blob/main/docs/GeneralDesign.md)
+- [How to Build](https://github.com/HyosungTools/splogparser/blob/main/docs/HowToBuild.md)
+
+
+
