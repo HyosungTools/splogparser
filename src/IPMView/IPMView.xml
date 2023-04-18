@@ -1,0 +1,371 @@
+<?xml version="1.0" standalone="yes"?>
+<IPM>
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>0</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>1</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>2</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>3</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>4</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>5</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>6</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>7</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>8</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>9</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+    <!-- fwDevice -->
+  <Messages>
+    <type>fwDevice</type>
+    <code>0</code>
+    <brief>online</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>1</code>
+    <brief>offline</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>2</code>
+    <brief>pwoff</brief>
+    <description>Powered off or physically not connected</description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>3</code>
+    <brief>nodev</brief>
+    <description>The device is not intended to be there</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>4</code>
+    <brief>hwerror</brief>
+    <description>Inoperable due to a hardware error</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>5</code>
+    <brief>usrerror</brief>
+    <description>User is preventing proper device operation</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>6</code>
+    <brief>busy</brief>
+    <description>Unable to process an execute command at this time</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>7</code>
+    <brief>fraud</brief>
+    <description>Inoperable because of detected fraud attempt</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>8</code>
+    <brief>fraud?</brief>
+    <description>Potential fraud attempt detected</description>
+  </Messages>
+
+  <!-- fwAcceptor -->
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>0</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>1</code>
+    <brief>binstate</brief>
+    <description>high, full, inoperative or manipulated condition</description>
+  </Messages>
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>2</code>
+    <brief>binstop</brief>
+    <description>No items can be accepted</description>
+  </Messages>
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>3</code>
+    <brief>unkwn</brief>
+    <description>state cannot be determined</description>
+  </Messages>  
+  
+  <!-- wMedia -->
+
+  <Messages>
+    <type>wMedia</type>
+    <code>0</code>
+    <brief>present</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wMedia</type>
+    <code>1</code>
+    <brief>not present</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wMedia</type>
+    <code>2</code>
+    <brief>jammed</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wMedia</type>
+    <code>3</code>
+    <brief>not supp</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wMedia</type>
+    <code>4</code>
+    <brief>unkwn</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wMedia</type>
+    <code>5</code>
+    <brief>position</brief>
+    <description>media detected at a position</description>
+  </Messages>
+  
+    <!-- wStacker -->
+
+  <Messages>
+	<type>wStacker</type>
+    <code>0</code>
+    <brief>empty</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wStacker</type>
+    <code>1</code>
+    <brief>not empty</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wStacker</type>
+    <code>2</code>
+    <brief>full</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wStacker</type>
+    <code>3</code>
+    <brief>inop</brief>
+    <description></description>
+  </Messages>
+ 
+  <Messages>
+	<type>wStacker</type>
+    <code>4</code>
+    <brief>unkwn</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>wStacker</type>
+    <code>5</code>
+    <brief>not supp</brief>
+    <description></description>
+  </Messages>
+ 
+
+  <Messages>
+	<type>fwType</type>
+    <code>0x0001</code>
+    <brief>mediain</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>fwType</type>
+    <code>0x0002</code>
+    <brief>retract</brief>
+    <description></description>
+  </Messages>
+  
+  <!-- usStatus --> 
+   
+  <Messages>
+	<type>usStatus</type>
+    <code>1</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>usStatus</type>
+    <code>2</code>
+    <brief>full</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>usStatus</type>
+    <code>3</code>
+    <brief>high</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>usStatus</type>
+    <code>4</code>
+    <brief>inop</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>usStatus</type>
+    <code>5</code>
+    <brief>missing</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>usStatus</type>
+    <code>6</code>
+    <brief>unkn</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>usStatus</type>
+    <code>7</code>
+    <brief>empty</brief>
+    <description></description>
+  </Messages>
+
+</IPM>

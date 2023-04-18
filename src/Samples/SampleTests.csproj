@@ -45,6 +45,7 @@
     <Compile Include="samples_cdm.cs" />
     <Compile Include="samples_cim.cs" />
     <Compile Include="samples_general.cs" />
+    <Compile Include="samples_ipm.cs" />
     <Compile Include="samples_lppcashin.cs" />
     <Compile Include="samples_note_numbers.cs" />
     <Compile Include="samples_tracefilereader.cs" />
