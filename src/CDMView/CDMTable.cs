@@ -387,9 +387,11 @@ namespace CDMView
                   {
                      ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CDM_CASH_UNIT_INFO Summary Table Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
                   }
+
                }
 
                dTableSet.Tables["Summary"].AcceptChanges();
+
             }
 
             ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CDM_CASH_UNIT_INFO cashInfo.lUnitCount '{0}' ", cashInfo.lUnitCount));

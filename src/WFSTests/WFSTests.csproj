@@ -57,6 +57,11 @@
     <Compile Include="WFSCIMCASHINSTATUSTests.cs" />
     <Compile Include="WFSCIMNOTENUMBERLISTTests.cs" />
     <Compile Include="WFSCIMSTATUSTests.cs" />
+    <Compile Include="WFSIPMMEDIABININFOTests.cs" />
+    <Compile Include="WFSIPMMEDIAINENDTests.cs" />
+    <Compile Include="WFSIPMRETRACTMEDIAOUTTests.cs" />
+    <Compile Include="WFSIPMSTATUSTests.cs" />
+    <Compile Include="WFSIPMTRANSSTATUSTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

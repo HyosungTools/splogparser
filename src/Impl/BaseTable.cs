@@ -302,9 +302,11 @@ namespace Impl
          {
             if (dTable.TableName.Equals("Status") ||
                 dTable.TableName.Equals("Summary") ||
+                dTable.TableName.Equals("Deposit") ||
                 dTable.TableName.Equals("reject") ||
                 dTable.TableName.Equals("reject") ||
                 dTable.TableName.Equals("retract") ||
+                dTable.TableName.Equals("retain") ||
                 dTable.TableName.StartsWith("USD"))
             {
                string tablePrefix = viewName.Replace("View", "");
