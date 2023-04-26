@@ -9,8 +9,6 @@ namespace CDMView
 
    internal class CDMTable : BaseTable
    {
-      private bool have_seen_WFS_INF_CDM_CASH_UNIT_INFO = false;
-
       /// <summary>
       /// constructor
       /// </summary>
@@ -117,131 +115,188 @@ namespace CDMView
       /// <returns>true if the write was successful</returns>
       public override bool WriteExcelFile()
       {
-         //STATUS TABLE
+         string tableName = string.Empty;
 
-         // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
-         ctx.ConsoleWriteLogLine("Compress the Status Table: sort by time, visit every row and delete rows that are unchanged from their predecessor");
-         ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table start: rows before: {0}", dTableSet.Tables["Status"].Rows.Count));
-
-         // the list of columns to compare
-         string[] columns = new string[] { "error", "status", "dispenser", "intstack", "shutter", "posstatus", "transport", "transstat", "position" };
-         (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables["Status"], "time ASC", columns);
-         if (!result.success)
+         try
          {
-            ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
-         }
-         ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table complete: rows after: {0}", dTableSet.Tables["Status"].Rows.Count));
+            // S T A T U S  T A B L E
 
-         // add English
-         string[,] colKeyMap = new string[8, 2]
-         {
-            {"status", "fwDevice" },
-            {"dispenser", "fwDispenser"},
-            {"intstack", "fwIntermediateStacker"},
-            {"shutter", "fwShutter"},
-            {"posstatus", "fwPositionStatus"},
-            {"transport", "fwTransport"},
-            {"transstat", "fwTransportStatus"},
-            {"position", "wDevicePosition"}
-         };
+            tableName = "Status";
 
-         for (int i = 0; i < 8; i++)
-         {
-            result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables["Status"], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
-         }
+            // COMPRESS
 
-         // SUMMARY TABLE - Delete redundant lines from the Summary Table
-         DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
-         List<DataRow> deleteRows = new List<DataRow>();
-         foreach (DataRow dataRow in dataRows)
-         {
-            if (dataRow["file"].ToString().Trim() == string.Empty)
+            // the list of columns to compare when compressing
+            string[] columns = new string[] { "error", "status", "dispenser", "intstack", "shutter", "posstatus", "transport", "transstat", "position" };
+
+            // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
+            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table start: rows before: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
+            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], "time ASC", columns);
+            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table complete: rows after: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
+
+            if (!result.success)
             {
-               deleteRows.Add(dataRow);
+               ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
+            }
+
+            // ADD ENGLISH 
+
+            string[,] colKeyMap = new string[8, 2]
+            {
+               {"status", "fwDevice" },
+               {"dispenser", "fwDispenser"},
+               {"intstack", "fwIntermediateStacker"},
+               {"shutter", "fwShutter"},
+               {"posstatus", "fwPositionStatus"},
+               {"transport", "fwTransport"},
+               {"transstat", "fwTransportStatus"},
+               {"position", "wDevicePosition"}
+            };
+
+            for (int i = 0; i < 8; i++)
+            {
+               result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables[tableName], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
             }
          }
-
-         foreach (DataRow dataRow in deleteRows)
+         catch (Exception e)
          {
-            dataRow.Delete();
-         }
-
-         // CASH UNIT TABLE
-         ctx.ConsoleWriteLogLine("Compress the CashUnit Tables: sort by time, visit every row and delete rows that are unchanged from their predecessor");
-
-         // the list of columns to compare
-         string[] cashUnitCols = new string[] { "error", "status", "count", "reject", "dispensed", "presented", "retracted" };
-
-         foreach (DataTable dTable in dTableSet.Tables)
-         {
-            ctx.ConsoleWriteLogLine("Looking at table :" + dTable.TableName);
-            if (dTable.TableName.StartsWith("CashUnit-"))
-            {
-               ctx.ConsoleWriteLogLine(String.Format("Compress the Table '{0}' rows before: {1}", dTable.TableName, dTable.Rows.Count));
-               (bool success, string message) cashUnitResult = _datatable_ops.DeleteUnchangedRowsInTable(dTable, "time ASC", cashUnitCols);
-               if (!cashUnitResult.success)
-               {
-                  ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + cashUnitResult.message);
-               }
-               ctx.ConsoleWriteLogLine(String.Format("Compress the Table '{0}' rows after: {1}", dTable.TableName, dTable.Rows.Count));
-            }
-         }
-
-         // add English 
-         string[,] summaryColMap = new string[1, 2]
-         {
-            {"type", "usType" }
-         };
-
-         for (int i = 0; i < 1; i++)
-         {
-            result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables["Summary"], dTableSet.Tables["Messages"], summaryColMap[i, 0], summaryColMap[i, 1]);
-         }
-
-         // add English
-         string[,] cashUnitColMap = new string[1, 2]
-         {
-            {"status", "usStatus" }
-         };
-
-         foreach (DataTable dTable in dTableSet.Tables)
-         {
-            ctx.ConsoleWriteLogLine("Looking at table :" + dTable.TableName);
-            if (dTable.TableName.StartsWith("CashUnit-"))
-            {
-               for (int i = 0; i < 1; i++)
-               {
-                  result = _datatable_ops.AddEnglishToTable(ctx, dTable, dTableSet.Tables["Messages"], cashUnitColMap[i, 0], cashUnitColMap[i, 1]);
-               }
-            }
-         }
-
-         // add English to the Dispense Table
-         string[,] dispenseColMap = new string[1, 2]
-         {
-            {"position", "wPresentState" }
-         };
-
-         for (int i = 0; i < 1; i++)
-         {
-            result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables["Dispense"], dTableSet.Tables["Messages"], dispenseColMap[i, 0], dispenseColMap[i, 1]);
+            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));
          }
 
          try
          {
-            // rename the cash units
+            // S U M M A R Y  T A B L E
+
+            tableName = "Summary";
+
+            // COMPRESS
+
+            //  Delete redundant lines from the Summary Table
+            DataRow[] dataRows = dTableSet.Tables[tableName].Select();
+            List<DataRow> deleteRows = new List<DataRow>();
+            foreach (DataRow dataRow in dataRows)
+            {
+               if (dataRow["file"].ToString().Trim() == string.Empty)
+               {
+                  deleteRows.Add(dataRow);
+               }
+            }
+
+            foreach (DataRow dataRow in deleteRows)
+            {
+               dataRow.Delete();
+            }
+
+            // ADD ENGLISH 
+
+            string[,] colKeyMap = new string[1, 2]
+            {
+               {"type", "usType" }
+            };
+
+            for (int i = 0; i < 1; i++)
+            {
+               (bool success, string message) result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables[tableName], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
+            }
+
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));
+         }
+
+         try
+         {
+            // C A S H  U N I T   T A B L E S
+
+            // COMPRESS
+
+            // the list of columns to compare
+            string[] columns = new string[] { "error", "status", "initial", "count", "reject", "dispensed", "presented", "retracted" };
+
+            foreach (DataTable dTable in dTableSet.Tables)
+            {
+               ctx.ConsoleWriteLogLine("Looking at table :" + dTable.TableName);
+               if (dTable.TableName.StartsWith("CashUnit-"))
+               {
+                  tableName = dTable.TableName;
+
+                  ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table start: rows before: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
+                  (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], "time ASC", columns);
+                  ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table complete: rows after: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
+
+                  if (!result.success)
+                  {
+                     ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
+                  }
+               }
+            }
+
+            // ADD ENGLISH 
+
+            string[,] colKeyMap = new string[1, 2]
+            {
+               {"status", "usStatus" }
+            };
+
+            foreach (DataTable dTable in dTableSet.Tables)
+            {
+               ctx.ConsoleWriteLogLine("Looking at table :" + dTable.TableName);
+               if (dTable.TableName.StartsWith("CashUnit-"))
+               {
+                  for (int i = 0; i < 1; i++)
+                  {
+                     (bool success, string message) result = _datatable_ops.AddEnglishToTable(ctx, dTable, dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
+                  }
+               }
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));
+         }
+
+         try
+         {
+            // D I S P E N S E  T A B L E 
+
+            tableName = "Dispense";
+
+            // ADD ENGLISH 
+
+            string[,] colKeyMap = new string[1, 2]
+            {
+               {"position", "wPresentState" }
+            };
+
+            for (int i = 0; i < 1; i++)
+            {
+               (bool success, string message) result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables[tableName], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));
+         }
+
+         try
+         {
+            // R E N A M E  C A S H  U N I T S
+
             foreach (DataTable dTable in dTableSet.Tables)
             {
                ctx.ConsoleWriteLogLine("Rename the Cash Units : Looking at table :" + dTable.TableName);
                if (dTable.TableName.StartsWith("CashUnit-"))
                {
+                  // Isolate the Number (e.g. from CashUnit-1, isolate the '1')
                   string cashUnitNumber = dTable.TableName.Replace("CashUnit-", string.Empty);
-                  dataRows = dTableSet.Tables["Summary"].Select(String.Format("number = {0}", cashUnitNumber));
+
+                  // From the Summary Table, find the row where number matches the cashUnitNumber (should only be one)
+                  DataRow[] dataRows = dTableSet.Tables["Summary"].Select(String.Format("number = {0}", cashUnitNumber));
                   if (dataRows.Length == 1)
                   {
                      if (dataRows[0]["denom"].ToString().Trim() == "0")
                      {
-                        // if currency is "" use the type (e.g. RETRACT, REJECT
+                        // if currency is "" use the type (e.g. RETRACT, REJECT, RETAIN)
                         ctx.ConsoleWriteLogLine(String.Format("Changing table name from '{0}' to '{1}'", dTable.TableName, dataRows[0]["type"].ToString()));
                         dTable.TableName = dataRows[0]["type"].ToString();
                         dTable.AcceptChanges();
@@ -350,49 +405,42 @@ namespace CDMView
                ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CIM_CASH_UNIT_INFO Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
             }
 
-            if (!have_seen_WFS_INF_CDM_CASH_UNIT_INFO)
+            DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
+
+            // for each row, set the tracefile, timestamp and hresult
+            for (int i = 0; i < cashInfo.lUnitCount; i++)
             {
-               // First time seeing CASH_UNIT_INFO, populate the Summary Table
-               // have_seen_WFS_INF_CDM_CASH_UNIT_INFO = true;
-
-               DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
-
-               // for each row, set the tracefile, timestamp and hresult
-               for (int i = 0; i < cashInfo.lUnitCount; i++)
+               // Now use the usNumbers to create and populate a row in the CashUnit-x table
+               int usNumber = int.Parse(cashInfo.usNumbers[i].Trim());
+               if (usNumber < 1)
                {
-                  // Now use the usNumbers to create and populate a row in the CashUnit-x table
-                  int usNumber = int.Parse(cashInfo.usNumbers[i].Trim());
-                  if (usNumber < 1)
-                  {
-                     // We have to check because some log lines are truncated (i.e. "more data")
-                     // and produce bad results
-                     continue;
-                  }
-
-                  try
-                     {
-                     dataRows[usNumber]["file"] = _traceFile;
-                     dataRows[usNumber]["time"] = lpResult.tsTimestamp(xfsLine);
-                     dataRows[usNumber]["error"] = lpResult.hResult(xfsLine);
-
-                     dataRows[usNumber]["type"] = cashInfo.usTypes[i];
-                     dataRows[usNumber]["name"] = cashInfo.cUnitIDs[i];
-                     dataRows[usNumber]["currency"] = cashInfo.cCurrencyIDs[i];
-                     dataRows[usNumber]["denom"] = cashInfo.ulValues[i];
-                     dataRows[usNumber]["initial"] = cashInfo.ulInitialCounts[i];
-                     dataRows[usNumber]["min"] = cashInfo.ulMinimums[i];
-                     dataRows[usNumber]["max"] = cashInfo.ulMaximums[i];
-                  }
-                  catch (Exception e)
-                  {
-                     ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CDM_CASH_UNIT_INFO Summary Table Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-                  }
-
+                  // We have to check because some log lines are truncated (i.e. "more data")
+                  // and produce bad results
+                  continue;
                }
 
-               dTableSet.Tables["Summary"].AcceptChanges();
+               try
+               {
+                  dataRows[usNumber]["file"] = _traceFile;
+                  dataRows[usNumber]["time"] = lpResult.tsTimestamp(xfsLine);
+                  dataRows[usNumber]["error"] = lpResult.hResult(xfsLine);
+
+                  dataRows[usNumber]["type"] = cashInfo.usTypes[i];
+                  dataRows[usNumber]["name"] = cashInfo.cUnitIDs[i];
+                  dataRows[usNumber]["currency"] = cashInfo.cCurrencyIDs[i];
+                  dataRows[usNumber]["denom"] = cashInfo.ulValues[i];
+                  dataRows[usNumber]["initial"] = cashInfo.ulInitialCounts[i];
+                  dataRows[usNumber]["min"] = cashInfo.ulMinimums[i];
+                  dataRows[usNumber]["max"] = cashInfo.ulMaximums[i];
+               }
+               catch (Exception e)
+               {
+                  ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CDM_CASH_UNIT_INFO Summary Table Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
+               }
 
             }
+
+            dTableSet.Tables["Summary"].AcceptChanges();
 
             ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CDM_CASH_UNIT_INFO cashInfo.lUnitCount '{0}' ", cashInfo.lUnitCount));
 
@@ -418,6 +466,7 @@ namespace CDMView
                   cashUnitRow["time"] = lpResult.tsTimestamp(xfsLine);
                   cashUnitRow["error"] = lpResult.hResult(xfsLine);
 
+                  cashUnitRow["initial"] = cashInfo.ulInitialCounts[i];
                   cashUnitRow["count"] = cashInfo.ulCounts[i];
                   cashUnitRow["reject"] = cashInfo.ulRejectCounts[i];
                   cashUnitRow["status"] = cashInfo.usStatuses[i];
@@ -676,6 +725,7 @@ namespace CDMView
                cashUnitRow["time"] = lpResult.tsTimestamp(xfsLine);
                cashUnitRow["error"] = lpResult.hResult(xfsLine);
 
+               cashUnitRow["initial"] = cashInfo.ulInitialCounts[0];
                cashUnitRow["count"] = cashInfo.ulCounts[0];
                cashUnitRow["reject"] = cashInfo.ulRejectCounts[0];
                cashUnitRow["status"] = cashInfo.usStatuses[0];
@@ -745,6 +795,7 @@ namespace CDMView
                cashUnitRow["time"] = lpResult.tsTimestamp(xfsLine);
                cashUnitRow["error"] = lpResult.hResult(xfsLine);
 
+               cashUnitRow["initial"] = cashInfo.ulInitialCounts[0];
                cashUnitRow["count"] = cashInfo.ulCounts[0];
                cashUnitRow["reject"] = cashInfo.ulRejectCounts[0];
                cashUnitRow["status"] = cashInfo.usStatuses[0];
