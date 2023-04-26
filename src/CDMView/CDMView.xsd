@@ -38,7 +38,7 @@
               <xs:element name="LU7" type="xs:string" minOccurs="0" />
               <xs:element name="LU8" type="xs:string" minOccurs="0" />
               <xs:element name="LU9" type="xs:string" minOccurs="0" />
-              <xs:element name="comment" type="xs:string" minOccurs="0" />			  
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -60,15 +60,6 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="CashUnit">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="file" type="xs:string" minOccurs="0" />
-              <xs:element name="time" type="xs:string" minOccurs="0" />
-              <xs:element name="error" type="xs:string" minOccurs="0" />
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
         <xs:element name="CashUnit-1">
           <xs:complexType>
             <xs:sequence>
@@ -76,12 +67,13 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="initial" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
               <xs:element name="presented" type="xs:string" minOccurs="0" />
               <xs:element name="retracted" type="xs:string" minOccurs="0" />
-              <xs:element name="comment" type="xs:string" minOccurs="0" />			  
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -92,6 +84,7 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="initial" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
@@ -108,6 +101,7 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="initial" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
@@ -124,6 +118,7 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="initial" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
@@ -140,6 +135,7 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="initial" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
@@ -156,6 +152,58 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="initial" type="xs:string" minOccurs="0" />
+              <xs:element name="count" type="xs:string" minOccurs="0" />
+              <xs:element name="reject" type="xs:string" minOccurs="0" />
+              <xs:element name="dispensed" type="xs:string" minOccurs="0" />
+              <xs:element name="presented" type="xs:string" minOccurs="0" />
+              <xs:element name="retracted" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CashUnit-7">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="initial" type="xs:string" minOccurs="0" />
+              <xs:element name="count" type="xs:string" minOccurs="0" />
+              <xs:element name="reject" type="xs:string" minOccurs="0" />
+              <xs:element name="dispensed" type="xs:string" minOccurs="0" />
+              <xs:element name="presented" type="xs:string" minOccurs="0" />
+              <xs:element name="retracted" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CashUnit-8">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="initial" type="xs:string" minOccurs="0" />
+              <xs:element name="count" type="xs:string" minOccurs="0" />
+              <xs:element name="reject" type="xs:string" minOccurs="0" />
+              <xs:element name="dispensed" type="xs:string" minOccurs="0" />
+              <xs:element name="presented" type="xs:string" minOccurs="0" />
+              <xs:element name="retracted" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CashUnit-9">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="initial" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />

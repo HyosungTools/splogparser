@@ -139,52 +139,52 @@ namespace Impl
          if (logLine.Contains("GETINFO[3") || logLine.Contains("EXECUTE[3") || logLine.Contains("SERVICE_EVENT[3"))
          {
             /* INFO */
-            Regex wfs_inf_cdm_status = new Regex("GETINFO.301.[0-9]+WFS_GETINFO_COMPLETE");
-            Regex wfs_inf_cdm_cash_unit_info = new Regex("GETINFO.303.[0-9]+WFS_GETINFO_COMPLETE");
+            Regex WFS_INF_CDM_STATUS = new Regex("GETINFO.301.[0-9]+WFS_GETINFO_COMPLETE");
+            Regex WFS_INF_CDM_CASH_UNIT_INFO = new Regex("GETINFO.303.[0-9]+WFS_GETINFO_COMPLETE");
             Regex WFS_INF_CDM_PRESENT_STATUS = new Regex("GETINFO.309.[0-9]+WFS_GETINFO_COMPLETE");
 
             /* EXECUTE */
-            Regex wfs_cmd_cdm_dispense = new Regex("EXECUTE.302.[0-9]+WFS_EXECUTE_COMPLETE");
-            Regex wfs_cmd_cdm_present = new Regex("EXECUTE.303.[0-9]+WFS_EXECUTE_COMPLETE");
-            Regex wfs_cmd_cdm_reject = new Regex("EXECUTE.304.[0-9]+WFS_EXECUTE_COMPLETE");
-            Regex wfs_cmd_cdm_retract = new Regex("EXECUTE.305.[0-9]+WFS_EXECUTE_COMPLETE");
-            Regex wfs_cmd_cdm_reset = new Regex("EXECUTE.321.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex WFS_CMD_CDM_DISPENSE = new Regex("EXECUTE.302.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex WFS_CMD_CDM_PRESENT = new Regex("EXECUTE.303.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex WFS_CMD_CDM_REJECT = new Regex("EXECUTE.304.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex WFS_CMD_CDM_RETRACT = new Regex("EXECUTE.305.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex WFS_CMD_CDM_RESET = new Regex("EXECUTE.321.[0-9]+WFS_EXECUTE_COMPLETE");
 
             /* EVENTS */
-            Regex wfs_srve_cdm_cashunitinfochanged = new Regex("SERVICE_EVENT.304.[0-9]+WFS_SERVICE_EVENT");
-            Regex wfs_srve_cdm_itemstaken = new Regex("SERVICE_EVENT.309.[0-9]+WFS_SERVICE_EVENT");
+            Regex WFS_SRVE_CDM_CASHUNITINFOCHANGED = new Regex("SERVICE_EVENT.304.[0-9]+WFS_SERVICE_EVENT");
+            Regex WFS_SRVE_CDM_ITEMSTAKEN = new Regex("SERVICE_EVENT.309.[0-9]+WFS_SERVICE_EVENT");
 
             /* Test for INFO */
-            result = GenericMatch(wfs_inf_cdm_status, logLine);
+            result = GenericMatch(WFS_INF_CDM_STATUS, logLine);
             if (result.success) return (XFSType.WFS_INF_CDM_STATUS, result.xfsLine);
 
-            result = GenericMatch(wfs_inf_cdm_cash_unit_info, logLine);
+            result = GenericMatch(WFS_INF_CDM_CASH_UNIT_INFO, logLine);
             if (result.success) return (XFSType.WFS_INF_CDM_CASH_UNIT_INFO, result.xfsLine);
 
             result = GenericMatch(WFS_INF_CDM_PRESENT_STATUS, logLine);
             if (result.success) return (XFSType.WFS_INF_CDM_PRESENT_STATUS, result.xfsLine);
 
             /* Test for EXECUTE */
-            result = GenericMatch(wfs_cmd_cdm_dispense, logLine);
+            result = GenericMatch(WFS_CMD_CDM_DISPENSE, logLine);
             if (result.success) return (XFSType.WFS_CMD_CDM_DISPENSE, result.xfsLine);
 
-            result = GenericMatch(wfs_cmd_cdm_present, logLine);
+            result = GenericMatch(WFS_CMD_CDM_PRESENT, logLine);
             if (result.success) return (XFSType.WFS_CMD_CDM_PRESENT, result.xfsLine);
 
-            result = GenericMatch(wfs_cmd_cdm_reject, logLine);
+            result = GenericMatch(WFS_CMD_CDM_REJECT, logLine);
             if (result.success) return (XFSType.WFS_CMD_CDM_REJECT, result.xfsLine);
 
-            result = GenericMatch(wfs_cmd_cdm_retract, logLine);
+            result = GenericMatch(WFS_CMD_CDM_RETRACT, logLine);
             if (result.success) return (XFSType.WFS_CMD_CDM_RETRACT, result.xfsLine);
 
-            result = GenericMatch(wfs_cmd_cdm_reset, logLine);
+            result = GenericMatch(WFS_CMD_CDM_RESET, logLine);
             if (result.success) return (XFSType.WFS_CMD_CDM_RESET, result.xfsLine);
 
             /* Test for EVENTS */
-            result = GenericMatch(wfs_srve_cdm_cashunitinfochanged, logLine);
+            result = GenericMatch(WFS_SRVE_CDM_CASHUNITINFOCHANGED, logLine);
             if (result.success) return (XFSType.WFS_SRVE_CDM_CASHUNITINFOCHANGED, result.xfsLine);
 
-            result = GenericMatch(wfs_srve_cdm_itemstaken, logLine);
+            result = GenericMatch(WFS_SRVE_CDM_ITEMSTAKEN, logLine);
             if (result.success) return (XFSType.WFS_SRVE_CDM_ITEMSTAKEN, result.xfsLine);
 
             /* We should have matched something */
