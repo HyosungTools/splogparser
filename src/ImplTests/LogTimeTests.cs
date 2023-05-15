@@ -28,5 +28,12 @@ namespace SPLogParserTests
          string logTime = LogTime.GetTimeFromLogLine(logLine);
          Assert.IsTrue(logTime.Equals("2022-01-01T00:00:00.000"));
       }
+
+      [TestMethod]
+      public void GetTimeFromLogLine2Success()
+      {
+         string logTime = LogTime.GetTimeFromLogLine2(samples_general.WFPOPEN);
+         Assert.IsTrue(logTime.Equals(@"2023/04/04 03:05 20.028"));
+      }
    }
 }

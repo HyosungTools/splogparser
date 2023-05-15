@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WFPCLOSE.cs" />
+    <Compile Include="WFPOPEN.cs" />
     <Compile Include="WFS.cs" />
     <Compile Include="WFSCDMCUINFO.cs" />
     <Compile Include="WFSCDMDENOMINATION.cs" />

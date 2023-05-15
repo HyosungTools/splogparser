@@ -11,6 +11,8 @@ namespace DeviceView
 {
    internal class DEVTable : BaseTable
    {
+      string[] hServiceArray = new string[100];
+      
       /// <summary>
       /// constructor
       /// </summary>
@@ -116,6 +118,18 @@ namespace DeviceView
                      WFS_INF_STATUS("IPM", result.xfsLine);
                      break;
                   }
+               case XFSType.WFPOPEN:
+                  {
+                     base.ProcessRow(traceFile, logLine);
+                     WFSOPEN(LogTime.GetTimeFromLogLine2(logLine), result.xfsLine);
+                     break;
+                  }
+               case XFSType.WFPCLOSE:
+                  {
+                     base.ProcessRow(traceFile, logLine);
+                     WFSCLOSE(LogTime.GetTimeFromLogLine2(logLine), result.xfsLine);
+                     break;
+                  }
                default:
                   break;
             }
@@ -207,6 +221,82 @@ namespace DeviceView
          }
 
          return;
+      }
+
+      protected void WFSOPEN(string logTime, string xfsLine)
+      {
+         try
+         {
+            ctx.ConsoleWriteLogLine(String.Format("WFPOPEN tracefile '{0}' xfsLine '{1}'", _traceFile, xfsLine.Substring(0, 20)));
+
+            WFPOPEN wfpOpen = new WFPOPEN(ctx);
+
+            try
+            {
+               wfpOpen.Initialize(xfsLine);
+            }
+            catch (Exception e)
+            { 
+               ctx.ConsoleWriteLogLine(String.Format("WFSOPEN Assignment Exception {0}. {1}, {2}", _traceFile, logTime, e.Message));
+            }
+
+            string xfsDevice = WFPOPEN.device(xfsLine);
+            ctx.ConsoleWriteLogLine(String.Format("xfsDevice = {0}", xfsDevice));
+            if (!String.IsNullOrEmpty(xfsDevice))
+            {
+               DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
+
+               dataRow["file"] = _traceFile;
+               dataRow["time"] = logTime;
+               dataRow["error"] = wfpOpen.lpszAppID;
+
+               dataRow[xfsDevice] = "open";
+
+               // store xfs device
+               hServiceArray[int.Parse(wfpOpen.hService)] = xfsDevice; 
+
+               dTableSet.Tables["Status"].AcceptChanges();
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFPOPEN Exception : " + e.Message);
+         }
+
+         return;
+      }
+      protected void WFSCLOSE(string logTime, string xfsLine)
+      {
+         try
+         {
+            ctx.ConsoleWriteLogLine(String.Format("WFPOPEN tracefile '{0}' xfsLine '{1}'", _traceFile, xfsLine.Substring(0, 20)));
+
+            WFPCLOSE wfpClose = new WFPCLOSE(ctx);
+
+            try
+            {
+               wfpClose.Initialize(xfsLine);
+            }
+            catch (Exception e)
+            {
+               ctx.ConsoleWriteLogLine(String.Format("WFSCLOSE Assignment Exception {0}. {1}, {2}", _traceFile, logTime, e.Message));
+            }
+
+            DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
+
+            // recover the xfs device
+            string xfsDevice = hServiceArray[int.Parse(wfpClose.hService)];
+
+            dataRow["file"] = _traceFile;
+            dataRow["time"] = logTime;
+            dataRow[xfsDevice] = "close";
+
+            dTableSet.Tables["Status"].AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFSCLOSE Exception : " + e.Message);
+         }
       }
    }
 }
