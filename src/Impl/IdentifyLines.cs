@@ -82,6 +82,10 @@ namespace Impl
       WFS_EXEE_IPM_MEDIAREFUSED,  
       WFS_EXEE_IPM_MEDIAREJECTED, 
 
+      /* WFPOpen() and WFPClose() */
+      WFPOPEN, 
+      WFPCLOSE,
+
       /* ERROR */
       Error
    }
@@ -490,6 +494,19 @@ namespace Impl
 
             /* We should have matched something */
             return (XFSType.Error, string.Empty);
+         }
+
+         /* WFPOpen/WFPClose */
+         if (logLine.Contains("WFPOpen") || logLine.Contains("WFPClose"))
+         {
+            Regex WFPOpen = new Regex("(XFS_CMD[a-zA-Z0-9 ]*)(OPEN[a-zA-Z0-9 ]*)(hResult\\[(\\d+)\\] = WFPOpen)");
+            Regex WFPClose = new Regex("(XFS_CMD[a-zA-Z0-9 ]*)(CLOSE[a-zA-Z0-9 ]*)(hResult\\[(\\d+)\\] = WFPClose)");
+
+            result = GenericMatch(WFPOpen, logLine);
+            if (result.success) return (XFSType.WFPOPEN, result.xfsLine);
+
+            result = GenericMatch(WFPClose, logLine);
+            if (result.success) return (XFSType.WFPCLOSE, result.xfsLine);
          }
 
          return (XFSType.None, logLine);
