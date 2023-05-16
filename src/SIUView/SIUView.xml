@@ -1,0 +1,41 @@
+<?xml version="1.0" standalone="yes"?>
+<SIU>
+
+  <!-- fwSafeDoor -->
+
+  <Messages>
+    <type>fwSafeDoor</type>
+    <code>0x0000</code>
+    <brief>not available</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+    <type>fwSafeDoor</type>
+    <code>0x0001</code>
+    <brief>closed</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+    <type>fwSafeDoor</type>
+    <code>0x0002</code>
+    <brief>open</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+    <type>fwSafeDoor</type>
+    <code>0x0004</code>
+    <brief>locked</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+    <type>fwSafeDoor</type>
+    <code>0x0008</code>
+    <brief>bolted</brief>
+    <description></description>
+  </Messages>
+
+</SIU>
