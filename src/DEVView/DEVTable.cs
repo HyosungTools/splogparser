@@ -250,7 +250,7 @@ namespace DeviceView
                dataRow["time"] = logTime;
                dataRow["error"] = wfpOpen.lpszAppID;
 
-               dataRow[xfsDevice] = "open";
+               dataRow[xfsDevice] = "open (" + wfpOpen.hService + ")";
 
                // store xfs device
                hServiceArray[int.Parse(wfpOpen.hService)] = xfsDevice; 
@@ -289,7 +289,7 @@ namespace DeviceView
 
             dataRow["file"] = _traceFile;
             dataRow["time"] = logTime;
-            dataRow[xfsDevice] = "close";
+            dataRow[xfsDevice] = "close (" + wfpClose.hService + ")";
 
             dTableSet.Tables["Status"].AcceptChanges();
          }
