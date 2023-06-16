@@ -22,7 +22,7 @@ namespace SPLogParserTests
       public void TestTimestamp()
       {
          string timeStamp = lpResult.tsTimestamp(xfsLineTable);
-         Assert.IsTrue(timeStamp == "2022/12/19 16:01 26.018");
+         Assert.IsTrue(timeStamp == "2022-12-19 16:01:26.018");
 
       }
       [TestMethod]

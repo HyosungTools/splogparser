@@ -10,20 +10,10 @@ namespace SPLogParserTests
       [TestMethod]
       public void GetlpResultTime()
       {
-         string lpResultLine = @"
-            lpResult =
-            {
-	            hWnd = [0x000100dc],
-	            RequestID = [60984],
-	            hService = [10],
-	            tsTimestamp = [2023/02/01 21:03 11.557],
-	            hResult = [0],
-	            u.dwCommandCode = [302],
-	            lpBuffer = [0x12416bec]
-            ";
-
-         string logTime = lpResult.tsTimestamp(lpResultLine);
-         Assert.IsTrue(logTime.Equals("2023/02/01 21:03 11.557"));
+         string xfsLine = Samples.samples_general.WFS_INF_PTR_STATUS;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(xfsLine);
+         string logTime = lpResult.tsTimestamp(result.xfsLine);
+         Assert.IsTrue(logTime.Equals("2023-03-17 08:42:28.033"));
       }
 
       [TestMethod]
@@ -43,7 +33,25 @@ namespace SPLogParserTests
             ";
 
          string logTime = lpResult.tsTimestamp(lpResultLine);
-         Assert.IsTrue(logTime.Equals("2023/02/01 21:03 11.557"));
+         Assert.IsTrue(logTime.Equals("2023-02-01 21:03:11.557"));
+      }
+
+      [TestMethod]
+      public void GetDefaultlpResultTime()
+      {
+         string lpResultLine = @"
+            lpResult =
+            {
+	            hWnd = [0x000100dc],
+	            RequestID = [60984],
+	            hService = [10],
+	            hResult = [-123],
+	            u.dwCommandCode = [302],
+	            lpBuffer = [0x12416bec]
+            ";
+
+         string logTime = lpResult.tsTimestamp(lpResultLine);
+         Assert.IsTrue(logTime.Equals("2022-01-01 00:00:00.000"));
       }
 
       [TestMethod]
@@ -62,8 +70,8 @@ namespace SPLogParserTests
 	            tsTimestamp = [2023/02/01 00:00 00.000],
             ";
 
-         string logTime = lpResult.hResult(lpResultLine);
-         Assert.IsTrue(logTime.Equals("-123"));
+         string hResult = lpResult.hResult(lpResultLine);
+         Assert.IsTrue(hResult.Equals("-123"));
       }
 
       [TestMethod]
@@ -82,8 +90,8 @@ namespace SPLogParserTests
 	            tsTimestamp = [2023/02/01 00:00 00.000],
             ";
 
-         string logTime = lpResult.hResult(lpResultLine);
-         Assert.IsTrue(logTime.Equals(""));
+         string hResult = lpResult.hResult(lpResultLine);
+         Assert.IsTrue(hResult.Equals(""));
       }
    }
 }

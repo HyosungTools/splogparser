@@ -373,10 +373,10 @@ lpResult =
       public void TestTimestamp()
       {
          string timeStamp = lpResult.tsTimestamp(xfsLineTable);
-         Assert.IsTrue(timeStamp == "2023/01/24 00:59 14.660");
+         Assert.IsTrue(timeStamp == "2023-01-24 00:59:14.660");
 
          timeStamp = lpResult.tsTimestamp(xfsLineList);
-         Assert.IsTrue(timeStamp == "2023/03/15 17:54 56.723");
+         Assert.IsTrue(timeStamp == "2023-03-15 17:54:56.723");
 
       }
       [TestMethod]

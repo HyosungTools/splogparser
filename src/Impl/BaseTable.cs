@@ -438,9 +438,9 @@ namespace Impl
                {
                   // set format for date/time column to be readable
                   Console.WriteLine("Set the formula for the date/time column...");
-                  Microsoft.Office.Interop.Excel.Range timeColumn = activeSheet.Range[activeSheet.Cells[rowOffset, 1], activeSheet.Cells[dataView.Count + 1, 1]];
-                  timeColumn.Cells.NumberFormat = "YYYY-MM-ddTHH:mm:ss.000";
-                  timeColumn.Cells.ColumnWidth = 20;
+                  Microsoft.Office.Interop.Excel.Range timeColumn = activeSheet.Range[activeSheet.Cells[rowOffset, 2], activeSheet.Cells[dataView.Count + 1, 2]];
+                  timeColumn.Cells.NumberFormat = "yyyy-mm-dd hh:mm:ss.000";
+                  timeColumn.Cells.ColumnWidth = 21;
 
                   // copy the 2D data array into the excel worksheet starting at rowOffset, colOffset
                   Microsoft.Office.Interop.Excel.Range dispenseRange = activeSheet.Range[activeSheet.Cells[rowOffset, colOffset], activeSheet.Cells[dataView.Count + rowOffset - 1, colCount + colOffset - 1]];
