@@ -26,17 +26,20 @@ namespace SIUView
       /// <returns>true if the write was successful</returns>
       public override bool WriteExcelFile()
       {
+         string tableName = string.Empty;
          try
          {
             // S T A T U S   T A B L E
 
+            tableName = "Status";
+
             // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
             ctx.ConsoleWriteLogLine("Compress the Status Table: sort by time, visit every row and delete rows that are unchanged from their predecessor");
-            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table start: rows before: {0}", dTableSet.Tables["Status"].Rows.Count));
+            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table start: rows before: {0}", dTableSet.Tables[tableName].Rows.Count));
 
             // the list of columns to compare
-            string[] columns = new string[] { "error", "safe" };
-            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables["Status"], "time ASC", columns);
+            string[] columns = new string[] { "error", "safe", "Device", "opSwitch", "tamper", "intTamper", "cabinet" };
+            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], "time ASC", columns);
             if (!result.success)
             {
                ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
@@ -44,9 +47,11 @@ namespace SIUView
             ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table complete: rows after: {0}", dTableSet.Tables["Status"].Rows.Count));
 
             // add English to the Status Table
+            ctx.ConsoleWriteLogLine("Add English to Summary Table");
             string[,] colKeyMap = new string[1, 2]
             {
                {"safe", "fwSafeDoor" }
+              
             };
 
             for (int i = 0; i < 1; i++)
@@ -56,7 +61,32 @@ namespace SIUView
          }
          catch (Exception e)
          {
-            ctx.ConsoleWriteLogLine("WriteExcelFile Exception : " + e.Message);
+            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));           
+         }
+
+         try
+         {
+            // S U M M A R Y  T A B L E
+
+            tableName = "Summary";
+
+            // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
+            ctx.ConsoleWriteLogLine("Compress the Summary Table: sort by time, visit every row and delete rows that are unchanged from their predecessor");
+            ctx.ConsoleWriteLogLine(String.Format("Compress the Summary Table start: rows before: {0}", dTableSet.Tables["Summary"].Rows.Count));
+
+            // the list of columns to compare
+            string[] columns = new string[] { "error", "sp_version", "ep_version" };
+            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], "time ASC", columns);
+            if (!result.success)
+            {
+               ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
+            }
+            ctx.ConsoleWriteLogLine(String.Format("Compress the Summary Table complete: rows after: {0}", dTableSet.Tables["Summary"].Rows.Count));
+
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", "Summary", e.Message));
          }
 
          return base.WriteExcelFile();
@@ -127,15 +157,43 @@ namespace SIUView
                ctx.ConsoleWriteLogLine(String.Format("WFS_INF_SIU_STATUS Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
             }
 
-            DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
+            try
+            {
+               DataRow dataRowSummary = dTableSet.Tables["Summary"].Rows.Add();
 
-            dataRow["file"] = _traceFile;
-            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
-            dataRow["error"] = lpResult.hResult(xfsLine);
+               dataRowSummary["file"] = _traceFile;
+               dataRowSummary["time"] = lpResult.tsTimestamp(xfsLine);
+               dataRowSummary["error"] = lpResult.hResult(xfsLine);
+               dataRowSummary["sp_version"] = siuStatus.SP_Version;
+               dataRowSummary["ep_version"] = siuStatus.EP_Version;
 
-            dataRow["safe"] = siuStatus.fwSafeDoor;
+               dTableSet.Tables["Summary"].AcceptChanges();
+            }
+            catch (Exception e)
+            {
+               ctx.ConsoleWriteLogLine(String.Format("WFS_INF_SIU_STATUS Summary Table Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
+            }
 
-            dTableSet.Tables["Status"].AcceptChanges();
+            try
+            {
+               DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
+
+               dataRow["file"] = _traceFile;
+               dataRow["time"] = lpResult.tsTimestamp(xfsLine);
+               dataRow["error"] = lpResult.hResult(xfsLine);
+               dataRow["safe"] = siuStatus.fwSafeDoor;
+               dataRow["Device"] = siuStatus.fwDevice;
+               dataRow["opSwitch"] = siuStatus.opSwitch;
+               dataRow["tamper"] = siuStatus.tamper;
+               dataRow["intTamper"] = siuStatus.intTamper;
+               dataRow["cabinet"] = siuStatus.cabinet;
+
+               dTableSet.Tables["Status"].AcceptChanges();
+            }
+            catch (Exception e)
+            {
+               ctx.ConsoleWriteLogLine(String.Format("WFS_INF_SIU_STATUS Status Table Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
+            }
 
          }
          catch (Exception e)
