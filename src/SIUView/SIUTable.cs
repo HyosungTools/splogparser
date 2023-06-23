@@ -34,29 +34,33 @@ namespace SIUView
             tableName = "Status";
 
             // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
-            ctx.ConsoleWriteLogLine("Compress the Status Table: sort by time, visit every row and delete rows that are unchanged from their predecessor");
-            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table start: rows before: {0}", dTableSet.Tables[tableName].Rows.Count));
+            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table: sort by time, visit every row and delete rows that are unchanged from their predecessor", tableName));
+            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table start: rows before: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
 
             // the list of columns to compare
-            string[] columns = new string[] { "error", "safe", "Device", "opSwitch", "tamper", "intTamper", "cabinet" };
+            string[] columns = new string[] { "error", "safe", "device", "opswitch", "tamper", "inttamper", "cabinet", "errorcode", "description" };
             (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], "time ASC", columns);
             if (!result.success)
             {
                ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
             }
-            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table complete: rows after: {0}", dTableSet.Tables["Status"].Rows.Count));
+            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table complete: rows after: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
 
             // add English to the Status Table
-            ctx.ConsoleWriteLogLine("Add English to Summary Table");
-            string[,] colKeyMap = new string[1, 2]
+            ctx.ConsoleWriteLogLine(String.Format("Add English to {0} Table", tableName));
+            string[,] colKeyMap = new string[6, 2]
             {
-               {"safe", "fwSafeDoor" }
-              
+               {"safe", "fwSafeDoor" },
+               {"device", "fwDevice"},
+               {"opswitch", "opSwitch" },
+               {"tamper", "tamper"},
+               {"inttamper", "intTamper"},
+               {"cabinet", "cabinet"}
             };
 
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < colKeyMap.Length; i++)
             {
-               result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables["Status"], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
+               result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables[tableName], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
             }
          }
          catch (Exception e)
@@ -71,8 +75,8 @@ namespace SIUView
             tableName = "Summary";
 
             // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
-            ctx.ConsoleWriteLogLine("Compress the Summary Table: sort by time, visit every row and delete rows that are unchanged from their predecessor");
-            ctx.ConsoleWriteLogLine(String.Format("Compress the Summary Table start: rows before: {0}", dTableSet.Tables["Summary"].Rows.Count));
+            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table: sort by time, visit every row and delete rows that are unchanged from their predecessor", tableName));
+            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table start: rows before: {1}", tableName, dTableSet.Tables["Summary"].Rows.Count));
 
             // the list of columns to compare
             string[] columns = new string[] { "error", "sp_version", "ep_version" };
@@ -81,12 +85,12 @@ namespace SIUView
             {
                ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
             }
-            ctx.ConsoleWriteLogLine(String.Format("Compress the Summary Table complete: rows after: {0}", dTableSet.Tables["Summary"].Rows.Count));
+            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table complete: rows after: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
 
          }
          catch (Exception e)
          {
-            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", "Summary", e.Message));
+            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));
          }
 
          return base.WriteExcelFile();
@@ -182,10 +186,10 @@ namespace SIUView
                dataRow["time"] = lpResult.tsTimestamp(xfsLine);
                dataRow["error"] = lpResult.hResult(xfsLine);
                dataRow["safe"] = siuStatus.fwSafeDoor;
-               dataRow["Device"] = siuStatus.fwDevice;
-               dataRow["opSwitch"] = siuStatus.opSwitch;
+               dataRow["device"] = siuStatus.fwDevice;
+               dataRow["opswitch"] = siuStatus.opSwitch;
                dataRow["tamper"] = siuStatus.tamper;
-               dataRow["intTamper"] = siuStatus.intTamper;
+               dataRow["inttamper"] = siuStatus.intTamper;
                dataRow["cabinet"] = siuStatus.cabinet;
 
                dTableSet.Tables["Status"].AcceptChanges();
