@@ -10,7 +10,14 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="safe" type="xs:string" minOccurs="0" />
-              <xs:element name="comment" type="xs:string" minOccurs="0" />
+			  <xs:element name="device" type="xs:string" minOccurs="0" />
+			  <xs:element name="opswitch" type="xs:string" minOccurs="0" />
+			  <xs:element name="tamper" type="xs:string" minOccurs="0" />
+			  <xs:element name="inttamper" type="xs:string" minOccurs="0" />
+			  <xs:element name="cabinet" type="xs:string" minOccurs="0" />
+			  <xs:element name="errorcode" type="xs:string" minOccurs="0" />
+			  <xs:element name="description" type="xs:string" minOccurs="0" />
+			  <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -21,6 +28,18 @@
               <xs:element name="code" type="xs:string" />
               <xs:element name="brief" type="xs:string" minOccurs="0" />
               <xs:element name="description" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>	
+       <xs:element name="Summary">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="sp_version" type="xs:string" minOccurs="0" />
+              <xs:element name="ep_version" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>		

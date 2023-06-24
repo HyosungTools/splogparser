@@ -38,4 +38,181 @@
     <description></description>
   </Messages>
 
+  <!-- fwDevice -->
+  
+  <Messages>
+    <type>fwDevice</type>
+    <code>0</code>
+    <brief>online</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>1</code>
+    <brief>offline</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>2</code>
+    <brief>pwroff</brief>
+    <description>Powered off or physically not connected</description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>3</code>
+    <brief>nodev</brief>
+    <description>The device is not intended to be there</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>4</code>
+    <brief>hwerror</brief>
+    <description>Inoperable due to a hardware error</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>5</code>
+    <brief>usrerror</brief>
+    <description>User is preventing proper device operation</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>6</code>
+    <brief>busy</brief>
+    <description>Unable to process an execute command at this time</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>7</code>
+    <brief>fraud</brief>
+    <description>Inoperable because of detected fraud attempt</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>8</code>
+    <brief>fraud?</brief>
+    <description>Potential fraud attempt detected</description>
+  </Messages>
+  
+  <!-- opSwitch -->
+  
+  <Messages>
+    <type>opSwitch</type>
+    <code>0x0000</code>
+    <brief>not avail</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+    <type>opSwitch</type>
+    <code>0x0001</code>
+    <brief>run</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+    <type>opSwitch</type>
+    <code>0x0002</code>
+    <brief>maint</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+    <type>opSwitch</type>
+    <code>0x0004</code>
+    <brief>super</brief>
+    <description></description>
+  </Messages>
+  
+  <!-- tamper -->
+  <Messages>
+    <type>tamper</type>
+    <code>0x0000</code>
+    <brief>not avail</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+    <type>tamper</type>
+    <code>0x0002</code>
+    <brief>on</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+    <type>tamper</type>
+    <code>0x0001</code>
+    <brief>off</brief>
+    <description></description>
+  </Messages>
+  
+  <!-- inttamper -->
+  
+  <Messages>
+    <type>inttamper</type>
+    <code>0x0000</code>
+    <brief>not avail</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+    <type>inttamper</type>
+    <code>0x0002</code>
+    <brief>on</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+    <type>inttamper</type>
+    <code>0x0001</code>
+    <brief>off</brief>
+    <description></description>
+  </Messages>
+  
+  <!-- cabinet -->
+  
+  <Messages>
+    <type>cabinet</type>
+    <code>0x0000</code>
+    <brief>not avail</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+    <type>cabinet</type>
+    <code>0x0001</code>
+    <brief>closed</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+    <type>cabinet</type>
+    <code>0x0002</code>
+    <brief>open</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+    <type>cabinet</type>
+    <code>0x0004</code>
+    <brief>locked</brief>
+    <description></description>
+  </Messages>
+  
+   <Messages>
+    <type>cabinet</type>
+    <code>0x0008</code>
+    <brief>bolted</brief>
+    <description></description>
+  </Messages>
 </SIU>
+
