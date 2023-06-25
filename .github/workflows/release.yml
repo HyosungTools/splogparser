@@ -5,7 +5,7 @@ on:
       - 'v*'
 
 env:
-  REPO: HyosungTools/splogparser
+  REPO: DavidEwan/splogparser
 
 jobs:
   release:
