@@ -81,7 +81,7 @@ namespace Impl
          int rowCount = dataTable.Rows.Count;
          if (rowCount == 0)
          {
-            ctx.ConsoleWriteLogLine(String.Format("DataTable '{0}] has no rows!", dataTable.TableName));
+            ctx.ConsoleWriteLogLine(String.Format("DataTable '{0}' has no rows!", dataTable.TableName));
             return (true, string.Empty);
          }
 
@@ -152,7 +152,7 @@ namespace Impl
          int rowCount = dataTable.Rows.Count;
          if (rowCount == 0)
          {
-            ctx.ConsoleWriteLogLine(String.Format("DataTable '{0}] has no rows!", dataTable.TableName));
+            ctx.ConsoleWriteLogLine(String.Format("DataTable '{0}' has no rows!", dataTable.TableName));
             return (true, string.Empty);
          }
 
@@ -218,7 +218,7 @@ namespace Impl
          int rowCount = dataTable.Rows.Count;
          if (rowCount == 0)
          {
-            ctx.ConsoleWriteLogLine(String.Format("DataTable '{0}] has no rows!", dataTable.TableName));
+            ctx.ConsoleWriteLogLine(String.Format("DataTable '{0}' has no rows!", dataTable.TableName));
             return (true, string.Empty);
          }
 
