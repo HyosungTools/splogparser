@@ -301,22 +301,7 @@
     <brief>not supp</brief>
     <description></description>
   </Messages>
- 
-
-  <Messages>
-	<type>fwType</type>
-    <code>0x0001</code>
-    <brief>mediain</brief>
-    <description></description>
-  </Messages>
-
-  <Messages>
-	<type>fwType</type>
-    <code>0x0002</code>
-    <brief>retract</brief>
-    <description></description>
-  </Messages>
-  
+   
   <!-- usStatus --> 
    
   <Messages>

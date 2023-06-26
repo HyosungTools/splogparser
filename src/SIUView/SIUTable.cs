@@ -58,7 +58,7 @@ namespace SIUView
                {"cabinet", "cabinet"}
             };
 
-            for (int i = 0; i < colKeyMap.Length; i++)
+            for (int i = 0; i < 6; i++)
             {
                result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables[tableName], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
             }
