@@ -1,0 +1,296 @@
+<?xml version="1.0" standalone="yes"?>
+<IDC>  
+  <!-- fwDevice -->
+  
+  <Messages>
+    <type>fwDevice</type>
+    <code>0</code>
+    <brief>online</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>1</code>
+    <brief>offline</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>2</code>
+    <brief>pwroff</brief>
+    <description>Powered off or physically not connected</description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>3</code>
+    <brief>nodev</brief>
+    <description>The device is not intended to be there</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>4</code>
+    <brief>hwerror</brief>
+    <description>Inoperable due to a hardware error</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>5</code>
+    <brief>usrerror</brief>
+    <description>User is preventing proper device operation</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>6</code>
+    <brief>busy</brief>
+    <description>Unable to process an execute command at this time</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>7</code>
+    <brief>fraud</brief>
+    <description>Inoperable because of detected fraud attempt</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>8</code>
+    <brief>fraud?</brief>
+    <description>Potential fraud attempt detected</description>
+  </Messages>
+  
+  <!-- fwMedia -->
+  
+  <Messages>	
+	<type>fwMedia</type>
+    <code>1</code>
+    <brief>present</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwMedia</type>
+    <code>2</code>
+    <brief>notpresent</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwMedia</type>
+    <code>3</code>
+    <brief>jammed</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>	
+	<type>fwMedia</type>
+    <code>4</code>
+    <brief>notsupp</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>	
+	<type>fwMedia</type>
+    <code>5</code>
+    <brief>unknown</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>	
+	<type>fwMedia</type>
+    <code>6</code>
+    <brief>entering</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>	
+	<type>fwMedia</type>
+    <code>7</code>
+    <brief>latched</brief>
+    <description></description>
+  </Messages>
+  
+  <!-- fwRetainBin -->
+  
+  <Messages>	
+	<type>fwRetainBin</type>
+    <code>1</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwRetainBin</type>
+    <code>2</code>
+    <brief>supp</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwRetainBin</type>
+    <code>3</code>
+    <brief>full</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>	
+	<type>fwRetainBin</type>
+    <code>4</code>
+    <brief>high</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>	
+	<type>fwRetainBin</type>
+    <code>5</code>
+    <brief>missing</brief>
+    <description></description>
+  </Messages>
+  
+   <!-- fwSecurity -->
+  
+  <Messages>	
+	<type>fwSecurity</type>
+    <code>1</code>
+    <brief>notsupp</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwSecurity</type>
+    <code>2</code>
+    <brief>notready</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwSecurity</type>
+    <code>3</code>
+    <brief>open</brief>
+    <description></description>
+  </Messages>
+
+ <!-- fwChipPower -->
+  <Messages>	
+	<type>fwChipPower</type>
+    <code>0</code>
+    <brief>online</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwChipPower</type>
+    <code>1</code>
+    <brief>poweredoff</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwChipPower</type>
+    <code>2</code>
+    <brief>busy</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwChipPower</type>
+    <code>3</code>
+    <brief>nodevice</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>	
+	<type>fwChipPower</type>
+    <code>4</code>
+    <brief>hwerror</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>	
+	<type>fwChipPower</type>
+    <code>5</code>
+    <brief>nocard</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwChipPower</type>
+    <code>6</code>
+    <brief>notsupp</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwChipPower</type>
+    <code>7</code>
+    <brief>unknown</brief>
+    <description></description>
+  </Messages>
+  <!-- fwChipModule -->
+    
+  <Messages>	
+	<type>fwChipModule</type>
+    <code>1</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwChipModule</type>
+    <code>2</code>
+    <brief>inop</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwChipModule</type>
+    <code>3</code>
+    <brief>unknown</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>	
+	<type>fwChipModule</type>
+    <code>4</code>
+    <brief>notsupp</brief>
+    <description></description>
+  </Messages>
+
+<!-- fwMagReadModule -->
+    
+  <Messages>	
+	<type>fwMagReadModule</type>
+    <code>1</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwMagReadModule</type>
+    <code>2</code>
+    <brief>inop</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwMagReadModule</type>
+    <code>3</code>
+    <brief>unknown</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>	
+	<type>fwMagReadModule</type>
+    <code>4</code>
+    <brief>notsupp</brief>
+    <description></description>
+  </Messages>
+  
+</IDC>
+
