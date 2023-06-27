@@ -12,6 +12,7 @@ namespace splogparser
 {
    class Program
    {
+      //bugtest1
       static void Main(string[] args)
       {
          if (args.Length < 1)
