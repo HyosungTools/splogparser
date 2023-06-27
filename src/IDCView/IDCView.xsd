@@ -1,0 +1,55 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="SIU" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="SIU" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Status">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />              
+			  <xs:element name="device" type="xs:string" minOccurs="0" />
+			  <xs:element name="media" type="xs:string" minOccurs="0" />
+			  <xs:element name="retainbin" type="xs:string" minOccurs="0" />
+			  <xs:element name="security" type="xs:string" minOccurs="0" />
+			  <xs:element name="uscards" type="xs:string" minOccurs="0" />
+			  <xs:element name="chippower" type="xs:string" minOccurs="0" />
+			  <xs:element name="chipmodule" type="xs:string" minOccurs="0" />
+			  <xs:element name="magreadmodule" type="xs:string" minOccurs="0" />
+			  <xs:element name="errorcode" type="xs:string" minOccurs="0" />			  
+			  <xs:element name="comment" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Messages">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="type" type="xs:string" />
+              <xs:element name="code" type="xs:string" />
+              <xs:element name="brief" type="xs:string" minOccurs="0" />
+              <xs:element name="description" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>	
+       <xs:element name="Summary">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="spversion" type="xs:string" minOccurs="0" />
+              <xs:element name="epversion" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>		
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//Messages" />
+      <xs:field xpath="type" />
+      <xs:field xpath="code" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
