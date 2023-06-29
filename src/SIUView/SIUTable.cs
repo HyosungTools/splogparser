@@ -191,6 +191,7 @@ namespace SIUView
                dataRow["tamper"] = siuStatus.tamper;
                dataRow["inttamper"] = siuStatus.intTamper;
                dataRow["cabinet"] = siuStatus.cabinet;
+               dataRow["description"] = siuStatus.description;
 
                dTableSet.Tables["Status"].AcceptChanges();
             }
