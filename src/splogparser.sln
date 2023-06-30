@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIUView", "SIUView\SIUView.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDCView", "IDCView\IDCView.csproj", "{58FBEE9F-9F52-40CD-B93F-349DE5BB35F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PINView", "PINView\PINView.csproj", "{BA7490D2-856E-4536-A9A3-010559B354A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,10 @@ Global
 		{58FBEE9F-9F52-40CD-B93F-349DE5BB35F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58FBEE9F-9F52-40CD-B93F-349DE5BB35F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58FBEE9F-9F52-40CD-B93F-349DE5BB35F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA7490D2-856E-4536-A9A3-010559B354A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA7490D2-856E-4536-A9A3-010559B354A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA7490D2-856E-4536-A9A3-010559B354A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA7490D2-856E-4536-A9A3-010559B354A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
