@@ -50,6 +50,7 @@
     <Compile Include="WFSCDMPRESENTSTATUS.cs" />
     <Compile Include="WFSCDMSTATUS.cs" />
     <Compile Include="WFSIDCSTATUS.cs" />
+    <Compile Include="WFSPINSTATUS.cs" />
     <Compile Include="WFSSIUSTATUS.cs" />
     <Compile Include="WFSCIMSTATUS.cs" />
     <Compile Include="WFSIPMMEDIAREJECTED.cs" />

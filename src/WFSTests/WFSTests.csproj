@@ -58,6 +58,7 @@
     <Compile Include="WFSCIMCASHINSTATUSTests.cs" />
     <Compile Include="WFSCIMNOTENUMBERLISTTests.cs" />
     <Compile Include="WFSIDCSTATUSTests.cs" />
+    <Compile Include="WFSPINSTATUSTests.cs" />
     <Compile Include="WFSSIUSTATUSTests.cs" />
     <Compile Include="WFSCIMSTATUSTests.cs" />
     <Compile Include="WFSIPMMEDIABININFOTests.cs" />

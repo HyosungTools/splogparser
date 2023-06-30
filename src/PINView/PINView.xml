@@ -1,0 +1,225 @@
+<?xml version="1.0" standalone="yes"?>
+<IDC>  
+  <!-- fwDevice -->
+  
+  <Messages>
+    <type>fwDevice</type>
+    <code>0</code>
+    <brief>online</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>1</code>
+    <brief>offline</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>2</code>
+    <brief>pwroff</brief>
+    <description>Powered off or physically not connected</description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>3</code>
+    <brief>nodev</brief>
+    <description>The device is not intended to be there</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>4</code>
+    <brief>hwerror</brief>
+    <description>Inoperable due to a hardware error</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>5</code>
+    <brief>usrerror</brief>
+    <description>User is preventing proper device operation</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>6</code>
+    <brief>busy</brief>
+    <description>Unable to process an execute command at this time</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>7</code>
+    <brief>fraud</brief>
+    <description>Inoperable because of detected fraud attempt</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>8</code>
+    <brief>fraud?</brief>
+    <description>Potential fraud attempt detected</description>
+  </Messages>
+  
+  <!-- fwEncStat -->
+  
+  <Messages>
+    <type>fwEncStat</type>
+    <code>0</code>
+    <brief>ready</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>fwEncStat</type>
+    <code>1</code>
+    <brief>notready</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwEncStat</type>
+    <code>2</code>
+    <brief>notinitialized</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwEncStat</type>
+    <code>3</code>
+    <brief>busy</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>	
+	<type>fwEncStat</type>
+    <code>4</code>
+    <brief>undefined</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>	
+	<type>fwEncStat</type>
+    <code>5</code>
+    <brief>initialized</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>	
+	<type>fwEncStat</type>
+    <code>6</code>
+    <brief>pintampered</brief>
+    <description></description>
+  </Messages>
+  
+  <!-- fwAutoBeepMode -->
+  
+  <Messages>	
+	<type>fwAutoBeepMode</type>
+    <code>1</code>
+    <brief>active</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwAutoBeepMode</type>
+    <code>2</code>
+    <brief>inactive</brief>
+    <description></description>
+  </Messages>
+  
+ <!-- dwCertificateState -->
+  
+  <Messages>
+   <type>dwCertificateState</type>
+    <code>0</code>
+    <brief>unknown</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>dwCertificateState</type>
+    <code>1</code>
+    <brief>primary</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+   <type>dwCertificateState</type>
+    <code>4</code>
+    <brief>notready</brief>
+    <description></description>
+  </Messages>
+  
+   <!-- wDevicePosition -->
+  
+  <Messages>	
+	<type>wDevicePosition</type>
+    <code>0</code>
+    <brief>inposition</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>wDevicePosition</type>
+    <code>1</code>
+    <brief>notinposition</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>wDevicePosition</type>
+    <code>2</code>
+    <brief>posunknown</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>	
+	<type>wDevicePosition</type>
+    <code>3</code>
+    <brief>posnotsupp</brief>
+    <description></description>
+  </Messages>
+  
+ <!-- wAntiFraudModule -->
+  <Messages>	
+	<type>wAntiFraudModule</type>
+    <code>0</code>
+    <brief>notsupp</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>wAntiFraudModule</type>
+    <code>1</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>wAntiFraudModule</type>
+    <code>2</code>
+    <brief>inop</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>wAntiFraudModule</type>
+    <code>3</code>
+    <brief>devicedetected</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>	
+	<type>wAntiFraudModule</type>
+    <code>4</code>
+    <brief>unknown</brief>
+    <description></description>
+  </Messages>
+  
+</IDC>
+
