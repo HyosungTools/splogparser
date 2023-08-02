@@ -354,26 +354,6 @@ namespace CIMView
          return base.WriteExcelFile();
       }
 
-      protected (bool success, DataRow dataRow) FindMessages(string type, string code)
-      {
-         // Create an array for the key values to find.
-         object[] findByKeys = new object[2];
-
-         // Set the values of the keys to find.
-         findByKeys[0] = type;
-         findByKeys[1] = code;
-
-         DataRow foundRow = dTableSet.Tables["Messages"].Rows.Find(findByKeys);
-         if (foundRow != null)
-         {
-            return (true, foundRow);
-         }
-         else
-         {
-            return (false, null);
-         }
-      }
-
       protected void WFS_INF_CIM_STATUS(string xfsLine)
       {
          try
