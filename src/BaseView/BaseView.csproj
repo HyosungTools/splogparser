@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1D0E5765-4FB9-437C-AD8A-7BE981229677}</ProjectGuid>
+    <ProjectGuid>{DB43982D-E960-4DBA-83EF-1BB6E7A60A49}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CDMView</RootNamespace>
-    <AssemblyName>CDMView</AssemblyName>
+    <RootNamespace>BaseView</RootNamespace>
+    <AssemblyName>BaseView</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,15 +43,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CDMTable.cs" />
-    <Compile Include="CDMView.cs" />
+    <Compile Include="BaseTable.cs" />
+    <Compile Include="BaseView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BaseView\BaseView.csproj">
-      <Project>{db43982d-e960-4dba-83ef-1bb6e7a60a49}</Project>
-      <Name>BaseView</Name>
-    </ProjectReference>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>9</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Contract\Contract.csproj">
       <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
       <Name>Contract</Name>
@@ -59,21 +85,11 @@
       <Project>{f89403e5-4c5c-4d8f-8401-b2d56f6d8a2b}</Project>
       <Name>Impl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WFS\WFS.csproj">
-      <Project>{8685a55b-44fe-4e97-a4d6-2915d537af3e}</Project>
-      <Name>WFS</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CDMView.xsd" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="CDMView.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\CDMView.xsd" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\CDMView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
+copy "$(MSBuildProjectDirectory)\BaseView.xsd" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\BaseView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
   </PropertyGroup>
 </Project>

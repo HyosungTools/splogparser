@@ -688,4 +688,216 @@
     <description></description>
   </Messages> 
 
+  <!-- error -->
+  
+  <Messages>
+    <type>error</type>
+    <code>-1601</code>
+    <brief>no media</brief>
+    <description>No media is present in the device.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1602</code>
+    <brief>bin full</brief>
+    <description>The media bin is already full and no media can be placed in the specified bin.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1603</code>
+    <brief>stacker full</brief>
+    <description>The internal stacker is already full or has already reached the limit specified as an input parameter. No media items can be accepted.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1604</code>
+    <brief>shutter fail</brief>
+    <description>Open or close of the shutter failed due to manipulation or hardware error</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1605</code>
+    <brief>media jam</brief>
+    <description>The media is jammed.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1606</code>
+    <brief>file io error</brief>
+    <description>Directory does not exist or file IO error while storing the image to the hard disk.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1607</code>
+    <brief>ink out</brief>
+    <description>No stamping possible, stamping ink supply empty.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1608</code>
+    <brief>toner out</brief>
+    <description>Toner or ink supply is empty or printing contrast with ribbon is not sufficient.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1609</code>
+    <brief>scanner inop</brief>
+    <description>Only images were requested by the application and these cannot be obtained because the image scanner is inoperative</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1610</code>
+    <brief>micr inop</brief>
+    <description>Only MICR data was requested by the application and it cannot be obtained because the MICR reader is inoperative.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1611</code>
+    <brief>sequence invalid</brief>
+    <description>Programming error: invalid command sequence, e.g. this command was executed when there was no active transaction.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1612</code>
+    <brief>invalid port</brief>
+    <description>An attempt to set a guidance light to a new value was invalid because the guidance light does not exist.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1613</code>
+    <brief>foreign items</brief>
+    <description>Foreign items have been detected in the input position.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1614</code>
+    <brief>invalid media id</brief>
+    <description>The requested media ID does not exist.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1615</code>
+    <brief>media bin error</brief>
+    <description>A problem occurred with a media bin. A WFS_EXEE_IPM_MEDIABINERROR event will be sent with the details.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1616</code>
+    <brief>pos not emprty</brief>
+    <description>One of the input/output/refused positions is not empty and items cannot be inserted until the media items in the position are removed.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1617</code>
+    <brief>invalid bin</brief>
+    <description>The specified bin cannot take media, either it is a retract only bin or it is missing.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1618</code>
+    <brief>no bin</brief>
+    <description>The specified bin does not exist</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1619</code>
+    <brief>refused items</brief>
+    <description>Programming error: refused items that must be returned via the WFS_CMD_IPM_PRESENT_MEDIA command have not been presented (see bPresentRequired in the WFS_EXEE_IPM_MEDIAREFUSED event parameters).</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1620</code>
+    <brief>all bins full</brief>
+    <description>All media bins are unusable due to being full, missing or inoperative, so no further items can be accepted.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1621</code>
+    <brief>feed not empty</brief>
+    <description>The media feeder is not empty. This only applies when the WFS_CMD_IPM_GET_NEXT_ITEM command should be used to retrieve the next media item.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1622</code>
+    <brief>media reject</brief>
+    <description>The media was rejected before it was fully inserted within the device. The WFS_EXEE_IPM_MEDIAREJECTED event is posted with the details. The device is still operational.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1623</code>
+    <brief>feeder inop</brief>
+    <description>The media feeder is inoperative.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1624</code>
+    <brief>media present</brief>
+    <description>Media from a previous transaction is present in the device when an attempt to start a new media-in transaction was made. The media must be cleared before a new transaction can be started.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1625</code>
+    <brief>pwr save too short</brief>
+    <description>The power saving mode has not been activated because the device is not able to resume from the power saving mode within the specified usMaxPowerSaveRecoveryTime value.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1626</code>
+    <brief>pwr save media present</brief>
+    <description>The power saving mode has not been activated because media is present inside the device</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1627</code>
+    <brief>cashin active</brief>
+    <description>A cash-in transaction is active on the CIM interface.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1628</code>
+    <brief>mediain active</brief>
+    <description>An item processing transaction is active.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1629</code>
+    <brief>cmd not sup</brief>
+    <description>The command specified in the dwCommand field is not supported by the Service Provider.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1630</code>
+    <brief>sync not sup</brief>
+    <description>The preparation for the command specified in the dwCommand with the parameter specified in the lpCmdData is not supported by the Service Provider.</description>
+  </Messages> 
+    
 </IPM>

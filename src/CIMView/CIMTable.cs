@@ -127,22 +127,26 @@ namespace CIMView
       /// <returns>true if the write was successful</returns>
       public override bool WriteExcelFile()
       {
+         string tableName = string.Empty;
+
          try
          {
             // S T A T U S   T A B L E
 
+            tableName = "Status";
+
             // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
             ctx.ConsoleWriteLogLine("Compress the Status Table: sort by time, visit every row and delete rows that are unchanged from their predecessor");
-            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table start: rows before: {0}", dTableSet.Tables["Status"].Rows.Count));
+            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table start: rows before: {0}", dTableSet.Tables[tableName].Rows.Count));
 
             // the list of columns to compare
             string[] columns = new string[] { "error", "status", "safedoor", "acceptor", "intstack", "stackitems" };
-            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables["Status"], "time ASC", columns);
+            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], "time ASC", columns);
             if (!result.success)
             {
                ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
             }
-            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table complete: rows after: {0}", dTableSet.Tables["Status"].Rows.Count));
+            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table complete: rows after: {0}", dTableSet.Tables[tableName].Rows.Count));
 
             // add English to the Status Table
             string[,] colKeyMap = new string[5, 2]
@@ -154,15 +158,21 @@ namespace CIMView
                {"stackitems", "fwStackerItems" }
             };
 
-            for (int i = 0; i < 5; i++)
-            {
-               result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables["Status"], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
-            }
+            AddEnglishToTable(tableName, colKeyMap);
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("EXCEPTION processing table '{0}' error '{1}'", tableName, e.Message));
+         }
 
+         try
+         {
             // S U M M A R Y   T A B L E 
 
+            tableName = "Summary";
+
             // delete redundant lines from the Summary Table
-            DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
+            DataRow[] dataRows = dTableSet.Tables[tableName].Select();
             List<DataRow> deleteRows = new List<DataRow>();
             foreach (DataRow dataRow in dataRows)
             {
@@ -178,18 +188,23 @@ namespace CIMView
             }
 
             // Add English to Summary Table
-            string[,] summaryColMap = new string[1, 2]
+            string[,] colKeyMap = new string[1, 2]
             {
-            {"type", "fwType" }
+               {"type", "fwType" }
             };
 
-            for (int i = 0; i < 1; i++)
-            {
-               result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables["Summary"], dTableSet.Tables["Messages"], summaryColMap[i, 0], summaryColMap[i, 1]);
-            }
+            AddEnglishToTable(tableName, colKeyMap);
 
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("EXCEPTION processing table '{0}' error '{1}'", tableName, e.Message));
+         }
 
+         try
+         {
             // C A S H  I N   T A B L E
+
             ctx.ConsoleWriteLogLine("Compress the CashIn Tables: sort by time, visit every row and delete rows that are unchanged from their predecessor");
 
             // the list of columns to compare
@@ -200,20 +215,22 @@ namespace CIMView
                ctx.ConsoleWriteLogLine("Looking at table :" + dTable.TableName);
                if (dTable.TableName.StartsWith("CashIn-"))
                {
-                  ctx.ConsoleWriteLogLine(String.Format("Compress the Table '{0}' rows before: {1}", dTable.TableName, dTable.Rows.Count));
+                  tableName = dTable.TableName;
+
+                  ctx.ConsoleWriteLogLine(String.Format("Compress the Table '{0}' rows before: {1}", tableName, dTable.Rows.Count));
                   (bool success, string message) cashUnitResult = _datatable_ops.DeleteUnchangedRowsInTable(dTable, "time ASC", cashUnitCols);
                   if (!cashUnitResult.success)
                   {
                      ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + cashUnitResult.message);
                   }
-                  ctx.ConsoleWriteLogLine(String.Format("Compress the Table '{0}' rows after: {1}", dTable.TableName, dTable.Rows.Count));
+                  ctx.ConsoleWriteLogLine(String.Format("Compress the Table '{0}' rows after: {1}", tableName, dTable.Rows.Count));
                }
             }
 
             // add English to CashIn Tables
-            string[,] cashUnitColMap = new string[1, 2]
+            string[,] colKeyMap = new string[1, 2]
             {
-            {"status", "usStatus" }
+               {"status", "usStatus" }
             };
 
             foreach (DataTable dTable in dTableSet.Tables)
@@ -221,130 +238,117 @@ namespace CIMView
                ctx.ConsoleWriteLogLine("Looking at table :" + dTable.TableName);
                if (dTable.TableName.StartsWith("CashIn-"))
                {
-                  for (int i = 0; i < 1; i++)
-                  {
-                     result = _datatable_ops.AddEnglishToTable(ctx, dTable, dTableSet.Tables["Messages"], cashUnitColMap[i, 0], cashUnitColMap[i, 1]);
-                  }
+                  tableName = dTable.TableName;
+                  AddEnglishToTable(tableName, colKeyMap);
                }
             }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("EXCEPTION processing table '{0}' error '{1}'", tableName, e.Message));
+         }
 
-
+         try
+         {
             // D E P O S I T   T A B L E
 
             // add English to Deposit
-            string[,] depositColMap = new string[1, 2]
+            string[,] colKeyMap = new string[1, 2]
             {
                {"status", "wStatus" }
             };
 
-            try
+
+            foreach (DataTable dTable in dTableSet.Tables)
             {
-               foreach (DataTable dTable in dTableSet.Tables)
+               if (dTable.TableName.Equals("Deposit"))
                {
-                  if (dTable.TableName.Equals("Deposit"))
+                  tableName = dTable.TableName;
+                  AddEnglishToTable(tableName, colKeyMap);
+               }
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("EXCEPTION processing table '{0}' error '{1}'", tableName, e.Message));
+         }
+
+
+         // A D D   M O N E Y   T O   T A B L E S
+
+         try
+         {
+            foreach (DataTable dTable in dTableSet.Tables)
+            {
+               if (dTable.TableName.StartsWith("CashIn-") || dTable.TableName.Equals("Deposit"))
+               {
+                  ctx.ConsoleWriteLogLine("Adding money to table :" + dTable.TableName);
+                  _datatable_ops.AddMoneyToTable(ctx, dTable, dTableSet.Tables["Messages"]);
+               }
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WriteExcelFile Exception ADD MONEY TO TABLES: " + e.Message);
+
+         }
+
+
+         // A D D   A M O U N T   T O   D E P O S I T   T A B L E
+
+         try
+         {
+            foreach (DataTable dTable in dTableSet.Tables)
+            {
+               if (dTable.TableName.Equals("Deposit"))
+               {
+                  ctx.ConsoleWriteLogLine("Adding money to table :" + dTable.TableName);
+                  _datatable_ops.AddAmountToTable(ctx, dTable);
+               }
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WriteExcelFile Exception ADD MONEY TO TABLES: " + e.Message);
+
+         }
+
+         // RENAME CASHIN TABLES - DO THIS LAST
+
+         try
+         {
+            // rename the cash units
+            foreach (DataTable dTable in dTableSet.Tables)
+            {
+               ctx.ConsoleWriteLogLine("Rename the Cash Units : Looking at table :" + dTable.TableName);
+               if (dTable.TableName.StartsWith("CashIn-"))
+               {
+                  string cashUnitNumber = dTable.TableName.Replace("CashIn-", string.Empty);
+                  ctx.ConsoleWriteLogLine("cashUnitNumber :" + cashUnitNumber);
+
+                  DataRow[] dataRows = dTableSet.Tables["Summary"].Select(String.Format("number = {0}", cashUnitNumber));
+                  if (dataRows.Length == 1)
                   {
-                     ctx.ConsoleWriteLogLine(String.Format("Adding English to table '{0}'", dTable.TableName));
-                     for (int i = 0; i < 1; i++)
+                     if (dataRows[0]["denom"].ToString().Trim() == "0")
                      {
-                        result = _datatable_ops.AddEnglishToTable(ctx, dTable, dTableSet.Tables["Messages"], depositColMap[i, 0], depositColMap[i, 1]);
+                        ctx.ConsoleWriteLogLine("denom == 0");
+                        // if currency is "" use the type (e.g. RETRACT, REJECT
+                        ctx.ConsoleWriteLogLine(String.Format("Changing table name from '{0}' to '{1}'", dTable.TableName, dataRows[0]["type"].ToString()));
+                        dTable.TableName = dataRows[0]["type"].ToString();
+                        dTable.AcceptChanges();
+                     }
+                     else
+                     {
+                        // otherwise combine the currency and denomination
+                        ctx.ConsoleWriteLogLine(String.Format("Changing table name from '{0}' to '{1}'", dTable.TableName, dataRows[0]["currency"].ToString() + dataRows[0]["denom"].ToString()));
+                        dTable.TableName = dataRows[0]["currency"].ToString() + dataRows[0]["denom"].ToString();
+                        dTable.AcceptChanges();
                      }
                   }
                }
             }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("EXCEPTION adding English to to table:'{0}'", e.Message));
-            }
 
-
-            // A D D   M O N E Y   T O   T A B L E S
-
-            try
-            {
-               foreach (DataTable dTable in dTableSet.Tables)
-               {
-                  if (dTable.TableName.StartsWith("CashIn-") || dTable.TableName.Equals("Deposit"))
-                  {
-                     ctx.ConsoleWriteLogLine("Adding money to table :" + dTable.TableName);
-                     _datatable_ops.AddMoneyToTable(ctx, dTable, dTableSet.Tables["Messages"]);
-                  }
-               }
-            }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine("WriteExcelFile Exception ADD MONEY TO TABLES: " + e.Message);
-
-            }
-
-
-            // A D D   A M O U N T   T O   D E P O S I T   T A B L E
-
-            try
-            {
-               foreach (DataTable dTable in dTableSet.Tables)
-               {
-                  if (dTable.TableName.Equals("Deposit"))
-                  {
-                     ctx.ConsoleWriteLogLine("Adding money to table :" + dTable.TableName);
-                     _datatable_ops.AddAmountToTable(ctx, dTable);
-                  }
-               }
-            }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine("WriteExcelFile Exception ADD MONEY TO TABLES: " + e.Message);
-
-            }
-
-            // RENAME CASHIN TABLES - DO THIS LAST
-
-            try
-            {
-               // rename the cash units
-               foreach (DataTable dTable in dTableSet.Tables)
-               {
-                  ctx.ConsoleWriteLogLine("Rename the Cash Units : Looking at table :" + dTable.TableName);
-                  if (dTable.TableName.StartsWith("CashIn-"))
-                  {
-                     string cashUnitNumber = dTable.TableName.Replace("CashIn-", string.Empty);
-                     ctx.ConsoleWriteLogLine("cashUnitNumber :" + cashUnitNumber);
-
-                     dataRows = dTableSet.Tables["Summary"].Select(String.Format("number = {0}", cashUnitNumber));
-                     if (dataRows.Length == 1)
-                     {
-                        if (dataRows[0]["denom"].ToString().Trim() == "0")
-                        {
-                           ctx.ConsoleWriteLogLine("denom == 0");
-                           // if currency is "" use the type (e.g. RETRACT, REJECT
-                           ctx.ConsoleWriteLogLine(String.Format("Changing table name from '{0}' to '{1}'", dTable.TableName, dataRows[0]["type"].ToString()));
-                           dTable.TableName = dataRows[0]["type"].ToString();
-                           dTable.AcceptChanges();
-
-                           // Rename the Dispense column name to match the Logical Unit Name
-                           //dTableSet.Tables["Deposit"].Columns["LU" + cashUnitNumber].ColumnName = dTable.TableName;
-                        }
-                        else
-                        {
-                           // otherwise combine the currency and denomination
-                           ctx.ConsoleWriteLogLine(String.Format("Changing table name from '{0}' to '{1}'", dTable.TableName, dataRows[0]["currency"].ToString() + dataRows[0]["denom"].ToString()));
-                           dTable.TableName = dataRows[0]["currency"].ToString() + dataRows[0]["denom"].ToString();
-                           dTable.AcceptChanges();
-
-                           // Rename the Dispense column name to match the Logical Unit Name
-                           //dTableSet.Tables["Deposit"].Columns["LU" + cashUnitNumber].ColumnName = dTable.TableName;
-                        }
-                     }
-                  }
-               }
-
-               // TODO - delete any CashUnit column named LUx
-            }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine("WriteExcelFile Exception : " + e.Message);
-            }
-
-
+            // TODO - delete any CashUnit column named LUx
          }
          catch (Exception e)
          {

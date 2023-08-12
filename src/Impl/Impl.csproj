@@ -44,8 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="_datatable_ops.cs" />
-    <Compile Include="BaseTable.cs" />
-    <Compile Include="BaseView.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="FileSystemProvider.cs" />
     <Compile Include="IdentifyLines.cs" />

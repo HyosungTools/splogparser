@@ -152,10 +152,8 @@ namespace CDMView
                {"position", "wDevicePosition"}
             };
 
-            for (int i = 0; i < 8; i++)
-            {
-               result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables[tableName], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
-            }
+            AddEnglishToTable(tableName, colKeyMap);
+
          }
          catch (Exception e)
          {
@@ -193,10 +191,7 @@ namespace CDMView
                {"type", "usType" }
             };
 
-            for (int i = 0; i < 1; i++)
-            {
-               (bool success, string message) result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables[tableName], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
-            }
+            AddEnglishToTable(tableName, colKeyMap);
 
          }
          catch (Exception e)
@@ -243,10 +238,8 @@ namespace CDMView
                ctx.ConsoleWriteLogLine("Looking at table :" + dTable.TableName);
                if (dTable.TableName.StartsWith("CashUnit-"))
                {
-                  for (int i = 0; i < 1; i++)
-                  {
-                     (bool success, string message) result = _datatable_ops.AddEnglishToTable(ctx, dTable, dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
-                  }
+                  tableName = dTable.TableName;
+                  AddEnglishToTable(tableName, colKeyMap);
                }
             }
          }
@@ -268,10 +261,8 @@ namespace CDMView
                {"position", "wPresentState" }
             };
 
-            for (int i = 0; i < 1; i++)
-            {
-               (bool success, string message) result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables[tableName], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
-            }
+            AddEnglishToTable(tableName, colKeyMap);
+
          }
          catch (Exception e)
          {

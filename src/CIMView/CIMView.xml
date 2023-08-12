@@ -547,4 +547,356 @@
     <description>N7,N12,N17</description>
   </Messages> 
    
+  <!-- error -->
+  
+  <Messages>
+    <type>error</type>
+    <code>-1300</code>
+    <brief>invalid currency</brief>
+    <description>The specified currency is not currently available</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1301</code>
+    <brief>invalid tell</brief>
+    <description>The teller ID is invalid.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1302</code>
+    <brief>cashunit error</brief>
+    <description>A problem occurred with a cash unit. A WFS_EXEE_CIM_CASHUNITERROR event will be sent with the details.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1303</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1304</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1305</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1306</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1307</code>
+    <brief>too many</brief>
+    <description>There were too many items inserted previously. The cash-in stacker is full at the beginning of this command.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1308</code>
+    <brief>unsup pos</brief>
+    <description>The position specified is not supported.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1309</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1310</code>
+    <brief>safe door open</brief>
+    <description>The safe door is open. This device requires the safe door to be closed in order to perform a WFS_CMD_CIM_CASH_IN_START command.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1311</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1312</code>
+    <brief>shutter not open</brief>
+    <description>Shutter failed to open.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1313</code>
+    <brief>shutter open</brief>
+    <description>Shutter was already open.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1314</code>
+    <brief>shutter closed</brief>
+    <description>Shutter was already closed.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1315</code>
+    <brief>invalid cash unit</brief>
+    <description>Invalid cash unit.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1316</code>
+    <brief>no items</brief>
+    <description>There were no items to cash-in.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1317</code>
+    <brief>exchange active</brief>
+    <description>The CIM is in an exchange state.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1318</code>
+    <brief>no exchange</brief>
+    <description>There is no exchange active.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1319</code>
+    <brief>shutter not closed</brief>
+    <description>Shutter failed to close. In the case of explicit shutter control the application should close the shutter first.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1320</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1321</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1322</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1323</code>
+    <brief>items taken</brief>
+    <description>Items were present at the output position at the start of the operation, but were removed before the operation was complete - some or all of the items were not retracted.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1324</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1325</code>
+    <brief>cash inactive</brief>
+    <description>The CIM is already in the cash-in state due to a previous WFS_CMD_CIM_CASH_IN_START command.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1326</code>
+    <brief>no cash in active</brief>
+    <description>There is no cash-in transaction active.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1327</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1328</code>
+    <brief>pos not empty</brief>
+    <description>The output position is not empty so a cash-in is not possible.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1329</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1330</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1331</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1332</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1333</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1334</code>
+    <brief>invalid retract pos</brief>
+    <description>The usIndex is not supported.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1335</code>
+    <brief>not retract</brief>
+    <description>The retract area specified in usRetractArea is not supported.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1336</code>
+    <brief>invalid port</brief>
+    <description>An attempt to set a guidance light to a new value was invalid because the guidance light does not exist.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1337</code>
+    <brief>foreign items</brief>
+    <description>Foreign items have been detected inside the input position.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1338</code>
+    <brief>load failed</brief>
+    <description>The load failed because the device is in a state that will not allow the configuration data to be loaded at this time, for example on some devices there may be notes present in the cash units when they should not be.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1339</code>
+    <brief>not empty</brief>
+    <description>The hardware requires that the cash unit is empty before allowing changes.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1340</code>
+    <brief>invalid refsig</brief>
+    <description>At least one of the reference signatures is invalid. The application should prompt the operator to carefully retry the creation of the reference signatures.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1341</code>
+    <brief>invalid trnsig</brief>
+    <description>At least one of the transaction signatures is invalid.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1342</code>
+    <brief>pwr save too short</brief>
+    <description>The power saving mode has not been activated because the device is not able to resume from the power saving mode within the specified usMaxPowerSaveRecoveryTime value.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1343</code>
+    <brief>pwr save media</brief>
+    <description>The power saving mode has not been activated because media is present inside the device.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1344</code>
+    <brief>dev lock fail</brief>
+    <description>The device and/or the cash units specified could not be locked/unlocked. (e.g. the lock action could not be performed because the cash unit specified to be locked had been removed).</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1345</code>
+    <brief>too many items</brief>
+    <description>There were too many items. The required internal position may have been of insufficient size. All items should be returned to the cash unit from which they originated</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1346</code>
+    <brief>pos not empty</brief>
+    <description>A required internal position is not empty so a cash unit count is not possible.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1347</code>
+    <brief>media inactive</brief>
+    <description>An item processing transaction is active</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1348</code>
+    <brief>cmd unsup</brief>
+    <description>The command specified in the dwCommand field is not supported by the Service Provider.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1349</code>
+    <brief>sync unsup</brief>
+    <description>The preparation for the command specified in the dwCommand with the parameter specified in the lpCmdData is not supported by the Service Provider.</description>
+  </Messages> 
+  
 </CIM>

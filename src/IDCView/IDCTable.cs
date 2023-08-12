@@ -28,6 +28,7 @@ namespace IDCView
       public override bool WriteExcelFile()
       {
          string tableName = string.Empty;
+
          try
          {
             // S T A T U S   T A B L E
@@ -50,20 +51,18 @@ namespace IDCView
             // add English to the Status Table
             ctx.ConsoleWriteLogLine(String.Format("Add English to {0} Table", tableName));
             string[,] colKeyMap = new string[7, 2]
-            {               
+            {
                 {"device", "fwDevice"},
                 {"media", "fwMedia"},
                 {"retainbin", "fwRetainBin"},
                 {"security", "fwSecurity"},                
                 {"chippower", "fwChipPower"},
                 {"chipmodule", "fwChipModule"},
-                {"magreadmodule", "fwMagReadModule"},
+                {"magreadmodule", "fwMagReadModule"}
             };
 
-            for (int i = 0; i < 7; i++)
-            {
-               result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables[tableName], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
-            }
+            AddEnglishToTable(tableName, colKeyMap);
+
          }
          catch (Exception e)
          {
@@ -89,6 +88,7 @@ namespace IDCView
             }
             ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table complete: rows after: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
 
+            AddEnglishToTable(tableName, null);
          }
          catch (Exception e)
          {

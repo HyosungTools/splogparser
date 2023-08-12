@@ -214,5 +214,36 @@
     <brief>bolted</brief>
     <description></description>
   </Messages>
+  
+  <!-- error -->
+  
+   <Messages>
+    <type>error</type>
+    <code>-801</code>
+    <brief>invalid port</brief>
+    <description>An attempt to enable or disable events to a port was invalid because the port does not exist.</description>
+  </Messages> 
+  
+   <Messages>
+    <type>error</type>
+    <code>-802</code>
+    <brief>syntax</brief>
+    <description>The command was invoked with incorrect input data. E.g. an attempt to both enable and disable events to the same port was made.</description>
+  </Messages> 
+  
+   <Messages>
+    <type>error</type>
+    <code>-803</code>
+    <brief>port error</brief>
+    <description>A hardware error occurred while executing the command.</description>
+  </Messages> 
+  
+   <Messages>
+    <type>error</type>
+    <code>-804</code>
+    <brief>pwr save too short</brief>
+    <description>The power saving mode has not been activated because the device is not able to resume from the power saving mode within the specified usMaxPowerSaveRecoveryTime value.</description>
+  </Messages> 
+  
 </SIU>
 

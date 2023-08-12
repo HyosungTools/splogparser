@@ -626,5 +626,315 @@
     <brief>unknown</brief>
     <description></description>
   </Messages>  
+  
+  <!-- error -->
+  
+  <Messages>
+    <type>error</type>
+    <code>-300</code>
+    <brief>invalid currency</brief>
+    <description>There are no cash units in the CDM of the currency specified in the cCurrencyID field of the input parameter.</description>
+  </Messages>    
+
+  <Messages>
+    <type>error</type>
+    <code>-301</code>
+    <brief>invalid teller id</brief>
+    <description>The value of usTellerID is not valid.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-302</code>
+    <brief>cash unit error</brief>
+    <description>There is a problem with a cash unit.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-303</code>
+    <brief>invalid demonination</brief>
+    <description>The sum of the values for cash box and cash units was greater than the amount specified.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-304</code>
+    <brief>invalid mix number</brief>
+    <description>The lpusMixNumber parameter does not correspond to a defined mix table.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-305</code>
+    <brief>no currency mix</brief>
+    <description>The cash units specified in the denomination were not all of the same currency.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-306</code>
+    <brief>not dispensable</brief>
+    <description>The amount is not dispensable by the CDM.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-307</code>
+    <brief>too many items</brief>
+    <description>The request requires too many items to be dispensed.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-308</code>
+    <brief>unsup position</brief>
+    <description>The specified output position is not supported.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-309</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-310</code>
+    <brief>safedoor open</brief>
+    <description>The safe door is open. This device requires the safe door to be closed in order to perform this operation.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-311</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-312</code>
+    <brief>shutter not open</brief>
+    <description>The shutter is not open or did not open when it should have. No items presented.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-313</code>
+    <brief>shutter open</brief>
+    <description>The Service Provider cannot dispense items with an open output shutter.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-314</code>
+    <brief>shutter closed</brief>
+    <description>The shutter was already closed.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-315</code>
+    <brief>invalid cash unit</brief>
+    <description>The cash unit number specified is not valid.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-316</code>
+    <brief>no items</brief>
+    <description>There are no items on the stacker.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-317</code>
+    <brief>exchange active</brief>
+    <description>The CDM is in an exchange state.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-318</code>
+    <brief>no exchange active</brief>
+    <description>There is no exchange active.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-319</code>
+    <brief>shutter not closed</brief>
+    <description>The shutter failed to close.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-320</code>
+    <brief>pr error no items</brief>
+    <description>An error occurred while items were being moved to the exit slot - no items are presented.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-321</code>
+    <brief>pr error items</brief>
+    <description>An error occurred while items were being moved to the exit slot - at least some of the items have been presented.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-322</code>
+    <brief>pr error unknown</brief>
+    <description>An error occurred while items were being moved to the exit slot - the position of the items is unknown. Intervention may be required to reconcile the cash amount totals.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-323</code>
+    <brief>items taken</brief>
+    <description>Items were present at the output position at the start of the operation, but were removed before the operation was complete - some or all of the items were not retracted.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-324</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-325</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-326</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-327</code>
+    <brief>invalid mix table</brief>
+    <description>The contents of at least one of the defined rows of the mix table is incorrect</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-328</code>
+    <brief>out pos not empty</brief>
+    <description>The output position is not empty.</description>
+  </Messages> 
  
+  <Messages>
+    <type>error</type>
+    <code>-329</code>
+    <brief>invalid retract pos</brief>
+    <description>The cash unit number specified is not valid.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-330</code>
+    <brief>not retract area</brief>
+    <description>The retract area specified in usRetractArea is not supported.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-331</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-332</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-333</code>
+    <brief>no cash box present</brief>
+    <description>Cash box amount needed, however teller is not assigned a cash box.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-334</code>
+    <brief>amount not in mix</brief>
+    <description>A mix table is being used to determine the denomination but the amount specified for the denomination is not in the mix table.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-335</code>
+    <brief>items not taken</brief>
+    <description>Items have not been taken during a subdispense operation.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-336</code>
+    <brief>items left</brief>
+    <description>Items have been left in the transport or exit slot as a result of a prior dispense, present or recycler cash-in operation.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-337</code>
+    <brief>invalid port</brief>
+    <description>An attempt to set a guidance light to a new value was invalid because the guidance light does not exist.</description>
+  </Messages> 
+
+  <Messages>
+    <type>error</type>
+    <code>-338</code>
+    <brief>power save short</brief>
+    <description>The power saving mode has not been activated because the device is not able to resume from the power saving mode within the specified usMaxPowerSaveRecoveryTime value.</description>
+  </Messages>   
+
+  <Messages>
+    <type>error</type>
+    <code>-339</code>
+    <brief>power save media present</brief>
+    <description>The power saving mode has not been activated because media is present inside the device.</description>
+  </Messages>   
+
+  <Messages>
+    <type>error</type>
+    <code>-340</code>
+    <brief>pos not empty</brief>
+    <description>The retract area specified in usRetractArea is not empty so the retract operation is not possible.</description>
+  </Messages>   
+
+  <Messages>
+    <type>error</type>
+    <code>-341</code>
+    <brief>incomp retract</brief>
+    <description>Some or all of the items were not retracted for a reason not covered by other error codes. The detail will be reported with the WFS_EXEE_CDM_INCOMPLETERETRACT event.</description>
+  </Messages>   
+
+  <Messages>
+    <type>error</type>
+    <code>-342</code>
+    <brief>unsup cmd</brief>
+    <description>The command specified in the dwCommand field is not supported by the Service Provider.</description>
+  </Messages>   
+
+  <Messages>
+    <type>error</type>
+    <code>-343</code>
+    <brief>sync unsup</brief>
+    <description>The preparation for the command specified in the dwCommand with the parameter specified in the lpCmdData is not supported by the Service Provider.</description>
+  </Messages>   
+
 </CDM>

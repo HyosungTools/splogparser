@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace Impl
 {
@@ -73,10 +74,24 @@ namespace Impl
             return new string[0];
          }
       }
+
+      private static Random random = new Random();
+
+      public static string RandomString(int length)
+      {
+         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+         return new string(Enumerable.Repeat(chars, length)
+             .Select(s => s[random.Next(s.Length)]).ToArray());
+      }
+
       public bool CreateDirectory(string path)
       {
          try
          {
+            if (DirExists(path))
+            {
+               path = path + RandomString(4); 
+            }
             _ = Directory.CreateDirectory(path);
             return true;
          }
@@ -114,7 +129,14 @@ namespace Impl
 
       public void ExtractToDirectory(string zipFilePath, string extractPath)
       {
-         ZipFile.ExtractToDirectory(zipFilePath, extractPath);
+         try
+         {
+            ZipFile.ExtractToDirectory(zipFilePath, extractPath);
+         }
+         catch (Exception e)
+         {
+            Console.WriteLine("Exception: " + e.Message);
+         }
       }
 
       public bool Exists(string path)
