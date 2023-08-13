@@ -27,6 +27,7 @@ namespace SIUView
       public override bool WriteExcelFile()
       {
          string tableName = string.Empty;
+
          try
          {
             // S T A T U S   T A B L E
@@ -58,10 +59,7 @@ namespace SIUView
                {"cabinet", "cabinet"}
             };
 
-            for (int i = 0; i < 6; i++)
-            {
-               result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables[tableName], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
-            }
+            AddEnglishToTable(tableName, colKeyMap);
          }
          catch (Exception e)
          {
@@ -86,6 +84,8 @@ namespace SIUView
                ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
             }
             ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table complete: rows after: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
+
+            AddEnglishToTable(tableName, null);
 
          }
          catch (Exception e)

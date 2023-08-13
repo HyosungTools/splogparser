@@ -172,51 +172,40 @@ namespace Impl
 
       /// <summary>
       /// Reads the DataTable in from an Xml file. 
+      /// The xd/xml can exist in two places. On start up they are in the distribution folder of 
+      /// the application and they just have seed data. During parsing, the application is broken 
+      /// into two steps: 
+      /// a. the parse log file step
+      /// b. the write excel step. 
+      /// In between these steps the XML files (all loaded with data) are stored in the working folder. 
       /// </summary>
-      /// <returns>true if the read is successful, false otherwise. </returns>
+      /// <returns>true if the read is successful, false otherwise. </returns>      
       public bool ReadXmlFile()
       {
-         string inFile = string.Empty;
-
          try
          {
-            string strInFile = ctx.WorkFolder + "\\" + viewName + ".xsd";
-            ctx.ConsoleWriteLogLine("BaseTable ReadXmlFile :" + strInFile);
-            if (!ctx.ioProvider.Exists(strInFile))
+            // if the working files exist, just load the ViewName Xsd and Xml files
+            if (ctx.ioProvider.Exists(ctx.WorkFolder + "\\" + viewName + ".xsd"))
             {
-               // otherwise fall back to the default xml file, if it exists, load it
-               strInFile = ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xsd";
-               ctx.ConsoleWriteLogLine("BaseTable ReadXmlFile fallback to :" + strInFile);
-            }
-
-            if (ctx.ioProvider.Exists(strInFile))
-            {
-               ctx.ConsoleWriteLogLine("Schema files exists, loading : " + strInFile);
-               dTableSet.ReadXmlSchema(strInFile);
+               // Load the View xsd and xml
+               dTableSet.ReadXmlSchema(ctx.WorkFolder + "\\" + viewName + ".xsd");
+               dTableSet.ReadXml(ctx.WorkFolder + "\\" + viewName + ".xml");
             }
             else
             {
-               ctx.ConsoleWriteLogLine("Failed to load schema file : " + strInFile);
+               // Load the BaseView and ViewName Xsd and Xml files
+               dTableSet.ReadXmlSchema(ctx.ioProvider.GetCurrentDirectory() + "\\BaseView.xsd");
+               dTableSet.ReadXml(ctx.ioProvider.GetCurrentDirectory() + "\\BaseView.xml");
+
+               dTableSet.ReadXmlSchema(ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xsd");
+               dTableSet.ReadXml(ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xml");
+
             }
 
-            // if the work folder xml file exists, load it
-            strInFile = ctx.WorkFolder + "\\" + viewName + ".xml";
-            if (!ctx.ioProvider.Exists(strInFile))
+            // The Tables we now have available to us
+            foreach (DataTable dTable in dTableSet.Tables)
             {
-               // otherwise fall back to the default xml file, if it exists, load it
-               strInFile = ctx.ioProvider.GetCurrentDirectory() + "\\" + viewName + ".xml";
-            }
-
-            if (ctx.ioProvider.Exists(strInFile))
-            {
-               ctx.ConsoleWriteLogLine("Data files exists, loading : " + strInFile);
-               dTableSet.ReadXml(strInFile);
-            }
-            else
-            {
-               // if there is no XML file, initialize the db Table in code
-               ctx.ConsoleWriteLogLine("base.ReadXMLFile - Calling InitDataTable (" + viewName + ")");
-               InitDataTable(viewName);
+               ctx.ConsoleWriteLogLine(String.Format("BaseTable ReadXmlFile loaded Table : {0} with {1} rows", dTable.TableName, dTable.Rows.Count));
             }
          }
          catch (InvalidOperationException ex)
@@ -232,7 +221,6 @@ namespace Impl
             ctx.ConsoleWriteLogLine("Exception: " + ex.Message);
             return false;
          }
-         ctx.ConsoleWriteLogLine("Read XML file: " + inFile);
          return true;
       }
 
@@ -269,6 +257,49 @@ namespace Impl
             return false;
          }
          return true;
+      }
+
+      private void _AddEnglishToTable(string tableName, string[,] colKeyMap)
+      {
+         // Check if the table exists in the DataSet
+         bool tableExists = false;
+         foreach (DataTable table in dTableSet.Tables)
+         {
+            if (table.TableName == tableName)
+            {
+               tableExists = true;
+               break;
+            }
+         }
+
+         if (tableExists)
+         {
+            // add English to the table based on the colKeyMap
+            (bool success, string message) result = (false, string.Empty);
+            for (int i = 0; i < colKeyMap.GetLength(0); i++)
+            {
+               result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables[tableName], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
+               if (!result.success)
+               {
+                  ctx.ConsoleWriteLogLine(String.Format("Error in AddEnglishToTable : {0}", result.message));
+               }
+            }
+         }
+      }
+
+      protected virtual void AddEnglishToTable(string tableName, string[,] colKeyMap)
+      {
+         // Add English to the columns listed in colKeyMap
+         if (!string.IsNullOrEmpty(tableName) && colKeyMap != null)
+            _AddEnglishToTable(tableName, colKeyMap);
+
+         // Add English to the error column
+         if (!string.IsNullOrEmpty(tableName))
+         {
+            string[,] errKeyMap = new string[1, 2] { {"error", "error" } };
+
+            _AddEnglishToTable(tableName, errKeyMap);
+         }
       }
 
       /// <summary>

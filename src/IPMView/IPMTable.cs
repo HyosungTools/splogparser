@@ -164,17 +164,21 @@ namespace IPMView
       /// <returns>true if the write was successful</returns>
       public override bool WriteExcelFile()
       {
+         string tableName = string.Empty;
+
          try
          {
             // S T A T U S   T A B L E
 
+            tableName = "Status";
+
             // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
             ctx.ConsoleWriteLogLine("Compress the Status Table: sort by time, visit every row and delete rows that are unchanged from their predecessor");
-            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table start: rows before: {0}", dTableSet.Tables["Status"].Rows.Count));
+            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table start: rows before: {0}", dTableSet.Tables[tableName].Rows.Count));
 
             // the list of columns to compare
             string[] columns = new string[] { "error", "status", "acceptor", "media", "stacker" };
-            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables["Status"], "time ASC", columns);
+            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], "time ASC", columns);
             if (!result.success)
             {
                ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
@@ -190,109 +194,103 @@ namespace IPMView
                {"stacker", "wStacker" }
             };
 
-            for (int i = 0; i < 4; i++)
-            {
-               result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables["Status"], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
-            }
+            AddEnglishToTable(tableName, colKeyMap);
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("EXCEPTION processing table '{0}' error '{1}'", tableName, e.Message));
+         }
 
+         try
+         {
             // S U M M A R Y   T A B L E 
 
-            try
-            {
-               // delete redundant lines from the Summary Table
-               ctx.ConsoleWriteLogLine("Delete redundant lines from the Summary Table");
-               DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
-               List<DataRow> deleteRows = new List<DataRow>();
-               foreach (DataRow dataRow in dataRows)
-               {
-                  if (dataRow["file"].ToString().Trim() == string.Empty)
-                  {
-                     deleteRows.Add(dataRow);
-                  }
-               }
+            tableName = "Summary";
 
-               foreach (DataRow dataRow in deleteRows)
+            // delete redundant lines from the Summary Table
+            ctx.ConsoleWriteLogLine("Delete redundant lines from the Summary Table");
+            DataRow[] dataRows = dTableSet.Tables[tableName].Select();
+            List<DataRow> deleteRows = new List<DataRow>();
+            foreach (DataRow dataRow in dataRows)
+            {
+               if (dataRow["file"].ToString().Trim() == string.Empty)
                {
-                  dataRow.Delete();
+                  deleteRows.Add(dataRow);
                }
             }
-            catch (Exception e)
+
+            foreach (DataRow dataRow in deleteRows)
             {
-               ctx.ConsoleWriteLogLine(String.Format("Failed to delete redundant lines from Summary Table : {0}", e.Message));
+               dataRow.Delete();
             }
 
-            try
+            // Add English to Summary Table
+            ctx.ConsoleWriteLogLine("Add English to Summary Table");
+            string[,] colKeyMap = new string[2, 2]
             {
-               // Add English to Summary Table
-               ctx.ConsoleWriteLogLine("Add English to Summary Table");
-               string[,] summaryColMap = new string[2, 2]
-               {
-               {"type", "fwType" },
-               {"mediatype", "wMediaType" }
-               };
-
-               for (int i = 0; i < 2; i++)
-               {
-                  result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables["Summary"], dTableSet.Tables["Messages"], summaryColMap[i, 0], summaryColMap[i, 1]);
-               }
-            }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("Failed to add English to the Summary Table : {0}", e.Message));
-            }
-
-
-            // M E D I A  B I N   T A B L E
-            try
-            {
-               ctx.ConsoleWriteLogLine("Compress the MediaBIn Tables: sort by time, visit every row and delete rows that are unchanged from their predecessor");
-
-               // the list of columns to compare
-               string[] cashUnitCols = new string[] { "error", "status", "count", "retract" };
-
-               foreach (DataTable dTable in dTableSet.Tables)
-               {
-                  ctx.ConsoleWriteLogLine("Looking at table :" + dTable.TableName);
-                  if (dTable.TableName.StartsWith("MediaBin-"))
-                  {
-                     ctx.ConsoleWriteLogLine(String.Format("Compress the Table '{0}' rows before: {1}", dTable.TableName, dTable.Rows.Count));
-                     (bool success, string message) cashUnitResult = _datatable_ops.DeleteUnchangedRowsInTable(dTable, "time ASC", cashUnitCols);
-                     if (!cashUnitResult.success)
-                     {
-                        ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + cashUnitResult.message);
-                     }
-                     ctx.ConsoleWriteLogLine(String.Format("Compress the Table '{0}' rows after: {1}", dTable.TableName, dTable.Rows.Count));
-                  }
-               }
-            }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("Failed to compress the MediaBin tables: {0}", e.Message));
-            }
-
-            // add English to MediaIn Tables
-            string[,] cashUnitColMap = new string[1, 2]
-            {
-            {"status", "usStatus" }
+                  {"type", "fwType" },
+                  {"mediatype", "wMediaType" }
             };
+
+            AddEnglishToTable(tableName, colKeyMap);
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("EXCEPTION processing table '{0}' error '{1}'", tableName, e.Message));
+         }
+
+         try
+         {
+            // M E D I A  B I N   T A B L E
+
+            ctx.ConsoleWriteLogLine("Compress the MediaBIn Tables: sort by time, visit every row and delete rows that are unchanged from their predecessor");
+
+            // the list of columns to compare
+            string[] cashUnitCols = new string[] { "error", "status", "count", "retract" };
 
             foreach (DataTable dTable in dTableSet.Tables)
             {
                ctx.ConsoleWriteLogLine("Looking at table :" + dTable.TableName);
-               if (dTable.TableName.StartsWith("MediaIn-"))
+               if (dTable.TableName.StartsWith("MediaBin-"))
                {
-                  for (int i = 0; i < 1; i++)
+                  tableName = dTable.TableName; 
+
+                  ctx.ConsoleWriteLogLine(String.Format("Compress the Table '{0}' rows before: {1}", tableName, dTable.Rows.Count));
+                  (bool success, string message) cashUnitResult = _datatable_ops.DeleteUnchangedRowsInTable(dTable, "time ASC", cashUnitCols);
+                  if (!cashUnitResult.success)
                   {
-                     result = _datatable_ops.AddEnglishToTable(ctx, dTable, dTableSet.Tables["Messages"], cashUnitColMap[i, 0], cashUnitColMap[i, 1]);
+                     ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + cashUnitResult.message);
                   }
+                  ctx.ConsoleWriteLogLine(String.Format("Compress the Table '{0}' rows after: {1}", tableName, dTable.Rows.Count));
                }
             }
 
+            // add English to MediaIn Tables
+            string[,] colKeyMap = new string[1, 2]
+            {
+               {"status", "usStatus" }
+            };
 
+            foreach (DataTable dTable in dTableSet.Tables)
+            {
+               if (dTable.TableName.StartsWith("MediaIn-"))
+               {
+                  tableName = dTable.TableName;
+                  AddEnglishToTable(tableName, colKeyMap);
+               }
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("EXCEPTION processing table '{0}' error '{1}'", tableName, e.Message));
+         }
+
+         try
+         {
             // D E P O S I T   T A B L E
 
             // add English to Deposit
-            string[,] depositColMap = new string[4, 2]
+            string[,] colKeyMap = new string[4, 2]
             {
                {"trans","wMediaInTransaction" },
                {"status", "wStatus" },
@@ -300,56 +298,45 @@ namespace IPMView
                {"reason", "wReason" }
             };
 
-            try
+            foreach (DataTable dTable in dTableSet.Tables)
             {
-               foreach (DataTable dTable in dTableSet.Tables)
+               if (dTable.TableName.Equals("Deposit"))
                {
-                  if (dTable.TableName.Equals("Deposit"))
+                  tableName = dTable.TableName;
+                  AddEnglishToTable(tableName, colKeyMap);
+               }
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("EXCEPTION processing table '{0}' error '{1}'", tableName, e.Message));
+         }
+
+
+         // RENAME MEDIABIN TABLES - DO THIS LAST
+
+         try
+         {
+            // rename the MediaBin units
+            foreach (DataTable dTable in dTableSet.Tables)
+            {
+               ctx.ConsoleWriteLogLine("Rename the MediaBins : Looking at table :" + dTable.TableName);
+               if (dTable.TableName.StartsWith("MediaBin-"))
+               {
+                  string unitNumber = dTable.TableName.Replace("MediaBin-", string.Empty);
+                  ctx.ConsoleWriteLogLine("unitNumber :" + unitNumber);
+
+                  DataRow[] dataRows = dTableSet.Tables["Summary"].Select(String.Format("number = {0}", unitNumber));
+                  if (dataRows.Length == 1)
                   {
-                     ctx.ConsoleWriteLogLine(String.Format("Adding English to table '{0}'", dTable.TableName));
-                     for (int i = 0; i < 4; i++)
-                     {
-                        result = _datatable_ops.AddEnglishToTable(ctx, dTable, dTableSet.Tables["Messages"], depositColMap[i, 0], depositColMap[i, 1]);
-                     }
+                     ctx.ConsoleWriteLogLine(String.Format("Changing table name from '{0}' to '{1}'", dTable.TableName, dataRows[0]["name"].ToString()));
+                     dTable.TableName = dataRows[0]["name"].ToString();
+                     dTable.AcceptChanges();
                   }
                }
             }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("EXCEPTION adding English to to table:'{0}'", e.Message));
-            }
 
-
-            // RENAME MEDIABIN TABLES - DO THIS LAST
-
-            try
-            {
-               // rename the MediaBin units
-               foreach (DataTable dTable in dTableSet.Tables)
-               {
-                  ctx.ConsoleWriteLogLine("Rename the MediaBins : Looking at table :" + dTable.TableName);
-                  if (dTable.TableName.StartsWith("MediaBin-"))
-                  {
-                     string unitNumber = dTable.TableName.Replace("MediaBin-", string.Empty);
-                     ctx.ConsoleWriteLogLine("unitNumber :" + unitNumber);
-
-                     DataRow[] dataRows = dTableSet.Tables["Summary"].Select(String.Format("number = {0}", unitNumber));
-                     if (dataRows.Length == 1)
-                     {
-                        ctx.ConsoleWriteLogLine(String.Format("Changing table name from '{0}' to '{1}'", dTable.TableName, dataRows[0]["name"].ToString()));
-                        dTable.TableName = dataRows[0]["name"].ToString();
-                        dTable.AcceptChanges();
-                     }
-                  }
-               }
-
-               // TODO - delete any MediaBin column named LUx
-            }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine("WriteExcelFile Exception : " + e.Message);
-            }
-
+            // TODO - delete any MediaBin column named LUx
 
          }
          catch (Exception e)
@@ -850,7 +837,7 @@ namespace IPMView
             depRow["error"] = lpResult.hResult(xfsLine);
 
             depRow["trans"] = "error";
-            depRow["reason"] = binInfo.wFailure; 
+            depRow["reason"] = binInfo.wFailure;
 
             dTableSet.Tables["Deposit"].AcceptChanges();
 
@@ -952,7 +939,7 @@ namespace IPMView
             depRow["error"] = lpResult.hResult(xfsLine);
 
             depRow["trans"] = "refused";
-            depRow["reason"] = binInfo.wReason; 
+            depRow["reason"] = binInfo.wReason;
 
             dTableSet.Tables["Deposit"].AcceptChanges();
 
