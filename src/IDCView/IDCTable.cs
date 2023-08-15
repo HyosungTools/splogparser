@@ -1,9 +1,7 @@
 ﻿using Contract;
 using Impl;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Net.NetworkInformation;
 
 namespace IDCView
 {
@@ -35,38 +33,28 @@ namespace IDCView
 
             tableName = "Status";
 
-            // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
-            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table: sort by time, visit every row and delete rows that are unchanged from their predecessor", tableName));
-            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table start: rows before: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
+            // COMPRESS
+            string[] columns = new string[] { "error", "device", "media", "retainbin", "security", "uscards", "chippower", "chipmodule", "magreadmodule", "errorcode" };
+            CompressTable(tableName, columns);
 
-            // the list of columns to compare
-            string[] columns = new string[] { "error", "device", "media", "retainbin", "security", "uscards", "chippower","chipmodule","magreadmodule", "errorcode"};
-            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], "time ASC", columns);
-            if (!result.success)
-            {
-               ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
-            }
-            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table complete: rows after: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
-
-            // add English to the Status Table
+            // ADD ENGLISH
             ctx.ConsoleWriteLogLine(String.Format("Add English to {0} Table", tableName));
             string[,] colKeyMap = new string[7, 2]
             {
                 {"device", "fwDevice"},
                 {"media", "fwMedia"},
                 {"retainbin", "fwRetainBin"},
-                {"security", "fwSecurity"},                
+                {"security", "fwSecurity"},
                 {"chippower", "fwChipPower"},
                 {"chipmodule", "fwChipModule"},
                 {"magreadmodule", "fwMagReadModule"}
             };
-
             AddEnglishToTable(tableName, colKeyMap);
 
          }
          catch (Exception e)
          {
-            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));           
+            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));
          }
 
          try
@@ -75,19 +63,11 @@ namespace IDCView
 
             tableName = "Summary";
 
-            // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
-            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table: sort by time, visit every row and delete rows that are unchanged from their predecessor", tableName));
-            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table start: rows before: {1}", tableName, dTableSet.Tables["Summary"].Rows.Count));
-
-            // the list of columns to compare
+            // COMPRESS
             string[] columns = new string[] { "error", "spversion", "epversion" };
-            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], "time ASC", columns);
-            if (!result.success)
-            {
-               ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
-            }
-            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table complete: rows after: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
+            CompressTable(tableName, columns);
 
+            // ADD ENGLISH
             AddEnglishToTable(tableName, null);
          }
          catch (Exception e)

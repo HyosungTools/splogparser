@@ -1,9 +1,7 @@
 ﻿using Contract;
 using Impl;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Net.NetworkInformation;
 
 namespace PINView
 {
@@ -35,20 +33,11 @@ namespace PINView
 
             tableName = "Status";
 
-            // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
-            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table: sort by time, visit every row and delete rows that are unchanged from their predecessor", tableName));
-            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table start: rows before: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
-
-            // the list of columns to compare
+            // COMPRESS
             string[] columns = new string[] { "error", "device", "encstat", "autobeepmode", "certificatestate", "deviceposition", "powersaverecoverytime", "antifraudmodule"};
-            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], "time ASC", columns);
-            if (!result.success)
-            {
-               ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
-            }
-            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table complete: rows after: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
+            CompressTable(tableName, columns);
 
-            // add English to the Status Table
+            // ADD ENGLISH
             ctx.ConsoleWriteLogLine(String.Format("Add English to {0} Table", tableName));
             string[,] colKeyMap = new string[7, 2]
             {               
@@ -60,7 +49,6 @@ namespace PINView
                 {"powersaverecoverytime", "usPowerSaveRecoveryTime"},
                 {"antifraudmodule", "wAntiFraudModule"},
             };
-
             AddEnglishToTable(tableName, colKeyMap);
 
          }
@@ -75,19 +63,11 @@ namespace PINView
 
             tableName = "Summary";
 
-            // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
-            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table: sort by time, visit every row and delete rows that are unchanged from their predecessor", tableName));
-            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table start: rows before: {1}", tableName, dTableSet.Tables["Summary"].Rows.Count));
-
-            // the list of columns to compare
+            // COMPRESS
             string[] columns = new string[] { "error", "sp_version", "ep_version" };
-            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], "time ASC", columns);
-            if (!result.success)
-            {
-               ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
-            }
-            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table complete: rows after: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
+            CompressTable(tableName, columns);
 
+            // ADD ENGLISH
             AddEnglishToTable(tableName, null);
 
          }

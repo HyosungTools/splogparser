@@ -1,5 +1,6 @@
 ﻿using Contract;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -296,10 +297,42 @@ namespace Impl
          // Add English to the error column
          if (!string.IsNullOrEmpty(tableName))
          {
-            string[,] errKeyMap = new string[1, 2] { {"error", "error" } };
+            string[,] errKeyMap = new string[1, 2] { { "error", "error" } };
 
             _AddEnglishToTable(tableName, errKeyMap);
          }
+      }
+
+      protected virtual void CompressTable(string tableName, string[] columns, string order = "time ASC")
+      {
+         ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table start: rows before: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
+         (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], order, columns);
+         ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table complete: rows after: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
+
+         if (!result.success)
+         {
+            ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
+         }
+      }
+
+      protected virtual void DeleteRedundantRows(string tableName, string colName = "file")
+      {
+         ctx.ConsoleWriteLogLine(String.Format("Delete redundant rows from the {0} Table start: rows before: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
+         DataRow[] dataRows = dTableSet.Tables[tableName].Select();
+         List<DataRow> deleteRows = new List<DataRow>();
+         foreach (DataRow dataRow in dataRows)
+         {
+            if (dataRow[colName].ToString().Trim() == string.Empty)
+            {
+               deleteRows.Add(dataRow);
+            }
+         }
+
+         foreach (DataRow dataRow in deleteRows)
+         {
+            dataRow.Delete();
+         }
+         ctx.ConsoleWriteLogLine(String.Format("Delete redundant rows from the {0} Table start: rows complete: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
       }
 
       /// <summary>

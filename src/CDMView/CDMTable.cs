@@ -1,7 +1,6 @@
 ﻿using Contract;
 using Impl;
 using System;
-using System.Collections.Generic;
 using System.Data;
 
 namespace CDMView
@@ -124,22 +123,10 @@ namespace CDMView
             tableName = "Status";
 
             // COMPRESS
-
-            // the list of columns to compare when compressing
             string[] columns = new string[] { "error", "status", "dispenser", "intstack", "shutter", "posstatus", "transport", "transstat", "position" };
-
-            // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
-            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table start: rows before: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
-            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], "time ASC", columns);
-            ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table complete: rows after: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
-
-            if (!result.success)
-            {
-               ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
-            }
+            CompressTable(tableName, columns);
 
             // ADD ENGLISH 
-
             string[,] colKeyMap = new string[8, 2]
             {
                {"status", "fwDevice" },
@@ -151,7 +138,6 @@ namespace CDMView
                {"transstat", "fwTransportStatus"},
                {"position", "wDevicePosition"}
             };
-
             AddEnglishToTable(tableName, colKeyMap);
 
          }
@@ -167,30 +153,13 @@ namespace CDMView
             tableName = "Summary";
 
             // COMPRESS
-
-            //  Delete redundant lines from the Summary Table
-            DataRow[] dataRows = dTableSet.Tables[tableName].Select();
-            List<DataRow> deleteRows = new List<DataRow>();
-            foreach (DataRow dataRow in dataRows)
-            {
-               if (dataRow["file"].ToString().Trim() == string.Empty)
-               {
-                  deleteRows.Add(dataRow);
-               }
-            }
-
-            foreach (DataRow dataRow in deleteRows)
-            {
-               dataRow.Delete();
-            }
+            DeleteRedundantRows(tableName);
 
             // ADD ENGLISH 
-
             string[,] colKeyMap = new string[1, 2]
             {
                {"type", "usType" }
             };
-
             AddEnglishToTable(tableName, colKeyMap);
 
          }
@@ -203,9 +172,6 @@ namespace CDMView
          {
             // C A S H  U N I T   T A B L E S
 
-            // COMPRESS
-
-            // the list of columns to compare
             string[] columns = new string[] { "error", "status", "initial", "count", "reject", "dispensed", "presented", "retracted" };
 
             foreach (DataTable dTable in dTableSet.Tables)
@@ -213,21 +179,13 @@ namespace CDMView
                ctx.ConsoleWriteLogLine("Looking at table :" + dTable.TableName);
                if (dTable.TableName.StartsWith("CashUnit-"))
                {
+                  // COMPRESS
                   tableName = dTable.TableName;
-
-                  ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table start: rows before: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
-                  (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], "time ASC", columns);
-                  ctx.ConsoleWriteLogLine(String.Format("Compress the {0} Table complete: rows after: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
-
-                  if (!result.success)
-                  {
-                     ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
-                  }
+                  CompressTable(tableName, columns);
                }
             }
 
             // ADD ENGLISH 
-
             string[,] colKeyMap = new string[1, 2]
             {
                {"status", "usStatus" }
@@ -255,12 +213,10 @@ namespace CDMView
             tableName = "Dispense";
 
             // ADD ENGLISH 
-
             string[,] colKeyMap = new string[1, 2]
             {
                {"position", "wPresentState" }
             };
-
             AddEnglishToTable(tableName, colKeyMap);
 
          }

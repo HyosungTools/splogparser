@@ -172,20 +172,11 @@ namespace IPMView
 
             tableName = "Status";
 
-            // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
-            ctx.ConsoleWriteLogLine("Compress the Status Table: sort by time, visit every row and delete rows that are unchanged from their predecessor");
-            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table start: rows before: {0}", dTableSet.Tables[tableName].Rows.Count));
-
-            // the list of columns to compare
+            // COMPRESS
             string[] columns = new string[] { "error", "status", "acceptor", "media", "stacker" };
-            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], "time ASC", columns);
-            if (!result.success)
-            {
-               ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
-            }
-            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table complete: rows after: {0}", dTableSet.Tables["Status"].Rows.Count));
+            CompressTable(tableName, columns);
 
-            // add English to the Status Table
+            // ADD ENGLISH
             string[,] colKeyMap = new string[4, 2]
             {
                {"status", "fwDevice" },
@@ -193,7 +184,6 @@ namespace IPMView
                {"media", "wMedia" },
                {"stacker", "wStacker" }
             };
-
             AddEnglishToTable(tableName, colKeyMap);
          }
          catch (Exception e)
@@ -207,31 +197,15 @@ namespace IPMView
 
             tableName = "Summary";
 
-            // delete redundant lines from the Summary Table
-            ctx.ConsoleWriteLogLine("Delete redundant lines from the Summary Table");
-            DataRow[] dataRows = dTableSet.Tables[tableName].Select();
-            List<DataRow> deleteRows = new List<DataRow>();
-            foreach (DataRow dataRow in dataRows)
-            {
-               if (dataRow["file"].ToString().Trim() == string.Empty)
-               {
-                  deleteRows.Add(dataRow);
-               }
-            }
+            // COMPRESS
+            DeleteRedundantRows(tableName);
 
-            foreach (DataRow dataRow in deleteRows)
-            {
-               dataRow.Delete();
-            }
-
-            // Add English to Summary Table
-            ctx.ConsoleWriteLogLine("Add English to Summary Table");
+            // ADD ENGLISH
             string[,] colKeyMap = new string[2, 2]
             {
                   {"type", "fwType" },
                   {"mediatype", "wMediaType" }
             };
-
             AddEnglishToTable(tableName, colKeyMap);
          }
          catch (Exception e)
@@ -253,19 +227,13 @@ namespace IPMView
                ctx.ConsoleWriteLogLine("Looking at table :" + dTable.TableName);
                if (dTable.TableName.StartsWith("MediaBin-"))
                {
-                  tableName = dTable.TableName; 
-
-                  ctx.ConsoleWriteLogLine(String.Format("Compress the Table '{0}' rows before: {1}", tableName, dTable.Rows.Count));
-                  (bool success, string message) cashUnitResult = _datatable_ops.DeleteUnchangedRowsInTable(dTable, "time ASC", cashUnitCols);
-                  if (!cashUnitResult.success)
-                  {
-                     ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + cashUnitResult.message);
-                  }
-                  ctx.ConsoleWriteLogLine(String.Format("Compress the Table '{0}' rows after: {1}", tableName, dTable.Rows.Count));
+                  // COMPRESS
+                  tableName = dTable.TableName;
+                  CompressTable(tableName, cashUnitCols);
                }
             }
 
-            // add English to MediaIn Tables
+            // ADD ENGLISH
             string[,] colKeyMap = new string[1, 2]
             {
                {"status", "usStatus" }
@@ -289,7 +257,6 @@ namespace IPMView
          {
             // D E P O S I T   T A B L E
 
-            // add English to Deposit
             string[,] colKeyMap = new string[4, 2]
             {
                {"trans","wMediaInTransaction" },
@@ -302,6 +269,7 @@ namespace IPMView
             {
                if (dTable.TableName.Equals("Deposit"))
                {
+                  // ADD ENGLISH
                   tableName = dTable.TableName;
                   AddEnglishToTable(tableName, colKeyMap);
                }
