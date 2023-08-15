@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Contract;
 using Impl;
 
@@ -12,7 +8,7 @@ namespace DeviceView
    internal class DEVTable : BaseTable
    {
       string[] hServiceArray = new string[100];
-      
+
       /// <summary>
       /// constructor
       /// </summary>
@@ -145,22 +141,17 @@ namespace DeviceView
       /// <returns>true if the write was successful</returns>
       public override bool WriteExcelFile()
       {
+         string tableName = string.Empty;
+
          //STATUS TABLE
 
-         // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
-         ctx.ConsoleWriteLogLine("Compress the Status Table: sort by time, visit every row and delete rows that are unchanged from their predecessor");
-         ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table start: rows before: {0}", dTableSet.Tables["Status"].Rows.Count));
+         tableName = "Status";
 
-         // the list of columns to compare
+         // COMPRESS
          string[] columns = new string[] { "error", "PTR", "IDC", "CDM", "PIN", "CHK", "DEP", "TTU", "SIU", "VDM", "CAM", "ALM", "CIM", "BCR", "IPM" };
-         (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables["Status"], "time ASC", columns);
-         if (!result.success)
-         {
-            ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
-         }
-         ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table complete: rows after: {0}", dTableSet.Tables["Status"].Rows.Count));
+         CompressTable(tableName, columns);
 
-         // add English
+         // ADD ENGLISH
          string[,] colKeyMap = new string[15, 2]
          {
             {"PTR", "fwDevice" },
@@ -179,11 +170,7 @@ namespace DeviceView
             {"BCR", "fwDevice" },
             {"IPM", "fwDevice" }
          };
-
-         for (int i = 0; i < 15; i++)
-         {
-            result = _datatable_ops.AddEnglishToTable(ctx, dTableSet.Tables["Status"], dTableSet.Tables["Messages"], colKeyMap[i, 0], colKeyMap[i, 1]);
-         }
+         AddEnglishToTable(tableName, colKeyMap);
 
          return base.WriteExcelFile();
       }
@@ -236,7 +223,7 @@ namespace DeviceView
                wfpOpen.Initialize(xfsLine);
             }
             catch (Exception e)
-            { 
+            {
                ctx.ConsoleWriteLogLine(String.Format("WFSOPEN Assignment Exception {0}. {1}, {2}", _traceFile, logTime, e.Message));
             }
 
@@ -253,7 +240,7 @@ namespace DeviceView
                dataRow[xfsDevice] = "open (" + wfpOpen.hService + ")";
 
                // store xfs device
-               hServiceArray[int.Parse(wfpOpen.hService)] = xfsDevice; 
+               hServiceArray[int.Parse(wfpOpen.hService)] = xfsDevice;
 
                dTableSet.Tables["Status"].AcceptChanges();
             }

@@ -1,7 +1,6 @@
 ﻿using Contract;
 using Impl;
 using System;
-using System.Collections.Generic;
 using System.Data;
 
 namespace CIMView
@@ -135,20 +134,11 @@ namespace CIMView
 
             tableName = "Status";
 
-            // sort the table by time, visit every row and delete rows that are unchanged from their predecessor
-            ctx.ConsoleWriteLogLine("Compress the Status Table: sort by time, visit every row and delete rows that are unchanged from their predecessor");
-            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table start: rows before: {0}", dTableSet.Tables[tableName].Rows.Count));
-
-            // the list of columns to compare
+            // COMPRESS
             string[] columns = new string[] { "error", "status", "safedoor", "acceptor", "intstack", "stackitems" };
-            (bool success, string message) result = _datatable_ops.DeleteUnchangedRowsInTable(dTableSet.Tables[tableName], "time ASC", columns);
-            if (!result.success)
-            {
-               ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
-            }
-            ctx.ConsoleWriteLogLine(String.Format("Compress the Status Table complete: rows after: {0}", dTableSet.Tables[tableName].Rows.Count));
+            CompressTable(tableName, columns);
 
-            // add English to the Status Table
+            // ADD ENGLISH
             string[,] colKeyMap = new string[5, 2]
             {
                {"status", "fwDevice" },
@@ -157,7 +147,6 @@ namespace CIMView
                {"intstack", "fwIntermediateStacker" },
                {"stackitems", "fwStackerItems" }
             };
-
             AddEnglishToTable(tableName, colKeyMap);
          }
          catch (Exception e)
@@ -171,28 +160,14 @@ namespace CIMView
 
             tableName = "Summary";
 
-            // delete redundant lines from the Summary Table
-            DataRow[] dataRows = dTableSet.Tables[tableName].Select();
-            List<DataRow> deleteRows = new List<DataRow>();
-            foreach (DataRow dataRow in dataRows)
-            {
-               if (dataRow["file"].ToString().Trim() == string.Empty)
-               {
-                  deleteRows.Add(dataRow);
-               }
-            }
+            // COMPRESS
+            DeleteRedundantRows(tableName);
 
-            foreach (DataRow dataRow in deleteRows)
-            {
-               dataRow.Delete();
-            }
-
-            // Add English to Summary Table
+            // ADD ENGLISH
             string[,] colKeyMap = new string[1, 2]
             {
                {"type", "fwType" }
             };
-
             AddEnglishToTable(tableName, colKeyMap);
 
          }
@@ -215,19 +190,13 @@ namespace CIMView
                ctx.ConsoleWriteLogLine("Looking at table :" + dTable.TableName);
                if (dTable.TableName.StartsWith("CashIn-"))
                {
+                  // COMPRESS
                   tableName = dTable.TableName;
-
-                  ctx.ConsoleWriteLogLine(String.Format("Compress the Table '{0}' rows before: {1}", tableName, dTable.Rows.Count));
-                  (bool success, string message) cashUnitResult = _datatable_ops.DeleteUnchangedRowsInTable(dTable, "time ASC", cashUnitCols);
-                  if (!cashUnitResult.success)
-                  {
-                     ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + cashUnitResult.message);
-                  }
-                  ctx.ConsoleWriteLogLine(String.Format("Compress the Table '{0}' rows after: {1}", tableName, dTable.Rows.Count));
+                  CompressTable(tableName, cashUnitCols);
                }
             }
 
-            // add English to CashIn Tables
+            // ADD ENGLISH
             string[,] colKeyMap = new string[1, 2]
             {
                {"status", "usStatus" }
@@ -252,7 +221,7 @@ namespace CIMView
          {
             // D E P O S I T   T A B L E
 
-            // add English to Deposit
+            // ADD ENGLISH
             string[,] colKeyMap = new string[1, 2]
             {
                {"status", "wStatus" }
