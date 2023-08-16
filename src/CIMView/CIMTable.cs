@@ -222,8 +222,9 @@ namespace CIMView
             // D E P O S I T   T A B L E
 
             // ADD ENGLISH
-            string[,] colKeyMap = new string[1, 2]
+            string[,] colKeyMap = new string[2, 2]
             {
+               {"position", "position" },
                {"status", "wStatus" }
             };
 
@@ -990,6 +991,9 @@ namespace CIMView
          {
             ctx.ConsoleWriteLogLine(String.Format("WFS_EXEE_CIM_INPUTREFUSE tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
 
+            WFSCIMINPUTREFUSE cimRefused = new WFSCIMINPUTREFUSE(ctx);
+            cimRefused.Initialize(xfsLine); 
+
             // add new row
             DataRow dataRow = dTableSet.Tables["Deposit"].Rows.Add();
 
@@ -998,7 +1002,7 @@ namespace CIMView
             dataRow["error"] = lpResult.hResult(xfsLine);
 
             // position
-            dataRow["position"] = "Input Refused";
+            dataRow["position"] = String.Format("input refused-{0}", cimRefused.usReason);
             dataRow["refused"] = "";
 
             dTableSet.Tables["Deposit"].AcceptChanges();
