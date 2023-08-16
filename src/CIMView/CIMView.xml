@@ -547,6 +547,85 @@
     <description>N7,N12,N17</description>
   </Messages> 
    
+  <!-- position -->
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-1</code>
+    <brief>input refused-cash unit full</brief>
+    <description>Cash unit is full.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-2</code>
+    <brief>input refused-invalid bill</brief>
+    <description>Recognition of the items took place, but one or more of the items are invalid.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-3</code>
+    <brief>input refused-no bills</brief>
+    <description>There are no items in the input area.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-4</code>
+    <brief>input refused-deposit failure</brief>
+    <description>A deposit has failed for a reason not covered by the other reasons and the failure is not a fatal hardware problem.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-5</code>
+    <brief>input refused-comm inp comp fail</brief>
+    <description>Failure of a common input component which is shared by all cash units.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-6</code>
+    <brief>input refused-stacker full</brief>
+    <description>The intermediate stacker is full.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-7</code>
+    <brief>input refused-foreign items detected</brief>
+    <description>Foreign items have been detected in the input position.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-8</code>
+    <brief>input refused-invalid bunch</brief>
+    <description> Recognition of the items did not take place. The bunch of notes inserted is invalid, e.g. it is too large or was inserted incorrectly.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-9</code>
+    <brief>input refused-counterfeit</brief>
+    <description>One or more counterfeit items have been detected and refused.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-10</code>
+    <brief>input refused-limit over</brief>
+    <description>Number of items count exceeded the limitation set with the. WFS_CMD_CIM_SET_CASH_IN_LIMIT command.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-11</code>
+    <brief>input refused-limit over amt</brief>
+    <description>Amount exceeded the limitation set with the. WFS_CMD_CIM_SET_CASH_IN_LIMIT command.</description>
+  </Messages>  
+  
   <!-- error -->
   
   <Messages>

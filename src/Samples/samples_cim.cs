@@ -1954,5 +1954,53 @@ lpResult =
 	u.dwEventID = [1314],
 	lpBuffer = NULL
 ";
+
+      public const string WFS_CIM_INPUT_REFUSE_1 =
+@"02514294967295033207615981240003CIM0003SPI00102023/03/30001216:04 44.1570009XFS_EVENT0019EXECUTE_EVENT[1309]0238WFS_EXECUTE_EVENT, 
+lpResult =
+{
+	hWnd = [0x000201d8],
+	RequestID = [15989],
+	hService = [13],
+	tsTimestamp = [2023/03/30 16:04 44.157],
+	hResult = [0],
+	u.dwEventID = [1309],
+	lpBuffer = [0x2a0529b4]
+	{
+		usReason = [1]
+	}
+}";
+
+      public const string WFS_CIM_INPUT_REFUSE_2 =
+@"02514294967295033207615981240003CIM0003SPI00102023/03/30001216:04 44.1570009XFS_EVENT0019EXECUTE_EVENT[1309]0238WFS_EXECUTE_EVENT, 
+lpResult =
+{
+	hWnd = [0x000201d8],
+	RequestID = [15989],
+	hService = [13],
+	tsTimestamp = [2023/03/30 16:04 44.157],
+	hResult = [0],
+	u.dwEventID = [1309],
+	lpBuffer = [0x2a0529b4]
+	{
+		usReason = [2]
+	}
+}";
+
+      public const string WFS_CIM_INPUT_REFUSE_3 =
+@"02514294967295033207615981240003CIM0003SPI00102023/03/30001216:04 44.1570009XFS_EVENT0019EXECUTE_EVENT[1309]0238WFS_EXECUTE_EVENT, 
+lpResult =
+{
+	hWnd = [0x000201d8],
+	RequestID = [15989],
+	hService = [13],
+	tsTimestamp = [2023/03/30 16:04 44.157],
+	hResult = [0],
+	u.dwEventID = [1309],
+	lpBuffer = [0x2a0529b4]
+	{
+		usReason = [3]
+	}
+}";
    }
 }

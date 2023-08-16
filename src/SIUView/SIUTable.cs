@@ -1,7 +1,6 @@
 ﻿using Contract;
 using Impl;
 using System;
-using System.Collections.Generic;
 using System.Data;
 
 namespace SIUView
@@ -53,7 +52,7 @@ namespace SIUView
          }
          catch (Exception e)
          {
-            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));           
+            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));
          }
 
          try
