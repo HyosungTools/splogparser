@@ -19,6 +19,8 @@ namespace Impl
       WFS_CMD_CDM_REJECT,
       WFS_CMD_CDM_RETRACT,
       WFS_CMD_CDM_RESET,
+      WFS_CMD_CDM_STARTEX,
+      WFS_CMD_CDM_ENDEX,
       WFS_SRVE_CDM_CASHUNITINFOCHANGED,
       WFS_SRVE_CDM_ITEMSTAKEN,
       /* 4 - PIN */
@@ -49,6 +51,8 @@ namespace Impl
       WFS_CMD_CIM_CASH_IN_ROLLBACK,
       WFS_CMD_CIM_RETRACT,
       WFS_CMD_CIM_RESET,
+      WFS_CMD_CIM_STARTEX,
+      WFS_CMD_CIM_ENDEX,
       WFS_USRE_CIM_CASHUNITTHRESHOLD,
       WFS_SRVE_CIM_CASHUNITINFOCHANGED,
       WFS_SRVE_CIM_ITEMSTAKEN,
@@ -152,6 +156,8 @@ namespace Impl
             Regex WFS_CMD_CDM_PRESENT = new Regex("EXECUTE.303.[0-9]+WFS_EXECUTE_COMPLETE");
             Regex WFS_CMD_CDM_REJECT = new Regex("EXECUTE.304.[0-9]+WFS_EXECUTE_COMPLETE");
             Regex WFS_CMD_CDM_RETRACT = new Regex("EXECUTE.305.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex WFS_CMD_CDM_STARTEX = new Regex("EXECUTE.311.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex WFS_CMD_CDM_ENDEX = new Regex("EXECUTE.312.[0-9]+WFS_EXECUTE_COMPLETE");
             Regex WFS_CMD_CDM_RESET = new Regex("EXECUTE.321.[0-9]+WFS_EXECUTE_COMPLETE");
 
             /* EVENTS */
@@ -183,6 +189,12 @@ namespace Impl
 
             result = GenericMatch(WFS_CMD_CDM_RESET, logLine);
             if (result.success) return (XFSType.WFS_CMD_CDM_RESET, result.xfsLine);
+
+            result = GenericMatch(WFS_CMD_CDM_STARTEX, logLine);
+            if (result.success) return (XFSType.WFS_CMD_CDM_STARTEX, result.xfsLine);
+
+            result = GenericMatch(WFS_CMD_CDM_ENDEX, logLine);
+            if (result.success) return (XFSType.WFS_CMD_CDM_ENDEX, result.xfsLine);
 
             /* Test for EVENTS */
             result = GenericMatch(WFS_SRVE_CDM_CASHUNITINFOCHANGED, logLine);
@@ -308,6 +320,8 @@ namespace Impl
             Regex wfs_cmd_cim_cash_in_end = new Regex("EXECUTE.1303.[0-9]+WFS_EXECUTE_COMPLETE");
             Regex wfs_cmd_cim_cash_in_rollback = new Regex("EXECUTE.1304.[0-9]+WFS_EXECUTE_COMPLETE");
             Regex wfs_cmd_cim_retract = new Regex("EXECUTE.1305.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex wfs_cmd_cim_startex = new Regex("EXECUTE.1310.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex wfs_cmd_cim_endex = new Regex("EXECUTE.1311.[0-9]+WFS_EXECUTE_COMPLETE");
             Regex wfs_cmd_cim_reset = new Regex("EXECUTE.1313.[0-9]+WFS_EXECUTE_COMPLETE");
 
             /* Events */
@@ -345,6 +359,12 @@ namespace Impl
 
             result = GenericMatch(wfs_cmd_cim_retract, logLine);
             if (result.success) return (XFSType.WFS_CMD_CIM_RETRACT, result.xfsLine);
+
+            result = GenericMatch(wfs_cmd_cim_startex, logLine);
+            if (result.success) return (XFSType.WFS_CMD_CIM_STARTEX, result.xfsLine);
+
+            result = GenericMatch(wfs_cmd_cim_endex, logLine);
+            if (result.success) return (XFSType.WFS_CMD_CIM_ENDEX, result.xfsLine);
 
             result = GenericMatch(wfs_cmd_cim_reset, logLine);
             if (result.success) return (XFSType.WFS_CMD_CIM_RESET, result.xfsLine);

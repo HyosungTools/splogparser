@@ -79,6 +79,18 @@ namespace CDMView
                      WFS_CMD_CDM_RESET(result.xfsLine);
                      break;
                   }
+               case XFSType.WFS_CMD_CDM_STARTEX:
+                  {
+                     base.ProcessRow(traceFile, logLine);
+                     WFS_CMD_CDM_STARTEX(result.xfsLine);
+                     break;
+                  }
+               case XFSType.WFS_CMD_CDM_ENDEX:
+                  {
+                     base.ProcessRow(traceFile, logLine);
+                     WFS_CMD_CDM_ENDEX(result.xfsLine);
+                     break;
+                  }
                case XFSType.WFS_SRVE_CDM_CASHUNITINFOCHANGED:
                   {
                      base.ProcessRow(traceFile, logLine);
@@ -603,6 +615,56 @@ namespace CDMView
             ctx.ConsoleWriteLogLine("WFS_CMD_CDM_RESET Exception : " + e.Message);
          }
       }
+
+      protected void WFS_CMD_CDM_STARTEX(string xfsLine)
+      {
+         try
+         {
+            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_CDM_STARTEX tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+
+            // add new row
+            DataRow dataRow = dTableSet.Tables["Dispense"].Rows.Add();
+
+            dataRow["file"] = _traceFile;
+            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
+            dataRow["error"] = lpResult.hResult(xfsLine);
+
+            // position
+            dataRow["position"] = "startex";
+
+            dTableSet.Tables["Dispense"].AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_CMD_CDM_STARTEX Exception : " + e.Message);
+         }
+      }
+
+      protected void WFS_CMD_CDM_ENDEX(string xfsLine)
+      {
+         try
+         {
+            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_CDM_ENDEX tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+
+            // add new row
+            DataRow dataRow = dTableSet.Tables["Dispense"].Rows.Add();
+
+            dataRow["file"] = _traceFile;
+            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
+            dataRow["error"] = lpResult.hResult(xfsLine);
+
+            // position
+            dataRow["position"] = "endex";
+
+            dTableSet.Tables["Dispense"].AcceptChanges();
+
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_CMD_CDM_ENDEX Exception : " + e.Message);
+         }
+      }
+
       protected void WFS_SRVE_CDM_CASHUNITINFOCHANGED(string xfsLine)
       {
          try

@@ -626,6 +626,20 @@
     <brief>unknown</brief>
     <description></description>
   </Messages>  
+ 
+  <Messages>
+    <type>wPresentState</type>
+    <code>startex</code>
+    <brief>start exchange</brief>
+    <description>The cash units can be emptied, replenished, removed or replaced.</description>
+  </Messages>  
+
+  <Messages>
+    <type>wPresentState</type>
+    <code>endex</code>
+    <brief>end exchange</brief>
+    <description>The cash units will return to their normal physical state.</description>
+  </Messages>   
   
   <!-- error -->
   

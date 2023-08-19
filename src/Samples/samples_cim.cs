@@ -2002,5 +2002,258 @@ lpResult =
 		usReason = [3]
 	}
 }";
+      public const string WFS_CMD_CIM_START_EXCHANGE =
+@"03654294967295019008198050270006COMMON0009FRAMEWORK00102023/02/27001207:49 10.6840011INFORMATION0025CCommandQueue::RemoveHead0079return (bResult[1]) pCommand{hService[11],..., ReqID[801], dwCommandCode[1310]}01904294967295018408198050280003CIM0007ACTIVEX00102023/02/27001207:49 10.6840006XFSAPI0021CService::ExecuteSync0087WFSAsyncExecute(hService=11, dwCommand=1310, lpCmdData=0x1CAAEE2C, ReqID=801) hResult=001844294967295012208198050290006COMMON0009FRAMEWORK00102023/02/27001207:49 10.6850011INFORMATION0015CProcessor::Run0021Execute{hService[11]}01224294967295015708198050300003CIM0007ACTIVEX00102023/02/27001207:49 10.6850011INFORMATION0028CService::WaitForAsyncCallEx0048WaitForAsyncCallEx RequestID=801, Timeout=30000001574294967295016608198050310006COMMON0009FRAMEWORK00102023/02/27001207:49 10.6860011INFORMATION0028CServiceProvider::GetService0052service OK {HSERVICE[11], LogicalName[CashAcceptor]}01664294967295015708198050320012CashAcceptor0009FRAMEWORK00102023/02/27001207:49 10.6870007DEVCALL0021CBaseService::Execute0048HSERVICE[11] COMMAND[1310] IN BUFFER[0x007ECBAC]01574294967295012808198050330004CCIM0002SP00102023/02/27001207:49 10.6900011INFORMATION0020CNHCCIMImpl::Execute0031call WFS_CMD_CIM_START_EXCHANGE01284294967295014708198050340004CCIM0002SP00102023/02/27001207:49 10.6910011INFORMATION0020CNHCCIMImpl::Execute0050dwCommand=[1310] hResult=[0] lpBuffer=[0x0082315c]01474294967295016908198050350012CashAcceptor0009FRAMEWORK00102023/02/27001207:49 10.6930007DEVRETN0021CBaseService::Execute0060HSERVICE[11] COMMAND[1310] HRESULT[0] OUT BUFFER[0x0082315C]01694294967295012208198050360006COMMON0009FRAMEWORK00102023/02/27001207:49 10.6940011INFORMATION0015CProcessor::Run0021---- Wait [4152] ----01224294967295418308198050370003CIM0003SPI00102023/02/27001207:49 10.6950009XFS_EVENT0013EXECUTE[1310]4095WFS_EXECUTE_COMPLETE, 
+lpResult =
+{
+	hWnd = [0x00010348],
+	RequestID = [801],
+	hService = [11],
+	tsTimestamp = [2023/02/27 07:49 10.694],
+	hResult = [0],
+	u.dwCommandCode = [1310],
+	lpBuffer = [0x1c923ffc]
+	{
+		usCount = [2],
+		lppCashIn =
+		{
+			usNumber = [1],
+			fwType = [4],
+			fwItemType = [0x0001],
+			cUnitID = [LCU00],
+			cCurrencyID = [USD],
+			ulValues = [0],
+			ulCashInCount = [57],
+			ulCount = [1],
+			ulMaximum = [50],
+			usStatus = [1],
+			bAppLock = [0],
+			lpNoteNumberList = 
+			{
+				usNumOfNoteNumbers = [18],
+				lppNoteNumber = 
+				{
+					usNoteID = [1],
+					ulCount = [52]
+				}
+				{
+					usNoteID = [2],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [3],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [4],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [5],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [6],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [7],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [8],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [9],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [10],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [11],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [12],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [13],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [14],
+					ulCount = [1]
+				}
+				{
+					usNoteID = [15],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [16],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [17],
+					ulCount = [4]
+				}
+				{
+					usNoteID = [0],
+					ulCount = [0]
+				}
+			}
+			usNumPhysicalCUs = [1],
+			lppPhysical = 
+			{
+				lpPhysicalPositionName = RETRACTCASSETTE,
+				cUnitID = [PCU01],
+				ulCashInCount = [57],
+				ulCount = [58],
+				ulMaximum = [0],
+				usPStatus = [1],
+				bHardwareSensor = [0],
+				lpszExtra = NULL,
+				ulInitialCount = [0],
+				ulDispensedCount = [0],
+				ulPresentedCount = [0],
+				ulRetractedCount = [0],
+				ulRejectCount = [0],
+			}
+			lpszExtra = NULL,
+			usCDMType = [0],
+			lpszCashUnitName = RETRACTCASSETTE,
+			ulInitialCount = [0],
+			ulDispensedCount = [0],
+			ulPresentedCount = [0],
+			ulRetractedCount = [0],
+			ulRejectCount = [0],
+			ulMinimum = [0]
+		}
+		{
+			usNumber = [2],
+			fwType = [2],
+			fwItemType = [0x0001],
+			cUnitID = [LCU01],
+			cCurrencyID = [USD],
+			ulValues = [0],
+			ulCashInCount = [372],
+			ulCount = [372],
+			ulMaximum = [0],
+			usStatus = [0],
+			bAppLock = [0],
+			lpNoteNumberList = 
+			{
+				usNumOfNoteNumbers = [18],
+				lppNoteNumber = 
+				{
+					usNoteID = [1],
+					ulCount = [19]
+				}
+				{
+					usNoteID = [2],
+					ulCount = [1]
+				}
+				{
+					usNoteID = [3],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [4],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [5],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [6],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [7],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [8],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [9],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [10],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [11],
+					ulCount = [0]
+				}
+				{
+					usNoteID = [12],
+					ulCount = [13]
+				}
+				{
+					usNoteID = [13],
+					ulCount = [14]
+				}
+				{
+					usNoteID = [14],
+					ulCount = [6]
+				}
+				{
+					usNoteID = [15],
+					ulCount = [157]
+				}
+				{
+					usNoteID = [16],
+					ulCount = [80]
+				}
+				{
+					usNoteID = [17],
+					ulCount = [82]
+				}
+				{
+					usNoteID = [0],
+					ulCount = [0]
+				}
+			}
+			usNumPhysicalCUs = [1],
+			lppPhysical = 
+			{
+				lpPhysicalPositionName = CASHCASSETTE,
+				cUnitID = [PCU02],
+				ulCashInCount = [372],
+				ulCount = [372],
+				ulMaximum = [0],
+				usPStatus = [0],
+				bHardwareSensor = [1],
+				lpszExtra = NULL,
+				ulInitialCount = [0],
+				ulDispensedCount = [0],
+				ulPresentedCount = [0],
+				ulRetractedCount = [0],
+				ulRejectCount = [0],
+			}
+			lpszExtra = NULL,
+			usC
+		......(More Data)......
+	}
+}";
+      public const string WFS_CMD_CIM_END_EXCHANGE =
+@"13344294967295012707649020350010CCIM-MIXED0002SP00102023/04/03001212:00 07.5360011INFORMATION0023CNHCCIMImpl::UpdateData0021LCU[1] of CIM changed01274294967295015307649020360010CCIM-MIXED0002SP00102023/04/03001212:00 07.5380011INFORMATION0020CNHCCIMImpl::Execute0050dwCommand=[1311] hResult=[0] lpBuffer=[0x00000000]01534294967295016907649020370012CashAcceptor0009FRAMEWORK00102023/04/03001212:00 07.5390007DEVRETN0021CBaseService::Execute0060HSERVICE[13] COMMAND[1311] HRESULT[0] OUT BUFFER[0x00000000]01694294967295012207649020380006COMMON0009FRAMEWORK00102023/04/03001212:00 07.5400011INFORMATION0015CProcessor::Run0021---- Wait [2560] ----01224294967295029807649020390003CIM0003SPI00102023/04/03001212:00 07.5400009XFS_EVENT0013EXECUTE[1311]0210WFS_EXECUTE_COMPLETE, 
+lpResult =
+{
+	hWnd = [0x000201b6],
+	RequestID = [2682],
+	hService = [13],
+	tsTimestamp = [2023/04/03 12:00 07.540],
+	hResult = [0],
+	u.dwCommandCode = [1311],
+	lpBuffer = NULL
+}";
    }
 }

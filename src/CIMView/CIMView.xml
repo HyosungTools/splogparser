@@ -625,7 +625,20 @@
     <brief>input refused-limit over amt</brief>
     <description>Amount exceeded the limitation set with the. WFS_CMD_CIM_SET_CASH_IN_LIMIT command.</description>
   </Messages>  
-  
+
+   <Messages>
+    <type>position</type>
+    <code>startex</code>
+    <brief>start exchange</brief>
+    <description>The cash units can be emptied, replenished, removed or replaced.</description>
+  </Messages>  
+
+   <Messages>
+    <type>position</type>
+    <code>endex</code>
+    <brief>end exchange</brief>
+    <description>The cash units to be returned to their normal physical state.</description>
+  </Messages>  
   <!-- error -->
   
   <Messages>

@@ -147,6 +147,23 @@ namespace SPLogParserTests
          Assert.IsTrue(result.xfsType == XFSType.WFS_SRVE_CDM_ITEMSTAKEN);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
+      [TestMethod]
+      public void Identify_WFS_CMD_CDM_START_EXCHANGE()
+      {
+         string logLine = samples_cdm.WFS_CMD_CDM_START_EXCHANGE;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CDM_STARTEX);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      }
+
+      [TestMethod]
+      public void Identify_WFS_CMD_CDM_END_EXCHANGE()
+      {
+         string logLine = samples_cdm.WFS_CMD_CDM_END_EXCHANGE;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CDM_ENDEX);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      }
 
       // C  I  M  
 
@@ -606,6 +623,23 @@ namespace SPLogParserTests
       public void Identify_WFS_INF_BCR_STATUS()
       {
          // TODO 
+      }
+
+      [TestMethod]
+      public void Identify_WFS_CMD_CIM_START_EXCHANGE()
+      {
+         string logLine = samples_cim.WFS_CMD_CIM_START_EXCHANGE;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_STARTEX);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      }
+      [TestMethod]
+      public void Identify_WFS_CMD_CIM_END_EXCHANGE()
+      {
+         string logLine = samples_cim.WFS_CMD_CIM_END_EXCHANGE;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_ENDEX);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
 
       /* I P M */
