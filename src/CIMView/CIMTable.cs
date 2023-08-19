@@ -86,6 +86,18 @@ namespace CIMView
                      WFS_CMD_CIM_RESET(result.xfsLine);
                      break;
                   }
+               case XFSType.WFS_CMD_CIM_STARTEX:
+                  {
+                     base.ProcessRow(traceFile, logLine);
+                     WFS_CMD_CIM_STARTEX(result.xfsLine);
+                     break;
+                  }
+               case XFSType.WFS_CMD_CIM_ENDEX:
+                  {
+                     base.ProcessRow(traceFile, logLine);
+                     WFS_CMD_CIM_ENDEX(result.xfsLine);
+                     break;
+                  }
                case XFSType.WFS_USRE_CIM_CASHUNITTHRESHOLD:
                   {
                      base.ProcessRow(traceFile, logLine);
@@ -842,6 +854,54 @@ namespace CIMView
          }
       }
 
+      protected void WFS_CMD_CIM_STARTEX(string xfsLine)
+      {
+         try
+         {
+            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_CIM_STARTEX tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+
+            // add new row
+            DataRow dataRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+            dataRow["file"] = _traceFile;
+            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
+            dataRow["error"] = lpResult.hResult(xfsLine);
+
+            // position
+            dataRow["position"] = "startex";
+            dataRow["refused"] = "";
+
+            dTableSet.Tables["Deposit"].AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_CMD_CIM_STARTEX Exception : " + e.Message);
+         }
+      }
+      protected void WFS_CMD_CIM_ENDEX(string xfsLine)
+      {
+         try
+         {
+            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_CIM_ENDEX tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+
+            // add new row
+            DataRow dataRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+            dataRow["file"] = _traceFile;
+            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
+            dataRow["error"] = lpResult.hResult(xfsLine);
+
+            // position
+            dataRow["position"] = "endex";
+            dataRow["refused"] = "";
+
+            dTableSet.Tables["Deposit"].AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_CMD_CIM_ENDEX Exception : " + e.Message);
+         }
+      }
       protected void WFS_USRE_CIM_CASHUNITTHRESHOLD(string xfsLine)
       {
          try
