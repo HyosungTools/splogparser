@@ -87,6 +87,12 @@ namespace IPMView
                      WFS_CMD_IPM_RESET(result.xfsLine);
                      break;
                   }
+               case XFSType.WFS_CMD_IPM_PRINT_TEXT:
+                  {
+                     base.ProcessRow(traceFile, logLine);
+                     WFS_CMD_IPM_PRINT_TEXT(result.xfsLine);
+                     break;
+                  }
                case XFSType.WFS_CMD_IPM_EXPEL_MEDIA:
                   {
                      base.ProcessRow(traceFile, logLine);
@@ -664,6 +670,28 @@ namespace IPMView
          catch (Exception e)
          {
             ctx.ConsoleWriteLogLine("WFS_CMD_IPM_RESET Exception : " + e.Message);
+         }
+      }
+
+      protected void WFS_CMD_IPM_PRINT_TEXT(string xfsLine)
+      {
+         try
+         {
+            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_IPM_PRINT_TEXT tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+
+            DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+            depRow["file"] = _traceFile;
+            depRow["time"] = lpResult.tsTimestamp(xfsLine);
+            depRow["error"] = lpResult.hResult(xfsLine);
+
+            depRow["trans"] = "endorse";
+
+            dTableSet.Tables["Deposit"].AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_CMD_IPM_PRINT_TEXT Exception : " + e.Message);
          }
       }
 

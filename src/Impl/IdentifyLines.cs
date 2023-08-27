@@ -67,27 +67,28 @@ namespace Impl
       WFS_INF_BCR_STATUS,
       /* 16 - IPM */
       WFS_INF_IPM_STATUS,
-      WFS_INF_IPM_MEDIA_BIN_INFO, 
+      WFS_INF_IPM_MEDIA_BIN_INFO,
       WFS_INF_IPM_TRANSACTION_STATUS,
       WFS_CMD_IPM_MEDIA_IN,
-      WFS_CMD_IPM_MEDIA_IN_END, 
-      WFS_CMD_IPM_MEDIA_IN_ROLLBACK, 
+      WFS_CMD_IPM_MEDIA_IN_END,
+      WFS_CMD_IPM_MEDIA_IN_ROLLBACK,
       WFS_CMD_IPM_PRESENT_MEDIA,
       WFS_CMD_IPM_RETRACT_MEDIA,
-      WFS_CMD_IPM_RESET, 
-      WFS_CMD_IPM_EXPEL_MEDIA,  
-      WFS_EXEE_IPM_MEDIAINSERTED, 
-      WFS_USRE_IPM_MEDIABINTHRESHOLD, 
-      WFS_SRVE_IPM_MEDIABININFOCHANGED, 
-      WFS_EXEE_IPM_MEDIABINERROR, 
-      WFS_SRVE_IPM_MEDIATAKEN, 
-      WFS_SRVE_IPM_MEDIADETECTED, 
-      WFS_EXEE_IPM_MEDIAPRESENTED, 
-      WFS_EXEE_IPM_MEDIAREFUSED,  
-      WFS_EXEE_IPM_MEDIAREJECTED, 
+      WFS_CMD_IPM_PRINT_TEXT,
+      WFS_CMD_IPM_RESET,
+      WFS_CMD_IPM_EXPEL_MEDIA,
+      WFS_EXEE_IPM_MEDIAINSERTED,
+      WFS_USRE_IPM_MEDIABINTHRESHOLD,
+      WFS_SRVE_IPM_MEDIABININFOCHANGED,
+      WFS_EXEE_IPM_MEDIABINERROR,
+      WFS_SRVE_IPM_MEDIATAKEN,
+      WFS_SRVE_IPM_MEDIADETECTED,
+      WFS_EXEE_IPM_MEDIAPRESENTED,
+      WFS_EXEE_IPM_MEDIAREFUSED,
+      WFS_EXEE_IPM_MEDIAREJECTED,
 
       /* WFPOpen() and WFPClose() */
-      WFPOPEN, 
+      WFPOPEN,
       WFPCLOSE,
 
       /* ERROR */
@@ -435,6 +436,7 @@ namespace Impl
             Regex wfs_cmd_ipm_media_in_rollback = new Regex("EXECUTE.1603.[0-9]+WFS_EXECUTE_COMPLETE");
             Regex wfs_cmd_ipm_present_media = new Regex("EXECUTE.1606.[0-9]+WFS_EXECUTE_COMPLETE");
             Regex wfs_cmd_ipm_retract_media = new Regex("EXECUTE.1607.[0-9]+WFS_EXECUTE_COMPLETE");
+            Regex wfs_cmd_ipm_print_text = new Regex("EXECUTE.1608.[0-9]+WFS_EXECUTE_COMPLETE");
 
             Regex wfs_cmd_ipm_reset = new Regex("EXECUTE.1610.[0-9]+WFS_EXECUTE_COMPLETE");
             Regex wfs_cmd_ipm_expel_media = new Regex("EXECUTE.1614.[0-9]+WFS_EXECUTE_COMPLETE");
@@ -476,6 +478,9 @@ namespace Impl
 
             result = GenericMatch(wfs_cmd_ipm_retract_media, logLine);
             if (result.success) return (XFSType.WFS_CMD_IPM_RETRACT_MEDIA, result.xfsLine);
+
+            result = GenericMatch(wfs_cmd_ipm_print_text, logLine);
+            if (result.success) return (XFSType.WFS_CMD_IPM_PRINT_TEXT, result.xfsLine);
 
             result = GenericMatch(wfs_cmd_ipm_reset, logLine);
             if (result.success) return (XFSType.WFS_CMD_IPM_RESET, result.xfsLine);
