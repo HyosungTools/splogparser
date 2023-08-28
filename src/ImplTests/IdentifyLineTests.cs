@@ -12,7 +12,7 @@ namespace SPLogParserTests
       [TestMethod]
       public void Identify_None()
       {
-         string logLine = samples_general.WFS_NONE; 
+         string logLine = samples_general.WFS_NONE;
 
          (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.None);
@@ -668,6 +668,15 @@ namespace SPLogParserTests
          string logLine = samples_ipm.WFS_INF_IPM_STATUS;
          (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
          Assert.IsTrue(result.xfsType == XFSType.WFS_INF_IPM_STATUS);
+         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      }
+
+      [TestMethod]
+      public void WFS_CMD_IPM_PRINT_TEXT()
+      {
+         string logLine = samples_ipm.WFS_CMD_IPM_PRINT_TEXT;
+         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+         Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_IPM_PRINT_TEXT);
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
    }
