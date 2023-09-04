@@ -57,24 +57,6 @@ namespace IDCView
             ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));
          }
 
-         try
-         {
-            // S U M M A R Y  T A B L E
-
-            tableName = "Summary";
-
-            // COMPRESS
-            string[] columns = new string[] { "error", "spversion", "epversion" };
-            CompressTable(tableName, columns);
-
-            // ADD ENGLISH
-            AddEnglishToTable(tableName, null);
-         }
-         catch (Exception e)
-         {
-            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));
-         }
-
          return base.WriteExcelFile();
       }
 
@@ -121,22 +103,6 @@ namespace IDCView
             catch (Exception e)
             {
                ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IDC_STATUS Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
-
-            try
-            {
-               DataRow dataRowSummary = dTableSet.Tables["Summary"].Rows.Add();
-
-               dataRowSummary["file"] = _traceFile;
-               dataRowSummary["time"] = lpResult.tsTimestamp(xfsLine);
-               dataRowSummary["error"] = lpResult.hResult(xfsLine);
-               dataRowSummary["spversion"] = idcStatus.SPVersion;
-               dataRowSummary["epversion"] = idcStatus.EPVersion;
-               dTableSet.Tables["Summary"].AcceptChanges();
-            }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IDC_STATUS Summary Table Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
             }
 
             try

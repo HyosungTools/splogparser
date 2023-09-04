@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Contract;
 
 namespace Impl
@@ -65,6 +66,33 @@ namespace Impl
          }
 
          dataTable.AcceptChanges();
+
+         return (true, string.Empty);
+      }
+
+      public static (bool success, string message) RemoveDuplicateRows(DataTable dataTable, string[] columns)
+      {
+         // determine number of rows
+         int rowCount = dataTable.Rows.Count;
+         if (rowCount == 0)
+         {
+            return (true, string.Empty);
+         }
+
+         // Use LINQ to group and select distinct rows based on specified columns
+         var distinctRows = dataTable.AsEnumerable()
+             .GroupBy(r => string.Join(",", columns.Select(c => r[c])))
+             .Select(g => g.First())
+             .CopyToDataTable();
+
+         // Clear the original DataTable
+         dataTable.Clear();
+
+         // Import the distinct rows back into the original DataTable
+         foreach (DataRow row in distinctRows.Rows)
+         {
+            dataTable.ImportRow(row);
+         }
 
          return (true, string.Empty);
       }

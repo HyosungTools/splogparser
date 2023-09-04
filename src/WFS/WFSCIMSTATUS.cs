@@ -2,7 +2,7 @@
 
 namespace Impl
 {
-   public class WFSCIMSTATUS : WFS
+   public class WFSCIMSTATUS : WFSSTATUS
    {
       public string fwDevice { get; set; }
       public string fwSafeDoor { get; set; }
@@ -23,8 +23,11 @@ namespace Impl
       {
       }
 
-      public string Initialize(string nwLogLine)
+      public override string Initialize(string nwLogLine)
       {
+         // lpszExtra
+         base.Initialize(nwLogLine);
+
          (bool success, string xfsMatch, string subLogLine) result;
          (bool success, string[] xfsMatch, string subLogLine) results1D;
          (bool success, string[,] xfsMatch, string subLogLine) results2D;
@@ -61,7 +64,6 @@ namespace Impl
          results2D = positionsFromCIMStatus(result.subLogLine);
          if (result.success) positions = results2D.xfsMatch;
 
-         // lpszExtra
          result = lpszExtraFromCIMStatusFromCIMStatus(result.subLogLine);
          if (result.success) lpszExtra = result.xfsMatch.Trim();
 

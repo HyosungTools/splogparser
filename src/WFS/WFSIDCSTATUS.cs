@@ -2,7 +2,7 @@
 
 namespace Impl
 {
-   public class WFSIDCSTATUS : WFS
+   public class WFSIDCSTATUS : WFSSTATUS
    {
       public string fwDevice { get; set; }
       public string fwMedia { get; set; }
@@ -12,8 +12,6 @@ namespace Impl
       public string fwChipPower { get; set; }
       public string fwChipModule { get; set; }
       public string fwMagReadModule { get; set; }
-      public string SPVersion { get; set; }
-      public string EPVersion { get; set; }
       public string ErrorCode { get; set; }
       public string Description { get; set; }
 
@@ -21,8 +19,10 @@ namespace Impl
       {
       }
 
-      public string Initialize(string nwLogLine)
+      public override string Initialize(string nwLogLine)
       {
+         base.Initialize(nwLogLine);
+
          (bool success, string xfsMatch, string subLogLine) result;
                  
          result = fwDeviceFromIDCStatus(nwLogLine);
@@ -48,12 +48,6 @@ namespace Impl
 
          result = fwMagReadModuleFromIDCStatus(nwLogLine);
          if (result.success) fwMagReadModule = result.xfsMatch.Trim();
-
-         result = SPVersionFromIDCStatus(nwLogLine);
-         if (result.success) SPVersion = result.xfsMatch.Trim();
-
-         result = EPVersionFromIDCStatus(nwLogLine);
-         if (result.success) EPVersion = result.xfsMatch.Trim();
 
          result = errorCodeFromIDCStatus(nwLogLine);
          if (result.success) ErrorCode = result.xfsMatch.Trim();
@@ -99,16 +93,6 @@ namespace Impl
       public static (bool success, string xfsMatch, string subLogLine) fwMagReadModuleFromIDCStatus(string logLine)
       {
          return WFS.WFSMatchList(logLine, "fwMagReadModule = \\[(.*)\\]", "0");
-      }
-
-      public static (bool success, string xfsMatch, string subLogLine) SPVersionFromIDCStatus(string logLine)
-      {
-         return WFS.WFSMatchList(logLine, "(?<=SPVersion=)(.*?)\\,");         
-      }
-
-      public static (bool success, string xfsMatch, string subLogLine) EPVersionFromIDCStatus(string logLine)
-      {
-         return WFS.WFSMatchList(logLine, "(?<=EPVersion=)(.*?)\\,");
       }
 
       public static (bool success, string xfsMatch, string subLogLine) errorCodeFromIDCStatus(string logLine)

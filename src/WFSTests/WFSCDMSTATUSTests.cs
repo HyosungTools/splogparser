@@ -65,6 +65,19 @@ namespace SPLogParserTests
          Assert.IsTrue(result.xfsMatch == "8");
       }
       [TestMethod]
+      public void lpszExtraEPVersion()
+      {
+         (bool success, string xfsMatch, string subLogLine) result = WFSCDMSTATUS.EPVersionFromStatus(logLine);
+         Assert.IsFalse(result.success);
+      }
+      [TestMethod]
+      public void lpszExtraSPVersion()
+      {
+         (bool success, string xfsMatch, string subLogLine) result = WFSCDMSTATUS.SPVersionFromStatus(logLine);
+         Assert.IsFalse(result.success);
+      }
+
+      [TestMethod]
       public void wDevicePosition()
       {
          (bool success, string xfsMatch, string subLogLine) result = WFSCDMSTATUS.wDevicePositionFromCDMStatus(logLine);
