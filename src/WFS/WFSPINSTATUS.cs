@@ -3,7 +3,7 @@ using Contract;
 
 namespace Impl
 {
-   public class WFSPINSTATUS : WFS
+   public class WFSPINSTATUS : WFSSTATUS
    {
       public string fwDevice { get; set; }
       public string fwEncStat { get; set; }
@@ -13,17 +13,16 @@ namespace Impl
       public string wDevicePosition { get; set; }
       public string usPowerSaveRecoveryTime { get; set; }
       public string wAntiFraudModule { get; set; }
-      public string SP_Version { get; set; }
-      public string EP_Version { get; set; }
       public string ErrorCode { get; set; }
       public WFSPINSTATUS(IContext ctx) : base(ctx)
       {
       }
 
-      public string Initialize(string nwLogLine)
+      public override string Initialize(string nwLogLine)
       {
+         base.Initialize(nwLogLine);
+
          (bool success, string xfsMatch, string subLogLine) result;
-         //(bool success, string[] xfsMatch, string subLogLine) results1D;
 
          // fwDevice
          result = fwDeviceFromPINStatus(nwLogLine);
@@ -52,12 +51,6 @@ namespace Impl
          // wAntiFraudModule
          result = wAntiFraudModuleFromPINStatus(result.subLogLine);
          if (result.success) wAntiFraudModule = result.xfsMatch.Trim();
-
-         result = SP_VersionFromPINStatus(nwLogLine);
-         if (result.success) SP_Version = result.xfsMatch.Trim();
-
-         result = EP_VersionFromPINStatus(nwLogLine);
-         if (result.success) EP_Version = result.xfsMatch.Trim();
 
          result = errorCodeFromPINStatus(nwLogLine);
          if (result.success) ErrorCode = result.xfsMatch.Trim();
@@ -92,14 +85,6 @@ namespace Impl
       public static (bool success, string xfsMatch, string subLogLine) wAntiFraudModuleFromPINStatus(string logLine)
       {
          return WFS.WFSMatchList(logLine, "wAntiFraudModule = \\[(.*)\\]", "0");
-      }
-      public static (bool success, string xfsMatch, string subLogLine) SP_VersionFromPINStatus(string logLine)
-      {
-         return WFS.WFSMatchList(logLine, "(?<=SP_Version=)(.*?)\\,");
-      }
-      public static (bool success, string xfsMatch, string subLogLine) EP_VersionFromPINStatus(string logLine)
-      {
-         return WFS.WFSMatchList(logLine, "(?<=EP_Version=)(.*?)\\,");
       }
       public static (bool success, string xfsMatch, string subLogLine) errorCodeFromPINStatus(string logLine)
       {

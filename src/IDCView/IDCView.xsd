@@ -21,19 +21,7 @@
 			  <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
-        </xs:element>	
-       <xs:element name="Summary">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="file" type="xs:string" minOccurs="0" />
-              <xs:element name="time" type="xs:string" minOccurs="0" />
-              <xs:element name="error" type="xs:string" minOccurs="0" />
-              <xs:element name="spversion" type="xs:string" minOccurs="0" />
-              <xs:element name="epversion" type="xs:string" minOccurs="0" />
-              <xs:element name="comment" type="xs:string" minOccurs="0" />
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>		
+        </xs:element>			
       </xs:choice>
     </xs:complexType>
   </xs:element>

@@ -55,25 +55,6 @@ namespace SIUView
             ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));
          }
 
-         try
-         {
-            // S U M M A R Y  T A B L E
-
-            tableName = "Summary";
-
-            // COMPRESS
-            string[] columns = new string[] { "error", "sp_version", "ep_version" };
-            CompressTable(tableName, columns);
-
-            // ADD ENGLISH
-            AddEnglishToTable(tableName, null);
-
-         }
-         catch (Exception e)
-         {
-            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));
-         }
-
          return base.WriteExcelFile();
       }
 
@@ -109,7 +90,7 @@ namespace SIUView
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_INF_SIU_STATUS tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+            //ctx.ConsoleWriteLogLine(String.Format("WFS_INF_SIU_STATUS tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
 
             WFSSIUSTATUS siuStatus = new WFSSIUSTATUS(ctx);
 
@@ -120,23 +101,6 @@ namespace SIUView
             catch (Exception e)
             {
                ctx.ConsoleWriteLogLine(String.Format("WFS_INF_SIU_STATUS Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
-
-            try
-            {
-               DataRow dataRowSummary = dTableSet.Tables["Summary"].Rows.Add();
-
-               dataRowSummary["file"] = _traceFile;
-               dataRowSummary["time"] = lpResult.tsTimestamp(xfsLine);
-               dataRowSummary["error"] = lpResult.hResult(xfsLine);
-               dataRowSummary["sp_version"] = siuStatus.SP_Version;
-               dataRowSummary["ep_version"] = siuStatus.EP_Version;
-
-               dTableSet.Tables["Summary"].AcceptChanges();
-            }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_INF_SIU_STATUS Summary Table Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
             }
 
             try

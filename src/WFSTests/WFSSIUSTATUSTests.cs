@@ -55,13 +55,13 @@ namespace SPLogParserTests
       [TestMethod]
       public void Test_SIU_SP_Version()
       {
-         (bool success, string xfsMatch, string subLogLine) result = WFSSIUSTATUS.SP_VersionFromSIUStatus(xfsLine);
+         (bool success, string xfsMatch, string subLogLine) result = WFSSIUSTATUS.SP_VersionFromStatus(xfsLine);
          Assert.IsTrue(result.xfsMatch == "V 04.20.66");
       }
       [TestMethod]
       public void Test_SIU_EP_Version()
       {
-         (bool success, string xfsMatch, string subLogLine) result = WFSSIUSTATUS.EP_VersionFromSIUStatus(xfsLine);
+         (bool success, string xfsMatch, string subLogLine) result = WFSSIUSTATUS.EP_VersionFromStatus(xfsLine);
          Assert.IsTrue(result.xfsMatch == "V020031");
       }
       [TestMethod]

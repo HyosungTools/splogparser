@@ -2,7 +2,7 @@
 
 namespace Impl
 {
-   public class WFSSIUSTATUS : WFS
+   public class WFSSIUSTATUS : WFSSTATUS
    {
       public string fwSafeDoor { get; set; }
       public string fwDevice { get; set; }      
@@ -10,8 +10,6 @@ namespace Impl
       public string tamper { get; set; }
       public string intTamper { get; set; }
       public string cabinet { get; set; }
-      public string SP_Version { get; set; }
-      public string EP_Version { get; set; }
       public string errorCode { get; set; }
       public string description { get; set; }
 
@@ -19,8 +17,10 @@ namespace Impl
       {
       }
 
-      public string Initialize(string nwLogLine)
+      public override string Initialize(string nwLogLine)
       {
+         base.Initialize(nwLogLine);
+
          (bool success, string xfsMatch, string subLogLine) result;
 
          // fwSafeDoor
@@ -41,12 +41,6 @@ namespace Impl
 
          result = cabinetFromSIUStatus(nwLogLine);
          if (result.success) cabinet = result.xfsMatch.Trim();
-
-         result = SP_VersionFromSIUStatus(nwLogLine);
-         if (result.success) SP_Version = result.xfsMatch.Trim();
-
-         result = EP_VersionFromSIUStatus(nwLogLine);
-         if (result.success) EP_Version = result.xfsMatch.Trim();
 
          result = errorCodeFromSIUStatus(nwLogLine);
          if (result.success) errorCode = result.xfsMatch.Trim();
@@ -86,16 +80,6 @@ namespace Impl
       public static (bool success, string xfsMatch, string subLogLine) cabinetFromSIUStatus(string logLine)
       {
          return WFS.WFSMatchList(logLine, "fwDoors\\[WFS_SIU_CABINET\\] = \\[(.*)\\]", "0");
-      }
-
-      public static (bool success, string xfsMatch, string subLogLine) SP_VersionFromSIUStatus(string logLine)
-      {
-         return WFS.WFSMatchList(logLine, "(?<=lpszExtra = \\[SP_Version=)(.*?)\\,"); 
-      }
-
-      public static (bool success, string xfsMatch, string subLogLine) EP_VersionFromSIUStatus(string logLine)
-      {
-         return WFS.WFSMatchList(logLine, "(?<=EP_Version=)(.*?)\\,");  
       }
 
       public static (bool success, string xfsMatch, string subLogLine) errorCodeFromSIUStatus(string logLine)

@@ -61,13 +61,13 @@ namespace SPLogParserTests
       [TestMethod]
       public void Test_PIN_SP_Version()
       {
-         (bool success, string xfsMatch, string subLogLine) result = WFSPINSTATUS.SP_VersionFromPINStatus(xfsLine);
+         (bool success, string xfsMatch, string subLogLine) result = WFSPINSTATUS.SP_VersionFromStatus(xfsLine);
          Assert.IsTrue(result.xfsMatch == "V 04.22.11");
       }
       [TestMethod]
       public void Test_PIN_EP_Version()
       {
-         (bool success, string xfsMatch, string subLogLine) result = WFSPINSTATUS.EP_VersionFromPINStatus(xfsLine);
+         (bool success, string xfsMatch, string subLogLine) result = WFSPINSTATUS.EP_VersionFromStatus(xfsLine);
          Assert.IsTrue(result.xfsMatch == "V 15.00.03");
       }
       [TestMethod]

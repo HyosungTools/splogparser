@@ -315,6 +315,18 @@ namespace Impl
          }
       }
 
+      protected virtual void RemoveDuplicateRows(string tableName, string[] columns)
+      {
+         ctx.ConsoleWriteLogLine(String.Format("Remove Duplicate Rows from {0}, RowCount before {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
+         (bool success, string message) result = _datatable_ops.RemoveDuplicateRows(dTableSet.Tables[tableName], columns);
+         ctx.ConsoleWriteLogLine(String.Format("Remove Duplicate Rows from {0}, RowCount after {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
+
+         if (!result.success)
+         {
+            ctx.ConsoleWriteLogLine("Unexpected error during table compression : " + result.message);
+         }
+      }
+
       protected virtual void DeleteRedundantRows(string tableName, string colName = "file")
       {
          ctx.ConsoleWriteLogLine(String.Format("Delete redundant rows from the {0} Table start: rows before: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));

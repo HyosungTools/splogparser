@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PINView", "PINView\PINView.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseView", "BaseView\BaseView.csproj", "{DB43982D-E960-4DBA-83EF-1BB6E7A60A49}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtraView", "ExtraView\ExtraView.csproj", "{04E3F2BB-C50F-482A-AF1D-F9F71E03EE83}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,10 @@ Global
 		{DB43982D-E960-4DBA-83EF-1BB6E7A60A49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB43982D-E960-4DBA-83EF-1BB6E7A60A49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB43982D-E960-4DBA-83EF-1BB6E7A60A49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04E3F2BB-C50F-482A-AF1D-F9F71E03EE83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04E3F2BB-C50F-482A-AF1D-F9F71E03EE83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04E3F2BB-C50F-482A-AF1D-F9F71E03EE83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04E3F2BB-C50F-482A-AF1D-F9F71E03EE83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

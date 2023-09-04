@@ -57,25 +57,6 @@ namespace PINView
             ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));           
          }
 
-         try
-         {
-            // S U M M A R Y  T A B L E
-
-            tableName = "Summary";
-
-            // COMPRESS
-            string[] columns = new string[] { "error", "sp_version", "ep_version" };
-            CompressTable(tableName, columns);
-
-            // ADD ENGLISH
-            AddEnglishToTable(tableName, null);
-
-         }
-         catch (Exception e)
-         {
-            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));
-         }
-
          return base.WriteExcelFile();
       }
 
@@ -122,22 +103,6 @@ namespace PINView
             catch (Exception e)
             {
                ctx.ConsoleWriteLogLine(String.Format("WFS_INF_PIN_STATUS Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
-
-            try
-            {
-               DataRow dataRowSummary = dTableSet.Tables["Summary"].Rows.Add();
-
-               dataRowSummary["file"] = _traceFile;
-               dataRowSummary["time"] = lpResult.tsTimestamp(xfsLine);
-               dataRowSummary["error"] = lpResult.hResult(xfsLine);
-               dataRowSummary["sp_version"] = pinStatus.SP_Version;
-               dataRowSummary["ep_version"] = pinStatus.EP_Version;
-               dTableSet.Tables["Summary"].AcceptChanges();
-            }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_INF_PIN_STATUS Summary Table Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
             }
 
             try

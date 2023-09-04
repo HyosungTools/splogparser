@@ -2,7 +2,7 @@
 
 namespace Impl
 {
-   public class WFSIPMSTATUS : WFS
+   public class WFSIPMSTATUS : WFSSTATUS
    {
       public string fwDevice { get; set; }
       public string wAcceptor { get; set; }
@@ -16,8 +16,10 @@ namespace Impl
       {
       }
 
-      public string Initialize(string nwLogLine)
+      public override string Initialize(string nwLogLine)
       {
+         base.Initialize(nwLogLine);
+
          (bool success, string xfsMatch, string subLogLine) result;
 
          // fwDevice

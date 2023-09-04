@@ -2,7 +2,7 @@
 
 namespace Impl
 {
-   public class WFSCDMSTATUS : WFS
+   public class WFSCDMSTATUS : WFSSTATUS
    {
       public string fwDevice { get; set; }
       public string fwSafeDoor { get; set; }
@@ -26,8 +26,10 @@ namespace Impl
       {
       }
 
-      public string Initialize(string nwLogLine)
+      public override string Initialize(string nwLogLine)
       {
+         base.Initialize(nwLogLine);
+
          (bool success, string xfsMatch, string subLogLine) result;
 
          // fwDevice
@@ -53,8 +55,6 @@ namespace Impl
          // fwShutter
          result = fwShutterFromSDMStatus(result.subLogLine);
          if (result.success) fwShutter = result.xfsMatch.Trim();
-
-
 
          // fwTransport
          result = fwTransportFromCDMStatus(result.subLogLine);

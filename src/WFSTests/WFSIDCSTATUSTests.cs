@@ -67,13 +67,13 @@ namespace SPLogParserTests
       [TestMethod]
       public void Test_IDC_SPVersion()
       {
-         (bool success, string xfsMatch, string subLogLine) result = WFSIDCSTATUS.SPVersionFromIDCStatus(xfsLine);
+         (bool success, string xfsMatch, string subLogLine) result = WFSIDCSTATUS.SPVersionFromStatus(xfsLine);
          Assert.IsTrue(result.xfsMatch == "V 04.30.36");
       }
       [TestMethod]
       public void Test_IDC_EPVersion()
       {
-         (bool success, string xfsMatch, string subLogLine) result = WFSIDCSTATUS.EPVersionFromIDCStatus(xfsLine);
+         (bool success, string xfsMatch, string subLogLine) result = WFSIDCSTATUS.EPVersionFromStatus(xfsLine);
          Assert.IsTrue(result.xfsMatch == "5293-01M");
       }
       [TestMethod]
