@@ -6,7 +6,7 @@
         <xs:element name="Status">
           <xs:complexType>
             <xs:sequence>
-			  <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="file" type="xs:string" minOccurs="0" />
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="PTR" type="xs:string" minOccurs="0" />
@@ -20,10 +20,23 @@
               <xs:element name="VDM" type="xs:string" minOccurs="0" />
               <xs:element name="CAM" type="xs:string" minOccurs="0" />
               <xs:element name="ALM" type="xs:string" minOccurs="0" />
-			  <xs:element name="CIM" type="xs:string" minOccurs="0" />
-			  <xs:element name="BCR" type="xs:string" minOccurs="0" />      
-			  <xs:element name="IPM" type="xs:string" minOccurs="0" /> 
-			  <xs:element name="comment" type="xs:string" minOccurs="0" />
+              <xs:element name="CIM" type="xs:string" minOccurs="0" />
+              <xs:element name="BCR" type="xs:string" minOccurs="0" />      
+              <xs:element name="IPM" type="xs:string" minOccurs="0" /> 
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="SysEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="logical" type="xs:string" minOccurs="0" />
+              <xs:element name="physical" type="xs:string" minOccurs="0" />
+              <xs:element name="description" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

@@ -126,6 +126,12 @@ namespace DeviceView
                      WFSCLOSE(LogTime.GetTimeFromLogLine2(logLine), result.xfsLine);
                      break;
                   }
+               case XFSType.WFS_SYSEVENT:
+                  {
+                     base.ProcessRow(traceFile, logLine);
+                     WFSSYSEVENT(LogTime.GetTimeFromLogLine2(logLine), result.xfsLine);
+                     break;
+                  }
                default:
                   break;
             }
@@ -143,34 +149,58 @@ namespace DeviceView
       {
          string tableName = string.Empty;
 
-         //STATUS TABLE
-
-         tableName = "Status";
-
-         // COMPRESS
-         string[] columns = new string[] { "error", "PTR", "IDC", "CDM", "PIN", "CHK", "DEP", "TTU", "SIU", "VDM", "CAM", "ALM", "CIM", "BCR", "IPM" };
-         CompressTable(tableName, columns);
-
-         // ADD ENGLISH
-         string[,] colKeyMap = new string[15, 2]
+         try
          {
-            {"PTR", "fwDevice" },
-            {"IDC", "fwDevice" },
-            {"CDM", "fwDevice" },
-            {"PIN", "fwDevice" },
-            {"CHK", "fwDevice" },
-            {"DEP", "fwDevice" },
-            {"TTU", "fwDevice" },
-            {"SIU", "fwDevice" },
-            {"VDM", "fwDevice" },
-            {"CAM", "fwDevice" },
-            {"ALM", "fwDevice" },
-            {"CAM", "fwDevice" },
-            {"CIM", "fwDevice" },
-            {"BCR", "fwDevice" },
-            {"IPM", "fwDevice" }
-         };
-         AddEnglishToTable(tableName, colKeyMap);
+            //STATUS TABLE
+
+            tableName = "Status";
+
+            // COMPRESS
+            string[] columns = new string[] { "error", "PTR", "IDC", "CDM", "PIN", "CHK", "DEP", "TTU", "SIU", "VDM", "CAM", "ALM", "CIM", "BCR", "IPM" };
+            CompressTable(tableName, columns);
+
+            // ADD ENGLISH
+            string[,] colKeyMap = new string[15, 2]
+            {
+               {"PTR", "fwDevice" },
+               {"IDC", "fwDevice" },
+               {"CDM", "fwDevice" },
+               {"PIN", "fwDevice" },
+               {"CHK", "fwDevice" },
+               {"DEP", "fwDevice" },
+               {"TTU", "fwDevice" },
+               {"SIU", "fwDevice" },
+               {"VDM", "fwDevice" },
+               {"CAM", "fwDevice" },
+               {"ALM", "fwDevice" },
+               {"CAM", "fwDevice" },
+               {"CIM", "fwDevice" },
+               {"BCR", "fwDevice" },
+               {"IPM", "fwDevice" }
+            };
+            AddEnglishToTable(tableName, colKeyMap);
+
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));
+         }
+
+         try
+         {
+            // S Y S E V E N T
+
+            tableName = "SysEvent";
+
+            // COMPRESS
+            string[] columns = new string[] { "error", "logical", "physical", "description" };
+            CompressTable(tableName, columns);
+
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("Exception processing the {0} table - {1}", tableName, e.Message));
+         }
 
          return base.WriteExcelFile();
       }
@@ -214,7 +244,7 @@ namespace DeviceView
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFPOPEN tracefile '{0}' xfsLine '{1}'", _traceFile, xfsLine.Substring(0, 20)));
+            // ctx.ConsoleWriteLogLine(String.Format("WFPOPEN tracefile '{0}' xfsLine '{1}'", _traceFile, xfsLine.Substring(0, 20)));
 
             WFPOPEN wfpOpen = new WFPOPEN(ctx);
 
@@ -256,7 +286,7 @@ namespace DeviceView
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFPOPEN tracefile '{0}' xfsLine '{1}'", _traceFile, xfsLine.Substring(0, 20)));
+            // ctx.ConsoleWriteLogLine(String.Format("WFPOPEN tracefile '{0}' xfsLine '{1}'", _traceFile, xfsLine.Substring(0, 20)));
 
             WFPCLOSE wfpClose = new WFPCLOSE(ctx);
 
@@ -283,6 +313,41 @@ namespace DeviceView
          catch (Exception e)
          {
             ctx.ConsoleWriteLogLine("WFSCLOSE Exception : " + e.Message);
+         }
+      }
+
+      protected void WFSSYSEVENT(string logTime, string xfsLine)
+      {
+         try
+         {
+            // ctx.ConsoleWriteLogLine(String.Format("WFSSYSEVENT tracefile '{0}' xfsLine '{1}'", _traceFile, xfsLine.Substring(0, 20)));
+
+            WFSSYSEVENT wfsSysEvent = new WFSSYSEVENT(ctx);
+
+            try
+            {
+               wfsSysEvent.Initialize(xfsLine);
+            }
+            catch (Exception e)
+            {
+               ctx.ConsoleWriteLogLine(String.Format("WFSSYSEVENT Assignment Exception {0}. {1}, {2}", _traceFile, logTime, e.Message));
+            }
+
+            DataRow dataRow = dTableSet.Tables["SysEvent"].Rows.Add();
+
+            dataRow["file"] = _traceFile;
+            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
+            dataRow["error"] = lpResult.hResult(xfsLine);
+
+            dataRow["logical"] = wfsSysEvent.logicalName;
+            dataRow["physical"] = wfsSysEvent.physicalName;
+            dataRow["description"] = wfsSysEvent.lpbDescription;
+
+            dTableSet.Tables["SysEvent"].AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFSSYSEVENT Exception : " + e.Message);
          }
       }
    }

@@ -70,6 +70,7 @@
     <Compile Include="WFSDEVSTATUS.cs" />
     <Compile Include="WFSIPMSTATUS.cs" />
     <Compile Include="WFSSTATUS.cs" />
+    <Compile Include="WFSSYSEVENT.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contract\Contract.csproj">

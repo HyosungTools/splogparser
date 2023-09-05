@@ -12,7 +12,6 @@ namespace Impl
       public string fwBanknoteReader{ get; set; }
       public string bDropBox { get; set; }
       public string[,] positions { get; set; }
-      public string lpszExtra { get; set; }
       public string[] dwGuideLights { get; set; }
       public string wDevicePosition { get; set; }
       public string usPowerSaveRecoveryTime { get; set; }

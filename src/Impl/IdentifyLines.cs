@@ -91,6 +91,8 @@ namespace Impl
       WFPOPEN,
       WFPCLOSE,
 
+      WFS_SYSEVENT,
+
       /* ERROR */
       Error
    }
@@ -532,6 +534,12 @@ namespace Impl
 
             result = GenericMatch(WFPClose, logLine);
             if (result.success) return (XFSType.WFPCLOSE, result.xfsLine);
+         }
+
+         /* SysEvent */
+         if (logLine.Contains("lpbDescription"))
+         {
+            return (XFSType.WFS_SYSEVENT, logLine);
          }
 
          return (XFSType.None, logLine);
