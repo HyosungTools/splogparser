@@ -140,7 +140,7 @@ namespace ExtraView
             tableName = "Status";
 
             // COMPRESS
-            string[] columns = new string[] { "error", "device", "spver", "epver" };
+            string[] columns = new string[] { "error", "device", "spver", "epver", "comment" };
             RemoveDuplicateRows(tableName, columns);
          }
          catch (Exception e)
