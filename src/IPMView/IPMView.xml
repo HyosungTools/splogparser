@@ -411,126 +411,126 @@
 	<type>wReason</type>
     <code>201</code>
     <brief>foreign items</brief>
-    <description></description>
+    <description>Foreign items were detected in the input position.</description>
   </Messages> 
 
   <Messages>
 	<type>wReason</type>
     <code>202</code>
     <brief>stacker full</brief>
-    <description></description>
+    <description>The stacker is full or the maximum number of items that the application wants to be allowed on the stacker has been reached.</description>
   </Messages> 
   
   <Messages>
 	<type>wReason</type>
     <code>203</code>
     <brief>codeline invalid</brief>
-    <description></description>
+    <description>The code line data was found but was invalid.</description>
   </Messages> 
 
   <Messages>
 	<type>wReason</type>
     <code>204</code>
     <brief>invalid media</brief>
-    <description></description>
+    <description>The media item is not a check, and in the case of Mixed Media processing not a cash item either.</description>
   </Messages> 
 
   <Messages>
 	<type>wReason</type>
     <code>205</code>
     <brief>tool long</brief>
-    <description></description>
+    <description>The media item (or bunch of items) long edge was too long.</description>
   </Messages> 
 
   <Messages>
 	<type>wReason</type>
     <code>206</code>
     <brief>too short</brief>
-    <description></description>
+    <description>The media item (or bunch of items) long edge was too short.</description>
   </Messages> 
 
   <Messages>
 	<type>wReason</type>
     <code>207</code>
     <brief>too wide</brief>
-    <description></description>
+    <description>The media item (or bunch of items) short edge was too wide.</description>
   </Messages> 
 
   <Messages>
 	<type>wReason</type>
     <code>208</code>
     <brief>too narrow</brief>
-    <description></description>
+    <description>The media item (or bunch of items) short edge was too narrow.</description>
   </Messages> 
 
   <Messages>
 	<type>wReason</type>
     <code>209</code>
     <brief>too thick</brief>
-    <description></description>
+    <description>The media item was too thick.</description>
   </Messages> 
 
   <Messages>
 	<type>wReason</type>
     <code>2010</code>
     <brief>invalid orient.</brief>
-    <description></description>
+    <description>The media item was inserted in an invalid orientation.</description>
   </Messages> 
 
   <Messages>
 	<type>wReason</type>
     <code>2011</code>
     <brief>double detect</brief>
-    <description></description>
+    <description>The media items could not be separated.</description>
   </Messages> 
 
   <Messages>
 	<type>wReason</type>
     <code>2012</code>
     <brief>refuse pos full</brief>
-    <description></description>
+    <description>There are too many items in the refuse area. The refused items must be returned to the customer before any additional media items can be accepted.</description>
   </Messages> 
 
   <Messages>
 	<type>wReason</type>
     <code>2013</code>
     <brief>return blocked</brief>
-    <description></description>
+    <description>Processing of the items did not take place as the bunch of items is blocking the return of other items.</description>
   </Messages> 
 
   <Messages>
 	<type>wReason</type>
     <code>2014</code>
     <brief>invalid bunch</brief>
-    <description></description>
+    <description>Processing of the items did not take place as the bunch of items presented is invalid, e.g. it is too large or was presented incorrectly.</description>
   </Messages> 
 
   <Messages>
 	<type>wReason</type>
     <code>2015</code>
     <brief>other item</brief>
-    <description></description>
+    <description>The item was refused for some reason not covered by the other reasons.</description>
   </Messages> 
 
   <Messages>
 	<type>wReason</type>
     <code>2016</code>
     <brief>other bunch</brief>
-    <description></description>
+    <description>The bunch was refused for some reason not covered by the other reasons.</description>
   </Messages> 
 
   <Messages>
 	<type>wReason</type>
     <code>2017</code>
     <brief>jamming</brief>
-    <description></description>
+    <description>The media item is causing a jam.</description>
   </Messages>   
 
   <Messages>
 	<type>wReason</type>
     <code>2018</code>
     <brief>metal</brief>
-    <description></description>
+    <description>Metal (e.g. staple, paperclip, etc) was detected in the input position.</description>
   </Messages> 
   
   <!-- Values of WFSIPMMEDIAREJECTED.wReason --> 
@@ -539,63 +539,63 @@
 	<type>wReason</type>
     <code>301</code>
     <brief>long</brief>
-    <description></description>
+    <description>The rejected media was too long.</description>
   </Messages>   
 
   <Messages>
 	<type>wReason</type>
     <code>302</code>
     <brief>thick</brief>
-    <description></description>
+    <description>The rejected media was too thick.</description>
   </Messages> 
   
   <Messages>
 	<type>wReason</type>
     <code>303</code>
     <brief>double</brief>
-    <description></description>
+    <description>More than one media item was detected</description>
   </Messages> 
   
   <Messages>
 	<type>wReason</type>
     <code>304</code>
     <brief>transport</brief>
-    <description></description>
+    <description>The media could not be moved inside the device.</description>
   </Messages> 
   
   <Messages>
 	<type>wReason</type>
     <code>305</code>
     <brief>shutter</brief>
-    <description></description>
+    <description>The media was rejected due to the shutter failing to close.</description>
   </Messages> 
   
   <Messages>
 	<type>wReason</type>
     <code>306</code>
     <brief>removed</brief>
-    <description></description>
+    <description>The media was removed (no WFS_SRVE_IPM_MEDIATAKEN event is expected).</description>
   </Messages> 
   
   <Messages>
 	<type>wReason</type>
     <code>307</code>
     <brief>metal</brief>
-    <description></description>
+    <description>Metal (e.g. staple, paperclip, etc) was detected in the input position.</description>
   </Messages> 
   
   <Messages>
 	<type>wReason</type>
     <code>308</code>
     <brief>foreign items</brief>
-    <description></description>
+    <description>The media was rejected because foreign items were detected in the input position.</description>
   </Messages> 
   
   <Messages>
 	<type>wReason</type>
     <code>309</code>
     <brief>other</brief>
-    <description></description>
+    <description>The media was rejected due to a reason other than those listed above.</description>
   </Messages> 
   
   <!-- Values of WFSIPMMEDIABIN.fwType -->
@@ -604,14 +604,14 @@
 	<type>fwType</type>
     <code>0x0001</code>
     <brief>media in</brief>
-    <description></description>
+    <description>Media bin. This type of bin can be specified as a destination for media items.</description>
   </Messages> 
 
   <Messages>
 	<type>fwType</type>
     <code>0x0002</code>
     <brief>retract</brief>
-    <description></description>
+    <description>Retract bin. This type of bin can be specified as a destination for the WFS_CMD_IPM_RETRACT_MEDIA command.</description>
   </Messages> 
 
   <!-- Values of WFSIPMMEDIABIN.wMediaType -->
@@ -620,14 +620,14 @@
 	<type>wMediaType</type>
     <code>0x0001</code>
     <brief>ipm</brief>
-    <description></description>
+    <description>The media bin takes media items via the IPM device class only.</description>
   </Messages> 
 
   <Messages>
 	<type>wMediaType</type>
     <code>0x0002</code>
     <brief>compound</brief>
-    <description></description>
+    <description>The media bin takes media from the IPM device class and from another device class (e.g. CIM).</description>
   </Messages> 
   
   <!-- Values of WFSIPMTRANSSTATUS.wMediaInTransaction -->
