@@ -444,16 +444,16 @@ namespace Impl
             Regex wfs_cmd_ipm_expel_media = new Regex("EXECUTE.1614.[0-9]+WFS_EXECUTE_COMPLETE");
 
             /* Events */
-            Regex wfs_exee_ipm_mediainserted = new Regex("SERVICE_EVENT.1602.[0-9]+WFS_SERVICE_EVENT");
-            Regex wfs_usre_ipm_mediabinthreshold = new Regex("SERVICE_EVENT.1603.[0-9]+WFS_SERVICE_EVENT");
-            Regex wfs_srve_ipm_mediabininfochanged = new Regex("EXECUTE_EVENT.1604.[0-9]+WFS_EXECUTE_EVENT");
-            Regex wfs_exee_ipm_mediabinerror = new Regex("SERVICE_EVENT.1605.[0-9]+WFS_SERVICE_EVENT");
+            Regex wfs_exee_ipm_mediainserted = new Regex("EXECUTE_EVENT.1602.[0-9]+WFS_EXECUTE_EVENT");
+            Regex wfs_usre_ipm_mediabinthreshold = new Regex("USER_EVENT.1603.[0-9]+WFS_USER_EVENT");
+            Regex wfs_srve_ipm_mediabininfochanged = new Regex("SERVICE_EVENT.1604.[0-9]+WFS_SERVICE_EVENT");
+            Regex wfs_exee_ipm_mediabinerror = new Regex("EXECUTE_EVENT.1605.[0-9]+WFS_EXECUTE_EVENT");
             Regex wfs_srve_ipm_mediataken = new Regex("SERVICE_EVENT.1606.[0-9]+WFS_SERVICE_EVENT");
 
-            Regex wfs_srve_ipm_mediadetected = new Regex("EXECUTE_EVENT.1610.[0-9]+WFS_EXECUTE_EVENT");
-            Regex wfs_exee_ipm_mediapresented = new Regex("SERVICE_EVENT.1611.[0-9]+WFS_SERVICE_EVENT");
-            Regex wfs_exee_ipm_mediarefused = new Regex("SERVICE_EVENT.1612.[0-9]+WFS_SERVICE_EVENT");
-            Regex wfs_exee_ipm_mediarejected = new Regex("SERVICE_EVENT.1615.[0-9]+WFS_SERVICE_EVENT");
+            Regex wfs_srve_ipm_mediadetected = new Regex("SERVICE_EVENT.1610.[0-9]+WFS_SERVICE_EVENT");
+            Regex wfs_exee_ipm_mediapresented = new Regex("EXECUTE_EVENT.1611.[0-9]+WFS_EXECUTE_EVENT");
+            Regex wfs_exee_ipm_mediarefused = new Regex("EXECUTE_EVENT.1612.[0-9]+WFS_EXECUTE_EVENT");
+            Regex wfs_exee_ipm_mediarejected = new Regex("EXECUTE_EVENT.1615.[0-9]+WFS_EXECUTE_EVENT");
 
             /* Test for INFO */
             result = GenericMatch(wfs_inf_ipm_status, logLine);
