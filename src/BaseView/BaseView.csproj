@@ -85,6 +85,10 @@
       <Project>{f89403e5-4c5c-4d8f-8401-b2d56f6d8a2b}</Project>
       <Name>Impl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LogFileHandler\LogFileHandler.csproj">
+      <Project>{9af8b5cf-72dc-4a01-b1bd-976b811d7ae4}</Project>
+      <Name>LogFileHandler</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,5 +1,6 @@
 ﻿using Contract;
 using Impl;
+using LogLineHandler;
 using System;
 using System.Data;
 
@@ -23,101 +24,103 @@ namespace ExtraView
       /// Process one line from the merged log file. 
       /// </summary>
       /// <param name="logLine">logline from the file</param>
-      public override void ProcessRow(string traceFile, string logLine)
+      public override void ProcessRow(ILogLine logLine)
       {
          try
          {
-            (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
-            switch (result.xfsType)
+            if (logLine is SPLine spLogLine)
             {
-               case XFSType.WFS_INF_PTR_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_Extra_STATUS("PTR", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_IDC_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_Extra_STATUS("IDC", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_CDM_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_Extra_STATUS("CDM", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_PIN_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_Extra_STATUS("PIN", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_CHK_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_Extra_STATUS("CHK", result.xfsLine);
-                     break;
-                  }
-               //case XFSType.WF_INF_DEP_STATUS:
-               //   {
-               //      base.ProcessRow(traceFile, logLine);
-               //      WF_INF_DEP_STATUS(result.xfsLine);
-               //      break;
-               //   }
-               case XFSType.WFS_INF_TTU_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_Extra_STATUS("TTU", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_SIU_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_Extra_STATUS("SIU", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_VDM_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_Extra_STATUS("VDM", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_CAM_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_Extra_STATUS("CAM", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_ALM_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_Extra_STATUS("ALM", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_CIM_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_Extra_STATUS("CIM", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_BCR_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_Extra_STATUS("BCR", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_IPM_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_Extra_STATUS("IPM", result.xfsLine);
-                     break;
-                  }
+               switch (spLogLine.xfsType)
+               {
+                  case LogLineHandler.XFSType.WFS_INF_PTR_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_Extra_STATUS("PTR", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_IDC_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_Extra_STATUS("IDC", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_CDM_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_Extra_STATUS("CDM", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_PIN_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_Extra_STATUS("PIN", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_CHK_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_Extra_STATUS("CHK", spLogLine);
+                        break;
+                     }
+                  //case XFSType.WF_INF_DEP_STATUS:
+                  //   {
+                  //      base.ProcessRow(traceFile, logLine);
+                  //      WF_INF_DEP_STATUS(result.xfsLine);
+                  //      break;
+                  //   }
+                  case LogLineHandler.XFSType.WFS_INF_TTU_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_Extra_STATUS("TTU", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_SIU_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_Extra_STATUS("SIU", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_VDM_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_Extra_STATUS("VDM", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_CAM_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_Extra_STATUS("CAM", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_ALM_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_Extra_STATUS("ALM", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_CIM_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_Extra_STATUS("CIM", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_BCR_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_Extra_STATUS("BCR", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_IPM_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_Extra_STATUS("IPM", spLogLine);
+                        break;
+                     }
 
-               default:
-                  break;
-            };
+                  default:
+                     break;
+               }
+            }
          }
          catch (Exception e)
          {
@@ -151,28 +154,25 @@ namespace ExtraView
          return base.WriteExcelFile();
       }
 
-      protected void WFS_INF_Extra_STATUS(string deviceType, string xfsLine)
+      protected void WFS_INF_Extra_STATUS(string deviceType, SPLine spLogLine)
       {
          try
          {
-            // ctx.ConsoleWriteLogLine(String.Format("WFS_INF_Extra_STATUS tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+            if (spLogLine is WFSSTATUS wfsStatus)
+            {
+               DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
 
+               dataRow["file"] = spLogLine.LogFile;
+               dataRow["time"] = spLogLine.Timestamp;
+               dataRow["error"] = spLogLine.HResult;
 
-            WFSSTATUS wfsStatus = new WFSSTATUS(ctx);
-            wfsStatus.Initialize(xfsLine);
+               dataRow["device"] = deviceType;
+               dataRow["spver"] = wfsStatus.SPVersion;
+               dataRow["epver"] = wfsStatus.EPVersion;
+               dataRow["comment"] = wfsStatus.lpszExtra;
 
-            DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
-
-            dataRow["file"] = _traceFile;
-            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
-            dataRow["error"] = lpResult.hResult(xfsLine);
-
-            dataRow["device"] = deviceType;
-            dataRow["spver"] = wfsStatus.SPVersion;
-            dataRow["epver"] = wfsStatus.EPVersion;
-            dataRow["comment"] = wfsStatus.lpszExtra;
-
-            dTableSet.Tables["Status"].AcceptChanges();
+               dTableSet.Tables["Status"].AcceptChanges();
+            }
 
          }
          catch (Exception e)

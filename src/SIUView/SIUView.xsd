@@ -10,17 +10,18 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="safe" type="xs:string" minOccurs="0" />
-			  <xs:element name="device" type="xs:string" minOccurs="0" />
-			  <xs:element name="opswitch" type="xs:string" minOccurs="0" />
-			  <xs:element name="tamper" type="xs:string" minOccurs="0" />
-			  <xs:element name="inttamper" type="xs:string" minOccurs="0" />
-			  <xs:element name="cabinet" type="xs:string" minOccurs="0" />
-			  <xs:element name="errorcode" type="xs:string" minOccurs="0" />
-			  <xs:element name="description" type="xs:string" minOccurs="0" />
-			  <xs:element name="comment" type="xs:string" minOccurs="0" />
+              <xs:element name="device" type="xs:string" minOccurs="0" />
+              <xs:element name="opswitch" type="xs:string" minOccurs="0" />
+              <xs:element name="tamper" type="xs:string" minOccurs="0" />
+              <xs:element name="inttamper" type="xs:string" minOccurs="0" />
+              <xs:element name="cabinet" type="xs:string" minOccurs="0" />
+              <xs:element name="ups" type="xs:string" minOccurs="0" />
+              <xs:element name="errorcode" type="xs:string" minOccurs="0" />
+              <xs:element name="description" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
-        </xs:element>		
+        </xs:element>
       </xs:choice>
     </xs:complexType>
   </xs:element>

@@ -1,5 +1,6 @@
 ﻿using Contract;
 using Impl;
+using LogLineHandler;
 using System;
 using System.Data;
 
@@ -64,23 +65,25 @@ namespace IDCView
       /// Process one line from the merged log file. 
       /// </summary>
       /// <param name="logLine">logline from the file</param>
-      public override void ProcessRow(string traceFile, string logLine)
+      public override void ProcessRow(ILogLine logLine)
       {
          try
          {
-            (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
-            switch (result.xfsType)
+            if (logLine is SPLine spLogLine)
             {
-               case XFSType.WFS_INF_IDC_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_IDC_STATUS(result.xfsLine);
-                     break;
-                  }
+               switch (spLogLine.xfsType)
+               {
+                  case LogLineHandler.XFSType.WFS_INF_IDC_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_IDC_STATUS(spLogLine);
+                        break;
+                     }
 
-               default:
-                  break;
-            };
+                  default:
+                     break;
+               }
+            }
          }
          catch (Exception e)
          {
@@ -88,44 +91,34 @@ namespace IDCView
          }
       }
 
-      protected void WFS_INF_IDC_STATUS(string xfsLine)
+      protected void WFS_INF_IDC_STATUS(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IDC_STATUS tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
-            WFSIDCSTATUS idcStatus = new WFSIDCSTATUS(ctx);
-
-            try
+            if (spLogLine is WFSIDCSTATUS idcStatus)
             {
-               idcStatus.Initialize(xfsLine);
-            }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IDC_STATUS Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
+               try
+               {
+                  DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
 
-            try
-            {
-               DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
+                  dataRow["file"] = spLogLine.LogFile;
+                  dataRow["time"] = spLogLine.Timestamp;
+                  dataRow["error"] = spLogLine.HResult;
+                  dataRow["device"] = idcStatus.fwDevice;
+                  dataRow["media"] = idcStatus.fwMedia;
+                  dataRow["retainbin"] = idcStatus.fwRetainBin;
+                  dataRow["security"] = idcStatus.fwSecurity;
+                  dataRow["uscards"] = idcStatus.usCards;
+                  dataRow["chippower"] = idcStatus.fwChipPower;
+                  dataRow["chipmodule"] = idcStatus.fwChipModule;
+                  dataRow["magreadmodule"] = idcStatus.fwMagReadModule;
 
-               dataRow["file"] = _traceFile;
-               dataRow["time"] = lpResult.tsTimestamp(xfsLine);
-               dataRow["error"] = lpResult.hResult(xfsLine);
-               dataRow["device"] = idcStatus.fwDevice;
-               dataRow["media"] = idcStatus.fwMedia;
-               dataRow["retainbin"] = idcStatus.fwRetainBin;
-               dataRow["security"] = idcStatus.fwSecurity;
-               dataRow["uscards"] = idcStatus.usCards;
-               dataRow["chippower"] = idcStatus.fwChipPower;
-               dataRow["chipmodule"] = idcStatus.fwChipModule;
-               dataRow["magreadmodule"] = idcStatus.fwMagReadModule;
-
-               dTableSet.Tables["Status"].AcceptChanges();
-            }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IDC_STATUS Status Table Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
+                  dTableSet.Tables["Status"].AcceptChanges();
+               }
+               catch (Exception e)
+               {
+                  ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IDC_STATUS Status Table Exception {0}. {1}, {2}", spLogLine.LogFile, spLogLine.Timestamp, e.Message));
+               }
             }
 
          }

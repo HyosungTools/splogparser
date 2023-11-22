@@ -1,5 +1,6 @@
 ﻿using Contract;
 using Impl;
+using LogLineHandler;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,7 +9,7 @@ namespace IPMView
 {
    internal class IPMTable : BaseTable
    {
-      private bool have_seen_WFS_INF_IPM_MEDIA_BIN_INFO = false;
+      private readonly bool have_seen_WFS_INF_IPM_MEDIA_BIN_INFO = false;
 
       /// <summary>
       /// constructor
@@ -26,137 +27,140 @@ namespace IPMView
       /// Process one line from the merged log file. 
       /// </summary>
       /// <param name="logLine">logline from the file</param>
-      public override void ProcessRow(string traceFile, string logLine)
+      public override void ProcessRow(ILogLine logLine)
       {
          try
          {
-            (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
-            switch (result.xfsType)
+            if (logLine is SPLine spLogLine)
             {
-               case XFSType.WFS_INF_IPM_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_IPM_STATUS(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_IPM_MEDIA_BIN_INFO:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_IPM_MEDIA_BIN_INFO(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_IPM_TRANSACTION_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_IPM_TRANSACTION_STATUS(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_CMD_IPM_MEDIA_IN:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_CMD_IPM_MEDIA_IN(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_CMD_IPM_MEDIA_IN_END:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_CMD_IPM_MEDIA_IN_END(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_CMD_IPM_MEDIA_IN_ROLLBACK:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_CMD_IPM_MEDIA_IN_ROLLBACK(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_CMD_IPM_PRESENT_MEDIA:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_CMD_IPM_PRESENT_MEDIA(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_CMD_IPM_RETRACT_MEDIA:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_CMD_IPM_RETRACT_MEDIA(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_CMD_IPM_RESET:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_CMD_IPM_RESET(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_CMD_IPM_PRINT_TEXT:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_CMD_IPM_PRINT_TEXT(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_CMD_IPM_EXPEL_MEDIA:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_CMD_IPM_EXPEL_MEDIA(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_EXEE_IPM_MEDIAINSERTED:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_EXEE_IPM_MEDIAINSERTED(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_USRE_IPM_MEDIABINTHRESHOLD:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_USRE_IPM_MEDIABINTHRESHOLD(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_SRVE_IPM_MEDIABININFOCHANGED:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_SRVE_IPM_MEDIABININFOCHANGED(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_EXEE_IPM_MEDIABINERROR:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_EXEE_IPM_MEDIABINERROR(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_SRVE_IPM_MEDIATAKEN:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_SRVE_IPM_MEDIATAKEN(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_SRVE_IPM_MEDIADETECTED:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_SRVE_IPM_MEDIADETECTED(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_EXEE_IPM_MEDIAPRESENTED:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_EXEE_IPM_MEDIAPRESENTED(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_EXEE_IPM_MEDIAREFUSED:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_EXEE_IPM_MEDIAREFUSED(result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_EXEE_IPM_MEDIAREJECTED:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_EXEE_IPM_MEDIAREJECTED(result.xfsLine);
-                     break;
-                  }
+               switch (spLogLine.xfsType)
 
-               default:
-                  break;
-            };
+               {
+                  case LogLineHandler.XFSType.WFS_INF_IPM_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_IPM_STATUS(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_IPM_MEDIA_BIN_INFO:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_IPM_MEDIA_BIN_INFO(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_IPM_TRANSACTION_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_IPM_TRANSACTION_STATUS(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_CMD_IPM_MEDIA_IN:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_CMD_IPM_MEDIA_IN(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_CMD_IPM_MEDIA_IN_END:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_CMD_IPM_MEDIA_IN_END(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_CMD_IPM_MEDIA_IN_ROLLBACK:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_CMD_IPM_MEDIA_IN_ROLLBACK(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_CMD_IPM_PRESENT_MEDIA:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_CMD_IPM_PRESENT_MEDIA(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_CMD_IPM_RETRACT_MEDIA:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_CMD_IPM_RETRACT_MEDIA(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_CMD_IPM_RESET:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_CMD_IPM_RESET(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_CMD_IPM_PRINT_TEXT:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_CMD_IPM_PRINT_TEXT(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_CMD_IPM_EXPEL_MEDIA:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_CMD_IPM_EXPEL_MEDIA(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_EXEE_IPM_MEDIAINSERTED:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_EXEE_IPM_MEDIAINSERTED(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_USRE_IPM_MEDIABINTHRESHOLD:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_USRE_IPM_MEDIABINTHRESHOLD(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_SRVE_IPM_MEDIABININFOCHANGED:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_SRVE_IPM_MEDIABININFOCHANGED(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_EXEE_IPM_MEDIABINERROR:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_EXEE_IPM_MEDIABINERROR(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_SRVE_IPM_MEDIATAKEN:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_SRVE_IPM_MEDIATAKEN(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_SRVE_IPM_MEDIADETECTED:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_SRVE_IPM_MEDIADETECTED(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_EXEE_IPM_MEDIAPRESENTED:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_EXEE_IPM_MEDIAPRESENTED(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_EXEE_IPM_MEDIAREFUSED:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_EXEE_IPM_MEDIAREFUSED(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_EXEE_IPM_MEDIAREJECTED:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_EXEE_IPM_MEDIAREJECTED(spLogLine);
+                        break;
+                     }
+
+                  default:
+                     break;
+               }
+            }
          }
          catch (Exception e)
          {
@@ -321,35 +325,27 @@ namespace IPMView
          return base.WriteExcelFile();
       }
 
-      protected void WFS_INF_IPM_STATUS(string xfsLine)
+      protected void WFS_INF_IPM_STATUS(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IPM_STATUS tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
+            //ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IPM_STATUS tracefile '{0}' timestamp '{1}", spLogLine.LogFile, spLogLine.Timestamp));
 
-            WFSIPMSTATUS ipmStatus = new WFSIPMSTATUS(ctx);
-
-            try
+            if (spLogLine is WFSIPMSTATUS ipmStatus)
             {
-               ipmStatus.Initialize(xfsLine);
+               DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
+
+               dataRow["file"] = spLogLine.LogFile;
+               dataRow["time"] = spLogLine.Timestamp;
+               dataRow["error"] = spLogLine.HResult;
+
+               dataRow["status"] = ipmStatus.fwDevice;
+               dataRow["acceptor"] = ipmStatus.wAcceptor;
+               dataRow["media"] = ipmStatus.wMedia;
+               dataRow["stacker"] = ipmStatus.wStacker;
+
+               dTableSet.Tables["Status"].AcceptChanges();
             }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CDM_STATUS Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
-
-            DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
-
-            dataRow["file"] = _traceFile;
-            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
-            dataRow["error"] = lpResult.hResult(xfsLine);
-
-            dataRow["status"] = ipmStatus.fwDevice;
-            dataRow["acceptor"] = ipmStatus.wAcceptor;
-            dataRow["media"] = ipmStatus.wMedia;
-            dataRow["stacker"] = ipmStatus.wStacker;
-
-            dTableSet.Tables["Status"].AcceptChanges();
 
          }
          catch (Exception e)
@@ -358,100 +354,88 @@ namespace IPMView
          }
       }
 
-      protected void WFS_INF_IPM_MEDIA_BIN_INFO(string xfsLine)
+      protected void WFS_INF_IPM_MEDIA_BIN_INFO(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IPM_MEDIA_BIN_INFO tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
-            WFSIPMMEDIABININFO binInfo = new WFSIPMMEDIABININFO(ctx);
-
-            try
+            if (spLogLine is LogLineHandler.WFSIPMMEDIABININFO binInfo)
             {
-               binInfo.Initialize(xfsLine);
-            }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IPM_MEDIA_BIN_INFO Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
-
-            if (!have_seen_WFS_INF_IPM_MEDIA_BIN_INFO)
-            {
-               //// First time seeing MEDIA_BIN_INFO, populate the Summary Table
-               //have_seen_WFS_INF_IPM_MEDIA_BIN_INFO = true;
-
-               DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
-
-               // for each row, set the tracefile, timestamp and hresult
-               for (int i = 0; i < binInfo.lUnitCount; i++)
+               if (!have_seen_WFS_INF_IPM_MEDIA_BIN_INFO)
                {
-                  // Now use the usNumbers to create and populate a row in the CashUnit-x table
-                  int usBinNumber = int.Parse(binInfo.usBinNumbers[i].Trim());
-                  if (usBinNumber < 1)
+                  //// First time seeing MEDIA_BIN_INFO, populate the Summary Table
+                  //have_seen_WFS_INF_IPM_MEDIA_BIN_INFO = true;
+
+                  DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
+
+                  // for each row, set the tracefile, timestamp and hresult
+                  for (int i = 0; i < binInfo.lUnitCount; i++)
                   {
-                     // We have to check because some log lines are truncated (i.e. "more data")
-                     // and produce bad results
-                     continue;
+                     // Now use the usNumbers to create and populate a row in the CashUnit-x table
+                     int usBinNumber = int.Parse(binInfo.usBinNumbers[i].Trim());
+                     if (usBinNumber < 1)
+                     {
+                        // We have to check because some log lines are truncated (i.e. "more data")
+                        // and produce bad results
+                        continue;
+                     }
+
+                     try
+                     {
+                        dataRows[usBinNumber]["file"] = spLogLine.LogFile;
+                        dataRows[usBinNumber]["time"] = spLogLine.Timestamp;
+                        dataRows[usBinNumber]["error"] = spLogLine.HResult;
+
+                        dataRows[usBinNumber]["number"] = binInfo.usBinNumbers[i];
+                        dataRows[usBinNumber]["type"] = binInfo.fwTypes[i];
+                        dataRows[usBinNumber]["mediatype"] = binInfo.wMediaTypes[i];
+                        dataRows[usBinNumber]["name"] = binInfo.lpstrBinIDs[i];
+                        dataRows[usBinNumber]["maxitems"] = binInfo.ulMaximumItems[i];
+                        dataRows[usBinNumber]["maxretracts"] = binInfo.ulMaximumRetractOperations[i];
+                     }
+                     catch (Exception e)
+                     {
+                        ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IPM_MEDIA_BIN_INFO Summary Table Exception {0}. {1}, {2}", spLogLine.LogFile, spLogLine.Timestamp, e.Message));
+                     }
                   }
 
+                  dTableSet.Tables["Summary"].AcceptChanges();
+               }
+
+               for (int i = 0; i < binInfo.lUnitCount; i++)
+               {
                   try
                   {
-                     dataRows[usBinNumber]["file"] = _traceFile;
-                     dataRows[usBinNumber]["time"] = lpResult.tsTimestamp(xfsLine);
-                     dataRows[usBinNumber]["error"] = lpResult.hResult(xfsLine);
+                     // Now use the usNumbers to create and populate a row in the MediaBin-x table
+                     if (int.Parse(binInfo.usBinNumbers[i].Trim()) < 1)
+                     {
+                        // We have to check because some log lines are truncated (i.e. "more data")
+                        // and produce bad results
+                        continue;
+                     }
 
-                     dataRows[usBinNumber]["number"] = binInfo.usBinNumbers[i];
-                     dataRows[usBinNumber]["type"] = binInfo.fwTypes[i];
-                     dataRows[usBinNumber]["mediatype"] = binInfo.wMediaTypes[i];
-                     dataRows[usBinNumber]["name"] = binInfo.lpstrBinIDs[i];
-                     dataRows[usBinNumber]["maxitems"] = binInfo.ulMaximumItems[i];
-                     dataRows[usBinNumber]["maxretracts"] = binInfo.ulMaximumRetractOperations[i];
+                     if (binInfo.ulCounts[i] == "0" && binInfo.ulRetractOperations[i] == "0")
+                     {
+                        // again truncated log lines result in garbage output
+                        continue;
+                     }
+
+                     string tableName = "MediaBin-" + binInfo.usBinNumbers[i].Trim();
+                     DataRow mediaBinRow = dTableSet.Tables[tableName].Rows.Add();
+
+                     mediaBinRow["file"] = spLogLine.LogFile;
+                     mediaBinRow["time"] = spLogLine.Timestamp;
+                     mediaBinRow["error"] = spLogLine.HResult;
+
+                     mediaBinRow["count"] = binInfo.ulCounts[i];
+                     mediaBinRow["retract"] = binInfo.ulRetractOperations[i];
+                     mediaBinRow["status"] = binInfo.usStatuses[i];
+
+                     dTableSet.Tables[tableName].AcceptChanges();
                   }
                   catch (Exception e)
                   {
-                     ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IPM_MEDIA_BIN_INFO Summary Table Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
+                     ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IPM_MEDIA_BIN_INFO Cash Unit Table Exception {0}, {1}, {2}, {3}", spLogLine.LogFile, spLogLine.Timestamp, e.Message, i));
                   }
-               }
-
-               dTableSet.Tables["Summary"].AcceptChanges();
-            }
-
-            ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IPM_MEDIA_BIN_INFO cashInfo.lUnitCount '{0}' ", binInfo.lUnitCount));
-
-            for (int i = 0; i < binInfo.lUnitCount; i++)
-            {
-               try
-               {
-                  // Now use the usNumbers to create and populate a row in the MediaBin-x table
-                  if (int.Parse(binInfo.usBinNumbers[i].Trim()) < 1)
-                  {
-                     // We have to check because some log lines are truncated (i.e. "more data")
-                     // and produce bad results
-                     continue;
-                  }
-
-                  if (binInfo.ulCounts[i] == "0" && binInfo.ulRetractOperations[i] == "0")
-                  {
-                     // again truncated log lines result in garbage output
-                     continue;
-                  }
-
-                  string tableName = "MediaBin-" + binInfo.usBinNumbers[i].Trim();
-                  DataRow mediaBinRow = dTableSet.Tables[tableName].Rows.Add();
-
-                  mediaBinRow["file"] = _traceFile;
-                  mediaBinRow["time"] = lpResult.tsTimestamp(xfsLine);
-                  mediaBinRow["error"] = lpResult.hResult(xfsLine);
-
-                  mediaBinRow["count"] = binInfo.ulCounts[i];
-                  mediaBinRow["retract"] = binInfo.ulRetractOperations[i];
-                  mediaBinRow["status"] = binInfo.usStatuses[i];
-
-                  dTableSet.Tables[tableName].AcceptChanges();
-               }
-               catch (Exception e)
-               {
-                  ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IPM_MEDIA_BIN_INFO Cash Unit Table Exception {0}, {1}, {2}, {3}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message, i));
                }
             }
          }
@@ -461,39 +445,29 @@ namespace IPMView
          }
       }
 
-      protected void WFS_INF_IPM_TRANSACTION_STATUS(string xfsLine)
+      protected void WFS_INF_IPM_TRANSACTION_STATUS(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IPM_TRANSACTION_STATUS tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
-            WFSIPMTRANSSTATUS transInfo = new WFSIPMTRANSSTATUS(ctx);
-
-            try
+            if (spLogLine is LogLineHandler.WFSIPMTRANSSTATUS transInfo)
             {
-               transInfo.Initialize(xfsLine);
+               DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+               depRow["file"] = spLogLine.LogFile;
+               depRow["time"] = spLogLine.Timestamp;
+               depRow["error"] = spLogLine.HResult;
+
+               depRow["trans"] = transInfo.wMediaInTransaction;
+               depRow["onstacker"] = transInfo.usMediaOnStacker;
+               depRow["lasttotal"] = transInfo.usLastMediaInTotal;
+               depRow["accepted"] = transInfo.usLastMediaAddedToStacker;
+               depRow["totalitems"] = transInfo.usTotalItems;
+               depRow["totalrefsd"] = transInfo.usTotalItemsRefused;
+               depRow["totlbnchrefsd"] = transInfo.usTotalBunchesRefused;
+               depRow["comment"] = transInfo.lpszExtra;
+
+               dTableSet.Tables["Deposit"].AcceptChanges();
             }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IPM_TRANSACTION_STATUS Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
-
-            DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
-
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
-
-            depRow["trans"] = transInfo.wMediaInTransaction;
-            depRow["onstacker"] = transInfo.usMediaOnStacker;
-            depRow["lasttotal"] = transInfo.usLastMediaInTotal;
-            depRow["accepted"] = transInfo.usLastMediaAddedToStacker;
-            depRow["totalitems"] = transInfo.usTotalItems;
-            depRow["totalrefsd"] = transInfo.usTotalItemsRefused;
-            depRow["totlbnchrefsd"] = transInfo.usTotalBunchesRefused;
-            depRow["comment"] = transInfo.lpszExtra;
-
-            dTableSet.Tables["Deposit"].AcceptChanges();
          }
          catch (Exception e)
          {
@@ -501,32 +475,22 @@ namespace IPMView
          }
       }
 
-      protected void WFS_CMD_IPM_MEDIA_IN(string xfsLine)
+      protected void WFS_CMD_IPM_MEDIA_IN(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_IPM_MEDIA_IN tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
-            WFSIPMMEDIAIN mediaIn = new WFSIPMMEDIAIN(ctx);
-
-            try
+            if (spLogLine is WFSIPMMEDIAIN mediaIn)
             {
-               mediaIn.Initialize(xfsLine);
+               DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+               depRow["file"] = spLogLine.LogFile;
+               depRow["time"] = spLogLine.Timestamp;
+               depRow["error"] = spLogLine.HResult;
+
+               depRow["trans"] = "ready";
+
+               dTableSet.Tables["Deposit"].AcceptChanges();
             }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_IPM_MEDIA_IN Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
-
-            DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
-
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
-
-            depRow["trans"] = "ready";
-
-            dTableSet.Tables["Deposit"].AcceptChanges();
 
          }
          catch (Exception e)
@@ -535,36 +499,25 @@ namespace IPMView
          }
       }
 
-      protected void WFS_CMD_IPM_MEDIA_IN_END(string xfsLine)
+      protected void WFS_CMD_IPM_MEDIA_IN_END(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_IPM_MEDIA_IN_END tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
-            WFSIPMMEDIAINEND mediaInEnd = new WFSIPMMEDIAINEND(ctx);
-
-            try
+            if (spLogLine is LogLineHandler.WFSIPMMEDIAINEND mediaInEnd)
             {
-               mediaInEnd.Initialize(xfsLine);
+               DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+               depRow["file"] = spLogLine.LogFile;
+               depRow["time"] = spLogLine.Timestamp;
+               depRow["error"] = spLogLine.HResult;
+
+               depRow["trans"] = "media in end";
+               depRow["itemsreturned"] = mediaInEnd.usItemsReturned;
+               depRow["totalrefsd"] = mediaInEnd.usItemsRefused;
+               depRow["totlbnchrefsd"] = mediaInEnd.usBunchesRefused;
+
+               dTableSet.Tables["Deposit"].AcceptChanges();
             }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_IPM_MEDIA_IN_END Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
-
-            DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
-
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
-
-            depRow["trans"] = "media in end";
-            depRow["itemsreturned"] = mediaInEnd.usItemsReturned;
-            depRow["totalrefsd"] = mediaInEnd.usItemsRefused;
-            depRow["totlbnchrefsd"] = mediaInEnd.usBunchesRefused;
-
-            dTableSet.Tables["Deposit"].AcceptChanges();
-
          }
          catch (Exception e)
          {
@@ -572,17 +525,15 @@ namespace IPMView
          }
       }
 
-      protected void WFS_CMD_IPM_MEDIA_IN_ROLLBACK(string xfsLine)
+      protected void WFS_CMD_IPM_MEDIA_IN_ROLLBACK(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_IPM_MEDIA_IN_ROLLBACK tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
             DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
 
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
+            depRow["file"] = spLogLine.LogFile;
+            depRow["time"] = spLogLine.Timestamp;
+            depRow["error"] = spLogLine.HResult;
 
             depRow["trans"] = "rollback";
 
@@ -595,17 +546,15 @@ namespace IPMView
          }
       }
 
-      protected void WFS_CMD_IPM_PRESENT_MEDIA(string xfsLine)
+      protected void WFS_CMD_IPM_PRESENT_MEDIA(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_IPM_PRESENT_MEDIA tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
             DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
 
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
+            depRow["file"] = spLogLine.LogFile;
+            depRow["time"] = spLogLine.Timestamp;
+            depRow["error"] = spLogLine.HResult;
 
             depRow["trans"] = "present media";
 
@@ -618,32 +567,22 @@ namespace IPMView
          }
       }
 
-      protected void WFS_CMD_IPM_RETRACT_MEDIA(string xfsLine)
+      protected void WFS_CMD_IPM_RETRACT_MEDIA(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_IPM_RETRACT_MEDIA tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
-            WFSIPMRETRACTMEDIAOUT mediaRetract = new WFSIPMRETRACTMEDIAOUT(ctx);
-
-            try
+            if (spLogLine is LogLineHandler.WFSIPMRETRACTMEDIAOUT mediaRetract)
             {
-               mediaRetract.Initialize(xfsLine);
+               DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+               depRow["file"] = spLogLine.LogFile;
+               depRow["time"] = spLogLine.Timestamp;
+               depRow["error"] = spLogLine.HResult;
+
+               depRow["trans"] = "retract";
+
+               dTableSet.Tables["Deposit"].AcceptChanges();
             }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_IPM_RETRACT_MEDIA Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
-
-            DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
-
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
-
-            depRow["trans"] = "retract";
-
-            dTableSet.Tables["Deposit"].AcceptChanges();
          }
          catch (Exception e)
          {
@@ -651,17 +590,15 @@ namespace IPMView
          }
       }
 
-      protected void WFS_CMD_IPM_RESET(string xfsLine)
+      protected void WFS_CMD_IPM_RESET(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_IPM_RESET tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
             DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
 
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
+            depRow["file"] = spLogLine.LogFile;
+            depRow["time"] = spLogLine.Timestamp;
+            depRow["error"] = spLogLine.HResult;
 
             depRow["trans"] = "reset";
 
@@ -673,17 +610,15 @@ namespace IPMView
          }
       }
 
-      protected void WFS_CMD_IPM_PRINT_TEXT(string xfsLine)
+      protected void WFS_CMD_IPM_PRINT_TEXT(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_IPM_PRINT_TEXT tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
             DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
 
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
+            depRow["file"] = spLogLine.LogFile;
+            depRow["time"] = spLogLine.Timestamp;
+            depRow["error"] = spLogLine.HResult;
 
             depRow["trans"] = "endorse";
 
@@ -695,17 +630,15 @@ namespace IPMView
          }
       }
 
-      protected void WFS_CMD_IPM_EXPEL_MEDIA(string xfsLine)
+      protected void WFS_CMD_IPM_EXPEL_MEDIA(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_CMD_IPM_EXPEL_MEDIA tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
             DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
 
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
+            depRow["file"] = spLogLine.LogFile;
+            depRow["time"] = spLogLine.Timestamp;
+            depRow["error"] = spLogLine.HResult;
 
             depRow["trans"] = "expel";
 
@@ -718,17 +651,15 @@ namespace IPMView
          }
       }
 
-      protected void WFS_EXEE_IPM_MEDIAINSERTED(string xfsLine)
+      protected void WFS_EXEE_IPM_MEDIAINSERTED(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_EXEE_IPM_MEDIAINSERTED tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
             DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
 
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
+            depRow["file"] = spLogLine.LogFile;
+            depRow["time"] = spLogLine.Timestamp;
+            depRow["error"] = spLogLine.HResult;
 
             depRow["trans"] = "inserted";
 
@@ -740,34 +671,22 @@ namespace IPMView
          }
       }
 
-      protected void WFS_USRE_IPM_MEDIABINTHRESHOLD(string xfsLine)
+      protected void WFS_USRE_IPM_MEDIABINTHRESHOLD(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_USRE_IPM_MEDIABINTHRESHOLD tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
-            WFSIPMMEDIABININFO binInfo = new WFSIPMMEDIABININFO(ctx);
-
-            try
+            if (spLogLine is LogLineHandler.WFSIPMMEDIABININFO binInfo)
             {
-               binInfo.Initialize(xfsLine);
+               DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+               depRow["file"] = spLogLine.LogFile;
+               depRow["time"] = spLogLine.Timestamp;
+               depRow["error"] = spLogLine.HResult;
+
+               depRow["trans"] = "threshold";
+
+               dTableSet.Tables["Deposit"].AcceptChanges();
             }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_USRE_IPM_MEDIABINTHRESHOLD Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
-
-
-            DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
-
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
-
-            depRow["trans"] = "threshold";
-
-            dTableSet.Tables["Deposit"].AcceptChanges();
-
          }
          catch (Exception e)
          {
@@ -775,33 +694,22 @@ namespace IPMView
          }
       }
 
-      protected void WFS_SRVE_IPM_MEDIABININFOCHANGED(string xfsLine)
+      protected void WFS_SRVE_IPM_MEDIABININFOCHANGED(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_SRVE_IPM_MEDIABININFOCHANGED tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
-            WFSIPMMEDIABININFO binInfo = new WFSIPMMEDIABININFO(ctx);
-
-            try
+            if (spLogLine is LogLineHandler.WFSIPMMEDIABININFO binInfo)
             {
-               binInfo.Initialize(xfsLine);
+               DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+               depRow["file"] = spLogLine.LogFile;
+               depRow["time"] = spLogLine.Timestamp;
+               depRow["error"] = spLogLine.HResult;
+
+               depRow["trans"] = "info changed";
+
+               dTableSet.Tables["Deposit"].AcceptChanges();
             }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_USRE_IPM_MEDIABINTHRESHOLD Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
-
-            DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
-
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
-
-            depRow["trans"] = "info changed";
-
-            dTableSet.Tables["Deposit"].AcceptChanges();
-
          }
          catch (Exception e)
          {
@@ -809,34 +717,23 @@ namespace IPMView
          }
       }
 
-      protected void WFS_EXEE_IPM_MEDIABINERROR(string xfsLine)
+      protected void WFS_EXEE_IPM_MEDIABINERROR(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_EXEE_IPM_MEDIABINERROR tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
-            WFSIPMEDIABINERROR binInfo = new WFSIPMEDIABINERROR(ctx);
-
-            try
+            if (spLogLine is LogLineHandler.WFSIPMEDIABINERROR binInfo)
             {
-               binInfo.Initialize(xfsLine);
+               DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+               depRow["file"] = spLogLine.LogFile;
+               depRow["time"] = spLogLine.Timestamp;
+               depRow["error"] = spLogLine.HResult;
+
+               depRow["trans"] = "error";
+               depRow["reason"] = binInfo.wFailure;
+
+               dTableSet.Tables["Deposit"].AcceptChanges();
             }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_USRE_IPM_MEDIABINTHRESHOLD Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
-
-            DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
-
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
-
-            depRow["trans"] = "error";
-            depRow["reason"] = binInfo.wFailure;
-
-            dTableSet.Tables["Deposit"].AcceptChanges();
-
          }
          catch (Exception e)
          {
@@ -844,17 +741,15 @@ namespace IPMView
          }
       }
 
-      protected void WFS_SRVE_IPM_MEDIATAKEN(string xfsLine)
+      protected void WFS_SRVE_IPM_MEDIATAKEN(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_SRVE_IPM_MEDIATAKEN tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
             DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
 
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
+            depRow["file"] = spLogLine.LogFile;
+            depRow["time"] = spLogLine.Timestamp;
+            depRow["error"] = spLogLine.HResult;
 
             depRow["trans"] = "taken";
 
@@ -867,17 +762,15 @@ namespace IPMView
          }
       }
 
-      protected void WFS_SRVE_IPM_MEDIADETECTED(string xfsLine)
+      protected void WFS_SRVE_IPM_MEDIADETECTED(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_SRVE_IPM_MEDIADETECTED tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
             DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
 
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
+            depRow["file"] = spLogLine.LogFile;
+            depRow["time"] = spLogLine.Timestamp;
+            depRow["error"] = spLogLine.HResult;
 
             depRow["trans"] = "detected";
 
@@ -889,17 +782,15 @@ namespace IPMView
          }
       }
 
-      protected void WFS_EXEE_IPM_MEDIAPRESENTED(string xfsLine)
+      protected void WFS_EXEE_IPM_MEDIAPRESENTED(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_EXEE_IPM_MEDIAPRESENTED tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
             DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
 
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
+            depRow["file"] = spLogLine.LogFile;
+            depRow["time"] = spLogLine.Timestamp;
+            depRow["error"] = spLogLine.HResult;
 
             depRow["trans"] = "presented";
 
@@ -911,34 +802,23 @@ namespace IPMView
          }
       }
 
-      protected void WFS_EXEE_IPM_MEDIAREFUSED(string xfsLine)
+      protected void WFS_EXEE_IPM_MEDIAREFUSED(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_EXEE_IPM_MEDIAREFUSED tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
-            WFSIPMMEDIAREFUSED binInfo = new WFSIPMMEDIAREFUSED(ctx);
-
-            try
+            if (spLogLine is LogLineHandler.WFSIPMMEDIAREFUSED binInfo)
             {
-               binInfo.Initialize(xfsLine);
+               DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+               depRow["file"] = spLogLine.LogFile;
+               depRow["time"] = spLogLine.Timestamp;
+               depRow["error"] = spLogLine.HResult;
+
+               depRow["trans"] = "refused";
+               depRow["reason"] = binInfo.wReason;
+
+               dTableSet.Tables["Deposit"].AcceptChanges();
             }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_EXEE_IPM_MEDIAREFUSED Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
-
-            DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
-
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
-
-            depRow["trans"] = "refused";
-            depRow["reason"] = binInfo.wReason;
-
-            dTableSet.Tables["Deposit"].AcceptChanges();
-
          }
          catch (Exception e)
          {
@@ -946,34 +826,23 @@ namespace IPMView
          }
       }
 
-      protected void WFS_EXEE_IPM_MEDIAREJECTED(string xfsLine)
+      protected void WFS_EXEE_IPM_MEDIAREJECTED(SPLine spLogLine)
       {
          try
          {
-            ctx.ConsoleWriteLogLine(String.Format("WFS_EXEE_IPM_MEDIAREJECTED tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
-            WFSIPMMEDIAREJECTED binInfo = new WFSIPMMEDIAREJECTED(ctx);
-
-            try
+            if (spLogLine is WFSIPMMEDIAREJECTED binInfo)
             {
-               binInfo.Initialize(xfsLine);
+               DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+               depRow["file"] = spLogLine.LogFile;
+               depRow["time"] = spLogLine.Timestamp;
+               depRow["error"] = spLogLine.HResult;
+
+               depRow["trans"] = "rejected";
+               depRow["reason"] = binInfo.wReason;
+
+               dTableSet.Tables["Deposit"].AcceptChanges();
             }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_EXEE_IPM_MEDIAREFUSED Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
-
-            DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
-
-            depRow["file"] = _traceFile;
-            depRow["time"] = lpResult.tsTimestamp(xfsLine);
-            depRow["error"] = lpResult.hResult(xfsLine);
-
-            depRow["trans"] = "rejected";
-            depRow["reason"] = binInfo.wReason;
-
-            dTableSet.Tables["Deposit"].AcceptChanges();
-
          }
          catch (Exception e)
          {

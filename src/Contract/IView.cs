@@ -10,10 +10,22 @@
       string Name { get; }
 
       /// <summary>
-      /// Instruction to the view to process the merged log file. 
+      /// Instruct the View to prepare for Time Series processing 
       /// </summary>
       /// <param name="ctx">Context for the command</param>
-      void Process(IContext ctx);
+      void Initialize(IContext ctx);
+
+      /// <summary>
+      /// Instruct the view to process this line 
+      /// </summary>
+      /// <param name="ctx">Context for the command</param>
+      void Process(ILogFileHandler logFileHandler);
+
+      /// <summary>
+      /// Instruct the View TimeSeries processing is over. 
+      /// </summary>
+      /// <param name="ctx">Context for the command</param>
+      void PostProcess(IContext ctx);
 
       /// <summary>
       /// Instruction to the view to write out its datatable to Excel. 

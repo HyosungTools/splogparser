@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using Contract;
 
-namespace sp_logparser
+namespace splogparser
 {
    public class ViewLoader
    {
@@ -14,7 +15,7 @@ namespace sp_logparser
       public IEnumerable<IView> Views { get; set; }
 
       /// <summary>
-      /// Necessary part of implementing MEF. I dont think this is used. 
+      /// Discovered Parts 
       /// </summary>
       public CompositionContainer Container { get; }
 
@@ -24,13 +25,17 @@ namespace sp_logparser
       /// <param name="path">path on hard drive where to look for View DLLs</param>
       public ViewLoader(string path)
       {
-         DirectoryCatalog directoryCatalog = new DirectoryCatalog(path);
+         DirectoryCatalog directoryCatalog = new DirectoryCatalog(path, "*.dll");
+         IReadOnlyCollection<string> loadedFiles = directoryCatalog.LoadedFiles;
+         foreach (string loadedName in loadedFiles)
+         {
+            Console.WriteLine(String.Format("Found '{0}' DLLs", loadedName));
+         }
 
-         //An aggregate catalog that combines multiple catalogs 
-         var catalog = new AggregateCatalog(directoryCatalog);
+         AggregateCatalog aggregateCatalog = new AggregateCatalog(directoryCatalog);
 
          // Create the CompositionContainer with all parts in the catalog (links Exports and Imports) 
-         Container = new CompositionContainer(catalog);
+         Container = new CompositionContainer(aggregateCatalog);
 
          //Fill the imports of this object 
          Container.ComposeParts(this);

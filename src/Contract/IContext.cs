@@ -1,4 +1,6 @@
-﻿namespace Contract
+﻿using System.Collections.Generic;
+
+namespace Contract
 {
    /// <summary>
    /// Interface for Context object. A way to pass around common information.  
@@ -11,8 +13,8 @@
       // Logger instance for this run. 
       ILogger logger { get; }
 
-      // List of files to process
-      string[] nwlogFiles { get; set; }
+      // List of Log File Handlers
+      List<ILogFileHandler> logFileHandlers { get; }
 
       // Folder to place all temporary work files and resulting Excel file
       string WorkFolder { get; set; }

@@ -1,19 +1,28 @@
 ﻿using System;
 using Contract;
+using LogFileHandler;
 
 namespace Impl
 {
    public abstract class BaseView
    {
+      IContext ctx; 
+
       // static constants
       /// <summary>
       /// Type for this View. Views can be grouped together by type. 
       /// </summary>
       protected readonly string viewType;
+
       /// <summary>
       /// Unique name for this View. 
       /// </summary>
       protected readonly string viewName;
+
+      /// <summary>
+      /// My base table(s)
+      /// </summary>
+      protected BaseTable bTable; 
 
       /// <summary>
       /// Constructor. 
@@ -27,63 +36,83 @@ namespace Impl
       }
 
       /// <summary>(get) Type of View for display/logging purposes.</summary>
-      public string ViewType { get { return viewType; } }
+      public virtual string ViewType { get { return viewType; } }
 
       /// <summary>(get) name of View for display/logging purposes.</summary>
-      public string Name { get { return viewName; } }
+      public virtual string Name { get { return viewName; } }
 
 
       /// <summary>
       /// Abstract - Every View must implement CreateTableInstance
       /// </summary>
-      /// <param name="logWriter">The singleton instance of LogWriter.</param>
-      /// <param name="logInfo">The singleton instance of LogInfo, which holds the session context.</param>
-      /// <returns></returns>
+      /// <param name="ctx">The current context</param>
+      /// <returns>BaseTable</returns>
       protected abstract BaseTable CreateTableInstance(IContext ctx);
+
+      /// <summary>
+      /// Initialize this View
+      /// </summary>
+      /// <param name="ctx"></param>
+      public virtual void Initialize(IContext ctx)
+      {
+         this.ctx = ctx; 
+
+         ctx.LogWriteLine("------------------------------------------------");
+         ctx.LogWriteLine("Initialize: " + viewName);
+
+         // create a table instance
+         bTable = CreateTableInstance(ctx);
+      }
 
       /// <summary>Call to process the datatable (merge of all log lines)</summary>
       /// <returns>void</returns>
-      public virtual void Process(IContext ctx)
+      public virtual void Process(ILogFileHandler logFileHandler)
       {
          ctx.LogWriteLine("------------------------------------------------");
-         ctx.LogWriteLine("Start: " + viewName);
+         ctx.LogWriteLine("Process: " + viewName);
 
-         // create a table instance
-         BaseTable bTable = CreateTableInstance(ctx);
-
-         // for each file found
-         foreach (string traceFile in ctx.nwlogFiles)
+         // For each file found by this log handler...
+         foreach (string fileName in logFileHandler.FilesFound)
          {
-            if (traceFile != null)
+            if (string.IsNullOrEmpty(fileName))
             {
-               ctx.ConsoleWriteLogLine("Processing file: " + traceFile);
-               TraceFileReader reader = new TraceFileReader(ctx.ioProvider.OpenTextFile(traceFile), 28);
+               continue;
+            }
+
+            ctx.ConsoleWriteLogLine(String.Format("Processing file: {0}", fileName));
+            logFileHandler.OpenLogFile(fileName);
+
+            // For each log line in this file...
+            while (!logFileHandler.EOF())
+            {
+               try
                {
-                  // for each log line in the file
-                  while (!reader.EOF())
-                  {
-                     try
-                     {
-                        // pass the log line to the View for (possible) processing
-                        bTable.ProcessRow(ctx.ioProvider.GetFileName(traceFile), reader.ReadLine());
-                     }
-                     catch (Exception ex)
-                     {
-                        ctx.ConsoleWriteLogLine("EXCEPTION : Processing view :" + ex.Message);
-                     }
-                  }
+                  ILogLine logLine = logFileHandler.IdentifyLine(logFileHandler.ReadLine());
+                  bTable.ProcessRow(logLine);
+               }
+               catch (Exception e)
+               {
+                  ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : Processing file {0} : {1}", fileName, e.Message));
+                  return;
                }
             }
          }
+      }
 
-         // write the table built out to file
+      /// <summary>Call to process the datatable (merge of all log lines)</summary>
+      /// <returns>void</returns>
+      public virtual void PostProcess(IContext ctx)
+      {
+         ctx.LogWriteLine("------------------------------------------------");
+         ctx.LogWriteLine("Post Process: " + viewName);
+
          bTable.WriteXmlFile();
       }
 
       public virtual void WriteExcel(IContext ctx)
       {
          ctx.ConsoleWriteLogLine("------------------------------------------------");
-         ctx.ConsoleWriteLogLine("Start WriteExcel: " + viewName);
+         ctx.ConsoleWriteLogLine("WriteExcel: " + viewName);
 
          // create a Table Instance and load up the xml file
          BaseTable bTable = CreateTableInstance(ctx);
@@ -99,7 +128,7 @@ namespace Impl
       public virtual void Cleanup(IContext ctx)
       {
          ctx.ConsoleWriteLogLine("------------------------------------------------");
-         ctx.ConsoleWriteLogLine("Start Cleanup: " + viewName);
+         ctx.ConsoleWriteLogLine("Cleanup: " + viewName);
 
          // Cleanup to Xml
          BaseTable bTable = CreateTableInstance(ctx);

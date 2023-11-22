@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F0E36FC7-76A9-4BCD-9364-F8D5327729D6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SPLogLine</RootNamespace>
+    <AssemblyName>SPLogLine</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SPLine.cs" />
+    <Compile Include="WFPCLOSE.cs" />
+    <Compile Include="WFPOPEN.cs" />
+    <Compile Include="WFSCDMCUINFO.cs" />
+    <Compile Include="WFSCDMDENOMINATION.cs" />
+    <Compile Include="WFSCDMPRESENTSTATUS.cs" />
+    <Compile Include="WFSPTRSTATUS.cs" />
+    <Compile Include="WFSCDMSTATUS.cs" />
+    <Compile Include="WFSCIMCASHINFO.cs" />
+    <Compile Include="WFSCIMCASHINSTATUS.cs" />
+    <Compile Include="WFSCIMINPUTREFUSE.cs" />
+    <Compile Include="WFSCIMNOTENUMBERLIST.cs" />
+    <Compile Include="WFSCIMSTATUS.cs" />
+    <Compile Include="WFSDEVSTATUS.cs" />
+    <Compile Include="WFSIDCSTATUS.cs" />
+    <Compile Include="WFSIPMEDIABINERROR.cs" />
+    <Compile Include="WFSIPMMEDIABININFO.cs" />
+    <Compile Include="WFSIPMMEDIAIN.cs" />
+    <Compile Include="WFSIPMMEDIAINEND.cs" />
+    <Compile Include="WFSIPMMEDIAPRESENTED.cs" />
+    <Compile Include="WFSIPMMEDIAREFUSED.cs" />
+    <Compile Include="WFSIPMMEDIAREJECTED.cs" />
+    <Compile Include="WFSIPMMEDIASTATUS.cs" />
+    <Compile Include="WFSIPMRETRACTMEDIAOUT.cs" />
+    <Compile Include="WFSIPMSTATUS.cs" />
+    <Compile Include="WFSIPMTRANSSTATUS.cs" />
+    <Compile Include="WFSPINSTATUS.cs" />
+    <Compile Include="WFSSIUSTATUS.cs" />
+    <Compile Include="WFSSTATUS.cs" />
+    <Compile Include="WFSSYSEVENT.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Contract\Contract.csproj">
+      <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
+      <Name>Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogLineHandler\LogLineHandler.csproj">
+      <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>
+      <Name>LogLineHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RegEx\RegEx.csproj">
+      <Project>{08528b3a-39f6-4e08-81fa-9b3c2935316a}</Project>
+      <Name>RegEx</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

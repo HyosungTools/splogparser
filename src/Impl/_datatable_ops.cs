@@ -25,8 +25,10 @@ namespace Impl
             return (true, string.Empty);
          }
 
-         DataView dataView = new DataView(dataTable);
-         dataView.Sort = sortCriteria;
+         DataView dataView = new DataView(dataTable)
+         {
+            Sort = sortCriteria
+         };
 
          List<DataRow> deleteRows = new List<DataRow>();
          for (int i = rowCount - 1; i > 0; i--)
@@ -80,7 +82,7 @@ namespace Impl
          }
 
          // Use LINQ to group and select distinct rows based on specified columns
-         var distinctRows = dataTable.AsEnumerable()
+         DataTable distinctRows = dataTable.AsEnumerable()
              .GroupBy(r => string.Join(",", columns.Select(c => r[c])))
              .Select(g => g.First())
              .CopyToDataTable();
@@ -117,7 +119,7 @@ namespace Impl
          {
             foreach (DataRow dataRow in dataTable.Rows)
             {
-               if (String.IsNullOrEmpty(dataRow[column].ToString()))
+               if (string.IsNullOrEmpty(dataRow[column].ToString()))
                   continue;
 
                // Create an array for the key values to find.
@@ -212,7 +214,7 @@ namespace Impl
                foreach (string nColumn in nColumns)
                {
                   // skip if null or empty
-                  if (String.IsNullOrEmpty(dataRow[nColumn].ToString()))
+                  if (string.IsNullOrEmpty(dataRow[nColumn].ToString()))
                   {
                      continue;
                   }
@@ -263,7 +265,7 @@ namespace Impl
                int total = 0;
                foreach (string moneyColumn in moneyColumns)
                {
-                  if (String.IsNullOrEmpty(dataRow[moneyColumn].ToString()))
+                  if (string.IsNullOrEmpty(dataRow[moneyColumn].ToString()))
                      continue;
 
                   total += int.Parse(dataRow[moneyColumn].ToString()) * int.Parse(moneyColumn.Replace("USD", string.Empty));

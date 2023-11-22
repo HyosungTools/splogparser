@@ -2,12 +2,13 @@
 using System.Data;
 using Contract;
 using Impl;
+using LogLineHandler;
 
 namespace DeviceView
 {
    internal class DEVTable : BaseTable
    {
-      string[] hServiceArray = new string[100];
+      readonly string[] hServiceArray = new string[100];
 
       /// <summary>
       /// constructor
@@ -22,118 +23,119 @@ namespace DeviceView
       /// Process one line from the merged log file. 
       /// </summary>
       /// <param name="logLine">logline from the file</param>
-      public override void ProcessRow(string traceFile, string logLine)
+      public override void ProcessRow(ILogLine logLine)
       {
          try
          {
-            (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
-
-            switch (result.xfsType)
+            if (logLine is SPLine spLogLine)
             {
-               case XFSType.WFS_INF_PTR_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_STATUS("PTR", result.xfsLine);
+               switch (spLogLine.xfsType)
+               {
+                  case LogLineHandler.XFSType.WFS_INF_PTR_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_STATUS("PTR", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_IDC_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_STATUS("IDC", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_CDM_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_STATUS("CDM", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_PIN_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_STATUS("PIN", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_CHK_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_STATUS("CHK", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_DEP_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_STATUS("DEP", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_TTU_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_STATUS("TTU", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_SIU_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_STATUS("SIU", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_VDM_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_STATUS("VDM", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_CAM_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_STATUS("CAM", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_ALM_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_STATUS("ALM", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_CIM_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_STATUS("CIM", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_BCR_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_STATUS("BCR", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_INF_IPM_STATUS:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_INF_STATUS("IPM", spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFPOPEN:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFSOPEN(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFPCLOSE:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFSCLOSE(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_SYSEVENT:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFSSYSEVENT(spLogLine);
+                        break;
+                     }
+                  default:
                      break;
-                  }
-               case XFSType.WFS_INF_IDC_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_STATUS("IDC", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_CDM_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_STATUS("CDM", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_PIN_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_STATUS("PIN", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_CHK_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_STATUS("CHK", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_DEP_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_STATUS("DEP", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_TTU_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_STATUS("TTU", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_SIU_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_STATUS("SIU", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_VDM_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_STATUS("VDM", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_CAM_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_STATUS("CAM", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_ALM_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_STATUS("ALM", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_CIM_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_STATUS("CIM", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_BCR_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_STATUS("BCR", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_INF_IPM_STATUS:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFS_INF_STATUS("IPM", result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFPOPEN:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFSOPEN(LogTime.GetTimeFromLogLine2(logLine), result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFPCLOSE:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFSCLOSE(LogTime.GetTimeFromLogLine2(logLine), result.xfsLine);
-                     break;
-                  }
-               case XFSType.WFS_SYSEVENT:
-                  {
-                     base.ProcessRow(traceFile, logLine);
-                     WFSSYSEVENT(LogTime.GetTimeFromLogLine2(logLine), result.xfsLine);
-                     break;
-                  }
-               default:
-                  break;
+               }
             }
          }
          catch (Exception e)
@@ -205,32 +207,22 @@ namespace DeviceView
          return base.WriteExcelFile();
       }
 
-      protected void WFS_INF_STATUS(string device, string xfsLine)
+      protected void WFS_INF_STATUS(string device, SPLine spLogLine)
       {
          try
          {
-            //ctx.ConsoleWriteLogLine(String.Format("WFS_INF_STATUS tracefile '{0}' timestamp '{1}", _traceFile, lpResult.tsTimestamp(xfsLine)));
-
-            WFSDEVSTATUS devStatus = new WFSDEVSTATUS(ctx);
-
-            try
+            if (spLogLine is WFSDEVSTATUS devStatus)
             {
-               devStatus.Initialize(xfsLine);
+               DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
+
+               dataRow["file"] = spLogLine.LogFile;
+               dataRow["time"] = spLogLine.Timestamp;
+               dataRow["error"] = spLogLine.HResult;
+
+               dataRow[device] = devStatus.fwDevice;
+
+               dTableSet.Tables["Status"].AcceptChanges();
             }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CDM_STATUS Assignment Exception {0}. {1}, {2}", _traceFile, lpResult.tsTimestamp(xfsLine), e.Message));
-            }
-
-            DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
-
-            dataRow["file"] = _traceFile;
-            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
-            dataRow["error"] = lpResult.hResult(xfsLine);
-
-            dataRow[device] = devStatus.fwDevice;
-
-            dTableSet.Tables["Status"].AcceptChanges();
          }
          catch (Exception e)
          {
@@ -240,37 +232,22 @@ namespace DeviceView
          return;
       }
 
-      protected void WFSOPEN(string logTime, string xfsLine)
+      protected void WFSOPEN(SPLine spLogLine)
       {
          try
          {
-            // ctx.ConsoleWriteLogLine(String.Format("WFPOPEN tracefile '{0}' xfsLine '{1}'", _traceFile, xfsLine.Substring(0, 20)));
-
-            WFPOPEN wfpOpen = new WFPOPEN(ctx);
-
-            try
-            {
-               wfpOpen.Initialize(xfsLine);
-            }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFSOPEN Assignment Exception {0}. {1}, {2}", _traceFile, logTime, e.Message));
-            }
-
-            string xfsDevice = WFPOPEN.device(xfsLine);
-            ctx.ConsoleWriteLogLine(String.Format("xfsDevice = {0}", xfsDevice));
-            if (!String.IsNullOrEmpty(xfsDevice))
+            if (spLogLine is WFPOPEN wfpOpen)
             {
                DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
 
-               dataRow["file"] = _traceFile;
-               dataRow["time"] = logTime;
+               dataRow["file"] = spLogLine.LogFile;
+               dataRow["time"] = wfpOpen.Timestamp;
                dataRow["error"] = wfpOpen.lpszAppID;
 
-               dataRow[xfsDevice] = "open (" + wfpOpen.hService + ")";
+               //dataRow[xfsDevice] = "open (" + wfpOpen.hService + ")";
 
-               // store xfs device
-               hServiceArray[int.Parse(wfpOpen.hService)] = xfsDevice;
+               //// store xfs device
+               //hServiceArray[int.Parse(wfpOpen.hService)] = xfsDevice;
 
                dTableSet.Tables["Status"].AcceptChanges();
             }
@@ -282,33 +259,23 @@ namespace DeviceView
 
          return;
       }
-      protected void WFSCLOSE(string logTime, string xfsLine)
+      protected void WFSCLOSE(SPLine spLogLine)
       {
          try
          {
-            // ctx.ConsoleWriteLogLine(String.Format("WFPOPEN tracefile '{0}' xfsLine '{1}'", _traceFile, xfsLine.Substring(0, 20)));
-
-            WFPCLOSE wfpClose = new WFPCLOSE(ctx);
-
-            try
+            if (spLogLine is WFPCLOSE wfpOpen)
             {
-               wfpClose.Initialize(xfsLine);
+               DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
+
+               // recover the xfs device
+               // string xfsDevice = hServiceArray[int.Parse(wfpClose.hService)];
+
+               dataRow["file"] = spLogLine.LogFile;
+               dataRow["time"] = spLogLine.Timestamp;
+               // dataRow[xfsDevice] = "close (" + wfpClose.hService + ")";
+
+               dTableSet.Tables["Status"].AcceptChanges();
             }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFSCLOSE Assignment Exception {0}. {1}, {2}", _traceFile, logTime, e.Message));
-            }
-
-            DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
-
-            // recover the xfs device
-            string xfsDevice = hServiceArray[int.Parse(wfpClose.hService)];
-
-            dataRow["file"] = _traceFile;
-            dataRow["time"] = logTime;
-            dataRow[xfsDevice] = "close (" + wfpClose.hService + ")";
-
-            dTableSet.Tables["Status"].AcceptChanges();
          }
          catch (Exception e)
          {
@@ -316,34 +283,24 @@ namespace DeviceView
          }
       }
 
-      protected void WFSSYSEVENT(string logTime, string xfsLine)
+      protected void WFSSYSEVENT(SPLine spLogLine)
       {
          try
          {
-            // ctx.ConsoleWriteLogLine(String.Format("WFSSYSEVENT tracefile '{0}' xfsLine '{1}'", _traceFile, xfsLine.Substring(0, 20)));
-
-            WFSSYSEVENT wfsSysEvent = new WFSSYSEVENT(ctx);
-
-            try
+            if (spLogLine is LogLineHandler.WFSSYSEVENT wfsSysEvent)
             {
-               wfsSysEvent.Initialize(xfsLine);
+               DataRow dataRow = dTableSet.Tables["SysEvent"].Rows.Add();
+
+               dataRow["file"] = spLogLine.LogFile;
+               dataRow["time"] = spLogLine.Timestamp;
+               dataRow["error"] = spLogLine.HResult;
+
+               dataRow["logical"] = wfsSysEvent.logicalName;
+               dataRow["physical"] = wfsSysEvent.physicalName;
+               dataRow["description"] = wfsSysEvent.lpbDescription;
+
+               dTableSet.Tables["SysEvent"].AcceptChanges();
             }
-            catch (Exception e)
-            {
-               ctx.ConsoleWriteLogLine(String.Format("WFSSYSEVENT Assignment Exception {0}. {1}, {2}", _traceFile, logTime, e.Message));
-            }
-
-            DataRow dataRow = dTableSet.Tables["SysEvent"].Rows.Add();
-
-            dataRow["file"] = _traceFile;
-            dataRow["time"] = lpResult.tsTimestamp(xfsLine);
-            dataRow["error"] = lpResult.hResult(xfsLine);
-
-            dataRow["logical"] = wfsSysEvent.logicalName;
-            dataRow["physical"] = wfsSysEvent.physicalName;
-            dataRow["description"] = wfsSysEvent.lpbDescription;
-
-            dTableSet.Tables["SysEvent"].AcceptChanges();
          }
          catch (Exception e)
          {
