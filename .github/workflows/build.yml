@@ -41,7 +41,7 @@ jobs:
                   
     # Install Office - https://github.com/actions/runner-images/issues/1117
     - name: Install Office
-      run: choco install office365business --version 16731.20354 -y
+      run: choco install office365business --version 16731.20354 -y --forcex86 --params "'/productid:O365HomePremRetail /exclude:Access Groove Lync OneDrive OneNote Outlook Publisher Word'"
       
     # Make dist directory
     - name: Make Dir
