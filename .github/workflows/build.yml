@@ -41,7 +41,7 @@ jobs:
                   
     # Install Office - https://github.com/actions/runner-images/issues/1117
     - name: Install Office
-      run: choco install office365proplus
+      run: choco install office365business --version=16026.20170
       
     # Make dist directory
     - name: Make Dir
