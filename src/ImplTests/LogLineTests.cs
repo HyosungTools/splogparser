@@ -28,10 +28,10 @@ namespace SPLogParserTests
                   }
                }";
 
-         (bool found, string oneLine, string subLogLine) nextLine = LogLine.ReadNextLine(logLine);
-         Assert.IsTrue(nextLine.found);
-         Assert.IsTrue(nextLine.oneLine.StartsWith("lpResult"));
-         Assert.IsTrue(nextLine.subLogLine.TrimStart().StartsWith("{"));
+         (bool found, string oneLine, string subLogLine) = LogLine.ReadNextLine(logLine);
+         Assert.IsTrue(found);
+         Assert.IsTrue(oneLine.StartsWith("lpResult"));
+         Assert.IsTrue(subLogLine.TrimStart().StartsWith("{"));
       }
       [TestMethod]
       public void FindNextLineFail()
@@ -65,10 +65,10 @@ namespace SPLogParserTests
                   }
                }";
 
-         (bool found, string oneLine, string subLogLine) nextLine = LogLine.FindLine(logLine, "[801]");
-         Assert.IsTrue(nextLine.found);
-         Assert.IsTrue(nextLine.oneLine.TrimStart().StartsWith("u.dwEventID"));
-         Assert.IsTrue(nextLine.subLogLine.TrimStart().StartsWith("lpBuffer"));
+         (bool found, string oneLine, string subLogLine) = LogLine.FindLine(logLine, "[801]");
+         Assert.IsTrue(found);
+         Assert.IsTrue(oneLine.TrimStart().StartsWith("u.dwEventID"));
+         Assert.IsTrue(subLogLine.TrimStart().StartsWith("lpBuffer"));
       }
       [TestMethod]
       public void FindLineFail()
@@ -91,10 +91,10 @@ namespace SPLogParserTests
                   }
                }";
 
-         (bool found, string oneLine, string subLogLine) nextLine = LogLine.FindLine(logLine, "[000]");
-         Assert.IsFalse(nextLine.found);
-         Assert.IsTrue(string.IsNullOrEmpty(nextLine.oneLine));
-         Assert.IsTrue(nextLine.subLogLine == logLine);
+         (bool found, string oneLine, string subLogLine) = LogLine.FindLine(logLine, "[000]");
+         Assert.IsFalse(found);
+         Assert.IsTrue(string.IsNullOrEmpty(oneLine));
+         Assert.IsTrue(subLogLine == logLine);
       }
    }
 }

@@ -214,6 +214,50 @@
     <brief>bolted</brief>
     <description></description>
   </Messages>
+
+   <Messages>
+    <type>ups</type>
+    <code>0x0000</code>
+    <brief>not avail</brief>
+    <description>The status is not available</description>
+  </Messages>
+
+  <!-- ups -->
+  
+   <Messages>
+    <type>ups</type>
+    <code>0x0001</code>
+    <brief>avail</brief>
+    <description>The ups is available</description>
+  </Messages>
+ 
+   <Messages>
+    <type>ups</type>
+    <code>0x0002</code>
+    <brief>low</brief>
+    <description>The charge level of the UPS is low</description>
+  </Messages>
+ 
+   <Messages>
+    <type>ups</type>
+    <code>0x0004</code>
+    <brief>engaged</brief>
+    <description>The UPS is engaged</description>
+  </Messages>  
+ 
+   <Messages>
+    <type>ups</type>
+    <code>0x0008</code>
+    <brief>powering</brief>
+    <description>The UPS is powering the system</description>
+  </Messages>   
+ 
+   <Messages>
+    <type>ups</type>
+    <code>0x0010</code>
+    <brief>recovered</brief>
+    <description>The UPS was engaged when the main power went off</description>
+  </Messages>
   
   <!-- error -->
   

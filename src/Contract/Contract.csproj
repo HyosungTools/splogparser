@@ -42,8 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IContext.cs" />
+    <Compile Include="ICreateStreamReader.cs" />
     <Compile Include="IFileSystemProvider.cs" />
+    <Compile Include="ILogFileHandler.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="ILogLine.cs" />
     <Compile Include="IView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

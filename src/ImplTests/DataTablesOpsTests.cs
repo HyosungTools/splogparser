@@ -11,7 +11,7 @@ namespace SPLogParserTests
    [TestClass]
    public class DataTablesOpsTests
    {
-      string cdmTestDataXml =
+      readonly string cdmTestDataXml =
 @"<?xml version=""1.0"" standalone=""yes""?>
 <CDM>
   <xs:schema id = ""CDM"" xmlns="""" xmlns:xs=""http://www.w3.org/2001/XMLSchema"" xmlns:msdata=""urn:schemas-microsoft-com:xml-msdata"">
@@ -136,8 +136,10 @@ namespace SPLogParserTests
          DataRowView lastRow;
          DataRowView secondLastRow;
 
-         DataView dataView = new DataView(dTableSet.Tables["Status"]);
-         dataView.Sort = "time ASC";
+         DataView dataView = new DataView(dTableSet.Tables["Status"])
+         {
+            Sort = "time ASC"
+         };
 
          // prove the sort by walking back up this list and testing that for each row
          // time decreases
@@ -145,7 +147,7 @@ namespace SPLogParserTests
          {
             lastRow = dataView[i];
             secondLastRow = dataView[i - 1];
-            string testline = String.Format("lastRow[{0}] time '{1}', secondlastRow[{2}] time '{3}'!!", i, lastRow["time"].ToString(), i - 1, secondLastRow["time"].ToString());
+            _ = String.Format("lastRow[{0}] time '{1}', secondlastRow[{2}] time '{3}'!!", i, lastRow["time"].ToString(), i - 1, secondLastRow["time"].ToString());
             Assert.IsTrue(string.Compare(secondLastRow["time"].ToString(), lastRow["time"].ToString()) < 0);
          }
       }
@@ -163,15 +165,17 @@ namespace SPLogParserTests
          // DataTable. 
 
          // sort the data view
-         DataView dataView = new DataView(dTableSet.Tables["Status"]);
-         dataView.Sort = "time ASC";
+         DataView dataView = new DataView(dTableSet.Tables["Status"])
+         {
+            Sort = "time ASC"
+         };
 
          // identify the rows to delete
          List<DataRow> deleteRows = new List<DataRow>();
          for (int i = 0; i < rowCount; i++)
          {
             DataRowView viewRow = dataView[i];
-            string thisTime = viewRow["time"].ToString();
+            _ = viewRow["time"].ToString();
             if (string.Compare(viewRow["time"].ToString(), "2022/12/15 00:00 00.000") > 0)
             {
                // delete this row
@@ -191,10 +195,10 @@ namespace SPLogParserTests
          dTableSet.Tables["Status"].AcceptChanges();
 
          // assert that there are no rows with a date > > 2022/12/15 00:00 00.000 in the data table
-         int rowCount2 = dTableSet.Tables["status"].Rows.Count;
+         _ = dTableSet.Tables["status"].Rows.Count;
          foreach (DataRow dataRow in dTableSet.Tables["status"].Rows)
          {
-            string thisTime = dataRow["time"].ToString();
+            _ = dataRow["time"].ToString();
             Assert.IsTrue(string.Compare(dataRow["time"].ToString(), "2022/12/15 00:00 00.000") < 0); 
          }
       }

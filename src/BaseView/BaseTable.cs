@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using Excel = Microsoft.Office.Interop.Excel;
 
+
 namespace Impl
 {
    public class BaseTable
@@ -47,14 +48,6 @@ namespace Impl
       /// Flags if a zero in the worksheet should be shown a blank+
       /// </summary>
       protected bool _zeroAsBlank = false;
-      /// <summary>
-      /// trace file of the log line
-      /// </summary>
-      protected string _traceFile = string.Empty;
-      /// <summary>
-      /// grab the date/time from a logline
-      /// </summary>
-      protected string _logDate = string.Empty;
 
       /// <summary>
       /// constructor
@@ -142,8 +135,7 @@ namespace Impl
 
       public bool WriteXmlFile()
       {
-         string outFile = string.Empty;
-
+         string outFile;
          try
          {
             outFile = ctx.WorkFolder + "\\" + viewName + ".xsd";
@@ -227,11 +219,10 @@ namespace Impl
 
       public bool CleanupXMLFile()
       {
-         string strInFile = string.Empty;
          try
          {
 
-            strInFile = ctx.WorkFolder + "\\" + viewName + ".xsd";
+            string strInFile = ctx.WorkFolder + "\\" + viewName + ".xsd";
             if (File.Exists(strInFile))
             {
                ctx.ConsoleWriteLogLine("Deleting file : " + strInFile);
@@ -350,10 +341,8 @@ namespace Impl
       /// <summary>
       /// Process a log line. 
       /// </summary>
-      public virtual void ProcessRow(string traceFile, string logLine)
+      public virtual void ProcessRow(ILogLine logLine)
       {
-         _traceFile = traceFile;
-         _logDate = LogTime.GetTimeFromLogLine(logLine);
          return;
       }
 
@@ -377,7 +366,7 @@ namespace Impl
          }
       }
 
-      private static Random random = new Random();
+      private static readonly Random random = new Random();
 
       public static string RandomString(int length)
       {
@@ -412,7 +401,7 @@ namespace Impl
          }
 
 
-         string excelFileName = ctx.WorkFolder + "\\" + Path.GetFileNameWithoutExtension(ctx.ZipFileName) + ".xlsx";
+         string excelFileName = ctx.WorkFolder + "\\" + Path.GetFileNameWithoutExtension(ctx.ZipFileName) + "_SP.xlsx";
          Console.WriteLine("Write DataTable to Excel:" + excelFileName);
 
          // create Excel 
@@ -493,10 +482,12 @@ namespace Impl
             ctx.ConsoleWriteLogLine("DataTable: " + dTable.TableName + " has " + distinctTable.Rows.Count.ToString() + " distinct rows.");
 
             // create a view
-            DataView dataView = new DataView(distinctTable);
+            DataView dataView = new DataView(distinctTable)
+            {
 
-            // sort by time
-            dataView.Sort = "Time ASC";
+               // sort by time
+               Sort = "Time ASC"
+            };
 
             // create a 2D array of the cell contents, we have to massage the data because there
             // are some things Excel does not like

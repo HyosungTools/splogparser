@@ -10,13 +10,13 @@ lpResult =
 	RequestID = [17615],
 	hService = [28],
 	tsTimestamp = [2023/01/24 00:59 14.663],
-	hResult = [0],
+	hResult = [1],
 	u.dwCommandCode = [301],
 	lpBuffer = [0x004ad064]
 	{
-		fwDevice = [0],
-		fwSafeDoor = [1],
-		fwDispenser = [2],
+		fwDevice = [2],
+		fwSafeDoor = [3],
+		fwDispenser = [4],
 		fwIntermediateStacker = [3],
 		lppPositions =
 		{
@@ -125,7 +125,7 @@ lpResult =
 	RequestID = [17612],
 	hService = [17],
 	tsTimestamp = [2023/01/24 00:59 14.655],
-	hResult = [0],
+	hResult = [-1],
 	u.dwCommandCode = [303],
 	lpBuffer = [0x079c7d3c]
 	{
@@ -141,14 +141,14 @@ lpResult =
 			ulValues		0		0		1		5		20		50
 			ulInitialCount		0		0		2000		2000		2000		2000
 			ulCount			0		0		1994		1797		2158		1336
-			ulRejectCount		0		0		0		0		0		0
+			ulRejectCount		1		2		3		4		5		6
 			ulMinimum		0		0		0		0		0		0
 			ulMaximum		80		210		0		0		0		0
 			bAppLock		0		0		0		0		0		0
 			usStatus		4		4		0		0		0		0
-			ulDispensedCount	0		0		43		219		194		846		
-			ulPresentedCount	0		0		43		215		190		842		
-			ulRetractedCount	0		0		0		0		0		0		
+			ulDispensedCount		0		0		43		219		194		846		
+			ulPresentedCount		0		0		43		215		190		842		
+			ulRetractedCount		1		2		3		4		5		6		
 
 			lppPhysical->
 			usNumPhysicalCUs	1		1		1		1		1		1		
@@ -162,7 +162,7 @@ lpResult =
 			bHardwareSensor		1		1		1		1		1		1
 			ulDispensedCount	0		0		43		219		194		846		
 			ulPresentedCount	0		0		43		215		190		842		
-			ulRetractedCount	0		0		0		0		0		0		
+			ulRetractedCount	123		0		0		0		0		456		
 
 		}
 	}
@@ -581,22 +581,147 @@ lpResult =
       public const string WFS_CMD_CDM_RESET_3 = @"";
 
       public const string WFS_SRVE_CDM_CASHUNITINFOCHANGED_1 = @"
-pCursor->pData->hApp=0x1F8215B501594294967295012600147655930003CDM0003SPI00102022/12/18001221:23 03.5830011INFORMATION0026CServiceAgent::ReportEvent0023call UnPack(0x202A0DA0)01264294967295013700147655940003CDM0009FRAMEWORK00102022/12/18001221:23 03.5840011INFORMATION0028CBaseService::BroadcastEvent0026pData->wClass=13, wClass=301374294967295033100147655950005BRM600002SP00102022/12/18001221:23 03.5840004DATA0024CNHUsb2::SendControlData0236<- [64] 0000h: 00 4F 41 00 00 00 00 00 00 00 00 00 00 00 00 00 
-0010h: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-0020h: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-0030h: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-03314294967295103100147655960003CDM0003SPI00102022/12/18001221:23 03.5840009XFS_EVENT0018SERVICE_EVENT[304]0938WFS_SERVICE_EVENT, 
+02504294967295022100003108950006COMMON0009FRAMEWORK00102023/11/01001209:37 41.0130011INFORMATION0033CSpCmdDispatcher::DispatchCommand0102pService->GetInfo() {HSERVICE[2], HWND[0x000103f0], REQUESTID[221], dwCmdCode[303], dwTimeOut[300000]}02214294967295013600003108960013CashDispenser0003SPI00102023/11/01001209:37 41.0130011INFORMATION0026CServiceAgent::ReportEvent0023call UnPack(0x1B586928)01364294967295015100003108970003BRM0002SP00102023/11/01001209:37 41.0130011INFORMATION0019CMonitorThread::Run0056m_oldBrmCimInfo.LCU[i].ulDispensedCount changed(91->106)01514294967295019300003108980003CDM0007ACTIVEX00102023/11/01001209:37 41.0130006XFSAPI0022CService::AsyncGetInfo0095WFSAsyncGetInfo(hService=2, dwCategory=303, lpQueryDetails=0x00000000, RequestID=221) hResult=001934294967295016600003108990006COMMON0009FRAMEWORK00102023/11/01001209:37 41.0130011INFORMATION0028CServiceProvider::GetService0052service OK {HSERVICE[2], LogicalName[CashDispenser]}01664294967295161800003109000013CashDispenser0003SPI00102023/11/01001209:37 41.0130009XFS_EVENT0018SERVICE_EVENT[304]1515WFS_SERVICE_EVENT, 
 lpResult =
 {
-	hWnd = [0x00010574],
+	hWnd = [0x000103f0],
 	RequestID = [0],
 	hService = [2],
-	tsTimestamp = [2022/12/18 21:23 03.582],
+	tsTimestamp = [2023/11/01 09:37 41.012],
 	hResult = [0],
 	u.dwEventID = [304],
-	lpBuffer = [0x1f053fdc]
+	lpBuffer = [0x20818b6c]
+	{
+		usNumber = [3],
+		usType = [12],
+		lpszCashUnitName = [LCU02],
+		cUnitID = [LCU02],
+		cCurrencyID = [USD],
+		ulValues = [20],
+		ulInitialCount = [0],
+		ulCount = [0],
+		ulRejectCount = [0],
+		ulMinimum = [0],
+		ulMaximum = [0],
+		bAppLock = [0],
+		usStatus = [0],
+		usNumPhysicalCUs = [3],
+		lppPhysical = 
+		{
+			lpPhysicalPositionName = [CassetteA],
+			cUnitID = [CST_A],
+			ulInitialCount = [0],
+			ulCount = [0],
+			ulRejectCount = [0],
+			ulMaximum = [0],
+			usPStatus = [0],
+			bHardwareSensor = [1]
+			ulDispensedCount = [17],
+			ulPresentedCount = [0],
+			ulRetractedCount = [0]
+		}
+		{
+			lpPhysicalPositionName = [CassetteB],
+			cUnitID = [CST_B],
+			ulInitialCount = [0],
+			ulCount = [0],
+			ulRejectCount = [0],
+			ulMaximum = [0],
+			usPStatus = [0],
+			bHardwareSensor = [1]
+			ulDispensedCount = [33],
+			ulPresentedCount = [3],
+			ulRetractedCount = [0]
+		}
+		{
+			lpPhysicalPositionName = [CassetteC],
+			cUnitID = [CST_C],
+			ulInitialCount = [0],
+			ulCount = [0],
+			ulRejectCount = [0],
+			ulMaximum = [0],
+			usPStatus = [0],
+			bHardwareSensor = [1]
+			ulDispensedCount = [56],
+			ulPresentedCount = [0],
+			ulRetractedCount = [0]
+		}
+			ulDispensedCount = [106],
+			ulPresentedCount = [3],
+			ulRetractedCount = [0]
+		}
+}
 ";
-      public const string WFS_SRVE_CDM_CASHUNITINFOCHANGED_2 = @"";
+      public const string WFS_SRVE_CDM_CASHUNITINFOCHANGED_2 = @"14194294967295015900002524140003CDM0007ACTIVEX00102023/10/31001215:54 21.1190011INFORMATION0022CMsgWnd::DefWindowProc0056message=0x00000407, wParam=0x181281F8, lParam=0x2129A01C01594294967295015400002524150003CDM0007ACTIVEX00102023/10/31001215:54 21.1190011INFORMATION0025CCdmService::HandleStatus0048GetInfo-Result[Status][ReqID=257] = {hResult[0]}01544294967295018700002524160003CDM0007ACTIVEX00102023/10/31001215:54 21.1190011INFORMATION0024CContextMgr::SetComplete0082SetComplete(Waiting ReqID=[257], Arrival ReqID=[257]), Remove ReqID[257] from List01874294967295012100002524170003BRM0002SP00102023/10/31001215:54 21.1660011INFORMATION0025CBrmCommand::UpdateStatus0020MMF will be updated!01214294967295014800002524180003BRM0002SP00102023/10/31001215:54 21.1700011INFORMATION0019CMonitorThread::Run0053m_oldBrmCdmInfo.LCU[i].ulPresentedCount changed(0->1)01484294967295015900002524190003CDM0009FRAMEWORK00102023/10/31001215:54 21.1710011INFORMATION0028CBaseService::BroadcastEvent0048hApp=0x00000000, pCursor->pData->hApp=0x40146A9B01594294967295013600002524200003CDM0009FRAMEWORK00102023/10/31001215:54 21.1710011INFORMATION0028CBaseService::BroadcastEvent0025pData->wClass=3, wClass=301364294967295013600002524210013CashDispenser0003SPI00102023/10/31001215:54 21.1710011INFORMATION0026CServiceAgent::ReportEvent0023call UnPack(0x1AD76928)01364294967295014800002524220003BRM0002SP00102023/10/31001215:54 21.1710011INFORMATION0019CMonitorThread::Run0053m_oldBrmCimInfo.LCU[i].ulPresentedCount changed(0->1)01484294967295161700002524230013CashDispenser0003SPI00102023/10/31001215:54 21.1710009XFS_EVENT0018SERVICE_EVENT[304]1514WFS_SERVICE_EVENT, 
+lpResult =
+{
+	hWnd = [0x000103c6],
+	RequestID = [0],
+	hService = [2],
+	tsTimestamp = [2023/10/31 15:54 21.171],
+	hResult = [0],
+	u.dwEventID = [304],
+	lpBuffer = [0x17433344]
+	{
+		usNumber = [3],
+		usType = [12],
+		lpszCashUnitName = [LCU02],
+		cUnitID = [LCU02],
+		cCurrencyID = [USD],
+		ulValues = [20],
+		ulInitialCount = [0],
+		ulCount = [0],
+		ulRejectCount = [0],
+		ulMinimum = [0],
+		ulMaximum = [0],
+		bAppLock = [0],
+		usStatus = [0],
+		usNumPhysicalCUs = [3],
+		lppPhysical = 
+		{
+			lpPhysicalPositionName = [CassetteA],
+			cUnitID = [CST_A],
+			ulInitialCount = [0],
+			ulCount = [0],
+			ulRejectCount = [0],
+			ulMaximum = [0],
+			usPStatus = [0],
+			bHardwareSensor = [1]
+			ulDispensedCount = [17],
+			ulPresentedCount = [0],
+			ulRetractedCount = [0]
+		}
+		{
+			lpPhysicalPositionName = [CassetteB],
+			cUnitID = [CST_B],
+			ulInitialCount = [0],
+			ulCount = [0],
+			ulRejectCount = [0],
+			ulMaximum = [0],
+			usPStatus = [0],
+			bHardwareSensor = [1]
+			ulDispensedCount = [16],
+			ulPresentedCount = [1],
+			ulRetractedCount = [0]
+		}
+		{
+			lpPhysicalPositionName = [CassetteC],
+			cUnitID = [CST_C],
+			ulInitialCount = [0],
+			ulCount = [0],
+			ulRejectCount = [0],
+			ulMaximum = [0],
+			usPStatus = [0],
+			bHardwareSensor = [1]
+			ulDispensedCount = [56],
+			ulPresentedCount = [0],
+			ulRetractedCount = [0]
+		}
+			ulDispensedCount = [89],
+			ulPresentedCount = [1],
+			ulRetractedCount = [0]
+		}
+}";
       public const string WFS_SRVE_CDM_CASHUNITINFOCHANGED_3 = @"";
 
       public const string WFS_SRVE_CDM_ITEMSTAKEN_1 = @"

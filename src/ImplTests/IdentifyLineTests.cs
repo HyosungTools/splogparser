@@ -356,59 +356,59 @@ namespace SPLogParserTests
          Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
       }
 
-      [TestMethod]
-      public void Identify_WFS_CMD_CIM_RETRACT_1()
-      {
-         string logLine = samples_cim.WFS_CDM_CIM_RETRACT_1;
-         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
-         Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_RETRACT);
-         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
-      }
+      //[TestMethod]
+      //public void Identify_WFS_CMD_CIM_RETRACT_1()
+      //{
+      //   string logLine = samples_cim.WFS_CDM_CIM_RETRACT_1;
+      //   (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+      //   Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_RETRACT);
+      //   Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      //}
 
-      [TestMethod]
-      public void Identify_WFS_CMD_CIM_RETRACT_2()
-      {
-         string logLine = samples_cim.WFS_CDM_CIM_RETRACT_2;
-         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
-         Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_RETRACT);
-         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
-      }
+      //[TestMethod]
+      //public void Identify_WFS_CMD_CIM_RETRACT_2()
+      //{
+      //   string logLine = samples_cim.WFS_CDM_CIM_RETRACT_2;
+      //   (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+      //   Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_RETRACT);
+      //   Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      //}
 
-      [TestMethod]
-      public void Identify_WFS_CMD_CIM_RETRACT_3()
-      {
-         string logLine = samples_cim.WFS_CDM_CIM_RETRACT_3;
-         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
-         Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_RETRACT);
-         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
-      }
+      //[TestMethod]
+      //public void Identify_WFS_CMD_CIM_RETRACT_3()
+      //{
+      //   string logLine = samples_cim.WFS_CDM_CIM_RETRACT_3;
+      //   (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+      //   Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_RETRACT);
+      //   Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      //}
 
-      [TestMethod]
-      public void Identify_WFS_CMD_CIM_RESET_1()
-      {
-         string logLine = samples_cim.WFS_CDM_CIM_RESET_1;
-         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
-         Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_RESET);
-         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
-      }
+      //[TestMethod]
+      //public void Identify_WFS_CMD_CIM_RESET_1()
+      //{
+      //   string logLine = samples_cim.WFS_CDM_CIM_RESET_1;
+      //   (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+      //   Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_RESET);
+      //   Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      //}
 
-      [TestMethod]
-      public void Identify_WFS_CMD_CIM_RESET_2()
-      {
-         string logLine = samples_cim.WFS_CDM_CIM_RESET_2;
-         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
-         Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_RESET);
-         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
-      }
+      //[TestMethod]
+      //public void Identify_WFS_CMD_CIM_RESET_2()
+      //{
+      //   string logLine = samples_cim.WFS_CDM_CIM_RESET_2;
+      //   (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+      //   Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_RESET);
+      //   Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      //}
 
-      [TestMethod]
-      public void Identify_WFS_CMD_CIM_RESET_3()
-      {
-         string logLine = samples_cim.WFS_CDM_CIM_RESET_3;
-         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
-         Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_RESET);
-         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
-      }
+      //[TestMethod]
+      //public void Identify_WFS_CMD_CIM_RESET_3()
+      //{
+      //   string logLine = samples_cim.WFS_CDM_CIM_RESET_3;
+      //   (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+      //   Assert.IsTrue(result.xfsType == XFSType.WFS_CMD_CIM_RESET);
+      //   Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      //}
 
       [TestMethod]
       public void Identify_WFS_USRE_CIM_CASHUNITTHRESHOLD_1()

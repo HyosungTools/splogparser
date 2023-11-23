@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Contract;
 
 namespace Impl
@@ -14,8 +15,8 @@ namespace Impl
       // logger object
       public ILogger logger { get; set; }
 
-      // list of log files to parse
-      public string[] nwlogFiles { get; set; }
+      // logFile handlers
+      public List<ILogFileHandler> logFileHandlers { get; }
 
       // folder to store temp files and Excel file
       public string WorkFolder { get; set; }
@@ -38,10 +39,10 @@ namespace Impl
       {
          this.ioProvider = ioProvider;
          this.logger = logger;
-         nwlogFiles = new string[0];
-         this.WorkFolder = workFolder;
-         this.SubFolder = subFolder;
-         this.ZipFileName = zipFileName;
+         logFileHandlers = new List<ILogFileHandler>();
+         WorkFolder = workFolder;
+         SubFolder = subFolder;
+         ZipFileName = zipFileName;
       }
 
       /// <summary>
@@ -59,7 +60,7 @@ namespace Impl
       public void ConsoleWriteLogLine(string message)
       {
          Console.WriteLine(message);
-         this.LogWriteLine(message);
+         LogWriteLine(message);
       }
    }
 }

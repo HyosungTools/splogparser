@@ -17,16 +17,16 @@ lpResult =
 	RequestID = [13419],
 	hService = [33],
 	tsTimestamp = [2023/01/30 20:43 30.395],
-	hResult = [0],
+	hResult = [1],
 	u.dwCommandCode = [201],
 	lpBuffer = [0x2c02b7ec]
 	{
-		fwDevice = [0],
-		fwMedia = [7],
-		fwRetainBin = [2],
-		fwSecurity = [1],
-		usCards = [0],
-		fwChipPower = [0],
+		fwDevice = [2],
+		fwMedia = [3],
+		fwRetainBin = [4],
+		fwSecurity = [5],
+		usCards = [6],
+		fwChipPower = [7],
 		lpszExtra = [EPVersion=5293-01M,ErrorCode=0000000,SPVersion=V 04.30.36,Description=System OK!]
 		dwGuidLights =
 			[0x00000000], [0x00000000], [0x00000000], [0x00000000],
@@ -37,15 +37,15 @@ lpResult =
 			[0x00000000], [0x00000000], [0x00000000], [0x00000000],
 			[0x00000000], [0x00000000], [0x00000000], [0x00000000],
 			[0x00000000], [0x00000000], [0x00000000], [0x00000000]
-		fwChipModule = [0],
-		fwMagReadModule = [0],
-		fwMagWriteModule = [0],
-		fwFrontImageModule = [0],
-		fwBackImageModule = [0],
-		wDevicePosition = [0],
-		usPowerSaveRecoveryTime = [0],
+		fwChipModule = [8],
+		fwMagReadModule = [9],
+		fwMagWriteModule = [10],
+		fwFrontImageModule = [11],
+		fwBackImageModule = [12],
+		wDevicePosition = [13],
+		usPowerSaveRecoveryTime = [14],
 		lpwParkingStationMedia = 00000000
-		wAntiFraudModule = [0]
+		wAntiFraudModule = [15]
 	}
 }";
    }
