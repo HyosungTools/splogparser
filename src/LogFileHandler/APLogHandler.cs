@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using System.Text.RegularExpressions;
 using Contract;
 using LogLineHandler;
 
@@ -11,11 +10,8 @@ namespace LogFileHandler
    /// </summary>
    public class APLogHandler : LogHandler, ILogFileHandler
    {
-      public string ParseType { get; }
-
-      public APLogHandler(ICreateStreamReader createReader) : base(createReader)
+      public APLogHandler(ICreateStreamReader createReader) : base(ParseType.AP, createReader)
       {
-         ParseType = "AP";
          LogExpression = "APLog*.*";
          Name = "APLogFileHandler";
       }

@@ -1,18 +1,17 @@
 ﻿using System;
 using Contract;
-using LogFileHandler;
 
 namespace Impl
 {
    public abstract class BaseView
    {
-      IContext ctx; 
+      IContext ctx;
 
       // static constants
       /// <summary>
       /// Type for this View. Views can be grouped together by type. 
       /// </summary>
-      protected readonly string viewType;
+      public ParseType parseType { get; }
 
       /// <summary>
       /// Unique name for this View. 
@@ -27,16 +26,13 @@ namespace Impl
       /// <summary>
       /// Constructor. 
       /// </summary>
-      /// <param name="viewType">View type used to group views. Not unique. </param>
+      /// <param name="parseType">View type used to group views. Not unique. </param>
       /// <param name="viewName">View name. Must be unique.</param>
-      protected BaseView(string viewType, string viewName)
+      protected BaseView(ParseType parseType, string viewName)
       {
-         this.viewType = viewType;
+         this.parseType = parseType;
          this.viewName = viewName;
       }
-
-      /// <summary>(get) Type of View for display/logging purposes.</summary>
-      public virtual string ViewType { get { return viewType; } }
 
       /// <summary>(get) name of View for display/logging purposes.</summary>
       public virtual string Name { get { return viewName; } }

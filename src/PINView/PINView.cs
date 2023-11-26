@@ -10,7 +10,7 @@ namespace PINView
       /// <summary>
       /// Constructor
       /// </summary>
-      PINView() : base("PIN", "PINView") { }
+      PINView() : base(ParseType.SP, "PINView") { }
 
       /// <summary>
       /// Creates an PIN Table instance. 

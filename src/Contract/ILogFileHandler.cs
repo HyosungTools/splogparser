@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Contract
+﻿namespace Contract
 {
    public interface ILogFileHandler
    {
@@ -13,6 +11,6 @@ namespace Contract
       string ReadLine();
       ILogLine IdentifyLine(string logLine);
 
-      string ParseType { get; }
+      ParseType parseType { get; }
    }
 }

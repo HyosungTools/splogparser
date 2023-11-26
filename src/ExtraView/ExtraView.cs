@@ -10,7 +10,7 @@ namespace ExtraView
       /// <summary>
       /// Constructor
       /// </summary>
-      ExtraView() : base("Extra", "ExtraView") { }
+      ExtraView() : base(ParseType.SP, "ExtraView") { }
 
       /// <summary>
       /// Creates an Extra Table instance. 

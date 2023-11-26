@@ -47,6 +47,7 @@
     <Compile Include="ILogFileHandler.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="ILogLine.cs" />
+    <Compile Include="IOptions.cs" />
     <Compile Include="IView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

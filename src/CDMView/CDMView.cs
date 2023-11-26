@@ -10,7 +10,7 @@ namespace CDMView
       /// <summary>
       /// Constructor
       /// </summary>
-      CDMView() : base("CDM", "CDMView") { }
+      CDMView() : base(ParseType.SP, "CDMView") { }
 
       /// <summary>
       /// Creates an CDM Table instance. 

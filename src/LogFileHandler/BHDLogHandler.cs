@@ -10,11 +10,8 @@ namespace LogFileHandler
    /// </summary>
    public class BHDLogHandler : LogHandler, ILogFileHandler
    {
-      public string ParseType { get;  }
-
-      public BHDLogHandler(ICreateStreamReader createReader) : base(createReader)
+      public BHDLogHandler(ICreateStreamReader createReader) : base(ParseType.AT, createReader)
       {
-         ParseType = "BHD";
          LogExpression = "rvbeehd*.*";
          Name = "BHDLogFileHandler";
       }

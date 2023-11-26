@@ -27,6 +27,11 @@ namespace Impl
       // (full) zip file name
       public string ZipFileName { get; set; }
 
+      // Command Line Options
+      public IOptions opts { get; set; }
+
+
+
       /// <summary>
       /// constructor
       /// </summary>
@@ -35,7 +40,7 @@ namespace Impl
       /// <param name="workFolder">temporary work folder</param>
       /// <param name="subFolder">folder to hold unzipped data</param>
       /// <param name="zipFileName">name of the zip file to oprate on</param>
-      public Context(IFileSystemProvider ioProvider, ILogger logger, string workFolder, string subFolder, string zipFileName)
+      public Context(IFileSystemProvider ioProvider, ILogger logger, string workFolder, string subFolder, string zipFileName, IOptions opts)
       {
          this.ioProvider = ioProvider;
          this.logger = logger;
@@ -43,6 +48,7 @@ namespace Impl
          WorkFolder = workFolder;
          SubFolder = subFolder;
          ZipFileName = zipFileName;
+         this.opts = opts;
       }
 
       /// <summary>
@@ -62,5 +68,6 @@ namespace Impl
          Console.WriteLine(message);
          LogWriteLine(message);
       }
+
    }
 }

@@ -3,7 +3,6 @@ using System.Text;
 
 namespace Impl
 {
-
    public static class LogLine
    {
       /// <summary>

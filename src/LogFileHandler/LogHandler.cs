@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Contract; 
 
 namespace LogFileHandler
@@ -7,7 +6,9 @@ namespace LogFileHandler
     public class LogHandler
     {
       protected IContext ctx;
-      protected ICreateStreamReader createReader; 
+      protected ICreateStreamReader createReader;
+
+      public ParseType parseType { get; }
 
       // My Name (for logging purposes)
       public string Name { get; set; }
@@ -35,8 +36,9 @@ namespace LogFileHandler
 
       protected string LogExpression;
 
-      public LogHandler(ICreateStreamReader createReader)
+      public LogHandler(ParseType parseType, ICreateStreamReader createReader)
       {
+         this.parseType = parseType; 
          this.createReader = createReader; 
       }
 

@@ -2,7 +2,6 @@
 using Impl;
 using LogLineHandler;
 using System;
-using System.Collections.Generic;
 using System.Data;
 
 namespace IPMView

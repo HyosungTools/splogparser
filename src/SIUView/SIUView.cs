@@ -10,7 +10,7 @@ namespace SIUView
       /// <summary>
       /// Constructor
       /// </summary>
-      SIUView() : base("SIU", "SIUView") { }
+      SIUView() : base(ParseType.SP, "SIUView") { }
 
       /// <summary>
       /// Creates an SIU Table instance. 

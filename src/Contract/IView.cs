@@ -4,7 +4,7 @@
    {
 
       /// Property to return the type of this View for display/logging purposes.
-      string ViewType { get; }
+      ParseType parseType { get; }
 
       /// Property to return the name of this View for display/logging purposes.
       string Name { get; }
