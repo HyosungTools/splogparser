@@ -38,8 +38,8 @@ jobs:
       run: cd src && nuget restore && cd .. 
                   
     # Install Office - https://github.com/actions/runner-images/issues/1117
-    - name: Install Office
-      run: choco install office365business 
+    #- name: Install Office
+    #  run: choco install office365business 
       
     # Make dist directory
     - name: Make Dir
