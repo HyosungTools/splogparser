@@ -12,9 +12,11 @@ jobs:
     # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md
     runs-on: windows-2022
     steps:
-    - uses: actions/checkout@v3
+    # Checkout
+    - name: Checkout
+      uses: actions/checkout@v4
       with:
-        fetch-depth: 0
+        path: main
     
     # Semantic Versioning
     - name: Semantic versioning  
@@ -36,11 +38,7 @@ jobs:
     # List the packages restored
     - name: List dependencies restored
       run: cd src && nuget restore && cd .. 
-                  
-    # Install Office - https://github.com/actions/runner-images/issues/1117
-    #- name: Install Office
-    #  run: choco install office365business 
-      
+                        
     # Make dist directory
     - name: Make Dir
       run: mkdir dist
