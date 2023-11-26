@@ -10,7 +10,7 @@ namespace DeviceView
       /// <summary>
       /// Constructor
       /// </summary>
-      DevView() : base("DEV", "DEVView") { }
+      DevView() : base(ParseType.SP, "DEVView") { }
 
       /// <summary>
       /// Creates an CDM Table instance. 

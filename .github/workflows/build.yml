@@ -78,9 +78,9 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.github_token }}
       with:
-        artifacts: release.zip
+        artifacts: ${{ steps.versioning.outputs.version }}-splogparser.zip
         generateReleaseNotes: true
         tag: ${{ steps.versioning.outputs.version }}
         name: ${{ steps.versioning.outputs.version }}
         allowUpdates: true
-        prerelease: true        
+        prerelease: false        

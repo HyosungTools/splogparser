@@ -25,6 +25,9 @@ namespace Contract
       // Name of the log zip file
       string ZipFileName { get; set; }
 
+      // Commandline Options
+      IOptions opts { get; set; }
+
       /// <summary>
       /// Write a log line to the log file
       /// </summary>

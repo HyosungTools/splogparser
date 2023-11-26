@@ -401,7 +401,7 @@ namespace Impl
          }
 
 
-         string excelFileName = ctx.WorkFolder + "\\" + Path.GetFileNameWithoutExtension(ctx.ZipFileName) + "_SP.xlsx";
+         string excelFileName = ctx.WorkFolder + "\\" + Path.GetFileNameWithoutExtension(ctx.ZipFileName) + ctx.opts.Suffix() + ".xlsx";
          Console.WriteLine("Write DataTable to Excel:" + excelFileName);
 
          // create Excel 

@@ -6,7 +6,6 @@ using LogLineHandler;
 
 namespace CDMView
 {
-
    internal class CDMTable : BaseTable
    {
       /// <summary>

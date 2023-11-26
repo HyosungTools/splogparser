@@ -5,7 +5,8 @@ using System.Linq;
 using Contract;
 using Impl;
 using LogFileHandler;
-
+using CommandLine;
+using System.Collections.Generic;
 
 namespace splogparser
 {
@@ -47,23 +48,34 @@ namespace splogparser
 
       static void Main(string[] args)
       {
-         if (args.Length < 1)
+         Parser.Default.ParseArguments<Options>(args)
+             .WithParsed(Run)
+             .WithNotParsed(HandleParseError);
+      }
+
+      private static void HandleParseError(IEnumerable<Error> errs)
+      {
+         if (errs.IsVersion())
          {
-            Console.WriteLine("splogparser + <zipfile>");
+            Console.WriteLine("Version Request");
             return;
          }
 
-         if (!args[0].ToUpper().Contains(".ZIP"))
+         if (errs.IsHelp())
          {
-            Console.WriteLine("expected a zip file");
+            Console.WriteLine("Help Request");
             return;
          }
+         Console.WriteLine("Parser Fail");
+      }
 
+      private static void Run(Options opts)
+      {
          // Define the FileSystemProvider for this run
          IFileSystemProvider ioProvider = new FileSystemProvider();
 
          // Use the FileSystemProvider to gather information
-         string zipFileName = args[0];
+         string zipFileName = opts.InputFile;
          string workFolder = ioProvider.GetCurrentDirectory();
          string subFolder = ioProvider.GetFileNameWithoutExtension(zipFileName);
 
@@ -71,13 +83,37 @@ namespace splogparser
          ILogger logger = new Logger(ioProvider, workFolder, subFolder);
 
          // Define the Context. 
-         IContext ctx = new Context(ioProvider, logger, workFolder, subFolder, zipFileName);
+         IContext ctx = new Context(ioProvider, logger, workFolder, subFolder, zipFileName, opts);
 
          // Write out settings so far...
          ctx.ConsoleWriteLogLine("Application Start");
          ctx.ConsoleWriteLogLine("ZipFileName: " + $"{zipFileName}");
          ctx.ConsoleWriteLogLine("Work Folder: " + ctx.WorkFolder);
          ctx.ConsoleWriteLogLine("unzip to   : " + ctx.WorkFolder + "\\" + ctx.SubFolder);
+
+         ctx.ConsoleWriteLogLine("opts.APViews :" + ctx.opts.APViews);
+         ctx.ConsoleWriteLogLine("opts.ATViews :" + ctx.opts.ATViews);
+         ctx.ConsoleWriteLogLine("opts.AWViews :" + ctx.opts.AWViews);
+         ctx.ConsoleWriteLogLine("opts.SPViews :" + ctx.opts.SPViews);
+         ctx.ConsoleWriteLogLine("opts.RTViews :" + ctx.opts.RTViews);
+
+         // Only create a LogFileHandler if their ParseType was specified on the command line
+         ctx.ConsoleWriteLogLine(String.Format("Create the LogFileHandlers"));
+
+         // AP 
+         // if (ctx.IsAP) ctx.logFileHandlers.Add((ILogFileHandler)new APLogHandler(new CreateTextStreamReader()));
+
+         // AT 
+         // if (ctx.IsAT) ctx.logFileHandlers.Add((ILogFileHandler)new ATLogHandler(new CreateTextStreamReader()));
+
+         // AW
+         // if (ctx.IsAW) ctx.logFileHandlers.Add((ILogFileHandler)new AWLogHandler(new CreateTextStreamReader()));
+
+         // SP
+         if (ctx.opts.IsSP) ctx.logFileHandlers.Add((ILogFileHandler)new SPLogHandler(new CreateTextStreamReader()));
+
+         // RT
+         // if (ctx.IsRT) ctx.logFileHandlers.Add((ILogFileHandler)new RTLogHandler(new CreateTextStreamReader()));
 
          // if the unzip folder already exists delete it
          if (ctx.ioProvider.DirExists(ctx.WorkFolder + "\\" + ctx.SubFolder))
@@ -129,9 +165,15 @@ namespace splogparser
                // Import and use the plugins (they will be instantiated only when accessed)
                foreach (IView thisView in loader.Views)
                {
-                  viewName = thisView.Name;
-                  ctx.ConsoleWriteLogLine(String.Format("Initialising View: {0}", viewName));
-                  thisView.Initialize(ctx);
+                  // Only Initialize a View if their ParseType was specified in the command line and their name is mentioned in the arguments
+                  // (or the argument was '*')
+                  if (ctx.opts.RunView(thisView.parseType, thisView.Name))
+                  {
+                     viewName = thisView.Name;
+                     ctx.ConsoleWriteLogLine(String.Format("\nInitializing view : {0}", viewName));
+                     thisView.Initialize(ctx);
+                     continue;
+                  }
                }
             }
             catch (Exception e)
@@ -155,10 +197,6 @@ namespace splogparser
 
          // P R O C E S S   T I M E  S E R I E S  F I L E  P R O C E S S I N G
 
-         // Define the LogFileHandlers
-         ctx.ConsoleWriteLogLine(String.Format("Define the LogFileHandlers"));
-         ILogFileHandler logFileHandler = (ILogFileHandler)new SPLogHandler(new CreateTextStreamReader());
-         ctx.logFileHandlers.Add(logFileHandler);
 
          // For each Log Handler defined...
          foreach (ILogFileHandler fileHandler in ctx.logFileHandlers)
@@ -179,8 +217,17 @@ namespace splogparser
                {
                   foreach (IView thisView in loader.Views)
                   {
-                     viewName = thisView.Name;
-                     thisView.Process(fileHandler);
+                     // Only call a View if the View ParseType matches the LogFileHandler ParseType and either the view name is
+                     // mentioned in the arguments (or the argument was '*')
+                     if (ctx.opts.RunView(thisView.parseType, thisView.Name))
+                     {
+                        if (thisView.parseType == fileHandler.parseType)
+                        {
+                           viewName = thisView.Name;
+                           ctx.ConsoleWriteLogLine(String.Format("\nProcessing view : {0}", viewName));
+                           thisView.Process(fileHandler);
+                        }
+                     }
                   }
                }
                catch (Exception e)
@@ -210,8 +257,13 @@ namespace splogparser
                // Import and use the plugins (they will be instantiated only when accessed)
                foreach (IView thisView in loader.Views)
                {
-                  viewName = thisView.Name;
-                  thisView.PostProcess(ctx);
+                  // Only Post Process a View if their ParseType was specified in the command line
+                  if (ctx.opts.RunView(thisView.parseType, thisView.Name))
+                  {
+                     viewName = thisView.Name;
+                     ctx.ConsoleWriteLogLine(String.Format("\nPost-Processing view : {0}", viewName));
+                     thisView.PostProcess(ctx);
+                  }
                }
             }
             catch (Exception ex)
@@ -233,7 +285,7 @@ namespace splogparser
 
          // W R I T E   E X C E L
 
-         string excelFileName = ctx.WorkFolder + "\\" + Path.GetFileNameWithoutExtension(ctx.ZipFileName) + "_SP.xlsx";
+         string excelFileName = ctx.WorkFolder + "\\" + Path.GetFileNameWithoutExtension(ctx.ZipFileName) + ctx.opts.Suffix() + ".xlsx";
 
          // if the Excel file exists, delete it.
          Console.WriteLine("If the Excel file exists, delete it:");
@@ -250,9 +302,13 @@ namespace splogparser
                // Import and use the plugins (they will be instantiated only when accessed)
                foreach (IView thisView in loader.Views)
                {
-                  viewName = thisView.Name;
-                  ctx.ConsoleWriteLogLine(String.Format("Calling View to write Excel: {0}", viewName));
-                  thisView.WriteExcel(ctx);
+                  // Only call WriteExcel for a View if their ParseType was specified in the command line
+                  if (ctx.opts.RunView(thisView.parseType, thisView.Name))
+                  {
+                     viewName = thisView.Name;
+                     ctx.ConsoleWriteLogLine(String.Format("\nWrite Excel view : {0}", viewName));
+                     thisView.WriteExcel(ctx);
+                  }
                }
             }
             catch (Exception ex)
@@ -281,9 +337,13 @@ namespace splogparser
                // Import and use the plugins (they will be instantiated only when accessed)
                foreach (IView thisView in loader.Views)
                {
-                  viewName = thisView.Name;
-                  ctx.ConsoleWriteLogLine(String.Format("Calling cleanup: {0}", viewName));
-                  thisView.Cleanup(ctx);
+                  // Only call Cleanup for a View if their ParseType was specified in the command line
+                  if (ctx.opts.RunView(thisView.parseType, thisView.Name))
+                  {
+                     viewName = thisView.Name;
+                     ctx.ConsoleWriteLogLine(String.Format("\nCleanup view : {0}", viewName));
+                     thisView.Cleanup(ctx);
+                  }
                }
             }
             catch (Exception ex)

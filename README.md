@@ -1,4 +1,5 @@
 # splogparser
+
 [![splogparser build](https://github.com/HyosungTools/splogparser/actions/workflows/build.yml/badge.svg)](https://github.com/HyosungTools/splogparser/actions/workflows/build.yml)
 
 Utility to unzip, merge and present ATM logs as as number of worksheets in an Excel file.
@@ -6,39 +7,77 @@ Utility to unzip, merge and present ATM logs as as number of worksheets in an Ex
 ## Quick Start Guide
 
 ### Prerequsites
+
 You *must* have Excel 2016 installed on the workstation you plan to run splogparser. 
 
 ### Accessing the Release
+
 On the right hand side you will see the link to [Releases](https://github.com/HyosungTools/splogparser/releases). Select the link to navigate to this page. 
 
 For the latest release, scroll down to view the Assets of the Release; select the `release.zip` to download the release. 
 
-### Install and Run
+### Install
+
 The utility is a console app; there is no install. Its enough to unzip the files into a folder (e.g. `C:\Work_Tools\splogparser`).
 
 Open a cmd.exe in the folder of your log zip file (e.g. `C:\Work_Bugs\ATMD4555`).
 
 You need to make this cmd.exe aware of the splogparser location. For example, if you unzipped to `C:\Work_Tools\splogparser`, in the cmd.exe you would type: 
 
-```
+```text
 C:\Work_Bugs\ATMD4555> set path=%path%;C:\Work_Tools\splogparser
 ```
 
 You can test if this is correct by typing `where splogparser` like this: 
 
-```
+```text
 C:\Work_Bugs\ATMD4555> where splogparser
 C:\Work_Bugs\ATMD4555> C:\Work_Tools\splogparser\splogparser.exe
 ```
 
 and Windows should answer where it found splogparser.exe.
 
-With all that done, you can now run the parser. Suppose in the folder `C:\Work_Bugs\ATMD4555` there is a zip file called 20221116175903.zip. you can run splogparser by typing: 
+### Run
 
+With all that done, you can now run the parser by typing:
+
+```text
+C:\Work_Bugs\ATMD4555> splogparser
 ```
-C:\Work_Bugs\ATMD4555> splogparser 20221116175903.zip
+
+This will error reporting you need to enter command line options.
+
+#### CommandLine Options
+
+The only command you need to specify is the file: 
+
+```text
+splogparser -f 20221116175903.zip
 ```
-The application will run and generate two files: a log file for the run called 20221116175903.log and an Excel spreadsheet called 20221116175903.xls.
+
+But this will do nothing because you havent given it any parse types to do. To get a complete parse of the SP logs you can type:
+
+```text
+splogparser -s * -f 20221116175903.zip
+```
+
+This is equivalent to early revisions of the tool. The output is what early users are used to. The output file name would be `20221116175903__SP.xlsx`. Note - the `*` is important. I used an off-the-shelf CommandLine Parser tool and it has its limits. If you want all Views use the `*`. But you can also limit the parse to only certain views of the SP logs. So if you were only interested in dispense and deposits, you could enter this instead:
+
+```text
+splogparser -s CDM,CIM -f 20221116175903.zip
+```
+
+In this case the output file would be `20221116175903__SP_CDM_CIM.xlsx`.
+
+Complete Command Line Options are:
+
+| Short | Long | Default or | One or More of |
+|-------|------|------------|----------------|
+| -a    | --ap | *          | TBD            |
+| -s    | --sp | *          | CDM, CIM, DEV, Extra, IDC, IPM, PIN, SIU
+| -t    | --at | *          | TBD            |
+| -w    | --aw | *          | TBD            |
+| -r    | --ar | *          | TBD            |
 
 ## Known Issues
 
@@ -46,13 +85,13 @@ It's a really dumb install. If you are upgrading, unzip to a clean folder, or cl
 
 Talking about installs, when I download the release.zip from GitHub I'm prompted for a virus scan. If that doesnt happen for you the DLLs of the parser could be blocked by Win10. You have this problem when the parser finishes quickly, doesnt produce an Excel file, and in the log file generated you see `'Number of Views : 0'`. The work around is to 'unblock' each DLL using the property page of each DLL. 
 
-SIU takes a long time to run. If you dont care about SIU delete the SIUView from your install folder. The parser only runs View DLLs it can find. 
+Sometimes the SIU takes a long time to run. If you don't care about SIU don't use `*` use a select list of individual views instead.
 
-It doesn't work well for machines with Cash and Coin. It doesn't understand the difference. 
+It doesn't work well for machines with Cash and Coin. It doesn't understand the difference.
 
-I've seen the unzip part fail twice. I don't know why. The workaround is to unzip the log file manually, zip up the [SP] subfolder and use that zip. You can throw any zip file at the parser as long as there's an SP folder inside the zip it should work. 
+I've seen the unzip part fail twice. I don't know why. The workaround is to unzip the log file manually, zip up the [SP] subfolder and use that zip. You can throw any zip file at the parser as long as there's an SP folder inside the zip it should work.
 
-# How to Contribute
+## How to Contribute
 
 Anyone can contribute. Please read the notes on: 
 
@@ -63,6 +102,3 @@ After that you might want to read up on:
 
 - [General Design](https://github.com/HyosungTools/splogparser/blob/main/docs/GeneralDesign.md)
 - [How to Build](https://github.com/HyosungTools/splogparser/blob/main/docs/HowToBuild.md)
-
-
-

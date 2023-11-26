@@ -10,7 +10,7 @@ namespace IDCView
       /// <summary>
       /// Constructor
       /// </summary>
-      IDCView() : base("IDC", "IDCView") { }
+      IDCView() : base(ParseType.SP, "IDCView") { }
 
       /// <summary>
       /// Creates an IDC Table instance. 

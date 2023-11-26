@@ -10,7 +10,7 @@ namespace IPMView
       /// <summary>
       /// Constructor
       /// </summary>
-      IPMView() : base("IPM", "IPMView") { }
+      IPMView() : base(ParseType.SP, "IPMView") { }
 
       /// <summary>
       /// Creates an IPM Table instance. 

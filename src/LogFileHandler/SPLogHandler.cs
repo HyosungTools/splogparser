@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 using Contract;
 using LogLineHandler;
@@ -144,14 +143,11 @@ namespace LogFileHandler
       static Regex WFPClose = new Regex("(XFS_CMD[a-zA-Z0-9 ]*)(CLOSE[a-zA-Z0-9 ]*)(hResult\\[(\\d+)\\] = WFPClose)");
 
 
-      public string ParseType { get; }
-
       /// <summary>
       /// Constructor - reads the entire trace file into the traceFile array
       /// </summary>
-      public SPLogHandler(ICreateStreamReader createReader) : base(createReader)
+      public SPLogHandler(ICreateStreamReader createReader) : base(ParseType.SP, createReader)
       {
-         ParseType = "SP";
          LogExpression = "*.nwlog";
          Name = "SPLogFileHandler";
       }
