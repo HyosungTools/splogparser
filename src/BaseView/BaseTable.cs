@@ -339,6 +339,14 @@ namespace Impl
       }
 
       /// <summary>
+      /// PreProcess - steps not related to time series
+      /// </summary>
+      /// <param name="ctx"></param>
+      public virtual void PreProcess(IContext ctx)
+      {
+         return; 
+      }
+      /// <summary>
       /// Process a log line. 
       /// </summary>
       public virtual void ProcessRow(ILogLine logLine)

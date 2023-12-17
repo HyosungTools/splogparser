@@ -1,0 +1,714 @@
+﻿
+namespace Samples
+{
+   public static class samples_logLine_installation
+   {
+      public const string SAMPLE_APLOG_OPENER_1 =
+ @"==========================================================================================================
+ - Machine Number           = CKI561
+ - Application Version      = 02.01.14.01
+ - SDK Version              = 03.00.02.15
+ - GSDK Version             = 01.00.07.01
+ - Model                    = 7800I
+ - IP Address               = 208.224.249.46
+ - Port Number              = 21992
+ - Time Zone                = Eastern Standard Time
+ - Nextware Version         = 030-23
+ - EMV Kernel 6 Version     = 6.0.0.6 97552 bytes MWIOCX = 2, 1, 0, 1 
+ -         PIN Version = SP[  V 04.22.06], EP[V 10.00.07]
+ -         CDM Version = SP[  V 04.21.19], EP[V 02.00.95 ]
+ -         SIU Version = SP[  V 04.20.66], EP[   V020031]
+ -         IDC Version = SP[  V 04.30.33], EP[  5292-01E]
+ -         SPR Version = SP[  V 04.30.78], EP[V 40.10.17]
+ -         IDS Version = SP[  V 04.10.20], EP[ V00.00.38]
+ -         COD Version = SP[            ], EP[          ]
+ -         MMA Version = SP[            ], EP[          ]
+==========================================================================================================
+Installed Programs:
+ - A2iA CheckReader V9.0, Installed: 02/27/2023, Version: 9.0
+ - ActiveTeller Agent 1.2.4.0, Installed: 03/03/2021, Version: 1.2.4.0
+ - BCR20_SP_V040034_R1, Installed: 07/28/2021, Version: 04.00.34
+ - BCR20_SP_V040034_US_REG_R1, Installed: 07/28/2021, Version: 04.00.34
+ - BNA10_BC_V040135, Installed: 05/31/2022, Version: 04.01.35
+ - BRM20_BC_V020507, Installed: 05/31/2022, Version: 02.05.07
+ - BRM20_BC53_V010441, Installed: 05/31/2022, Version: 01.04.41
+ - BRM20_BC53M_V020099, Installed: 05/31/2022, Version: 02.00.99
+ - BRM20_DB_V010108, Installed: 05/31/2022, Version: 01.01.08
+ - BRM20_DB53_V010015, Installed: 05/31/2022, Version: 01.00.15
+ - BRM30_BC_V010189, Installed: 05/31/2022, Version: 01.01.89
+ - BRM30_BC57M_V020041, Installed: 05/31/2022, Version: 02.00.41
+ - BRM30_DB_V010015, Installed: 05/31/2022, Version: 01.00.15
+ - CCIM20_BC_V020425, Installed: 05/31/2022, Version: 02.04.25
+ - CCIM20_DB_CAD_V010002, Installed: 07/28/2021, Version: 01.00.02
+ - CCIM20_DB_MXN_V010004, Installed: 07/28/2021, Version: 01.00.04
+ - CCIM20_DB_V010015_R3, Installed: 05/31/2022, Version: 01.00.15
+ - CCIM20_EP_V032029, Installed: 07/28/2021, Version: 03.20.29
+ - CCIM20_EP_V042029, Installed: 07/28/2021, Version: 04.20.29
+ - CCIM20_SP_V042313_S1, Installed: 07/28/2021, Version: 04.23.13
+ - CCIM20_SP_V042313_US_REG_S1, Installed: 07/28/2021, Version: 04.23.13
+ - CDU10_DB_V000023, Installed: 07/28/2021, Version: 00.00.23
+ - CDU10_EP_V010195, Installed: 07/28/2021, Version: 01.01.95
+ - CDU10_EP_V020095, Installed: 07/28/2021, Version: 02.00.95
+ - CDU10_SP_V042119_S3, Installed: 07/28/2021, Version: 04.21.19
+ - CDU10_SP_V042119_US_REG_S3, Installed: 07/28/2021, Version: 04.21.19
+ - CDU11_EP_V100025, Installed: 07/28/2021, Version: 10.00.25
+ - CHDU_SP_V040022_Channel_R5, Installed: 07/28/2021, Version: 04.00.22
+ - CHDU_SP_V040022_Channel_US_REG_R5, Installed: 07/28/2021, Version: 04.00.22
+ - Common_SNMP_Configuration_V010003_R1, Installed: 07/28/2021, Version: 01.00.03
+ - Common_SP_V043114_S2, Installed: 07/28/2021, Version: 04.31.14
+ - Definition Update for Microsoft Office 2016 (KB3115407) 32-Bit Edition, Installed: , Version: 
+ - EPP60(USB)_SP_V042206_S1, Installed: 07/28/2021, Version: 04.22.06
+ - EPP60(USB)_SP_V042206_US_REG_S1, Installed: 07/28/2021, Version: 04.22.06
+ - EPP80(USB)_EP_V10000700_R2, Installed: 07/28/2021, Version: 10.00.07.00
+ - EPP90(USB)_EP_V12000101, Installed: 07/28/2021, Version: 12.00.01.01
+ - EPPX1(USB)_EP_V15000303, Installed: 07/28/2021, Version: 15.00.03.03
+ - FGRNG_SP_V042018_R1, Installed: 07/28/2021, Version: 04.20.18
+ - GT520_FW_Update_1b0012_R2, Installed: 07/28/2021, Version: 02.00.09
+ - Herramientas de corrección de Microsoft Office 2016: español, Installed: 09/18/2020, Version: 16.0.4417.1000
+ - ImageMark Passport ATM Agent, Installed: 10/23/2020, Version: 4.02.00.06
+ - Intel(R) Chipset Device Software, Installed: , Version: 10.1.1.8
+ - Intel(R) Processor Graphics, Installed: , Version: 20.19.15.5063
+ - Intel® Security Assist, Installed: 06/17/2021, Version: 1.0.0.532
+ - Kaseya Agent (cki561.rvatm.peninsula_federal_credit_union.cs - 68.168.253.23), Installed: 04/18/2022, Version: 9.5.0.31
+ - LogMeIn, Installed: 01/18/2021, Version: 4.1.12382
+ - MCU22(USB)_EP_V365601I_R3, Installed: 07/28/2021, Version: 36.56.01
+ - MCU22(USB_BLACK)_EP_506401I, Installed: 07/28/2021, Version: 50.64.01
+ - MCU22(USB_BLUE)_EP_V529201E, Installed: 07/28/2021, Version: 52.92.01
+ - MCU22(USB_ESU)_EP_441401B_R2, Installed: 07/28/2021, Version: 44.14.01
+ - MCU22(USB_ESU)_EP_V529301I, Installed: 07/28/2021, Version: 52.93.01
+ - MCU22_SP_V043033_R1, Installed: 07/28/2021, Version: 04.30.33
+ - MCU22_SP_V043033_US_REG_R1, Installed: 07/28/2021, Version: 04.30.33
+ - Microsoft Office Proofing (English) 2016, Installed: 09/18/2020, Version: 16.0.4417.1000
+ - Microsoft Office Proofing Tools 2016 - English, Installed: 01/19/2021, Version: 16.0.4417.1000
+ - Microsoft Office Shared MUI (English) 2016, Installed: 03/23/2021, Version: 16.0.4417.1000
+ - Microsoft Office Shared Setup Metadata MUI (English) 2016, Installed: 09/18/2020, Version: 16.0.4417.1000
+ - Microsoft Skype for Business Entry 2016, Installed: 04/07/2021, Version: 16.0.4417.1000
+ - Microsoft Skype for Business MUI (English) 2016, Installed: 01/27/2021, Version: 16.0.4417.1000
+ - Microsoft Visual C++ 2013 Redistributable (x64) - 12.0.40649, Installed: , Version: 12.0.40649.5
+ - Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.30501, Installed: , Version: 12.0.30501.0
+ - Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.40649, Installed: , Version: 12.0.40649.5
+ - Microsoft Visual C++ 2013 x86 Additional Runtime - 12.0.40649, Installed: 01/18/2021, Version: 12.0.40649
+ - Microsoft Visual C++ 2013 x86 Minimum Runtime - 12.0.40649, Installed: 01/18/2021, Version: 12.0.40649
+ - Microsoft Visual C++ 2017 Redistributable (x86) - 14.16.27027, Installed: , Version: 14.16.27027.1
+ - Microsoft Visual C++ 2017 X86 Additional Runtime - 14.16.27024, Installed: 06/19/2021, Version: 14.16.27024
+ - Microsoft Visual C++ 2017 X86 Minimum Runtime - 14.16.27024, Installed: 06/19/2021, Version: 14.16.27024
+ - MP2s CUAnswers NBS, Installed: 07/18/2022, Version: 02.00.01.00
+ - MP2s FIS NBS, Installed: 04/20/2022, Version: 2.0.1.0
+ - MP2s Standard NBS, Installed: 02/27/2023, Version: 02.01.14.01
+ - Netop Remote Control Host, Installed: 06/19/2021, Version: 12.76.19080
+ - Nextware_V033023_S1, Installed: 07/28/2021, Version: 03.30.23
+ - Nuvoton Communcations Port 64-bits Driver, Installed: 06/17/2021, Version: 1.0.2011.1109
+ - Outils de vérification linguistique 2016 de Microsoft Office - Français, Installed: 01/19/2021, Version: 16.0.4417.1000
+ - PNCU0_EP_V020031_R3, Installed: 07/28/2021, Version: 02.00.31
+ - PNCU0_SP_V042066_S1, Installed: 07/28/2021, Version: 04.20.66
+ - PNCU0_SP_V042066_US_REG_S1, Installed: 07/28/2021, Version: 04.20.66
+ - PulseIR, Installed: 06/15/2018, Version: 1.2.05
+ - Realtek High Definition Audio Driver, Installed: 06/17/2021, Version: 6.0.1.7560
+ - RFM00_EP_V200C38_R3, Installed: 07/28/2021, Version: 200.38
+ - RFM00_SP_V042036_R2, Installed: 07/28/2021, Version: 04.20.36
+ - RFM00_SP_V042036_US_REG_R2, Installed: 07/28/2021, Version: 04.20.36
+ - SCN20_EP_CameraFW_V26_R3, Installed: 07/28/2021, Version: 00.00.26
+ - SCN20_SP_V041020_R2, Installed: 07/28/2021, Version: 04.10.20
+ - SCNPV_SP_V042002_R1, Installed: 07/28/2021, Version: 04.20.02
+ - ScreenConnect Client (25d58b630f3d0292), Installed: 02/12/2023, Version: 23.1.1.8423
+ - Security Update for Microsoft Excel 2016 (KB4493233) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB3213551) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4011574) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4022162) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4022176) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4486755) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4493200) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4493225) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft PowerPoint 2016 (KB4493224) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Visio 2016 (KB4493151) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Word 2016 (KB4493156) 32-Bit Edition, Installed: , Version: 
+ - Skype for Business Basic 2016, Installed: , Version: 16.0.4417.1000
+ - SPRK(USB)_SP_V043078_R1, Installed: 07/28/2021, Version: 04.30.78
+ - SPRK(USB)_SP_V043078_US_REG_R1, Installed: 07/28/2021, Version: 04.30.78
+ - SPRK5_EP_V020037, Installed: 07/28/2021, Version: 02.00.37
+ - SPRK8_EP_V080073, Installed: 07/28/2021, Version: 08.00.73
+ - SPRKX_EP_V401017, Installed: 07/28/2021, Version: 40.10.17
+ - StandardBase-AddOns-IAL-Config, Installed: 10/23/2020, Version: 01.00.00.8
+ - ThirdParty-AddOns-IAL, Installed: 10/23/2020, Version: 11.0.0.0.4
+ - tpdrv, Installed: , Version: 
+ - TTU00_SP_V040334_R3, Installed: 07/28/2021, Version: 04.03.34
+ - TTU00_SP_V040334_US_REG_R3, Installed: 07/28/2021, Version: 04.03.34
+ - Update for Microsoft Access 2016 (KB4493188) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB2920717) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3114852) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3118262) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3118263) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3118264) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3141456) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3178666) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3213650) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4011035) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4011225) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4011629) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4011634) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4011669) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4022161) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4022193) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4032254) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4461435) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4462119) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4464535) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4464538) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4475580) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4475584) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4484145) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4484171) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4484174) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4484395) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4486668) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4486672) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4486747) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4493153) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft OneDrive for Business (KB4022219) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft OneNote 2016 (KB4484329) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Outlook 2016 (KB4493226) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Project 2016 (KB4493191) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Publisher 2016 (KB4484334) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Visio Viewer 2016 (KB2920709) 32-Bit Edition, Installed: , Version: 
+ - Update for Skype for Business 2016 (KB4486745) 32-Bit Edition, Installed: , Version: 
+ - VDM_Core_V010418_S3, Installed: 07/28/2021, Version: 01.04.18
+ - VDM_Data_V010418_S3, Installed: 07/28/2021, Version: 01.04.18
+ - Windows 10 Update Assistant, Installed: , Version: 1.4.9200.22807
+==========================================================================================================
+Installed Packages:
+ - a2ia-v9.0, Installed: 2023-02-27 10:33:19, Status: Good
+ - BillTemplates-01.00.05, Installed: 2022-05-31 01:04:41, Status: Good
+ - CUAnswers-NBS-02.00.00.00, Installed: 2022-05-24 11:54:37, Status: Good
+ - CUAnswersNBS-02.00.01.00, Installed: 2022-07-18 09:08:25, Status: Good
+ - FIS-NBS-01.00.12.00, Installed: 2021-06-19 11:41:19, Status: Good
+ - FIS-NBS-01.00.15.00, Installed: 2021-03-03 08:15:22, Status: Good
+ - FIS-NBS-02.00.01.00, Installed: 2022-04-20 12:19:18, Status: Good
+ - Lync-02.00.00.00, Installed: 2020-09-18 13:49:03, Status: Good
+ - Marketing, Installed: 2020-10-22 13:11:49, Status: Good
+ - MONIACT_SWUPDATE-V01.00.49.01, Installed: 2020-09-18 16:38:24, Status: Good
+ - MONIACT_SWUPDATE-V01.00.51.00, Installed: 2020-12-01 14:40:53, Status: Unknown
+ - MONIACT_SWUPDATE-V01.00.51.03, Installed: 2020-10-19 13:12:42, Status: Good
+ - MONIACT_SWUPDATE-V01.00.51.06, Installed: 2021-07-28 20:29:58, Status: Good
+ - MONIACT-V01.00.49.01_20200205, Installed: 2021-07-28 20:13:07, Status: Good
+ - MONIACT-V01.00.51.00_20200520, Installed: 2020-12-01 15:08:49, Status: Good
+ - MONIACT-V01.00.51.03_20200824, Installed: 2020-10-19 13:11:54, Status: Good
+ - MONIACT-V01.00.51.04_20201112, Installed: 2021-07-28 19:17:50, Status: Good
+ - MONIACT-V01.00.51.06_20210708, Installed: 2021-07-28 20:28:34, Status: Good
+ - NBS_Update, Installed: 2020-09-24 15:18:45, Status: Unknown
+ - NetFramework-v4.0, Installed: 2023-02-27 10:32:16, Status: Good
+ - NetFramework-v4.5.2, Installed: 2023-02-27 10:32:41, Status: Good
+ - NetOp-01.00.02.00, Installed: 2021-06-19 11:45:29, Status: Good
+ - Nextware-v03.30.16_S1, Installed: 2020-12-01 14:24:27, Status: Good
+ - Nextware-v03.30.23, Installed: 2023-02-27 10:33:19, Status: Good
+ - NH_Security-Standard_V010006, Installed: 2021-06-17 17:40:06, Status: Good
+ - NHAgent-01.02.00.06, Installed: 2020-09-25 17:41:24, Status: Good
+ - NHAgent-01.02.04.00, Installed: 2021-03-03 07:52:44, Status: Good
+ - Peninsula Cust Core Pkg v01.00.05, Installed: 2022-04-20 12:29:34, Status: Good
+ - Peninsula Cust Core Pkg v01.00.06, Installed: 2022-05-24 09:28:11, Status: Good
+ - Standard-NBS-02.01.00.00, Installed: 2020-12-01 14:24:38, Status: Good
+ - Standard-NBS-02.01.00.00-Wrapper, Installed: 2020-12-01 14:25:29, Status: Good
+ - Standard-NBS-02.01.01.00, Installed: 2021-06-19 11:36:44, Status: Good
+ - Standard-NBS-02.01.01.00-Wrapper, Installed: 2021-06-19 11:37:28, Status: Good
+ - Standard-NBS-02.01.08.00, Installed: 2021-03-03 08:29:20, Status: Good
+ - Standard-NBS-02.01.08.00-Wrapper, Installed: 2021-03-03 08:30:43, Status: Good
+ - Standard-NBS-02.01.09.00, Installed: 2022-07-18 10:43:59, Status: Good
+ - Standard-NBS-02.01.09.00-Wrapper, Installed: 2022-07-18 10:45:29, Status: Good
+ - Standard-NBS-02.01.11.02, Installed: 2021-12-20 13:17:37, Status: Good
+ - Standard-NBS-02.01.11.02-Wrapper, Installed: 2021-12-20 13:20:19, Status: Good
+ - Standard-NBS-02.01.13.00, Installed: 2022-03-17 12:42:57, Status: Good
+ - Standard-NBS-02.01.13.00.RC3-Wrapper, Installed: 2022-03-17 12:44:01, Status: Good
+ - Standard-NBS-02.01.14.01, Installed: 2023-02-27 10:33:38, Status: Good
+ - Standard-NBS-Wrapper-02.01.14.01, Installed: 2023-02-27 10:36:38, Status: Good
+ - VisualC++Redistributable2013, Installed: 2023-02-27 10:32:42, Status: Good
+ - VisualC++Redistributable2017, Installed: 2023-02-27 10:32:42, Status: Good
+ - Win10HotFix_Monthly_Update-2022.07, Installed: 2022-08-13 02:15:15, Status: Good
+ - Win10HotFix_Monthly_Update-2022.08, Installed: 2022-09-11 01:42:58, Status: Good
+ - Win10HotFix_Monthly_Update-2022.10, Installed: 2022-11-08 02:13:22, Status: Good
+ - Win10HotFix_Monthly_Update-2022.12, Installed: 2023-01-21 02:39:26, Status: Good
+ - Win10HotFix_Monthly_Update-2023.02, Installed: 2023-03-13 01:21:41, Status: Good
+ - Win10-LanguageFeatures-es-mx, Installed: 2023-02-27 10:32:48, Status: Good
+ - WinLockUpdate-01.00.06.00-20190503, Installed: 2023-02-27 10:33:43, Status: Good
+==========================================================================================================
+[2023-03-30 18:08:32-876][3][][LocalScreenWindowEx ][LogScreenUpdate     ][NORMAL]Navigated screen [PleaseWait] Visibility property is [Visible]. Class: LocalScreenWindow.
+[2023-03-30 18:08:32-922][3][][LocalScreenWindowEx ][AfterPageLoaded     ][NORMAL]CanBeToDisplay = True m_RootWindow.IsActive = True
+[2023-03-30 18:08:32-923][3][][LocalScreenWindow   ][ActivateRootWindow  ][NORMAL]m_RootWindow.IsActive = True
+[2023-03-30 18:08:32-923][3][][LocalScreenWindow   ][ActivateRootWindow  ][NORMAL]Screen Number Displayed = PleaseWait
+[2023-03-30 18:08:32-925][3][][CardReader          ][EMV_ProcRestriction ][NORMAL][CardReader Log] Return EMV_ProcRestriction() : 1
+[2023-03-30 18:08:32-929][3][][CardReader          ][EMV_CardholderVerify1][NORMAL][CardReader Log] Call EMV_CardholderVerify1()";
+      
+      
+      public const string SAMPLE_APLOG_OPENER_2 =
+@"==========================================================================================================
+ - Machine Number           = CKI561
+ - Application Version      = 02.01.14.01
+ - SDK Version              = 03.00.02.15
+ - GSDK Version             = 01.00.07.01
+ - Model                    = 7800I
+ - IP Address               = 208.224.249.46
+ - Port Number              = 21992
+ - Time Zone                = Eastern Standard Time
+ - Nextware Version         = 030-23
+ - EMV Kernel 6 Version     = 6.0.0.6 97552 bytes MWIOCX = 2, 1, 0, 1 
+ -         PIN Version = SP[  V 04.22.06], EP[V 10.00.07]
+ -         CDM Version = SP[  V 04.21.19], EP[V 02.00.95 ]
+ -         SIU Version = SP[  V 04.20.66], EP[   V020031]
+ -         IDC Version = SP[  V 04.30.33], EP[  5292-01E]
+ -         SPR Version = SP[  V 04.30.78], EP[V 40.10.17]
+ -         IDS Version = SP[  V 04.10.20], EP[ V00.00.38]
+ -         COD Version = SP[            ], EP[          ]
+ -         MMA Version = SP[            ], EP[          ]
+==========================================================================================================
+Installed Programs:
+ - A2iA CheckReader V9.0, Installed: 02/27/2023, Version: 9.0
+ - ActiveTeller Agent 1.2.4.0, Installed: 03/03/2021, Version: 1.2.4.0
+ - BCR20_SP_V040034_R1, Installed: 07/28/2021, Version: 04.00.34
+ - BCR20_SP_V040034_US_REG_R1, Installed: 07/28/2021, Version: 04.00.34
+ - BNA10_BC_V040135, Installed: 05/31/2022, Version: 04.01.35
+ - BRM20_BC_V020507, Installed: 05/31/2022, Version: 02.05.07
+ - BRM20_BC53_V010441, Installed: 05/31/2022, Version: 01.04.41
+ - BRM20_BC53M_V020099, Installed: 05/31/2022, Version: 02.00.99
+ - BRM20_DB_V010108, Installed: 05/31/2022, Version: 01.01.08
+ - BRM20_DB53_V010015, Installed: 05/31/2022, Version: 01.00.15
+ - BRM30_BC_V010189, Installed: 05/31/2022, Version: 01.01.89
+ - BRM30_BC57M_V020041, Installed: 05/31/2022, Version: 02.00.41
+ - BRM30_DB_V010015, Installed: 05/31/2022, Version: 01.00.15
+ - CCIM20_BC_V020425, Installed: 05/31/2022, Version: 02.04.25
+ - CCIM20_DB_CAD_V010002, Installed: 07/28/2021, Version: 01.00.02
+ - CCIM20_DB_MXN_V010004, Installed: 07/28/2021, Version: 01.00.04
+ - CCIM20_DB_V010015_R3, Installed: 05/31/2022, Version: 01.00.15
+ - CCIM20_EP_V032029, Installed: 07/28/2021, Version: 03.20.29
+ - CCIM20_EP_V042029, Installed: 07/28/2021, Version: 04.20.29
+ - CCIM20_SP_V042313_S1, Installed: 07/28/2021, Version: 04.23.13
+ - CCIM20_SP_V042313_US_REG_S1, Installed: 07/28/2021, Version: 04.23.13
+ - CDU10_DB_V000023, Installed: 07/28/2021, Version: 00.00.23
+ - CDU10_EP_V010195, Installed: 07/28/2021, Version: 01.01.95
+ - CDU10_EP_V020095, Installed: 07/28/2021, Version: 02.00.95
+ - CDU10_SP_V042119_S3, Installed: 07/28/2021, Version: 04.21.19
+ - CDU10_SP_V042119_US_REG_S3, Installed: 07/28/2021, Version: 04.21.19
+ - CDU11_EP_V100025, Installed: 07/28/2021, Version: 10.00.25
+ - CHDU_SP_V040022_Channel_R5, Installed: 07/28/2021, Version: 04.00.22
+ - CHDU_SP_V040022_Channel_US_REG_R5, Installed: 07/28/2021, Version: 04.00.22
+ - Common_SNMP_Configuration_V010003_R1, Installed: 07/28/2021, Version: 01.00.03
+ - Common_SP_V043114_S2, Installed: 07/28/2021, Version: 04.31.14
+ - Definition Update for Microsoft Office 2016 (KB3115407) 32-Bit Edition, Installed: , Version: 
+ - EPP60(USB)_SP_V042206_S1, Installed: 07/28/2021, Version: 04.22.06
+ - EPP60(USB)_SP_V042206_US_REG_S1, Installed: 07/28/2021, Version: 04.22.06
+ - EPP80(USB)_EP_V10000700_R2, Installed: 07/28/2021, Version: 10.00.07.00
+ - EPP90(USB)_EP_V12000101, Installed: 07/28/2021, Version: 12.00.01.01
+ - EPPX1(USB)_EP_V15000303, Installed: 07/28/2021, Version: 15.00.03.03
+ - FGRNG_SP_V042018_R1, Installed: 07/28/2021, Version: 04.20.18
+ - GT520_FW_Update_1b0012_R2, Installed: 07/28/2021, Version: 02.00.09
+ - Herramientas de corrección de Microsoft Office 2016: español, Installed: 09/18/2020, Version: 16.0.4417.1000
+ - ImageMark Passport ATM Agent, Installed: 10/23/2020, Version: 4.02.00.06
+ - Intel(R) Chipset Device Software, Installed: , Version: 10.1.1.8
+ - Intel(R) Processor Graphics, Installed: , Version: 20.19.15.5063
+ - Intel® Security Assist, Installed: 06/17/2021, Version: 1.0.0.532
+ - Kaseya Agent (cki561.rvatm.peninsula_federal_credit_union.cs - 68.168.253.23), Installed: 04/18/2022, Version: 9.5.0.31
+ - LogMeIn, Installed: 01/18/2021, Version: 4.1.12382
+ - MCU22(USB)_EP_V365601I_R3, Installed: 07/28/2021, Version: 36.56.01
+ - MCU22(USB_BLACK)_EP_506401I, Installed: 07/28/2021, Version: 50.64.01
+ - MCU22(USB_BLUE)_EP_V529201E, Installed: 07/28/2021, Version: 52.92.01
+ - MCU22(USB_ESU)_EP_441401B_R2, Installed: 07/28/2021, Version: 44.14.01
+ - MCU22(USB_ESU)_EP_V529301I, Installed: 07/28/2021, Version: 52.93.01
+ - MCU22_SP_V043033_R1, Installed: 07/28/2021, Version: 04.30.33
+ - MCU22_SP_V043033_US_REG_R1, Installed: 07/28/2021, Version: 04.30.33
+ - Microsoft Office Proofing (English) 2016, Installed: 09/18/2020, Version: 16.0.4417.1000
+ - Microsoft Office Proofing Tools 2016 - English, Installed: 01/19/2021, Version: 16.0.4417.1000
+ - Microsoft Office Shared MUI (English) 2016, Installed: 03/23/2021, Version: 16.0.4417.1000
+ - Microsoft Office Shared Setup Metadata MUI (English) 2016, Installed: 09/18/2020, Version: 16.0.4417.1000
+ - Microsoft Skype for Business Entry 2016, Installed: 04/07/2021, Version: 16.0.4417.1000
+ - Microsoft Skype for Business MUI (English) 2016, Installed: 01/27/2021, Version: 16.0.4417.1000
+ - Microsoft Visual C++ 2013 Redistributable (x64) - 12.0.40649, Installed: , Version: 12.0.40649.5
+ - Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.30501, Installed: , Version: 12.0.30501.0
+ - Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.40649, Installed: , Version: 12.0.40649.5
+ - Microsoft Visual C++ 2013 x86 Additional Runtime - 12.0.40649, Installed: 01/18/2021, Version: 12.0.40649
+ - Microsoft Visual C++ 2013 x86 Minimum Runtime - 12.0.40649, Installed: 01/18/2021, Version: 12.0.40649
+ - Microsoft Visual C++ 2017 Redistributable (x86) - 14.16.27027, Installed: , Version: 14.16.27027.1
+ - Microsoft Visual C++ 2017 X86 Additional Runtime - 14.16.27024, Installed: 06/19/2021, Version: 14.16.27024
+ - Microsoft Visual C++ 2017 X86 Minimum Runtime - 14.16.27024, Installed: 06/19/2021, Version: 14.16.27024
+ - MP2s CUAnswers NBS, Installed: 07/18/2022, Version: 02.00.01.00
+ - MP2s FIS NBS, Installed: 04/20/2022, Version: 2.0.1.0
+ - MP2s Standard NBS, Installed: 02/27/2023, Version: 02.01.14.01
+ - Netop Remote Control Host, Installed: 06/19/2021, Version: 12.76.19080
+ - Nextware_V033023_S1, Installed: 07/28/2021, Version: 03.30.23
+ - Nuvoton Communcations Port 64-bits Driver, Installed: 06/17/2021, Version: 1.0.2011.1109
+ - Outils de vérification linguistique 2016 de Microsoft Office - Français, Installed: 01/19/2021, Version: 16.0.4417.1000
+ - PNCU0_EP_V020031_R3, Installed: 07/28/2021, Version: 02.00.31
+ - PNCU0_SP_V042066_S1, Installed: 07/28/2021, Version: 04.20.66
+ - PNCU0_SP_V042066_US_REG_S1, Installed: 07/28/2021, Version: 04.20.66
+ - PulseIR, Installed: 06/15/2018, Version: 1.2.05
+ - Realtek High Definition Audio Driver, Installed: 06/17/2021, Version: 6.0.1.7560
+ - RFM00_EP_V200C38_R3, Installed: 07/28/2021, Version: 200.38
+ - RFM00_SP_V042036_R2, Installed: 07/28/2021, Version: 04.20.36
+ - RFM00_SP_V042036_US_REG_R2, Installed: 07/28/2021, Version: 04.20.36
+ - SCN20_EP_CameraFW_V26_R3, Installed: 07/28/2021, Version: 00.00.26
+ - SCN20_SP_V041020_R2, Installed: 07/28/2021, Version: 04.10.20
+ - SCNPV_SP_V042002_R1, Installed: 07/28/2021, Version: 04.20.02
+ - ScreenConnect Client (25d58b630f3d0292), Installed: 02/12/2023, Version: 23.1.1.8423
+ - Security Update for Microsoft Excel 2016 (KB4493233) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB3213551) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4011574) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4022162) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4022176) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4486755) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4493200) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4493225) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft PowerPoint 2016 (KB4493224) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Visio 2016 (KB4493151) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Word 2016 (KB4493156) 32-Bit Edition, Installed: , Version: 
+ - Skype for Business Basic 2016, Installed: , Version: 16.0.4417.1000
+ - SPRK(USB)_SP_V043078_R1, Installed: 07/28/2021, Version: 04.30.78
+ - SPRK(USB)_SP_V043078_US_REG_R1, Installed: 07/28/2021, Version: 04.30.78
+ - SPRK5_EP_V020037, Installed: 07/28/2021, Version: 02.00.37
+ - SPRK8_EP_V080073, Installed: 07/28/2021, Version: 08.00.73
+ - SPRKX_EP_V401017, Installed: 07/28/2021, Version: 40.10.17
+ - StandardBase-AddOns-IAL-Config, Installed: 10/23/2020, Version: 01.00.00.8
+ - ThirdParty-AddOns-IAL, Installed: 10/23/2020, Version: 11.0.0.0.4
+ - tpdrv, Installed: , Version: 
+ - TTU00_SP_V040334_R3, Installed: 07/28/2021, Version: 04.03.34
+ - TTU00_SP_V040334_US_REG_R3, Installed: 07/28/2021, Version: 04.03.34
+ - Update for Microsoft Access 2016 (KB4493188) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB2920717) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3114852) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3118262) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3118263) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3118264) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3141456) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3178666) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3213650) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4011035) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4011225) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4011629) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4011634) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4011669) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4022161) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4022193) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4032254) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4461435) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4462119) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4464535) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4464538) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4475580) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4475584) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4484145) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4484171) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4484174) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4484395) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4486668) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4486672) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4486747) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4493153) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft OneDrive for Business (KB4022219) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft OneNote 2016 (KB4484329) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Outlook 2016 (KB4493226) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Project 2016 (KB4493191) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Publisher 2016 (KB4484334) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Visio Viewer 2016 (KB2920709) 32-Bit Edition, Installed: , Version: 
+ - Update for Skype for Business 2016 (KB4486745) 32-Bit Edition, Installed: , Version: 
+ - VDM_Core_V010418_S3, Installed: 07/28/2021, Version: 01.04.18
+ - VDM_Data_V010418_S3, Installed: 07/28/2021, Version: 01.04.18
+ - Windows 10 Update Assistant, Installed: , Version: 1.4.9200.22807
+==========================================================================================================
+Installed Packages:
+ - a2ia-v9.0, Installed: 2023-02-27 10:33:19, Status: Good
+ - BillTemplates-01.00.05, Installed: 2022-05-31 01:04:41, Status: Good
+ - CUAnswers-NBS-02.00.00.00, Installed: 2022-05-24 11:54:37, Status: Good
+ - CUAnswersNBS-02.00.01.00, Installed: 2022-07-18 09:08:25, Status: Good
+ - FIS-NBS-01.00.12.00, Installed: 2021-06-19 11:41:19, Status: Good
+ - FIS-NBS-01.00.15.00, Installed: 2021-03-03 08:15:22, Status: Good
+ - FIS-NBS-02.00.01.00, Installed: 2022-04-20 12:19:18, Status: Good
+ - Lync-02.00.00.00, Installed: 2020-09-18 13:49:03, Status: Good
+ - Marketing, Installed: 2020-10-22 13:11:49, Status: Good
+ - MONIACT_SWUPDATE-V01.00.49.01, Installed: 2020-09-18 16:38:24, Status: Good
+ - MONIACT_SWUPDATE-V01.00.51.00, Installed: 2020-12-01 14:40:53, Status: Unknown
+ - MONIACT_SWUPDATE-V01.00.51.03, Installed: 2020-10-19 13:12:42, Status: Good
+ - MONIACT_SWUPDATE-V01.00.51.06, Installed: 2021-07-28 20:29:58, Status: Good
+ - MONIACT-V01.00.49.01_20200205, Installed: 2021-07-28 20:13:07, Status: Good
+ - MONIACT-V01.00.51.00_20200520, Installed: 2020-12-01 15:08:49, Status: Good
+ - MONIACT-V01.00.51.03_20200824, Installed: 2020-10-19 13:11:54, Status: Good
+ - MONIACT-V01.00.51.04_20201112, Installed: 2021-07-28 19:17:50, Status: Good
+ - MONIACT-V01.00.51.06_20210708, Installed: 2021-07-28 20:28:34, Status: Good
+ - NBS_Update, Installed: 2020-09-24 15:18:45, Status: Unknown
+ - NetFramework-v4.0, Installed: 2023-02-27 10:32:16, Status: Good
+ - NetFramework-v4.5.2, Installed: 2023-02-27 10:32:41, Status: Good
+ - NetOp-01.00.02.00, Installed: 2021-06-19 11:45:29, Status: Good
+ - Nextware-v03.30.16_S1, Installed: 2020-12-01 14:24:27, Status: Good
+ - Nextware-v03.30.23, Installed: 2023-02-27 10:33:19, Status: Good
+ - NH_Security-Standard_V010006, Installed: 2021-06-17 17:40:06, Status: Good
+ - NHAgent-01.02.00.06, Installed: 2020-09-25 17:41:24, Status: Good
+ - NHAgent-01.02.04.00, Installed: 2021-03-03 07:52:44, Status: Good
+ - Peninsula Cust Core Pkg v01.00.05, Installed: 2022-04-20 12:29:34, Status: Good
+ - Peninsula Cust Core Pkg v01.00.06, Installed: 2022-05-24 09:28:11, Status: Good
+ - Standard-NBS-02.01.00.00, Installed: 2020-12-01 14:24:38, Status: Good
+ - Standard-NBS-02.01.00.00-Wrapper, Installed: 2020-12-01 14:25:29, Status: Good
+ - Standard-NBS-02.01.01.00, Installed: 2021-06-19 11:36:44, Status: Good
+ - Standard-NBS-02.01.01.00-Wrapper, Installed: 2021-06-19 11:37:28, Status: Good
+ - Standard-NBS-02.01.08.00, Installed: 2021-03-03 08:29:20, Status: Good
+ - Standard-NBS-02.01.08.00-Wrapper, Installed: 2021-03-03 08:30:43, Status: Good
+ - Standard-NBS-02.01.09.00, Installed: 2022-07-18 10:43:59, Status: Good
+ - Standard-NBS-02.01.09.00-Wrapper, Installed: 2022-07-18 10:45:29, Status: Good
+ - Standard-NBS-02.01.11.02, Installed: 2021-12-20 13:17:37, Status: Good
+ - Standard-NBS-02.01.11.02-Wrapper, Installed: 2021-12-20 13:20:19, Status: Good
+ - Standard-NBS-02.01.13.00, Installed: 2022-03-17 12:42:57, Status: Good
+ - Standard-NBS-02.01.13.00.RC3-Wrapper, Installed: 2022-03-17 12:44:01, Status: Good
+ - Standard-NBS-02.01.14.01, Installed: 2023-02-27 10:33:38, Status: Good
+ - Standard-NBS-Wrapper-02.01.14.01, Installed: 2023-02-27 10:36:38, Status: Good
+ - VisualC++Redistributable2013, Installed: 2023-02-27 10:32:42, Status: Good
+ - VisualC++Redistributable2017, Installed: 2023-02-27 10:32:42, Status: Good
+ - Win10HotFix_Monthly_Update-2022.07, Installed: 2022-08-13 02:15:15, Status: Good
+ - Win10HotFix_Monthly_Update-2022.08, Installed: 2022-09-11 01:42:58, Status: Good
+ - Win10HotFix_Monthly_Update-2022.10, Installed: 2022-11-08 02:13:22, Status: Good
+ - Win10HotFix_Monthly_Update-2022.12, Installed: 2023-01-21 02:39:26, Status: Good
+ - Win10HotFix_Monthly_Update-2023.02, Installed: 2023-03-13 01:21:41, Status: Good
+ - Win10-LanguageFeatures-es-mx, Installed: 2023-02-27 10:32:48, Status: Good
+ - WinLockUpdate-01.00.06.00-20190503, Installed: 2023-02-27 10:33:43, Status: Good
+==========================================================================================================
+[2023-03-30 00:18:16-369][3][][Archiving           ][CreateArchive       ][NORMAL]CreateArchive(): About to run, runNow=False
+[2023-03-30 00:18:16-429][3][][Management          ][CopyLogFile         ][NORMAL]Parameter pStartDateTime: 3/29/2023 12:18:16 AM
+[2023-03-30 00:18:16-431][3][][Management          ][CopyLogFile         ][NORMAL]Parameter pEndDateTime  : 3/29/2023 12:18:16 AM
+[2023-03-30 00:18:16-432][3][][Management          ][CopyLogFile         ][NORMAL]Console Application Arguments = -oASEVRDT -s20230329 -e20230329 -pC:\nhtemp\
+[2023-03-30 00:18:18-713][3][][Management          ][CopyLogFile         ][NORMAL]Console Application finished Result = 0
+[2023-03-30 00:18:18-722][3][][Management          ][CopyMultipleApplicationFiles][NORMAL]Application Config files Copy to USB or CD
+[2023-03-30 00:18:18-757][1][][Management          ][CopyDirectory       ][NORMAL]SourceDirectory[C:\Hyosung\MoniPlus2S\ConfigModel\Host] not found.
+[2023-03-30 00:18:18-760][1][][Management          ][CopyMultipleApplicationFiles][NORMAL]Copying Configuration Files fails:C:\Hyosung\MoniPlus2S\ConfigModel\
+[2023-03-30 00:18:18-761][1][][Management          ][CopyDirectory       ][NORMAL]SourceDirectory[C:\Hyosung\MoniPlus2S\ConfigModel\Internal] not found.
+[2023-03-30 00:18:18-762][1][][Management          ][CopyMultipleApplicationFiles][NORMAL]Copying Configuration Files fails:C:\Hyosung\MoniPlus2S\ConfigModel\";
+
+      public const string SAMPLE_APLOG_OPENER_3 =
+@"==========================================================================================================
+ - Machine Number           = CKI561
+ - Application Version      = 02.01.14.01
+ - SDK Version              = 03.00.02.15
+ - GSDK Version             = 01.00.07.01
+ - Model                    = 7800I
+ - IP Address               = 208.224.249.46
+ - Port Number              = 21992
+ - Time Zone                = Eastern Standard Time
+ - Nextware Version         = 030-23
+ - EMV Kernel 6 Version     = 6.0.0.6 97552 bytes MWIOCX = 2, 1, 0, 1 
+ -         PIN Version = SP[  V 04.22.06], EP[V 10.00.07]
+ -         CDM Version = SP[  V 04.21.19], EP[V 02.00.95 ]
+ -         SIU Version = SP[  V 04.20.66], EP[   V020031]
+ -         IDC Version = SP[  V 04.30.33], EP[  5292-01E]
+ -         SPR Version = SP[  V 04.30.78], EP[V 40.10.17]
+ -         IDS Version = SP[  V 04.10.20], EP[ V00.00.38]
+ -         COD Version = SP[            ], EP[          ]
+ -         MMA Version = SP[            ], EP[          ]
+==========================================================================================================
+Installed Programs:
+ - A2iA CheckReader V9.0, Installed: 02/27/2023, Version: 9.0
+ - ActiveTeller Agent 1.2.4.0, Installed: 03/03/2021, Version: 1.2.4.0
+ - BCR20_SP_V040034_R1, Installed: 07/28/2021, Version: 04.00.34
+ - BCR20_SP_V040034_US_REG_R1, Installed: 07/28/2021, Version: 04.00.34
+ - BNA10_BC_V040135, Installed: 05/31/2022, Version: 04.01.35
+ - BRM20_BC_V020507, Installed: 05/31/2022, Version: 02.05.07
+ - BRM20_BC53_V010441, Installed: 05/31/2022, Version: 01.04.41
+ - BRM20_BC53M_V020099, Installed: 05/31/2022, Version: 02.00.99
+ - BRM20_DB_V010108, Installed: 05/31/2022, Version: 01.01.08
+ - BRM20_DB53_V010015, Installed: 05/31/2022, Version: 01.00.15
+ - BRM30_BC_V010189, Installed: 05/31/2022, Version: 01.01.89
+ - BRM30_BC57M_V020041, Installed: 05/31/2022, Version: 02.00.41
+ - BRM30_DB_V010015, Installed: 05/31/2022, Version: 01.00.15
+ - CCIM20_BC_V020425, Installed: 05/31/2022, Version: 02.04.25
+ - CCIM20_DB_CAD_V010002, Installed: 07/28/2021, Version: 01.00.02
+ - CCIM20_DB_MXN_V010004, Installed: 07/28/2021, Version: 01.00.04
+ - CCIM20_DB_V010015_R3, Installed: 05/31/2022, Version: 01.00.15
+ - CCIM20_EP_V032029, Installed: 07/28/2021, Version: 03.20.29
+ - CCIM20_EP_V042029, Installed: 07/28/2021, Version: 04.20.29
+ - CCIM20_SP_V042313_S1, Installed: 07/28/2021, Version: 04.23.13
+ - CCIM20_SP_V042313_US_REG_S1, Installed: 07/28/2021, Version: 04.23.13
+ - CDU10_DB_V000023, Installed: 07/28/2021, Version: 00.00.23
+ - CDU10_EP_V010195, Installed: 07/28/2021, Version: 01.01.95
+ - CDU10_EP_V020095, Installed: 07/28/2021, Version: 02.00.95
+ - CDU10_SP_V042119_S3, Installed: 07/28/2021, Version: 04.21.19
+ - CDU10_SP_V042119_US_REG_S3, Installed: 07/28/2021, Version: 04.21.19
+ - CDU11_EP_V100025, Installed: 07/28/2021, Version: 10.00.25
+ - CHDU_SP_V040022_Channel_R5, Installed: 07/28/2021, Version: 04.00.22
+ - CHDU_SP_V040022_Channel_US_REG_R5, Installed: 07/28/2021, Version: 04.00.22
+ - Common_SNMP_Configuration_V010003_R1, Installed: 07/28/2021, Version: 01.00.03
+ - Common_SP_V043114_S2, Installed: 07/28/2021, Version: 04.31.14
+ - Definition Update for Microsoft Office 2016 (KB3115407) 32-Bit Edition, Installed: , Version: 
+ - EPP60(USB)_SP_V042206_S1, Installed: 07/28/2021, Version: 04.22.06
+ - EPP60(USB)_SP_V042206_US_REG_S1, Installed: 07/28/2021, Version: 04.22.06
+ - EPP80(USB)_EP_V10000700_R2, Installed: 07/28/2021, Version: 10.00.07.00
+ - EPP90(USB)_EP_V12000101, Installed: 07/28/2021, Version: 12.00.01.01
+ - EPPX1(USB)_EP_V15000303, Installed: 07/28/2021, Version: 15.00.03.03
+ - FGRNG_SP_V042018_R1, Installed: 07/28/2021, Version: 04.20.18
+ - GT520_FW_Update_1b0012_R2, Installed: 07/28/2021, Version: 02.00.09
+ - Herramientas de corrección de Microsoft Office 2016: español, Installed: 09/18/2020, Version: 16.0.4417.1000
+ - ImageMark Passport ATM Agent, Installed: 10/23/2020, Version: 4.02.00.06
+ - Intel(R) Chipset Device Software, Installed: , Version: 10.1.1.8
+ - Intel(R) Processor Graphics, Installed: , Version: 20.19.15.5063
+ - Intel® Security Assist, Installed: 06/17/2021, Version: 1.0.0.532
+ - Kaseya Agent (cki561.rvatm.peninsula_federal_credit_union.cs - 68.168.253.23), Installed: 04/18/2022, Version: 9.5.0.31
+ - LogMeIn, Installed: 01/18/2021, Version: 4.1.12382
+ - MCU22(USB)_EP_V365601I_R3, Installed: 07/28/2021, Version: 36.56.01
+ - MCU22(USB_BLACK)_EP_506401I, Installed: 07/28/2021, Version: 50.64.01
+ - MCU22(USB_BLUE)_EP_V529201E, Installed: 07/28/2021, Version: 52.92.01
+ - MCU22(USB_ESU)_EP_441401B_R2, Installed: 07/28/2021, Version: 44.14.01
+ - MCU22(USB_ESU)_EP_V529301I, Installed: 07/28/2021, Version: 52.93.01
+ - MCU22_SP_V043033_R1, Installed: 07/28/2021, Version: 04.30.33
+ - MCU22_SP_V043033_US_REG_R1, Installed: 07/28/2021, Version: 04.30.33
+ - Microsoft Office Proofing (English) 2016, Installed: 09/18/2020, Version: 16.0.4417.1000
+ - Microsoft Office Proofing Tools 2016 - English, Installed: 01/19/2021, Version: 16.0.4417.1000
+ - Microsoft Office Shared MUI (English) 2016, Installed: 03/23/2021, Version: 16.0.4417.1000
+ - Microsoft Office Shared Setup Metadata MUI (English) 2016, Installed: 09/18/2020, Version: 16.0.4417.1000
+ - Microsoft Skype for Business Entry 2016, Installed: 04/07/2021, Version: 16.0.4417.1000
+ - Microsoft Skype for Business MUI (English) 2016, Installed: 01/27/2021, Version: 16.0.4417.1000
+ - Microsoft Visual C++ 2013 Redistributable (x64) - 12.0.40649, Installed: , Version: 12.0.40649.5
+ - Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.30501, Installed: , Version: 12.0.30501.0
+ - Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.40649, Installed: , Version: 12.0.40649.5
+ - Microsoft Visual C++ 2013 x86 Additional Runtime - 12.0.40649, Installed: 01/18/2021, Version: 12.0.40649
+ - Microsoft Visual C++ 2013 x86 Minimum Runtime - 12.0.40649, Installed: 01/18/2021, Version: 12.0.40649
+ - Microsoft Visual C++ 2017 Redistributable (x86) - 14.16.27027, Installed: , Version: 14.16.27027.1
+ - Microsoft Visual C++ 2017 X86 Additional Runtime - 14.16.27024, Installed: 06/19/2021, Version: 14.16.27024
+ - Microsoft Visual C++ 2017 X86 Minimum Runtime - 14.16.27024, Installed: 06/19/2021, Version: 14.16.27024
+ - MP2s CUAnswers NBS, Installed: 07/18/2022, Version: 02.00.01.00
+ - MP2s FIS NBS, Installed: 04/20/2022, Version: 2.0.1.0
+ - MP2s Standard NBS, Installed: 02/27/2023, Version: 02.01.14.01
+ - Netop Remote Control Host, Installed: 06/19/2021, Version: 12.76.19080
+ - Nextware_V033023_S1, Installed: 07/28/2021, Version: 03.30.23
+ - Nuvoton Communcations Port 64-bits Driver, Installed: 06/17/2021, Version: 1.0.2011.1109
+ - Outils de vérification linguistique 2016 de Microsoft Office - Français, Installed: 01/19/2021, Version: 16.0.4417.1000
+ - PNCU0_EP_V020031_R3, Installed: 07/28/2021, Version: 02.00.31
+ - PNCU0_SP_V042066_S1, Installed: 07/28/2021, Version: 04.20.66
+ - PNCU0_SP_V042066_US_REG_S1, Installed: 07/28/2021, Version: 04.20.66
+ - PulseIR, Installed: 06/15/2018, Version: 1.2.05
+ - Realtek High Definition Audio Driver, Installed: 06/17/2021, Version: 6.0.1.7560
+ - RFM00_EP_V200C38_R3, Installed: 07/28/2021, Version: 200.38
+ - RFM00_SP_V042036_R2, Installed: 07/28/2021, Version: 04.20.36
+ - RFM00_SP_V042036_US_REG_R2, Installed: 07/28/2021, Version: 04.20.36
+ - SCN20_EP_CameraFW_V26_R3, Installed: 07/28/2021, Version: 00.00.26
+ - SCN20_SP_V041020_R2, Installed: 07/28/2021, Version: 04.10.20
+ - SCNPV_SP_V042002_R1, Installed: 07/28/2021, Version: 04.20.02
+ - ScreenConnect Client (25d58b630f3d0292), Installed: 02/12/2023, Version: 23.1.1.8423
+ - Security Update for Microsoft Excel 2016 (KB4493233) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB3213551) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4011574) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4022162) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4022176) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4486755) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4493200) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Office 2016 (KB4493225) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft PowerPoint 2016 (KB4493224) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Visio 2016 (KB4493151) 32-Bit Edition, Installed: , Version: 
+ - Security Update for Microsoft Word 2016 (KB4493156) 32-Bit Edition, Installed: , Version: 
+ - Skype for Business Basic 2016, Installed: , Version: 16.0.4417.1000
+ - SPRK(USB)_SP_V043078_R1, Installed: 07/28/2021, Version: 04.30.78
+ - SPRK(USB)_SP_V043078_US_REG_R1, Installed: 07/28/2021, Version: 04.30.78
+ - SPRK5_EP_V020037, Installed: 07/28/2021, Version: 02.00.37
+ - SPRK8_EP_V080073, Installed: 07/28/2021, Version: 08.00.73
+ - SPRKX_EP_V401017, Installed: 07/28/2021, Version: 40.10.17
+ - StandardBase-AddOns-IAL-Config, Installed: 10/23/2020, Version: 01.00.00.8
+ - ThirdParty-AddOns-IAL, Installed: 10/23/2020, Version: 11.0.0.0.4
+ - tpdrv, Installed: , Version: 
+ - TTU00_SP_V040334_R3, Installed: 07/28/2021, Version: 04.03.34
+ - TTU00_SP_V040334_US_REG_R3, Installed: 07/28/2021, Version: 04.03.34
+ - Update for Microsoft Access 2016 (KB4493188) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB2920717) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3114852) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3118262) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3118263) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3118264) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3141456) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3178666) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB3213650) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4011035) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4011225) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4011629) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4011634) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4011669) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4022161) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4022193) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4032254) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4461435) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4462119) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4464535) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4464538) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4475580) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4475584) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4484145) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4484171) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4484174) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4484395) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4486668) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4486672) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4486747) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Office 2016 (KB4493153) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft OneDrive for Business (KB4022219) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft OneNote 2016 (KB4484329) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Outlook 2016 (KB4493226) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Project 2016 (KB4493191) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Publisher 2016 (KB4484334) 32-Bit Edition, Installed: , Version: 
+ - Update for Microsoft Visio Viewer 2016 (KB2920709) 32-Bit Edition, Installed: , Version: 
+ - Update for Skype for Business 2016 (KB4486745) 32-Bit Edition, Installed: , Version: 
+ - VDM_Core_V010418_S3, Installed: 07/28/2021, Version: 01.04.18
+ - VDM_Data_V010418_S3, Installed: 07/28/2021, Version: 01.04.18
+ - Windows 10 Update Assistant, Installed: , Version: 1.4.9200.22807
+==========================================================================================================
+Installed Packages:
+ - a2ia-v9.0, Installed: 2023-02-27 10:33:19, Status: Good
+ - BillTemplates-01.00.05, Installed: 2022-05-31 01:04:41, Status: Good
+ - CUAnswers-NBS-02.00.00.00, Installed: 2022-05-24 11:54:37, Status: Good
+ - CUAnswersNBS-02.00.01.00, Installed: 2022-07-18 09:08:25, Status: Good
+ - FIS-NBS-01.00.12.00, Installed: 2021-06-19 11:41:19, Status: Good
+ - FIS-NBS-01.00.15.00, Installed: 2021-03-03 08:15:22, Status: Good
+ - FIS-NBS-02.00.01.00, Installed: 2022-04-20 12:19:18, Status: Good
+ - Lync-02.00.00.00, Installed: 2020-09-18 13:49:03, Status: Good
+ - Marketing, Installed: 2020-10-22 13:11:49, Status: Good
+ - MONIACT_SWUPDATE-V01.00.49.01, Installed: 2020-09-18 16:38:24, Status: Good
+ - MONIACT_SWUPDATE-V01.00.51.00, Installed: 2020-12-01 14:40:53, Status: Unknown
+ - MONIACT_SWUPDATE-V01.00.51.03, Installed: 2020-10-19 13:12:42, Status: Good
+ - MONIACT_SWUPDATE-V01.00.51.06, Installed: 2021-07-28 20:29:58, Status: Good
+ - MONIACT-V01.00.49.01_20200205, Installed: 2021-07-28 20:13:07, Status: Good
+ - MONIACT-V01.00.51.00_20200520, Installed: 2020-12-01 15:08:49, Status: Good
+ - MONIACT-V01.00.51.03_20200824, Installed: 2020-10-19 13:11:54, Status: Good
+ - MONIACT-V01.00.51.04_20201112, Installed: 2021-07-28 19:17:50, Status: Good
+ - MONIACT-V01.00.51.06_20210708, Installed: 2021-07-28 20:28:34, Status: Good
+ - NBS_Update, Installed: 2020-09-24 15:18:45, Status: Unknown
+ - NetFramework-v4.0, Installed: 2023-02-27 10:32:16, Status: Good
+ - NetFramework-v4.5.2, Installed: 2023-02-27 10:32:41, Status: Good
+ - NetOp-01.00.02.00, Installed: 2021-06-19 11:45:29, Status: Good
+ - Nextware-v03.30.16_S1, Installed: 2020-12-01 14:24:27, Status: Good
+ - Nextware-v03.30.23, Installed: 2023-02-27 10:33:19, Status: Good
+ - NH_Security-Standard_V010006, Installed: 2021-06-17 17:40:06, Status: Good
+ - NHAgent-01.02.00.06, Installed: 2020-09-25 17:41:24, Status: Good
+ - NHAgent-01.02.04.00, Installed: 2021-03-03 07:52:44, Status: Good
+ - Peninsula Cust Core Pkg v01.00.05, Installed: 2022-04-20 12:29:34, Status: Good
+ - Peninsula Cust Core Pkg v01.00.06, Installed: 2022-05-24 09:28:11, Status: Good
+ - Standard-NBS-02.01.00.00, Installed: 2020-12-01 14:24:38, Status: Good
+ - Standard-NBS-02.01.00.00-Wrapper, Installed: 2020-12-01 14:25:29, Status: Good
+ - Standard-NBS-02.01.01.00, Installed: 2021-06-19 11:36:44, Status: Good
+ - Standard-NBS-02.01.01.00-Wrapper, Installed: 2021-06-19 11:37:28, Status: Good
+ - Standard-NBS-02.01.08.00, Installed: 2021-03-03 08:29:20, Status: Good
+ - Standard-NBS-02.01.08.00-Wrapper, Installed: 2021-03-03 08:30:43, Status: Good
+ - Standard-NBS-02.01.09.00, Installed: 2022-07-18 10:43:59, Status: Good
+ - Standard-NBS-02.01.09.00-Wrapper, Installed: 2022-07-18 10:45:29, Status: Good
+ - Standard-NBS-02.01.11.02, Installed: 2021-12-20 13:17:37, Status: Good
+ - Standard-NBS-02.01.11.02-Wrapper, Installed: 2021-12-20 13:20:19, Status: Good
+ - Standard-NBS-02.01.13.00, Installed: 2022-03-17 12:42:57, Status: Good
+ - Standard-NBS-02.01.13.00.RC3-Wrapper, Installed: 2022-03-17 12:44:01, Status: Good
+ - Standard-NBS-02.01.14.01, Installed: 2023-02-27 10:33:38, Status: Good
+ - Standard-NBS-Wrapper-02.01.14.01, Installed: 2023-02-27 10:36:38, Status: Good
+ - VisualC++Redistributable2013, Installed: 2023-02-27 10:32:42, Status: Good
+ - VisualC++Redistributable2017, Installed: 2023-02-27 10:32:42, Status: Good
+ - Win10HotFix_Monthly_Update-2022.07, Installed: 2022-08-13 02:15:15, Status: Good
+ - Win10HotFix_Monthly_Update-2022.08, Installed: 2022-09-11 01:42:58, Status: Good
+ - Win10HotFix_Monthly_Update-2022.10, Installed: 2022-11-08 02:13:22, Status: Good
+ - Win10HotFix_Monthly_Update-2022.12, Installed: 2023-01-21 02:39:26, Status: Good
+ - Win10HotFix_Monthly_Update-2023.02, Installed: 2023-03-13 01:21:41, Status: Good
+ - Win10-LanguageFeatures-es-mx, Installed: 2023-02-27 10:32:48, Status: Good
+ - WinLockUpdate-01.00.06.00-20190503, Installed: 2023-02-27 10:33:43, Status: Good
+==========================================================================================================
+[2023-03-30 11:15:54-705][3][][SockAdapter         ][Send                ][NORMAL]Socket Send SocketCode=18187816 Socket Handle : 7116
+[2023-03-30 11:15:54-726][3][][SockAdapter         ][Send                ][NORMAL]remoteIP = 208.224.249.46
+[2023-03-30 11:15:54-736][3][][SockAdapter         ][Send                ][NORMAL]send 648bytes
+[2023-03-30 11:15:54-737][3][][TcpComm             ][OnReceivedSockEvent ][NORMAL]Socket event arrived: SendComplete
+[2023-03-30 11:15:54-755][3][][LocalXmlHelper      ][LoadConfigurationFiles][NORMAL]Finished loading xml: C:\Hyosung\MoniPlus2S\ConfigApplication\Application\ReceiptForm.xml
+[2023-03-30 11:15:54-761][3][][LocalXmlHelper      ][LoadConfigurationFiles][NORMAL]Finished loading xml: C:\Hyosung\MoniPlus2S\ConfigNetwork\Application\NetworkReceiptForm.xml
+[2023-03-30 11:15:54-762][3][][AbstractFlowPoint   ][PrintTransaction    ][NORMAL]Found Receipt: Withdrawal
+[2023-03-30 11:15:54-766][3][][AbstractFlowPoint   ][DetermineNextFlowPoint][NORMAL]Next flowpoint has been determined:Common-PostBufferReceipt
+[2023-03-30 11:15:54-769][3][][LocalScreenWindowEx ][StopUserInputTimer  ][NORMAL]StopUserInputTimer, stopped application pin timer with 30000
+[2023-03-30 11:15:54-770][3][][HybridFlowEngine    ][GetFlowPoint        ][NORMAL]FlowPoint (Common-PostBufferReceipt) was found in the Flow xml file.";
+   }
+}

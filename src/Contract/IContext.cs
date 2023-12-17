@@ -16,6 +16,9 @@ namespace Contract
       // List of Log File Handlers
       List<ILogFileHandler> logFileHandlers { get; }
 
+      // Active Log File Handler
+      ILogFileHandler activeHandler { get; set; }
+
       // Folder to place all temporary work files and resulting Excel file
       string WorkFolder { get; set; }
 
