@@ -71,13 +71,37 @@ In this case the output file would be `20221116175903__SP_CDM_CIM.xlsx`.
 
 Complete Command Line Options are:
 
-| Short | Long | Default or | One or More of |
-|-------|------|------------|----------------|
-| -a    | --ap | *          | TBD            |
-| -s    | --sp | *          | CDM, CIM, DEV, Extra, IDC, IPM, PIN, SIU
-| -t    | --at | *          | TBD            |
-| -w    | --aw | *          | TBD            |
-| -r    | --ar | *          | TBD            |
+| Short | Long | View Options (one or more of) |
+|-------|------|----------------|
+| -a    | --ap | EJ, XmlParam, AddKey |
+| -s    | --sp | CDM, CIM, DEV, Extra, IDC, IPM, PIN, SIU |
+| -t    | --at | TBD            |
+| -w    | --aw | TBD            |
+| -r    | --ar | TBD            |
+
+### -a (--ap) View Option Meaning
+
+| View     | Description |
+|----------|----------------------|
+| EJ       | EJ Insert commands            |
+| XmlParam | Config files and their parameters in table form |
+| AddKey   | Keys loaded on start-up |
+| *        | All of the above |
+
+### -s (--sp) View Option Meaning
+
+| View     | Description |
+|----------|----------------------|
+| CDM      | Cash Dispense Module Status, Dispense operation and Counts |
+| CIM      | Cash-In Module Status, Deposits operations and Counts|
+| DEV      | Device Status over time |
+| Extra    | The lpszExtra values from device status. Good for flagging error codes |
+| IDC      | Card Reader Status and inserts |
+| IPM      | Check Depositor Status, Deposits and Counts |
+| PIN      | PinPad Status |
+| SIU      | Status & Indicator Status (e.g. Safe Open/Close, Enter/Exit Supervisor) |
+| *        | All of the above |
+
 
 ## Known Issues
 
