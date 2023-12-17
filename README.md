@@ -49,13 +49,13 @@ This will error reporting you need to enter command line options.
 
 #### CommandLine Options
 
-The only command you need to specify is the file: 
+First, you always need to specify the target (e.g. zip) file. This command runs without errors:
 
 ```text
 splogparser -f 20221116175903.zip
 ```
 
-But this will do nothing because you havent given it any parse types to do. To get a complete parse of the SP logs you can type:
+But this will *do nothing* because you havent said what you want it to do. You need to add (one or more) *Parse Types* and (one or more) *Views* to generate. For example, to get a complete parse of the SP logs you can type:
 
 ```text
 splogparser -s * -f 20221116175903.zip
@@ -69,15 +69,19 @@ splogparser -s CDM,CIM -f 20221116175903.zip
 
 In this case the output file would be `20221116175903__SP_CDM_CIM.xlsx`.
 
-Complete Command Line Options are:
+### Parse Types
 
-| Short | Long | View Options (one or more of) |
+The list of Parse Types supported is:
+
+| Short | Long | Description |
 |-------|------|----------------|
-| -a    | --ap | EJ, XmlParam, AddKey |
-| -s    | --sp | CDM, CIM, DEV, Extra, IDC, IPM, PIN, SIU |
+| -a    | --ap | Parse the [AP] logs (e.g. APLog*.*) in the target file |
+| -s    | --sp | Parse the [SP] logs (e.g. *.nwlog) in the target file |
 | -t    | --at | TBD            |
 | -w    | --aw | TBD            |
 | -r    | --ar | TBD            |
+
+Combine one or more *Parse Type* with one or more *View* to tell the parse what to do. 
 
 ### -a (--ap) View Option Meaning
 
@@ -101,6 +105,27 @@ Complete Command Line Options are:
 | PIN      | PinPad Status |
 | SIU      | Status & Indicator Status (e.g. Safe Open/Close, Enter/Exit Supervisor) |
 | *        | All of the above |
+
+### Samples Commands and their Meaning
+
+Parse the [SP] logs and show me all Dispense and Deposit operations:
+
+```text
+splogparser -s CDM,CIM -f 20221116175903.zip
+```
+
+Parse the [AP] logs and show me the configuration settings in table form:
+
+```text
+splogparser -a XmlParam -f 20221116175903.zip
+```
+
+Show me all [AP] views and from the [SP] logs the Dispense operations. 
+
+```text
+splogparser -a * -s CDM -f 20221116175903.zip
+```
+
 
 
 ## Known Issues
