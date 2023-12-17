@@ -97,11 +97,17 @@ namespace splogparser
          ctx.ConsoleWriteLogLine("opts.SPViews :" + ctx.opts.SPViews);
          ctx.ConsoleWriteLogLine("opts.RTViews :" + ctx.opts.RTViews);
 
+         ctx.ConsoleWriteLogLine(String.Format("IsAP : {0}", ctx.opts.IsAP ? "true" : "false"));
+         ctx.ConsoleWriteLogLine(String.Format("APView Contains  : {0}", ctx.opts.APViews));
+
+         ctx.ConsoleWriteLogLine(String.Format("IsSP : {0}", ctx.opts.IsSP ? "true" : "false"));
+         ctx.ConsoleWriteLogLine(String.Format("SPView Contains  : {0}", ctx.opts.SPViews));
+
          // Only create a LogFileHandler if their ParseType was specified on the command line
          ctx.ConsoleWriteLogLine(String.Format("Create the LogFileHandlers"));
 
          // AP 
-         // if (ctx.IsAP) ctx.logFileHandlers.Add((ILogFileHandler)new APLogHandler(new CreateTextStreamReader()));
+         if (ctx.opts.IsAP) ctx.logFileHandlers.Add((ILogFileHandler)new APLogHandler(new CreateTextStreamReader()));
 
          // AT 
          // if (ctx.IsAT) ctx.logFileHandlers.Add((ILogFileHandler)new ATLogHandler(new CreateTextStreamReader()));
@@ -167,6 +173,9 @@ namespace splogparser
                {
                   // Only Initialize a View if their ParseType was specified in the command line and their name is mentioned in the arguments
                   // (or the argument was '*')
+
+                  viewName = thisView.Name;
+
                   if (ctx.opts.RunView(thisView.parseType, thisView.Name))
                   {
                      viewName = thisView.Name;
@@ -194,9 +203,41 @@ namespace splogparser
          // Start the stopwatch
          stopwatch = new Stopwatch();
 
+         // P R E   P R O C E S S   V I E W S
+
+         using (loader.Container)
+         {
+            try
+            {
+               foreach (IView thisView in loader.Views)
+               {
+                  // Only call a View if either the view name is mentioned in the arguments (or the argument was '*')
+                  if (ctx.opts.RunView(thisView.parseType, thisView.Name))
+                  {
+                     viewName = thisView.Name;
+                     ctx.ConsoleWriteLogLine(String.Format("PreProcessing view : {0}", viewName));
+                     thisView.PreProcess(ctx);
+                  }
+               }
+            }
+            catch (Exception e)
+            {
+               ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : Processing view {0} : {1}", viewName, e.Message));
+               return;
+            }
+         }
+
+         // Stop the stopwatch
+         stopwatch.Stop();
+
+         // Log the elapsed time
+         elapsedTime = stopwatch.Elapsed;
+         ctx.ConsoleWriteLogLine($"Elapsed Time: {elapsedTime.TotalMilliseconds} milliseconds");
+
+         // Start the stopwatch
+         stopwatch = new Stopwatch();
 
          // P R O C E S S   T I M E  S E R I E S  F I L E  P R O C E S S I N G
-
 
          // For each Log Handler defined...
          foreach (ILogFileHandler fileHandler in ctx.logFileHandlers)
@@ -210,7 +251,10 @@ namespace splogparser
                continue;
             }
 
-            ctx.ConsoleWriteLogLine(String.Format("FileLogHandler {0} found {1} files.", fileHandler.Name, fileHandler.FilesFound.Length));
+            // Set the Active Handler
+            ctx.activeHandler = fileHandler;
+
+            ctx.ConsoleWriteLogLine(String.Format("FileLogHandler {0} found {1} files.", ctx.activeHandler.Name, ctx.activeHandler.FilesFound.Length));
             using (loader.Container)
             {
                try
@@ -221,11 +265,11 @@ namespace splogparser
                      // mentioned in the arguments (or the argument was '*')
                      if (ctx.opts.RunView(thisView.parseType, thisView.Name))
                      {
-                        if (thisView.parseType == fileHandler.parseType)
+                        if (thisView.parseType == ctx.activeHandler.parseType)
                         {
                            viewName = thisView.Name;
-                           ctx.ConsoleWriteLogLine(String.Format("\nProcessing view : {0}", viewName));
-                           thisView.Process(fileHandler);
+                           ctx.ConsoleWriteLogLine(String.Format("Processing view : {0}", viewName));
+                           thisView.Process(ctx);
                         }
                      }
                   }
@@ -261,7 +305,7 @@ namespace splogparser
                   if (ctx.opts.RunView(thisView.parseType, thisView.Name))
                   {
                      viewName = thisView.Name;
-                     ctx.ConsoleWriteLogLine(String.Format("\nPost-Processing view : {0}", viewName));
+                     ctx.ConsoleWriteLogLine(String.Format("Post-Processing view : {0}", viewName));
                      thisView.PostProcess(ctx);
                   }
                }
@@ -306,7 +350,7 @@ namespace splogparser
                   if (ctx.opts.RunView(thisView.parseType, thisView.Name))
                   {
                      viewName = thisView.Name;
-                     ctx.ConsoleWriteLogLine(String.Format("\nWrite Excel view : {0}", viewName));
+                     ctx.ConsoleWriteLogLine(String.Format("Write Excel view : {0}", viewName));
                      thisView.WriteExcel(ctx);
                   }
                }
@@ -341,7 +385,7 @@ namespace splogparser
                   if (ctx.opts.RunView(thisView.parseType, thisView.Name))
                   {
                      viewName = thisView.Name;
-                     ctx.ConsoleWriteLogLine(String.Format("\nCleanup view : {0}", viewName));
+                     ctx.ConsoleWriteLogLine(String.Format("Cleanup view : {0}", viewName));
                      thisView.Cleanup(ctx);
                   }
                }
@@ -361,7 +405,7 @@ namespace splogparser
          elapsedTime = stopwatch.Elapsed;
          ctx.ConsoleWriteLogLine($"Elapsed Time: {elapsedTime.TotalMilliseconds} milliseconds");
 
-         Console.WriteLine("Application End");
+         ctx.ConsoleWriteLogLine("Application End");
       }
    }
 }

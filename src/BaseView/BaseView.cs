@@ -60,15 +60,20 @@ namespace Impl
          bTable = CreateTableInstance(ctx);
       }
 
+      public virtual void PreProcess(IContext ctx)
+      {
+         return;   
+      }
+
       /// <summary>Call to process the datatable (merge of all log lines)</summary>
       /// <returns>void</returns>
-      public virtual void Process(ILogFileHandler logFileHandler)
+      public virtual void Process(IContext ctx)
       {
          ctx.LogWriteLine("------------------------------------------------");
          ctx.LogWriteLine("Process: " + viewName);
 
          // For each file found by this log handler...
-         foreach (string fileName in logFileHandler.FilesFound)
+         foreach (string fileName in ctx.activeHandler.FilesFound)
          {
             if (string.IsNullOrEmpty(fileName))
             {
@@ -76,14 +81,14 @@ namespace Impl
             }
 
             ctx.ConsoleWriteLogLine(String.Format("Processing file: {0}", fileName));
-            logFileHandler.OpenLogFile(fileName);
+            ctx.activeHandler.OpenLogFile(fileName);
 
             // For each log line in this file...
-            while (!logFileHandler.EOF())
+            while (!ctx.activeHandler.EOF())
             {
                try
                {
-                  ILogLine logLine = logFileHandler.IdentifyLine(logFileHandler.ReadLine());
+                  ILogLine logLine = ctx.activeHandler.IdentifyLine(ctx.activeHandler.ReadLine());
                   bTable.ProcessRow(logLine);
                }
                catch (Exception e)

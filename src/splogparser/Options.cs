@@ -35,11 +35,10 @@ namespace splogparser
       public bool RunView(ParseType parseType, string viewName)
       {
          viewName = viewName.Replace("View", "");
-         return (((parseType == ParseType.AP && IsAP) && APViews.Contains(viewName) || APViews == "*") ||
-                 ((parseType == ParseType.AT && IsAT) && ATViews.Contains(viewName) || ATViews == "*") ||
-                 ((parseType == ParseType.AW && IsAW) && AWViews.Contains(viewName) || AWViews == "*") ||
-                 ((parseType == ParseType.SP && IsSP) && SPViews.Contains(viewName) || SPViews == "*") ||
-                 ((parseType == ParseType.RT && IsRT) && RTViews.Contains(viewName) || RTViews == "*"));
+         return
+            ( ( (IsAP && parseType == ParseType.AP) && (APViews.Contains(viewName) || APViews.Contains("*")) ) ||
+              ( (IsSP && parseType == ParseType.SP) && (SPViews.Contains(viewName) || SPViews.Contains("*")) )
+            );
       }
 
       protected string _Suffix(string parseType, string arguments)

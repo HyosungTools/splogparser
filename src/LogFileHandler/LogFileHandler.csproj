@@ -49,6 +49,10 @@
     <Compile Include="SPLogHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\APLine\APLogLine.csproj">
+      <Project>{79fe7807-0694-473c-8dd5-7d7013e14edf}</Project>
+      <Name>APLogLine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Contract\Contract.csproj">
       <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
       <Name>Contract</Name>

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{79FE7807-0694-473C-8DD5-7D7013E14EDF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>APLine</RootNamespace>
+    <AssemblyName>APLine</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddKey.cs" />
+    <Compile Include="APLine.cs" />
+    <Compile Include="CashDispenser\CashDispener.cs" />
+    <Compile Include="CashDispenser\CashDispenser_DispenseSyncAsync.cs" />
+    <Compile Include="CashDispenser\CashDispenser_ExecDispense.cs" />
+    <Compile Include="CashDispenser\CashDispenser_GetLCULastDispensedCount.cs" />
+    <Compile Include="CashDispenser\CashDispenser_Open.cs" />
+    <Compile Include="CashDispenser\CashDispenser_SetupCSTList.cs" />
+    <Compile Include="CashDispenser\CashDispenser_SetupNoteType.cs" />
+    <Compile Include="CommFrmWork.cs" />
+    <Compile Include="DevUnSolEvent.cs" />
+    <Compile Include="EJInsert.cs" />
+    <Compile Include="FnKey.cs" />
+    <Compile Include="HlpBillMix.cs" />
+    <Compile Include="Pinpad.cs" />
+    <Compile Include="PANData.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CreateNextState.cs" />
+    <Compile Include="ScreenName.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\APSamplesTests\APSamples.csproj">
+      <Project>{98624250-55f4-407e-9a99-242690d17f0f}</Project>
+      <Name>APSamples</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Contract\Contract.csproj">
+      <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
+      <Name>Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogLineHandler\LogLineHandler.csproj">
+      <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>
+      <Name>LogLineHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RegEx\RegEx.csproj">
+      <Project>{08528b3a-39f6-4e08-81fa-9b3c2935316a}</Project>
+      <Name>RegEx</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

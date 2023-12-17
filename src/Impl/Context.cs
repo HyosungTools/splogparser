@@ -18,6 +18,8 @@ namespace Impl
       // logFile handlers
       public List<ILogFileHandler> logFileHandlers { get; }
 
+      public ILogFileHandler activeHandler { get; set; }
+
       // folder to store temp files and Excel file
       public string WorkFolder { get; set; }
 

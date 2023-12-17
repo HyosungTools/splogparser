@@ -19,7 +19,13 @@
       /// Instruct the view to process this line 
       /// </summary>
       /// <param name="ctx">Context for the command</param>
-      void Process(ILogFileHandler logFileHandler);
+      void PreProcess(IContext ctx);
+
+      /// <summary>
+      /// Instruct the view to process this line 
+      /// </summary>
+      /// <param name="ctx">Context for the command</param>
+      void Process(IContext ctx);
 
       /// <summary>
       /// Instruct the View TimeSeries processing is over. 
