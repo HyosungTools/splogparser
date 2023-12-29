@@ -38,7 +38,7 @@ namespace LogLineHandler
 
             noteType = m.Groups["notetype"].Value;
             currency = m.Groups["currency"].Value;
-            value = m.Groups["value"].Value; 
+            value = m.Groups["value"].Value;
             splcu = m.Groups["splcu"].Value;
             sppcu = m.Groups["sppcu"].Value;
          }

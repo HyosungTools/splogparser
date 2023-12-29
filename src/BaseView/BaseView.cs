@@ -21,7 +21,7 @@ namespace Impl
       /// <summary>
       /// My base table(s)
       /// </summary>
-      protected BaseTable bTable; 
+      protected BaseTable bTable;
 
       /// <summary>
       /// Constructor. 
@@ -51,7 +51,7 @@ namespace Impl
       /// <param name="ctx"></param>
       public virtual void Initialize(IContext ctx)
       {
-         this.ctx = ctx; 
+         this.ctx = ctx;
 
          ctx.LogWriteLine("------------------------------------------------");
          ctx.LogWriteLine("Initialize: " + viewName);
@@ -62,7 +62,7 @@ namespace Impl
 
       public virtual void PreProcess(IContext ctx)
       {
-         return;   
+         return;
       }
 
       /// <summary>Call to process the datatable (merge of all log lines)</summary>
@@ -107,6 +107,7 @@ namespace Impl
          ctx.LogWriteLine("------------------------------------------------");
          ctx.LogWriteLine("Post Process: " + viewName);
 
+         bTable.PostProcess();
          bTable.WriteXmlFile();
       }
 

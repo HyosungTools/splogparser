@@ -1,0 +1,75 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="CashDisp" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="CashDisp" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Status">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="device" type="xs:string" minOccurs="0" />
+              <xs:element name="position" type="xs:string" minOccurs="0" />
+              <xs:element name="dispenser" type="xs:string" minOccurs="0" />
+              <xs:element name="shutter" type="xs:string" minOccurs="0" />
+              <xs:element name="stacker" type="xs:string" minOccurs="0" />
+              <xs:element name="posstatus" type="xs:string" minOccurs="0" />
+              <xs:element name="transport" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Dispense">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="position" type="xs:string" minOccurs="0" />
+              <xs:element name="hostamount" type="xs:string" minOccurs="0" />
+              <xs:element name="coreaccount" type="xs:string" minOccurs="0" />
+              <xs:element name="billmix" type="xs:string" minOccurs="0" />
+              <xs:element name="dispensedamount" type="xs:string" minOccurs="0" />
+              <xs:element name="LU0" type="xs:string" minOccurs="0" />
+              <xs:element name="LU1" type="xs:string" minOccurs="0" />
+              <xs:element name="LU2" type="xs:string" minOccurs="0" />
+              <xs:element name="LU3" type="xs:string" minOccurs="0" />
+              <xs:element name="LU4" type="xs:string" minOccurs="0" />
+              <xs:element name="LU5" type="xs:string" minOccurs="0" />
+              <xs:element name="LU6" type="xs:string" minOccurs="0" />
+              <xs:element name="LU7" type="xs:string" minOccurs="0" />
+              <xs:element name="LU8" type="xs:string" minOccurs="0" />
+              <xs:element name="LU9" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Summary">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="name" type="xs:string" minOccurs="0" />
+              <xs:element name="currency" type="xs:string" minOccurs="0" />
+              <xs:element name="denom" type="xs:string" minOccurs="0" />
+              <xs:element name="splcu" type="xs:string" minOccurs="0" />
+              <xs:element name="sppcu" type="xs:string" minOccurs="0" />
+              <xs:element name="cindex" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CSTList">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="notetype" type="xs:string" minOccurs="0" />
+              <xs:element name="cstindex" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,185 @@
+<?xml version="1.0" standalone="yes"?>
+<CashDisp>
+
+  <Summary>
+    <file></file>
+    <time></time>
+    <error></error>
+    <name>A</name>
+    <currency></currency>
+    <denom>-1</denom>
+    <splcu>-1</splcu>
+    <sppcu>-1</sppcu>
+    <cindex></cindex>
+    <comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+    <time></time>
+    <error></error>
+    <name>B</name>
+    <currency></currency>
+    <denom>-1</denom>
+    <splcu>-1</splcu>
+    <sppcu>-1</sppcu>
+    <cindex></cindex>
+    <comment></comment>
+  </Summary>
+  
+  <Summary>
+    <file></file>
+    <time></time>
+    <error></error>
+    <name>C</name>
+    <currency></currency>
+    <denom>-1</denom>
+    <splcu>-1</splcu>
+    <sppcu>-1</sppcu>
+    <cindex></cindex>
+    <comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+    <time></time>
+    <error></error>
+    <name>D</name>
+    <currency></currency>
+    <denom>-1</denom>
+    <splcu>-1</splcu>
+    <sppcu>-1</sppcu>
+    <cindex></cindex>
+    <comment></comment>
+  </Summary>
+  
+  <Summary>
+    <file></file>
+    <time></time>
+    <error></error>
+    <name>E</name>
+    <currency></currency>
+    <denom>-1</denom>
+    <splcu>-1</splcu>
+    <sppcu>-1</sppcu>
+    <cindex></cindex>
+    <comment></comment>
+  </Summary>
+  
+  <Summary>
+    <file></file>
+    <time></time>
+    <error></error>
+    <name>F</name>
+    <currency></currency>
+    <denom>-1</denom>
+    <splcu>-1</splcu>
+    <sppcu>-1</sppcu>
+    <cindex></cindex>
+    <comment></comment>
+  </Summary>
+  
+  <Summary>
+    <file></file>
+    <time></time>
+    <error></error>
+    <name>G</name>
+    <currency></currency>
+    <denom>-1</denom>
+    <splcu>-1</splcu>
+    <sppcu>-1</sppcu>
+    <cindex></cindex>
+    <comment></comment>
+  </Summary>
+  
+  <Summary>
+    <file></file>
+    <time></time>
+    <error></error>
+    <name>H</name>
+    <currency></currency>
+    <denom>-1</denom>
+    <splcu>-1</splcu>
+    <sppcu>-1</sppcu>
+    <cindex></cindex>
+    <comment></comment>
+  </Summary>
+  
+  <Summary>
+    <file></file>
+    <time></time>
+    <error></error>
+    <name>I</name>
+    <currency></currency>
+    <denom>-1</denom>
+    <splcu>-1</splcu>
+    <sppcu>-1</sppcu>
+    <cindex></cindex>
+    <comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+    <time></time>
+    <error></error>
+    <name>J</name>
+    <currency></currency>
+    <denom>-1</denom>
+    <splcu>-1</splcu>
+    <sppcu>-1</sppcu>
+    <cindex></cindex>
+    <comment></comment>
+  </Summary>
+  
+  <CSTList>
+    <notetype>A</notetype>
+    <cstindex></cstindex>
+  </CSTList>
+
+  <CSTList>
+    <notetype>B</notetype>
+    <cstindex></cstindex>
+  </CSTList>
+  
+  <CSTList>
+    <notetype>C</notetype>
+    <cstindex></cstindex>
+  </CSTList>
+  
+  <CSTList>
+    <notetype>D</notetype>
+    <cstindex></cstindex>
+  </CSTList>
+
+  <CSTList>
+    <notetype>E</notetype>
+    <cstindex></cstindex>
+  </CSTList>
+  
+  <CSTList>
+    <notetype>F</notetype>
+    <cstindex></cstindex>
+  </CSTList>
+  
+  <CSTList>
+    <notetype>G</notetype>
+    <cstindex></cstindex>
+  </CSTList>
+  
+  <CSTList>
+    <notetype>H</notetype>
+    <cstindex></cstindex>
+  </CSTList>
+  
+  <CSTList>
+    <notetype>I</notetype>
+    <cstindex></cstindex>
+  </CSTList>
+
+  <CSTList>
+    <notetype>J</notetype>
+    <cstindex></cstindex>
+  </CSTList>
+
+  
+</CashDisp>

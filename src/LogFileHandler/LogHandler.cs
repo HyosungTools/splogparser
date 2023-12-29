@@ -1,11 +1,11 @@
 ﻿using System.IO;
-using Contract; 
+using Contract;
 
 namespace LogFileHandler
 {
-    public class LogHandler
-    {
-      protected IContext ctx;
+   public class LogHandler
+   {
+      public IContext ctx { get; set; }
       protected ICreateStreamReader createReader;
 
       public ParseType parseType { get; }
@@ -26,7 +26,7 @@ namespace LogFileHandler
       public string[] FilesFound { get; set; }
 
       // file name
-      public string fileName; 
+      public string fileName;
 
       // entire log file
       protected char[] logFile;
@@ -38,14 +38,14 @@ namespace LogFileHandler
 
       public LogHandler(ParseType parseType, ICreateStreamReader createReader)
       {
-         this.parseType = parseType; 
-         this.createReader = createReader; 
+         this.parseType = parseType;
+         this.createReader = createReader;
       }
 
       public bool Initialize(IContext ctx)
       {
          // find all files
-         this.ctx = ctx; 
+         this.ctx = ctx;
          FilesFound = ctx.ioProvider.GetFiles(ctx.WorkFolder + "\\" + ctx.SubFolder, LogExpression);
          return FilesFound.Length > 0;
       }
