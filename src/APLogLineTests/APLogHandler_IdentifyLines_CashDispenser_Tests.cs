@@ -372,6 +372,7 @@ namespace APLogLineTests
 
       }
 
+      [TestMethod]
       public void CashDispenser_OnDispenseComplete()
       {
          ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
@@ -383,6 +384,7 @@ namespace APLogLineTests
          Assert.IsTrue(apLine.Timestamp == "2023-10-31 20:57:33.721");
          Assert.IsTrue(apLine.HResult == "");
       }
+      [TestMethod]
       public void CashDispenser_OnPresentComplete()
       {
          ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
@@ -394,6 +396,8 @@ namespace APLogLineTests
          Assert.IsTrue(apLine.Timestamp == "2023-10-31 20:57:36.543");
          Assert.IsTrue(apLine.HResult == "");
       }
+
+      [TestMethod]
       public void CashDispenser_OnItemsTaken()
       {
          ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
@@ -406,6 +410,7 @@ namespace APLogLineTests
          Assert.IsTrue(apLine.HResult == "");
       }
 
+      [TestMethod]
       public void CashDispenser_GetLCULastDispensedCount()
       {
          ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
@@ -414,10 +419,11 @@ namespace APLogLineTests
 
          CashDispenser_GetLCULastDispensedCount apLine = (CashDispenser_GetLCULastDispensedCount)logLine;
          Assert.IsTrue(apLine.apType == APLogType.CashDispenser_GetLCULastDispensedCount);
-         Assert.IsTrue(apLine.Timestamp == "[2023-10-31 20:57:36.555");
+         Assert.IsTrue(apLine.Timestamp == "2023-10-31 20:57:36.555");
          Assert.IsTrue(apLine.HResult == "");
+
+         Assert.IsTrue(apLine.noteType == "A");
+         Assert.IsTrue(apLine.amount == "0");
       }
-
-
    }
 }

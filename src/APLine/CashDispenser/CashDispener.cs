@@ -4,15 +4,12 @@ namespace LogLineHandler
 {
    public class CashDispenser
    {
-
       public static ILogLine Factory(ILogFileHandler logFileHandler, string logLine)
       {
          /* CASH DISPENSER */
 
          if (logLine.Contains("[CashDispenser") && logLine.Contains("[Open") && logLine.Contains("NumberOfPhysicalUnits"))
             return new CashDispenser_Open(logFileHandler, logLine);
-
-
 
          /* STATUS */
 
@@ -117,9 +114,12 @@ namespace LogLineHandler
             return new APLine(logFileHandler, logLine, APLogType.CashDispenser_OnItemsTaken);
 
          if (logLine.Contains("[CashDispenser") && logLine.Contains("[GetLCULastDispensedCount"))
-            return new APLine(logFileHandler, logLine, APLogType.CashDispenser_OnItemsTaken);
+            return new CashDispenser_GetLCULastDispensedCount(logFileHandler, logLine);
 
-         return null; 
+         if (logLine.Contains("[CashDispenser") && logLine.Contains("[UpdateTypeInfoToDispense"))
+            return new CashDispenser_UpdateTypeInfoToDispense(logFileHandler, logLine);
+
+         return null;
       }
    }
 }

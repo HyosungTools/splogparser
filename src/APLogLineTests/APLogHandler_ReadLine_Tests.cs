@@ -141,7 +141,7 @@ namespace APLogLineTests
 
          logLine = logFileHandler.IdentifyLine(logFileHandler.ReadLine());
          Assert.IsTrue(logLine is APLine);
-         
+
          apLine = (APLine)logLine;
          Assert.IsTrue(apLine.Timestamp == "2023-03-30 18:53:05.457");
       }
@@ -191,8 +191,8 @@ namespace APLogLineTests
          ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
          logFileHandler.OpenLogFile(samples_entirefile.SAMPLE_FILE);
 
-         _ = logFileHandler.ReadLine(); 
-         while(!logFileHandler.EOF())
+         _ = logFileHandler.ReadLine();
+         while (!logFileHandler.EOF())
          {
             try
             {

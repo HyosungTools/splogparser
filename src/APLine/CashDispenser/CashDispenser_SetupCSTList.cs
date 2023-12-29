@@ -27,7 +27,7 @@ namespace LogLineHandler
                relation = "1:" + terms[0];
                parent = terms[2];
                child = terms[5].Trim(); ;
-            }   
+            }
          }
       }
    }

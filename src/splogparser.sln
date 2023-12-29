@@ -76,6 +76,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APSamples", "APSamples", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APSamples", "APSamplesTests\APSamples.csproj", "{98624250-55F4-407E-9A99-242690D17F0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashDispView", "CashDispView\CashDispView.csproj", "{6A17B223-75D7-4C38-A30B-0EC11D237372}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -182,6 +184,10 @@ Global
 		{98624250-55F4-407E-9A99-242690D17F0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98624250-55F4-407E-9A99-242690D17F0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98624250-55F4-407E-9A99-242690D17F0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A17B223-75D7-4C38-A30B-0EC11D237372}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A17B223-75D7-4C38-A30B-0EC11D237372}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A17B223-75D7-4C38-A30B-0EC11D237372}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A17B223-75D7-4C38-A30B-0EC11D237372}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -211,6 +217,7 @@ Global
 		{93BD0130-63C0-4873-834A-CE986F9AB32E} = {8EC4E5B2-01E8-4DE9-A7AE-2685B29B4F7F}
 		{15BFBC23-2F67-4329-A83E-1710DDABCAC9} = {8EC4E5B2-01E8-4DE9-A7AE-2685B29B4F7F}
 		{98624250-55F4-407E-9A99-242690D17F0F} = {15BFBC23-2F67-4329-A83E-1710DDABCAC9}
+		{6A17B223-75D7-4C38-A30B-0EC11D237372} = {BDCD7A03-828B-44E6-9169-223946D1BBC9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E3C1D19-CB84-47CD-B2F7-F495926D01C3}

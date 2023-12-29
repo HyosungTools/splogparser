@@ -42,11 +42,9 @@ namespace LogLineHandler
       PINPAD,
 
 
-      /* CASH DISPENSER */ 
+      /* CASH DISPENSER */
 
       CashDispenser_Open,
-
-
 
       /* STATUS */
 
@@ -60,7 +58,7 @@ namespace LogLineHandler
 
       /* position status */
 
-      CashDispenser_NotInPosition, 
+      CashDispenser_NotInPosition,
       CashDispenser_InPosition,
 
 
@@ -84,6 +82,11 @@ namespace LogLineHandler
       CashDispenser_OnTransportEmpty,
       CashDispenser_OnCashUnitChanged,
 
+      /* NDC */
+      NDC,
+      Atm2Host11,
+      Host2Atm1,
+
 
       /* SUMMARY */
 
@@ -103,7 +106,18 @@ namespace LogLineHandler
       CashDispenser_OnRetractComplete,
       CashDispenser_OnItemsTaken,
       CashDispenser_GetLCULastDispensedCount,
+      CashDispenser_UpdateTypeInfoToDispense,
 
+      /* CORE */
+      Core_ProcessWithdrawalTransaction_Account,
+      Core_ProcessWithdrawalTransaction_Amount,
+      Core_DispensedAmount,
+      Core_RequiredBillMixList,
+
+      /* HELPER FUNCTIONS */
+      HelperFunctions,
+      HelperFunctions_GetConfiguredBillMixList,
+      HelperFunctions_GetFewestBillMixList,
 
       SYMX_DISPENSE,
 
@@ -199,7 +213,7 @@ namespace LogLineHandler
             }
          }
 
-         return timestamp; 
+         return timestamp;
       }
    }
 }

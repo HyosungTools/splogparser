@@ -318,14 +318,14 @@ namespace Impl
          }
       }
 
-      protected virtual void DeleteRedundantRows(string tableName, string colName = "file")
+      protected virtual void DeleteRedundantRows(string tableName, string colName = "file", string critera = "")
       {
          ctx.ConsoleWriteLogLine(String.Format("Delete redundant rows from the {0} Table start: rows before: {1}", tableName, dTableSet.Tables[tableName].Rows.Count));
          DataRow[] dataRows = dTableSet.Tables[tableName].Select();
          List<DataRow> deleteRows = new List<DataRow>();
          foreach (DataRow dataRow in dataRows)
          {
-            if (dataRow[colName].ToString().Trim() == string.Empty)
+            if (dataRow[colName].ToString().Trim() == critera)
             {
                deleteRows.Add(dataRow);
             }
@@ -344,8 +344,18 @@ namespace Impl
       /// <param name="ctx"></param>
       public virtual void PreProcess(IContext ctx)
       {
-         return; 
+         return;
       }
+
+      /// <summary>
+      /// PreProcess - steps not related to time series
+      /// </summary>
+      /// <param name="ctx"></param>
+      public virtual void PostProcess()
+      {
+         return;
+      }
+
       /// <summary>
       /// Process a log line. 
       /// </summary>

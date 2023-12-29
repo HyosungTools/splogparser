@@ -87,6 +87,7 @@ Combine one or more *Parse Type* with one or more *View* to tell the parse what 
 
 | View     | Description |
 |----------|----------------------|
+| Disp     | Cash Dispense |
 | EJ       | EJ Insert commands            |
 | XmlParam | Config files and their parameters in table form |
 | AddKey   | Keys loaded on start-up |
@@ -125,7 +126,6 @@ Show me all [AP] views and from the [SP] logs the Dispense operations.
 ```text
 splogparser -a * -s CDM -f 20221116175903.zip
 ```
-
 
 
 ## Known Issues

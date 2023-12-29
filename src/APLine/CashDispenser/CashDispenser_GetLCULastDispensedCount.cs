@@ -23,7 +23,8 @@ namespace LogLineHandler
          int idx = logLine.IndexOf(findMe);
          if (idx != -1)
          {
-            string[] terms = logLine.Substring(idx + findMe.Length + 1).Replace(" ","").Split('=');
+            string subLogLine = logLine.Substring(idx + findMe.Length);
+            string[] terms = subLogLine.Replace(" ", "").Split('=');
             noteType = terms[0];
             amount = terms[1].Trim();
          }

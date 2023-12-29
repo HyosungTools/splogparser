@@ -2,6 +2,7 @@
 {
    public interface ILogFileHandler
    {
+      IContext ctx { get; set; }
       string Name { get; }
       bool Initialize(IContext ctx);
       string[] FilesFound { get; set; }
