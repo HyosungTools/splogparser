@@ -26,18 +26,24 @@ namespace splogparser
       [Option('f', "file", Required = true, HelpText = "Input files to be processed.")]
       public string InputFile { get; set; }
 
+      // Omitting long name, defaults to name of property, ie "--ssrv"
+      [Option("ss", Default = "x", Required = false, HelpText = "Parse Settlement Server API logs.")]
+      public string SSViews { get; set; }
+
       public bool IsAP { get { return APViews != "x"; } }
       public bool IsAT { get { return ATViews != "x"; } }
       public bool IsAW { get { return AWViews != "x"; } }
       public bool IsSP { get { return SPViews != "x"; } }
       public bool IsRT { get { return RTViews != "x"; } }
+      public bool IsSS { get { return SSViews != "x"; } }
 
       public bool RunView(ParseType parseType, string viewName)
       {
          viewName = viewName.Replace("View", "");
          return
             ( ( (IsAP && parseType == ParseType.AP) && (APViews.Contains(viewName) || APViews.Contains("*")) ) ||
-              ( (IsSP && parseType == ParseType.SP) && (SPViews.Contains(viewName) || SPViews.Contains("*")) )
+              ( (IsSP && parseType == ParseType.SP) && (SPViews.Contains(viewName) || SPViews.Contains("*")) ) ||
+              ( (IsSS && parseType == ParseType.SS) && (SSViews.Contains(viewName) || SSViews.Contains("*")))
             );
       }
 
@@ -54,6 +60,7 @@ namespace splogparser
          if (IsAW) suffix += _Suffix("__AW", AWViews);
          if (IsSP) suffix += _Suffix("__SP", SPViews);
          if (IsRT) suffix += _Suffix("__RT", RTViews);
+         if (IsSS) suffix += _Suffix("__SS", RTViews);
 
          return suffix; 
       }

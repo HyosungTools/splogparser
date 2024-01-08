@@ -121,6 +121,10 @@ namespace splogparser
          // RT
          // if (ctx.IsRT) ctx.logFileHandlers.Add((ILogFileHandler)new RTLogHandler(new CreateTextStreamReader()));
 
+         // SS
+         if (ctx.opts.IsSS) ctx.logFileHandlers.Add((ILogFileHandler)new SSLogHandler(new CreateTextStreamReader()));
+
+
          // if the unzip folder already exists delete it
          if (ctx.ioProvider.DirExists(ctx.WorkFolder + "\\" + ctx.SubFolder))
          {

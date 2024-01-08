@@ -77,7 +77,7 @@ The list of Parse Types supported is:
 |-------|------|----------------|
 | -a    | --ap | Parse the [AP] logs (e.g. APLog*.*) in the target file |
 | -s    | --sp | Parse the [SP] logs (e.g. *.nwlog) in the target file |
-| -t    | --at | TBD            |
+|       | --ss | Parse the Settlement Server (e.g. settlement-api-all-*.log) in the target file |
 | -w    | --aw | TBD            |
 | -r    | --ar | TBD            |
 
@@ -107,6 +107,12 @@ Combine one or more *Parse Type* with one or more *View* to tell the parse what 
 | SIU      | Status & Indicator Status (e.g. Safe Open/Close, Enter/Exit Supervisor) |
 | *        | All of the above |
 
+### --ss View Option Meaning
+
+| View     | Description |
+|----------|----------------------|
+| *        | All views |
+
 ### Samples Commands and their Meaning
 
 Parse the [SP] logs and show me all Dispense and Deposit operations:
@@ -127,6 +133,11 @@ Show me all [AP] views and from the [SP] logs the Dispense operations.
 splogparser -a * -s CDM -f 20221116175903.zip
 ```
 
+Show me all uploaded, created, discovered and imported events in the settlement server logs
+
+```text
+splogparser --ss * -f settlementserverlogs.zip
+```
 
 ## Known Issues
 
