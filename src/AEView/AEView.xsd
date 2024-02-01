@@ -1,0 +1,298 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="AEVIEW" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="AEVIEW" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ExtensionStartedEvents">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="name" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		<xs:element name="MoniPlus2sEvents">
+		  <xs:complexType>
+		    <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+
+            <xs:element name="Netop" type="xs:string" minOccurs="0" />
+            <xs:element name="Netware" type="xs:string" minOccurs="0" />
+            <xs:element name="AgentConfiguration" type="xs:string" minOccurs="0" />
+            <xs:element name="ConnectionManager" type="xs:string" minOccurs="0" />
+            <xs:element name="ServerHttp" type="xs:string" minOccurs="0" />
+            <xs:element name="ServerSignalR" type="xs:string" minOccurs="0" />
+			
+            <xs:element name="RemoteTellerActive" type="xs:string" minOccurs="0" />
+			
+            <xs:element name="CustomerId" type="xs:string" minOccurs="0" />
+
+            <xs:element name="ApplicationAvailability" type="xs:string" minOccurs="0" />
+            <xs:element name="FlowTimestamp" type="xs:string" minOccurs="0" />
+            <xs:element name="FlowPoint" type="xs:string" minOccurs="0" />
+            <xs:element name="TransactionType" type="xs:string" minOccurs="0" />
+            <xs:element name="Language" type="xs:string" minOccurs="0" />
+            <xs:element name="VoiceGuidance" type="xs:string" minOccurs="0" />
+            <xs:element name="RequestContext" type="xs:string" minOccurs="0" />
+
+            <xs:element name="OperatingMode" type="xs:string" minOccurs="0" />
+            <xs:element name="State" type="xs:string" minOccurs="0" />
+            <xs:element name="ApplicationState" type="xs:string" minOccurs="0" />
+
+            <xs:element name="AssetName" type="xs:string" minOccurs="0" />
+
+            <xs:element name="SupportedCallType" type="xs:string" minOccurs="0" />
+            <xs:element name="CallRouting_Summary" type="xs:string" minOccurs="0" />
+
+            <xs:element name="TellerId" type="xs:string" minOccurs="0" />
+            <xs:element name="TellerName" type="xs:string" minOccurs="0" />
+            <xs:element name="TellerVideoConferenceUri" type="xs:string" minOccurs="0" />
+            <xs:element name="TellerInfo_Summary" type="xs:string" minOccurs="0" />
+
+            <xs:element name="TellerSessionRequest_Timestamp" type="xs:string" minOccurs="0" />
+
+            <xs:element name="RemoteControlSession_StartTime" type="xs:string" minOccurs="0" />
+            <xs:element name="RemoteControlSession_TellerSessionRequestTimestamp" type="xs:string" minOccurs="0" />
+
+            <xs:element name="RemoteControl_TaskName" type="xs:string" minOccurs="0" />
+            <xs:element name="RemoteControl_EventName" type="xs:string" minOccurs="0" />
+            <xs:element name="RemoteControl_AssetName" type="xs:string" minOccurs="0" />
+            <xs:element name="RemoteControlTask_EventData_Name" type="xs:string" minOccurs="0" />
+            <xs:element name="RemoteControlTask_EventData_TellerId" type="xs:string" minOccurs="0" />
+            <xs:element name="RemoteControlTask_EventData_DateTime" type="xs:string" minOccurs="0" />
+            <xs:element name="RemoteControlTask_EventData_TaskTimeout" type="xs:string" minOccurs="0" />
+
+            <xs:element name="Accounts_Action" type="xs:string" minOccurs="0" />
+            <xs:element name="Accounts_AccountType" type="xs:string" minOccurs="0" />
+            <xs:element name="Accounts_Amount" type="xs:string" minOccurs="0" />
+            <xs:element name="Accounts_Summary" type="xs:string" minOccurs="0" />
+
+            <xs:element name="TransactionDetail_ApproverId" type="xs:string" minOccurs="0" />
+            <xs:element name="TransactionDetail_Summary" type="xs:string" minOccurs="0" />
+            <xs:element name="TransactionData_Summary" type="xs:string" minOccurs="0" />
+            <xs:element name="Transaction_Warnings_Summary" type="xs:string" minOccurs="0" />
+            <xs:element name="TransactionOtherAmounts_Summary" type="xs:string" minOccurs="0" />
+
+            <xs:element name="Checks_Amount" type="xs:string" minOccurs="0" />
+            <xs:element name="Checks_AcceptStatus" type="xs:string" minOccurs="0" />
+            <xs:element name="Checks_AmountRead" type="xs:string" minOccurs="0" />
+            <xs:element name="Checks_AmountScore" type="xs:string" minOccurs="0" />
+            <xs:element name="Checks_BackImageRelativeUri" type="xs:string" minOccurs="0" />
+            <xs:element name="Checks_CheckDateRead" type="xs:string" minOccurs="0" />
+            <xs:element name="Checks_CheckDateScore" type="xs:string" minOccurs="0" />
+            <xs:element name="Checks_CheckIndex" type="xs:string" minOccurs="0" />
+            <xs:element name="Checks_FrontImageRelativeUri" type="xs:string" minOccurs="0" />
+            <xs:element name="Checks_ImageBack" type="xs:string" minOccurs="0" />
+            <xs:element name="Checks_ImageFront" type="xs:string" minOccurs="0" />
+            <xs:element name="Checks_InvalidReason" type="xs:string" minOccurs="0" />
+            <xs:element name="Checks_Summary" type="xs:string" minOccurs="0" />
+
+            <xs:element name="CashDetails_Amount" type="xs:string" minOccurs="0" />
+            <xs:element name="CashDetails_CashTransactionType" type="xs:string" minOccurs="0" />
+            <xs:element name="CashDetails_Currency" type="xs:string" minOccurs="0" />
+            <xs:element name="CashDetails_Summary" type="xs:string" minOccurs="0" />
+
+            <xs:element name="CurrencyItems_Value" type="xs:string" minOccurs="0" />
+            <xs:element name="CurrencyItems_Quantity" type="xs:string" minOccurs="0" />
+            <xs:element name="CurrencyItems_MediaType" type="xs:string" minOccurs="0" />
+            <xs:element name="CurrencyItems_Summary" type="xs:string" minOccurs="0" />
+
+            <xs:element name="IdScans_Summary" type="xs:string" minOccurs="0" />
+
+            <xs:element name="Review_ReasonForReview" type="xs:string" minOccurs="0" />
+            <xs:element name="Review_TellerAmount" type="xs:string" minOccurs="0" />
+            <xs:element name="Review_TellerApproval" type="xs:string" minOccurs="0" />
+            <xs:element name="Review_Reason" type="xs:string" minOccurs="0" />
+            <xs:element name="Review_Summary" type="xs:string" minOccurs="0" />
+			
+			<!-- extra info -->
+            <xs:element name="EnabledDeviceList" type="xs:string" minOccurs="0" />
+
+            <xs:element name="IpAddress" type="xs:string" minOccurs="0" />
+            <xs:element name="MacAddress" type="xs:string" minOccurs="0" />
+
+            <xs:element name="Manufacturer" type="xs:string" minOccurs="0" />
+            <xs:element name="Model" type="xs:string" minOccurs="0" />
+            <xs:element name="Name" type="xs:string" minOccurs="0" />
+
+            <xs:element name="Capabilities" type="xs:string" minOccurs="0" />
+            <xs:element name="Status" type="xs:string" minOccurs="0" />
+            <xs:element name="StatusChangedTime" type="xs:string" minOccurs="0" />
+            <xs:element name="StatusReceivedTime" type="xs:string" minOccurs="0" />
+
+            <xs:element name="OperatingMode_ModeType" type="xs:string" minOccurs="0" />
+            <xs:element name="OperatingMode_ModeName" type="xs:string" minOccurs="0" />
+            <xs:element name="OperatingMode_CoreStatus" type="xs:string" minOccurs="0" />
+            <xs:element name="OperatingMode_CoreProperties" type="xs:string" minOccurs="0" />
+
+            <!-- comms info -->
+
+            <xs:element name="CommunicationResult_Comment" type="xs:string" minOccurs="0" />
+            <xs:element name="RestResource" type="xs:string" minOccurs="0" />
+            <xs:element name="MessageBody" type="xs:string" minOccurs="0" />
+            <xs:element name="HttpRequest" type="xs:string" minOccurs="0" />
+            <xs:element name="ApplicationConnectionState" type="xs:string" minOccurs="0" />
+			
+						  
+            <!-- internal IDs -->
+            <xs:element name="Asset_Id" type="xs:string" minOccurs="0" />
+            <xs:element name="AssetState_Id" type="xs:string" minOccurs="0" />
+
+            <xs:element name="ApplicationState_Id" type="xs:string" minOccurs="0" />
+
+            <xs:element name="TransactionDetail_Id" type="xs:string" minOccurs="0" />
+            <xs:element name="TransactionDetail_TellerSessionActivityId" type="xs:string" minOccurs="0" />
+
+            <xs:element name="SessionRequest_Id" type="xs:string" minOccurs="0" />
+
+            <xs:element name="RemoteControlSession_Id" type="xs:string" minOccurs="0" />
+            <xs:element name="RemoteControlSession_TellerSessionRequestId" type="xs:string" minOccurs="0" />
+
+            <xs:element name="RemoteControl_TaskId" type="xs:string" minOccurs="0" />
+
+            <xs:element name="TellerSession_Id" type="xs:string" minOccurs="0" />
+            <xs:element name="TellerSessionRequest_Id" type="xs:string" minOccurs="0" />
+
+            <xs:element name="TellerInfo_ClientSessionId" type="xs:string" minOccurs="0" />
+
+            <xs:element name="CashDetails_Id" type="xs:string" minOccurs="0" />
+
+            <xs:element name="CurrencyItems_Id" type="xs:string" minOccurs="0" />
+            <xs:element name="CurrencyItems_CashDetailId" type="xs:string" minOccurs="0" />
+
+            <xs:element name="Checks_Id" type="xs:string" minOccurs="0" />
+            <xs:element name="Checks_TransactionDetailId" type="xs:string" minOccurs="0" />
+
+            <xs:element name="Accounts_Id" type="xs:string" minOccurs="0" />
+            <xs:element name="Accounts_TransactionDetailId" type="xs:string" minOccurs="0" />
+
+            <xs:element name="Review_Id" type="xs:string" minOccurs="0" />
+            <xs:element name="ReviewRequest_Id" type="xs:string" minOccurs="0" />
+            <xs:element name="Review_TransactionItemId" type="xs:string" minOccurs="0" />
+            <xs:element name="Review_ItemReviewId" type="xs:string" minOccurs="0" />
+
+			</xs:sequence>
+		  </xs:complexType>
+		</xs:element>
+		<xs:element name="NetOpEvents">
+		  <xs:complexType>
+		    <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="ModelName" type="xs:string" minOccurs="0" />
+              <xs:element name="ConfigurationState" type="xs:string" minOccurs="0" />
+              <xs:element name="RemoteDesktopServerState" type="xs:string" minOccurs="0" />
+			</xs:sequence>
+		  </xs:complexType>
+		</xs:element>
+		<xs:element name="NetwareEvents">
+		  <xs:complexType>
+		    <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="MonitoringDeviceChanges" type="xs:string" minOccurs="0" />
+              <xs:element name="MonitoringDeviceName" type="xs:string" minOccurs="0" />
+              <xs:element name="MonitoringElapsed" type="xs:string" minOccurs="0" />
+			  <xs:element name="Id" type = "xs:string" minOccurs="0" />
+			  <xs:element name="MacAddress" type = "xs:string" minOccurs="0" />
+			  <xs:element name="DeviceId" type = "xs:string" minOccurs="0" />
+			  <xs:element name="DeviceClass" type = "xs:string" minOccurs="0" />
+			  <xs:element name="DisplayName" type = "xs:string" minOccurs="0" />
+			  <xs:element name="Status" type = "xs:string" minOccurs="0" />
+			  <xs:element name="AssetName" type = "xs:string" minOccurs="0" />
+			  <xs:element name="DeviceMediaStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="Timestamp" type = "xs:string" minOccurs="0" />
+			  <xs:element name="StatusDeviceName" type = "xs:string" minOccurs="0" />
+			  <xs:element name="EncStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="DevicePositionStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="PowerSaveRecoveryTime" type = "xs:string" minOccurs="0" />
+			  <xs:element name="LogicalServiceName" type = "xs:string" minOccurs="0" />
+			  <xs:element name="ExtraInformation" type = "xs:string" minOccurs="0" />
+			  <xs:element name="SafeDoorStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="DispenserStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="IntermediateStackerStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="ShutterStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="PositionStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="TransportStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="TransportStatusStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="UnitCurrencyID" type = "xs:string" minOccurs="0" />
+			  <xs:element name="UnitValue" type = "xs:string" minOccurs="0" />
+			  <xs:element name="UnitStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="UnitType" type = "xs:string" minOccurs="0" />
+			  <xs:element name="CabinetStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="SafeStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="VandalShieldStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="MediaStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="RetainBinStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="SecurityStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="NumberOfCardsRetained" type = "xs:string" minOccurs="0" />
+			  <xs:element name="ChipPowerStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="PaperStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="Media_TonerStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="Media_InkStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="LampStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="RetractBinStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="MediaOnStacker" type = "xs:string" minOccurs="0" />
+			  <xs:element name="Media_DevicePositionStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="CardUnitStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="PinpadStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="NotesDispenserStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="CoinDispenserStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="ReceiptPrinterStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="PassbookPrinterStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="EnvelopeDepositoryStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="ChequeUnitStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="BillAcceptorStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="EnvelopeDispenserStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="DocumentPrinterStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="CoinAcceptorStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="ScannerStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="OperatorSwitchStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="TamperStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="IntTamperStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="SeismicStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="HeatStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="ProximityStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="AmblightStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="EnhancedAudioStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="OpenCloseStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="FasciaLightStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="AudioStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="HeatingStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="VolumeStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="UpsStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="GreenLedStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="AmberLedStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="RedLedStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="AudibleAlarmStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="EnhancedAudioControlStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="CheckAcceptorStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="TonerStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="InkStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="FrontImageScannerStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="BackImageScannerStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="MICRReaderStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="StackerStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="ReBuncherStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="MediaFeederStatus" type = "xs:string" minOccurs="0" />
+			  <xs:element name="PositionStatus_Input" type = "xs:string" minOccurs="0" />
+			  <xs:element name="PositionStatus_Output" type = "xs:string" minOccurs="0" />
+			  <xs:element name="PositionStatus_Refused" type = "xs:string" minOccurs="0" />
+			  <xs:element name="ShutterStatus_Input" type = "xs:string" minOccurs="0" />
+			  <xs:element name="ShutterStatus_Output" type = "xs:string" minOccurs="0" />
+			  <xs:element name="ShutterStatus_Refused" type = "xs:string" minOccurs="0" />
+			  <xs:element name="TransportStatus_Input" type = "xs:string" minOccurs="0" />
+			  <xs:element name="TransportStatus_Output" type = "xs:string" minOccurs="0" />
+			  <xs:element name="TransportStatus_Refused" type = "xs:string" minOccurs="0" />
+			  <xs:element name="TransportMediaStatus_Input" type = "xs:string" minOccurs="0" />
+			  <xs:element name="TransportMediaStatus_Output" type = "xs:string" minOccurs="0" />
+			  <xs:element name="TransportMediaStatus_Refused" type = "xs:string" minOccurs="0" />
+			</xs:sequence>
+		  </xs:complexType>
+		</xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

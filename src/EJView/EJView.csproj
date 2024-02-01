@@ -67,6 +67,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.pdb" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\EJView.xsd" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\EJView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
   </PropertyGroup>

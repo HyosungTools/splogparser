@@ -1,7 +1,10 @@
 ﻿using Contract;
+using Microsoft.Office.Interop.Excel;
+using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -70,13 +73,13 @@ namespace Impl
 
       /// <summary>
       /// Add/Initialize a named datatable to the data set. 
-      /// At the same time add 2 coumns - File and Time. 
+      /// At the same time add 2 columns - File and Time. 
       /// </summary>
       /// <returns>bool</returns>
       protected virtual void InitDataTable(string tableName)
       {
          ctx.ConsoleWriteLogLine("base.InitDataTable - adding table '" + tableName + "'");
-         DataTable dTable = dTableSet.Tables.Add();
+         System.Data.DataTable dTable = dTableSet.Tables.Add();
          dTable.TableName = tableName;
          ctx.ConsoleWriteLogLine("base.InitDataTable - adding columns file and time to table '" + tableName + "'");
          AddColumn(tableName, "file");
@@ -196,7 +199,7 @@ namespace Impl
             }
 
             // The Tables we now have available to us
-            foreach (DataTable dTable in dTableSet.Tables)
+            foreach (System.Data.DataTable dTable in dTableSet.Tables)
             {
                ctx.ConsoleWriteLogLine(String.Format("BaseTable ReadXmlFile loaded Table : {0} with {1} rows", dTable.TableName, dTable.Rows.Count));
             }
@@ -255,7 +258,7 @@ namespace Impl
       {
          // Check if the table exists in the DataSet
          bool tableExists = false;
-         foreach (DataTable table in dTableSet.Tables)
+         foreach (System.Data.DataTable table in dTableSet.Tables)
          {
             if (table.TableName == tableName)
             {
@@ -401,7 +404,7 @@ namespace Impl
       public virtual bool WriteExcelFile()
       {
          // Rename any datatable whose name will collidate with another
-         foreach (DataTable dTable in dTableSet.Tables)
+         foreach (System.Data.DataTable dTable in dTableSet.Tables)
          {
             if (dTable.TableName.Equals("Status") ||
                 dTable.TableName.Equals("Summary") ||
@@ -448,7 +451,7 @@ namespace Impl
 
          // for each table in the dataset
          // For each table in the DataSet, print the row values.
-         foreach (DataTable dTable in dTableSet.Tables)
+         foreach (System.Data.DataTable dTable in dTableSet.Tables)
          {
             ctx.ConsoleWriteLogLine("DataTable: " + dTable.TableName);
             ctx.ConsoleWriteLogLine("DataTable: " + dTable.TableName + " has " + dTable.Rows.Count.ToString() + " rows.");
@@ -484,19 +487,27 @@ namespace Impl
             int rowOffset = 1; // offset for derived data and links
             int colOffset = 1; // offset for derived data and links
 
+            List<int> timeColumns = new List<int>();
+
             // add columns based on the data table
             int colCount = dTable.Columns.Count;
             for (int colNum = 0; colNum < colCount; colNum++)
             {
                ctx.ConsoleWriteLogLine("Adding column header: " + dTable.Columns[colNum].ToString());
                activeSheet.Cells[rowOffset, colOffset + colNum] = dTable.Columns[colNum].ToString();
+
+               string colName = dTable.Columns[colNum].ToString().ToLower();
+               if (colName.Contains("time") && !colName.Contains("timeout"))
+               {
+                  timeColumns.Add(colNum);
+               }
             }
 
             // finished with the title row, now point to the next row
             rowOffset++;
 
             // remove duplicate rows
-            DataTable distinctTable = dTable.DefaultView.ToTable( /*distinct*/ true);
+            System.Data.DataTable distinctTable = dTable.DefaultView.ToTable( /*distinct*/ true);
             ctx.ConsoleWriteLogLine("DataTable: " + dTable.TableName + " has " + distinctTable.Rows.Count.ToString() + " distinct rows.");
 
             // create a view
@@ -542,10 +553,14 @@ namespace Impl
                try
                {
                   // set format for date/time column to be readable
-                  Console.WriteLine("Set the formula for the date/time column...");
-                  Microsoft.Office.Interop.Excel.Range timeColumn = activeSheet.Range[activeSheet.Cells[rowOffset, 2], activeSheet.Cells[dataView.Count + 1, 2]];
-                  timeColumn.Cells.NumberFormat = "yyyy-mm-dd hh:mm:ss.000";
-                  timeColumn.Cells.ColumnWidth = 21;
+
+                  foreach (int timeColumn in timeColumns)
+                  {
+                     Console.WriteLine($"Set the formula for the date/time column '{dTable.Columns[timeColumn].ToString()}'...");
+                     Microsoft.Office.Interop.Excel.Range timeColumnRange = activeSheet.Range[activeSheet.Cells[rowOffset, timeColumn+1], activeSheet.Cells[dataView.Count + 1, timeColumn+1]];
+                     timeColumnRange.Cells.NumberFormat = "yyyy-mm-dd hh:mm:ss.000";
+                     timeColumnRange.Cells.ColumnWidth = 21;
+                  }
 
                   // copy the 2D data array into the excel worksheet starting at rowOffset, colOffset
                   Microsoft.Office.Interop.Excel.Range dispenseRange = activeSheet.Range[activeSheet.Cells[rowOffset, colOffset], activeSheet.Cells[dataView.Count + rowOffset - 1, colCount + colOffset - 1]];
@@ -574,6 +589,15 @@ namespace Impl
                   activeSheet.Application.ActiveWindow.SplitRow = 1;
                   activeSheet.Application.ActiveWindow.FreezePanes = true;
 
+                  // add conditional formatting to highlight Exceptions
+                  ctx.ConsoleWriteLogLine("Add format condition to highlight cells containing 'Exception'...");
+                  FormatCondition format = (FormatCondition)(allCellRange.FormatConditions.Add(XlFormatConditionType.xlTextString,
+                                                   Type.Missing, Type.Missing, Type.Missing,
+                                                   "Exception",
+                                                   XlContainsOperator.xlContains,   //XlFormatConditionOperator.xlEqual,
+                                                   Type.Missing, Type.Missing)) ;
+                  format.Font.Bold = true;
+                  format.Font.Color = 0x000000FF;
                }
                catch (Exception ex)
                {

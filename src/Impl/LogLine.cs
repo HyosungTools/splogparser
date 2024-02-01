@@ -1,10 +1,13 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace Impl
 {
    public static class LogLine
    {
+      public static string TimeFormatStringMsec = "yyyy-mm-dd hh:mm:ss.ffff";
+
       /// <summary>
       /// Given a nwlog log line (that can span multiple lines in the log file) read one line
       /// Returns a tuple where: 
@@ -54,6 +57,62 @@ namespace Impl
             return nextLine;
          }
          return (false, string.Empty, logLine);
+      }
+
+      /// <summary>
+      /// Converts a list to a CSV string
+      /// </summary>
+      /// <param name="separator">custom separator</param>
+      /// <param name="list"></param>
+      /// <returns>a string with values separated by the separator character</returns>
+      public static string ListToString(char separator, List<string> list)
+      {
+         if (list == null)
+         {
+            return string.Empty;
+         }
+
+         StringBuilder sb = new StringBuilder();
+
+         foreach (string s in list)
+         {
+            if (s != null)
+            {
+               sb.Append(s);
+            }
+            else
+            {
+               sb.Append(string.Empty);
+            }
+
+            sb.Append(separator);
+         }
+
+         return sb.ToString();
+      }
+
+      /// <summary>
+      /// Converts a list to a CSV string
+      /// </summary>
+      /// <param name="separator">custom separator</param>
+      /// <param name="list"></param>
+      /// <returns>a string with values separated by the separator character</returns>
+      public static string ListToString(char separator, List<long> list)
+      {
+         if (list == null)
+         {
+            return string.Empty;
+         }
+
+         StringBuilder sb = new StringBuilder();
+
+         foreach (long v in list)
+         {
+            sb.Append(v.ToString());
+            sb.Append(separator);
+         }
+
+         return sb.ToString();
       }
    }
 }

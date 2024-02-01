@@ -1,4 +1,6 @@
-﻿namespace Contract
+﻿using System.Collections.Generic;
+
+namespace Contract
 {
    public interface ILogLine
    {

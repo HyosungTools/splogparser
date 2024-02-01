@@ -39,6 +39,19 @@ namespace LogFileHandler
          // while not EOL or EOF
          while (!endOfLine && !EOF())
          {
+            //==========================================================================================================
+            // - Machine Number           = A036201
+            //==========================================================================================================
+            //Installed Programs:
+            // - A2iA CheckReader V9.0, Installed: 07/26/2023, Version: 9.0
+            //==========================================================================================================
+            //Installed Packages:
+            // - Basic Media-V02.01.02.00, Installed: Thu 05/19/2022
+            //==========================================================================================================
+            //[2023-11-16 00:00:29-315][3][][BeehdControl        ][<BeehdClient_OnUserNotify>b__0][NORMAL]BeehdClient_OnUserNotify=>callHandle=0, val=4001, severity=SEVERITY_INFO, userType=NOTIFIER_USER_TYPE_ALL,description=,additionalInfo=, suggestedAction= 
+            //[2023-11-16 00:16:13-749][3][][Archiving           ][CreateArchive       ][NORMAL]CreateArchive(): About to run, runNow=False
+            //[2023-11-16 00:16:13-752][3][][Management          ][CopyLogFile         ][NORMAL]Parameter pStartDateTime: 11/15/2023 12:16:13 AM
+
             char c = logFile[traceFilePos];
             if (c < 128)
             {
