@@ -7,7 +7,7 @@ using LogLineHandler;
 
 namespace CashDispView
 {
-   internal class CashDispTable : BaseTable
+   internal class DispTable : BaseTable
    {
       DataRow m_lcuRow;
       DataRow m_denominated;
@@ -17,7 +17,7 @@ namespace CashDispView
       /// </summary>
       /// <param name="ctx">Context for the command.</param>
       /// <param name="viewName">The (unique) name of the view being created.</param>
-      public CashDispTable(IContext ctx, string viewName) : base(ctx, viewName)
+      public DispTable(IContext ctx, string viewName) : base(ctx, viewName)
       {
          // for our view we want '0' to render as ' ' in the worksheet
          _zeroAsBlank = true;

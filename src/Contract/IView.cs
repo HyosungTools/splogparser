@@ -34,6 +34,24 @@
       void PostProcess(IContext ctx);
 
       /// <summary>
+      /// Preparation for analyze 
+      /// </summary>
+      /// <param name="ctx">Context for the command</param>
+      void PreAnalyze(IContext ctx);
+
+      /// <summary>
+      /// Run the analyze Views 
+      /// </summary>
+      /// <param name="ctx">Context for the command</param>
+      void Analyze(IContext ctx);
+
+      /// <summary>
+      /// Run post-analyze steps.  
+      /// </summary>
+      /// <param name="ctx">Context for the command</param>
+      void PostAnalyze(IContext ctx);
+
+      /// <summary>
       /// Instruction to the view to write out its datatable to Excel. 
       /// </summary>
       /// <param name="ctx">Context for the command</param>
