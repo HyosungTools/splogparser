@@ -5,9 +5,9 @@ using System.ComponentModel.Composition;
 namespace CashDispView
 {
    [Export(typeof(IView))]
-   public class CashDispView : BaseView, IView
+   public class DispView : BaseView, IView
    {
-      CashDispView() : base(ParseType.AP, "DispView") { }
+      DispView() : base(ParseType.AP, "DispView") { }
 
       /// <summary>
       /// Creates an CD Table instance. 
@@ -16,7 +16,7 @@ namespace CashDispView
       /// <returns>new HCDU table</returns>
       protected override BaseTable CreateTableInstance(IContext ctx)
       {
-         CashDispTable ejTable = new CashDispTable(ctx, viewName);
+         DispTable ejTable = new DispTable(ctx, viewName);
          ejTable.ReadXmlFile();
          return ejTable;
       }

@@ -358,8 +358,104 @@ namespace splogparser
          elapsedTime = stopwatch.Elapsed;
          ctx.ConsoleWriteLogLine($"Elapsed Time: {elapsedTime.TotalMilliseconds} milliseconds");
 
+
+         // P R E  A N A L Y Z E
+
+         using (loader.Container)
+         {
+            try
+            {
+               // Import and use the plugins (they will be instantiated only when accessed)
+               foreach (IView thisView in loader.Views)
+               {
+
+                  viewName = thisView.Name;
+                  ctx.ConsoleWriteLogLine(String.Format("PreAnalyze view : {0}", viewName));
+                  thisView.PreAnalyze(ctx);
+               }
+            }
+            catch (Exception ex)
+            {
+               ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : PreAnalyze view {0} : {1}", viewName, ex.Message));
+               return;
+            }
+         }
+
+         // Stop the stopwatch
+         stopwatch.Stop();
+
+         // Log the elapsed time
+         elapsedTime = stopwatch.Elapsed;
+         ctx.ConsoleWriteLogLine($"Elapsed Time: {elapsedTime.TotalMilliseconds} milliseconds");
+
          // Start the stopwatch
          stopwatch = new Stopwatch();
+
+
+         // A N A L Y Z E
+
+         using (loader.Container)
+         {
+            try
+            {
+               // Import and use the plugins (they will be instantiated only when accessed)
+               foreach (IView thisView in loader.Views)
+               {
+
+                  viewName = thisView.Name;
+                  ctx.ConsoleWriteLogLine(String.Format("Analyze view : {0}", viewName));
+                  thisView.Analyze(ctx);
+               }
+            }
+            catch (Exception ex)
+            {
+               ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : Analyze view {0} : {1}", viewName, ex.Message));
+               return;
+            }
+         }
+
+         // Stop the stopwatch
+         stopwatch.Stop();
+
+         // Log the elapsed time
+         elapsedTime = stopwatch.Elapsed;
+         ctx.ConsoleWriteLogLine($"Elapsed Time: {elapsedTime.TotalMilliseconds} milliseconds");
+
+         // Start the stopwatch
+         stopwatch = new Stopwatch();
+
+         // P O S T   A N A L Y Z E
+
+         using (loader.Container)
+         {
+            try
+            {
+               // Import and use the plugins (they will be instantiated only when accessed)
+               foreach (IView thisView in loader.Views)
+               {
+
+                  viewName = thisView.Name;
+                  ctx.ConsoleWriteLogLine(String.Format("PostAnalyze view : {0}", viewName));
+                  thisView.PostAnalyze(ctx);
+               }
+            }
+            catch (Exception ex)
+            {
+               ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : Post Analyze view {0} : {1}", viewName, ex.Message));
+               return;
+            }
+         }
+
+         // Stop the stopwatch
+         stopwatch.Stop();
+
+         // Log the elapsed time
+         elapsedTime = stopwatch.Elapsed;
+         ctx.ConsoleWriteLogLine($"Elapsed Time: {elapsedTime.TotalMilliseconds} milliseconds");
+
+         // Start the stopwatch
+         stopwatch = new Stopwatch();
+
 
          // W R I T E   E X C E L
 

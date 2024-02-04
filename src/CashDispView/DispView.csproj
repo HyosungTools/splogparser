@@ -42,8 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CashDispTable.cs" />
-    <Compile Include="CashDispView.cs" />
+    <Compile Include="DispTable.cs" />
+    <Compile Include="DispView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,8 +71,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.pdb" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\CashDispView.xsd" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\CashDispView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
+copy "$(MSBuildProjectDirectory)\DispView.xsd" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\DispView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
   </PropertyGroup>
 </Project>
