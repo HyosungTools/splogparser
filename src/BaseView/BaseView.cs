@@ -111,6 +111,36 @@ namespace Impl
          bTable.WriteXmlFile();
       }
 
+      /// <summary>Call to process the datatable (merge of all log lines)</summary>
+      /// <returns>void</returns>
+      public virtual void PreAnalyze(IContext ctx)
+      {
+         ctx.LogWriteLine("------------------------------------------------");
+         ctx.LogWriteLine("Pre Analyze: " + viewName);
+
+         return;
+      }
+
+      /// <summary>Call to process the datatable (merge of all log lines)</summary>
+      /// <returns>void</returns>
+      public virtual void Analyze(IContext ctx)
+      {
+         ctx.LogWriteLine("------------------------------------------------");
+         ctx.LogWriteLine("Analyze: " + viewName);
+
+         return;
+      }
+
+      /// <summary>Call to process the datatable (merge of all log lines)</summary>
+      /// <returns>void</returns>
+      public virtual void PostAnalyze(IContext ctx)
+      {
+         ctx.LogWriteLine("------------------------------------------------");
+         ctx.LogWriteLine("Post Analyze: " + viewName);
+
+         return;
+      }
+
       public virtual void WriteExcel(IContext ctx)
       {
          ctx.ConsoleWriteLogLine("------------------------------------------------");
