@@ -121,13 +121,22 @@ namespace CashDispView
 
             try
             {
-               foreach (DataRow dataRow in dTableSet.Tables[tableName].Rows)
+               foreach (DataRow cstListRow in dTableSet.Tables[tableName].Rows)
                {
-                  ctx.ConsoleWriteLogLine(String.Format("notetype : {0} CSTIndex {1}", dataRow["notetype"].ToString(), dataRow["cstindex"].ToString()));
+                  foreach (DataRow summaryRow in dTableSet.Tables["Summary"].Rows)
+                  {
+                     if (summaryRow["name"].ToString() == cstListRow["notetype"].ToString())
+                     {
+                        summaryRow["cindex"] = cstListRow["cstindex"].ToString();
+                     }
+                  }
+                  ctx.ConsoleWriteLogLine(String.Format("notetype : {0} CSTIndex {1}", cstListRow["notetype"].ToString(), cstListRow["cstindex"].ToString()));
                }
 
                // delete the table
                dTableSet.Tables.Remove(tableName);
+               dTableSet.AcceptChanges();
+
             }
             catch (Exception e)
             {
