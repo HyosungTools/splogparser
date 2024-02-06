@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<XmlConfiguration xmlns="http://www.nh.com/Config">
-  <XmlSection Name="Archiving">
-    <XmlParameters>
-      <XmlParam Key="LastArchiveDate" Value="6/13/2023 9:00:57 AM" />
-    </XmlParameters>
-  </XmlSection>
-</XmlConfiguration>

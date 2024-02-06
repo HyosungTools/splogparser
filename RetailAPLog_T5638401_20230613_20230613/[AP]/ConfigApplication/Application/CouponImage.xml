@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Coupon>
-  <CouponImageList>
-    <CouponImage FilePath="D:\Coupon\Coupon1.png" Enabled="False"/>
-    <CouponImage FilePath="D:\Coupon\Coupon2.png" Enabled="True"/>
-    <CouponImage FilePath="D:\Coupon\Coupon3.png" Enabled="False"/>
-    <CouponImage FilePath="D:\Coupon\Coupon4.png" Enabled="True"/>
-  </CouponImageList>
-</Coupon>
