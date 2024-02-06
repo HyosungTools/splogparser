@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="TcpIp">
+    <XmlParameters>
+      <XmlParam Key="RemoteIP" Value="" />
+      <XmlParam Key="RemotePort" Value="0" />
+      <XmlParam Key="SSLType" Value="TLS12" Option="NONE,SSL3,TLS11,TLS12" />
+      <XmlParam Key="NetworkConnectionName" Value="Ethernet" />
+    </XmlParameters>
+  </XmlSection>
+</XmlConfiguration>

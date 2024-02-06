@@ -1,0 +1,442 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="System">
+    <XmlParameters>
+      <XmlParam Key="ModelName" Value="" />
+      <XmlParam Key="MachineNumber" Value="" />
+      <XmlParam Key="MachineNumberMinLength" Value="6" />
+      <XmlParam Key="MachineNumberMaxLength" Value="12" />
+      <XmlParam Key="EmulType" Value="NDC" Option="NDC|DDC|NONE" />
+      <XmlParam Key="CountryName" Value="" Option="USA|GBR|IRN|RUS|TUR|POL" />
+      <XmlParam Key="DefaultLanguage" Value="en" Option="en|sp" />
+      <XmlParam Key="DPName" Value="" Option="" />
+      <XmlParam Key="MasterVolume" Value="50" Option="0~100" />
+      <XmlParam Key="RebootTime" Value="" Option="0000~2359" />
+      <XmlParam Key="RebootPeriod" Value="DAILY" Option="DAILY,WEEKLY,MONTHLY" />
+      <XmlParam Key="RebootDay" Value="" Option="Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday. In case of RebootCondition is WEEKLY." />
+      <XmlParam Key="RebootDate" Value="1" Option="1~31. In case of RebootCondition is MONTHLY" />
+      <XmlParam Key="SecurityTerminalNumber" Value="" />
+      <XmlParam Key="DateFormat" Value="MMddyyyy" Option="ddMMyyyy|MMddyyyy|yyyyMMdd|yyyyddMM" />
+      <XmlParam Key="RunProcessList" Value="LogCleaner.exe" />
+      <XmlParam Key="HC_ProductClass" Value="16" />
+      <XmlParam Key="HC_VoiceGuidance" Value="01" />
+      <XmlParam Key="SendHC_VoiceGuidance" Value="FALSE" />
+      <XmlParam Key="ReleaseNumber" Value="060000" />
+      <XmlParam Key="SoftwareID" Value="G530-0205" />
+      <XmlParam Key="SendReleaseNumberAndSoftwareID" Value="False" />
+      <XmlParam Key="SendLastTransactionCoinDispensedField" Value="FALSE" />
+      <XmlParam Key="ResetConfigIDWhenReboot" Value="False" />
+      <XmlParam Key="DeveloperMode" Value="False" />
+      <XmlParam Key="ApplicationVersion" Value="aa.bb.cc.dd" />
+      <XmlParam Key="CountryCultureInfo" Value="EN:en-US|SP:es-MX|FR:fr-FR|KO:ko-KR|CH:zh-CN|JP:ja-JP|IT:it-IT|RU:ro-RO|GR:de-DE|PR:pt-BR|PO:pl-PL|VI:vi-VN" />
+      <XmlParam Key="AdvertisingDirectory" Value="..\ConfigCustomer\Advertising" />
+      <XmlParam Key="EncodingCodePage" Value="1252" />
+      <XmlParam Key="RebootOnUnhandledException" Value="TRUE" Option="TRUE|FALSE" />
+      <XmlParam Key="RetryTimesForRebootOnUnhandledException" Value="3" Option="0 – Reboot always, 1~999 – No reboot after rebooting N time(s)"  />
+      <XmlParam Key="CurrentRetryTimesForRebootOnUnhandledException" Value="0" />
+      <XmlParam Key="SuppressAllReboots" Value="FALSE" Option="TRUE|FALSE" />
+      <XmlParam Key="WindowsAccountName" Value=""/>
+      <XmlParam Key="WindowsAccountPassword" Value=""/>
+      <XmlParam Key="SerialNumber" Value=""/>
+      <XmlParam Key="SupportsMemoryCleaning" Value="FALSE" Option="TRUE|FALSE" />
+      <XmlParam Key="CloseDevicesWhenReboot" Value="TRUE" Option="TRUE|FALSE" />
+      <XmlParam Key="CryptCert" Value="" />
+      <XmlParam Key="MemoryConsumeLimit" Value="1000000000"/>
+      <XmlParam Key="MemoryExceedAutoReboot" Value="FALSE" Option="TRUE|FALSE"/>
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="Mode">
+    <XmlParameters>
+      <XmlParam Key="ReconnectIntervalSec" Value="30" Option="30~600" />
+      <XmlParam Key="CanGoOutOfSvcDuringTransaction" Value="FALSE" />
+      <XmlParam Key="SimulateSupervisorMode" Value="False" />
+      <XmlParam Key="SendSensorUnsolInSimulateSupervisorMode" Value="False" />
+      <XmlParam Key="SimulateOutOfServiceMode" Value="False" />
+      <XmlParam Key="SendSupervisor4UpperDoor" Value="False" />
+      <XmlParam Key="SupportSupervisorWithCabinetDoor" Value="False" />
+      <XmlParam Key="SendUnsolMessageInSupervisor" Value="False" />
+      <XmlParam Key="UseMaintenanceMode" Value="False" />
+      <XmlParam Key="SendSimulatedSupervisorInMaintenanceMode" Value="True" />
+      <XmlParam Key="CheckTimerAndOptionTableBeforeInserviceMode" Value="False" />
+      <XmlParam Key="CheckDateAndDirectoryBeforeInserviceMode" Value="False" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="Journal">
+    <XmlParameters>
+      <XmlParam Key="JournalDirectory" Value="D:\EJournal" />
+      <XmlParam Key="BackupJournalDirectory" Value="" />
+      <XmlParam Key="UserID" Value="Admin" />
+      <XmlParam Key="UserPassword" Value="" />
+      <XmlParam Key="LastCharPreviousBlock" Value="0" />
+      <XmlParam Key="UsingUpload" Value="True" />
+      <XmlParam Key="UploadJnlNamingRule" Value="ej_" />
+      <XmlParam Key="UPloadJnlExtension" Value="txt" Option="mdb|txt" />
+      <XmlParam Key="UploadIntervalSec" Value="60" Option="3~" />
+      <XmlParam Key="EJCurrentFileName" Value="" />
+      <XmlParam Key="EJFilePointerLocation" Value="" />
+      <XmlParam Key="AppendIntegrityToTextJournal" Value="False" />
+      <XmlParam Key="WriteTextJournal" Value="True" />
+      <XmlParam Key="WriteMdbJournal" Value="False" />
+      <XmlParam Key="WriteMdbJournalEJ2" Value="True" />
+      <XmlParam Key="JournalDeleteDays" Value="150" />
+      <XmlParam Key="CardMask" Value="True" />
+      <XmlParam Key="JPRSpooling" Value="False" />
+      <XmlParam Key="JPRSUploadJnlNamingRule" Value="jprs" />
+      <XmlParam Key="JPRSCurrentFileName" Value="jprs__20110906.txt" />
+      <XmlParam Key="JPRSFilePointerLocation" Value="0" />
+      <XmlParam Key="MaskingSymbol" Value="X" />
+      <XmlParam Key="LeftUnMasked" Value="6" />
+      <XmlParam Key="RightUnMasked" Value="4" />
+      <XmlParam Key="JPRSpoolingStatus" Value="Off" />
+      <XmlParam Key="SendJPRWarningStatus" Value="False" />
+      <XmlParam Key="WritePANonDeposit" Value="True"/>
+      <XmlParam Key="EncodingCodePage" Value="UNICODE" Option="UNICODE|ASCII|1250" />
+      <XmlParam Key="RecordSequenceNumber" Value="False" />
+      <XmlParam Key="EJournalDateFormat" Value="yyyy/MM/dd" />
+      <XmlParam Key="WriteHostJournalInWithdrawalRetract" Value="false" />
+      <XmlParam Key="AddCRInEJ" Value="True" />
+      <XmlParam Key="ShowNoteCurrencyForCashin" Value="False" />
+      <XmlParam Key="AddPrintCashEJWhenSensorChanged" Value="False" />
+      <XmlParam Key="AddPrintCashEJAtCloseState" Value="False" />
+      <XmlParam Key="AddEachCassetteCountAfterTran" Value="False" />
+      <XmlParam Key="EJ2WriteFullSensitiveData" Value="False" />
+      <XmlParam Key="EJ2EncryptFields" Value="IdentificationNumber,AuthenticationNumber,AccountNumber,ToAccountNumber,MICR" />
+      <XmlParam Key="EJ2MaskFieldAccountNumberMasked" Value="\d{4}$"/>
+      <XmlParam Key="EJ2MaskFieldToAccountNumberMasked" Value="\d{4}$"/>
+      <XmlParam Key="EJ2MaskFieldIdentificationNumberMasked" Value="\d{4}$"/>
+      <XmlParam Key="EJ2MaskFieldAuthenticationNumberMasked" Value="\d{4}$"/>
+      <XmlParam Key="AddSWVersionInfoOnEJ" Value="False" />
+      <XmlParam Key="RecordNoteSerialNumber" Value="FALSE" Option="" />
+      <XmlParam Key="AutoCreateNextDayEJ" Value="FALSE" Option="" />
+      <XmlParam Key="AddEndOfDateLine" Value="FALSE" Option="" />
+	  <XmlParam Key="UseLegacyAddCashJournal" Value="FALSE" Option="" />
+      <XmlParam Key="TextJournalExtension" Value="txt" Option="txt|dat|jnl" />
+	</XmlParameters>
+  </XmlSection>
+  <XmlSection Name="State">
+    <XmlParameters>
+      <XmlParam Key="NDCTickValue" Value="1000" />
+      <XmlParam Key="EnableLeftFDK" Value="FALSE" />
+      <XmlParam Key="BeepEnabled" Value="TRUE" />
+      <XmlParam Key="DoubleZeroAmount" Value="FALSE" />
+      <XmlParam Key="TimeoutYes" Value="A" />
+      <XmlParam Key="TimeoutNo" Value="B" />
+      <XmlParam Key="DefaultDecimalPointCount" Value="2" />
+      <XmlParam Key="OmitDecimalPoint" Value="FALSE" />
+      <XmlParam Key="EnableF2TouchInPinEntry" Value="TRUE" />
+      <XmlParam Key="PINKeyDisplayType" Value="MaskX" Option="MaskX|MaskAsterisk" />
+      <XmlParam Key="SendUnsolWhenRejectBoxFullInDDC" Value="FALSE" />
+      <XmlParam Key="SendUnsolWhenEnCashCompleteInNDC" Value="True" />
+      <XmlParam Key="SendCashLowUnsol" Value="FALSE" />
+      <XmlParam Key="SendCashUnSolWhenCardFailed" Value="FALSE" />
+      <XmlParam Key="FunctionIDofA" Value="CardBeforeCash" Option="CardBeforeCash|CashBeforeCard" />
+      <XmlParam Key="BeepIntervalMiliSec" Value="500" />
+      <XmlParam Key="AutoMoreTimeInTransacton" Value="TRUE" Option="" />
+      <XmlParam Key="CashRetractedMessage" Value="UNSOL" Option="SOL|UNSOL" />
+      <XmlParam Key="SendSolWhenCstIsLowOfDDC" Value="TRUE" />
+      <XmlParam Key="UseFITForPinFormat" Value="TRUE" Option="TRUE|FALSE" />
+      <XmlParam Key="DisplayCurrencyInBNAConfirmScreen" Value="FALSE" Option="TRUE|FALSE" />
+      <XmlParam Key="FlowEngineType" Value="HybridFlowEngine" Option="LocalFlowEngine|HybridFlowEngine" />
+      <XmlParam Key="CampaignsFile" Value="Campaigns.xml" />
+      <XmlParam Key="FlowEngineFile" Value="Flow.xml" />
+      <XmlParam Key="ReceiptFormFile" Value="ReceiptForm.xml" />
+      <XmlParam Key="VoiceReceiptFile" Value="VoiceReceipt.xml" />
+      <XmlParam Key="TransactionRequestConfigFile" Value="TransactionRequestConfig.xml" />
+      <XmlParam Key="TransactionReplyConfigFile" Value="TransactionReplyConfig.xml" />
+      <XmlParam Key="IncomingMessageFile" Value="IncomingMessage.xml" />
+      <XmlParam Key="OutgoingMessageFile" Value="OutgoingMessage.xml" />
+      <XmlParam Key="CheckUploadDirectory" Value="D:\GaiaData\Upload" />
+      <XmlParam Key="UseCardlessTrans" Value="False" />
+      <XmlParam Key="CardlessNextStateNo_A" Value="" />
+      <XmlParam Key="CardlessNextStateNo_B" Value="" />
+      <XmlParam Key="CardlessNextStateNo_C" Value="" />
+      <XmlParam Key="CardlessNextStateNo_D" Value="" />
+      <XmlParam Key="CardlessNextStateNo_E" Value="" />
+      <XmlParam Key="CardlessNextStateNo_F" Value="" />
+      <XmlParam Key="CardlessNextStateNo_G" Value="" />
+      <XmlParam Key="CardlessNextStateNo_H" Value="" />
+      <XmlParam Key="CardlessNextStateNo_I" Value="" />
+      <XmlParam Key="CardlessNextStateNo_ENTER" Value="" />
+      <XmlParam Key="CardlessTrack1Data" Value="" />
+      <XmlParam Key="CardlessTrack2Data" Value="" />
+      <XmlParam Key="PrintReceiptInCaseOfError" Value="False" />
+      <XmlParam Key="UPSCheckState" Value="" />
+      <XmlParam Key="UPSCheckState_Count" Value="" />
+      <XmlParam Key="LocalFolder" Value="Local\Default" />
+      <XmlParam Key="SmartCardOperationIDforDDC" Value="010" />
+      <XmlParam Key="CardBeforeCashOrCheckInCloseState" Value="True" />
+      <XmlParam Key="EjectCardAccordingToLocalFlow" Value="False" />
+      <XmlParam Key="DecimalPointInAmountCheckThoughStateValueIsZero" Value="0" />
+      <XmlParam Key="InitialState" Value="000" />
+      <XmlParam Key="NDCMaskBuffersBC" Value="False" />
+      <XmlParam Key="NDCMaskResponseData" Value="False"  />
+      <XmlParam Key="SendSupervisorEnterExitforClearError" Value="FALSE" />
+      <XmlParam Key="CashDispenserErrorSeverity" Value="FATAL" Option="(Default)FATAL|WARNING"/>
+      <XmlParam Key="PingCheckBeforeTRQ" Value="FALSE" Option="TRUE|FALSE" />
+      <XmlParam Key="SaveRetractScreenForCashAcceptor" Value="FALSE" Option="TRUE|FALSE" />
+      <XmlParam Key="CheckCardReaderStatusInCardReadState" Value="FALSE" Option="TRUE|FALSE" />
+      <XmlParam Key="RetractCardInA" Value="False" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="Screen">
+    <XmlParameters>
+      <XmlParam Key="FullScreenSplash" Value="false"  />
+      <XmlParam Key="ColumnCount" Value="0" Option="0|32|40" />
+      <XmlParam Key="RowCount" Value="0" Option="0|16|20" />
+      <XmlParam Key="UsingAutoTouch" Value="True" />
+      <XmlParam Key="UsingTouchImage" Value="False" />
+      <XmlParam Key="DefaultFontName" Value="Lucida Console" />
+      <XmlParam Key="ReservedScreenFontName" Value="Lucida Console" />
+      <XmlParam Key="DefaultFontSize" Value="0" />
+      <XmlParam Key="ReservedScreenFontSize" Value="0" />
+      <XmlParam Key="UsingBoldFont" Value="false" />
+      <XmlParam Key="DefaultFontRgb" Value="255,255,0" />
+      <XmlParam Key="DefaultBackgroundRgb" Value="0,0,255" />
+      <XmlParam Key="DefaultBackgroundImage" Value="" />
+      <XmlParam Key="ResolutionWidth" Value="1024" />
+      <XmlParam Key="ResolutionHeight" Value="768" />
+      <XmlParam Key="LocationX" Value="0" />
+      <XmlParam Key="LocationY" Value="0" />
+      <XmlParam Key="ScreenIndex" Value="0" />
+      <XmlParam Key="IsFullScreen" Value="True" />
+      <XmlParam Key="UsingBeepSoundAtTouch" Value="True" />
+      <XmlParam Key="UsingBeepSoundOutOfTouchRange" Value="True" />
+      <XmlParam Key="MonitorID" Value="Secondary" Option="Primary|Secondary" />
+      <XmlParam Key="FdkImageTextForeColor" Value="0,0,0" />
+      <XmlParam Key="AmountDisplayFormat" Value="$ #########0.00" />
+      <XmlParam Key="AmountDisplayFormatEightDigits" Value="$ #####0.00" />
+      <XmlParam Key="DisplayMode" Value="Emulation" Option="Emulation|WebPage|Local" />
+      <XmlParam Key="OverrideWelcomeScreen" Value="False" />
+      <XmlParam Key="AdjustInputFieldScreenNumbers" Value="" />
+      <XmlParam Key="AdjustInputFieldLocation" Value="" />
+      <XmlParam Key="UserImageDirectory" Value="C:\S4Pict" />
+      <XmlParam Key="UserAutoVoiceDirectory" Value="C:\S4Pict\wav" />
+      <XmlParam Key="LocalScreenPath" Value="Screens" />
+      <XmlParam Key="LocalScreenConfiguration" Value="Screen.xml" />
+      <XmlParam Key="LocalScreenResourceDictionary" Value="ResourceDictionary.xaml" />
+      <XmlParam Key="PINEntryCompletionTouchKey" Value="" />
+      <XmlParam Key="BackGroundImageResizing" Value="False" />
+      <XmlParam Key="ResizingImageResolutionMin" Value="800:600" />
+      <XmlParam Key="ResizingImageResolutionMax" Value="800:600" />
+      <XmlParam Key="ImageLoadAtRuntime" Value="False" />
+      <XmlParam Key="SupportTopScreenFramework" Value="False" />
+      <XmlParam Key="TopResolutionWidth" Value="0" />
+      <XmlParam Key="TopResolutionHeight" Value="0" />
+      <XmlParam Key="TopLocationX" Value="0" />
+      <XmlParam Key="TopLocationY" Value="0" />
+      <XmlParam Key="UsingSeparatedText" Value="True" />
+      <XmlParam Key="AlwaysDisplayTextOnGraphic" Value="False" />
+      <XmlParam Key="ProhibitRefreshForDuplicatedCalling" Value="False" />
+      <XmlParam Key="EncodingCodePage" Value="" />
+      <XmlParam Key="CharSetForNoneTrueTypeFont" Value="0" />
+      <XmlParam Key="DisplayEmulationAndLocal" Value="False" />
+      <XmlParam Key="AdjustTextLocationY" Value="0" />
+      <XmlParam Key="ForceOverwritePinTextOnScreen" Value="False" />
+      <XmlParam Key="DrawLayoutInDeveloperMode" Value="False" />
+      <XmlParam Key="ResetToDefaultFontWhenKeyPressed" Value="True" />
+      <XmlParam Key="OverrideTrack1Separator" Value="Empty" Option="Empty,VISA,ISO"/>
+      <XmlParam Key="SupportLanguages" Value="English|Spanish|Korean|Chinese|French|Japanese|Italian|Russian|Greek|Portuguese|Polish|German|Tagalog|Indonesian|Vietnamese" />
+      <XmlParam Key="SupportCultureCodes" Value="en-US|es-MX|ko-KR|zh-CN|fr-FR|ja-JP|it-IT|ru-RU|el-GR|pt-BR|pl-PL|de-DE|fil-PH|id-ID|vi-VN" />
+      <XmlParam Key="SupportResetUserInputTimer" Value="True" />
+      <XmlParam Key="PersistentBrowserControl" Value="False" />
+      <XmlParam Key="AmountDisplayTemplateOfDDC" Value="" Option="C04ZZZ5ZZZ5ZZZ5ZZ9" />
+      <XmlParam Key="ClearAmountDisplayOnMaxLength" Value="False"/>
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="Voice">
+    <XmlParameters>
+      <XmlParam Key="NHVoiceGuidanceFile" Value="NHVoiceGuidance.xml" />
+      <XmlParam Key="VGResourceDictionary" Value="ResourceDictionary.xaml" />
+      <XmlParam Key="VGOrientationDictionary" Value="VGOrientationDictionary.xaml" />
+      <XmlParam Key="WaveFilePathOfDDC" Value="\ATM3\Media" />
+      <XmlParam Key="ControlFilePathOfDDC" Value="\ATM3\Media" />
+      <XmlParam Key="TextFilePathOfDDC" Value="\ATM3\Media" />
+      <XmlParam Key="VoiceFilePathOfNDC" Value="d:\ndcaud\WAVE" />
+      <XmlParam Key="AdvanceNDCVoiceFileName" Value="AudioGuidanceData.xml" />
+      <XmlParam Key="NDCPlusAudioFilePathOfNDC" Value="d:\ndcaud" />
+      <XmlParam Key="TTSBoardUsing" Value="FALSE" />
+      <XmlParam Key="TTSBoardPortNumber" Value="9" />
+      <XmlParam Key="TTSBoardSpeed" Value="0" />
+      <XmlParam Key="TTSBoardVolume" Value="3" />
+      <XmlParam Key="TTSBoardArticulation" Value="6" />
+      <XmlParam Key="TTSBoardTextModeDelay" Value="0" />
+      <XmlParam Key="TTSBoardVoiceType" Value="3" />
+      <XmlParam Key="TTSBoardOrientationScriptTimeOut" Value="150000" />
+      <XmlParam Key="DefaultVolume" Value="25" Option="1~100" />
+      <XmlParam Key="VoiceGuidanceOrder" Value="Local,NDC" Option="NDC|Local|NDC,Local|Local,NDC" />
+      <XmlParam Key="UseNHMP2Orientation" Value="2" Option="0,1,2 value for vg model orientation" />
+      <XmlParam Key="UseAFALang" Value="True" Option="True|False" />
+      <XmlParam Key="EnableBeepForVoiceGuidance" Value="True" Option="True|False"/>
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="VoiceLangs">
+    <XmlParameters>
+      <XmlParam Key="en" Value="Zira" />
+      <XmlParam Key="sp" Value="Sabina" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="Operator">
+    <XmlParameters>
+      <XmlParam Key="DisplayDevice" Value="PIN,CDM,IDC,SPR,JPR,CAM,EDU,BNA,BCA,BCR,MMA" />
+      <XmlParam Key="ConfigurableDevices" Value="EDU,BNA,BCA,CSM,MMA,COA,COD,TMD,DVR,FGR,VFD,IDS,BCR,PVN" />
+      <XmlParam Key="SupervisorPassword" Value="111111" />
+      <XmlParam Key="OperatorPassword" Value="222222" />
+      <XmlParam Key="TechnicianPassword" Value="333333" />
+      <XmlParam Key="KeyType" Value="BackTouch" Option="FrontTouch|FrontFunction|BackTouch" />
+      <XmlParam Key="StartPosition" Value="0" />
+      <XmlParam Key="StartPositionY" Value="0" />
+      <XmlParam Key="ScreenIndex" Value="0" />
+      <XmlParam Key="IsFullScreen" Value="True" />
+      <XmlParam Key="PrintCashInfoPaperFormat" Value="1" Option="1|2" />
+      <XmlParam Key="UseCustomizedPrintCash" Value="FALSE" Option="TRUE|FALSE" />
+      <XmlParam Key="UseCustomizedPrintBNA" Value="FALSE" Option="TRUE|FALSE" />
+      <XmlParam Key="ResolutionWidth" Value="1024" />
+      <XmlParam Key="ResolutionHeight" Value="768" />
+      <XmlParam Key="TimeDisplay24" Value="True" />
+      <XmlParam Key="LocalOptionDigits" Value="0000000000000000" />
+      <XmlParam Key="UseUnicodePrint" Value="False" />
+      <XmlParam Key="UseScreenButtonAsModeChange" Value="True" />
+      <XmlParam Key="SettlementTimeoutMiliSec" Value="0" />
+      <XmlParam Key="AutoShowTransaction" Value="FALSE" />
+      <XmlParam Key="MouseMoveAdjustValue" Value="20" />  
+      <XmlParam Key="ManualVKPosition" Value="RESERVED,ENTER,CLEAR,CANCEL" />
+      <XmlParam Key="DisplayCardholderName" Value="None" Option="LastName|FirstName|FullName|None" />
+      <XmlParam Key="OPHotKeySequence" Value="" />
+      <XmlParam Key="OPKeyboardCombination" Value="" />
+      <XmlParam Key="OPDisableSwitch" Value="FALSE"  Option="TRUE|FALSE" />
+      <XmlParam Key="CashDisplayMode" Value="NoteCount" Option="NoteCount|CashAmount"/>
+      <XmlParam Key="CassetteSortingBase" Value="PhysicalID" Option="PhysicalID|PhysicalPositionName"/>
+      <XmlParam Key="PhysicalPositionName" Value="Cst_0,Cst_1,Cst_2,Cst_3,Cst_4" Option="When CassetteSortingBase is PhysicalPositionName for other vendors"/>
+      <XmlParam Key="PhysicalID" Value="PCU00,PCU01,PCU02,PCU03,PCU04,PCU05" Option="When CassetteSortingBase is PhysicalID for hyosung"/>
+      <XmlParam Key="PhysicalPositionNameForBRM" Value="RetractCassette,RejectCassette,CassetteA,CassetteB,CassetteC,CassetteD,CassetteE,CassetteF,CassetteG" Option="When CassetteSortingBase is PhysicalPositionName for other vendors"/>
+      <XmlParam Key="PhysicalIDForBRM" Value="RTCST,RJCST,CST_A,CST_B,CST_C,CST_D,CST_E,CST_F,CST_G" Option="When CassetteSortingBase is PhysicalID for hyosung"/>
+      <XmlParam Key="GoInserviceDirect" Value="False" Option=""/>
+      <XmlParam Key="ShowFrontTransactionInRear" Value="FALSE" />
+      <XmlParam Key="MovePinEntryScreenOfSettlementToFront" Value="FALSE" />
+      <XmlParam Key="ActivatePinpadSetupMenu" Value="FALSE" />
+      <XmlParam Key="SupportInitializeKeyMenu" Value="TRUE" />
+      <XmlParam Key="DispenseCountOfCalibration" Value="20" Option="" />
+      <XmlParam Key="OnExitResetDevices" Value="TRUE" />
+      <XmlParam Key="OnSettlementExitResetDevices" Value="FALSE" />
+      <XmlParam Key="OnExitClearRetainedCardCount" Value="TRUE" />
+      <XmlParam Key="CardTypeOfCardDispenser" Value="1" />
+      <XmlParam Key="CardTypeNames" Value="SILVER,GOLD,PLATINUM" Option="TYPE1,TYPE2,TYPE3..."/>
+      <XmlParam Key="CardMaxCountOfCardDispenser" Value="100" />
+      <XmlParam Key="ScrollLineForEJViewer" Value="3" />
+      <XmlParam Key="EJListFontSizeForEJViewer" Value="11" />
+      <XmlParam Key="EJListFontNameForEJViewer" Value="Lucida Console" />
+      <XmlParam Key="UseVirtualKeyInSettlement" Value="False" />
+      <XmlParam Key="SupervisorTimeout" Value="" Option="SECONDS" />
+      <XmlParam Key="MenuConfigurationFile" Value="Supervisor.xml" />
+      <XmlParam Key="TestDevicesExitTimeout" Value="10000" />
+      <XmlParam Key="TestDevicesLeftButtonText" Value="" />
+      <XmlParam Key="TestDevicesLeftButtonNextMenu" Value="" />
+      <XmlParam Key="TestDevicesLeftButtonIsExit" Value="False" />
+      <XmlParam Key="TestDevicesRightButtonText" Value="" />
+      <XmlParam Key="TestDevicesRightButtonIsExit" Value="False" />
+      <XmlParam Key="TestDevicesRightButtonNextMenu" Value="" />
+      <XmlParam Key="BaselineLoadingCount" Value="1000" />
+      <XmlParam Key="BaselineCollectingCount" Value="1000" />
+      <XmlParam Key="EnableSoftwareUpdateMenu" Value="True" />
+      <XmlParam Key="ExitAndGoInServiceFlag" Value="FALSE"  Option="TRUE|FALSE" />
+      <XmlParam Key="Languages" Value="en-US" Option="en-US,ko-KR,fr-CA,es-MX..." />
+      <XmlParam Key="UseMachineNumberAsSTN" Value="False" Option="TRUE|FALSE" />
+      <XmlParam Key="UseMachineNumberAsComputerName" Value="False" Option="TRUE|FALSE" />
+      <XmlParam Key="UseCashInCountIncludeRJRT" Value="False" />
+      <XmlParam Key="DisplayNoteCountOneTnMapping" Value="True" />
+      <XmlParam Key="ForceDisplayCashByLogical" Value="False" />
+	    <XmlParam Key="DisplayCashOutWithAmount" Value="True" />
+      <XmlParam Key="DisplayOSActivationWarningMessage" Value="False" />
+      <XmlParam Key="OPCassetteRemovalSecurity" Value="FALSE" Option="TRUE|FALSE" />
+      <XmlParam Key="EnableReconcileWhenSafeOpen" Value="False" />
+      <XmlParam Key="VirtualKeypadType" Value="KeyPad" Option="KeyPad|Keyboard" />
+      <XmlParam Key="KeyboardCharsetAlpha" Value="1234567890qwertyuiopasdfghjklzxcvbnm !@#$%^&amp;*()QWERTYUIOPASDFGHJKLZXCVBNM 1234567890_|#$%^&amp;*()/:;&lt;&gt;{}[]-~`&quot;&apos;.," />
+      <XmlParam Key="KeyboardCharsetUrl" Value="1234567890qwertyuiopasdfghjklzxcvbnm !@#$%^&amp;*()QWERTYUIOPASDFGHJKLZXCVBNM" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="Wincor">
+    <XmlParameters>
+      <XmlParam Key="Support" Value="FALSE" Option="TRUE|FALSE" />
+      <XmlParam Key="SupportCashIn" Value="FALSE" Option="TRUE|FALSE" />
+      <XmlParam Key="FollowEnhCopyBufferNumberCondition" Value="TRUE" Option="TRUE|FALSE" />
+      <XmlParam Key="UseReady9InsteadOfReadyBforWincorCashIn" Value="FALSE" Option="TRUE|FALSE" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="OperatorSecurity">
+    <XmlParameters>
+      <XmlParam Key="OperatorSecurityLevel" Value="LOW" />
+      <XmlParam Key="IDLengthMin" Value="4" />
+      <XmlParam Key="PWLengthMin" Value="6" />
+      <XmlParam Key="IdleLockInterval" Value="15" />
+      <XmlParam Key="PWEffectiveDay" Value="90" />
+      <XmlParam Key="PWRetryMaxCount" Value="6" />
+      <XmlParam Key="PWRetryLockInterval" Value="30" />
+      <XmlParam Key="CompareHowManyPW" Value="4" />
+      <XmlParam Key="UseSHA2" Value="FALSE" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="VideoBanking">
+    <XmlParameters>
+      <XmlParam Key="EnableVideoBanking" Value="False" />
+      <XmlParam Key="VideoDeviceIndex" Value="0" Option="0~" />
+      <XmlParam Key="SecondaryVideoDeviceIndex" Value="1" Option="0~" />
+      <XmlParam Key="VideoDeviceList" Value="USB Video Device" />
+      <XmlParam Key="AudioDeviceIndex" Value="1" Option="0~" />
+      <XmlParam Key="SecondaryAudioDeviceIndex" Value="0" Option="0~" />
+      <XmlParam Key="AudioDeviceList" Value="Speakers (Realtek High Definition Audio)/Microphone (Realtek High Definition Audio)"/>
+      <XmlParam Key="SignInUser" Value=""/>
+      <XmlParam Key="SignInPassword" Value=""/>
+      <XmlParam Key="SignInURI" Value="" Option="sip:[ExtensionNumber]@[serverdomain]:[port]"/>
+      <XmlParam Key="AcceptCallTimeout" Value="30" Option="30 seconds" />
+      <XmlParam Key="IsTeller" Value="False"/>
+      <XmlParam Key="VideoLocationX" Value="0"/>
+      <XmlParam Key="VideoLocationY" Value="0"/>
+      <XmlParam Key="VideoScreenWidth" Value="1920"/>
+      <XmlParam Key="VideoScreenHeight" Value="1080"/>
+      <XmlParam Key="ShowOutVideo" Value="True"/>
+      <XmlParam Key="OutVideoLocationX" Value="0"/>
+      <XmlParam Key="OutVideoLocationY" Value="0"/>
+      <XmlParam Key="OutVideoScreenWidth" Value="400"/>
+      <XmlParam Key="OutVideoScreenHeight" Value="300"/>
+      <XmlParam Key="SignInUserInfoMaxLength" Value="129"/>
+      <XmlParam Key="AutoSignIn" Value="True"/>
+      <XmlParam Key="VideoScreen" Value="Topper_ActiveTellerConversation"/>
+      <XmlParam Key="IncomingVideoCoverImage" Value=""/>
+      <XmlParam Key="OutgoingVideoCoverImage" Value=""/>
+      <XmlParam Key="MicVolume" Value="80" Option="0~100"/>
+      <XmlParam Key="MasterVolume" Value="50" Option="0~100"/>
+      <XmlParam Key="LyncReconnectInterval" Value="300" Option="0~. (Not used: 0. Default: 300 seconds) (5 minute is more appropriate value than 1 minute)"/>
+      <XmlParam Key="VideoControl" Value="Lync" Option="Lync, PortSIP, BeeHD"/>
+      <XmlParam Key="PortSIPLicenseKey" Value=""/>
+      <XmlParam Key="UseActiveTellerExternalCalling" Value="False" Option="True|False"/>
+      <XmlParam Key="InternalVideoLogLevel" Value="0" Option="0 (none), 1 (errors), 2 (warnings), 3 (information), 4 (debug)" />
+      <XmlParam Key="VideoResolutionHeight" Value="0"/>
+      <XmlParam Key="VideoResolutionWidth" Value="0"/>
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="Email">
+    <XmlParameters>
+      <XmlParam Key="Server" Value="" />
+      <XmlParam Key="Port" Value="" />
+      <XmlParam Key="Username" Value="" />
+      <XmlParam Key="Password" Value="" />
+      <XmlParam Key="EnableSSL" Value="True" />
+      <XmlParam Key="ReceiptFromAddress" Value="" />
+      <XmlParam Key="ReceiptReplyAddress" Value="" />
+      <XmlParam Key="ReceiptSubject" Value="" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="TerminalInformation">
+    <XmlParameters>
+      <XmlParam Key="TerminalAddress" Value="" />
+      <XmlParam Key="TerminalCity" Value="" />
+      <XmlParam Key="TerminalState" Value="" />
+      <XmlParam Key="TerminalID" Value="" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="AppendZeroList">
+    <XmlParameters>
+      <XmlParam Key="" Value="" />
+    </XmlParameters>
+  </XmlSection>
+</XmlConfiguration>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- [BIN Action List]
+ 0 : BLOCK SURCHARGE
+ 1 : WITHDRAWAL SURCHARGE
+ 2 : BALANCE SURCHARGE
+ 4 : DECLINE CARD
+
+ -->
+<MultipleBINList>
+  <List BIN="54531383" Action="0" Value="" />
+  <List BIN="5678990" Action="0" Value="" />
+  <List BIN="54531356" Action="0" Value="" />
+  <List BIN="528634" Action="0" Value="" />
+</MultipleBINList>

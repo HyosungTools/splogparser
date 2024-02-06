@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ACCOUNTSETTING>
+  <ACCOUNT NAME="Supervisor">
+    <USER>
+      <ID>ANYID</ID>
+      <PASSWORD></PASSWORD>
+      <PWSAVEDATE></PWSAVEDATE>
+      <PWHISTORY></PWHISTORY>
+      <PWRETRYCOUNT></PWRETRYCOUNT>
+      <LOGINLOCKDATE></LOGINLOCKDATE>
+      <SALT></SALT>
+      <SALTHISTORY></SALTHISTORY>
+    </USER>
+  </ACCOUNT>
+  <ACCOUNT NAME="Operator">
+  </ACCOUNT>
+  <ACCOUNT NAME="Technician">
+  </ACCOUNT>
+</ACCOUNTSETTING>

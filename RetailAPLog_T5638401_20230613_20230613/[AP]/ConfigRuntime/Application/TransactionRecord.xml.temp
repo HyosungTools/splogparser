@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="TransactionInfo">
+    <XmlParameters>
+      <XmlParam Key="ConfigID" Value="0000" />
+      <XmlParam Key="RetractedTimes" Value="0" />
+    </XmlParameters>
+  </XmlSection>
+</XmlConfiguration>

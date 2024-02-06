@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="TcpIp">
+    <XmlParameters>
+      <XmlParam Key="SSLType" Value="NONE" />
+    </XmlParameters>
+  </XmlSection>
+</XmlConfiguration>

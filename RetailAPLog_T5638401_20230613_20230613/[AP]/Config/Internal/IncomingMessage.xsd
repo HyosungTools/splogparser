@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<xs:schema xmlns="http://www.nh.com/IncomingMessage" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.nh.com/IncomingMessage" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:include schemaLocation="Common.xsd"/>
+
+  <xs:simpleType name="processType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Before" />
+      <xs:enumeration value="After" />
+      <xs:enumeration value="BeforeLogDump" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:complexType name="Process">
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="Update" type="Update" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="Execute" type="Execute" />
+      </xs:choice>
+      <xs:element minOccurs="0" maxOccurs="1" name="Condition" type="Condition" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="optional" />
+    <xs:attribute name="process" type="processType" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="IncomingMessage">
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Process" type="Process" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="IncomingMessage" type="IncomingMessage" />
+
+</xs:schema>

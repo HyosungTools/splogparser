@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="EmvTagList">
+    <XmlParameters>
+      <XmlParam Key="AmountAuthorizedNumeric_9F02" Value="3" />
+      <XmlParam Key="AmountOtherNumeric_9F03" Value="5" />
+      <XmlParam Key="ApplicationCryptogram_9F26" Value="8" />
+      <XmlParam Key="ApplicationExpiredDate_5F24" Value="13" />
+      <XmlParam Key="ApplicationInterchangeProfile_82" Value="16" />
+      <XmlParam Key="ApplicationPrimaryAccountNumber_5A" Value="19" />
+      <XmlParam Key="AppPanSequenceNumber_5F34" Value="20" />
+      <XmlParam Key="ApplicationTransactionCounter_9F36" Value="24" />
+      <XmlParam Key="CVMResult_9F34" Value="34" />
+      <XmlParam Key="CryptogramInformationData_9F27" Value="36" />
+      <XmlParam Key="IssuerApplicationData_9F10" Value="55" />
+      <XmlParam Key="PosEntryMode_9F39" Value="73" />
+      <XmlParam Key="TerminalCapabilityProfile_9F33" Value="82" />
+      <XmlParam Key="TerminalCountryCode_9F1A" Value="83" />
+      <XmlParam Key="TerminalType_9F35" Value="87" />
+      <XmlParam Key="TerminalVerificationResults_95" Value="88" />
+      <XmlParam Key="Track2EquivalentData_57" Value="91" />
+      <XmlParam Key="TransactionCurrencyCode_5F2A" Value="94" />
+      <XmlParam Key="TransactionDate_9A" Value="96" />
+      <XmlParam Key="TransactionSequenceCounter_9F41" Value="100" />
+      <XmlParam Key="TransactionTime_9F21" Value="102" />
+      <XmlParam Key="TransactionType_9C" Value="103" />
+      <XmlParam Key="UnpredictableNumber_9F37" Value="104" />
+      <XmlParam Key="ApplicationID_9F06" Value="120" />
+      <XmlParam Key="ApplicationVersion_9F09" Value="27" />
+      <XmlParam Key="DedicatedFileName_84" Value="38" />
+      <XmlParam Key="IFDSerialNumber_9F1E" Value="51" />
+      <XmlParam Key="TransactionCategoryCode_9F53" Value="125" />
+      <XmlParam Key="CVMList_8E" Value="33" />
+      <XmlParam Key="TransactionStatusInformation_9B" Value="101" />
+      <XmlParam Key="IssuerScriptResult_DF03" Value="63" />
+      <XmlParam Key="ServiceCode_5F30" Value="75" />
+      <!--<XmlParam Key="IAC_9F0E" Value="53" />-->
+      <XmlParam Key="AuthorisationResponse_8A" Value="28" />
+      <!--<XmlParam Key="IssuerAuthorizationData_91" Value="56" />-->
+      <XmlParam Key="IssuerScriptTemplate1_71" Value="64" />
+      <XmlParam Key="IssuerScriptTemplate2_72" Value="65" />
+    </XmlParameters>
+  </XmlSection>
+</XmlConfiguration>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TransactionScreen>
+  <MediaList Delay="3000">
+    <Media Index="1" FilePath="D:\TransactionScreen\Transaction_Adv_01.jpg" Enabled="False" Display="Part"/>
+    <Media Index="2" FilePath="D:\TransactionScreen\Transaction_Adv_02.jpg" Enabled="False" Display="Part"/>
+    <Media Index="3" FilePath="D:\TransactionScreen\Transaction_Adv_03.jpg" Enabled="False" Display="Part"/>
+    <Media Index="4" FilePath="D:\TransactionScreen\Transaction_Adv_04.jpg" Enabled="False" Display="Part"/>
+    <Media Index="5" FilePath="D:\TransactionScreen\Transaction_Adv_05.jpg" Enabled="False" Display="Part"/>
+    <Media Index="6" FilePath="D:\TransactionScreen\Transaction_Adv_06.jpg" Enabled="False" Display="Part"/>
+  </MediaList>
+</TransactionScreen>

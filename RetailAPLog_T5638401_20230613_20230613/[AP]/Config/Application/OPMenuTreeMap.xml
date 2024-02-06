@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="ConfigurationMenu">
+    <XmlParameters>
+      <XmlParam Key="Configuration" Value="05" />
+      <XmlParam Key="SetNoteValue" Value="2-80" />
+      <XmlParam Key="SetCash" Value="2-09" />
+      <XmlParam Key="TcpIp" Value="2-37" />
+      <XmlParam Key="AdvancedMessage" Value="2-37-05" />
+      <XmlParam Key="DialUp" Value="2-38" />
+      <XmlParam Key="PrintAllConfig" Value="2-01" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="ReplenishmentMenu">
+    <XmlParameters>
+      <XmlParam Key="Replenishment" Value="04" />
+      <XmlParam Key="DisplaySupply" Value="1-00" />
+      <XmlParam Key="DisplayCash" Value="1-02" />
+      <XmlParam Key="DisplayBna" Value="1-03" />
+      <XmlParam Key="DisplayBca" Value="1-03" />
+      <XmlParam Key="AddCash" Value="1-08" />
+      <XmlParam Key="StandardCash" Value="1-12" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="RemoteCopyMenu">
+    <XmlParameters>
+      <XmlParam Key="EjBackup" Value="1-50" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="SupervisorTransactionMenu">
+    <XmlParameters>
+      <XmlParam Key="SupervisorTransaction" Value="1-15" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="ChangePasswordMenu">
+    <XmlParameters>
+      <XmlParam Key="ChangePassword" Value="3-02" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="DiagnosticMenu">
+    <XmlParameters>
+      <XmlParam Key="Diagnostic" Value="07" />
+    </XmlParameters>
+  </XmlSection>
+</XmlConfiguration>

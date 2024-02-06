@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="Log">
+    <XmlParameters>
+      <XmlParam Key="CardMask" Value="True" />
+      <XmlParam Key="LeftUnMasked" Value="0" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="Telemetry">
+    <XmlParameters>
+      <XmlParam Key="Enabled" Value="True"/>
+      <XmlParam Key="ApiKey" Value="PHIWYCncgzwXtgxEWkaoQ" />
+    </XmlParameters>
+  </XmlSection>
+</XmlConfiguration>

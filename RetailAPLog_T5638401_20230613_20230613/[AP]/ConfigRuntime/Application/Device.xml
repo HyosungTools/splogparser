@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="Emv">
+    <XmlParameters />
+  </XmlSection>
+</XmlConfiguration>

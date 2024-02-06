@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="OPConfiguration">
+    <XmlParameters>
+      <XmlParam Key="DenominationCSTNoteTypeA" Value="USD 20" />
+      <XmlParam Key="DenominationCSTNoteTypeB" Value="USD 20" />
+      <XmlParam Key="DenominationCSTNoteTypeC" Value="USD 20" />
+      <XmlParam Key="DenominationCSTNoteTypeD" Value="USD 20" />
+      <XmlParam Key="LowCurrencyCheck" Value="Disabled" />
+      <XmlParam Key="RoutingID" Value="000000" />
+      <XmlParam Key="SerialNumber" Value="0000000000" />
+      <XmlParam Key="MessageFormat" Value="STD1" Option="STD1|STD3" />
+      <XmlParam Key="TCPIPType" Value="STANDARD" Option="STANDARD|VISA_FRAMED" />
+      <XmlParam Key="EOTENQOption" Value="GENERAL" Option="GENERAL|NO ENQ REQUIRED|EOT OPTIONAL|NO ENQ/EOT REQUIRED|NO EOT REQUIRED" />
+      <!--<XmlParam Key="SSLVersion" Value="00.00.00.08" />-->
+      <XmlParam Key="HealthCheckHostSend" Value="False"/>
+      <XmlParam Key="HealthCheckIntervalTime" Value="120"/>
+      <XmlParam Key="HostURLEnable" Value="Disabled"/>
+      <XmlParam Key="BackupHostIP" Value=""/>
+      <XmlParam Key="BackupHostPort" Value=""/>
+      <XmlParam Key="ReversalRetryCnt" Value="3"/>
+      <XmlParam Key="AutoDayTotalEnable" Value="False"/>
+      <XmlParam Key="AutoDayTotalType" Value="TrialDayTotal"/>
+      <XmlParam Key="AutoDayTotalHour" Value="06"/>
+      <XmlParam Key="AutoDayTotalMinute" Value="00"/>
+      <XmlParam Key="ReceiptHeader1" Value=""/>
+      <XmlParam Key="ReceiptHeader2" Value=""/>
+      <XmlParam Key="ReceiptTail" Value=""/>
+      <XmlParam Key="ReceiptAddress1" Value=""/>
+      <XmlParam Key="ReceiptAddress2" Value=""/>
+      <XmlParam Key="ReceiptAddress3" Value=""/>
+      <XmlParam Key="ReceiptPhoneNumber" Value=""/>
+      <XmlParam Key="MarketingMessage1" Value=""/>
+      <XmlParam Key="MarketingMessage2" Value=""/>
+      <XmlParam Key="MarketingMessage3" Value=""/>
+      <XmlParam Key="MarketingMessage4" Value=""/>
+      <XmlParam Key="ProcessorMessage1" Value=""/>
+      <XmlParam Key="ProcessorMessage2" Value=""/>
+      <XmlParam Key="ProcessorMessage3" Value=""/>
+      <XmlParam Key="ProcessorMessage4" Value=""/>
+      <XmlParam Key="StoreMessage1" Value=""/>
+      <XmlParam Key="StoreMessage2" Value=""/>
+      <XmlParam Key="StoreMessage3" Value=""/>
+      <XmlParam Key="StoreMessage4" Value=""/>
+      
+      <XmlParam Key="WelcomeAdvInterval" Value="3000"/>
+      <XmlParam Key="WelcomeAdv1" Value="False"/>
+      <XmlParam Key="WelcomeAdv1Type" Value="Full" Option="Part|Full" />
+      <XmlParam Key="WelcomeAdv2" Value="False"/>
+      <XmlParam Key="WelcomeAdv2Type" Value="Full" Option="Part|Full" />
+      <XmlParam Key="WelcomeAdv3" Value="False"/>
+      <XmlParam Key="WelcomeAdv3Type" Value="Full" Option="Part|Full" />
+      <XmlParam Key="WelcomeAdv4" Value="False"/>
+      <XmlParam Key="WelcomeAdv4Type" Value="Full" Option="Part|Full" />
+      <XmlParam Key="WelcomeAdv5" Value="False"/>
+      <XmlParam Key="WelcomeAdv5Type" Value="Full" Option="Part|Full" />
+      <XmlParam Key="WelcomeAdv6" Value="False"/>
+      <XmlParam Key="WelcomeAdv6Type" Value="Full" Option="Part|Full" />
+      
+      <XmlParam Key="TranAdvInterval" Value="3000"/>
+      <XmlParam Key="TranAdv1" Value="False"/>
+      <XmlParam Key="TranAdv1Type" Value="Part" Option="Part|Full" />
+      <XmlParam Key="TranAdv2" Value="False"/>
+      <XmlParam Key="TranAdv2Type" Value="Part" Option="Part|Full" />
+      <XmlParam Key="TranAdv3" Value="False"/>
+      <XmlParam Key="TranAdv3Type" Value="Part" Option="Part|Full" />
+      <XmlParam Key="TranAdv4" Value="False"/>
+      <XmlParam Key="TranAdv4Type" Value="Part" Option="Part|Full" />
+      <XmlParam Key="TranAdv5" Value="False"/>
+      <XmlParam Key="TranAdv5Type" Value="Part" Option="Part|Full" />
+      <XmlParam Key="TranAdv6" Value="False"/>
+      <XmlParam Key="TranAdv6Type" Value="Part" Option="Part|Full" />
+      
+      <XmlParam Key="LoginPassword" Value=""/>
+      <XmlParam Key="CardAcceptorID" Value=""/>
+      <XmlParam Key="CardAcceptorName" Value=""/>
+      <XmlParam Key="CityName" Value=""/>
+      <XmlParam Key="CountryCode" Value=""/>
+      <XmlParam Key="PersistentConnection" Value="Disabled"/>
+      <XmlParam Key="IsShowWithdrawalSurchargeScreen" Value="True" />
+      <XmlParam Key="IsShowInquirySurchargeScreen" Value="False" />
+      <XmlParam Key="IsUseSurchargePercentMode" Value="False" />
+      <XmlParam Key="WithdrawalSurchargeAmount" Value="250" />
+      <XmlParam Key="InquirySurchargeAmount" Value="0" />
+      <XmlParam Key="SurchargePercent" Value="100" />
+      <XmlParam Key="SurchargeGreaterOrLess" Value="GREATER" />
+      <XmlParam Key="ReversalAtHostError" Value="False" />
+      <XmlParam Key="ReasonForReversal" Value="False" />
+      <XmlParam Key="UseTerminalStatusField" Value="False" />
+		
+	  <XmlParam Key="IsDynamicFlowEnabled" Value="True" />
+      <XmlParam Key="IsStandard1DCCEnabled" Value="False" />
+
+      <XmlParam Key="SurchargePaidTo" Value="OWNER" />
+      <XmlParam Key="AllowOnlyListedBIN" Value="False" />
+      <XmlParam Key="ExitMsg1" Value="" />
+      <XmlParam Key="ExitMsg2" Value="" />
+      <XmlParam Key="ExitMsg3" Value="" />
+      <XmlParam Key="IsPrintCouponWithdrawal" Value="True" />
+      <XmlParam Key="IsPrintCouponInquiry" Value="True" />
+      <XmlParam Key="IsShowNeedMoreTimeScreen" Value="True" />
+      <XmlParam Key="IsShowCreditAccount" Value="False" />
+      <XmlParam Key="IsShowSavingsAccount" Value="True" />
+      <XmlParam Key="IsReceiptOptionEnabled" Value="True" />
+      <XmlParam Key="IsPreBalanceEnabled" Value="False" />
+      <XmlParam Key="IsDualBalanceEnabled" Value="False" />
+      <XmlParam Key="ConfigDownloadAtStart" Value="True" />
+      <XmlParam Key="UseCommunicationHeaderField" Value="False" />
+      <XmlParam Key="CommunicationID" Value="00000000" />
+      <XmlParam Key="UseStatusMonitoringField" Value="False" />
+      <XmlParam Key="UseStandard3TDLDCC" Value="False" />
+      <XmlParam Key="UseCRC" Value="False" />
+      <XmlParam Key="TCPIPConnectionTime" Value="60"/>
+      <XmlParam Key="DefinedLanguage1" Value="English" />
+      <XmlParam Key="DefinedLanguage2" Value="" />
+      <XmlParam Key="DefinedLanguage3" Value="" />
+      <XmlParam Key="DefinedLanguage4" Value="" />
+      <XmlParam Key="DefinedLanguage5" Value="" />
+      <XmlParam Key="DefinedLanguage6" Value="" />
+      <XmlParam Key="DefinedLanguage7" Value="" />
+      <XmlParam Key="DefinedLanguage8" Value="" />
+      <XmlParam Key="DefinedLanguageDefault" Value="English" />
+      <XmlParam Key="WelcomeMsg1" Value="" />
+      <XmlParam Key="WelcomeMsg2" Value="" />
+      <XmlParam Key="WelcomeMsg3" Value="" />
+      <XmlParam Key="MaxWithdrawalAmount" Value="800" />
+      <XmlParam Key="FastCashList" Value="20|40|60|80|100|200" />
+      <XmlParam Key="BackupHostIP" Value="" />
+      <XmlParam Key="BackupHostPort" Value="0" />
+      <XmlParam Key="ContactInfo1" Value="" />
+      <XmlParam Key="ContactInfo2" Value="" />
+      <XmlParam Key="ContactInfo3" Value="" />
+
+      <XmlParam Key="MainHostIP" Value="127.0.0.1" />
+      <XmlParam Key="MainHostPort" Value="0" />
+      <XmlParam Key="Host1TLSHostnameOverride" Value="" />
+      <XmlParam Key="Host2TLSHostnameOverride" Value="" />
+      <XmlParam Key="IdleText1" Value="Nautilus Hyosung!" />
+      <XmlParam Key="IdleText2" Value="Always by your side" />
+      <XmlParam Key="IdleText3" Value="Visit www.hyosung.com" />
+      <XmlParam Key="IdleText4" Value="" />
+      <XmlParam Key="IdleText5" Value="" />
+      <XmlParam Key="IdleText_Effect" Value="Scroll" Option="Scroll|Blink|Curtain" />
+      <XmlParam Key="IsEMV" Value="True" />
+      <XmlParam Key="SupportsBillMix" Value="True" />
+      <XmlParam Key="RKTEnabled" Value="False" />
+      <XmlParam Key="RKTVersion" Value="NHR15" Option="NHR14|NHR15"/>
+      <XmlParam Key="IsStandard1Track1Enabled" Value="False" Option="True|False" />
+    </XmlParameters>
+  </XmlSection>
+
+  <XmlSection Name="RemoteUpdates">
+    <XmlParameters>
+      <XmlParam Key="IsScheduledUpdateEnabled" Value="True" Option="True|False" />
+      <XmlParam Key="RepositoryUrl" Value="https://nhasoftware.s3.us-east-2.amazonaws.com" />
+      <XmlParam Key="Hives" Value="retail|MP2s|v1" />
+      <XmlParam Key="ScheduledUpdateDayOfWeek" Value="1" />
+      <XmlParam Key="MinimumSeverity" Value="7" />
+      <XmlParam Key="ScheduleUpdateTime" Value="0300" />
+      <XmlParam Key="UseSystemTrustStore" Value="True" Option="True|False" />
+      <XmlParam Key="StagingDirectory" Value="C:\UPDATE" />
+      <XmlParam Key="SubscribedComponents" Value="ap|platform-updates|win10-os-updates" />
+    </XmlParameters>
+  </XmlSection>
+
+  <XmlSection Name="MoniViewConfiguration">
+    <XmlParameters>
+      <XmlParam Key="MoniViewVersion" Value="01.03.52" />
+      <XmlParam Key="MoniViewEnable" Value="False" />
+      <XmlParam Key="MoniViewPassword" Value="" />
+      <XmlParam Key="AtmPortNumber" Value="5555" />
+      <XmlParam Key="SendStatusEnable" Value="False" />
+      <XmlParam Key="SendStatusInterval" Value="4" />
+      <XmlParam Key="HostAddress" Value="127.0.0.1" />
+      <XmlParam Key="HostPortNumber" Value="9999" />
+	    <XmlParam Key="HostTlsPortNumber" Value="9998" />
+      <XmlParam Key="UseTLS" Value="False" Option="True|False" />
+      <XmlParam Key="SchJnlUpEnable" Value="False" />
+      <XmlParam Key="SchJnlUpType" Value="Count" Option="Count, Monthly, Daily"/>
+      <XmlParam Key="SchJnlCount" Value="100" />
+      <XmlParam Key="SchJnlDay" Value="1" />
+      <XmlParam Key="SchJnlHour" Value="1" />
+      <XmlParam Key="ErrorStartDayTime" Value="" />
+      <XmlParam Key="EJMdbLastSentIndex" Value="0"/>
+    </XmlParameters>
+  </XmlSection>
+
+  <XmlSection Name="OPConfiguration">
+    <XmlParameters>
+      <XmlParam Key="SupportsBillMix" Value="False" />
+    </XmlParameters>
+    <Condition source="DataDictionary" section="Operator" key="KeyType" value="FrontFunction" operator="EQU" />
+  </XmlSection>
+  <!-- AUS OP Configuration-->
+  <XmlSection Name="OPConfiguration">
+    <XmlParameters>
+      <XmlParam Key="DenominationCSTNoteTypeA" Value="AUD 20" />
+      <XmlParam Key="DenominationCSTNoteTypeB" Value="AUD 20" />
+      <XmlParam Key="DenominationCSTNoteTypeC" Value="AUD 50" />
+      <XmlParam Key="DenominationCSTNoteTypeD" Value="AUD 50" />
+      <XmlParam Key="MaxWithdrawalAmount" Value="2500" />
+      <XmlParam Key="IsShowCreditAccount" Value="True" />
+    </XmlParameters>
+    <Condition source="DataDictionary" section="System" key="CountryName" value="AUS" operator="EQU" />
+  </XmlSection>
+  <!-- NZL OP Configuration-->
+  <XmlSection Name="OPConfiguration">
+    <XmlParameters>
+      <XmlParam Key="DenominationCSTNoteTypeA" Value="NZD 20" />
+      <XmlParam Key="DenominationCSTNoteTypeB" Value="NZD 20" />
+      <XmlParam Key="DenominationCSTNoteTypeC" Value="NZD 50" />
+      <XmlParam Key="DenominationCSTNoteTypeD" Value="NZD 50" />
+      <XmlParam Key="MaxWithdrawalAmount" Value="2500" />
+      <XmlParam Key="IsShowCreditAccount" Value="True" />
+    </XmlParameters>
+    <Condition source="DataDictionary" section="System" key="CountryName" value="NZL" operator="EQU" />
+  </XmlSection>
+</XmlConfiguration>

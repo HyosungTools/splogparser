@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<xs:schema xmlns="http://www.nh.com/OutgoingMessage" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.nh.com/OutgoingMessage" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:include schemaLocation="Common.xsd"/>
+
+  <xs:complexType name="Process">
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="Update" type="Update" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="Execute" type="Execute" />
+      </xs:choice>
+      <xs:element minOccurs="0" maxOccurs="1" name="Condition" type="Condition" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="OutgoingMessage">
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Process" type="Process" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="OutgoingMessage" type="OutgoingMessage" />
+
+</xs:schema>

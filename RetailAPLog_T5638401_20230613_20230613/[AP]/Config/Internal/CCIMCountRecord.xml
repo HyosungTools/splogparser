@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BNACount>
+  <LASTCOUNTINFO DIRECTION="LastTransactionWasNotACashDeposit" REFUND="0" REJECT="0" VAULT="0" ESCROW="0" />
+  <ACCUMULATEDCOUNTINFO REFUND="0" REJECT="0" VAULT="0" ESCROW="0" />
+  <SUMMARY IDCOUNT="0" TOTALAMOUNT="0" ESCROW="0" VAULT="0" REFUND="0" REJECT="0">
+  </SUMMARY>
+</BNACount>

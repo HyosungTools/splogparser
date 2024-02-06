@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="MoniViewConfiguration">
+    <XmlParameters>
+      <XmlParam Key="MoniViewPassword" Value="qpori4" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="OPConfiguration">
+    <XmlParameters>
+      <XmlParam Key="MainHostIP" Value="209.149.158.2" />
+      <XmlParam Key="MainHostPort" Value="18401" />
+      <XmlParam Key="BackupHostIP" Value="209.149.158.2" />
+      <XmlParam Key="BackupHostPort" Value="18401" />
+      <XmlParam Key="Host1TLSHostnameOverride" Value="" />
+      <XmlParam Key="Host2TLSHostnameOverride" Value="" />
+      <XmlParam Key="RKTVersion" Value="NHR15" />
+      <XmlParam Key="HostURLEnable" Value="Disabled" />
+      <XmlParam Key="MaxWithdrawalAmount" Value="300" />
+      <XmlParam Key="WelcomeMsg3" Value="LaGrange, GA." />
+      <XmlParam Key="UseCommunicationHeaderField" Value="False" />
+      <XmlParam Key="FastCashList" Value="20|40|60|80|100|200" />
+      <XmlParam Key="ContactInfo2" Value="" />
+      <XmlParam Key="ProcessorMessage1" Value="" />
+      <XmlParam Key="IdleText5" Value="" />
+      <XmlParam Key="DefinedLanguage1" Value="English" />
+      <XmlParam Key="ConfigDownloadAtStart" Value="True" />
+      <XmlParam Key="IdleText4" Value="" />
+      <XmlParam Key="ProcessorMessage3" Value="" />
+      <XmlParam Key="ProcessorMessage2" Value="" />
+      <XmlParam Key="IdleText1" Value="Nautilus Hyosung!" />
+      <XmlParam Key="ProcessorMessage4" Value="" />
+      <XmlParam Key="IdleText3" Value="Visit www.hyosung.com" />
+      <XmlParam Key="IdleText2" Value="Always by your side" />
+      <XmlParam Key="RoutingID" Value="CDHY" />
+      <XmlParam Key="CommunicationID" Value="0" />
+      <XmlParam Key="AutoDayTotalMinute" Value="00" />
+      <XmlParam Key="WelcomeAdv6Type" Value="Full" />
+      <XmlParam Key="UseCRC" Value="True" />
+      <XmlParam Key="WelcomeMsg2" Value="Metro City Bank" />
+      <XmlParam Key="ReceiptHeader2" Value="Metro City Bank" />
+      <XmlParam Key="PersistentConnection" Value="Disabled" />
+      <XmlParam Key="DenominationCSTNoteTypeB" Value="USD 20" />
+      <XmlParam Key="AllowOnlyListedBIN" Value="False" />
+      <XmlParam Key="AutoDayTotalType" Value="TrialDayTotal" />
+      <XmlParam Key="WelcomeAdv3Type" Value="Full" />
+      <XmlParam Key="LowCurrencyCheck" Value="Disabled" />
+      <XmlParam Key="DenominationCSTNoteTypeD" Value="USD 20" />
+      <XmlParam Key="CityName" Value="" />
+      <XmlParam Key="WelcomeAdv5Type" Value="Full" />
+      <XmlParam Key="WelcomeAdv2Type" Value="Full" />
+      <XmlParam Key="CountryCode" Value="" />
+      <XmlParam Key="IsReceiptOptionEnabled" Value="True" />
+      <XmlParam Key="TranAdv4Type" Value="Part" />
+      <XmlParam Key="IsShowNeedMoreTimeScreen" Value="True" />
+      <XmlParam Key="TranAdv5Type" Value="Part" />
+      <XmlParam Key="IsShowCreditAccount" Value="True" />
+      <XmlParam Key="WelcomeAdv1Type" Value="Full" />
+      <XmlParam Key="IsPrintCouponInquiry" Value="True" />
+      <XmlParam Key="WelcomeMsg1" Value="Welcome to" />
+      <XmlParam Key="IsShowSavingsAccount" Value="True" />
+      <XmlParam Key="SurchargeGreaterOrLess" Value="GREATER" />
+      <XmlParam Key="IsDualBalanceEnabled" Value="False" />
+      <XmlParam Key="UseTerminalStatusField" Value="False" />
+      <XmlParam Key="SupportsBillMix" Value="True" />
+      <XmlParam Key="HealthCheckHostSend" Value="True" />
+      <XmlParam Key="WelcomeAdv5" Value="False" />
+      <XmlParam Key="ReceiptAddress2" Value="1510 LaFayette Pkwy" />
+      <XmlParam Key="TCPIPConnectionTime" Value="60" />
+      <XmlParam Key="MarketingMessage4" Value="" />
+      <XmlParam Key="TranAdvInterval" Value="3000" />
+      <XmlParam Key="MarketingMessage3" Value="" />
+      <XmlParam Key="HealthCheckIntervalTime" Value="120" />
+      <XmlParam Key="MarketingMessage2" Value="" />
+      <XmlParam Key="MarketingMessage1" Value="" />
+      <XmlParam Key="IsPrintCouponWithdrawal" Value="True" />
+      <XmlParam Key="WelcomeAdvInterval" Value="3000" />
+      <XmlParam Key="WelcomeAdv4" Value="False" />
+      <XmlParam Key="WelcomeAdv1" Value="True" />
+      <XmlParam Key="ExitMsg2" Value="" />
+      <XmlParam Key="IsShowInquirySurchargeScreen" Value="False" />
+      <XmlParam Key="InquirySurchargeAmount" Value="0" />
+      <XmlParam Key="ExitMsg3" Value="" />
+      <XmlParam Key="TranAdv1" Value="False" />
+      <XmlParam Key="ReceiptAddress3" Value="LaGrange, GA. 30241" />
+      <XmlParam Key="IsStandard1DCCEnabled" Value="False" />
+      <XmlParam Key="SerialNumber" Value="0000000000" />
+      <XmlParam Key="TranAdv2" Value="False" />
+      <XmlParam Key="IdleText_Effect" Value="Scroll" />
+      <XmlParam Key="TranAdv3Type" Value="Part" />
+      <XmlParam Key="DefinedLanguageDefault" Value="English" />
+      <XmlParam Key="ExitMsg1" Value="" />
+      <XmlParam Key="TranAdv3" Value="False" />
+      <XmlParam Key="DenominationCSTNoteTypeA" Value="USD 20" />
+      <XmlParam Key="TranAdv4" Value="False" />
+      <XmlParam Key="CardAcceptorID" Value="" />
+      <XmlParam Key="TranAdv5" Value="False" />
+      <XmlParam Key="MessageFormat" Value="STD3" />
+      <XmlParam Key="TranAdv1Type" Value="Part" />
+      <XmlParam Key="DenominationCSTNoteTypeC" Value="USD 20" />
+      <XmlParam Key="WelcomeAdv6" Value="False" />
+      <XmlParam Key="WelcomeAdv3" Value="False" />
+      <XmlParam Key="TranAdv6" Value="False" />
+      <XmlParam Key="EOTENQOption" Value="GENERAL" />
+      <XmlParam Key="ReceiptHeader1" Value="ATM provided by" />
+      <XmlParam Key="SurchargePercent" Value="100" />
+      <XmlParam Key="DefinedLanguage8" Value="" />
+      <XmlParam Key="IsUseSurchargePercentMode" Value="False" />
+      <XmlParam Key="StoreMessage4" Value="" />
+      <XmlParam Key="WelcomeAdv2" Value="False" />
+      <XmlParam Key="IsEMV" Value="True" />
+      <XmlParam Key="StoreMessage1" Value="" />
+      <XmlParam Key="StoreMessage2" Value="" />
+      <XmlParam Key="StoreMessage3" Value="" />
+      <XmlParam Key="IsStandard1Track1Enabled" Value="False" />
+      <XmlParam Key="ReversalRetryCnt" Value="3" />
+      <XmlParam Key="UseStatusMonitoringField" Value="False" />
+      <XmlParam Key="ReceiptAddress1" Value="Metro City Bank" />
+      <XmlParam Key="DefinedLanguage6" Value="Korean" />
+      <XmlParam Key="TCPIPType" Value="STANDARD" />
+      <XmlParam Key="WelcomeAdv4Type" Value="Full" />
+      <XmlParam Key="RKTEnabled" Value="False" />
+      <XmlParam Key="ReversalAtHostError" Value="False" />
+      <XmlParam Key="DefinedLanguage7" Value="" />
+      <XmlParam Key="CardAcceptorName" Value="" />
+      <XmlParam Key="LoginPassword" Value="" />
+      <XmlParam Key="AutoDayTotalHour" Value="06" />
+      <XmlParam Key="DefinedLanguage4" Value="Chinese" />
+      <XmlParam Key="ReceiptPhoneNumber" Value="" />
+      <XmlParam Key="IsDynamicFlowEnabled" Value="True" />
+      <XmlParam Key="DefinedLanguage5" Value="Japanese" />
+      <XmlParam Key="ReceiptTail" Value="Thank You for your business" />
+      <XmlParam Key="ContactInfo1" Value="" />
+      <XmlParam Key="DefinedLanguage2" Value="Spanish" />
+      <XmlParam Key="IsPreBalanceEnabled" Value="True" />
+      <XmlParam Key="ReasonForReversal" Value="False" />
+      <XmlParam Key="SurchargePaidTo" Value="Metro City Bank" />
+      <XmlParam Key="AutoDayTotalEnable" Value="False" />
+      <XmlParam Key="TranAdv6Type" Value="Part" />
+      <XmlParam Key="UseStandard3TDLDCC" Value="False" />
+      <XmlParam Key="DefinedLanguage3" Value="French" />
+      <XmlParam Key="TranAdv2Type" Value="Part" />
+      <XmlParam Key="WithdrawalSurchargeAmount" Value="300" />
+      <XmlParam Key="IsShowWithdrawalSurchargeScreen" Value="True" />
+      <XmlParam Key="ContactInfo3" Value="" />
+    </XmlParameters>
+  </XmlSection>
+</XmlConfiguration>

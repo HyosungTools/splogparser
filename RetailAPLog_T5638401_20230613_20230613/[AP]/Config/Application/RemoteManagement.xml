@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="Management">
+    <XmlParameters>
+      <XmlParam Key="RMSType" Value="" />
+      <XmlParam Key="LastTranTime" Value="" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="MoniManager">
+    <XmlParameters>
+      <XmlParam Key="Enabled" Value="False" />
+      <XmlParam Key="ListenIP" Value="127.0.0.1" />
+      <XmlParam Key="ListenPort" Value="21012" />
+      <XmlParam Key="JournalDirectory" Value="C:\\MoniManager\\" />
+      <XmlParam Key="MonimanagerAgent" Value="C:\\MoniManager\\ATMAgent.exe" />
+      <XmlParam Key="MonimanagerIni" Value="C:\\MoniManager\\Monimanager.ini" />
+      <XmlParam Key="SecuManagerIni" Value="C:\\MoniManager\\Secu.ini" />
+      <XmlParam Key="DVRUSING" Value="False" />
+      <XmlParam Key="SetupIDList" Value="0|001|002|003|004|005|006|010|011|020|021|078|095|129|130|131|132|133|149|154|156|157|161|200|201|202|203|204|205|206|231|232|233|234|235|236|237|238|239|321|362" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="MoniView">
+    <XmlParameters>
+      <XmlParam Key="Enabled" Value="False" />
+      <XmlParam Key="RMSConnectionType" Value="TCPIP" Option="TCPIP,DIALUP" />
+      <XmlParam Key="RMSSendEnable" Value="Enabled" />
+      <XmlParam Key="RMSPassword" Value="333333" />
+      <XmlParam Key="RMSPhoneNumber1" Value="" Option="0023" />
+      <XmlParam Key="RMSPhoneNumber2" Value="" Option="0023" />
+      <XmlParam Key="RMSRemoteIP" Value="127.0.0.1" />
+      <XmlParam Key="RMSOutPort" Value="9999" />
+      <XmlParam Key="RMSInPort" Value="5555" />
+      <XmlParam Key="RMSRingCount" Value="2" />
+      <XmlParam Key="RMSModemInitString" Value="AT&amp;F&amp;A0X4E0V1S0=0&amp;C1&amp;D2&amp;M0L2+MR=2" />
+      <XmlParam Key="RMSPort" Value="21012" />
+      <XmlParam Key="RMSStatusSendInterval" Value="4" />
+      <XmlParam Key="RMSAgentPath" Value="NDCRMSAgent.exe" />
+      <XmlParam Key="SetupIDList" Value="0001,0002,0003,0004,0005,0006,0008,0010,0011,0012,0013,0015,0017,0019,0020,0021,0033,0034,0035,0037,0039,0040,0042,0045,0046,0047,0048,0051,0053,0054,0068,0069,0073,0091,0096,0098,0100,0132,0133,0156,0157,0200,0231,0232,0233,0234,0235,0236,0237,0238,0239,0315,0316,0317,0318,0319,0320,0321,0362,0365,0366,0367,0368,0369,0370,0371" />
+      <XmlParam Key="SchJnlUpEnable" Value="Enabled" />
+      <XmlParam Key="SchJnlUpAvail" Value="Available" />
+      <XmlParam Key="SchJnlUpType" Value="Daily" />
+      <XmlParam Key="SchJnlCount" Value="300" />
+      <XmlParam Key="SchJnlDay" Value="1" />
+      <XmlParam Key="SchJnlHour" Value="17" />
+      <XmlParam Key="ErrorStartDayTime" Value="" />
+      <XmlParam Key="BrandName" Value="abc" />
+      <XmlParam Key="MoniViewIni" Value="D:\\GaiaConfig\\config\\AGENT.INI" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="MoniCRM">
+    <XmlParameters>
+      <XmlParam Key="Enabled" Value="False" />
+      <XmlParam Key="AgentListenIP" Value="" />
+      <XmlParam Key="AgentListenPort" Value="0" />
+      <XmlParam Key="CRMManagerIP" Value="" />
+      <XmlParam Key="CRMManagerListenPort" Value="0" />
+      <XmlParam Key="MoniCRMAgent" Value="C:\\MoniCrm\\CRMAgentMain.exe" />
+      <XmlParam Key="MoniCRMConfigIni" Value="C:\\MoniCrm\\MoniCrmConfig.ini" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="MoniCRMWeb">
+    <XmlParameters>
+      <XmlParam Key="Enabled" Value="False" />
+      <XmlParam Key="CRMWebRemoteIP" Value="127.0.0.1" />
+      <XmlParam Key="CRMWebRemotePort" Value="9998" />
+      <XmlParam Key="CRMWebProtocol" Value="HTTP" Option="HTTP,HTTPS" />
+      <XmlParam Key="CRMWebContextPath" Value="/MoniCRM/" />
+      <XmlParam Key="MoniCRMWebUrl" Value="http://127.0.0.1:9998/MoniCRM/" />
+      <XmlParam Key="MarketingInfoWebUrl" Value="rest/marketing/info" />
+      <XmlParam Key="MarketingResultWebUrl" Value="rest/marketing/result" />
+      <XmlParam Key="SaveCustomerWebUrl" Value="rest/customer/save" />
+      <XmlParam Key="DefaultHealthCheckInterval" Value="5" Option="5 - 5Min" />
+      <XmlParam Key="MarketingScreenFileName" Value="MarketingScreen.xml" />
+      <XmlParam Key="MarketingFlowFileName" Value="MarketingFlow.xml" />
+      <XmlParam Key="MarketingFlowPointPrefix" Value="PLACEHOLDER-Marketing" />
+      <XmlParam Key="StartMarketingForAfterInsertCard" Value="PLACEHOLDER-Marketing-AfterInsertCard" />
+      <XmlParam Key="EndMarketingForAfterInsertCard" Value="PLACEHOLDER-PostMarketing-AfterInsertCard" />
+      <XmlParam Key="StartMarketingForAfterTransaction" Value="PLACEHOLDER-Marketing-AfterTransaction" />
+      <XmlParam Key="EndMarketingForAfterTransaction" Value="PLACEHOLDER-PostMarketing-AfterTransaction" />
+    </XmlParameters>
+  </XmlSection>
+</XmlConfiguration>

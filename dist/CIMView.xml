@@ -1,0 +1,994 @@
+<?xml version="1.0" standalone="yes"?>
+<CIM>
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>0</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>1</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>2</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>3</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>4</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>5</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>6</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>7</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>8</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>9</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+    <!-- fwDevice -->
+  <Messages>
+    <type>fwDevice</type>
+    <code>0</code>
+    <brief>online</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>1</code>
+    <brief>offline</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>2</code>
+    <brief>pwoff</brief>
+    <description>Powered off or physically not connected</description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>3</code>
+    <brief>nodev</brief>
+    <description>The device is not intended to be there</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>4</code>
+    <brief>hwerror</brief>
+    <description>Inoperable due to a hardware error</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>5</code>
+    <brief>usrerr</brief>
+    <description>User is preventing proper device operation</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>6</code>
+    <brief>busy</brief>
+    <description>Unable to process an execute command at this time</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>7</code>
+    <brief>fraud</brief>
+    <description>Inoperable because of detected fraud attempt</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>8</code>
+    <brief>fraud?</brief>
+    <description>Potential fraud attempt detected</description>
+  </Messages>
+
+    <!-- fwSafeDoor-->
+
+  <Messages>
+	<type>fwSafeDoor</type>
+    <code>1</code>
+    <brief>notsupp</brief>
+    <description>Not supported</description>
+  </Messages>
+  
+  <Messages>
+	<type>fwSafeDoor</type>
+    <code>2</code>
+    <brief>open</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>fwSafeDoor</type>
+    <code>3</code>
+    <brief>closed</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>fwSafeDoor</type>
+    <code>4</code>
+    <brief>unkwn</brief>
+    <description></description>
+  </Messages>
+
+  <!-- fwAcceptor -->
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>0</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>1</code>
+    <brief>ustate</brief>
+    <description>high, full, inoperative or manipulated condition</description>
+  </Messages>
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>2</code>
+    <brief>ustop</brief>
+    <description>No items can be accepted</description>
+  </Messages>
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>3</code>
+    <brief>unkwn</brief>
+    <description>state cannot be determined</description>
+  </Messages>  
+  
+  <!-- fwIntermediateStacker -->
+
+  <Messages>
+    <type>fwIntermediateStacker</type>
+    <code>0</code>
+    <brief>empty</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>fwIntermediateStacker</type>
+    <code>1</code>
+    <brief>notempty</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>fwIntermediateStacker</type>
+    <code>2</code>
+    <brief>notemptycust</brief>
+    <description>The items have been in customer access.</description>
+  </Messages>
+  
+  <Messages>
+	<type>fwIntermediateStacker</type>
+    <code>3</code>
+    <brief>notemptyunkn</brief>
+    <description>It is not known if the items have been in customer access.</description>
+  </Messages>
+  
+  <Messages>
+	<type>fwIntermediateStacker</type>
+    <code>4</code>
+    <brief>unkn</brief>
+    <description>Due to a hardware error or other condition, the state of the intermediate stacker cannot be determined.</description>
+  </Messages>
+  
+  <Messages>
+	<type>fwIntermediateStacker</type>
+    <code>5</code>
+    <brief>nosup</brief>
+    <description>The physical device has no intermediate stacker.</description>
+  </Messages>
+  
+    <!-- fwStackerItems -->
+
+  <Messages>
+	<type>fwStackerItems</type>
+    <code>0</code>
+    <brief>cust</brief>
+    <description>Items have been in customer access</description>
+  </Messages>
+  
+  <Messages>
+	<type>fwStackerItems</type>
+    <code>1</code>
+    <brief>nocust</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>fwStackerItems</type>
+    <code>3</code>
+    <brief>unkwn</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>fwStackerItems</type>
+    <code>4</code>
+    <brief>noitems</brief>
+    <description></description>
+  </Messages>
+  
+  <!-- fwType -->
+  
+  
+   <Messages>
+	<type>fwType</type>
+    <code>1</code>
+    <brief>recycle</brief>
+    <description></description>
+  </Messages> 
+  
+   <Messages>
+	<type>fwType</type>
+    <code>2</code>
+    <brief>cashin</brief>
+    <description></description>
+  </Messages> 
+  
+   <Messages>
+	<type>fwType</type>
+    <code>3</code>
+    <brief>replen</brief>
+    <description></description>
+  </Messages> 
+  
+   <Messages>
+	<type>fwType</type>
+    <code>4</code>
+    <brief>retract</brief>
+    <description></description>
+  </Messages> 
+
+   <Messages>
+	<type>fwType</type>
+    <code>5</code>
+    <brief>reject</brief>
+    <description></description>
+  </Messages> 
+
+   <Messages>
+	<type>fwType</type>
+    <code>6</code>
+    <brief>specific</brief>
+    <description></description>
+  </Messages> 
+  
+  <!-- wStatus -->
+  
+  <Messages>
+    <type>wStatus</type>
+    <code>0</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+    <type>wStatus</type>
+    <code>1</code>
+    <brief>rollback</brief>
+    <description>transaction ended with a rollback</description>
+  </Messages> 
+
+  <Messages>
+    <type>wStatus</type>
+    <code>2</code>
+    <brief>active</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+    <type>wStatus</type>
+    <code>3</code>
+    <brief>retract</brief>
+    <description>transaction ended with a retract</description>
+  </Messages> 
+
+  <Messages>
+    <type>wStatus</type>
+    <code>4</code>
+    <brief>unknown</brief>
+    <description>state is unknown.</description>
+  </Messages> 
+
+  <Messages>
+    <type>wStatus</type>
+    <code>5</code>
+    <brief>reset</brief>
+    <description>transaction ended with a reset</description>
+  </Messages> 
+  
+  <!-- usStatus -->
+
+  <Messages>
+    <type>usStatus</type>
+    <code>0</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>1</code>
+    <brief>full</brief>
+    <description>The cash unit is full</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>2</code>
+    <brief>high</brief>
+    <description>The cash unit is almost full</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>3</code>
+    <brief>low</brief>
+    <description>The cash unit is almost empty</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>4</code>
+    <brief>empty</brief>
+    <description>The cash unit is empty</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>5</code>
+    <brief>inop</brief>
+    <description>The cash unit is inoperative</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>6</code>
+    <brief>missing</brief>
+    <description>The cash unit is missing</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>7</code>
+    <brief>noval</brief>
+    <description>Unavailable</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>8</code>
+    <brief>noref</brief>
+    <description>No Reference</description>
+  </Messages>
+
+  <Messages>
+    <type>usStatus</type>
+    <code>9</code>
+    <brief>inserted</brief>
+    <description>The cash unit has been inserted</description>
+  </Messages>  
+
+  <!-- noteType -->
+
+   <Messages>
+    <type>noteType</type>
+    <code>0</code>
+    <brief>USD0</brief>
+    <description>N0</description>
+  </Messages>   
+
+   <Messages>
+    <type>noteType</type>
+    <code>1</code>
+    <brief>USD1</brief>
+    <description>N1</description>
+  </Messages> 
+  
+   <Messages>
+    <type>noteType</type>
+    <code>2</code>
+    <brief>USD2</brief>
+    <description>N2</description>
+  </Messages> 
+
+   <Messages>
+    <type>noteType</type>
+    <code>5</code>
+    <brief>USD5</brief>
+    <description>N3,N8,N13</description>
+  </Messages> 
+
+   <Messages>
+    <type>noteType</type>
+    <code>10</code>
+    <brief>USD10</brief>
+    <description>N4,N9,N14</description>
+  </Messages> 
+
+   <Messages>
+    <type>noteType</type>
+    <code>20</code>
+    <brief>USD20</brief>
+    <description>N5,N10,N15</description>
+  </Messages> 
+
+   <Messages>
+    <type>noteType</type>
+    <code>50</code>
+    <brief>USD50</brief>
+    <description>N6,N11,N16</description>
+  </Messages> 
+
+   <Messages>
+    <type>noteType</type>
+    <code>100</code>
+    <brief>USD100</brief>
+    <description>N7,N12,N17</description>
+  </Messages> 
+   
+  <!-- position -->
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-1</code>
+    <brief>input refused-cash unit full</brief>
+    <description>Cash unit is full.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-2</code>
+    <brief>input refused-invalid bill</brief>
+    <description>Recognition of the items took place, but one or more of the items are invalid.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-3</code>
+    <brief>input refused-no bills</brief>
+    <description>There are no items in the input area.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-4</code>
+    <brief>input refused-deposit failure</brief>
+    <description>A deposit has failed for a reason not covered by the other reasons and the failure is not a fatal hardware problem.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-5</code>
+    <brief>input refused-comm inp comp fail</brief>
+    <description>Failure of a common input component which is shared by all cash units.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-6</code>
+    <brief>input refused-stacker full</brief>
+    <description>The intermediate stacker is full.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-7</code>
+    <brief>input refused-foreign items detected</brief>
+    <description>Foreign items have been detected in the input position.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-8</code>
+    <brief>input refused-invalid bunch</brief>
+    <description> Recognition of the items did not take place. The bunch of notes inserted is invalid, e.g. it is too large or was inserted incorrectly.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-9</code>
+    <brief>input refused-counterfeit</brief>
+    <description>One or more counterfeit items have been detected and refused.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-10</code>
+    <brief>input refused-limit over</brief>
+    <description>Number of items count exceeded the limitation set with the. WFS_CMD_CIM_SET_CASH_IN_LIMIT command.</description>
+  </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>input refused-11</code>
+    <brief>input refused-limit over amt</brief>
+    <description>Amount exceeded the limitation set with the. WFS_CMD_CIM_SET_CASH_IN_LIMIT command.</description>
+  </Messages>  
+
+   <Messages>
+    <type>position</type>
+    <code>startex</code>
+    <brief>start exchange</brief>
+    <description>The cash units can be emptied, replenished, removed or replaced.</description>
+  </Messages>  
+
+   <Messages>
+    <type>position</type>
+    <code>endex</code>
+    <brief>end exchange</brief>
+    <description>The cash units to be returned to their normal physical state.</description>
+  </Messages>  
+  <!-- error -->
+  
+  <Messages>
+    <type>error</type>
+    <code>-1300</code>
+    <brief>invalid currency</brief>
+    <description>The specified currency is not currently available</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1301</code>
+    <brief>invalid tell</brief>
+    <description>The teller ID is invalid.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1302</code>
+    <brief>cashunit error</brief>
+    <description>A problem occurred with a cash unit. A WFS_EXEE_CIM_CASHUNITERROR event will be sent with the details.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1303</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1304</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1305</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1306</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1307</code>
+    <brief>too many</brief>
+    <description>There were too many items inserted previously. The cash-in stacker is full at the beginning of this command.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1308</code>
+    <brief>unsup pos</brief>
+    <description>The position specified is not supported.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1309</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1310</code>
+    <brief>safe door open</brief>
+    <description>The safe door is open. This device requires the safe door to be closed in order to perform a WFS_CMD_CIM_CASH_IN_START command.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1311</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1312</code>
+    <brief>shutter not open</brief>
+    <description>Shutter failed to open.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1313</code>
+    <brief>shutter open</brief>
+    <description>Shutter was already open.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1314</code>
+    <brief>shutter closed</brief>
+    <description>Shutter was already closed.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1315</code>
+    <brief>invalid cash unit</brief>
+    <description>Invalid cash unit.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1316</code>
+    <brief>no items</brief>
+    <description>There were no items to cash-in.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1317</code>
+    <brief>exchange active</brief>
+    <description>The CIM is in an exchange state.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1318</code>
+    <brief>no exchange</brief>
+    <description>There is no exchange active.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1319</code>
+    <brief>shutter not closed</brief>
+    <description>Shutter failed to close. In the case of explicit shutter control the application should close the shutter first.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1320</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1321</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1322</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1323</code>
+    <brief>items taken</brief>
+    <description>Items were present at the output position at the start of the operation, but were removed before the operation was complete - some or all of the items were not retracted.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1324</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1325</code>
+    <brief>cash inactive</brief>
+    <description>The CIM is already in the cash-in state due to a previous WFS_CMD_CIM_CASH_IN_START command.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1326</code>
+    <brief>no cash in active</brief>
+    <description>There is no cash-in transaction active.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1327</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1328</code>
+    <brief>pos not empty</brief>
+    <description>The output position is not empty so a cash-in is not possible.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1329</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1330</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1331</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1332</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1333</code>
+    <brief>not defined</brief>
+    <description></description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1334</code>
+    <brief>invalid retract pos</brief>
+    <description>The usIndex is not supported.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1335</code>
+    <brief>not retract</brief>
+    <description>The retract area specified in usRetractArea is not supported.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1336</code>
+    <brief>invalid port</brief>
+    <description>An attempt to set a guidance light to a new value was invalid because the guidance light does not exist.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1337</code>
+    <brief>foreign items</brief>
+    <description>Foreign items have been detected inside the input position.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1338</code>
+    <brief>load failed</brief>
+    <description>The load failed because the device is in a state that will not allow the configuration data to be loaded at this time, for example on some devices there may be notes present in the cash units when they should not be.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1339</code>
+    <brief>not empty</brief>
+    <description>The hardware requires that the cash unit is empty before allowing changes.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1340</code>
+    <brief>invalid refsig</brief>
+    <description>At least one of the reference signatures is invalid. The application should prompt the operator to carefully retry the creation of the reference signatures.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1341</code>
+    <brief>invalid trnsig</brief>
+    <description>At least one of the transaction signatures is invalid.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1342</code>
+    <brief>pwr save too short</brief>
+    <description>The power saving mode has not been activated because the device is not able to resume from the power saving mode within the specified usMaxPowerSaveRecoveryTime value.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1343</code>
+    <brief>pwr save media</brief>
+    <description>The power saving mode has not been activated because media is present inside the device.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1344</code>
+    <brief>dev lock fail</brief>
+    <description>The device and/or the cash units specified could not be locked/unlocked. (e.g. the lock action could not be performed because the cash unit specified to be locked had been removed).</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1345</code>
+    <brief>too many items</brief>
+    <description>There were too many items. The required internal position may have been of insufficient size. All items should be returned to the cash unit from which they originated</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1346</code>
+    <brief>pos not empty</brief>
+    <description>A required internal position is not empty so a cash unit count is not possible.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1347</code>
+    <brief>media inactive</brief>
+    <description>An item processing transaction is active</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1348</code>
+    <brief>cmd unsup</brief>
+    <description>The command specified in the dwCommand field is not supported by the Service Provider.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1349</code>
+    <brief>sync unsup</brief>
+    <description>The preparation for the command specified in the dwCommand with the parameter specified in the lpCmdData is not supported by the Service Provider.</description>
+  </Messages> 
+  
+</CIM>

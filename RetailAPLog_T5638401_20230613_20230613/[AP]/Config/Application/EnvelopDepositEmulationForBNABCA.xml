@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="EnvelopDepositEmulationForBNABCA">
+    <XmlParameters>
+      <XmlParam Key="IsTestDepositMode" Value="False" />
+      <XmlParam Key="NoExceptionStateNumber" Value="" />
+      <XmlParam Key="LocalTimeoutStateNumber" Value="" />
+      <XmlParam Key="LocalCancelStateNumber" Value="" />
+      <XmlParam Key="LocalCloseStateEntry2To6" Value="" />
+      <XmlParam Key="UseLocalBCA" Value="False" />
+      <XmlParam Key="UseLocalBNA" Value="False" />
+      <XmlParam Key="BNACloseAction" Value="RETURN" />
+      <XmlParam Key="JumpStateNumber" Value="" />
+      <XmlParam Key="JumpStateNumber_Check" Value="" />
+      <XmlParam Key="JumpStateNumber_Cash" Value="" />
+      <XmlParam Key="OpCodeCharacter_Check" Value="" />
+      <XmlParam Key="OpCodeCharacter_Cash" Value="" />
+      <XmlParam Key="OpCodeCharacter_Deposit" Value="" />
+      <XmlParam Key="EnableMultipleDepositTran" Value="FALSE" Option="" />
+      <XmlParam Key="CheckXMLType" Value="NONE" Option="NHXML(Default)|NCRXML" />
+      <XmlParam Key="AccountSeparateType" Value="SEPARATOR" Option="SEPARATOR|FIXLENGTH" />
+      <XmlParam Key="AccountNumberOffset" Value="" Option="" />
+      <XmlParam Key="AccountNumberLength" Value="" Option="" />
+      <XmlParam Key="ONUSRoutingNo" Value="" Option="" />
+      <XmlParam Key="SeparatorCharacter" Value="" Option="" />
+      <XmlParam Key="SeparatorOffset" Value="" Option="" />
+      <XmlParam Key="AcceptIRD" Value="FALSE" Option="TRUE,FALSE" />
+      <XmlParam Key="OpCodeByte_DepositType" Value="0" />
+      <XmlParam Key="OpCodeCharacter_DDA" Value="" />
+      <XmlParam Key="OpCodeCharacter_Savings" Value="" />
+      <XmlParam Key="OpCodeCharacter_Payment" Value="" />
+      <XmlParam Key="OpCodeCharacter_CashedCheck" Value="" />
+      <XmlParam Key="OpCodeCharacter_Checking" Value="" />
+      <XmlParam Key="OpCodeCharacter_Credit" Value="" />
+      <XmlParam Key="HostHasUniqueDepositAmountEntryStateNo" Value="FALSE" />
+      <XmlParam Key="FatalReportWhenOneOfBNABCA" Value="TRUE" />
+
+      <XmlParam Key="AcceptPreviousState" Value=""/>
+      <XmlParam Key="LocalCloseState" Value="LocalCancel" />
+      <XmlParam Key="EnterNoteScreen" Value="e05" />
+      <XmlParam Key="RemoveNoteScreen" Value="e06" />
+      <XmlParam Key="ConfirmNoteScreen" Value="e07" />
+      <XmlParam Key="PleaseWaitScreen" Value="e12" />
+      <XmlParam Key="RemoveCheckScreen" Value="e14" />
+      <XmlParam Key="NotAvailableScreen" Value="e16" />
+      <XmlParam Key="DepositNoteScreen" Value="e26" />
+      <XmlParam Key="DepositCheckScreen" Value="e27" />
+      <XmlParam Key="EditAmountScreen" Value="e25" />
+      <XmlParam Key="BNAErrorScreen" Value="e08" />
+      <XmlParam Key="BCAErrorScreen" Value="e23" />
+      <XmlParam Key="NoteRetractedScreen" Value="e15" />
+      <XmlParam Key="CheckRetractedScreen" Value="e22" />
+      <XmlParam Key="TakeReceiptScreen" Value="e12" />
+      <XmlParam Key="NoteRetractedReceiptMessage" Value="Your cash has been retained." />
+      <XmlParam Key="CheckRetractedReceiptMessage" Value="Your check(s) have been retained." />
+	  <XmlParam Key="CardRetractedReceiptMessage" Value="Your card have been retained." />
+      <XmlParam Key="SPRErrorReceiptMessage" Value="An unexpected error has occurred." />
+      <XmlParam Key="SPRFinalReceiptMessage" Value="Please contact your bank." />
+
+      <XmlParam Key="GoodNextStateNumber" Value="ConfirmCheckDeposit"/>
+      <XmlParam Key="ReturnChecksStateNumber" Value="ReturnChecks"/>
+      <XmlParam Key="MainMenuStateNumber" Value="Common-MainMenu"/>
+      <XmlParam Key="NothingToDepositStateNumber" Value="Common-TransactionCancelled"/>
+
+      <XmlParam Key="ImageUnavailableFile" Value="NoImage"/>
+      <XmlParam Key="ReplacementMICR" Value="!!!!!!!!!"/>
+
+      <XmlParam Key="MaximumCheckAmount" Value="99999999"/>
+      <XmlParam Key="AcceptMoneyOrders" Value="TRUE" />
+      <XmlParam Key="MustDetectMicrInk" Value="FALSE" />
+      <XmlParam Key="AllowRoutingNumberRejects" Value="TRUE" />
+      <XmlParam Key="SupportMod10Check" Value="FALSE" />
+      <XmlParam Key="AcceptInternalDocuments" Value="FALSE" />
+      <XmlParam Key="AcceptPersonalCheckWithEncodedAmount" Value="TRUE" />
+      <XmlParam Key="IncludeMICRinTransactionRequestMessage" Value="FALSE" />
+
+      <XmlParam Key="RemoveNoteCheckScreen" Value="e40" />
+      <XmlParam Key="ReturnNoteCheckScreen" Value="e41" />
+      <XmlParam Key="MixedConfirmScreen" Value="e42" />
+      <XmlParam Key="DepositNoteCheckScreen" Value="e47" />
+      <XmlParam Key="NoteCheckRetractedScreen" Value="e49" />
+      <XmlParam Key="NoteCheckRetractedReceiptMessage" Value="Your cash and/or check(s) have been retained." />
+
+      <XmlParam Key="CustomEndorsement" Value="%AccountNumber% %TransactionNumber% %Amount% %Date% %Time%" />
+      <XmlParam Key="UpdateBufferB" Value="CashAmount" Option="CashAmount|CheckAmount|None" />
+      <XmlParam Key="UpdateBufferC" Value="CheckAmount" Option="CashAmount|CheckAmount|None" />
+
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="Check21XML">
+    <XmlParameters>
+      <XmlParam Key="FixedLengthTransactionId" Value="" />
+      <XmlParam Key="FixedLengthPAN" Value="" />
+      <XmlParam Key="FixedLengthAccountNumber" Value="" />
+      <XmlParam Key="FixedLengthDepositAmount" Value="" />
+      <XmlParam Key="SuppressCreatingCheck21XMLInFIDClass" Value="False" />
+      <XmlParam Key="SimulateTransactionId" Value="Never" Option="Never|Always|OnlyIfUndefined" />
+      <XmlParam Key="SimulatedTransactionId" Value="" />
+      <XmlParam Key="ItemTypeCashIn" Value="00" />
+      <XmlParam Key="ItemTypeCheckInOnUs" Value="02" />
+      <XmlParam Key="ItemTypeCheckInOffUs" Value="03" />
+      <XmlParam Key="ItemTypeCashedCheck" Value="99" />
+      <XmlParam Key="ItemTypeSurcharge" Value="20" />
+      <XmlParam Key="ItemTypeDepositedChange" Value="21" />
+      <XmlParam Key="AccountDepositTypeMapping" Value="*=*"/>
+    </XmlParameters>
+  </XmlSection>
+</XmlConfiguration>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="OperatorRecord">
+    <XmlParameters>
+      <XmlParam Key="CassetteChangeDateTime" Value="06/13/2023 09:54:27" />
+      <XmlParam Key="ClearDepositoryDate" Value="" />
+      <XmlParam Key="ClearCardDispenserDate" Value="" />
+      <XmlParam Key="ClearCashDate" Value="06/13/2023 09:50:47" />
+      <XmlParam Key="ClearBnaDate" Value="" />
+      <XmlParam Key="ClearBcaDate" Value="" />
+      <XmlParam Key="PeriodBackupDate" Value="" />
+      <XmlParam Key="AutoPeriodBackupDate" Value="" />
+      <XmlParam Key="DenominationRequired" Value="false" />
+      <XmlParam Key="ClearCardDate" Value="" />
+      <XmlParam Key="ClearCoinDate" Value="" />
+      <XmlParam Key="ClearRejectInfoDate" Value="" />
+    </XmlParameters>
+  </XmlSection>
+</XmlConfiguration>

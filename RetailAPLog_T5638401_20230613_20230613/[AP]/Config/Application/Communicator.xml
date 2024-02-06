@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Communicators>
+  <ConnectionList>
+    <!-- <Connection Name="TCPIP" ObjectName="TcpComm" />   Currently, this connection is registered by ProtocolFramework automatically -->
+    <Connection Name="TCPIP2" ObjectName="TcpIpProtocol" />
+  </ConnectionList>
+  <MessageList>
+    <!-- <message Name="NDC" ObjectName="NDCMessage" /> Currently, this is done automatically (hardcoded) -->
+    <!-- <message Name="IFX" ObjectName="IFXMessage" /> Currently, there is no standard IFX (only Chase specific) -->
+  </MessageList>
+  <CommunicatorList>
+    <!-- <Communicator Connection="TCPIP" Message="NDC" /> Currently, this is done automatically (hardcoded) -->
+    <!-- <Communicator Connection="TCPIP" Message="IFX" /> Currently, there is no standard IFX (only Chase specific) -->
+  </CommunicatorList>
+</Communicators>

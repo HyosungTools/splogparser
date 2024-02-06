@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- [BIN Action List]
+ 0 : BLOCK SURCHARGE
+ 1 : WITHDRAWAL SURCHARGE
+ 2 : BALANCE SURCHARGE
+ 3 : ACCEPT CARD					(removed)
+ 4 : DECLINE CARD
+ 5 : AWARD COUPON					(not implemented yet)
+ 6 : PIN CHANGE						(not implemented yet)
+ -->
+<MultipleBINList>
+</MultipleBINList>

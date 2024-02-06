@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="Message">
+    <XmlParameters>
+      <XmlParam Key="KindOfComm" Value="TcpIp" Option="TcpIp|DialUp|X25Comm|Http" />
+      <XmlParam Key="MACFlag" Value="0000000000" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="TcpIp">
+    <XmlParameters>
+      <XmlParam Key="RemoteIP" Value="127.0.0.1" />
+      <XmlParam Key="RemotePort" Value="9999" />
+      <XmlParam Key="SecondRemoteIP" Value="" />
+      <XmlParam Key="SecondRemotePort" Value="" />
+      <XmlParam Key="LocalPort" Value="0" />
+      <XmlParam Key="SSLType" Value="NONE" Option="NONE,SSL3,TLS11,TLS12" />
+      <XmlParam Key="ServerMode" Value="False" />
+      <XmlParam Key="PacketLength" Value="4096" />
+      <XmlParam Key="HeaderSize" Value="2" />
+      <XmlParam Key="LenAdjust" Value="0" />
+      <XmlParam Key="LenEmbed" Value="0" />
+      <XmlParam Key="LenOffset" Value="0" />
+      <XmlParam Key="RcvTimeout" Value="60" />
+      <XmlParam Key="HeaderFormat" Value="FULL_HEADER" Option="NON_HEADER|RECV_HEADER|SEND_HEADER|FULL_HEADER" />
+      <XmlParam Key="ByteOrder" Value="NETWORK" Option="HOST|NETWORK|ASCII" />
+      <XmlParam Key="KeepAlive" Value="TRUE" />
+      <XmlParam Key="KeepAliveMinute" Value="5" />
+      <XmlParam Key="NetworkConnectionName" Value="Local Area Connection" />
+      <XmlParam Key="SSLCertifcationFilePath" Value="C:\Program Files\MoniPlus2s\Config\Internal\client.pem" />
+      <XmlParam Key="SendTimeoutSeconds" Value="60" />
+      <XmlParam Key="WaitTimerForPrimaryConnection" Value="300" Option="300~6000sec"/>
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="DialUp">
+    <XmlParameters>
+      <XmlParam Key="EnablePredial" Value="False" />
+      <XmlParam Key="SendTranComletionMessage" Value="TRUE" />
+      <XmlParam Key="EnqTimer" Value="60" />
+      <XmlParam Key="MessageRetries" Value="2" />
+      <XmlParam Key="AckTimer" Value="55" />
+      <XmlParam Key="LogLevel" Value="1" />
+      <XmlParam Key="BIN" Value="0000000" />
+      <XmlParam Key="TerminalID" Value="000000" />
+      <XmlParam Key="PrimaryNumber" Value="" />
+      <XmlParam Key="SecondaryNumber" Value="" />
+      <XmlParam Key="ModemInitString" Value="AT&amp;Q6+MS=V22B" Option="" />
+      <XmlParam Key="ConnectTimer" Value="45" />
+      <XmlParam Key="ModemResponseTimer" Value="15" />
+      <XmlParam Key="BackoffTimer" Value="5000" />
+      <XmlParam Key="NAOption" Value="Enabled" Option="" />
+      <XmlParam Key="NADelayTimer" Value="1000" />
+      <XmlParam Key="NAResponseTimer" Value="3000" />
+      <XmlParam Key="NAString" Value="23429110161713" />
+      <XmlParam Key="MessageOnCP" Value="true" />
+      <XmlParam Key="CPMessageTimer" Value="30" />
+      <XmlParam Key="ActivityTimer" Value="30" />
+      <XmlParam Key="ErrorRedialTimer" Value="300" />
+      <XmlParam Key="DialOnSendTimer" Value="20" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="X25Comm">
+    <XmlParameters>
+      <XmlParam Key="LocalAddress" Value="" />
+      <XmlParam Key="RemoteAddress" Value="" />
+      <XmlParam Key="PortNumber" Value="" />
+      <XmlParam Key="ClientOrServer" Value="" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="WebService">
+    <XmlParameters>
+      <XmlParam Key="RemoteAddress" Value="" />
+      <XmlParam Key="RemotePort" Value="" />
+    </XmlParameters>
+  </XmlSection>
+  <XmlSection Name="Remoting">
+    <XmlParameters>
+      <XmlParam Key="RemoteAddress" Value="" />
+      <XmlParam Key="RemotePort" Value="" />
+      <XmlParam Key="LocalPort" Value="" />
+    </XmlParameters>
+  </XmlSection>
+</XmlConfiguration>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:simpleType name="operatorType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EQU" />
+      <xs:enumeration value="=" />
+      <xs:enumeration value="NEQ" />
+      <xs:enumeration value="&lt;&gt;" />
+      <xs:enumeration value="LSS" />
+      <xs:enumeration value="&lt;" />
+      <xs:enumeration value="LEQ" />
+      <xs:enumeration value="&lt;=" />
+      <xs:enumeration value="GTR" />
+      <xs:enumeration value="&gt;" />
+      <xs:enumeration value="GEQ" />
+      <xs:enumeration value="&gt;=" />
+      <xs:enumeration value="MOD" />
+      <xs:enumeration value="!MOD" />
+      <xs:enumeration value="Contains" />
+      <xs:enumeration value="!Contains" />
+      <xs:enumeration value="ContainsItem" />
+      <xs:enumeration value="!ContainsItem" />
+      <xs:enumeration value="RegularExpressionMatch" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="conditionsOperatorType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AND" />
+      <xs:enumeration value="OR" />
+      <xs:enumeration value="NOT" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="deviceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CashAcceptor" />
+      <xs:enumeration value="CashDispenser" />
+      <xs:enumeration value="CheckAcceptor" />
+      <xs:enumeration value="CoinAcceptor" />
+      <xs:enumeration value="CoinDispenser" />
+      <xs:enumeration value="CoinDispenser2" />
+      <xs:enumeration value="Depository" />
+      <xs:enumeration value="MixedMediaAcceptor" />
+      <xs:enumeration value="ReceiptPrinter" />
+      <xs:enumeration value="RFIDReader" />
+      <xs:enumeration value="ScannerPrinter" />
+      <xs:enumeration value="CardReader" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="sourceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Static" />
+      <xs:enumeration value="DataDictionary" />
+      <xs:enumeration value="ResourceDictionary" />
+      <xs:enumeration value="CurrentFlowPoint" />
+      <xs:enumeration value="PreviousFlowPoint" />
+      <xs:enumeration value="NextFlowPoint" />
+      <xs:enumeration value="DeviceAvailability" />
+      <xs:enumeration value="Button" />
+      <xs:enumeration value="Data" />
+      <xs:enumeration value="Screen" />
+      <xs:enumeration value="ScreenText" />
+      <xs:enumeration value="Object" />
+      <xs:enumeration value="FormattedString" />
+      <xs:enumeration value="CurrentPosition" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="updateSourceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Delete" />
+      <xs:enumeration value="Static" />
+      <xs:enumeration value="DataDictionary" />
+      <xs:enumeration value="ResourceDictionary" />
+      <xs:enumeration value="CurrentFlowPoint" />
+      <xs:enumeration value="PreviousFlowPoint" />
+      <xs:enumeration value="NextFlowPoint" />
+      <xs:enumeration value="Button" />
+      <xs:enumeration value="Data" />
+      <xs:enumeration value="Screen" />
+      <xs:enumeration value="ScreenText" />
+      <xs:enumeration value="Object" />
+      <xs:enumeration value="FormattedString" />
+      <xs:enumeration value="CurrentPosition" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="destinationType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DataDictionary" />
+      <xs:enumeration value="Registry" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="operationType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Formula" />
+      <xs:enumeration value="ConvertType" />
+      <xs:enumeration value="StringFormat" />
+      <xs:enumeration value="RegularExpressionMatch" />
+      <xs:enumeration value="RegularExpressionReplace" />
+      <xs:enumeration value="Dictionary" />
+      <xs:enumeration value="Substring" />
+      <xs:enumeration value="!Substring" />
+      <xs:enumeration value="Stack" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="startEndType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Position" />
+      <xs:enumeration value="Offset" />
+      <xs:enumeration value="Match" />
+      <xs:enumeration value="MatchBackwards" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:attributeGroup name="sourceAttributes">
+    <xs:attribute name="section" type="xs:string" />
+    <xs:attribute name="key" type="xs:string" />
+    <xs:attribute name="value" type="xs:string" />
+    <xs:attribute name="index" type="xs:string" />
+    <xs:attribute name="delimiter" type="xs:string" />
+    <xs:attribute name="class" type="xs:string" />
+    <xs:attribute name="method" type="xs:string" />
+    <xs:attribute name="property" type="xs:string" />
+    <xs:attribute name="device" type="deviceType" />
+  </xs:attributeGroup>
+
+  <xs:complexType name="StartEnd">
+    <xs:sequence minOccurs="0" maxOccurs="1">
+      <xs:element minOccurs="0" maxOccurs="1" name="Value" type="Source" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Condition" type="Condition" />
+    </xs:sequence>
+    <xs:attribute name="type" type="startEndType" />
+    <xs:attribute name="value" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="Modify">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Start" type="StartEnd" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="End" type="StartEnd" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Condition" type="Condition" />
+    </xs:sequence>
+    <xs:attribute name="operation" type="operationType" />
+    <xs:attribute name="type" type="xs:string" />
+    <xs:attribute name="expression" type="xs:string" />
+    <xs:attribute name="source" type="sourceType" />
+    <xs:attributeGroup ref="sourceAttributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="ModifyAttribute">
+    <xs:sequence minOccurs="0" maxOccurs="1">
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ModifyAttribute" type="ModifyAttribute" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Parameter" type="Source" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Modify" type="Modify" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Condition" type="Condition" />
+    </xs:sequence>
+    <xs:attribute name="attribute" type="xs:string" />
+    <xs:attribute name="source" type="sourceType" use="required" />
+    <xs:attributeGroup ref="sourceAttributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="Source">
+    <xs:sequence minOccurs="0" maxOccurs="1">
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ModifyAttribute" type="ModifyAttribute" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Parameter" type="Source" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Modify" type="Modify" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Condition" type="Condition" />
+    </xs:sequence>
+    <xs:attribute name="source" type="sourceType" use="required" />
+    <xs:attributeGroup ref="sourceAttributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="UpdateSource">
+    <xs:sequence minOccurs="0" maxOccurs="1">
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ModifyAttribute" type="ModifyAttribute" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Parameter" type="Source" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Modify" type="Modify" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Condition" type="Condition" />
+    </xs:sequence>
+    <xs:attribute name="source" type="updateSourceType" use="required" />
+    <xs:attributeGroup ref="sourceAttributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="Condition">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Parameter" type="Source" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Modify" type="Modify" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Condition" type="Condition" />
+      <xs:element minOccurs="0" maxOccurs="2" name="Value" type="Source" />
+    </xs:sequence>
+    <xs:attribute name="source" type="sourceType" />
+    <xs:attributeGroup ref="sourceAttributes"/>
+    <xs:attribute name="conditionsOperator" type="conditionsOperatorType" />
+    <xs:attribute name="operator" type="operatorType" />
+    <xs:attribute name="caseSensitive" type="xs:boolean" />
+  </xs:complexType>
+
+  <xs:complexType name="Update">
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element minOccurs="0" maxOccurs="1" name="Source" type="UpdateSource" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Condition" type="Condition" />
+    </xs:sequence>
+    <xs:attribute name="destination" type="destinationType" use="required" />
+    <xs:attribute name="section" type="xs:string" use="required" />
+    <xs:attribute name="key" type="xs:string" />
+    <xs:attribute name="persistent" type="xs:boolean" />
+  </xs:complexType>
+
+  <xs:complexType name="Execute">
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Parameter" type="Source" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Condition" type="Condition" />
+    </xs:sequence>
+    <xs:attribute name="class" type="xs:string" use="required" />
+    <xs:attribute name="method" type="xs:string" use="required" />
+  </xs:complexType>
+
+</xs:schema>

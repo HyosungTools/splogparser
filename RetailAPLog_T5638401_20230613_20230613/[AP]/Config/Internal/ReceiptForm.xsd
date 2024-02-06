@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<xs:schema xmlns="http://www.nh.com/ReceiptForm" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.nh.com/ReceiptForm" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:include schemaLocation="Common.xsd"/>
+    
+  <xs:complexType name="Line">
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ModifyAttribute" type="ModifyAttribute" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Parameter" type="Source" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Modify" type="Modify" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Condition" type="Condition" />
+    </xs:sequence>
+    <xs:attribute name="source" type="sourceType" use="required" />
+    <xs:attributeGroup ref="sourceAttributes"/>
+    <xs:attribute name="terminate" type="xs:boolean" use="optional" default="true" />
+  </xs:complexType>
+
+  <xs:complexType name="Image">
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element minOccurs="0" maxOccurs="1" name="Condition" type="Condition" />
+    </xs:sequence>
+    <xs:attribute name="source" type="sourceType" use="required" />
+    <xs:attributeGroup ref="sourceAttributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="Receipt">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Receipt" type="Receipt" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Line" type="Line" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Image" type="Image" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Condition" type="Condition" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Update" type="Update" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Execute" type="Execute" />
+    </xs:choice>
+    <xs:attribute name="id" type="xs:string" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="Receipts">
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Receipt" type="Receipt" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="Receipts" type="Receipts" />
+
+</xs:schema>

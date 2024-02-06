@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WelcomeScreen>
+  <MediaList>
+    <Media FilePath="" Location="0,0" Size="0,0" Delay="" />
+    <Media FilePath="" Location="0,0" Size="0,0" Delay="" />
+    <Media FilePath="" Location="0,0" Size="0,0" Delay="" />
+    <Media FilePath="" Location="0,0" Size="0,0" Delay="" />
+    <Media FilePath="" Location="0,0" Size="0,0" Delay="" />
+  </MediaList>
+  <ScreenViewer FilePath="" />
+</WelcomeScreen>

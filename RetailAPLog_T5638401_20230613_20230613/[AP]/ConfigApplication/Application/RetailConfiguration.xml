@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="Configuration">
+    <XmlParameters>
+      <XmlParam Key="SurchargeAmount" Value="" />
+      <XmlParam Key="IsUseMAC" Value="False"/>
+      <XmlParam Key="ReceiptType" Value="STANDARD" Option="STANDARD|VIETNAM" />
+      <XmlParam Key="AccountTypeList" Value="DEMANDDEPOSIT|CREDITCARD|SAVINGS|CHECKING" />      
+      <XmlParam Key="IsUseSelectBillMix" Value="False" />
+      <XmlParam Key="MaxBillsRetail" Value="50" />
+      <XmlParam Key="WelcomeAdvPath" Value="D:\ADVERTISEMENT\WelcomeScreen" />
+      <XmlParam Key="WelcomeAdvFileFormat" Value="Welcome_Adv" />
+      <XmlParam Key="TranAdvPath" Value="D:\ADVERTISEMENT\TransactionScreen" />
+      <XmlParam Key="TranAdvFileFormat" Value="Transaction_Adv" />
+      <XmlParam Key="BrandNameDatFilePath" Value="D:\ADVERTISEMENT\ADInfo.dat" />
+      <XmlParam Key="ErrorIgnoringDevices" Value="CDM|BNA|SPR" />
+      <XmlParam Key="ErrorIgnoringDevices" Value="BNA|SPR" >
+        <Condition source="DataDictionary" section="System" key="CountryName" value="CAN" operator="EQU" />
+      </XmlParam>
+    </XmlParameters>
+  </XmlSection>
+</XmlConfiguration>

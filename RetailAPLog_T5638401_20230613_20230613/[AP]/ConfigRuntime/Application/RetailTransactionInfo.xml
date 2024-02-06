@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XmlConfiguration xmlns="http://www.nh.com/Config">
+  <XmlSection Name="RetailTransactionInfo">
+    <XmlParameters>
+      <XmlParam Key="MCN" Value="29" />
+      <XmlParam Key="LastWithdrawalDate" Value="" />
+      <XmlParam Key="LastWithdrawalTime" Value="" />
+      <XmlParam Key="LastRequestedAmount" Value="0" />
+      <XmlParam Key="ReversalRun" Value="False" />
+      <XmlParam Key="ReversalRunResult" Value="True" />
+    </XmlParameters>
+  </XmlSection>
+</XmlConfiguration>

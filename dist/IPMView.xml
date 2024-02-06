@@ -1,0 +1,903 @@
+<?xml version="1.0" standalone="yes"?>
+<IPM>
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>0</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>1</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>2</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>3</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>4</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>5</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>6</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>7</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>8</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>9</number>
+	<type></type>
+	<name></name>
+	<maxitems></maxitems>
+	<maxretracts></maxretracts>
+	<comment></comment>
+  </Summary>
+
+    <!-- fwDevice -->
+  <Messages>
+    <type>fwDevice</type>
+    <code>0</code>
+    <brief>online</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>1</code>
+    <brief>offline</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>2</code>
+    <brief>pwoff</brief>
+    <description>Powered off or physically not connected</description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>3</code>
+    <brief>nodev</brief>
+    <description>The device is not intended to be there</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>4</code>
+    <brief>hwerror</brief>
+    <description>Inoperable due to a hardware error</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>5</code>
+    <brief>usrerror</brief>
+    <description>User is preventing proper device operation</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>6</code>
+    <brief>busy</brief>
+    <description>Unable to process an execute command at this time</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>7</code>
+    <brief>fraud</brief>
+    <description>Inoperable because of detected fraud attempt</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>8</code>
+    <brief>fraud?</brief>
+    <description>Potential fraud attempt detected</description>
+  </Messages>
+
+  <!-- fwAcceptor -->
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>0</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>1</code>
+    <brief>binstate</brief>
+    <description>high, full, inoperative or manipulated condition</description>
+  </Messages>
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>2</code>
+    <brief>binstop</brief>
+    <description>No items can be accepted</description>
+  </Messages>
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>3</code>
+    <brief>unkwn</brief>
+    <description>state cannot be determined</description>
+  </Messages>  
+  
+  <!-- wMedia -->
+
+  <Messages>
+    <type>wMedia</type>
+    <code>0</code>
+    <brief>present</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wMedia</type>
+    <code>1</code>
+    <brief>not present</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wMedia</type>
+    <code>2</code>
+    <brief>jammed</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wMedia</type>
+    <code>3</code>
+    <brief>not supp</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wMedia</type>
+    <code>4</code>
+    <brief>unkwn</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wMedia</type>
+    <code>5</code>
+    <brief>position</brief>
+    <description>media detected at a position</description>
+  </Messages>
+  
+    <!-- wStacker -->
+
+  <Messages>
+	<type>wStacker</type>
+    <code>0</code>
+    <brief>empty</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wStacker</type>
+    <code>1</code>
+    <brief>not empty</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wStacker</type>
+    <code>2</code>
+    <brief>full</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wStacker</type>
+    <code>3</code>
+    <brief>inop</brief>
+    <description></description>
+  </Messages>
+ 
+  <Messages>
+	<type>wStacker</type>
+    <code>4</code>
+    <brief>unkwn</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>wStacker</type>
+    <code>5</code>
+    <brief>not supp</brief>
+    <description></description>
+  </Messages>
+   
+  <!-- usStatus --> 
+   
+  <Messages>
+	<type>usStatus</type>
+    <code>1</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>usStatus</type>
+    <code>2</code>
+    <brief>full</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>usStatus</type>
+    <code>3</code>
+    <brief>high</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>usStatus</type>
+    <code>4</code>
+    <brief>inop</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>usStatus</type>
+    <code>5</code>
+    <brief>missing</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>usStatus</type>
+    <code>6</code>
+    <brief>unkn</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>usStatus</type>
+    <code>7</code>
+    <brief>empty</brief>
+    <description></description>
+  </Messages>
+
+<!-- Values of WFSIPMMBERROR.wFailure -->
+<!-- XFS codes have 10 added in front by parser -->
+
+  <Messages>
+	<type>wFailure</type>
+    <code>101</code>
+    <brief>bin jammed</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>wFailure</type>
+    <code>102</code>
+    <brief>bin error</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wFailure</type>
+    <code>103</code>
+    <brief>bin full</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wFailure</type>
+    <code>104</code>
+    <brief>bin not conf</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wFailure</type>
+    <code>105</code>
+    <brief>bin invalid</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wFailure</type>
+    <code>106</code>
+    <brief>bin config</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>wFailure</type>
+    <code>107</code>
+    <brief>feed problem</brief>
+    <description></description>
+  </Messages>
+  
+  <!-- Values of WFSIPMMEDIAREFUSED.wReason -->
+  
+  <Messages>
+	<type>wReason</type>
+    <code>201</code>
+    <brief>foreign items</brief>
+    <description>Foreign items were detected in the input position.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wReason</type>
+    <code>202</code>
+    <brief>stacker full</brief>
+    <description>The stacker is full or the maximum number of items that the application wants to be allowed on the stacker has been reached.</description>
+  </Messages> 
+  
+  <Messages>
+	<type>wReason</type>
+    <code>203</code>
+    <brief>codeline invalid</brief>
+    <description>The code line data was found but was invalid.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wReason</type>
+    <code>204</code>
+    <brief>invalid media</brief>
+    <description>The media item is not a check, and in the case of Mixed Media processing not a cash item either.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wReason</type>
+    <code>205</code>
+    <brief>tool long</brief>
+    <description>The media item (or bunch of items) long edge was too long.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wReason</type>
+    <code>206</code>
+    <brief>too short</brief>
+    <description>The media item (or bunch of items) long edge was too short.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wReason</type>
+    <code>207</code>
+    <brief>too wide</brief>
+    <description>The media item (or bunch of items) short edge was too wide.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wReason</type>
+    <code>208</code>
+    <brief>too narrow</brief>
+    <description>The media item (or bunch of items) short edge was too narrow.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wReason</type>
+    <code>209</code>
+    <brief>too thick</brief>
+    <description>The media item was too thick.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wReason</type>
+    <code>2010</code>
+    <brief>invalid orient.</brief>
+    <description>The media item was inserted in an invalid orientation.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wReason</type>
+    <code>2011</code>
+    <brief>double detect</brief>
+    <description>The media items could not be separated.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wReason</type>
+    <code>2012</code>
+    <brief>refuse pos full</brief>
+    <description>There are too many items in the refuse area. The refused items must be returned to the customer before any additional media items can be accepted.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wReason</type>
+    <code>2013</code>
+    <brief>return blocked</brief>
+    <description>Processing of the items did not take place as the bunch of items is blocking the return of other items.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wReason</type>
+    <code>2014</code>
+    <brief>invalid bunch</brief>
+    <description>Processing of the items did not take place as the bunch of items presented is invalid, e.g. it is too large or was presented incorrectly.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wReason</type>
+    <code>2015</code>
+    <brief>other item</brief>
+    <description>The item was refused for some reason not covered by the other reasons.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wReason</type>
+    <code>2016</code>
+    <brief>other bunch</brief>
+    <description>The bunch was refused for some reason not covered by the other reasons.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wReason</type>
+    <code>2017</code>
+    <brief>jamming</brief>
+    <description>The media item is causing a jam.</description>
+  </Messages>   
+
+  <Messages>
+	<type>wReason</type>
+    <code>2018</code>
+    <brief>metal</brief>
+    <description>Metal (e.g. staple, paperclip, etc) was detected in the input position.</description>
+  </Messages> 
+  
+  <!-- Values of WFSIPMMEDIAREJECTED.wReason --> 
+  
+  <Messages>
+	<type>wReason</type>
+    <code>301</code>
+    <brief>long</brief>
+    <description>The rejected media was too long.</description>
+  </Messages>   
+
+  <Messages>
+	<type>wReason</type>
+    <code>302</code>
+    <brief>thick</brief>
+    <description>The rejected media was too thick.</description>
+  </Messages> 
+  
+  <Messages>
+	<type>wReason</type>
+    <code>303</code>
+    <brief>double</brief>
+    <description>More than one media item was detected</description>
+  </Messages> 
+  
+  <Messages>
+	<type>wReason</type>
+    <code>304</code>
+    <brief>transport</brief>
+    <description>The media could not be moved inside the device.</description>
+  </Messages> 
+  
+  <Messages>
+	<type>wReason</type>
+    <code>305</code>
+    <brief>shutter</brief>
+    <description>The media was rejected due to the shutter failing to close.</description>
+  </Messages> 
+  
+  <Messages>
+	<type>wReason</type>
+    <code>306</code>
+    <brief>removed</brief>
+    <description>The media was removed (no WFS_SRVE_IPM_MEDIATAKEN event is expected).</description>
+  </Messages> 
+  
+  <Messages>
+	<type>wReason</type>
+    <code>307</code>
+    <brief>metal</brief>
+    <description>Metal (e.g. staple, paperclip, etc) was detected in the input position.</description>
+  </Messages> 
+  
+  <Messages>
+	<type>wReason</type>
+    <code>308</code>
+    <brief>foreign items</brief>
+    <description>The media was rejected because foreign items were detected in the input position.</description>
+  </Messages> 
+  
+  <Messages>
+	<type>wReason</type>
+    <code>309</code>
+    <brief>other</brief>
+    <description>The media was rejected due to a reason other than those listed above.</description>
+  </Messages> 
+  
+  <!-- Values of WFSIPMMEDIABIN.fwType -->
+  
+  <Messages>
+	<type>fwType</type>
+    <code>0x0001</code>
+    <brief>media in</brief>
+    <description>Media bin. This type of bin can be specified as a destination for media items.</description>
+  </Messages> 
+
+  <Messages>
+	<type>fwType</type>
+    <code>0x0002</code>
+    <brief>retract</brief>
+    <description>Retract bin. This type of bin can be specified as a destination for the WFS_CMD_IPM_RETRACT_MEDIA command.</description>
+  </Messages> 
+
+  <!-- Values of WFSIPMMEDIABIN.wMediaType -->
+  
+  <Messages>
+	<type>wMediaType</type>
+    <code>0x0001</code>
+    <brief>ipm</brief>
+    <description>The media bin takes media items via the IPM device class only.</description>
+  </Messages> 
+
+  <Messages>
+	<type>wMediaType</type>
+    <code>0x0002</code>
+    <brief>compound</brief>
+    <description>The media bin takes media from the IPM device class and from another device class (e.g. CIM).</description>
+  </Messages> 
+  
+  <!-- Values of WFSIPMTRANSSTATUS.wMediaInTransaction -->
+ 
+  <Messages>
+	<type>wMediaInTransaction</type>
+    <code>0</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+	<type>wMediaInTransaction</type>
+    <code>1</code>
+    <brief>active</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+	<type>wMediaInTransaction</type>
+    <code>2</code>
+    <brief>rollback</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+	<type>wMediaInTransaction</type>
+    <code>3</code>
+    <brief>rollback after dep</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+	<type>wMediaInTransaction</type>
+    <code>4</code>
+    <brief>retract</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+	<type>wMediaInTransaction</type>
+    <code>5</code>
+    <brief>failure</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+	<type>wMediaInTransaction</type>
+    <code>6</code>
+    <brief>unkn</brief>
+    <description></description>
+  </Messages> 
+ 
+  <Messages>
+	<type>wMediaInTransaction</type>
+    <code>7</code>
+    <brief>reset</brief>
+    <description></description>
+  </Messages> 
+
+  <!-- error -->
+  
+  <Messages>
+    <type>error</type>
+    <code>-1601</code>
+    <brief>no media</brief>
+    <description>No media is present in the device.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1602</code>
+    <brief>bin full</brief>
+    <description>The media bin is already full and no media can be placed in the specified bin.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1603</code>
+    <brief>stacker full</brief>
+    <description>The internal stacker is already full or has already reached the limit specified as an input parameter. No media items can be accepted.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1604</code>
+    <brief>shutter fail</brief>
+    <description>Open or close of the shutter failed due to manipulation or hardware error</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1605</code>
+    <brief>media jam</brief>
+    <description>The media is jammed.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1606</code>
+    <brief>file io error</brief>
+    <description>Directory does not exist or file IO error while storing the image to the hard disk.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1607</code>
+    <brief>ink out</brief>
+    <description>No stamping possible, stamping ink supply empty.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1608</code>
+    <brief>toner out</brief>
+    <description>Toner or ink supply is empty or printing contrast with ribbon is not sufficient.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1609</code>
+    <brief>scanner inop</brief>
+    <description>Only images were requested by the application and these cannot be obtained because the image scanner is inoperative</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1610</code>
+    <brief>micr inop</brief>
+    <description>Only MICR data was requested by the application and it cannot be obtained because the MICR reader is inoperative.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1611</code>
+    <brief>sequence invalid</brief>
+    <description>Programming error: invalid command sequence, e.g. this command was executed when there was no active transaction.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1612</code>
+    <brief>invalid port</brief>
+    <description>An attempt to set a guidance light to a new value was invalid because the guidance light does not exist.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1613</code>
+    <brief>foreign items</brief>
+    <description>Foreign items have been detected in the input position.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1614</code>
+    <brief>invalid media id</brief>
+    <description>The requested media ID does not exist.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1615</code>
+    <brief>media bin error</brief>
+    <description>A problem occurred with a media bin. A WFS_EXEE_IPM_MEDIABINERROR event will be sent with the details.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1616</code>
+    <brief>pos not emprty</brief>
+    <description>One of the input/output/refused positions is not empty and items cannot be inserted until the media items in the position are removed.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1617</code>
+    <brief>invalid bin</brief>
+    <description>The specified bin cannot take media, either it is a retract only bin or it is missing.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1618</code>
+    <brief>no bin</brief>
+    <description>The specified bin does not exist</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1619</code>
+    <brief>refused items</brief>
+    <description>Programming error: refused items that must be returned via the WFS_CMD_IPM_PRESENT_MEDIA command have not been presented (see bPresentRequired in the WFS_EXEE_IPM_MEDIAREFUSED event parameters).</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1620</code>
+    <brief>all bins full</brief>
+    <description>All media bins are unusable due to being full, missing or inoperative, so no further items can be accepted.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1621</code>
+    <brief>feed not empty</brief>
+    <description>The media feeder is not empty. This only applies when the WFS_CMD_IPM_GET_NEXT_ITEM command should be used to retrieve the next media item.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1622</code>
+    <brief>media reject</brief>
+    <description>The media was rejected before it was fully inserted within the device. The WFS_EXEE_IPM_MEDIAREJECTED event is posted with the details. The device is still operational.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1623</code>
+    <brief>feeder inop</brief>
+    <description>The media feeder is inoperative.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1624</code>
+    <brief>media present</brief>
+    <description>Media from a previous transaction is present in the device when an attempt to start a new media-in transaction was made. The media must be cleared before a new transaction can be started.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1625</code>
+    <brief>pwr save too short</brief>
+    <description>The power saving mode has not been activated because the device is not able to resume from the power saving mode within the specified usMaxPowerSaveRecoveryTime value.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1626</code>
+    <brief>pwr save media present</brief>
+    <description>The power saving mode has not been activated because media is present inside the device</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1627</code>
+    <brief>cashin active</brief>
+    <description>A cash-in transaction is active on the CIM interface.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1628</code>
+    <brief>mediain active</brief>
+    <description>An item processing transaction is active.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1629</code>
+    <brief>cmd not sup</brief>
+    <description>The command specified in the dwCommand field is not supported by the Service Provider.</description>
+  </Messages> 
+  
+  <Messages>
+    <type>error</type>
+    <code>-1630</code>
+    <brief>sync not sup</brief>
+    <description>The preparation for the command specified in the dwCommand with the parameter specified in the lpCmdData is not supported by the Service Provider.</description>
+  </Messages> 
+    
+</IPM>

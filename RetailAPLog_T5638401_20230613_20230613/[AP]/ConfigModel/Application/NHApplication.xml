@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XmlConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.nh.com/Config">
+  <XmlSection Name="System">
+    <XmlParameters>
+      <XmlParam Key="CountryName" Value="USA" />
+      <XmlParam Key="ModelName" Value="5100T" />
+      <XmlParam Key="ModelVariation" Value="Touch" />
+    </XmlParameters>
+  </XmlSection>
+</XmlConfiguration>

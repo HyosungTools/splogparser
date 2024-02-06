@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MStatusMapInfo>
+  <Device Name="RPTR">
+    <DvcInfo key="Media_Jam" mstatus="01"/>
+    <DvcInfo key="Paper_Out" mstatus="05"/>
+    <DvcInfo key="Device_Offline" mstatus="08"/>
+    <DvcInfo key="NoError" mstatus="00"/>
+    <DvcInfo key="NotDefinedError" mstatus="08"/>
+  </Device>
+  <Device Name="IDC">
+    <DvcInfo key="Media_Jam" mstatus="11"/>
+    <DvcInfo key="Device_Offline" mstatus="20"/>
+    <DvcInfo key="Shutter_Fail" mstatus="08" />
+  </Device>
+  <Device Name="CDU">
+    <DvcInfo key="Device_Online_Sol" mstatus="11"/>
+    <DvcInfo key="Device_Online_UnSol" mstatus="00"/>
+    <DvcInfo key="Device_Offline" mstatus="09"/>
+    <DvcInfo key="Device_HWError" mstatus="07"/>
+    <DvcInfo key="Device_NoDevice" mstatus="20"/>
+    <DvcInfo key="RejCst_Missing" mstatus="07"/>
+    <DvcInfo key="RejCst_Full" mstatus="08"/>
+    <DvcInfo key="Stacker_NotEmpty" mstatus="30"/>
+  </Device>
+</MStatusMapInfo>
