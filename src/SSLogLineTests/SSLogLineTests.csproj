@@ -58,20 +58,39 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\APSamplesTests\APSamples.csproj">
+      <Project>{98624250-55f4-407e-9a99-242690d17f0f}</Project>
+      <Name>APSamples</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Contract\Contract.csproj">
       <Project>{9EF4286E-DC11-479C-84A0-EB43A70E1BDE}</Project>
       <Name>Contract</Name>
     </ProjectReference>
     <ProjectReference Include="..\LogFileHandler\LogFileHandler.csproj">
-      <Project>{9AF8B5CF-72DC-4A01-B1BD-976B811D7AE4}</Project>
+      <Project>{9af8b5cf-72dc-4a01-b1bd-976b811d7ae4}</Project>
       <Name>LogFileHandler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LogLineHandler\LogLineHandler.csproj">
+      <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>
+      <Name>LogLineHandler</Name>
+    </ProjectReference>
+<<<<<<< HEAD
+=======
+    <ProjectReference Include="..\Samples\SampleTests.csproj">
+      <Project>{915d5fb6-69c8-4bab-984b-090801a300ca}</Project>
+      <Name>SampleTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SPLogLine\SPLogLine.csproj">
+      <Project>{f0e36fc7-76a9-4bcd-9364-f8d5327729d6}</Project>
+      <Name>SPLogLine</Name>
+    </ProjectReference>
+>>>>>>> a18f390 (rebased with main)
     <ProjectReference Include="..\SSLine\SSLogLine.csproj">
-      <Project>{4E7796F3-414A-4FAE-B3C1-4386165E35C2}</Project>
+      <Project>{4e7796f3-414a-4fae-b3c1-4386165e35c2}</Project>
       <Name>SSLogLine</Name>
     </ProjectReference>
     <ProjectReference Include="..\SSSamples\SSSamples.csproj">
-      <Project>{2722A073-C4A5-4C1C-9AEE-9F42FB28F85F}</Project>
+      <Project>{2722a073-c4a5-4c1c-9aee-9f42fb28f85f}</Project>
       <Name>SSSamples</Name>
     </ProjectReference>
   </ItemGroup>

@@ -150,7 +150,6 @@ namespace AEView
          return sb.ToString();
       }
 
-
       protected void AddExtensionStartedEvent(LogLineHandler.ExtensionStarted logLine)
       {
          try

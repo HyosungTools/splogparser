@@ -19,7 +19,6 @@ namespace LogFileHandler
       }
 
 
-
       /// <summary>
       /// EOF test
       /// </summary>

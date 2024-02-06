@@ -64,9 +64,11 @@
       <Name>SSLogLine</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.pdb" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\SSView.xsd" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\SSView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
   </PropertyGroup>

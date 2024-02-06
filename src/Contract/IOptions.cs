@@ -2,7 +2,7 @@
 {
    public enum ParseType
    {
-      AP, AT, AE, AW, AV, SP, RT, SS
+      AP, AT, AE, AW, AV, SP, RT, SS, BE
    }
 
    public interface IOptions
@@ -15,6 +15,7 @@
       bool IsSP { get; }
       bool IsRT { get; }
       bool IsSS { get; }
+      bool IsBE { get; }
 
       bool RunView(ParseType parseType, string viewName);
 
@@ -26,6 +27,8 @@
       string SPViews { get; set; }
       string RTViews { get; set; }
       string SSViews { get; set; }
+      string BEViews { get; set; }
+
       string InputFile { get; set; }
 
       string Suffix(); 

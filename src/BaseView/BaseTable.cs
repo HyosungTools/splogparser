@@ -1,6 +1,5 @@
 ﻿using Contract;
 using Microsoft.Office.Interop.Excel;
-using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -180,7 +179,7 @@ namespace Impl
       {
          try
          {
-            // if the working files exist, just load the ViewName Xsd and Xml files
+            // use the working files for the WRITE EXCEL pass
             if (ctx.ioProvider.Exists(ctx.WorkFolder + "\\" + viewName + ".xsd"))
             {
                // Load the View xsd and xml
@@ -189,6 +188,7 @@ namespace Impl
             }
             else
             {
+               // if no working files, use the distribution
                // Load the BaseView and ViewName Xsd and Xml files
                dTableSet.ReadXmlSchema(ctx.ioProvider.GetCurrentDirectory() + "\\BaseView.xsd");
                dTableSet.ReadXml(ctx.ioProvider.GetCurrentDirectory() + "\\BaseView.xml");

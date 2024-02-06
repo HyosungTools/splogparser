@@ -1,0 +1,99 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="ATVIEW" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="ATVIEW" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="AgentConfigurationEvents">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="Payload" type="xs:string" minOccurs="0" />
+              <xs:element name="serverurl" type="xs:string" minOccurs="0" />
+              <xs:element name="reconnectinterval" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+		</xs:element>
+        <xs:element name="AgentHostEvents">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="Payload" type="xs:string" minOccurs="0" />
+              <xs:element name="state" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+		</xs:element>
+        <xs:element name="SignalRConnectionEvents">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="Payload" type="xs:string" minOccurs="0" />
+              <xs:element name="state" type="xs:string" minOccurs="0" />
+              <xs:element name="url" type="xs:string" minOccurs="0" />
+              <xs:element name="guid" type="xs:string" minOccurs="0" />
+              <xs:element name="exception" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		<xs:element name="ConnectionManagerActions">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="Payload" type="xs:string" minOccurs="0" />
+              <xs:element name="state" type="xs:string" minOccurs="0" />
+              <xs:element name="deviceid" type="xs:string" minOccurs="0" />
+              <xs:element name="macaddress" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+		</xs:element>
+		<xs:element name="ServerCommunication">
+		  <xs:complexType>
+		    <xs:sequence>
+             <xs:element name="file" type="xs:string" minOccurs="0" />
+             <xs:element name="time" type="xs:string" minOccurs="0" />
+             <xs:element name="Payload" type="xs:string" minOccurs="0" />
+             <xs:element name="Netop" type="xs:string" minOccurs="0" />
+             <xs:element name="Netware" type="xs:string" minOccurs="0" />
+             <xs:element name="AgentConfiguration" type="xs:string" minOccurs="0" />
+             <xs:element name="ConnectionManager" type="xs:string" minOccurs="0" />
+             <xs:element name="ServerHttp" type="xs:string" minOccurs="0" />
+             <xs:element name="ServerSignalR" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+		</xs:element>
+		<xs:element name="ServerHttpRequests">
+		  <xs:complexType>
+		    <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="Payload" type="xs:string" minOccurs="0" />
+              <xs:element name="Operation" type="xs:string" minOccurs="0" />
+              <xs:element name="ObjectType" type="xs:string" minOccurs="0" />
+              <xs:element name="ObjectHandler" type="xs:string" minOccurs="0" />
+              <xs:element name="RequestMethod" type="xs:string" minOccurs="0" />
+              <xs:element name="RequestUrl" type="xs:string" minOccurs="0" />
+              <xs:element name="RequestResult" type="xs:string" minOccurs="0" />
+              <xs:element name="RequestTime" type="xs:string" minOccurs="0" />
+              <xs:element name="ClientSession" type="xs:string" minOccurs="0" />
+              <xs:element name="Terminal" type="xs:string" minOccurs="0" />
+              <xs:element name="TellerName" type="xs:string" minOccurs="0" />
+              <xs:element name="TellerId" type="xs:string" minOccurs="0" />
+              <xs:element name="TellerUri" type="xs:string" minOccurs="0" />
+              <xs:element name="TaskName" type="xs:string" minOccurs="0" />
+              <xs:element name="EventName" type="xs:string" minOccurs="0" />
+              <xs:element name="FlowPoint" type="xs:string" minOccurs="0" />
+              <xs:element name="CustomerId" type="xs:string" minOccurs="0" />
+              <xs:element name="RequestName" type="xs:string" minOccurs="0" />
+              <xs:element name="RequestContext" type="xs:string" minOccurs="0" />
+              <xs:element name="ApplicationState" type="xs:string" minOccurs="0" />
+              <xs:element name="TransactionType" type="xs:string" minOccurs="0" />
+			</xs:sequence>
+		  </xs:complexType>
+		</xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

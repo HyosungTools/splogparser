@@ -41,7 +41,6 @@ namespace LogLineHandler
       }
 
 
-
       // object tracking Ids
       public long Asset_Id { get; set; } = 0;
       public long AssetState_Id { get; set; } = 0;
@@ -124,8 +123,6 @@ namespace LogLineHandler
       public string StatusReceivedTime { get; set; } = string.Empty;
 
 
-
-
       // operating mode
       public string OperatingMode_ModeType { get; set; } = string.Empty;
       public string OperatingMode_ModeName { get; set; } = string.Empty;
@@ -147,16 +144,13 @@ namespace LogLineHandler
       public string TellerInfo_Summary { get; set; } = string.Empty;
 
 
-
       // teller session request
       public string TellerSessionRequest_TimestampUTC { get; set; } = string.Empty;
-
 
 
       // remote control session
       public string RemoteControlSession_StartTimeUTC { get; set; } = string.Empty;
       public string RemoteControlSession_TellerSessionRequestTimestampUTC { get; set; } = string.Empty;
-
 
 
       // remote control task
@@ -437,7 +431,6 @@ namespace LogLineHandler
                   // TODO
                }
 
-
                // INTERNAL AGENT COMMS
 
                //Firing agent message event: OperatingMode - GET - 
@@ -516,7 +509,6 @@ namespace LogLineHandler
                            SessionRequest_Id = dynamicTellerSessionRequest.Id;
                            AssetName = dynamicTellerSessionRequest.AssetName;
                            FlowTimestampUTC = dynamicTellerSessionRequest.Timestamp.ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec); ;
-
                            CustomerId = dynamicTellerSessionRequest.CustomerId;
                            FlowPoint = dynamicTellerSessionRequest.FlowPoint;
                            RequestContext = dynamicTellerSessionRequest.RequestContext;
@@ -1034,7 +1026,6 @@ namespace LogLineHandler
                            }
 
                            FlowTimestampUTC = dynamicApplicationState.Timestamp.ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec);
-
                            FlowPoint = dynamicApplicationState.FlowPoint;
                            State = dynamicApplicationState.State != null ? dynamicApplicationState.State : string.Empty;
                            OperatingMode = dynamicApplicationState.OperatingMode;

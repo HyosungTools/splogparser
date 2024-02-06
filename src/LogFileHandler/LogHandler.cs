@@ -22,6 +22,8 @@ namespace LogFileHandler
          }
       }
 
+      public long LineNumber { get; set; }
+
       // all files
       public string[] FilesFound { get; set; }
 

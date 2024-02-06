@@ -10,6 +10,7 @@
       string LogFile { get; }
       bool EOF();
       string ReadLine();
+      long LineNumber { get; set; }
       ILogLine IdentifyLine(string logLine);
 
       ParseType parseType { get; }

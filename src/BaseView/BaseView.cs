@@ -37,7 +37,6 @@ namespace Impl
       /// <summary>(get) name of View for display/logging purposes.</summary>
       public virtual string Name { get { return viewName; } }
 
-
       /// <summary>
       /// Abstract - Every View must implement CreateTableInstance
       /// </summary>
@@ -84,18 +83,24 @@ namespace Impl
             ctx.ConsoleWriteLogLine(String.Format("Processing file: {0}", fileName));
             ctx.activeHandler.OpenLogFile(fileName);
 
+            ctx.activeHandler.LineNumber = 1;
+
             // For each log line in this file...
             while (!ctx.activeHandler.EOF())
             {
                try
                {
                   ILogLine logLine = ctx.activeHandler.IdentifyLine(ctx.activeHandler.ReadLine());
+
                   bTable.ProcessRow(logLine);
                }
                catch (Exception e)
                {
                   ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : Processing file {0} : {1} {2}", fileName, e.Message, e));
-                  // return;
+               }
+               finally
+               {
+                  ctx.activeHandler.LineNumber += 1;
                }
             }
          }

@@ -42,7 +42,6 @@ namespace LogLineHandler
             // ignore
             IsRecognized = true;
 
-
             /*
             string subtag = "UserIdleEmpty Path: ";
             if (subLogLine.StartsWith(subtag))

@@ -38,10 +38,16 @@ namespace LogLineHandler
 
       public bool ThrowExceptionIfNotRecognized { get; set; } = false;
 
+
       public LogLine(ILogFileHandler parent, string logLine)
       {
          parentHandler = parent;
          this.logLine = logLine;
+      }
+
+      protected LogLine(ILogFileHandler parent)
+      {
+          this.parentHandler = parent;
       }
 
       protected abstract string tsTimestamp();

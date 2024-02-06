@@ -19,7 +19,7 @@ namespace splogparser
          if (zipFiles.Length == 0)
          {
             ctx.ConsoleWriteLogLine($"Archive zip file not found.");
-            return true;
+            return false;
          }
 
          foreach (string zipFile in zipFiles)
@@ -104,9 +104,18 @@ namespace splogparser
 
          // Write out settings so far...
          ctx.ConsoleWriteLogLine("Application Start");
-         ctx.ConsoleWriteLogLine("ZipFileName: " + $"{zipFileName}");
+
          ctx.ConsoleWriteLogLine("Work Folder: " + ctx.WorkFolder);
-         ctx.ConsoleWriteLogLine("unzip to   : " + ctx.WorkFolder + "\\" + ctx.SubFolder);
+
+         if (zipFileName.ToLower().EndsWith(".zip"))
+         {
+            ctx.ConsoleWriteLogLine("ZipFileName: " + $"{zipFileName}");
+            ctx.ConsoleWriteLogLine("unzip to   : " + ctx.WorkFolder + "\\" + ctx.SubFolder);
+         }
+         else
+         {
+            ctx.ConsoleWriteLogLine("LogDirectoryName: " + ctx.WorkFolder + "\\" + ctx.SubFolder);
+         }
 
          ctx.ConsoleWriteLogLine("opts.APViews :" + ctx.opts.APViews);
          ctx.ConsoleWriteLogLine("opts.ATViews :" + ctx.opts.ATViews);
@@ -115,6 +124,7 @@ namespace splogparser
          ctx.ConsoleWriteLogLine("opts.AVViews :" + ctx.opts.AVViews);
          ctx.ConsoleWriteLogLine("opts.SPViews :" + ctx.opts.SPViews);
          ctx.ConsoleWriteLogLine("opts.RTViews :" + ctx.opts.RTViews);
+         ctx.ConsoleWriteLogLine("opts.BEViews :" + ctx.opts.BEViews);
 
          ctx.ConsoleWriteLogLine(String.Format("IsAP : {0}", ctx.opts.IsAP ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("APView Contains  : {0}", ctx.opts.APViews));
@@ -133,6 +143,9 @@ namespace splogparser
 
          ctx.ConsoleWriteLogLine(String.Format("IsSP : {0}", ctx.opts.IsSP ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("SPView Contains  : {0}", ctx.opts.SPViews));
+
+         ctx.ConsoleWriteLogLine(String.Format("IsBE : {0}", ctx.opts.IsBE ? "true" : "false"));
+         ctx.ConsoleWriteLogLine(String.Format("BEView Contains  : {0}", ctx.opts.BEViews));
 
          // Only create a LogFileHandler if their ParseType was specified on the command line
          ctx.ConsoleWriteLogLine(String.Format("Create the LogFileHandlers"));
@@ -160,28 +173,44 @@ namespace splogparser
 
          // SS
          if (ctx.opts.IsSS) ctx.logFileHandlers.Add((ILogFileHandler)new SSLogHandler(new CreateTextStreamReader()));
+         if (ctx.opts.IsSS) ctx.logFileHandlers.Add((ILogFileHandler)new SSLogHandler(new CreateTextStreamReader()));
 
+         // BE
+         if (ctx.opts.IsBE) ctx.logFileHandlers.Add((ILogFileHandler)new BELogHandler(new CreateTextStreamReader()));
 
-         // if the unzip folder already exists delete it
-         if (ctx.ioProvider.DirExists(ctx.WorkFolder + "\\" + ctx.SubFolder))
+         if (zipFileName.ToLower().EndsWith(".zip"))
          {
-            Console.WriteLine("Folder already exists. Deleting the folder.");
-            ctx.ioProvider.DeleteDir(ctx.WorkFolder + "\\" + ctx.SubFolder, true);
+            // if the unzip folder already exists delete it
+            if (ctx.ioProvider.DirExists(ctx.WorkFolder + "\\" + ctx.SubFolder))
+            {
+               Console.WriteLine("Folder already exists. Deleting the folder.");
+               ctx.ioProvider.DeleteDir(ctx.WorkFolder + "\\" + ctx.SubFolder, true);
+            }
+
+            // create it
+            if (!ctx.ioProvider.CreateDirectory(ctx.WorkFolder + "\\" + ctx.SubFolder))
+            {
+               ctx.ConsoleWriteLogLine("Failed to create directory:" + ctx.SubFolder);
+               return;
+            }
+
+            // Unzip the zip file
+            ctx.ConsoleWriteLogLine("Unzipping the archive...");
+            if (!ExtractZipFiles(ctx))
+            {
+               ctx.ConsoleWriteLogLine("Failed to extract files.");
+               return;
+            }
          }
-
-         // create it
-         if (!ctx.ioProvider.CreateDirectory(ctx.WorkFolder + "\\" + ctx.SubFolder))
+         else
          {
-            ctx.ConsoleWriteLogLine("Failed to create directory:" + ctx.SubFolder);
-            return;
-         }
+            if (!ctx.ioProvider.DirExists(ctx.WorkFolder + "\\" + ctx.SubFolder))
+            {
+               Console.WriteLine("LogDirectory Folder does not exist.");
+               return;
+            }
 
-         // Unzip the zip file
-         ctx.ConsoleWriteLogLine("Unzipping the archive...");
-         if (!ExtractZipFiles(ctx))
-         {
-            ctx.ConsoleWriteLogLine("Failed to extract files.");
-            return;
+            Console.WriteLine("LogDirectory Folder exists.");
          }
 
          //set CurrentDirectory to the base directory that the assembly resolver uses to probe for assemblies.
@@ -203,6 +232,8 @@ namespace splogparser
 
          // Load the Views in the application 'dist' directory (does not work in Debug mode unless the executable in dist is specified)
          ViewLoader loader = new ViewLoader(ctx.ioProvider.GetCurrentDirectory());
+         ctx.ConsoleWriteLogLine($"ViewLoader found {loader.Views.Count()} view DLLs.");
+
          string viewName = string.Empty;
 
          using (loader.Container)
@@ -221,6 +252,23 @@ namespace splogparser
                   {
                      viewName = thisView.Name;
                      ctx.ConsoleWriteLogLine(String.Format("\nInitializing view : {0}", viewName));
+
+                     // remove old XML and XSD files in the working folder, so a previous run's data is not included in this one
+
+                     string oldFile = ctx.WorkFolder + "\\" + viewName + ".xml";
+                     if (ctx.ioProvider.Exists(oldFile))
+                     {
+                        ctx.ConsoleWriteLogLine($"BHDView: removing old {oldFile}");
+                        ctx.ioProvider.Delete(oldFile);
+                     }
+
+                     oldFile = ctx.WorkFolder + "\\" + viewName + ".xsd";
+                     if (ctx.ioProvider.Exists(oldFile))
+                     {
+                        ctx.ConsoleWriteLogLine($"BHDView: removing old {oldFile}");
+                        ctx.ioProvider.Delete(oldFile);
+                     }
+
                      thisView.Initialize(ctx);
                      continue;
                   }

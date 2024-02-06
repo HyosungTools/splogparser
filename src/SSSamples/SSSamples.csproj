@@ -51,10 +51,6 @@
       <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
       <Name>Contract</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LogFileHandler\LogFileHandler.csproj">
-      <Project>{9af8b5cf-72dc-4a01-b1bd-976b811d7ae4}</Project>
-      <Name>LogFileHandler</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
