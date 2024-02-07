@@ -62,6 +62,14 @@
     <Compile Include="UtilitiesTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ATLine\ATLogLine\ATLogLine.csproj">
+      <Project>{b5af3249-8e88-422f-829d-2a26d6a9072b}</Project>
+      <Name>ATLogLine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATSamples\ATSamples\ATSamples.csproj">
+      <Project>{c6e50e21-5249-4004-b16a-0beb2657c936}</Project>
+      <Name>ATSamples</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Contract\Contract.csproj">
       <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
       <Name>Contract</Name>

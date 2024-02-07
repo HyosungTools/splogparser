@@ -20,7 +20,7 @@ namespace LogFileHandler
       /// EOF test
       /// </summary>
       /// <returns>true if read to EOF; false otherwise</returns>
-      public bool EOF()
+      public virtual bool EOF()
       {
          return traceFilePos >= logFile.Length;
       }
@@ -42,13 +42,17 @@ namespace LogFileHandler
             //2023-11-16 03:00:46 ActiveTeller Agent version 1.2.5.0 is starting
 
             char c = logFile[traceFilePos];
-            traceFilePos++;
+            traceFilePos++;  // advance for EOF() check
 
             // check for end of line or end of file
             if (c == '\n' || EOF())
             {
                endOfLine = true;
-               break;
+
+               if (c == '\n')
+               {
+                  break;
+               }
             }
 
             // ignore nulls and non-printing ASCII characters

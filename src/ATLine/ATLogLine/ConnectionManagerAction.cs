@@ -65,14 +65,14 @@ namespace LogLineHandler
             {
                isRecognized = true;
                state = ConnectionManagerActionEnum.RegisteringClient;
-               deviceId = subLogLine.Substring(subLogLine.LastIndexOf(" "));
+               deviceId = subLogLine.Substring(subLogLine.LastIndexOf(" ") + 1);
             }
 
             else if (subLogLine.StartsWith("registering asset using MAC Address"))
             {
                isRecognized = true;
                state = ConnectionManagerActionEnum.RegisteringAssetUsingMAC;
-               macAddress = subLogLine.Substring(subLogLine.LastIndexOf(" "));
+               macAddress = subLogLine.Substring(subLogLine.LastIndexOf(" ") + 1);
             }
 
             else if (subLogLine.StartsWith("registration exception"))
