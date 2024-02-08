@@ -176,7 +176,7 @@ namespace ATView
             dataRow["ObjectType"] = (logLine.ObjectType != null) ? logLine.ObjectType.ToString() : string.Empty;
             dataRow["ObjectHandler"] = (logLine.ObjectHandler != null) ? logLine.ObjectHandler.ToString() : string.Empty;
 
-            dataRow["RequestTime"] = TimestampToTableString(logLine.RequestTime);
+            dataRow["RequestTime"] = (logLine.RequestTimeUTC != null) ? logLine.RequestTimeUTC : string.Empty;
 
             dataRow["ClientSession"] = logLine.ClientSession;
             dataRow["Terminal"] = (logLine.Terminal != null) ? logLine.Terminal.ToString() : string.Empty;

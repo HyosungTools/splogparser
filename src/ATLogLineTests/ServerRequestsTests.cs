@@ -233,7 +233,10 @@ namespace ATLogLineTests
          Assert.AreEqual("Mike", line.TellerName);
          Assert.AreEqual("NM000559", line.Terminal);
          Assert.AreEqual("10.255.254.247", line.TellerUri);
-         Assert.AreEqual("9/25/2023 12:38:43 PM", line.RequestTime.ToString());
+
+         Assert.AreEqual("2023-09-25 04:38:43.3973", line.RequestTimeUTC);
+         Assert.AreEqual("2023-09-25 10:42:29", line.Timestamp);
+
          Assert.AreEqual(line.atType, ATLogType.None);
       }
 
@@ -282,7 +285,9 @@ namespace ATLogLineTests
          Assert.AreEqual("Mike", line.TellerName);
          Assert.AreEqual("10.206.20.47", line.TellerUri);
          Assert.AreEqual(6782, line.ClientSession);
-         Assert.AreEqual("11/13/2023 9:11:57 AM", line.RequestTime.ToString());
+
+         Assert.AreEqual("2023-11-13 02:11:57.9696", line.RequestTimeUTC);
+
          Assert.AreEqual(line.atType, ATLogType.None);
       }
 
@@ -309,7 +314,7 @@ namespace ATLogLineTests
          Assert.AreEqual("Mike", line.TellerName);
          Assert.AreEqual("10.255.254.247", line.TellerUri);
          Assert.AreEqual(3895, line.ClientSession);
-         Assert.AreEqual("1/1/0001 12:00:00 AM", line.RequestTime.ToString());
+         Assert.IsNull(line.RequestTimeUTC);
          Assert.AreEqual("CheckDeposit", line.TransactionType);
          Assert.AreEqual(line.atType, ATLogType.None);
       }
@@ -337,10 +342,12 @@ namespace ATLogLineTests
          Assert.AreEqual("Mike", line.TellerName);
          Assert.AreEqual("10.206.20.47", line.TellerUri);
          Assert.AreEqual(6782, line.ClientSession);
-         Assert.AreEqual("11/13/2023 11:27:47 AM", line.RequestTime.ToString());
          Assert.AreEqual("ConfigurationRequest", line.RequestName);
          Assert.AreEqual("ConfigurationRequest", line.EventName);
          Assert.AreEqual("ConfigurationQueryTask", line.TaskName);
+
+         Assert.AreEqual("2023-11-13 04:27:47.3758", line.RequestTimeUTC);
+
          Assert.AreEqual(line.atType, ATLogType.None);
       }
 

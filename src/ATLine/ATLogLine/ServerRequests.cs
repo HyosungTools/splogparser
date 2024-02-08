@@ -15,6 +15,8 @@ namespace LogLineHandler
 {
    public class ServerRequests : ATLine
    {
+      static string TimeFormatStringMsec = "yyyy-MM-dd hh:mm:ss.ffff";
+
       bool isRecognized = false;
 
       public enum ServerRequestType
@@ -38,7 +40,7 @@ namespace LogLineHandler
       public string RequestUrl { get; set; }
       public string RequestResult { get; set; }
 
-      public DateTime RequestTime { get; set; } = DateTime.MinValue;
+      public string RequestTimeUTC { get; set; }
       public long ClientSession { get; set; } = -1;
       public string Terminal { get; set; }
       public string TellerName { get; set; }
@@ -319,7 +321,7 @@ namespace LogLineHandler
                         //{"Id":24022,"AssetName":"NM000559","TellerSessionRequestId":30981,"Timestamp":"2023-09-25T09:38:43.3973841-07:00",
                         //"TellerInfo":{"ClientSessionId":3895,"TellerName":"Jesus","VideoConferenceUri":"10.255.254.247","TellerId":"jpinon"}}
 
-                        RequestTime = (DateTime)dict["Timestamp"];
+                        RequestTimeUTC = ((DateTime)dict["Timestamp"]).ToUniversalTime().ToString(ServerRequests.TimeFormatStringMsec);
                         Terminal = (string)dict["AssetName"];
 
                         tellerInfo = (IDictionary<string, object>)dict["TellerInfo"];
@@ -334,7 +336,7 @@ namespace LogLineHandler
                         //"Timestamp":"2023-11-13T08:11:57.9696555-06:00",
                         //"TellerInfo":{"ClientSessionId":6782,"TellerName":"Andrea","VideoConferenceUri":"10.206.20.47","TellerId":"aspringman"}}
 
-                        RequestTime = (DateTime)dict["Timestamp"];
+                        RequestTimeUTC = ((DateTime)dict["Timestamp"]).ToUniversalTime().ToString(ServerRequests.TimeFormatStringMsec);
                         Terminal = (string)dict["AssetName"];
 
                         tellerInfo = (IDictionary<string, object>)dict["TellerInfo"];
@@ -357,7 +359,7 @@ namespace LogLineHandler
                         dynamic dynamicData = JsonConvert.DeserializeObject<ExpandoObject>((string)dict["Data"], new ExpandoObjectConverter());
 
                         RequestName = dynamicData.Name;
-                        RequestTime = (DateTime)dynamicData.DateTime;
+                        RequestTimeUTC = ((DateTime)dynamicData.DateTime).ToUniversalTime().ToString(ServerRequests.TimeFormatStringMsec);
 
                         tellerInfo = (IDictionary<string, object>)dict["TellerInfo"];
                         ClientSession = (long)tellerInfo["ClientSessionId"];
@@ -415,7 +417,7 @@ namespace LogLineHandler
                         //"RoutingProfile":{"SupportedCallType":"BeeHD"}}
 
                         Terminal = (string)dict["AssetName"];
-                        RequestTime = (DateTime)dict["Timestamp"];
+                        RequestTimeUTC = ((DateTime)dict["Timestamp"]).ToUniversalTime().ToString(ServerRequests.TimeFormatStringMsec);
                         FlowPoint = (string)dict["FlowPoint"];
                         CustomerId = (string)dict["CustomerId"];
                         RequestContext = (string)dict["RequestContext"];
