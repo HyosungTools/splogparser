@@ -9,6 +9,9 @@ using Moq;
 using Moq.Protected;
 using Contract;
 using System.Numerics;
+using System;
+using Samples;
+using Impl;
 
 namespace ATLogLineTests
 {
@@ -111,6 +114,125 @@ namespace ATLogLineTests
          Assert.IsTrue(atLine.HResult == "");
       }
 
+      [TestMethod]
+      public void ReadEntireFile_RawLines()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new ATLogHandler(new CreateTextStreamReaderMock());
+         logFileHandler.OpenLogFile(samples_entirefile.SAMPLE_ATAGENT_FILE);
+
+         _ = logFileHandler.ReadLine();
+         while (!logFileHandler.EOF())
+         {
+            try
+            {
+               _ = logFileHandler.ReadLine();
+            }
+            catch (Exception e)
+            {
+               Assert.IsTrue(false);
+               return;
+            }
+         }
+
+         Assert.IsTrue(true);
+         return;
+      }
+
+      [TestMethod]
+      public void ReadEntireFile_IdentifyAllLines()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new ATLogHandler(new CreateTextStreamReaderMock());
+         logFileHandler.OpenLogFile(samples_entirefile.SAMPLE_ATAGENT_FILE);
+
+         Assert.IsFalse(logFileHandler.EOF());
+
+         bool ignoringBraces = false;
+
+         while (!logFileHandler.EOF())
+         {
+            string nextLine = logFileHandler.ReadLine();
+
+            try
+            {
+               ILogLine logLine = logFileHandler.IdentifyLine(nextLine);
+
+               if (logLine is LogLineHandler.SignalRConnectionState atLogLine)
+               {
+                  Assert.AreEqual(ATLogType.ActiveTellerConnectionState, atLogLine.atType);
+               }
+               else if (logLine is LogLineHandler.ConnectionManagerAction atLogLine2)
+               {
+                  Assert.AreEqual(ATLogType.ConnectionManagerAction, atLogLine2.atType);
+               }
+               else if (logLine is LogLineHandler.AgentConfiguration acLogLine)
+               {
+                  Assert.AreEqual(ATLogType.AgentConfiguration, acLogLine.atType);
+               }
+               else if (logLine is LogLineHandler.AgentHost ahLogLine)
+               {
+                  Assert.AreEqual(ATLogType.AgentHost, ahLogLine.atType);
+               }
+               else if (logLine is LogLineHandler.ServerRequests scLogLine)
+               {
+                  Assert.AreEqual(ATLogType.ServerRequest, scLogLine.atType);
+               }
+               else if (logLine is ATLine atGenericLogLine)
+               {
+                  Assert.AreEqual(ATLogType.None, atGenericLogLine.atType);
+
+                  if (nextLine == "{")
+                  {
+                     ignoringBraces = true;
+                  }
+                  else if (nextLine == "}")
+                  {
+                     ignoringBraces = false;
+                  }
+
+                  else if (ignoringBraces)
+                  {
+                     Assert.IsTrue(nextLine.StartsWith("  "));
+                  }
+
+                  else
+                  {
+                     Assert.IsTrue(
+                        nextLine.Contains("is starting") ||
+                        nextLine.Contains("agent extension found") ||
+                        nextLine.Contains("handler added") ||
+                        nextLine.Contains("extension started") ||
+                        nextLine.Contains("listening for an application message") ||
+                        nextLine.Contains("agent extension is not enabled") ||
+                        nextLine.Contains("Attempting to start Remote Desktop") ||
+                        nextLine.Contains("is no longer waiting") ||
+                        nextLine.Contains("Enabled devices are") ||
+                        nextLine.Contains("received a DeviceState from NextwareExtension") ||
+                        nextLine.Contains("starting monitoring") ||
+                        nextLine.Contains("Server reconnected") ||
+                        nextLine.Contains("Received system settings broadcast") ||
+                        nextLine.StartsWith("   at ") ||
+                        nextLine.Contains("End of inner exception stack trace"),
+                        $"Log line was unintenionally ignored '{nextLine}'"
+                        );
+                  }
+               }
+               else
+               {
+                  throw new Exception($"Failed to identify line or classify it as generic '{nextLine}'");
+               }
+            }
+            catch (Exception e)
+            {
+               throw;
+            }
+         }
+
+         Assert.IsFalse(ignoringBraces);
+         Assert.IsTrue(logFileHandler.EOF());
+         return;
+      }
    }
 }
 

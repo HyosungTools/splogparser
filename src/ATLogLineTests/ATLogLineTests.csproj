@@ -128,6 +128,10 @@
     <Compile Include="ATLineTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\APSamplesTests\APSamples.csproj">
+      <Project>{98624250-55f4-407e-9a99-242690d17f0f}</Project>
+      <Name>APSamples</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ATLine\ATLogLine\ATLogLine.csproj">
       <Project>{b5af3249-8e88-422f-829d-2a26d6a9072b}</Project>
       <Name>ATLogLine</Name>
