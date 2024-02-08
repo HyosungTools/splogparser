@@ -174,7 +174,7 @@ namespace ATLogLineTests
       }
 
       [TestMethod]
-      public void ServerMessageData_1()
+      public void ServerMessageData_SystemParameters()
       {
          string sampleLine = @"2023-11-13 04:53:23 Server message data [{""Name"":""AutoAssignRemoteTeller"",""Type"":""System.Boolean"",""Value"":""True""},{""Name"":""DefaultTerminalFeatureSet"",""Type"":""System.Int32"",""Value"":""1""},{""Name"":""DefaultTerminalProfile"",""Type"":""System.Int32"",""Value"":""1""},{""Name"":""ForceSkypeSignIn"",""Type"":""System.Boolean"",""Value"":""True""},{""Name"":""JournalHistory"",""Type"":""System.Int32"",""Value"":""60""},{""Name"":""NetOpLicenseKey"",""Type"":""System.String"",""Value"":""*AAC54RBFBJKLGEFBCHB2W2NX6KHG8PNCE9ER6SVT4V6KBW43SUEMXPNW6E5KGZNLK58JVJC74KVZC2S8OHS7SN8P3XSLJLCESRL4CB4EBCDEJZDHJAWKIZ4#""},{""Name"":""RemoteDesktopAvailability"",""Type"":""DropDownList"",""Value"":""Always""},{""Name"":""RemoteDesktopPassword"",""Type"":""System.Security.SecureString"",""Value"":""xnXpgq6Zgi5XLqZd1XUgwA==""},{""Name"":""SingleSignOn"",""Type"":""System.Boolean"",""Value"":""False""},{""Name"":""TraceLogHistory"",""Type"":""System.Int32"",""Value"":""120""},{""Name"":""TransactionResultHistory"",""Type"":""System.Int32"",""Value"":""30""},{""Name"":""TransactionTypeHistory"",""Type"":""System.Int32"",""Value"":""60""},{""Name"":""UploadedFileHistory"",""Type"":""System.Int32"",""Value"":""7""}]";
 
@@ -186,12 +186,15 @@ namespace ATLogLineTests
          Assert.IsNull(line.RequestResult);
          Assert.IsNull(line.ObjectType);
          Assert.IsNull(line.ObjectHandler);
+         Assert.IsNull(line.FlowPoint);
+         Assert.IsNull(line.TellerUri);
+         Assert.AreEqual("Message received", line.Operation);
          Assert.AreEqual("2023-11-13 04:53:23", line.Timestamp);
          Assert.AreEqual(line.atType, ATLogType.None);
       }
 
       [TestMethod]
-      public void ServerMessageData_2()
+      public void ServerMessageData_TerminalMode()
       {
          string sampleLine = @"2023-11-13 07:55:28 Server message data {""AssetId"":5,""AssetName"":""WI000902"",""ModeType"":""Scheduled"",""ModeName"":""SelfService"",""CoreStatus"":"""",""CoreProperties"":""""}";
 
@@ -203,29 +206,39 @@ namespace ATLogLineTests
          Assert.IsNull(line.RequestResult);
          Assert.IsNull(line.ObjectType);
          Assert.IsNull(line.ObjectHandler);
+         Assert.IsNull(line.FlowPoint);
+         Assert.IsNull(line.TellerUri);
+         Assert.AreEqual("Message received", line.Operation);
          Assert.AreEqual("2023-11-13 07:55:28", line.Timestamp);
          Assert.AreEqual(line.atType, ATLogType.None);
       }
 
       [TestMethod]
-      public void ServerMessageData_3()
+      public void ServerMessageData_RemoteTellerSelected()
       {
-         string sampleLine = @"2023-11-13 07:55:29 Server message data {""AssetId"":5,""AssetName"":""WI000902"",""ModeType"":""Scheduled"",""ModeName"":""Standard"",""CoreStatus"":"""",""CoreProperties"":""""}";
+         string sampleLine = @"2023-09-25 10:42:29 Server message data {""Id"":24022,""AssetName"":""NM000559"",""TellerSessionRequestId"":30981,""Timestamp"":""2023-09-25T09:38:43.3973841-07:00"",""TellerInfo"":{""ClientSessionId"":3895,""TellerName"":""Mike"",""VideoConferenceUri"":""10.255.254.247"",""TellerId"":""mluckham""}}";
 
          ILogFileHandler logFileHandler = new ATLogHandler(new CreateTextStreamReaderMock());
          ServerRequests line = new ServerRequests(logFileHandler, sampleLine, ATLogType.None);
          Assert.AreEqual("Message received", line.Operation);
-         Assert.AreEqual("{\"AssetId\":5,\"AssetName\":\"WI000902\",\"ModeType\":\"Scheduled\",\"ModeName\":\"Standard\",\"CoreStatus\":\"\",\"CoreProperties\":\"\"}", line.Payload);
+         Assert.AreEqual("{\"Id\":24022,\"AssetName\":\"NM000559\",\"TellerSessionRequestId\":30981,\"Timestamp\":\"2023-09-25T09:38:43.3973841-07:00\",\"TellerInfo\":{\"ClientSessionId\":3895,\"TellerName\":\"Mike\",\"VideoConferenceUri\":\"10.255.254.247\",\"TellerId\":\"mluckham\"}}", line.Payload);
          Assert.IsNull(line.RequestMethod);
          Assert.IsNull(line.RequestResult);
          Assert.IsNull(line.ObjectType);
          Assert.IsNull(line.ObjectHandler);
-         Assert.AreEqual("2023-11-13 07:55:29", line.Timestamp);
+         Assert.AreEqual("Message received", line.Operation);
+         Assert.AreEqual("2023-09-25 10:42:29", line.Timestamp);
+         Assert.AreEqual(3895, line.ClientSession);
+         Assert.AreEqual("mluckham", line.TellerId);
+         Assert.AreEqual("Mike", line.TellerName);
+         Assert.AreEqual("NM000559", line.Terminal);
+         Assert.AreEqual("10.255.254.247", line.TellerUri);
+         Assert.AreEqual("9/25/2023 12:38:43 PM", line.RequestTime.ToString());
          Assert.AreEqual(line.atType, ATLogType.None);
       }
 
       [TestMethod]
-      public void ServerMessageData_4()
+      public void ServerMessageData_SelfServiceFlow()
       {
          string sampleLine = @"2023-11-13 08:16:32 Server message data {""Id"":155420,""AssetName"":""WI000902"",""Timestamp"":""2023-11-13T08:14:18.303"",""CustomerId"":"""",""FlowPoint"":""Common-RequestAssistance"",""RequestContext"":""TellerIdentificationButton"",""ApplicationState"":""PostIdle"",""TransactionType"":"""",""Language"":""English"",""VoiceGuidance"":false,""RoutingProfile"":{""ClientSessionId"":""6782"",""SupportedCallType"":""BeeHD""}}";
 
@@ -237,58 +250,99 @@ namespace ATLogLineTests
          Assert.IsNull(line.RequestResult);
          Assert.IsNull(line.ObjectType);
          Assert.IsNull(line.ObjectHandler);
+         Assert.AreEqual("Message received", line.Operation);
          Assert.AreEqual("2023-11-13 08:16:32", line.Timestamp);
+         Assert.AreEqual("Common-RequestAssistance", line.FlowPoint);
+         Assert.AreEqual("TellerIdentificationButton", line.RequestContext);
+         Assert.AreEqual("PostIdle", line.ApplicationState);
+         Assert.AreEqual("WI000902", line.Terminal);
          Assert.AreEqual(line.atType, ATLogType.None);
       }
 
+      [TestMethod]
+      public void ServerMessageData_TellerSessionStart()
+      {
+         string sampleLine = @"2023-11-13 08:16:32 Server message data {""StartTime"":null,""Id"":2236837,""AssetName"":""WI000902"",""TellerSessionId"":147534,""TransactionDetail"":null,""Timestamp"":""2023-11-13T08:11:57.9696555-06:00"",""TellerInfo"":{""ClientSessionId"":6782,""TellerName"":""Mike"",""VideoConferenceUri"":""10.206.20.47"",""TellerId"":""mluckham""}}";
 
+         ILogFileHandler logFileHandler = new ATLogHandler(new CreateTextStreamReaderMock());
+         ServerRequests line = new ServerRequests(logFileHandler, sampleLine, ATLogType.None);
+         Assert.AreEqual("Message received", line.Operation);
+         Assert.AreEqual("{\"StartTime\":null,\"Id\":2236837,\"AssetName\":\"WI000902\",\"TellerSessionId\":147534,\"TransactionDetail\":null,\"Timestamp\":\"2023-11-13T08:11:57.9696555-06:00\",\"TellerInfo\":{\"ClientSessionId\":6782,\"TellerName\":\"Mike\",\"VideoConferenceUri\":\"10.206.20.47\",\"TellerId\":\"mluckham\"}}", line.Payload);
+         Assert.IsNull(line.RequestMethod);
+         Assert.IsNull(line.RequestResult);
+         Assert.IsNull(line.ObjectType);
+         Assert.IsNull(line.ObjectHandler);
+         Assert.IsNull(line.FlowPoint);
+         Assert.IsNull(line.RequestContext);
+         Assert.IsNull(line.ApplicationState);
+         Assert.AreEqual("Message received", line.Operation);
+         Assert.AreEqual("2023-11-13 08:16:32", line.Timestamp);
+         Assert.AreEqual("WI000902", line.Terminal);
+         Assert.AreEqual("mluckham", line.TellerId);
+         Assert.AreEqual("Mike", line.TellerName);
+         Assert.AreEqual("10.206.20.47", line.TellerUri);
+         Assert.AreEqual(6782, line.ClientSession);
+         Assert.AreEqual("11/13/2023 9:11:57 AM", line.RequestTime.ToString());
+         Assert.AreEqual(line.atType, ATLogType.None);
+      }
 
-      /*      TODO Unit Tests
+      [TestMethod]
+      public void ServerMessageData_TransactionDetails()
+      {
+         string sampleLine = @"2023-11-13 08:16:32 Server message data {""Id"":152341,""AssetName"":""NM000559"",""TellerSessionId"":24022,""TransactionDetail"":{""Accounts"":[{""Action"":1,""Amount"":""220000"",""Warnings"":[],""AccountType"":""SHARE"",""Id"":41478,""TransactionDetailId"":20219,""Review"":{""Id"":31557,""Approval"":{""TellerAmount"":null,""TellerApproval"":0,""Reason"":null,""TransactionItemReviewId"":31557},""ReasonForReview"":0,""TransactionItemId"":41478}}],""Id"":20219,""TellerSessionActivityId"":152341,""TransactionType"":""CheckDeposit"",""ApproverId"":null,""IdScans"":[],""Checks"":[{""AcceptStatus"":""CHANGE"",""Amount"":""220000"",""AmountRead"":""1500"",""AmountScore"":216,""BackImageRelativeUri"":""api/checkimages/46820"",""CheckDateRead"":""9/18/2023"",""CheckDateScore"":63,""CheckIndex"":0,""FrontImageRelativeUri"":""api/checkimages/46819"",""ImageBack"":""D:\\CHECK21\\Bottom1.jpg"",""ImageFront"":""D:\\CHECK21\\Top1.jpg"",""InvalidReason"":"""",""Id"":41477,""TransactionDetailId"":20219,""Review"":{""Id"":31556,""Approval"":{""TellerAmount"":""220000"",""TellerApproval"":2,""Reason"":"""",""TransactionItemReviewId"":31556},""ReasonForReview"":1,""TransactionItemId"":41477}}],""TransactionCashDetails"":[],""TransactionOtherAmounts"":[],""TransactionWarnings"":[]},""Timestamp"":""2023-09-25T09:40:25.7365541-07:00"",""TellerInfo"":{""ClientSessionId"":3895,""TellerName"":""Mike"",""VideoConferenceUri"":""10.255.254.247"",""TellerId"":""mluckham""}}";
 
-public DateTime RequestTime { get; set; } = DateTime.MinValue;
-public long ClientSession { get; set; } = -1;
-public string Terminal { get; set; }
-public string TellerName { get; set; }
-public string TellerId { get; set; }
-public string TellerUri { get; set; }
-public string TaskName { get; set; }
-public string EventName { get; set; }
-public string FlowPoint { get; set; }
-public string CustomerId { get; set; }
-public string RequestName { get; set; }
-public string RequestContext { get; set; }
-public string ApplicationState { get; set; }
-public string TransactionType { get; set; }
+         ILogFileHandler logFileHandler = new ATLogHandler(new CreateTextStreamReaderMock());
+         ServerRequests line = new ServerRequests(logFileHandler, sampleLine, ATLogType.None);
+         Assert.AreEqual("Message received", line.Operation);
+         Assert.AreEqual("{\"Id\":152341,\"AssetName\":\"NM000559\",\"TellerSessionId\":24022,\"TransactionDetail\":{\"Accounts\":[{\"Action\":1,\"Amount\":\"220000\",\"Warnings\":[],\"AccountType\":\"SHARE\",\"Id\":41478,\"TransactionDetailId\":20219,\"Review\":{\"Id\":31557,\"Approval\":{\"TellerAmount\":null,\"TellerApproval\":0,\"Reason\":null,\"TransactionItemReviewId\":31557},\"ReasonForReview\":0,\"TransactionItemId\":41478}}],\"Id\":20219,\"TellerSessionActivityId\":152341,\"TransactionType\":\"CheckDeposit\",\"ApproverId\":null,\"IdScans\":[],\"Checks\":[{\"AcceptStatus\":\"CHANGE\",\"Amount\":\"220000\",\"AmountRead\":\"1500\",\"AmountScore\":216,\"BackImageRelativeUri\":\"api/checkimages/46820\",\"CheckDateRead\":\"9/18/2023\",\"CheckDateScore\":63,\"CheckIndex\":0,\"FrontImageRelativeUri\":\"api/checkimages/46819\",\"ImageBack\":\"D:\\\\CHECK21\\\\Bottom1.jpg\",\"ImageFront\":\"D:\\\\CHECK21\\\\Top1.jpg\",\"InvalidReason\":\"\",\"Id\":41477,\"TransactionDetailId\":20219,\"Review\":{\"Id\":31556,\"Approval\":{\"TellerAmount\":\"220000\",\"TellerApproval\":2,\"Reason\":\"\",\"TransactionItemReviewId\":31556},\"ReasonForReview\":1,\"TransactionItemId\":41477}}],\"TransactionCashDetails\":[],\"TransactionOtherAmounts\":[],\"TransactionWarnings\":[]},\"Timestamp\":\"2023-09-25T09:40:25.7365541-07:00\",\"TellerInfo\":{\"ClientSessionId\":3895,\"TellerName\":\"Mike\",\"VideoConferenceUri\":\"10.255.254.247\",\"TellerId\":\"mluckham\"}}", line.Payload);
+         Assert.IsNull(line.RequestMethod);
+         Assert.IsNull(line.RequestResult);
+         Assert.IsNull(line.ObjectType);
+         Assert.IsNull(line.ObjectHandler);
+         Assert.AreEqual("Message received", line.Operation);
+         Assert.AreEqual("2023-11-13 08:16:32", line.Timestamp);
+         Assert.IsNull(line.FlowPoint);
+         Assert.IsNull(line.RequestContext);
+         Assert.IsNull(line.ApplicationState);
+         Assert.IsNull(line.Terminal);
+         Assert.AreEqual("mluckham", line.TellerId);
+         Assert.AreEqual("Mike", line.TellerName);
+         Assert.AreEqual("10.255.254.247", line.TellerUri);
+         Assert.AreEqual(3895, line.ClientSession);
+         Assert.AreEqual("1/1/0001 12:00:00 AM", line.RequestTime.ToString());
+         Assert.AreEqual("CheckDeposit", line.TransactionType);
+         Assert.AreEqual(line.atType, ATLogType.None);
+      }
 
-public string Payload { get; set; }
+      [TestMethod]
+      public void ServerMessageData_TellerTaskEvent()
+      {
+         string sampleLine = @"2023-11-13 08:16:32 Server message data {""TaskId"":25,""TaskName"":""ConfigurationQueryTask"",""EventName"":""ConfigurationRequest"",""Data"":""{\""Name\"":\""ConfigurationRequest\"",\""TellerId\"":null,\""DateTime\"":\""2023-11-13T10:27:47.3758284-06:00\"",\""TaskTimeout\"":null}"",""Id"":2237013,""AssetName"":""WI000902"",""TellerSessionId"":147548,""TransactionDetail"":null,""Timestamp"":""2023-11-13T10:27:47.379449-06:00"",""TellerInfo"":{""ClientSessionId"":6782,""TellerName"":""Mike"",""VideoConferenceUri"":""10.206.20.47"",""TellerId"":""mluckham""}}";
 
-
-/* Payloads in a teller session - which fields can be split out into columns to produce something readable?
-* MoniPlus2sExtensions does the same thing
-* 
-SystemParameters
-[{"Name":"AutoAssignRemoteTeller","Type":"System.Boolean","Value":"False"},{"Name":"DefaultTerminalFeatureSet","Type":"System.Int32","Value":"1"},{"Name":"DefaultTerminalProfile","Type":"System.Int32","Value":"1"},{"Name":"ForceSkypeSignIn","Type":"System.Boolean","Value":"False"},{"Name":"JournalHistory","Type":"System.Int32","Value":"90"},{"Name":"NetOpLicenseKey","Type":"System.String","Value":"*AAC54RBFBJKLGEFBCHB2W2NX6KHG8PNCE9ER6SVT4V6KBW43SUEMXPNW6E5KGZNLK58JVJC74KVZC2S8OHS7SN8P3XSLJLCESRL4CB4EBCDEJZDHJAWKIZ4#"},{"Name":"RemoteDesktopAvailability","Type":"DropDownList","Value":"Always"},{"Name":"RemoteDesktopPassword","Type":"System.Security.SecureString","Value":"xnXpgq6Zgi5XLqZd1XUgwA=="},{"Name":"SavedImagesHistory","Type":"System.Int32","Value":"90"},{"Name":"SingleSignOn","Type":"System.Boolean","Value":"False"},{"Name":"SmtpFromEmail","Type":"System.String","Value":"noreply@domain.com"},{"Name":"SmtpPassword","Type":"System.Security.SecureString","Value":"Z7BKbZXrF+PMTVNvarcz4Q=="},{"Name":"SmtpPortNumber","Type":"System.String","Value":"587"},{"Name":"SmtpServer","Type":"System.String","Value":"127.0.0.1"},{"Name":"SmtpUsername","Type":"System.String","Value":"admin"},{"Name":"TraceLogHistory","Type":"System.Int32","Value":"120"},{"Name":"TransactionResultHistory","Type":"System.Int32","Value":"30"},{"Name":"TransactionTypeHistory","Type":"System.Int32","Value":"60"},{"Name":"TwilioAccountId","Type":"System.Security.SecureString","Value":"KXwVYDO5FJ1CAQSc359+C1E9GzftP0uwtPzE6jsCui9VydQ4Sm9NKUMZ5rWxtGlG"},{"Name":"TwilioApiKey","Type":"System.Security.SecureString","Value":"XDL1Pih/5D3gOJTc+rRnFMF3+NJHPgoaQDv61cIk62++YER61nDveWllUgZgsS/5"},{"Name":"TwilioPhoneNumber","Type":"System.String","Value":"+19375551212"},{"Name":"UploadedFileHistory","Type":"System.Int32","Value":"7"},{"Name":"VideoRecordingHistory","Type":"System.Int32","Value":"90"}]
-
-TerminalMode
-{"AssetId":11,"AssetName":"NM000559","ModeType":"Scheduled","ModeName":"Standard","CoreStatus":"","CoreProperties":""}
-
-TellerSessionStart
-{"StartTime":null,"Id":2236837,"AssetName":"WI000902","TellerSessionId":147534,"TransactionDetail":null,"Timestamp":"2023-11-13T08:11:57.9696555-06:00","TellerInfo":{"ClientSessionId":6782,"TellerName":"Andrea","VideoConferenceUri":"10.206.20.47","TellerId":"aspringman"}}
-
-TransactionDetails
-{"Id":152341,"AssetName":"NM000559","TellerSessionId":24022,"TransactionDetail":{"Accounts":[{"Action":1,"Amount":"220000","Warnings":[],"AccountType":"SHARE","Id":41478,"TransactionDetailId":20219,"Review":{"Id":31557,"Approval":{"TellerAmount":null,"TellerApproval":0,"Reason":null,"TransactionItemReviewId":31557},"ReasonForReview":0,"TransactionItemId":41478}}],"Id":20219,"TellerSessionActivityId":152341,"TransactionType":"CheckDeposit","ApproverId":null,"IdScans":[],"Checks":[{"AcceptStatus":"CHANGE","Amount":"220000","AmountRead":"1500","AmountScore":216,"BackImageRelativeUri":"api/checkimages/46820","CheckDateRead":"9/18/2023","CheckDateScore":63,"CheckIndex":0,"FrontImageRelativeUri":"api/checkimages/46819","ImageBack":"D:\\CHECK21\\Bottom1.jpg","ImageFront":"D:\\CHECK21\\Top1.jpg","InvalidReason":"","Id":41477,"TransactionDetailId":20219,"Review":{"Id":31556,"Approval":{"TellerAmount":"220000","TellerApproval":2,"Reason":"","TransactionItemReviewId":31556},"ReasonForReview":1,"TransactionItemId":41477}}],"TransactionCashDetails":[],"TransactionOtherAmounts":[],"TransactionWarnings":[]},"Timestamp":"2023-09-25T09:40:25.7365541-07:00","TellerInfo":{"ClientSessionId":3895,"TellerName":"Jesus","VideoConferenceUri":"10.255.254.247","TellerId":"jpinon"}}
-
-RemoteTellerSelected
-{"Id":24022,"AssetName":"NM000559","TellerSessionRequestId":30981,"Timestamp":"2023-09-25T09:38:43.3973841-07:00","TellerInfo":{"ClientSessionId":3895,"TellerName":"Jesus","VideoConferenceUri":"10.255.254.247","TellerId":"jpinon"}}
-
-TellerTaskEvent
-{"TaskId":25,"TaskName":"ConfigurationQueryTask","EventName":"ConfigurationRequest","Data":"{\"Name\":\"ConfigurationRequest\",\"TellerId\":null,\"DateTime\":\"2023-11-13T10:27:47.3758284-06:00\",\"TaskTimeout\":null}","Id":2237013,"AssetName":"WI000902","TellerSessionId":147548,"TransactionDetail":null,"Timestamp":"2023-11-13T10:27:47.379449-06:00","TellerInfo":{"ClientSessionId":6782,"TellerName":"Andrea","VideoConferenceUri":"10.206.20.47","TellerId":"aspringman"}}
-
-SelfServiceFlow
-{"Id":31114,"AssetName":"NM000559","Timestamp":"2023-09-25T15:26:54.797","CustomerId":"0009652240","FlowPoint":"Common-ProcessTransactionReview","RequestContext":"TransactionRequiringReview","ApplicationState":"InTransaction","TransactionType":"Deposit","Language":"English","VoiceGuidance":false,"RoutingProfile":{"SupportedCallType":"BeeHD"}}
-*/
-
-
+         ILogFileHandler logFileHandler = new ATLogHandler(new CreateTextStreamReaderMock());
+         ServerRequests line = new ServerRequests(logFileHandler, sampleLine, ATLogType.None);
+         Assert.AreEqual("Message received", line.Operation);
+         Assert.AreEqual("{\"TaskId\":25,\"TaskName\":\"ConfigurationQueryTask\",\"EventName\":\"ConfigurationRequest\",\"Data\":\"{\\\"Name\\\":\\\"ConfigurationRequest\\\",\\\"TellerId\\\":null,\\\"DateTime\\\":\\\"2023-11-13T10:27:47.3758284-06:00\\\",\\\"TaskTimeout\\\":null}\",\"Id\":2237013,\"AssetName\":\"WI000902\",\"TellerSessionId\":147548,\"TransactionDetail\":null,\"Timestamp\":\"2023-11-13T10:27:47.379449-06:00\",\"TellerInfo\":{\"ClientSessionId\":6782,\"TellerName\":\"Mike\",\"VideoConferenceUri\":\"10.206.20.47\",\"TellerId\":\"mluckham\"}}", line.Payload);
+         Assert.IsNull(line.RequestMethod);
+         Assert.IsNull(line.RequestResult);
+         Assert.IsNull(line.ObjectType);
+         Assert.IsNull(line.ObjectHandler);
+         Assert.AreEqual("Message received", line.Operation);
+         Assert.AreEqual("2023-11-13 08:16:32", line.Timestamp);
+         Assert.IsNull(line.FlowPoint);
+         Assert.IsNull(line.RequestContext);
+         Assert.IsNull(line.ApplicationState);
+         Assert.AreEqual("WI000902", line.Terminal);
+         Assert.AreEqual("mluckham", line.TellerId);
+         Assert.AreEqual("Mike", line.TellerName);
+         Assert.AreEqual("10.206.20.47", line.TellerUri);
+         Assert.AreEqual(6782, line.ClientSession);
+         Assert.AreEqual("11/13/2023 11:27:47 AM", line.RequestTime.ToString());
+         Assert.AreEqual("ConfigurationRequest", line.RequestName);
+         Assert.AreEqual("ConfigurationRequest", line.EventName);
+         Assert.AreEqual("ConfigurationQueryTask", line.TaskName);
+         Assert.AreEqual(line.atType, ATLogType.None);
+      }
 
       [TestMethod]
       [ExpectedException(typeof(Exception))]
