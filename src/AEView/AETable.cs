@@ -141,10 +141,6 @@ namespace AEView
          return sb.ToString();
       }
 
-      private string TimestampToTableString(DateTime dt)
-      {
-         return (dt == DateTime.MinValue) || (dt == default(DateTime)) ? string.Empty : dt.ToString(Impl.LogLine.TimeFormatStringMsec);
-      }
 
       protected void AddExtensionStartedEvent(LogLineHandler.ExtensionStarted logLine)
       {
@@ -225,7 +221,7 @@ namespace AEView
 
             dataRow["MonitoringDeviceChanges"] = logLine.MonitoringDeviceChanges;
             dataRow["MonitoringDeviceName"] = logLine.MonitoringDeviceName;
-            dataRow["MonitoringElapsed"] = logLine.MonitoringElapsed.ToString("hh:mm:ss.ffff");
+            dataRow["MonitoringElapsed"] = logLine.MonitoringElapsed;
 
             dataRow["Id"] = logLine.Id;
             dataRow["MacAddress"] = logLine.MacAddress;
@@ -235,7 +231,7 @@ namespace AEView
             dataRow["Status"] = logLine.Status;
             dataRow["AssetName"] = logLine.AssetName;
             dataRow["DeviceMediaStatus"] = logLine.DeviceMediaStatus;
-            dataRow["Timestamp"] = TimestampToTableString(logLine.DeviceStateTimestamp);
+            dataRow["Timestamp"] = logLine.DeviceStateTimestampUTC;
             dataRow["StatusDeviceName"] = logLine.StatusDeviceName;
             dataRow["EncStatus"] = logLine.EncStatus;
             dataRow["DevicePositionStatus"] = logLine.DevicePositionStatus;
@@ -373,7 +369,7 @@ namespace AEView
             // general
             dataRow["ApplicationAvailability"] = logLine.ApplicationAvailability;
 
-            dataRow["FlowTimestamp"] = TimestampToTableString(logLine.FlowTimestamp);
+            dataRow["FlowTimestamp"] = logLine.FlowTimestampUTC;
 
             dataRow["FlowPoint"] = logLine.FlowPoint;
             dataRow["TransactionType"] = logLine.TransactionType;
@@ -412,9 +408,8 @@ namespace AEView
             sb = null;
 
             dataRow["Status"] = logLine.Status;
-            dataRow["StatusChangedTime"] = TimestampToTableString(logLine.StatusChangedTime);
-            dataRow["StatusChangedTime"] = TimestampToTableString(logLine.StatusChangedTime);
-            dataRow["StatusReceivedTime"] = TimestampToTableString(logLine.StatusReceivedTime);
+            dataRow["StatusChangedTime"] = logLine.StatusChangedTime;
+            dataRow["StatusReceivedTime"] = logLine.StatusReceivedTime;
 
 
             // operating mode
@@ -437,12 +432,12 @@ namespace AEView
 
 
             // teller session request
-            dataRow["TellerSessionRequest_Timestamp"] = TimestampToTableString(logLine.TellerSessionRequest_Timestamp);
+            dataRow["TellerSessionRequest_Timestamp"] = logLine.TellerSessionRequest_TimestampUTC;
 
 
             // remote control session
-            dataRow["RemoteControlSession_StartTime"] = TimestampToTableString(logLine.RemoteControlSession_StartTime);
-            dataRow["RemoteControlSession_TellerSessionRequestTimestamp"] = TimestampToTableString(logLine.RemoteControlSession_TellerSessionRequestTimestamp);
+            dataRow["RemoteControlSession_StartTime"] = logLine.RemoteControlSession_StartTimeUTC;
+            dataRow["RemoteControlSession_TellerSessionRequestTimestamp"] = logLine.RemoteControlSession_TellerSessionRequestTimestampUTC;
 
 
             // remote control task
@@ -451,7 +446,7 @@ namespace AEView
             dataRow["RemoteControl_AssetName"] = logLine.RemoteControl_AssetName;
             dataRow["RemoteControlTask_EventData_Name"] = logLine.RemoteControlTask_EventData_Name;
             dataRow["RemoteControlTask_EventData_TellerId"] = logLine.RemoteControlTask_EventData_TellerId;
-            dataRow["RemoteControlTask_EventData_DateTime"] = TimestampToTableString(logLine.RemoteControlTask_EventData_DateTime);
+            dataRow["RemoteControlTask_EventData_DateTime"] = logLine.RemoteControlTask_EventData_DateTimeUTC;
             dataRow["RemoteControlTask_EventData_TaskTimeout"] = logLine.RemoteControlTask_EventData_TaskTimeout;
 
 

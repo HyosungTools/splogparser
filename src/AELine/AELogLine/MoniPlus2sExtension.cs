@@ -88,7 +88,7 @@ namespace LogLineHandler
 
       // general
       public long ApplicationAvailability { get; set; } = 0;
-      public DateTime FlowTimestamp { get; set; } = DateTime.MinValue;
+      public string FlowTimestampUTC { get; set; } = string.Empty;
       public string FlowPoint { get; set; } = string.Empty;
       public string TransactionType { get; set; } = string.Empty;
       public string Language { get; set; } = string.Empty;
@@ -122,8 +122,8 @@ namespace LogLineHandler
 
       public List<AssetCapabilities> Capabilities = new List<AssetCapabilities>();
       public string Status { get; set; } = string.Empty;
-      public DateTime StatusChangedTime { get; set; } = DateTime.MinValue;
-      public DateTime StatusReceivedTime { get; set; } = DateTime.MinValue;
+      public string StatusChangedTime { get; set; } = string.Empty;
+      public string StatusReceivedTime { get; set; } = string.Empty;
 
 
 
@@ -151,13 +151,13 @@ namespace LogLineHandler
 
 
       // teller session request
-      public DateTime TellerSessionRequest_Timestamp { get; set; } = DateTime.MinValue;
+      public string TellerSessionRequest_TimestampUTC { get; set; } = string.Empty;
 
 
 
       // remote control session
-      public DateTime RemoteControlSession_StartTime { get; set; } = DateTime.MinValue;
-      public DateTime RemoteControlSession_TellerSessionRequestTimestamp { get; set; } = DateTime.MinValue;
+      public string RemoteControlSession_StartTimeUTC { get; set; } = string.Empty;
+      public string RemoteControlSession_TellerSessionRequestTimestampUTC { get; set; } = string.Empty;
 
 
 
@@ -167,7 +167,7 @@ namespace LogLineHandler
       public string RemoteControl_AssetName { get; set; } = string.Empty;
       public string RemoteControlTask_EventData_Name { get; set; } = string.Empty;
       public string RemoteControlTask_EventData_TellerId { get; set; } = string.Empty;
-      public DateTime RemoteControlTask_EventData_DateTime { get; set; } = DateTime.MinValue;
+      public string RemoteControlTask_EventData_DateTimeUTC { get; set; } = string.Empty;
       public long RemoteControlTask_EventData_TaskTimeout { get; set; } = 0;
 
 
@@ -467,7 +467,8 @@ namespace LogLineHandler
 
                            SessionRequest_Id = dynamicTellerSessionRequest.Id;
                            AssetName = dynamicTellerSessionRequest.AssetName;
-                           FlowTimestamp = dynamicTellerSessionRequest.Timestamp;
+                           FlowTimestampUTC = dynamicTellerSessionRequest.Timestamp.ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec); ;
+
                            CustomerId = dynamicTellerSessionRequest.CustomerId;
                            FlowPoint = dynamicTellerSessionRequest.FlowPoint;
                            RequestContext = dynamicTellerSessionRequest.RequestContext;
@@ -509,7 +510,7 @@ namespace LogLineHandler
 
                            TellerSession_Id = dynamicTellerSession.Id;
                            AssetName = dynamicTellerSession.AssetName;
-                           TellerSessionRequest_Timestamp = dynamicTellerSession.Timestamp;
+                           TellerSessionRequest_TimestampUTC = ((DateTime)dynamicTellerSession.Timestamp).ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec);
                            TellerSessionRequest_Id = dynamicTellerSession.TellerSessionRequestId;
 
                            TellerInfo_Summary = ProcessTellerInfo(dynamicTellerSession.TellerInfo);
@@ -553,7 +554,7 @@ namespace LogLineHandler
                            TellerSessionRequest_Id = dynamicAssistRequest.Id;
                            AssetName = dynamicAssistRequest.AssetName;
                            TellerSession_Id = dynamicAssistRequest.TellerSessionId;
-                           TellerSessionRequest_Timestamp = dynamicAssistRequest.Timestamp;
+                           TellerSessionRequest_TimestampUTC = dynamicAssistRequest.Timestamp.ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec);
 
                            TransactionDetail_Summary.Add(ProcessTransactionDetail(dynamicAssistRequest.TransactionDetail));
 
@@ -709,11 +710,11 @@ namespace LogLineHandler
                            //}
                            //}
 
-                           RemoteControlSession_StartTime = dynamicRemoteControlSession.StartTime;
+                           RemoteControlSession_StartTimeUTC = dynamicRemoteControlSession.StartTime.ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec); ;
                            RemoteControlSession_Id = dynamicRemoteControlSession.Id;
                            AssetName = dynamicRemoteControlSession.AssetName;
                            RemoteControlSession_TellerSessionRequestId = dynamicRemoteControlSession.TellerSessionId;
-                           RemoteControlSession_TellerSessionRequestTimestamp = dynamicRemoteControlSession.Timestamp;
+                           RemoteControlSession_TellerSessionRequestTimestampUTC = dynamicRemoteControlSession.Timestamp.ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec);
 
                            TransactionDetail_Summary.Add(ProcessTransactionDetail(dynamicRemoteControlSession.TransactionDetail));
 
@@ -768,7 +769,7 @@ namespace LogLineHandler
 
                               RemoteControlTask_EventData_Name = dynamicRemoteControlTaskMessageEventData.Name;
                               RemoteControlTask_EventData_TellerId = dynamicRemoteControlTaskMessageEventData.TellerId != null ? dynamicRemoteControlTaskMessageEventData.TellerId : string.Empty;
-                              RemoteControlTask_EventData_DateTime = dynamicRemoteControlTaskMessageEventData.DateTime;
+                              RemoteControlTask_EventData_DateTimeUTC = ((DateTime)dynamicRemoteControlTaskMessageEventData.DateTime).ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec);
                               RemoteControlTask_EventData_TaskTimeout = dynamicRemoteControlTaskMessageEventData.TaskTimeout != null ? dynamicRemoteControlTaskMessageEventData.TaskTimeout : -1;
                            }
 
@@ -954,7 +955,8 @@ namespace LogLineHandler
                               }
                            }
 
-                           FlowTimestamp = dynamicApplicationState.Timestamp;
+                           FlowTimestampUTC = dynamicApplicationState.Timestamp.ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec);
+
                            FlowPoint = dynamicApplicationState.FlowPoint;
                            State = dynamicApplicationState.State != null ? dynamicApplicationState.State : string.Empty;
                            OperatingMode = dynamicApplicationState.OperatingMode;
@@ -986,8 +988,8 @@ namespace LogLineHandler
                            Model = dynamicAssetState.Model != null ? dynamicAssetState.Model : string.Empty;
                            Name = dynamicAssetState.Name != null ? dynamicAssetState.Name : string.Empty;
                            Status = dynamicAssetState.Status;
-                           StatusChangedTime = dynamicAssetState.StatusChangedTime;
-                           StatusReceivedTime = dynamicAssetState.StatusReceivedTime;
+                           StatusChangedTime = dynamicAssetState.StatusChangedTime.ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec); ;
+                           StatusReceivedTime = dynamicAssetState.StatusReceivedTime.ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec); ;
 
                            if (dynamicAssetState.Capabilities != null)
                            {

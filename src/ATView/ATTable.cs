@@ -151,12 +151,6 @@ namespace ATView
          }
       }
 
-      private string TimestampToTableString(DateTime dt)
-      {
-         return (dt == DateTime.MinValue) || (dt == default(DateTime)) ? string.Empty : dt.ToString(Impl.LogLine.TimeFormatStringMsec);
-      }
-
-
       protected void AddServerHttpRequest(LogLineHandler.ServerRequests logLine)
       {
          string tableName = "ServerHttpRequests";

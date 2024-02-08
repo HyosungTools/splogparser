@@ -18,40 +18,40 @@ namespace LogLineHandler
       bool isRecognized = false;
 
       // monitoring state
-      public string MonitoringDeviceChanges { get; set; }
-      public string MonitoringDeviceName { get; set; }
-      public DateTime MonitoringElapsed { get; set; }
+      public string MonitoringDeviceChanges { get; set; } = string.Empty;
+      public string MonitoringDeviceName { get; set; } = string.Empty;
+      public string MonitoringElapsed { get; set; } = string.Empty;
 
 
       // generic for all
       public long Id { get; set; }
-      public string MacAddress { get; set; }
-      public string DeviceId { get; set; }
-      public string DeviceClass { get; set; }
-      public string DisplayName { get; set; }
-      public string Status { get; set; }
-      public string AssetName { get; set; }
-      public string DeviceMediaStatus { get; set; }  // renamed to avoid conflict with MediaStatus
-      public DateTime DeviceStateTimestamp { get; set; }    // new to avoid conflict with parent class property
+      public string MacAddress { get; set; } = String.Empty;
+      public string DeviceId { get; set; } = string.Empty;
+      public string DeviceClass { get; set; } = string.Empty;
+      public string DisplayName { get; set; } = string.Empty;
+      public string Status { get; set; } = string.Empty;
+      public string AssetName { get; set; } = string.Empty;
+      public string DeviceMediaStatus { get; set; } = string.Empty;  // renamed to avoid conflict with MediaStatus
+      public string DeviceStateTimestampUTC { get; set; } = string.Empty;    // new to avoid conflict with parent class property
 
       // device-specific
-      public string StatusDeviceName { get; set; }
+      public string StatusDeviceName { get; set; } = string.Empty;
 
       // encoder
-      public string EncStatus { get; set; }
-      public string DevicePositionStatus { get; set; }
-      public long PowerSaveRecoveryTime { get; set; }
-      public string LogicalServiceName { get; set; }
-      public string ExtraInformation { get; set; }
+      public string EncStatus { get; set; } = string.Empty;
+      public string DevicePositionStatus { get; set; } = string.Empty;
+      public long PowerSaveRecoveryTime { get; set; } = 0;
+      public string LogicalServiceName { get; set; } = string.Empty;
+      public string ExtraInformation { get; set; } = string.Empty;
 
       // safe door
-      public string SafeDoorStatus { get; set; }
-      public string DispenserStatus { get; set; }
-      public string IntermediateStackerStatus { get; set; }
-      public string ShutterStatus { get; set; }
-      public string PositionStatus { get; set; }
-      public string TransportStatus { get; set; }
-      public string TransportStatusStatus { get; set; }
+      public string SafeDoorStatus { get; set; } = string.Empty;
+      public string DispenserStatus { get; set; } = string.Empty;
+      public string IntermediateStackerStatus { get; set; } = string.Empty;
+      public string ShutterStatus { get; set; } = string.Empty;
+      public string PositionStatus { get; set; } = string.Empty;
+      public string TransportStatus { get; set; } = string.Empty;
+      public string TransportStatusStatus { get; set; } = string.Empty;
       public List<string> UnitCurrencyID { get; set; }
       public List<long> UnitValue { get; set; }
       public List<string> UnitStatus { get; set; }
@@ -59,91 +59,91 @@ namespace LogLineHandler
       public List<string> UnitType { get; set; }
 
       // cabinet
-      public string CabinetStatus { get; set; }
-      public string SafeStatus { get; set; }
-      public string VandalShieldStatus { get; set; }
+      public string CabinetStatus { get; set; } = string.Empty;
+      public string SafeStatus { get; set; } = string.Empty;
+      public string VandalShieldStatus { get; set; } = string.Empty;
 
       // media (1)
-      public string MediaStatus { get; set; }
-      public string RetainBinStatus { get; set; }
-      public string SecurityStatus { get; set; }
-      public string NumberOfCardsRetained { get; set; }
-      public string ChipPowerStatus { get; set; }
+      public string MediaStatus { get; set; } = string.Empty;
+      public string RetainBinStatus { get; set; } = string.Empty;
+      public string SecurityStatus { get; set; } = string.Empty;
+      public string NumberOfCardsRetained { get; set; } = string.Empty;
+      public string ChipPowerStatus { get; set; } = string.Empty;
 
       // media(2)
 
       public List<string> PaperStatus { get; set; }
-      public string Media_TonerStatus { get; set; }  // see duplicate check acceptor
-      public string Media_InkStatus { get; set; }    // see duplicate check accepter
-      public string LampStatus { get; set; }
+      public string Media_TonerStatus { get; set; } = string.Empty;  // see duplicate check acceptor
+      public string Media_InkStatus { get; set; } = string.Empty;    // see duplicate check accepter
+      public string LampStatus { get; set; } = string.Empty;
       public List<string> RetractBinStatus { get; set; }
-      public long MediaOnStacker { get; set; }
-      public string Media_DevicePositionStatus { get; set; }  // see duplicate encoder
+      public long MediaOnStacker { get; set; } = 0;
+      public string Media_DevicePositionStatus { get; set; } = string.Empty;  // see duplicate encoder
 
 
 
       // card unit
-      public string CardUnitStatus { get; set; }
-      public string PinpadStatus { get; set; }
-      public string NotesDispenserStatus { get; set; }
-      public string CoinDispenserStatus { get; set; }
-      public string ReceiptPrinterStatus { get; set; }
-      public string PassbookPrinterStatus { get; set; }
-      public string EnvelopeDepositoryStatus { get; set; }
-      public string ChequeUnitStatus { get; set; }
-      public string BillAcceptorStatus { get; set; }
-      public string EnvelopeDispenserStatus { get; set; }
-      public string DocumentPrinterStatus { get; set; }
-      public string CoinAcceptorStatus { get; set; }
-      public string ScannerStatus { get; set; }
+      public string CardUnitStatus { get; set; } = string.Empty;
+      public string PinpadStatus { get; set; } = string.Empty;
+      public string NotesDispenserStatus { get; set; } = string.Empty;
+      public string CoinDispenserStatus { get; set; } = string.Empty;
+      public string ReceiptPrinterStatus { get; set; } = string.Empty;
+      public string PassbookPrinterStatus { get; set; } = string.Empty;
+      public string EnvelopeDepositoryStatus { get; set; } = string.Empty;
+      public string ChequeUnitStatus { get; set; } = string.Empty;
+      public string BillAcceptorStatus { get; set; } = string.Empty;
+      public string EnvelopeDispenserStatus { get; set; } = string.Empty;
+      public string DocumentPrinterStatus { get; set; } = string.Empty;
+      public string CoinAcceptorStatus { get; set; } = string.Empty;
+      public string ScannerStatus { get; set; } = string.Empty;
 
       // operator switch
-      public string OperatorSwitchStatus { get; set; }
-      public string TamperStatus { get; set; }
-      public string IntTamperStatus { get; set; }
-      public string SeismicStatus { get; set; }
-      public string HeatStatus { get; set; }
-      public string ProximityStatus { get; set; }
-      public string AmblightStatus { get; set; }
-      public string EnhancedAudioStatus { get; set; }
+      public string OperatorSwitchStatus { get; set; } = string.Empty;
+      public string TamperStatus { get; set; } = string.Empty;
+      public string IntTamperStatus { get; set; } = string.Empty;
+      public string SeismicStatus { get; set; } = string.Empty;
+      public string HeatStatus { get; set; } = string.Empty;
+      public string ProximityStatus { get; set; } = string.Empty;
+      public string AmblightStatus { get; set; } = string.Empty;
+      public string EnhancedAudioStatus { get; set; } = string.Empty;
 
       // open-close
-      public string OpenCloseStatus { get; set; }
-      public string FasciaLightStatus { get; set; }
-      public string AudioStatus { get; set; }
-      public string HeatingStatus { get; set; }
+      public string OpenCloseStatus { get; set; } = string.Empty;
+      public string FasciaLightStatus { get; set; } = string.Empty;
+      public string AudioStatus { get; set; } = string.Empty;
+      public string HeatingStatus { get; set; } = string.Empty;
 
       // volume
-      public long VolumeStatus { get; set; }
-      public string UpsStatus { get; set; }
-      public string GreenLedStatus { get; set; }
-      public string AmberLedStatus { get; set; }
-      public string RedLedStatus { get; set; }
-      public string AudibleAlarmStatus { get; set; }
-      public string EnhancedAudioControlStatus { get; set; }
+      public long VolumeStatus { get; set; } = 0;
+      public string UpsStatus { get; set; } = string.Empty;
+      public string GreenLedStatus { get; set; } = string.Empty;
+      public string AmberLedStatus { get; set; } = string.Empty;
+      public string RedLedStatus { get; set; } = string.Empty;
+      public string AudibleAlarmStatus { get; set; } = string.Empty;
+      public string EnhancedAudioControlStatus { get; set; } = string.Empty;
 
       // check acceptor
-      public string CheckAcceptorStatus { get; set; }
-      public string TonerStatus { get; set; }
-      public string InkStatus { get; set; }
-      public string FrontImageScannerStatus { get; set; }
-      public string BackImageScannerStatus { get; set; }
-      public string MICRReaderStatus { get; set; }
-      public string StackerStatus { get; set; }
-      public string ReBuncherStatus { get; set; }
-      public string MediaFeederStatus { get; set; }
-      public string PositionStatus_Input { get; set; }
-      public string PositionStatus_Output { get; set; }
-      public string PositionStatus_Refused { get; set; }
-      public string ShutterStatus_Input { get; set; }
-      public string ShutterStatus_Output { get; set; }
-      public string ShutterStatus_Refused { get; set; }
-      public string TransportStatus_Input { get; set; }
-      public string TransportStatus_Output { get; set; }
-      public string TransportStatus_Refused { get; set; }
-      public string TransportMediaStatus_Input { get; set; }
-      public string TransportMediaStatus_Output { get; set; }
-      public string TransportMediaStatus_Refused { get; set; }
+      public string CheckAcceptorStatus { get; set; } = string.Empty;
+      public string TonerStatus { get; set; } = string.Empty;
+      public string InkStatus { get; set; } = string.Empty;
+      public string FrontImageScannerStatus { get; set; } = string.Empty;
+      public string BackImageScannerStatus { get; set; } = string.Empty;
+      public string MICRReaderStatus { get; set; } = string.Empty;
+      public string StackerStatus { get; set; } = string.Empty;
+      public string ReBuncherStatus { get; set; } = string.Empty;
+      public string MediaFeederStatus { get; set; } = string.Empty;
+      public string PositionStatus_Input { get; set; } = string.Empty;
+      public string PositionStatus_Output { get; set; } = string.Empty;
+      public string PositionStatus_Refused { get; set; } = string.Empty;
+      public string ShutterStatus_Input { get; set; } = string.Empty;
+      public string ShutterStatus_Output { get; set; } = string.Empty;
+      public string ShutterStatus_Refused { get; set; } = string.Empty;
+      public string TransportStatus_Input { get; set; } = string.Empty;
+      public string TransportStatus_Output { get; set; } = string.Empty;
+      public string TransportStatus_Refused { get; set; } = string.Empty;
+      public string TransportMediaStatus_Input { get; set; } = string.Empty;
+      public string TransportMediaStatus_Output { get; set; } = string.Empty;
+      public string TransportMediaStatus_Refused { get; set; } = string.Empty;
 
 
 
@@ -267,7 +267,7 @@ namespace LogLineHandler
                   AssetName = dynamicDeviceState.AssetName;
                   DeviceMediaStatus = dynamicDeviceState.MediaStatus;
 
-                  DeviceStateTimestamp = dynamicDeviceState.Timestamp;
+                  DeviceStateTimestampUTC = dynamicDeviceState.Timestamp.ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec);
 
                   try
                   {
@@ -732,7 +732,8 @@ namespace LogLineHandler
                   isRecognized = true;
                   MonitoringDeviceChanges = "OPEN SESSION SUCCEEDED";
                   MonitoringDeviceName = $"{m.Groups["device"].Value}";
-                  MonitoringElapsed = DateTime.Parse(m.Groups["timespan"].Value);
+                  MonitoringElapsed = m.Groups["timespan"].Value;
+
                }
             }
          }

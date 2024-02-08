@@ -140,6 +140,10 @@
       <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
       <Name>Contract</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Impl\Impl.csproj">
+      <Project>{f89403e5-4c5c-4d8f-8401-b2d56f6d8a2b}</Project>
+      <Name>Impl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LogFileHandler\LogFileHandler.csproj">
       <Project>{9af8b5cf-72dc-4a01-b1bd-976b811d7ae4}</Project>
       <Name>LogFileHandler</Name>
