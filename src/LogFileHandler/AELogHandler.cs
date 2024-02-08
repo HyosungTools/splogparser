@@ -49,7 +49,11 @@ namespace LogFileHandler
             if (c == '\n' || EOF())
             {
                endOfLine = true;
-               break;
+
+               if (c == '\n')
+               {
+                  break;
+               }
             }
 
             // ignore nulls and non-printing ASCII characters
