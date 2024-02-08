@@ -61,7 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AELineTests.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="NetOpExtensionTests.cs" />
+    <Compile Include="ExtensionStartedTests.cs" />
     <Compile Include="CreateTextStreamReaderMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

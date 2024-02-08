@@ -6,7 +6,7 @@ namespace LogLineHandler
 {
    public class ExtensionStarted : AELine
    {
-      public string extensionName { get; set; }
+      public string extensionName { get; set; } = string.Empty;
 
       public ExtensionStarted(ILogFileHandler parent, string logLine, AELogType aeType = AELogType.ExtensionStarted) : base(parent, logLine, aeType)
       {
@@ -29,7 +29,7 @@ namespace LogLineHandler
             Match m = regex.Match(subLogLine);
             if (!m.Success)
             {
-               return;
+               throw new Exception($"AELogLine.ExtensionStarted: did not recognize the log line '{logLine}'");
             }
 
             extensionName = m.Groups["extension"].Value;

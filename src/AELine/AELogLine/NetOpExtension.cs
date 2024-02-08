@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Dynamic;
 using System.Linq;
 using System.Net;
@@ -15,9 +16,9 @@ namespace LogLineHandler
    public class NetOpExtension : AELine
    {
       bool isRecognized = false;
-      public string ModelName { get; set; }
-      public string ConfigurationState { get; set; }
-      public string RemoteDesktopServerState { get; set; }
+      public string ModelName { get; set; } = string.Empty;
+      public string ConfigurationState { get; set; } = string.Empty;
+      public string RemoteDesktopServerState { get; set; } = string.Empty;
 
 
 
@@ -179,6 +180,11 @@ namespace LogLineHandler
                   throw new Exception($"AELogLine.NetOpExtension: did not recognize the log line '{logLine}'");
                }
             }
+         }
+
+         else
+         {
+            throw new Exception($"AELogLine.NetOpExtension: did not recognize the log line '{logLine}'");
          }
       }
    }
