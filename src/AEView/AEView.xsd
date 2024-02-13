@@ -187,7 +187,7 @@
 			</xs:sequence>
 		  </xs:complexType>
 		</xs:element>
-		<xs:element name="NetwareEvents">
+		<xs:element name="NextwareEvents">
 		  <xs:complexType>
 		    <xs:sequence>
               <xs:element name="file" type="xs:string" minOccurs="0" />
@@ -205,90 +205,7 @@
 			  <xs:element name="DeviceMediaStatus" type = "xs:string" minOccurs="0" />
 			  <xs:element name="Timestamp" type = "xs:string" minOccurs="0" />
 			  <xs:element name="StatusDeviceName" type = "xs:string" minOccurs="0" />
-			  <xs:element name="EncStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="DevicePositionStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="PowerSaveRecoveryTime" type = "xs:string" minOccurs="0" />
-			  <xs:element name="LogicalServiceName" type = "xs:string" minOccurs="0" />
-			  <xs:element name="ExtraInformation" type = "xs:string" minOccurs="0" />
-			  <xs:element name="SafeDoorStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="DispenserStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="IntermediateStackerStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="ShutterStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="PositionStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="TransportStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="TransportStatusStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="UnitCurrencyID" type = "xs:string" minOccurs="0" />
-			  <xs:element name="UnitValue" type = "xs:string" minOccurs="0" />
-			  <xs:element name="UnitStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="UnitType" type = "xs:string" minOccurs="0" />
-			  <xs:element name="CabinetStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="SafeStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="VandalShieldStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="MediaStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="RetainBinStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="SecurityStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="NumberOfCardsRetained" type = "xs:string" minOccurs="0" />
-			  <xs:element name="ChipPowerStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="PaperStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="Media_TonerStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="Media_InkStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="LampStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="RetractBinStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="MediaOnStacker" type = "xs:string" minOccurs="0" />
-			  <xs:element name="Media_DevicePositionStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="CardUnitStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="PinpadStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="NotesDispenserStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="CoinDispenserStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="ReceiptPrinterStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="PassbookPrinterStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="EnvelopeDepositoryStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="ChequeUnitStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="BillAcceptorStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="EnvelopeDispenserStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="DocumentPrinterStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="CoinAcceptorStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="ScannerStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="OperatorSwitchStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="TamperStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="IntTamperStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="SeismicStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="HeatStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="ProximityStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="AmblightStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="EnhancedAudioStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="OpenCloseStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="FasciaLightStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="AudioStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="HeatingStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="VolumeStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="UpsStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="GreenLedStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="AmberLedStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="RedLedStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="AudibleAlarmStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="EnhancedAudioControlStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="CheckAcceptorStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="TonerStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="InkStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="FrontImageScannerStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="BackImageScannerStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="MICRReaderStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="StackerStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="ReBuncherStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="MediaFeederStatus" type = "xs:string" minOccurs="0" />
-			  <xs:element name="PositionStatus_Input" type = "xs:string" minOccurs="0" />
-			  <xs:element name="PositionStatus_Output" type = "xs:string" minOccurs="0" />
-			  <xs:element name="PositionStatus_Refused" type = "xs:string" minOccurs="0" />
-			  <xs:element name="ShutterStatus_Input" type = "xs:string" minOccurs="0" />
-			  <xs:element name="ShutterStatus_Output" type = "xs:string" minOccurs="0" />
-			  <xs:element name="ShutterStatus_Refused" type = "xs:string" minOccurs="0" />
-			  <xs:element name="TransportStatus_Input" type = "xs:string" minOccurs="0" />
-			  <xs:element name="TransportStatus_Output" type = "xs:string" minOccurs="0" />
-			  <xs:element name="TransportStatus_Refused" type = "xs:string" minOccurs="0" />
-			  <xs:element name="TransportMediaStatus_Input" type = "xs:string" minOccurs="0" />
-			  <xs:element name="TransportMediaStatus_Output" type = "xs:string" minOccurs="0" />
-			  <xs:element name="TransportMediaStatus_Refused" type = "xs:string" minOccurs="0" />
+			  <xs:element name="DeviceStatus" type = "xs:string" minOccurs="0" />
 			</xs:sequence>
 		  </xs:complexType>
 		</xs:element>

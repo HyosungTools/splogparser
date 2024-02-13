@@ -91,7 +91,7 @@ namespace AEView
                   case AELogType.NextwareExtension:
                      {
                         base.ProcessRow(neLogLine);
-                        AddNetwareExtensionEvent(neLogLine);
+                        AddNextwareExtensionEvent(neLogLine);
                         break;
                      }
 
@@ -208,11 +208,11 @@ namespace AEView
          }
       }
 
-      protected void AddNetwareExtensionEvent(LogLineHandler.NextwareExtension logLine)
+      protected void AddNextwareExtensionEvent(LogLineHandler.NextwareExtension logLine)
       {
          try
          {
-            string tableName = "NetwareEvents";
+            string tableName = "NextwareEvents";
 
             DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
 
@@ -233,96 +233,13 @@ namespace AEView
             dataRow["DeviceMediaStatus"] = logLine.DeviceMediaStatus;
             dataRow["Timestamp"] = logLine.DeviceStateTimestampUTC;
             dataRow["StatusDeviceName"] = logLine.StatusDeviceName;
-            dataRow["EncStatus"] = logLine.EncStatus;
-            dataRow["DevicePositionStatus"] = logLine.DevicePositionStatus;
-            dataRow["PowerSaveRecoveryTime"] = logLine.PowerSaveRecoveryTime;
-            dataRow["LogicalServiceName"] = logLine.LogicalServiceName;
-            dataRow["ExtraInformation"] = logLine.ExtraInformation;
-            dataRow["SafeDoorStatus"] = logLine.SafeDoorStatus;
-            dataRow["DispenserStatus"] = logLine.DispenserStatus;
-            dataRow["IntermediateStackerStatus"] = logLine.IntermediateStackerStatus;
-            dataRow["ShutterStatus"] = logLine.ShutterStatus;
-            dataRow["PositionStatus"] = logLine.PositionStatus;
-            dataRow["TransportStatus"] = logLine.TransportStatus;
-            dataRow["TransportStatusStatus"] = logLine.TransportStatusStatus;
-            dataRow["UnitCurrencyID"] = Impl.LogLine.ListToString(',', logLine.UnitCurrencyID);
-            dataRow["UnitValue"] = Impl.LogLine.ListToString(',', logLine.UnitValue);
-            dataRow["UnitStatus"] = Impl.LogLine.ListToString(',', logLine.UnitStatus);
-            dataRow["UnitType"] = Impl.LogLine.ListToString(',', logLine.UnitType);
-            dataRow["CabinetStatus"] = logLine.CabinetStatus;
-            dataRow["SafeStatus"] = logLine.SafeStatus;
-            dataRow["VandalShieldStatus"] = logLine.VandalShieldStatus;
-            dataRow["MediaStatus"] = logLine.MediaStatus;
-            dataRow["RetainBinStatus"] = logLine.RetainBinStatus;
-            dataRow["SecurityStatus"] = logLine.SecurityStatus;
-            dataRow["NumberOfCardsRetained"] = logLine.NumberOfCardsRetained;
-            dataRow["ChipPowerStatus"] = logLine.ChipPowerStatus;
-            dataRow["PaperStatus"] = Impl.LogLine.ListToString(',', logLine.PaperStatus);
-            dataRow["Media_TonerStatus"] = logLine.Media_TonerStatus;
-            dataRow["Media_InkStatus"] = logLine.Media_InkStatus;
-            dataRow["LampStatus"] = logLine.LampStatus;
-            dataRow["RetractBinStatus"] = logLine.RetainBinStatus;
-            dataRow["MediaOnStacker"] = logLine.MediaOnStacker;
-            dataRow["Media_DevicePositionStatus"] = logLine.Media_DevicePositionStatus;
-            dataRow["CardUnitStatus"] = logLine.CardUnitStatus;
-            dataRow["PinpadStatus"] = logLine.PinpadStatus;
-            dataRow["NotesDispenserStatus"] = logLine.NotesDispenserStatus;
-            dataRow["CoinDispenserStatus"] = logLine.CoinDispenserStatus;
-            dataRow["ReceiptPrinterStatus"] = logLine.ReceiptPrinterStatus;
-            dataRow["PassbookPrinterStatus"] = logLine.PassbookPrinterStatus;
-            dataRow["EnvelopeDepositoryStatus"] = logLine.EnvelopeDepositoryStatus;
-            dataRow["ChequeUnitStatus"] = logLine.ChequeUnitStatus;
-            dataRow["BillAcceptorStatus"] = logLine.BillAcceptorStatus;
-            dataRow["EnvelopeDispenserStatus"] = logLine.EnvelopeDispenserStatus;
-            dataRow["DocumentPrinterStatus"] = logLine.DocumentPrinterStatus;
-            dataRow["CoinAcceptorStatus"] = logLine.CoinAcceptorStatus;
-            dataRow["ScannerStatus"] = logLine.ScannerStatus;
-            dataRow["OperatorSwitchStatus"] = logLine.OperatorSwitchStatus;
-            dataRow["TamperStatus"] = logLine.TamperStatus;
-            dataRow["IntTamperStatus"] = logLine.IntTamperStatus;
-            dataRow["SeismicStatus"] = logLine.SeismicStatus;
-            dataRow["HeatStatus"] = logLine.HeatStatus;
-            dataRow["ProximityStatus"] = logLine.ProximityStatus;
-            dataRow["AmblightStatus"] = logLine.AmblightStatus;
-            dataRow["EnhancedAudioStatus"] = logLine.EnhancedAudioStatus;
-            dataRow["OpenCloseStatus"] = logLine.OpenCloseStatus;
-            dataRow["FasciaLightStatus"] = logLine.FasciaLightStatus;
-            dataRow["AudioStatus"] = logLine.AudioStatus;
-            dataRow["HeatingStatus"] = logLine.HeatingStatus;
-            dataRow["VolumeStatus"] = logLine.VolumeStatus;
-            dataRow["UpsStatus"] = logLine.UpsStatus;
-            dataRow["GreenLedStatus"] = logLine.GreenLedStatus;
-            dataRow["AmberLedStatus"] = logLine.AmberLedStatus;
-            dataRow["RedLedStatus"] = logLine.RedLedStatus;
-            dataRow["AudibleAlarmStatus"] = logLine.AudibleAlarmStatus;
-            dataRow["EnhancedAudioControlStatus"] = logLine.EnhancedAudioControlStatus;
-            dataRow["CheckAcceptorStatus"] = logLine.CheckAcceptorStatus;
-            dataRow["TonerStatus"] = logLine.TonerStatus;
-            dataRow["InkStatus"] = logLine.InkStatus;
-            dataRow["FrontImageScannerStatus"] = logLine.FrontImageScannerStatus;
-            dataRow["BackImageScannerStatus"] = logLine.BackImageScannerStatus;
-            dataRow["MICRReaderStatus"] = logLine.MICRReaderStatus;
-            dataRow["StackerStatus"] = logLine.StackerStatus;
-            dataRow["ReBuncherStatus"] = logLine.ReBuncherStatus;
-            dataRow["MediaFeederStatus"] = logLine.MediaFeederStatus;
-            dataRow["PositionStatus_Input"] = logLine.PositionStatus_Input;
-            dataRow["PositionStatus_Output"] = logLine.PositionStatus_Output;
-            dataRow["PositionStatus_Refused"] = logLine.PositionStatus_Refused;
-            dataRow["ShutterStatus_Input"] = logLine.ShutterStatus_Input;
-            dataRow["ShutterStatus_Output"] = logLine.ShutterStatus_Output;
-            dataRow["ShutterStatus_Refused"] = logLine.ShutterStatus_Refused;
-            dataRow["TransportStatus_Input"] = logLine.TransportStatus_Input;
-            dataRow["TransportStatus_Output"] = logLine.TransportStatus_Output;
-            dataRow["TransportStatus_Refused"] = logLine.TransportStatus_Refused;
-            dataRow["TransportMediaStatus_Input"] = logLine.TransportMediaStatus_Input;
-            dataRow["TransportMediaStatus_Output"] = logLine.TransportMediaStatus_Output;
-            dataRow["TransportMediaStatus_Refused"] = logLine.TransportMediaStatus_Refused;
+            dataRow["DeviceStatus"] = logLine.DeviceStatus;
 
             dTableSet.Tables[tableName].AcceptChanges();
          }
          catch (Exception e)
          {
-            ctx.ConsoleWriteLogLine("AddNetwareExtensionEvent Exception : " + e.Message);
+            ctx.ConsoleWriteLogLine("AddNextwareExtensionEvent Exception : " + e.Message);
          }
 
          // also add to MoniPlus2sEvents table
@@ -346,7 +263,7 @@ namespace AEView
          }
          catch (Exception e)
          {
-            ctx.ConsoleWriteLogLine("AddNetwareExtensionEvent Exception : " + e.Message);
+            ctx.ConsoleWriteLogLine("AddNextwareExtensionEvent Exception : " + e.Message);
          }
       }
 

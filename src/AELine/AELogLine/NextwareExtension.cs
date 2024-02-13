@@ -5,6 +5,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Contract;
@@ -17,13 +18,12 @@ namespace LogLineHandler
    {
       bool isRecognized = false;
 
-      // monitoring state
+      // Start/End
+      public bool ExtensionRunning = false;
+
       public string MonitoringDeviceChanges { get; set; } = string.Empty;
       public string MonitoringDeviceName { get; set; } = string.Empty;
       public string MonitoringElapsed { get; set; } = string.Empty;
-
-
-      // generic for all
       public long Id { get; set; }
       public string MacAddress { get; set; } = String.Empty;
       public string DeviceId { get; set; } = string.Empty;
@@ -33,118 +33,8 @@ namespace LogLineHandler
       public string AssetName { get; set; } = string.Empty;
       public string DeviceMediaStatus { get; set; } = string.Empty;  // renamed to avoid conflict with MediaStatus
       public string DeviceStateTimestampUTC { get; set; } = string.Empty;    // new to avoid conflict with parent class property
-
-      // device-specific
       public string StatusDeviceName { get; set; } = string.Empty;
-
-      // encoder
-      public string EncStatus { get; set; } = string.Empty;
-      public string DevicePositionStatus { get; set; } = string.Empty;
-      public long PowerSaveRecoveryTime { get; set; } = 0;
-      public string LogicalServiceName { get; set; } = string.Empty;
-      public string ExtraInformation { get; set; } = string.Empty;
-
-      // safe door
-      public string SafeDoorStatus { get; set; } = string.Empty;
-      public string DispenserStatus { get; set; } = string.Empty;
-      public string IntermediateStackerStatus { get; set; } = string.Empty;
-      public string ShutterStatus { get; set; } = string.Empty;
-      public string PositionStatus { get; set; } = string.Empty;
-      public string TransportStatus { get; set; } = string.Empty;
-      public string TransportStatusStatus { get; set; } = string.Empty;
-      public List<string> UnitCurrencyID { get; set; }
-      public List<long> UnitValue { get; set; }
-      public List<string> UnitStatus { get; set; }
-      public List<long> UnitCount { get; set; }
-      public List<string> UnitType { get; set; }
-
-      // cabinet
-      public string CabinetStatus { get; set; } = string.Empty;
-      public string SafeStatus { get; set; } = string.Empty;
-      public string VandalShieldStatus { get; set; } = string.Empty;
-
-      // media (1)
-      public string MediaStatus { get; set; } = string.Empty;
-      public string RetainBinStatus { get; set; } = string.Empty;
-      public string SecurityStatus { get; set; } = string.Empty;
-      public string NumberOfCardsRetained { get; set; } = string.Empty;
-      public string ChipPowerStatus { get; set; } = string.Empty;
-
-      // media(2)
-
-      public List<string> PaperStatus { get; set; }
-      public string Media_TonerStatus { get; set; } = string.Empty;  // see duplicate check acceptor
-      public string Media_InkStatus { get; set; } = string.Empty;    // see duplicate check accepter
-      public string LampStatus { get; set; } = string.Empty;
-      public List<string> RetractBinStatus { get; set; }
-      public long MediaOnStacker { get; set; } = 0;
-      public string Media_DevicePositionStatus { get; set; } = string.Empty;  // see duplicate encoder
-
-
-
-      // card unit
-      public string CardUnitStatus { get; set; } = string.Empty;
-      public string PinpadStatus { get; set; } = string.Empty;
-      public string NotesDispenserStatus { get; set; } = string.Empty;
-      public string CoinDispenserStatus { get; set; } = string.Empty;
-      public string ReceiptPrinterStatus { get; set; } = string.Empty;
-      public string PassbookPrinterStatus { get; set; } = string.Empty;
-      public string EnvelopeDepositoryStatus { get; set; } = string.Empty;
-      public string ChequeUnitStatus { get; set; } = string.Empty;
-      public string BillAcceptorStatus { get; set; } = string.Empty;
-      public string EnvelopeDispenserStatus { get; set; } = string.Empty;
-      public string DocumentPrinterStatus { get; set; } = string.Empty;
-      public string CoinAcceptorStatus { get; set; } = string.Empty;
-      public string ScannerStatus { get; set; } = string.Empty;
-
-      // operator switch
-      public string OperatorSwitchStatus { get; set; } = string.Empty;
-      public string TamperStatus { get; set; } = string.Empty;
-      public string IntTamperStatus { get; set; } = string.Empty;
-      public string SeismicStatus { get; set; } = string.Empty;
-      public string HeatStatus { get; set; } = string.Empty;
-      public string ProximityStatus { get; set; } = string.Empty;
-      public string AmblightStatus { get; set; } = string.Empty;
-      public string EnhancedAudioStatus { get; set; } = string.Empty;
-
-      // open-close
-      public string OpenCloseStatus { get; set; } = string.Empty;
-      public string FasciaLightStatus { get; set; } = string.Empty;
-      public string AudioStatus { get; set; } = string.Empty;
-      public string HeatingStatus { get; set; } = string.Empty;
-
-      // volume
-      public long VolumeStatus { get; set; } = 0;
-      public string UpsStatus { get; set; } = string.Empty;
-      public string GreenLedStatus { get; set; } = string.Empty;
-      public string AmberLedStatus { get; set; } = string.Empty;
-      public string RedLedStatus { get; set; } = string.Empty;
-      public string AudibleAlarmStatus { get; set; } = string.Empty;
-      public string EnhancedAudioControlStatus { get; set; } = string.Empty;
-
-      // check acceptor
-      public string CheckAcceptorStatus { get; set; } = string.Empty;
-      public string TonerStatus { get; set; } = string.Empty;
-      public string InkStatus { get; set; } = string.Empty;
-      public string FrontImageScannerStatus { get; set; } = string.Empty;
-      public string BackImageScannerStatus { get; set; } = string.Empty;
-      public string MICRReaderStatus { get; set; } = string.Empty;
-      public string StackerStatus { get; set; } = string.Empty;
-      public string ReBuncherStatus { get; set; } = string.Empty;
-      public string MediaFeederStatus { get; set; } = string.Empty;
-      public string PositionStatus_Input { get; set; } = string.Empty;
-      public string PositionStatus_Output { get; set; } = string.Empty;
-      public string PositionStatus_Refused { get; set; } = string.Empty;
-      public string ShutterStatus_Input { get; set; } = string.Empty;
-      public string ShutterStatus_Output { get; set; } = string.Empty;
-      public string ShutterStatus_Refused { get; set; } = string.Empty;
-      public string TransportStatus_Input { get; set; } = string.Empty;
-      public string TransportStatus_Output { get; set; } = string.Empty;
-      public string TransportStatus_Refused { get; set; } = string.Empty;
-      public string TransportMediaStatus_Input { get; set; } = string.Empty;
-      public string TransportMediaStatus_Output { get; set; } = string.Empty;
-      public string TransportMediaStatus_Refused { get; set; } = string.Empty;
-
+      public string DeviceStatus {  get; set; } = string.Empty;
 
 
       public NextwareExtension(ILogFileHandler parent, string logLine, AELogType aeType = AELogType.NextwareExtension) : base(parent, logLine, aeType)
@@ -249,7 +139,6 @@ namespace LogLineHandler
                 */
 
                //"{\"Id\":0,\"MacAddress\":\"00-01-2E-A5-F2-30\",\"DeviceID\":\"M\",\"DeviceClass\":null,\"DisplayName\":null,\"Status\":\"0\",\"AssetName\":null,\"MediaStatus\":null,\"DeviceSpecificStatus\":\"{\\\"AcceptorStatus\\\":\\\"0\\\",\\\"MediaStatus\\\":\\\"1\\\",\\\"TonerStatus\\\":\\\"0\\\",\\\"InkStatus\\\":\\\"3\\\",\\\"FrontImageScannerStatus\\\":\\\"0\\\",\\\"BackImageScannerStatus\\\":\\\"0\\\",\\\"MICRReaderStatus\\\":\\\"0\\\",\\\"StackerStatus\\\":\\\"0\\\",\\\"ReBuncherStatus\\\":\\\"0\\\",\\\"MediaFeederStatus\\\":\\\"0\\\",\\\"PositionStatus_Input\\\":\\\"0\\\",\\\"PositionStatus_Output\\\":\\\"0\\\",\\\"PositionStatus_Refused\\\":\\\"0\\\",\\\"ShutterStatus_Input\\\":\\\"0\\\",\\\"ShutterStatus_Output\\\":\\\"0\\\",\\\"ShutterStatus_Refused\\\":\\\"0\\\",\\\"TransportStatus_Input\\\":\\\"0\\\",\\\"TransportStatus_Output\\\":\\\"\\\",\\\"TransportStatus_Refused\\\":\\\"\\\",\\\"TransportMediaStatus_Input\\\":\\\"0\\\",\\\"TransportMediaStatus_Output\\\":\\\"0\\\",\\\"TransportMediaStatus_Refused\\\":\\\"0\\\",\\\"DevicePositionStatus\\\":\\\"0\\\",\\\"PowerSaveRecoveryTime\\\":0,\\\"LogicalServiceName\\\":\\\"\\\",\\\"ExtraInformation\\\":\\\"\\\"}\",\"Timestamp\":\"0001-01-01T00:00:00\"}"
-               isRecognized = true;
                idx = subLogLine.IndexOf("{");
 
                string jsonPayload = subLogLine.Substring(idx);
@@ -275,6 +164,11 @@ namespace LogLineHandler
 
                      KeyValuePair<string, object> first = ((IDictionary<String, object>)dynamicDeviceSpecificStatus).First();
 
+                     // build a string describing the status
+                     StringBuilder sb = new StringBuilder();
+
+                     StatusDeviceName = first.Key;
+
                      switch (first.Key)
                      {
                         case "EncStatus":
@@ -285,13 +179,14 @@ namespace LogLineHandler
                               \"LogicalServiceName\":\"\"
                               \"ExtraInformation\":\"\"
                             */
-                           EncStatus = dynamicDeviceSpecificStatus.EncStatus;
-                           DevicePositionStatus = dynamicDeviceSpecificStatus.DevicePositionStatus;
-                           PowerSaveRecoveryTime = dynamicDeviceSpecificStatus.PowerSaveRecoveryTime;
-                           LogicalServiceName = dynamicDeviceSpecificStatus.LogicalServiceName;
-                           ExtraInformation = dynamicDeviceSpecificStatus.ExtraInformation;
-                           // set last to indicate success
-                           StatusDeviceName = first.Key;
+                           sb.Append($"EncStatus: {dynamicDeviceSpecificStatus.EncStatus},");
+                           sb.Append($"DevicePositionStatus: {dynamicDeviceSpecificStatus.DevicePositionStatus},");
+                           sb.Append($"PowerSaveRecoveryTime: {dynamicDeviceSpecificStatus.PowerSaveRecoveryTime},");
+                           sb.Append($"LogicalServiceName: {dynamicDeviceSpecificStatus.LogicalServiceName},");
+                           sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
+
+                           DeviceStatus = sb.ToString();
+                           isRecognized = true;
                            break;
 
                         case "SafeDoorStatus":
@@ -313,36 +208,56 @@ namespace LogLineHandler
                               \"LogicalServiceName\":\"\"
                               \"ExtraInformation\":\"\"
                             */
-                           SafeDoorStatus = dynamicDeviceSpecificStatus.SafeDoorStatus;
-                           DispenserStatus = dynamicDeviceSpecificStatus.DispenserStatus;
-                           IntermediateStackerStatus = dynamicDeviceSpecificStatus.IntermediateStackerStatus;
-                           ShutterStatus = dynamicDeviceSpecificStatus.ShutterStatus;
-                           PositionStatus = dynamicDeviceSpecificStatus.PositionStatus;
-                           TransportStatus = dynamicDeviceSpecificStatus.TransportStatus;
-                           TransportStatusStatus = dynamicDeviceSpecificStatus.TransportStatusStatus;
-                           DevicePositionStatus = dynamicDeviceSpecificStatus.DevicePositionStatus;
-                           PowerSaveRecoveryTime = dynamicDeviceSpecificStatus.PowerSaveRecoveryTime;
+                           sb.Append($"SafeDoorStatus: {dynamicDeviceSpecificStatus.SafeDoorStatus},");
+                           sb.Append($"DispenserStatus: {dynamicDeviceSpecificStatus.DispenserStatus},");
+                           sb.Append($"IntermediateStackerStatus: {dynamicDeviceSpecificStatus.IntermediateStackerStatus},");
+                           sb.Append($"ShutterStatus: {dynamicDeviceSpecificStatus.ShutterStatus},");
+                           sb.Append($"PositionStatus: {dynamicDeviceSpecificStatus.PositionStatus},");
+                           sb.Append($"TransportStatus: {dynamicDeviceSpecificStatus.TransportStatus},");
+                           sb.Append($"TransportStatusStatus: {dynamicDeviceSpecificStatus.TransportStatusStatus},");
+                           sb.Append($"DevicePositionStatus: {dynamicDeviceSpecificStatus.DevicePositionStatus},");
+                           sb.Append($"PowerSaveRecoveryTime: {dynamicDeviceSpecificStatus.PowerSaveRecoveryTime},");
 
-                           // copy arrays
-                           UnitCurrencyID = new List<string>();
-                           foreach (var obj in dynamicDeviceSpecificStatus.UnitCurrencyID) { UnitCurrencyID.Add(obj); }
+                           sb.Append("UnitCurrencyID: [");
+                           foreach (var obj in dynamicDeviceSpecificStatus.UnitCurrencyID)
+                           {
+                              sb.Append($"{obj},");
+                           }
+                           sb.Append("],");
 
-                           UnitValue = new List<long>();
-                           foreach (var obj in dynamicDeviceSpecificStatus.UnitValue) { UnitValue.Add(obj); }
+                           sb.Append("UnitValue: [");
+                           foreach (var obj in dynamicDeviceSpecificStatus.UnitValue)
+                           {
+                              sb.Append($"{obj},");
+                           }
+                           sb.Append("],");
 
-                           UnitStatus = new List<string>();
-                           foreach (var obj in dynamicDeviceSpecificStatus.UnitStatus) { UnitStatus.Add(obj); }
+                           sb.Append("UnitStatus: [");
+                           foreach (var obj in dynamicDeviceSpecificStatus.UnitStatus)
+                           {
+                              sb.Append($"{obj},");
+                           }
+                           sb.Append("],");
 
-                           UnitCount = new List<long>();
-                           foreach (var obj in dynamicDeviceSpecificStatus.UnitCount) { UnitCount.Add(obj); }
+                           sb.Append("UnitCount: [");
+                           foreach (var obj in dynamicDeviceSpecificStatus.UnitCount)
+                           {
+                              sb.Append($"{obj},");
+                           }
+                           sb.Append("],");
 
-                           UnitType = new List<string>();
-                           foreach (var obj in dynamicDeviceSpecificStatus.UnitType) { UnitType.Add(obj); }
+                           sb.Append("UnitType: [");
+                           foreach (var obj in dynamicDeviceSpecificStatus.UnitType)
+                           {
+                              sb.Append($"{obj},");
+                           }
+                           sb.Append("],");
 
-                           LogicalServiceName = dynamicDeviceSpecificStatus.LogicalServiceName;
-                           ExtraInformation = dynamicDeviceSpecificStatus.ExtraInformation;
-                           // set last to indicate success
-                           StatusDeviceName = first.Key;
+                           sb.Append($"LogicalServiceName: {dynamicDeviceSpecificStatus.LogicalServiceName},");
+                           sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
+
+                           DeviceStatus = sb.ToString();
+                           isRecognized = true;
                            break;
 
                         case "CabinetStatus":
@@ -354,14 +269,16 @@ namespace LogLineHandler
                               \"LogicalServiceName\":\"\"
                               \"ExtraInformation\":\"\"
                            */
-                           CabinetStatus = dynamicDeviceSpecificStatus.CabinetStatus;
-                           SafeStatus = dynamicDeviceSpecificStatus.SafeStatus;
-                           VandalShieldStatus = dynamicDeviceSpecificStatus.VandalShieldStatus;
-                           PowerSaveRecoveryTime = dynamicDeviceSpecificStatus.PowerSaveRecoveryTime;
-                           LogicalServiceName = dynamicDeviceSpecificStatus.LogicalServiceName;
-                           ExtraInformation = dynamicDeviceSpecificStatus.ExtraInformation;
-                           // set last to indicate success
-                           StatusDeviceName = first.Key;
+                           sb.Append($"CabinetStatus: {dynamicDeviceSpecificStatus.CabinetStatus},");
+                           sb.Append($"SafeStatus: {dynamicDeviceSpecificStatus.SafeStatus},");
+                           sb.Append($"VandalShieldStatus: {dynamicDeviceSpecificStatus.VandalShieldStatus},");
+                           sb.Append($"PowerSaveRecoveryTime: {dynamicDeviceSpecificStatus.PowerSaveRecoveryTime},");
+
+                           sb.Append($"LogicalServiceName: {dynamicDeviceSpecificStatus.LogicalServiceName},");
+                           sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
+
+                           DeviceStatus = sb.ToString();
+                           isRecognized = true;
                            break;
 
                         case "MediaStatus":
@@ -391,37 +308,47 @@ namespace LogLineHandler
                               \"ExtraInformation\":\"\"
                            */
 
-
-                           MediaStatus = dynamicDeviceSpecificStatus.MediaStatus;
+                           sb.Append($"MediaStatus: {dynamicDeviceSpecificStatus.MediaStatus},");
 
                            if (((IDictionary<String, object>)dynamicDeviceSpecificStatus).ContainsKey("RetainBinStatus"))
                            {
-                              RetainBinStatus = dynamicDeviceSpecificStatus.RetainBinStatus;
-                              SecurityStatus = dynamicDeviceSpecificStatus.SecurityStatus;
-                              NumberOfCardsRetained = dynamicDeviceSpecificStatus.NumberOfCardsRetained;
-                              ChipPowerStatus = dynamicDeviceSpecificStatus.ChipPowerStatus;
+                              sb.Append($"RetainBinStatus: {dynamicDeviceSpecificStatus.RetainBinStatus},");
+                              sb.Append($"SecurityStatus: {dynamicDeviceSpecificStatus.SecurityStatus},");
+                              sb.Append($"NumberOfCardsRetained: {dynamicDeviceSpecificStatus.NumberOfCardsRetained},");
+                              sb.Append($"ChipPowerStatus: {dynamicDeviceSpecificStatus.ChipPowerStatus},");
                            }
                            else
                            {
                               // copy arrays
-                              PaperStatus = new List<string>();
-                              foreach (var obj in dynamicDeviceSpecificStatus.PaperStatus) { PaperStatus.Add(obj); }
+                              sb.Append("PaperStatus: [");
+                              foreach (var obj in dynamicDeviceSpecificStatus.PaperStatus)
+                              {
+                                 sb.Append($"{obj},");
+                              }
+                              sb.Append("],");
 
-                              RetractBinStatus = new List<string>();
-                              foreach (var obj in dynamicDeviceSpecificStatus.RetractBinStatus) { RetractBinStatus.Add(obj); }
 
-                              Media_TonerStatus = dynamicDeviceSpecificStatus.TonerStatus;
-                              Media_InkStatus = dynamicDeviceSpecificStatus.InkStatus;
-                              LampStatus = dynamicDeviceSpecificStatus.LampStatus;
-                              MediaOnStacker = dynamicDeviceSpecificStatus.MediaOnStacker;
+                              sb.Append("RetractBinStatus: [");
+                              foreach (var obj in dynamicDeviceSpecificStatus.RetractBinStatus)
+                              {
+                                 sb.Append($"{obj},");
+                              }
+                              sb.Append("],");
+
+                              sb.Append($"Media_TonerStatus: {dynamicDeviceSpecificStatus.TonerStatus},");
+                              sb.Append($"Media_InkStatus: {dynamicDeviceSpecificStatus.InkStatus},");
+                              sb.Append($"LampStatus: {dynamicDeviceSpecificStatus.LampStatus},");
+                              sb.Append($"MediaOnStacker: {dynamicDeviceSpecificStatus.MediaOnStacker},");
                            }
 
-                           Media_DevicePositionStatus = dynamicDeviceSpecificStatus.DevicePositionStatus;
-                           PowerSaveRecoveryTime = dynamicDeviceSpecificStatus.PowerSaveRecoveryTime;
-                           LogicalServiceName = dynamicDeviceSpecificStatus.LogicalServiceName;
-                           ExtraInformation = dynamicDeviceSpecificStatus.ExtraInformation;
-                           // set last to indicate success
-                           StatusDeviceName = first.Key;
+                           sb.Append($"Media_DevicePositionStatus: {dynamicDeviceSpecificStatus.DevicePositionStatus},");
+                           sb.Append($"PowerSaveRecoveryTime: {dynamicDeviceSpecificStatus.PowerSaveRecoveryTime},");
+
+                           sb.Append($"LogicalServiceName: {dynamicDeviceSpecificStatus.LogicalServiceName},");
+                           sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
+
+                           DeviceStatus = sb.ToString();
+                           isRecognized = true;
                            break;
 
                         case "CardUnitStatus":
@@ -443,24 +370,26 @@ namespace LogLineHandler
                               \"LogicalServiceName\":\"\"
                               \"ExtraInformation\":\"\"
                            */
-                           CardUnitStatus = dynamicDeviceSpecificStatus.CardUnitStatus;
-                           PinpadStatus = dynamicDeviceSpecificStatus.PinpadStatus;
-                           NotesDispenserStatus = dynamicDeviceSpecificStatus.NotesDispenserStatus;
-                           CoinDispenserStatus = dynamicDeviceSpecificStatus.CoinDispenserStatus;
-                           ReceiptPrinterStatus = dynamicDeviceSpecificStatus.ReceiptPrinterStatus;
-                           PassbookPrinterStatus = dynamicDeviceSpecificStatus.PassbookPrinterStatus;
-                           EnvelopeDepositoryStatus = dynamicDeviceSpecificStatus.EnvelopeDepositoryStatus;
-                           ChequeUnitStatus = dynamicDeviceSpecificStatus.ChequeUnitStatus;
-                           BillAcceptorStatus = dynamicDeviceSpecificStatus.BillAcceptorStatus;
-                           EnvelopeDispenserStatus = dynamicDeviceSpecificStatus.EnvelopeDispenserStatus;
-                           DocumentPrinterStatus = dynamicDeviceSpecificStatus.DocumentPrinterStatus;
-                           CoinAcceptorStatus = dynamicDeviceSpecificStatus.CoinAcceptorStatus;
-                           ScannerStatus = dynamicDeviceSpecificStatus.ScannerStatus;
-                           PowerSaveRecoveryTime = dynamicDeviceSpecificStatus.PowerSaveRecoveryTime;
-                           LogicalServiceName = dynamicDeviceSpecificStatus.LogicalServiceName;
-                           ExtraInformation = dynamicDeviceSpecificStatus.ExtraInformation;
-                           // set last to indicate success
-                           StatusDeviceName = first.Key;
+                           sb.Append($"CardUnitStatus: {dynamicDeviceSpecificStatus.CardUnitStatus},");
+                           sb.Append($"PinpadStatus: {dynamicDeviceSpecificStatus.PinpadStatus},");
+                           sb.Append($"NotesDispenserStatus: {dynamicDeviceSpecificStatus.NotesDispenserStatus},");
+                           sb.Append($"CoinDispenserStatus: {dynamicDeviceSpecificStatus.CoinDispenserStatus},");
+                           sb.Append($"ReceiptPrinterStatus: {dynamicDeviceSpecificStatus.ReceiptPrinterStatus},");
+                           sb.Append($"PassbookPrinterStatus: {dynamicDeviceSpecificStatus.PassbookPrinterStatus},");
+                           sb.Append($"EnvelopeDepositoryStatus: {dynamicDeviceSpecificStatus.EnvelopeDepositoryStatus},");
+                           sb.Append($"ChequeUnitStatus: {dynamicDeviceSpecificStatus.ChequeUnitStatus},");
+                           sb.Append($"BillAcceptorStatus: {dynamicDeviceSpecificStatus.BillAcceptorStatus},");
+                           sb.Append($"EnvelopeDispenserStatus: {dynamicDeviceSpecificStatus.EnvelopeDispenserStatus},");
+                           sb.Append($"DocumentPrinterStatus: {dynamicDeviceSpecificStatus.DocumentPrinterStatus},");
+                           sb.Append($"CoinAcceptorStatus: {dynamicDeviceSpecificStatus.CoinAcceptorStatus},");
+                           sb.Append($"ScannerStatus: {dynamicDeviceSpecificStatus.ScannerStatus},");
+                           sb.Append($"PowerSaveRecoveryTime: {dynamicDeviceSpecificStatus.PowerSaveRecoveryTime},");
+
+                           sb.Append($"LogicalServiceName: {dynamicDeviceSpecificStatus.LogicalServiceName},");
+                           sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
+
+                           DeviceStatus = sb.ToString();
+                           isRecognized = true;
                            break;
 
                         case "OperatorSwitchStatus":
@@ -477,19 +406,21 @@ namespace LogLineHandler
                               \"LogicalServiceName\":\"\"
                               \"ExtraInformation\":\"\"
                            */
-                           OperatorSwitchStatus = dynamicDeviceSpecificStatus.OperatorSwitchStatus;
-                           TamperStatus = dynamicDeviceSpecificStatus.TamperStatus;
-                           IntTamperStatus = dynamicDeviceSpecificStatus.IntTamperStatus;
-                           SeismicStatus = dynamicDeviceSpecificStatus.SeismicStatus;
-                           HeatStatus = dynamicDeviceSpecificStatus.HeatStatus;
-                           ProximityStatus = dynamicDeviceSpecificStatus.ProximityStatus;
-                           AmblightStatus = dynamicDeviceSpecificStatus.AmblightStatus;
-                           EnhancedAudioStatus = dynamicDeviceSpecificStatus.EnhancedAudioStatus;
-                           PowerSaveRecoveryTime = dynamicDeviceSpecificStatus.PowerSaveRecoveryTime;
-                           LogicalServiceName = dynamicDeviceSpecificStatus.LogicalServiceName;
-                           ExtraInformation = dynamicDeviceSpecificStatus.ExtraInformation;
-                           // set last to indicate success
-                           StatusDeviceName = first.Key;
+                           sb.Append($"OperatorSwitchStatus: {dynamicDeviceSpecificStatus.OperatorSwitchStatus},");
+                           sb.Append($"TamperStatus: {dynamicDeviceSpecificStatus.TamperStatus},");
+                           sb.Append($"IntTamperStatus: {dynamicDeviceSpecificStatus.IntTamperStatus},");
+                           sb.Append($"SeismicStatus: {dynamicDeviceSpecificStatus.SeismicStatus},");
+                           sb.Append($"HeatStatus: {dynamicDeviceSpecificStatus.HeatStatus},");
+                           sb.Append($"ProximityStatus: {dynamicDeviceSpecificStatus.ProximityStatus},");
+                           sb.Append($"AmblightStatus: {dynamicDeviceSpecificStatus.AmblightStatus},");
+                           sb.Append($"EnhancedAudioStatus: {dynamicDeviceSpecificStatus.EnhancedAudioStatus},");
+                           sb.Append($"PowerSaveRecoveryTime: {dynamicDeviceSpecificStatus.PowerSaveRecoveryTime},");
+
+                           sb.Append($"LogicalServiceName: {dynamicDeviceSpecificStatus.LogicalServiceName},");
+                           sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
+
+                           DeviceStatus = sb.ToString();
+                           isRecognized = true;
                            break;
 
                         case "OpenCloseStatus":
@@ -502,15 +433,17 @@ namespace LogLineHandler
                               \"LogicalServiceName\":\"\"
                               \"ExtraInformation\":\"\"
                            */
-                           OpenCloseStatus = dynamicDeviceSpecificStatus.OpenCloseStatus;
-                           FasciaLightStatus = dynamicDeviceSpecificStatus.FasciaLightStatus;
-                           AudioStatus = dynamicDeviceSpecificStatus.AudioStatus;
-                           HeatingStatus = dynamicDeviceSpecificStatus.HeatingStatus;
-                           PowerSaveRecoveryTime = dynamicDeviceSpecificStatus.PowerSaveRecoveryTime;
-                           LogicalServiceName = dynamicDeviceSpecificStatus.LogicalServiceName;
-                           ExtraInformation = dynamicDeviceSpecificStatus.ExtraInformation;
-                           // set last to indicate success
-                           StatusDeviceName = first.Key;
+                           sb.Append($"OpenCloseStatus: {dynamicDeviceSpecificStatus.OpenCloseStatus},");
+                           sb.Append($"FasciaLightStatus: {dynamicDeviceSpecificStatus.FasciaLightStatus},");
+                           sb.Append($"AudioStatus: {dynamicDeviceSpecificStatus.AudioStatus},");
+                           sb.Append($"HeatingStatus: {dynamicDeviceSpecificStatus.HeatingStatus},");
+                           sb.Append($"PowerSaveRecoveryTime: {dynamicDeviceSpecificStatus.PowerSaveRecoveryTime},");
+
+                           sb.Append($"LogicalServiceName: {dynamicDeviceSpecificStatus.LogicalServiceName},");
+                           sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
+
+                           DeviceStatus = sb.ToString();
+                           isRecognized = true;
                            break;
 
                         case "VolumeStatus":
@@ -526,18 +459,20 @@ namespace LogLineHandler
                               \"LogicalServiceName\":\"\"
                               \"ExtraInformation\":\"\"
                            */
-                           VolumeStatus = dynamicDeviceSpecificStatus.VolumeStatus;
-                           UpsStatus = dynamicDeviceSpecificStatus.UpsStatus;
-                           GreenLedStatus = dynamicDeviceSpecificStatus.GreenLedStatus;
-                           AmberLedStatus = dynamicDeviceSpecificStatus.AmberLedStatus;
-                           RedLedStatus = dynamicDeviceSpecificStatus.RedLedStatus;
-                           AudibleAlarmStatus = dynamicDeviceSpecificStatus.AudibleAlarmStatus;
-                           EnhancedAudioControlStatus = dynamicDeviceSpecificStatus.EnhancedAudioControlStatus;
-                           PowerSaveRecoveryTime = dynamicDeviceSpecificStatus.PowerSaveRecoveryTime;
-                           LogicalServiceName = dynamicDeviceSpecificStatus.LogicalServiceName;
-                           ExtraInformation = dynamicDeviceSpecificStatus.ExtraInformation;
-                           // set last to indicate success
-                           StatusDeviceName = first.Key;
+                           sb.Append($"VolumeStatus: {dynamicDeviceSpecificStatus.VolumeStatus},");
+                           sb.Append($"UpsStatus: {dynamicDeviceSpecificStatus.UpsStatus},");
+                           sb.Append($"GreenLedStatus: {dynamicDeviceSpecificStatus.GreenLedStatus},");
+                           sb.Append($"AmberLedStatus: {dynamicDeviceSpecificStatus.AmberLedStatus},");
+                           sb.Append($"RedLedStatus: {dynamicDeviceSpecificStatus.RedLedStatus},");
+                           sb.Append($"AudibleAlarmStatus: {dynamicDeviceSpecificStatus.AudibleAlarmStatus},");
+                           sb.Append($"EnhancedAudioControlStatus: {dynamicDeviceSpecificStatus.EnhancedAudioControlStatus},");
+                           sb.Append($"PowerSaveRecoveryTime: {dynamicDeviceSpecificStatus.PowerSaveRecoveryTime},");
+
+                           sb.Append($"LogicalServiceName: {dynamicDeviceSpecificStatus.LogicalServiceName},");
+                           sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
+
+                           DeviceStatus = sb.ToString();
+                           isRecognized = true;
                            break;
 
                         case "AcceptorStatus":
@@ -567,32 +502,37 @@ namespace LogLineHandler
                            //\\\"PowerSaveRecoveryTime\\\":0,
                            //\\\"LogicalServiceName\\\":\\\"\\\",
                            //\\\"ExtraInformation\\\":\\\"\\\"}"
-                           string val = dynamicDeviceSpecificStatus.AcceptorStatus;
-                           val = dynamicDeviceSpecificStatus.MediaStatus;
-                           val = dynamicDeviceSpecificStatus.TonerStatus;
-                           val = dynamicDeviceSpecificStatus.InkStatus;
-                           val = dynamicDeviceSpecificStatus.FrontImageScannerStatus;
-                           val = dynamicDeviceSpecificStatus.BackImageScannerStatus;
-                           val = dynamicDeviceSpecificStatus.MICRReaderStatus;
-                           val = dynamicDeviceSpecificStatus.StackerStatus;
-                           val = dynamicDeviceSpecificStatus.ReBuncherStatus;
-                           val = dynamicDeviceSpecificStatus.MediaFeederStatus;
-                           val = dynamicDeviceSpecificStatus.PositionStatus_Input;
-                           val = dynamicDeviceSpecificStatus.PositionStatus_Output;
-                           val = dynamicDeviceSpecificStatus.PositionStatus_Refused;
-                           val = dynamicDeviceSpecificStatus.ShutterStatus_Input;
-                           val = dynamicDeviceSpecificStatus.ShutterStatus_Output;
-                           val = dynamicDeviceSpecificStatus.ShutterStatus_Refused;
-                           val = dynamicDeviceSpecificStatus.TransportStatus_Input;
-                           val = dynamicDeviceSpecificStatus.TransportStatus_Output;
-                           val = dynamicDeviceSpecificStatus.TransportStatus_Refused;
-                           val = dynamicDeviceSpecificStatus.TransportMediaStatus_Input;
-                           val = dynamicDeviceSpecificStatus.TransportMediaStatus_Output;
-                           val = dynamicDeviceSpecificStatus.TransportMediaStatus_Refused;
-                           val = dynamicDeviceSpecificStatus.DevicePositionStatus;
-                           long recoveryTime = dynamicDeviceSpecificStatus.PowerSaveRecoveryTime;
-                           val = dynamicDeviceSpecificStatus.LogicalServiceName;
-                           val = dynamicDeviceSpecificStatus.ExtraInformation;
+
+                           sb.Append($"AcceptorStatus: {dynamicDeviceSpecificStatus.AcceptorStatus},");
+                           sb.Append($"MediaStatus: {dynamicDeviceSpecificStatus.MediaStatus},");
+                           sb.Append($"TonerStatus: {dynamicDeviceSpecificStatus.TonerStatus},");
+                           sb.Append($"InkStatus: {dynamicDeviceSpecificStatus.InkStatus},");
+                           sb.Append($"FrontImageScannerStatus: {dynamicDeviceSpecificStatus.FrontImageScannerStatus},");
+                           sb.Append($"BackImageScannerStatus: {dynamicDeviceSpecificStatus.BackImageScannerStatus},");
+                           sb.Append($"MICRReaderStatus: {dynamicDeviceSpecificStatus.MICRReaderStatus},");
+                           sb.Append($"StackerStatus: {dynamicDeviceSpecificStatus.StackerStatus},");
+                           sb.Append($"ReBuncherStatus: {dynamicDeviceSpecificStatus.ReBuncherStatus},");
+                           sb.Append($"MediaFeederStatus: {dynamicDeviceSpecificStatus.MediaFeederStatus},");
+                           sb.Append($"PositionStatus_Input: {dynamicDeviceSpecificStatus.PositionStatus_Input},");
+                           sb.Append($"PositionStatus_Output: {dynamicDeviceSpecificStatus.PositionStatus_Output},");
+                           sb.Append($"PositionStatus_Refused: {dynamicDeviceSpecificStatus.PositionStatus_Refused},");
+                           sb.Append($"ShutterStatus_Input: {dynamicDeviceSpecificStatus.ShutterStatus_Input},");
+                           sb.Append($"ShutterStatus_Output: {dynamicDeviceSpecificStatus.ShutterStatus_Output},");
+                           sb.Append($"ShutterStatus_Refused: {dynamicDeviceSpecificStatus.ShutterStatus_Refused},");
+                           sb.Append($"TransportStatus_Input: {dynamicDeviceSpecificStatus.TransportStatus_Input},");
+                           sb.Append($"TransportStatus_Output: {dynamicDeviceSpecificStatus.TransportStatus_Output},");
+                           sb.Append($"TransportStatus_Refused: {dynamicDeviceSpecificStatus.TransportStatus_Refused},");
+                           sb.Append($"TransportMediaStatus_Input: {dynamicDeviceSpecificStatus.TransportMediaStatus_Input},");
+                           sb.Append($"TransportMediaStatus_Output: {dynamicDeviceSpecificStatus.TransportMediaStatus_Output},");
+                           sb.Append($"TransportMediaStatus_Refused: {dynamicDeviceSpecificStatus.TransportMediaStatus_Refused},");
+                           sb.Append($"DevicePositionStatus: {dynamicDeviceSpecificStatus.DevicePositionStatus},");
+                           sb.Append($"PowerSaveRecoveryTime: {dynamicDeviceSpecificStatus.PowerSaveRecoveryTime},");
+
+                           sb.Append($"LogicalServiceName: {dynamicDeviceSpecificStatus.LogicalServiceName},");
+                           sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
+
+                           DeviceStatus = sb.ToString();
+                           isRecognized = true;
                            break;
 
                         case "CheckAcceptorStatus":
@@ -624,51 +564,51 @@ namespace LogLineHandler
                               \"LogicalServiceName\":\"\"
                               \"ExtraInformation\":\"\"
                            */
-                           CheckAcceptorStatus = dynamicDeviceSpecificStatus.CheckAcceptorStatus;
-                           MediaStatus = dynamicDeviceSpecificStatus.MediaStatus;
-                           TonerStatus = dynamicDeviceSpecificStatus.TonerStatus;
-                           InkStatus = dynamicDeviceSpecificStatus.InkStatus;
-                           FrontImageScannerStatus = dynamicDeviceSpecificStatus.FrontImageScannerStatus;
-                           BackImageScannerStatus = dynamicDeviceSpecificStatus.BackImageScannerStatus;
-                           MICRReaderStatus = dynamicDeviceSpecificStatus.MICRReaderStatus;
-                           StackerStatus = dynamicDeviceSpecificStatus.StackerStatus;
-                           ReBuncherStatus = dynamicDeviceSpecificStatus.ReBuncherStatus;
-                           MediaFeederStatus = dynamicDeviceSpecificStatus.MediaFeederStatus;
-                           PositionStatus_Input = dynamicDeviceSpecificStatus.PositionStatus_Input;
-                           PositionStatus_Output = dynamicDeviceSpecificStatus.PositionStatus_Output;
-                           PositionStatus_Refused = dynamicDeviceSpecificStatus.PositionStatus_Refused;
-                           ShutterStatus_Input = dynamicDeviceSpecificStatus.ShutterStatus_Input;
-                           ShutterStatus_Output = dynamicDeviceSpecificStatus.ShutterStatus_Output;
-                           ShutterStatus_Refused = dynamicDeviceSpecificStatus.ShutterStatus_Refused;
-                           TransportStatus_Input = dynamicDeviceSpecificStatus.TransportStatus_Input;
-                           TransportStatus_Output = dynamicDeviceSpecificStatus.TransportStatus_Output;
-                           TransportStatus_Refused = dynamicDeviceSpecificStatus.TransportStatus_Refused;
-                           TransportMediaStatus_Input = dynamicDeviceSpecificStatus.TransportMediaStatus_Input;
-                           TransportMediaStatus_Output = dynamicDeviceSpecificStatus.TransportMediaStatus_Output;
-                           TransportMediaStatus_Refused = dynamicDeviceSpecificStatus.TransportMediaStatus_Refused;
-                           DevicePositionStatus = dynamicDeviceSpecificStatus.DevicePositionStatus;
-                           PowerSaveRecoveryTime = dynamicDeviceSpecificStatus.PowerSaveRecoveryTime;
-                           LogicalServiceName = dynamicDeviceSpecificStatus.LogicalServiceName;
-                           ExtraInformation = dynamicDeviceSpecificStatus.ExtraInformation;
-                           // set last to indicate success
-                           StatusDeviceName = first.Key;
+                           sb.Append($"CheckAcceptorStatus: {dynamicDeviceSpecificStatus.CheckAcceptorStatus},");
+                           sb.Append($"MediaStatus: {dynamicDeviceSpecificStatus.MediaStatus},");
+                           sb.Append($"TonerStatus: {dynamicDeviceSpecificStatus.TonerStatus},");
+                           sb.Append($"InkStatus: {dynamicDeviceSpecificStatus.InkStatus},");
+                           sb.Append($"FrontImageScannerStatus: {dynamicDeviceSpecificStatus.FrontImageScannerStatus},");
+                           sb.Append($"BackImageScannerStatus: {dynamicDeviceSpecificStatus.BackImageScannerStatus},");
+                           sb.Append($"MICRReaderStatus: {dynamicDeviceSpecificStatus.MICRReaderStatus},");
+                           sb.Append($"StackerStatus: {dynamicDeviceSpecificStatus.StackerStatus},");
+                           sb.Append($"ReBuncherStatus: {dynamicDeviceSpecificStatus.ReBuncherStatus},");
+                           sb.Append($"MediaFeederStatus: {dynamicDeviceSpecificStatus.MediaFeederStatus},");
+                           sb.Append($"PositionStatus_Input: {dynamicDeviceSpecificStatus.PositionStatus_Input},");
+                           sb.Append($"PositionStatus_Output: {dynamicDeviceSpecificStatus.PositionStatus_Output},");
+                           sb.Append($"PositionStatus_Refused: {dynamicDeviceSpecificStatus.PositionStatus_Refused},");
+                           sb.Append($"ShutterStatus_Input: {dynamicDeviceSpecificStatus.ShutterStatus_Input},");
+                           sb.Append($"ShutterStatus_Output: {dynamicDeviceSpecificStatus.ShutterStatus_Output},");
+                           sb.Append($"ShutterStatus_Refused: {dynamicDeviceSpecificStatus.ShutterStatus_Refused},");
+                           sb.Append($"TransportStatus_Input: {dynamicDeviceSpecificStatus.TransportStatus_Input},");
+                           sb.Append($"TransportStatus_Output: {dynamicDeviceSpecificStatus.TransportStatus_Output},");
+                           sb.Append($"TransportStatus_Refused: {dynamicDeviceSpecificStatus.TransportStatus_Refused},");
+                           sb.Append($"TransportMediaStatus_Input: {dynamicDeviceSpecificStatus.TransportMediaStatus_Input},");
+                           sb.Append($"TransportMediaStatus_Output: {dynamicDeviceSpecificStatus.TransportMediaStatus_Output},");
+                           sb.Append($"TransportMediaStatus_Refused: {dynamicDeviceSpecificStatus.TransportMediaStatus_Refused},");
+                           sb.Append($"DevicePositionStatus: {dynamicDeviceSpecificStatus.DevicePositionStatus},");
+                           sb.Append($"PowerSaveRecoveryTime: {dynamicDeviceSpecificStatus.PowerSaveRecoveryTime},");
+
+                           sb.Append($"LogicalServiceName: {dynamicDeviceSpecificStatus.LogicalServiceName},");
+                           sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
+
+                           DeviceStatus = sb.ToString();
+                           isRecognized = true;
                            break;
 
                         default:
                            // not yet unsupported
-                           throw new Exception($"{first.Key} is not supported");
+                           throw new Exception($"{first.Key} device-state is not supported");
                      }
-
-
                   }
                   catch (Exception ex)
                   {
-                     throw new Exception($"AELogLine.NetwareExtension: failed to deserialize inner Json payload for log line '{logLine}'\n{ex}");
+                     throw new Exception($"AELogLine.NextwareExtension: failed to deserialize inner Json payload for log line '{logLine}'\n{ex}");
                   }
                }
                catch (Exception ex)
                {
-                  throw new Exception($"AELogLine.NetwareExtension: failed to deserialize outer Json payload for log line '{logLine}'\n{ex}");
+                  throw new Exception($"AELogLine.NextwareExtension: failed to deserialize outer Json payload for log line '{logLine}'\n{ex}");
                }
             }
 
@@ -680,8 +620,16 @@ namespace LogLineHandler
                Match m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
-                  // TODO
+                  if (m.Groups["action"].Value == "Start")
+                  {
+                     isRecognized = true;
+                     ExtensionRunning = true;
+                  }
+                  else if(m.Groups["action"].Value == "End")
+                  {
+                     isRecognized = true;
+                     ExtensionRunning = false;
+                  }
                }
 
                //StartMonitoring [start] .....................
@@ -733,14 +681,13 @@ namespace LogLineHandler
                   MonitoringDeviceChanges = "OPEN SESSION SUCCEEDED";
                   MonitoringDeviceName = $"{m.Groups["device"].Value}";
                   MonitoringElapsed = m.Groups["timespan"].Value;
-
                }
             }
          }
 
          if (!isRecognized)
          {
-            throw new Exception($"AELogLine.NetwareExtension: did not recognize the log line '{logLine}'");
+            throw new Exception($"AELogLine.NextwareExtension: did not recognize the log line '{logLine}'");
          }
       }
    }
