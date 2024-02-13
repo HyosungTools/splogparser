@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AELineTests.cs" />
+    <Compile Include="MoniPlus2sExtensionTests.cs" />
     <Compile Include="NextwareExtensionTests.cs" />
     <Compile Include="NetOpExtensionTests.cs" />
     <Compile Include="ExtensionStartedTests.cs" />
