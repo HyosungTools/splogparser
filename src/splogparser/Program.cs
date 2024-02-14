@@ -15,6 +15,13 @@ namespace splogparser
       private static bool _ExtractZipFiles(IContext ctx, string currentFolder)
       {
          string[] zipFiles = ctx.ioProvider.GetFiles(currentFolder, "*.zip");
+
+         if (zipFiles.Length == 0)
+         {
+            ctx.ConsoleWriteLogLine($"Archive zip file not found.");
+            return false;
+         }
+
          foreach (string zipFile in zipFiles)
          {
             string newFolderName = ctx.ioProvider.GetFileNameWithoutExtension(zipFile);
@@ -48,6 +55,16 @@ namespace splogparser
 
       static void Main(string[] args)
       {
+         // command-line parameters - a set of parse types (Option letters) that identify specific log file types plus one(?) view name that processes the log lines
+         // for example AddKeyView.dll has an internal parse type of .AP and a view name of AddKeyView.  Can also specify "*" instead of a view name.
+         //
+         // -aAddKeyView "-fAPLog_A036201_20231117_20231117.zip"
+         // -a* "-fAPLog_A036201_20231117_20231117.zip"
+         //
+         //
+         // view DLLs are loaded from the exe directory ... which is fine for Release builds because all DLLs and EXE are copied to the dist folder.  But in
+         // Debug mode the View DLLs are not present in splogparser/bin/Debug ... thus have to specify the dist\splogparser.exe in the Start External Program
+         // field
          Parser.Default.ParseArguments<Options>(args)
              .WithParsed(Run)
              .WithNotParsed(HandleParseError);
@@ -93,12 +110,22 @@ namespace splogparser
 
          ctx.ConsoleWriteLogLine("opts.APViews :" + ctx.opts.APViews);
          ctx.ConsoleWriteLogLine("opts.ATViews :" + ctx.opts.ATViews);
+         ctx.ConsoleWriteLogLine("opts.AEViews :" + ctx.opts.AEViews);
          ctx.ConsoleWriteLogLine("opts.AWViews :" + ctx.opts.AWViews);
          ctx.ConsoleWriteLogLine("opts.SPViews :" + ctx.opts.SPViews);
          ctx.ConsoleWriteLogLine("opts.RTViews :" + ctx.opts.RTViews);
 
          ctx.ConsoleWriteLogLine(String.Format("IsAP : {0}", ctx.opts.IsAP ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("APView Contains  : {0}", ctx.opts.APViews));
+
+         ctx.ConsoleWriteLogLine(String.Format("IsAT : {0}", ctx.opts.IsAT ? "true" : "false"));
+         ctx.ConsoleWriteLogLine(String.Format("ATView Contains  : {0}", ctx.opts.ATViews));
+
+         ctx.ConsoleWriteLogLine(String.Format("IsAE : {0}", ctx.opts.IsAE ? "true" : "false"));
+         ctx.ConsoleWriteLogLine(String.Format("AEView Contains  : {0}", ctx.opts.AEViews));
+
+         ctx.ConsoleWriteLogLine(String.Format("IsAW : {0}", ctx.opts.IsAW ? "true" : "false"));
+         ctx.ConsoleWriteLogLine(String.Format("AWView Contains  : {0}", ctx.opts.AWViews));
 
          ctx.ConsoleWriteLogLine(String.Format("IsSP : {0}", ctx.opts.IsSP ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("SPView Contains  : {0}", ctx.opts.SPViews));
@@ -109,11 +136,14 @@ namespace splogparser
          // AP 
          if (ctx.opts.IsAP) ctx.logFileHandlers.Add((ILogFileHandler)new APLogHandler(new CreateTextStreamReader()));
 
-         // AT 
-         // if (ctx.IsAT) ctx.logFileHandlers.Add((ILogFileHandler)new ATLogHandler(new CreateTextStreamReader()));
+         // AT ActiveTeller
+         if (ctx.opts.IsAT) ctx.logFileHandlers.Add((ILogFileHandler)new ATLogHandler(new CreateTextStreamReader()));
 
-         // AW
-         // if (ctx.IsAW) ctx.logFileHandlers.Add((ILogFileHandler)new AWLogHandler(new CreateTextStreamReader()));
+         // AE ActiveTellerExtensions
+         if (ctx.opts.IsAE) ctx.logFileHandlers.Add((ILogFileHandler)new AELogHandler(new CreateTextStreamReader()));
+
+         // AW Workstation
+         if (ctx.opts.IsAW) ctx.logFileHandlers.Add((ILogFileHandler)new AWLogHandler(new CreateTextStreamReader()));
 
          // SP
          if (ctx.opts.IsSP) ctx.logFileHandlers.Add((ILogFileHandler)new SPLogHandler(new CreateTextStreamReader()));
@@ -164,7 +194,7 @@ namespace splogparser
 
          // I N I T I A L I Z E  V I E W S
 
-         // Load the Views in the application directory
+         // Load the Views in the application 'dist' directory (does not work in Debug mode unless the executable in dist is specified)
          ViewLoader loader = new ViewLoader(ctx.ioProvider.GetCurrentDirectory());
          string viewName = string.Empty;
 
@@ -251,7 +281,7 @@ namespace splogparser
             ctx.ConsoleWriteLogLine(String.Format("FileLogHandler {0} Find all files...", fileHandler.Name));
             if (!fileHandler.Initialize(ctx))
             {
-               ctx.ConsoleWriteLogLine(String.Format("LogFileHandler {0} failed to Initialize.", fileHandler.Name));
+               ctx.ConsoleWriteLogLine(String.Format("LogFileHandler {0} failed to Initialize, no input files found.", fileHandler.Name));
                continue;
             }
 

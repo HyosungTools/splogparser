@@ -78,6 +78,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.pdb" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\AddKeyView.xsd" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\AddKeyView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
   </PropertyGroup>

@@ -1,10 +1,26 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Contract;
 
 namespace LogLineHandler
 {
    public abstract class LogLine
    {
+      public static string DateTimeFormatStringMsec = "yyyy-MM-dd hh:mm:ss.ffff";
+      public static string TimeFormatStringMsec = "hh:mm:ss.ffff";
+
+      public static string DateTimestampToTableString(DateTime dt)
+      {
+         return (dt == DateTime.MinValue) || (dt == default(DateTime)) ? string.Empty : dt.ToString(DateTimeFormatStringMsec);
+      }
+
+      public static string TimestampToTableString(DateTime dt)
+      {
+         return (dt == DateTime.MinValue) || (dt == default(DateTime)) ? string.Empty : dt.ToString(TimeFormatStringMsec);
+      }
+
+
+
       // my parent
       public ILogFileHandler parentHandler;
 

@@ -11,10 +11,13 @@ namespace splogparser
       [Option('a', "ap", Default = "x", Required = false, HelpText = "Parse Application logs.")]
       public string APViews { get; set; }
 
-      [Option('t', "at", Default = "x", Required = false, HelpText = "Parse Active Teller ITM logs.")]
+      [Option('t', "atagent", Default = "x", Required = false, HelpText = "Parse Active Teller ITM logs.")]
       public string ATViews { get; set; }
 
-      [Option('w', "aw", Default = "x", Required = false, HelpText = "Parse Active Teller Workstation logs.")]
+      [Option('e', "atagentextensions", Default = "x", Required = false, HelpText = "Parse Active Teller Extensions ITM logs.")]
+      public string AEViews { get; set; }
+
+      [Option('w', "atworkstation", Default = "x", Required = false, HelpText = "Parse Active Teller Workstation logs.")]
       public string AWViews { get; set; }
 
       [Option('s', "sp", Default = "x", Required = false, HelpText = "Parse Service Provider logs.")]
@@ -32,6 +35,7 @@ namespace splogparser
 
       public bool IsAP { get { return APViews != "x"; } }
       public bool IsAT { get { return ATViews != "x"; } }
+      public bool IsAE { get { return AEViews != "x"; } }
       public bool IsAW { get { return AWViews != "x"; } }
       public bool IsSP { get { return SPViews != "x"; } }
       public bool IsRT { get { return RTViews != "x"; } }
@@ -41,9 +45,12 @@ namespace splogparser
       {
          viewName = viewName.Replace("View", "");
          return
-            ( ( (IsAP && parseType == ParseType.AP) && (APViews.Contains(viewName) || APViews.Contains("*")) ) ||
-              ( (IsSP && parseType == ParseType.SP) && (SPViews.Contains(viewName) || SPViews.Contains("*")) ) ||
-              ( (IsSS && parseType == ParseType.SS) && (SSViews.Contains(viewName) || SSViews.Contains("*")))
+            ( ( (IsAP && parseType == ParseType.AP) && (APViews.Contains(viewName) || APViews.Contains("*"))) ||
+              ( (IsSP && parseType == ParseType.SP) && (SPViews.Contains(viewName) || SPViews.Contains("*"))) ||
+              ( (IsRT && parseType == ParseType.RT) && (RTViews.Contains(viewName) || RTViews.Contains("*"))) ||
+              ( (IsAE && parseType == ParseType.AE) && (AEViews.Contains(viewName) || AEViews.Contains("*"))) ||
+              ( (IsAT && parseType == ParseType.AT) && (ATViews.Contains(viewName) || ATViews.Contains("*"))) ||
+              ( (IsAW && parseType == ParseType.AW) && (AWViews.Contains(viewName) || AWViews.Contains("*")))
             );
       }
 
@@ -57,6 +64,7 @@ namespace splogparser
 
          if (IsAP) suffix += _Suffix("__AP", APViews);
          if (IsAT) suffix += _Suffix("__AT", ATViews);
+         if (IsAE) suffix += _Suffix("__AE", AEViews);
          if (IsAW) suffix += _Suffix("__AW", AWViews);
          if (IsSP) suffix += _Suffix("__SP", SPViews);
          if (IsRT) suffix += _Suffix("__RT", RTViews);

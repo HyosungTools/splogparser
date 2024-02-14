@@ -3,6 +3,7 @@ using LogLineHandler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Contract;
 using APSamples;
+using System;
 
 namespace APLogLineTests
 {

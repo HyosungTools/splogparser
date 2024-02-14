@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AELogHandler.cs" />
+    <Compile Include="AWLogHandler.cs" />
+    <Compile Include="ATLogHandler.cs" />
     <Compile Include="APLogHandler.cs" />
     <Compile Include="BHDLogHandler.cs" />
     <Compile Include="CreateTextStreamReader.cs" />
@@ -50,9 +53,21 @@
     <Compile Include="SSLogHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AELine\AELogLine\AELogLine.csproj">
+      <Project>{1b515233-5a88-43c0-b02f-5f8a3d481cf8}</Project>
+      <Name>AELogLine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\APLine\APLogLine.csproj">
       <Project>{79fe7807-0694-473c-8dd5-7d7013e14edf}</Project>
       <Name>APLogLine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATLine\ATLogLine\ATLogLine.csproj">
+      <Project>{b5af3249-8e88-422f-829d-2a26d6a9072b}</Project>
+      <Name>ATLogLine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AWLine\AWLogLine\AWLogLine.csproj">
+      <Project>{512e54f5-1e15-4dae-9d74-79c87afba9f6}</Project>
+      <Name>AWLogLine</Name>
     </ProjectReference>
     <ProjectReference Include="..\Contract\Contract.csproj">
       <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
@@ -72,4 +87,8 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.pdb" $(SolutionDir)\..\dist</PostBuildEvent>
+  </PropertyGroup>
 </Project>

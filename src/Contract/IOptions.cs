@@ -2,13 +2,14 @@
 {
    public enum ParseType
    {
-      AP, AT, AW, SP, RT, SS
+      AP, AT, AE, AW, SP, RT, SS
    }
 
    public interface IOptions
    {
       bool IsAP { get; }
       bool IsAT { get; }
+      bool IsAE { get; }
       bool IsAW { get; }
       bool IsSP { get; }
       bool IsRT { get; }
@@ -18,6 +19,7 @@
 
       string APViews { get; set; }
       string ATViews { get; set; }
+      string AEViews { get; set; }
       string AWViews { get; set; }
       string SPViews { get; set; }
       string RTViews { get; set; }

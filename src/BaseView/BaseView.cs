@@ -58,6 +58,7 @@ namespace Impl
 
          // create a table instance
          bTable = CreateTableInstance(ctx);
+         ctx.LogWriteLine("Table created: " + viewName);
       }
 
       public virtual void PreProcess(IContext ctx)
@@ -93,7 +94,7 @@ namespace Impl
                }
                catch (Exception e)
                {
-                  ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : Processing file {0} : {1}", fileName, e.Message));
+                  ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : Processing file {0} : {1} {2}", fileName, e.Message, e));
                   return;
                }
             }
