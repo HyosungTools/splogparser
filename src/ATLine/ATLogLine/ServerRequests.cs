@@ -430,7 +430,7 @@ namespace LogLineHandler
             }
             catch (Exception ex)
             {
-
+               throw new Exception($"AELogLine.ServerCommunication: error processing log line '{logLine}'\n{ex}");
             }
          }
 

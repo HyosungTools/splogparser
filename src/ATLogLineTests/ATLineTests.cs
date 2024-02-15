@@ -131,7 +131,7 @@ namespace ATLogLineTests
             catch (Exception e)
             {
                Assert.IsTrue(false);
-               return;
+               throw e;
             }
          }
 
@@ -225,7 +225,7 @@ namespace ATLogLineTests
             }
             catch (Exception e)
             {
-               throw;
+               throw e;
             }
          }
 
