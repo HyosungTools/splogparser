@@ -129,7 +129,7 @@ namespace AELogLineTests
             catch (Exception e)
             {
                Assert.IsTrue(false);
-               return;
+               throw e;
             }
          }
 
@@ -183,7 +183,7 @@ namespace AELogLineTests
             }
             catch (Exception e)
             {
-               throw;
+               throw e;
             }
          }
 
