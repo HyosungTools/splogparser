@@ -8,11 +8,17 @@ namespace LogLineHandler
 {
    public class ConnectionManager : AWLine
    {
-      public Dictionary<string, string> SettingDict = new Dictionary<string, string>();
-
-
       private string className = "ConnectionManager";
       private bool isRecognized = false;
+
+      public string SignalRConnectionState { get; set; } = string.Empty;
+      public string ActiveTellerConnectionState { get; set; } = string.Empty;
+      public string RemoteControlSessionState { get; set; } = string.Empty;
+      public string TellerAvailability { get; set; } = string.Empty;
+      public string TellerAssistSessionState { get; set; } = string.Empty;
+      public string ServerConnectionState { get; set; } = string.Empty;
+      public string HttpImageRetrievalState { get; set; } = string.Empty;
+      public string HttpServerRequest { get; set; } = string.Empty;
 
 
       public ConnectionManager(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.ConnectionManager) : base(parent, logLine, awType)
@@ -68,82 +74,79 @@ namespace LogLineHandler
             string subtag = "ActiveTeller connection registered";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("SignalRConnectionState", "REGISTERED");
+               SignalRConnectionState = "REGISTERED";
                isRecognized = true;
             }
 
             subtag = "ActiveTeller connection state change Connecting";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("SignalRConnectionState", "CONNECTING");
+               SignalRConnectionState = "CONNECTING";
                isRecognized = true;
             }
 
             subtag = "Setting teller availability to Busy";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("TellerAvailabilityStatus", "BUSY");
+               TellerAvailability = "BUSY";
                isRecognized = true;
             }
 
             subtag = "ActiveTeller connection thread is stopping";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("SignalRConnectionState", "CONNECTION THREAD IS STOPPING");
+               SignalRConnectionState = "STOPPING";
                isRecognized = true;
             }
 
             subtag = "ActiveTeller connection thread has completed.";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("SignalRConnectionState", "CONNECTION THREAD COMPLETED");
+               SignalRConnectionState = "COMPLETED";
                isRecognized = true;
             }
 
             subtag = "ActiveTeller connection thread has started.";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("SignalRConnectionState", "CONNECTION THREAD STARTED");
+               SignalRConnectionState = "STARTED";
                isRecognized = true;
             }
 
             subtag = "Attempting to start the ActiveTeller connection";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("SignalRConnectionState", "CONNECTION THREAD STARTING");
+               SignalRConnectionState = "STARTING";
                isRecognized = true;
             }
 
             subtag = "Request connection...";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("SignalRConnectionState", "REQUEST CONNECTION");
+               SignalRConnectionState = "REQUEST CONNECTION";
                isRecognized = true;
             }
 
             subtag = "Setting teller availability to Available";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("TellerAvailabilityStatus", "AVAILABLE");
+               TellerAvailability = "AVAILABLE";
                isRecognized = true;
             }
 
-            Regex regex = new Regex("ActiveTeller connection (?<guid>.*) connected to (?<url>.*)");
+            Regex regex = new Regex("ActiveTeller connection (?<guid>.*) connected to (?<uri>.*)");
             Match m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("SignalRConnectionState", "CONNECTED");
-               SettingDict.Add("ConnectionGUID", m.Groups["guid"].Value);
-               SettingDict.Add("URL", m.Groups["url"].Value);
+               SignalRConnectionState = $"CONNECTED guid {m.Groups["guid"].Value} to {m.Groups["uri"].Value}";
                isRecognized = true;
             }
 
-            regex = new Regex("Thread Run has started. Requesting connection to (?<url>.*)");
+            regex = new Regex("Thread Run has started. Requesting connection to (?<uri>.*)");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("SignalRConnectionState", "CONNECTION REQUESTED");
-               SettingDict.Add("URL", m.Groups["url"].Value);
+               SignalRConnectionState = $"CONNECTION REQUESTED to {m.Groups["uri"].Value}";
                isRecognized = true;
             }
 
@@ -151,8 +154,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("SignalRConnectionState", "REGISTERING SERVER CONNECTION");
-               SettingDict.Add("SessionId", m.Groups["sessionid"].Value);
+               ServerConnectionState = $"REGISTERING CLIENT SESSION id {m.Groups["sessionid"].Value}";
                isRecognized = true;
             }
 
@@ -160,8 +162,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("TellerAssistSessionState", "TELLER SESSION SENT FOR REQUEST");
-               SettingDict.Add("RequestId", m.Groups["requestid"].Value);
+               TellerAssistSessionState = $"TELLER SESSION REQUESTED id {m.Groups["requestid"].Value}";
                isRecognized = true;
             }
 
@@ -169,8 +170,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("TellerAssistSessionState", "REMOTE CONTROL SESSION SENT");
-               SettingDict.Add("SessionId", m.Groups["sessionid"].Value);
+               TellerAssistSessionState = $"REMOTE CONTROL SESSION REQUESTED id {m.Groups["sessionid"].Value}";
                isRecognized = true;
             }
 
@@ -178,8 +178,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("TellerAssistSessionState", "ASSIST SESSION SENT");
-               SettingDict.Add("SessionId", m.Groups["sessionid"].Value);
+               TellerAssistSessionState = $"ASSIST SESSION REQUESTED id {m.Groups["sessionid"].Value}";
                isRecognized = true;
             }
 
@@ -187,8 +186,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("TellerAssistSessionState", "APPROVAL RESPONSE SENT");
-               SettingDict.Add("SessionId", m.Groups["sessionid"].Value);
+               TellerAssistSessionState = $"APPROVAL SENT FOR SESSION id {m.Groups["sessionid"].Value}";
                isRecognized = true;
             }
 
@@ -196,8 +194,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("SignalRConnectionState", "DISCONNECTED");
-               SettingDict.Add("ConnectionGUID", m.Groups["guid"].Value);
+               SignalRConnectionState = $"DISCONNECTED guid {m.Groups["guid"].Value}";
                isRecognized = true;
             }
 
@@ -205,8 +202,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("RemoteControlSessionState", "CREATED");
-               SettingDict.Add("SessionId", m.Groups["sessionid"].Value);
+               RemoteControlSessionState = $"CREATED SESSION id {m.Groups["sessionid"].Value}";
                isRecognized = true;
             }
 
@@ -214,8 +210,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("RemoteControlSessionState", "DELETING");
-               SettingDict.Add("SessionId", m.Groups["sessionid"].Value);
+               RemoteControlSessionState = $"DELETING SESSION id {m.Groups["sessionid"].Value}";
                isRecognized = true;
             }
 
@@ -223,9 +218,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("HttpImageRetrievalState", "FAILED TO RETRIEVE IMAGE");
-               SettingDict.Add("URI", m.Groups["uri"].Value);
-               SettingDict.Add("Status", m.Groups["status"].Value);
+               HttpImageRetrievalState = $"FAILED uri {m.Groups["uri"].Value}, status {m.Groups["status"].Value}";
                isRecognized = true;
             }
 
@@ -233,8 +226,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("HttpImageRetrievalState", "RETRIEVING IMAGE");
-               SettingDict.Add("URI", m.Groups["uri"].Value);
+               HttpImageRetrievalState = $"RETRIEVING uri {m.Groups["uri"].Value}";
                isRecognized = true;
             }
 
@@ -242,8 +234,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("HttpServerRequest", "REQUEST TELLER ACTIVITIES");
-               SettingDict.Add("URI", m.Groups["uri"].Value);
+               HttpServerRequest = $"GET TELLER STATES {m.Groups["uri"].Value}";
                isRecognized = true;
             }
 
@@ -251,9 +242,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("TellerAssistSessionState", "UPDATE TELLER STATISTICS");
-               SettingDict.Add("Pending", m.Groups["pending"].Value);
-               SettingDict.Add("Current", m.Groups["current"].Value);
+               TellerAssistSessionState = $"ASSIST STATISTICS UPDATED Pending {m.Groups["pending"].Value}, Current {m.Groups["current"].Value}";
                isRecognized = true;
             }
 
@@ -261,12 +250,9 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("TellerAssistSessionState", "UPDATE TELLER STATISTICS SUBSCRIPTION");
-               SettingDict.Add("SubscriptionState", m.Groups["state"].Value);
+               TellerAssistSessionState = $"TELLER ASSIST STATE {m.Groups["state"].Value}";
                isRecognized = true;
             }
-
-
          }
 
          if (!isRecognized)

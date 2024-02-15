@@ -7,10 +7,12 @@ namespace LogLineHandler
 {
    public class MainWindow : AWLine
    {
-      public Dictionary<string, string> SettingDict = new Dictionary<string, string>();
-
-
       private string className = "MainWindow";
+
+      public string ActiveTellerState { get; private set; } = string.Empty;
+      public string Asset { get; private set; } = string.Empty;
+      public string VideoSessionState { get; private set; } = string.Empty;
+
       private bool isRecognized = false;
 
 
@@ -82,42 +84,42 @@ namespace LogLineHandler
             string subtag = "Loading...";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("ActiveTellerState", "LOADING");
+               ActiveTellerState = "WINDOW LOADING";
                isRecognized = true;
             }
 
             subtag = "Window_Loaded complete";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("ActiveTellerState", "WINDOW LOAD COMPLETE");
+               ActiveTellerState = "WINDOW LOAD COMPLETE";
                isRecognized = true;
             }
 
             subtag = "Remote desktop connected successfully to the asset";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("ActiveTellerState", "REMOTE DESKTOP CONNECTED TO THE ATM");
+               ActiveTellerState = "REMOTE DESKTOP CONNECTED TO THE ATM";
                isRecognized = true;
             }
 
             subtag = "Starting the ActiveTeller connection because the user is allowed to assist customers";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("ActiveTellerState", "STARTING, CAN ASSIST CUSTOMERS");
+               ActiveTellerState = "STARTING, CAN ASSIST CUSTOMERS";
                isRecognized = true;
             }
 
             subtag = "Remote desktop encountered an error while connecting to the asset.";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("ActiveTellerState", "ERROR, FAILED TO CONNECT TO THE ATM");
+               ActiveTellerState = "ERROR, FAILED TO CONNECT TO THE ATM";
                isRecognized = true;
             }
 
             subtag = "Remote desktop encountered an error while connected to the asset.";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("ActiveTellerState", "ERROR, FAILED WHILE CONNECTED TO THE ATM");
+               ActiveTellerState = "ERROR, FAILED WHILE CONNECTED TO THE ATM";
                isRecognized = true;
             }
 
@@ -125,9 +127,8 @@ namespace LogLineHandler
             Match m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "NEW VIDEO CALL EVENT");
-               SettingDict.Add("CanAcceptVideoCall", m.Groups["bool"].Value);
-               SettingDict.Add("VideoSessionState", m.Groups["state"].Value);
+               ActiveTellerState = $"NEW VIDEO CALL, {(bool.Parse(m.Groups["bool"].Value) ? "CAN ACCEPT" : "CANNOT ACCEPT")}";
+               VideoSessionState = m.Groups["state"].Value;
                isRecognized = true;
             }
 
@@ -135,8 +136,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "ASSISTANCE REQUEST INFORMATION");
-               SettingDict.Add("AssistanceFor", m.Groups["name"].Value);
+               ActiveTellerState = $"ASSISTANCE REQUEST INFORMATION for {m.Groups["name"].Value}" ;
                isRecognized = true;
             }
 
@@ -144,8 +144,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "BUTTON CLICKED");
-               SettingDict.Add("ButtonName", m.Groups["name"].Value);
+               ActiveTellerState = $"{m.Groups["name"].Value} BUTTON CLICKED";
                isRecognized = true;
             }
 
@@ -153,8 +152,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "WINDOW CLOSING");
-               SettingDict.Add("WindowName", m.Groups["name"].Value);
+               ActiveTellerState = $"{m.Groups["name"].Value} WINDOW CLOSING";
                isRecognized = true;
             }
 
@@ -162,8 +160,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "ACTIVE TELLER STATE CHANGE");
-               SettingDict.Add("EventName", m.Groups["state"].Value);
+               ActiveTellerState = $"STATE CHANGE, {m.Groups["state"].Value} from ActiveTeller";
                isRecognized = true;
             }
 
@@ -171,9 +168,8 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "DONE ADDING ACTIVE TELLER SESSION");
-               SettingDict.Add("ATM", m.Groups["asset"].Value);
-               SettingDict.Add("RequestId", m.Groups["id"].Value);
+               ActiveTellerState = $"ADDED SESSION for ATM {m.Groups["asset"].Value}, session request id {m.Groups["id"].Value}";
+               Asset = m.Groups["asset"].Value;
                isRecognized = true;
             }
 
@@ -181,9 +177,8 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "TELLER SESSION ADDED");
-               SettingDict.Add("ATM", m.Groups["asset"].Value);
-               SettingDict.Add("RequestId", m.Groups["id"].Value);
+               ActiveTellerState = $"ADDING SESSION for ATM {m.Groups["asset"].Value}, session request id {m.Groups["id"].Value}";
+               Asset = m.Groups["asset"].Value;
                isRecognized = true;
             }
 
@@ -191,10 +186,8 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "TELLER SESSION REQUESTED");
-               SettingDict.Add("ATM", m.Groups["asset"].Value);
-               SettingDict.Add("SessionRequestId", m.Groups["id"].Value);
-               SettingDict.Add("IsAcceptable", m.Groups["bool"].Value);
+               ActiveTellerState = $"SESSION REQUESTED for ATM {m.Groups["asset"].Value}, session request id {m.Groups["id"].Value}.  IsAcceptable={m.Groups["bool"].Value}";
+               Asset = m.Groups["asset"].Value;
                isRecognized = true;
             }
 
@@ -202,8 +195,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "TELLER SESSION REQUEST DELETED");
-               SettingDict.Add("SessionRequestId", m.Groups["id"].Value);
+               ActiveTellerState = $"SESSION REQUEST DELETED, session request id {m.Groups["id"].Value}";
                isRecognized = true;
             }
 
@@ -211,8 +203,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "FINISHED, UNLOADED REPORT");
-               SettingDict.Add("ReportName", m.Groups["name"].Value);
+               ActiveTellerState = $"FINISHED, UNLOADED {m.Groups["name"].Value}";
                isRecognized = true;
             }
 
@@ -220,9 +211,8 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "TELLER SESSION CHANGED EVENT");
-               SettingDict.Add("EventName", m.Groups["event"].Value);
-               SettingDict.Add("VideoSessionState", m.Groups["state"].Value);
+               ActiveTellerState = $"SESSION CHANGED, {m.Groups["event"].Value}";
+               VideoSessionState = m.Groups["state"].Value;
                isRecognized = true;
             }
 
@@ -230,8 +220,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "MOVING TELLER VIDEO WINDOW");
-               SettingDict.Add("WindowPosition", m.Groups["num"].Value);
+               ActiveTellerState = $"MOVING TELLER VIDEO WINDOW to position {m.Groups["num"].Value}";
                isRecognized = true;
             }
 
@@ -239,8 +228,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "SESSION APPLICATION STATE CHANGED");
-               SettingDict.Add("Flowpoint", m.Groups["name"].Value);
+               ActiveTellerState = $"SESSION APPLICATION FLOWPOINT CHANGED, {m.Groups["name"].Value}";
                isRecognized = true;
             }
 
@@ -248,8 +236,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "PEER TO PEER SIGNIN TO ATM");
-               SettingDict.Add("Uri", m.Groups["uri"].Value);
+               ActiveTellerState = $"PEER TO PEER SIGNIN to URI {m.Groups["uri"].Value}";
                isRecognized = true;
             }
 
@@ -257,8 +244,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "RECEIVED EVENT");
-               SettingDict.Add("EventName", m.Groups["event"].Value);
+               ActiveTellerState = $"RECEIVED EVENT, {m.Groups["event"].Value}";
                isRecognized = true;
             }
 
@@ -266,8 +252,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerState", "TRANSACTION REVIEW REQUEST");
-               SettingDict.Add("ReviewName", m.Groups["name"].Value);
+               ActiveTellerState = $"TRANSACTION REVIEW REQUEST, {m.Groups["name"].Value}";
                isRecognized = true;
             }
          }

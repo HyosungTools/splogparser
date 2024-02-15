@@ -7,12 +7,10 @@ namespace LogLineHandler
 {
    public class StringResourceManager : AWLine
    {
-      public Dictionary<string, string> SettingDict = new Dictionary<string, string>();
-
-
       private string className = "StringResourceManager";
       private bool isRecognized = false;
 
+      public Dictionary<string, string> SettingDict { get; set; } = new Dictionary<string, string>();
 
       public StringResourceManager(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.StringResourceManager) : base(parent, logLine, awType)
       {

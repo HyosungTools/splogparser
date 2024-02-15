@@ -7,12 +7,10 @@ namespace LogLineHandler
 {
    public class Settings : AWLine
    {
-      public Dictionary<string, string> SettingDict = new Dictionary<string, string>();
-
-
       private string className = "Settings";
       private bool isRecognized = false;
 
+      public Dictionary<string, string> SettingDict { get; set; } = new Dictionary<string, string>();
 
       public Settings(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.Settings) : base(parent, logLine, awType)
       {

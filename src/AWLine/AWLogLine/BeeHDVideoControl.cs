@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 using Contract;
 
@@ -7,10 +8,14 @@ namespace LogLineHandler
 {
    public class BeeHDVideoControl : AWLine
    {
-      public Dictionary<string, string> SettingDict = new Dictionary<string, string>();
-
-
       private string className = "BeeHDVideoControl";
+
+      public string ServerSigninState { get; private set; } = string.Empty;
+      public string CallDevicesState { get; private set; } = string.Empty;
+      public string VideoCallState { get; private set; } = string.Empty;
+      public string VideoCallDetails { get; private set; } = string.Empty;
+
+
       private bool isRecognized = false;
 
 
@@ -61,35 +66,35 @@ namespace LogLineHandler
             string subtag = "AcceptVideoCall";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("VideoCallState", "ACCEPT");
+               VideoCallState = "ACCEPT";
                isRecognized = true;
             }
 
             subtag = "HoldVideoCall";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("VideoCallState", "HOLD");
+               VideoCallState = "HOLD";
                isRecognized = true;
             }
 
             subtag = "ResumeVideoCall";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("VideoCallState", "RESUME");
+               VideoCallState = "RESUME";
                isRecognized = true;
             }
 
             subtag = "StopVideoCall";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("VideoCallState", "STOP");
+               VideoCallState = "STOP";
                isRecognized = true;
             }
 
             subtag = "Uninitialize";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("VideoCallState", "UNINITIALIZE");
+               VideoCallState = "UNINITIALIZE";
                isRecognized = true;
             }
 
@@ -97,7 +102,7 @@ namespace LogLineHandler
             Match m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("VideoCallState", m.Groups["topic"].Value);
+               VideoCallState = $"INITIALIZE {m.Groups["topic"].Value}";
                isRecognized = true;
             }
 
@@ -105,9 +110,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("VideoCallState", "UPDATE");
-               SettingDict.Add("SessionType", m.Groups["sessiontype"].Value);
-               SettingDict.Add("VideoSessionState", m.Groups["newstate"].Value);
+               VideoCallState = $"UPDATE {m.Groups["sessiontype"].Value} {m.Groups["newstate"].Value}";
                isRecognized = true;
             }
 
@@ -115,14 +118,16 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("VideoCallState", "CHANGE");
-               SettingDict.Add("CallHandle", m.Groups["handle"].Value);
-               SettingDict.Add("PreviousCallState", m.Groups["prevstate"].Value);
-               SettingDict.Add("NewCallState", m.Groups["newstate"].Value);
-               SettingDict.Add("Reason", m.Groups["reason"].Value);
-               SettingDict.Add("CallType", m.Groups["calltype"].Value);
-               SettingDict.Add("RemoteCaller", m.Groups["remoteaddress"].Value);
-               SettingDict.Add("CallDirection", (bool.Parse(m.Groups["isoutgoing"].Value) ? "OUTGOING" : "INCOMING"));
+               VideoCallState = "CHANGE";
+               StringBuilder sb = new StringBuilder();
+               sb.Append($"CallHandle {m.Groups["handle"].Value},");
+               sb.Append($"PreviousCallState {m.Groups["prevstate"].Value},");
+               sb.Append($"NewCallState {m.Groups["newstate"].Value},");
+               sb.Append($"Reason {m.Groups["reason"].Value},");
+               sb.Append($"CallType {m.Groups["calltype"].Value},");
+               sb.Append($"RemoteCaller {m.Groups["remoteaddress"].Value},");
+               sb.Append($"CallDirection {(bool.Parse(m.Groups["isoutgoing"].Value) ? "OUTGOING" : "INCOMING")},");
+               VideoCallDetails = sb.ToString();
                isRecognized = true;
             }
 
@@ -130,7 +135,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("CallDevicesState", m.Groups["topic"].Value);
+               CallDevicesState = m.Groups["topic"].Value;
                isRecognized = true;
             }
 
@@ -138,8 +143,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("SelectedDevice", m.Groups["device"].Value);
-               SettingDict.Add("DeviceAction", m.Groups["topic"].Value);
+               CallDevicesState = $"Selected {m.Groups["device"].Value}, Action {m.Groups["topic"].Value}";
                isRecognized = true;
             }
 
@@ -147,7 +151,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ServerSignInURI", m.Groups["uri"].Value);
+               ServerSigninState = $"SignInURI {m.Groups["uri"].Value}";
                isRecognized = true;
             }
 
@@ -156,15 +160,16 @@ namespace LogLineHandler
             if (m.Success)
             {
                //kmcRequest=(?<remote>.*), dateTime=(?<datetime>.*), duration=(?<duration>.*), callType=(?<calltype>.*), callProtocol=(?<protocol>.*), isOutgoing=(?<isoutgoing>.*), isMissedCall=(?<ismissedcall>.*), isEncrypted=(?<isencrypted>.*)");
-               SettingDict.Add("VideoCallState", "HISTORY");
-               SettingDict.Add("RemoteCaller", m.Groups["remoteaddress"].Value);
-               SettingDict.Add("DateTime", m.Groups["datetime"].Value);
-               SettingDict.Add("Duration", m.Groups["duration"].Value);
-               SettingDict.Add("CallType", m.Groups["calltype"].Value);
-               SettingDict.Add("CallProtocol", m.Groups["protocol"].Value);
-               SettingDict.Add("CallDirection", (bool.Parse(m.Groups["isoutgoing"].Value) ? "OUTGOING" : "INCOMING"));
-               SettingDict.Add("MissedCall", (bool.Parse(m.Groups["ismissedcall"].Value) ? "MISSED" : string.Empty));
-               SettingDict.Add("Encrypted", (bool.Parse(m.Groups["isencrypted"].Value) ? "ENCRYPTED" : string.Empty));
+               VideoCallState = "HISTORY";
+               StringBuilder sb = new StringBuilder();
+               sb.Append($"DateTime {m.Groups["datetime"].Value},");
+               sb.Append($"Duration {m.Groups["duration"].Value},");
+               sb.Append($"CallType {m.Groups["calltype"].Value},");
+               sb.Append($"CallProtocol {m.Groups["protocol"].Value},");
+               sb.Append($"CallDirection {(bool.Parse(m.Groups["isoutgoing"].Value) ? "OUTGOING" : "INCOMING")},");
+               sb.Append($"MissedCall {(bool.Parse(m.Groups["ismissedcall"].Value) ? "MISSED" : string.Empty)},");
+               sb.Append($"Encrypted {(bool.Parse(m.Groups["isencrypted"].Value) ? "ENCRYPTED" : string.Empty)},");
+               VideoCallDetails = sb.ToString();
                isRecognized = true;
             }
 
@@ -172,8 +177,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("VideoCallState", "NEW INCOMING CALL");
-               SettingDict.Add("CallHandle", m.Groups["handle"].Value);
+               VideoCallState = $"NEW INCOMING CALL handle {m.Groups["handle"].Value}";
                isRecognized = true;
             }
 
@@ -181,9 +185,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("VideoCallState", $"REMOTE-{m.Groups["action"].Value}");
-               SettingDict.Add("CallHandle", m.Groups["handle"].Value);
-               SettingDict.Add("Local", (bool.Parse(m.Groups["islocal"].Value) ? "LOCAL HOLD" : "REMOTE HOLD"));
+               VideoCallState = $"REMOTE-{m.Groups["action"].Value}, handle {m.Groups["handle"].Value}, {(bool.Parse(m.Groups["islocal"].Value) ? "LOCAL HOLD" : "REMOTE HOLD")}";
                isRecognized = true;
             }
 
@@ -191,17 +193,18 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("VideoCallState", $"USER NOTIFY");
-               SettingDict.Add("CallHandle", m.Groups["handle"].Value);
-               SettingDict.Add("Value", m.Groups["value"].Value);
-               SettingDict.Add("Severity", m.Groups["severity"].Value);
-               SettingDict.Add("UserType", m.Groups["usertype"].Value);
-               SettingDict.Add("Description", m.Groups["description"].Value);
-               SettingDict.Add("AdditionalInfo", m.Groups["additionalinfo"].Value);
-               SettingDict.Add("SuggestedAction", m.Groups["suggestedaction"].Value);
+               VideoCallState = $"USER NOTIFY";
+               StringBuilder sb = new StringBuilder();
+               sb.Append($"CallHandle {m.Groups["handle"].Value},");
+               sb.Append($"Value {m.Groups["value"].Value},");
+               sb.Append($"Severity {m.Groups["severity"].Value},");
+               sb.Append($"UserType {m.Groups["usertype"].Value},");
+               sb.Append($"Description {m.Groups["description"].Value},");
+               sb.Append($"AdditionalInfo {m.Groups["additionalinfo"].Value},");
+               sb.Append($"SuggestedAction {m.Groups["suggestedaction"].Value},");
+               VideoCallDetails = sb.ToString();
                isRecognized = true;
             }
-
          }
 
          if (!isRecognized)

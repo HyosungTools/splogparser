@@ -7,11 +7,14 @@ namespace LogLineHandler
 {
    public class IdleEmpty : AWLine
    {
-      public Dictionary<string, string> SettingDict = new Dictionary<string, string>();
-
-
       private string className = "IdleEmpty";
       private bool isRecognized = false;
+
+
+      public string Memory { get; set; } = string.Empty;
+      public string VMSize {  get; set; } = string.Empty;
+      public string PrivateSize { get; set; } = string.Empty;
+      public string HandleCount { get; set; } = string.Empty;
 
 
       public IdleEmpty(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.IdleEmpty) : base(parent, logLine, awType)
@@ -39,7 +42,7 @@ namespace LogLineHandler
 
             // ignore
             isRecognized = true;
-           
+
 
             /*
             string subtag = "UserIdleEmpty Path: ";
@@ -48,16 +51,39 @@ namespace LogLineHandler
                SettingDict.Add("UserIdleEmptyPath", subLogLine.Substring(subtag.Length));
                isRecognized = true;
             }
+            */
 
-            Regex regex = new Regex("Notification ring duration is (?<duration>[\\-0-9]*) and location is (?<path>.*)");
+            Regex regex = new Regex("Memory      : (?<size>.*)");
             Match m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("RingDuration", m.Groups["duration"].Value);
-               SettingDict.Add("RingPath", m.Groups["path"].Value);
+               Memory = m.Groups["size"].Value;
                isRecognized = true;
             }
-            */
+
+            regex = new Regex("VM      size: (?<size>.*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               VMSize = m.Groups["size"].Value;
+               isRecognized = true;
+            }
+
+            regex = new Regex("Private size: (?<size>.*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               PrivateSize = m.Groups["size"].Value;
+               isRecognized = true;
+            }
+
+            regex = new Regex("Handle count:(?<count>.*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               HandleCount = m.Groups["count"].Value;
+               isRecognized = true;
+            }
          }
 
          if (!isRecognized)

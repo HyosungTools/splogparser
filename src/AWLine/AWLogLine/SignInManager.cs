@@ -7,12 +7,14 @@ namespace LogLineHandler
 {
    public class SignInManager : AWLine
    {
-      public Dictionary<string, string> SettingDict = new Dictionary<string, string>();
-
-
       private string className = "SignInManager";
       private bool isRecognized = false;
 
+
+      public string SignInState { get; set; } = string.Empty;
+      public string User { get; set; } = string.Empty;
+      public string Branch { get; set; } = string.Empty;
+      public string Uri { get; set; } = string.Empty;
 
       public SignInManager(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.SignInManager) : base(parent, logLine, awType)
       {
@@ -38,21 +40,21 @@ namespace LogLineHandler
             string subtag = "The ActiveTeller user is signing out";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("ActiveTellerUserSignInState", "SIGNING OUT");
+               SignInState = "SIGNING OUT";
                isRecognized = true;
             }
 
             subtag = "ActiveTeller sign-in received a Success response.";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("ActiveTellerUserSignInState", "SIGN IN SUCCESS");
+               SignInState = "SIGN IN SUCCESS";
                isRecognized = true;
             }
 
             subtag = "ActiveTeller sign-in received a Unauthorized response.";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("ActiveTellerUserSignInState", "UNAUTHORIZED");
+               SignInState = "UNAUTHORIZED";
                isRecognized = true;
             }
 
@@ -60,9 +62,9 @@ namespace LogLineHandler
             Match m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerUserSignInState", "SIGN IN ATTEMPT");
-               SettingDict.Add("User", m.Groups["user"].Value);
-               SettingDict.Add("Branch", m.Groups["branch"].Value);
+               SignInState = "SIGN IN ATTEMPT";
+               User = m.Groups["user"].Value;
+               Branch = m.Groups["branch"].Value;
                isRecognized = true;
             }
 
@@ -70,10 +72,10 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerUserSignInState", "SIGNING IN");
-               SettingDict.Add("User", m.Groups["user"].Value);
-               SettingDict.Add("Branch", m.Groups["branch"].Value);
-               SettingDict.Add("URI", m.Groups["uri"].Value);
+               SignInState = "SIGNING IN";
+               User = m.Groups["user"].Value;
+               Branch = m.Groups["branch"].Value;
+               Uri = m.Groups["uri"].Value;
                isRecognized = true;
             }
          }

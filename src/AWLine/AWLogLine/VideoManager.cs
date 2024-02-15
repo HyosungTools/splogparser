@@ -7,12 +7,12 @@ namespace LogLineHandler
 {
    public class VideoManager : AWLine
    {
-      public Dictionary<string, string> SettingDict = new Dictionary<string, string>();
-
-
       private string className = "VideoManager";
       private bool isRecognized = false;
 
+      public string VideoEngineState { get; set; } = string.Empty;
+      public string User { get; set; } = string.Empty;
+      public string Uri { get; set; } = string.Empty;
 
       public VideoManager(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.VideoManager) : base(parent, logLine, awType)
       {
@@ -37,9 +37,9 @@ namespace LogLineHandler
             Match m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("VideoEngineState", "SIGN IN ATTEMPT");
-               SettingDict.Add("User", m.Groups["user"].Value);
-               SettingDict.Add("URI", m.Groups["uri"].Value);
+               VideoEngineState = "SIGN IN ATTEMPT";
+               User = m.Groups["user"].Value;
+               Uri =m.Groups["uri"].Value;
                isRecognized = true;
             }
          }

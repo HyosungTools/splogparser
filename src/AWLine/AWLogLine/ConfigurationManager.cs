@@ -7,12 +7,12 @@ namespace LogLineHandler
 {
    public class ConfigurationManager : AWLine
    {
-      public Dictionary<string, string> SettingDict = new Dictionary<string, string>();
-
-
       private string className = "ConfigurationManager";
       private bool isRecognized = false;
 
+      public string FeatureList {  get; set; } = string.Empty;
+      public string SettingsList { get; set; } = string.Empty;
+      public string NetOpLicence { get; set; } = string.Empty;
 
       public ConfigurationManager(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.ConfigurationManager) : base(parent, logLine, awType)
       {
@@ -36,21 +36,21 @@ namespace LogLineHandler
             string subtag = "MoveNext: feature list ";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("FeatureList", subLogLine.Substring(subtag.Length));
+               FeatureList = subLogLine.Substring(subtag.Length);
                isRecognized = true;
             }
 
             subtag = "MoveNext: settings list ";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("SettingsList", subLogLine.Substring(subtag.Length));
+               SettingsList = subLogLine.Substring(subtag.Length);
                isRecognized = true;
             }
 
             subtag = "Setting NetOp license key";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("NetOpLicenceKeyStatus", "SET");
+               NetOpLicence = "SET";
                isRecognized = true;
             }
          }

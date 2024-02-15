@@ -7,10 +7,22 @@ namespace LogLineHandler
 {
    public class DataFlowManager : AWLine
    {
-      public Dictionary<string, string> SettingDict = new Dictionary<string, string>();
-
-
       private string className = "DataFlowManager";
+
+      public string Event { get; private set; } = string.Empty;
+      public string ActiveTellerConnectionState { get; private set; } = string.Empty;
+      public string Asset { get; private set; } = string.Empty;
+      public string AssistRequestEvent { get; private set; } = string.Empty;
+      public string CheckImageStatus { get; private set; } = string.Empty;
+      public string IDScanImageStatus { get; private set; } = string.Empty;
+      public string ControlSessionStatus { get; private set; } = string.Empty;
+      public string RemoteControlSessionState { get; private set; } = string.Empty;
+      public string TaskStatusEvent { get; private set; } = string.Empty;
+      public string TransactionItemStatus { get; private set; } = string.Empty;
+      public string TellerSessionRequest { get; private set; } = string.Empty;
+      public string TransactionItemStatusChange { get; private set; } = string.Empty;
+      public string TransactionReviewRequest { get; private set; } = string.Empty;
+
       private bool isRecognized = false;
 
 
@@ -99,14 +111,14 @@ namespace LogLineHandler
             string subtag = "Firing system settings changed event";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("EventFired", "System settings changed");
+               Event = "System settings changed";
                isRecognized = true;
             }
 
             subtag = "Teller session statistics update received";
             if (subLogLine.StartsWith(subtag))
             {
-               SettingDict.Add("EventFired", "Teller session statistic updated received");
+               Event = "Teller session statistic updated received";
                isRecognized = true;
             }
 
@@ -114,10 +126,8 @@ namespace LogLineHandler
             Match m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("RequestType", "TransactionReviewRequest");
-               SettingDict.Add("RequestId", m.Groups["requestid"].Value);
-               SettingDict.Add("ATM", m.Groups["asset"].Value);
-               SettingDict.Add("Event", m.Groups["event"].Value);
+               TransactionReviewRequest = $"request id {m.Groups["requestid"].Value}, for ATM {m.Groups["asset"].Value}, event {m.Groups["event"].Value}";
+               Asset = m.Groups["asset"].Value;
                isRecognized = true;
             }
 
@@ -125,7 +135,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerConnectionState", m.Groups["newstate"].Value);
+               ActiveTellerConnectionState = m.Groups["newstate"].Value;
                isRecognized = true;
             }
 
@@ -133,7 +143,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ErrorNoEventHandlersFound", m.Groups["event"].Value);
+               Event = $"No handler found for event {m.Groups["event"].Value}";
                isRecognized = true;
             }
 
@@ -141,9 +151,8 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ActiveTellerConnectionState", m.Groups["type"].Value);
-               SettingDict.Add("ATM", m.Groups["asset"].Value);
-               SettingDict.Add("Event", m.Groups["action"].Value);
+               ActiveTellerConnectionState = $"{m.Groups["type"].Value} updated for ATM {m.Groups["asset"].Value} during {m.Groups["action"].Value}";
+               Asset = m.Groups["asset"].Value;
                isRecognized = true;
             }
 
@@ -151,9 +160,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("AssistRequestEvent", m.Groups["action"].Value);
-               SettingDict.Add("ATM", m.Groups["asset"].Value);
-               SettingDict.Add("RequestId", m.Groups["requestid"].Value);
+               AssistRequestEvent = $"{m.Groups["action"].Value} for ATM {m.Groups["asset"].Value}, request id {m.Groups["requestid"].Value}";
                isRecognized = true;
             }
 
@@ -161,8 +168,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("CheckImageStatus", "AVAILABLE");
-               SettingDict.Add("URI", m.Groups["uri"].Value);
+               CheckImageStatus = $"AVAILABLE uri {m.Groups["uri"].Value}";
                isRecognized = true;
             }
 
@@ -170,8 +176,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("IDScanImageStatus", "AVAILABLE");
-               SettingDict.Add("URI", m.Groups["uri"].Value);
+               IDScanImageStatus = $"AVAILABLE uri {m.Groups["uri"].Value}";
                isRecognized = true;
             }
 
@@ -179,9 +184,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("ControlSessionStatus", m.Groups["action"].Value);
-               SettingDict.Add("ATM", m.Groups["asset"].Value);
-               SettingDict.Add("SessionId", m.Groups["sessionid"].Value);
+               ControlSessionStatus = $"{m.Groups["action"].Value} for ATM {m.Groups["asset"].Value}, session id {m.Groups["sessionid"].Value}";
                isRecognized = true;
             }
 
@@ -189,8 +192,8 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("RemoteControlSessionStatus", m.Groups["action"].Value);
-               SettingDict.Add("ATM", m.Groups["asset"].Value);
+               RemoteControlSessionState = $"{m.Groups["action"].Value} for ATM {m.Groups["asset"].Value}, session id {m.Groups["sessionid"].Value}";
+               Asset = m.Groups["asset"].Value;
                isRecognized = true;
             }
 
@@ -198,10 +201,8 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("TaskStatusEvent", m.Groups["event"].Value);
-               SettingDict.Add("Task", m.Groups["task"].Value);
-               SettingDict.Add("Value", m.Groups["val"].Value);
-               SettingDict.Add("ATM", m.Groups["asset"].Value);
+               TaskStatusEvent = $"{m.Groups["event"].Value} for ATM {m.Groups["asset"].Value}, Task {m.Groups["task"].Value}, Value {m.Groups["val"].Value}";
+               Asset = m.Groups["asset"].Value;
                isRecognized = true;
             }
 
@@ -209,11 +210,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("TransactionItemStatus", "APPROVAL");
-               SettingDict.Add("CheckIndex", m.Groups["checkindex"].Value);
-               SettingDict.Add("TellerApproval", m.Groups["approval"].Value);
-               SettingDict.Add("TellerAmount", m.Groups["amount"].Value);
-               SettingDict.Add("Reason", m.Groups["reason"].Value);
+               TransactionItemStatus = $"APPROVAL CheckIndex {m.Groups["checkindex"].Value}, TellerApproval {m.Groups["approval"].Value}, TellerAmount {m.Groups["amount"].Value}, Reason {m.Groups["reason"].Value}";
                isRecognized = true;
             }
 
@@ -221,10 +218,8 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("TellerSessionRequest", "TELLER SESSION REQUEST FOR ATM");
-               SettingDict.Add("RequestId", m.Groups["sessionid"].Value);
-               SettingDict.Add("ATM", m.Groups["asset"].Value);
-               SettingDict.Add("Action", m.Groups["action"].Value);
+               TellerSessionRequest = $"TELLER SESSION session id {m.Groups["sessionid"].Value}, for ATM {m.Groups["asset"].Value}, action {m.Groups["action"].Value}";
+               Asset = m.Groups["asset"].Value;
                isRecognized = true;
             }
 
@@ -232,10 +227,8 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("TellerSessionRequest", "TELLER SESSION REQUEST FOR ATM");
-               SettingDict.Add("RequestId", m.Groups["id"].Value);
-               SettingDict.Add("ATM", m.Groups["asset"].Value);
-               SettingDict.Add("Action", m.Groups["action"].Value);
+               TellerSessionRequest = $"TELLER SESSION REQUEST id {m.Groups["id"].Value}, for ATM {m.Groups["asset"].Value}, action {m.Groups["action"].Value}";
+               Asset = m.Groups["asset"].Value;
                isRecognized = true;
             }
 
@@ -243,9 +236,8 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("TellerSessionRequest", "TELLER SESSION REQUEST FOR ATM");
-               SettingDict.Add("RequestId", m.Groups["id"].Value);
-               SettingDict.Add("ATM", m.Groups["asset"].Value);
+               TellerSessionRequest = $"TELLER SESSION REQUEST id {m.Groups["id"].Value}, for ATM {m.Groups["asset"].Value}";
+               Asset = m.Groups["asset"].Value;
                isRecognized = true;
             }
 
@@ -253,10 +245,7 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               SettingDict.Add("TransactionItemStatusChange", m.Groups["action"].Value);
-               SettingDict.Add("ItemNumber", m.Groups["item"].Value);
-               SettingDict.Add("Amount", m.Groups["amount"].Value);
-               SettingDict.Add("Reason", m.Groups["reason"].Value);
+               TransactionItemStatusChange = $"{m.Groups["action"].Value} item-number {m.Groups["item"].Value}, amount {m.Groups["amount"].Value}, reason {m.Groups["reason"].Value}";
                isRecognized = true;
             }
          }

@@ -61,7 +61,7 @@ namespace AWView
                   case AWLogType.Settings:
                      {
                         base.ProcessRow(seLogLine);
-                        // AddExtensionStartedEvent(aeLogLine);
+                        AddSettings(seLogLine);
                         break;
                      }
 
@@ -84,7 +84,7 @@ namespace AWView
                   case AWLogType.StringResourceManager:
                      {
                         base.ProcessRow(srLogLine);
-                        // AddExtensionStartedEvent(aeLogLine);
+                        AddSettings(srLogLine);
                         break;
                      }
 
@@ -107,7 +107,7 @@ namespace AWView
                   case AWLogType.ConfigurationManager:
                      {
                         base.ProcessRow(cmLogLine);
-                        // AddExtensionStartedEvent(aeLogLine);
+                        AddSettings(cmLogLine);
                         break;
                      }
 
@@ -130,7 +130,7 @@ namespace AWView
                   case AWLogType.BeeHDVideoControl:
                      {
                         base.ProcessRow(beLogLine);
-                        // AddExtensionStartedEvent(aeLogLine);
+                        AddSettings(beLogLine);
                         break;
                      }
 
@@ -153,7 +153,7 @@ namespace AWView
                   case AWLogType.VideoManager:
                      {
                         base.ProcessRow(vmLogLine);
-                        // AddExtensionStartedEvent(aeLogLine);
+                        AddSettings(vmLogLine);
                         break;
                      }
 
@@ -176,7 +176,7 @@ namespace AWView
                   case AWLogType.SignInManager:
                      {
                         base.ProcessRow(siLogLine);
-                        // AddExtensionStartedEvent(aeLogLine);
+                        AddSettings(siLogLine);
                         break;
                      }
 
@@ -199,7 +199,7 @@ namespace AWView
                   case AWLogType.PermissionsManager:
                      {
                         base.ProcessRow(pmLogLine);
-                        // AddExtensionStartedEvent(aeLogLine);
+                        AddSettings(pmLogLine);
                         break;
                      }
 
@@ -222,7 +222,7 @@ namespace AWView
                   case AWLogType.MainWindow:
                      {
                         base.ProcessRow(mwLogLine);
-                        // AddExtensionStartedEvent(aeLogLine);
+                        AddSettings(mwLogLine);
                         break;
                      }
 
@@ -245,7 +245,7 @@ namespace AWView
                   case AWLogType.IdleEmpty:
                      {
                         base.ProcessRow(ieLogLine);
-                        // AddExtensionStartedEvent(aeLogLine);
+                        AddSettings(ieLogLine);
                         break;
                      }
 
@@ -268,7 +268,7 @@ namespace AWView
                   case AWLogType.ConnectionManager:
                      {
                         base.ProcessRow(cm2LogLine);
-                        // AddExtensionStartedEvent(aeLogLine);
+                        AddSettings(cm2LogLine);
                         break;
                      }
 
@@ -282,16 +282,16 @@ namespace AWView
             }
          }
 
-         if (logLine is LogLineHandler.DataFlowManager dfLogLine)
+         if (logLine is LogLineHandler.DataFlowManager dfmLogLine)
          {
             try
             {
-               switch (dfLogLine.awType)
+               switch (dfmLogLine.awType)
                {
                   case AWLogType.DataFlowManager:
                      {
-                        base.ProcessRow(dfLogLine);
-                        // AddExtensionStartedEvent(aeLogLine);
+                        base.ProcessRow(dfmLogLine);
+                        AddSettings(dfmLogLine);
                         break;
                      }
 
@@ -305,16 +305,16 @@ namespace AWView
             }
          }
 
-         if (logLine is LogLineHandler.DeviceFactory df2LogLine)
+         if (logLine is LogLineHandler.DeviceFactory dfLogLine)
          {
             try
             {
-               switch (df2LogLine.awType)
+               switch (dfLogLine.awType)
                {
                   case AWLogType.DeviceFactory:
                      {
-                        base.ProcessRow(df2LogLine);
-                        // AddExtensionStartedEvent(aeLogLine);
+                        base.ProcessRow(dfLogLine);
+                        AddSettings(dfLogLine);
                         break;
                      }
 
@@ -341,27 +341,135 @@ namespace AWView
          return sb.ToString();
       }
 
-/*
-      protected void AddExtensionStartedEvent(LogLineHandler.ExtensionStarted logLine)
+      private string DictionaryStringStringToString(Dictionary<string,string> list)
+      {
+         string comma = string.Empty;
+
+         StringBuilder sb = new StringBuilder();
+         foreach (KeyValuePair<string,string> kvp in list)
+         {
+            sb.Append($"{comma}{kvp.Key}={kvp.Value}");
+            comma = ",";
+         }
+
+         return sb.ToString();
+      }
+
+      protected void AddSettings(AWLine logLine)
       {
          try
          {
-            string tableName = "ExtensionStartedEvents";
+            string tableName = "Workstation";
 
             DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
 
             dataRow["file"] = logLine.LogFile;
             dataRow["time"] = logLine.Timestamp;
-            dataRow["name"] = logLine.extensionName;
+
+            dataRow["Payload"] = logLine.logLine;
+
+            switch (logLine.awType)
+            {
+               case AWLogType.Settings:
+                  Settings seLine = logLine as Settings;
+                  dataRow["Settings"] = DictionaryStringStringToString(seLine.SettingDict);
+                  break;
+
+               case AWLogType.StringResourceManager:
+                  StringResourceManager srLine = logLine as StringResourceManager;
+                  dataRow["Settings"] = DictionaryStringStringToString(srLine.SettingDict);
+                  break;
+
+               case AWLogType.ConfigurationManager:
+                  ConfigurationManager cfLine = logLine as ConfigurationManager;
+                  dataRow["Settings"] = $"features, {cfLine.FeatureList}, settings {cfLine.SettingsList}, NetOpLicense {cfLine.NetOpLicence}";
+                  break;
+
+               case AWLogType.BeeHDVideoControl:
+                  BeeHDVideoControl beLine = logLine as BeeHDVideoControl;
+                  dataRow["ServerSigninState"] = beLine.ServerSigninState;
+                  dataRow["CallDevicesState"] = beLine.CallDevicesState;
+                  dataRow["VideoCallState"] = beLine.VideoCallState;
+                  dataRow["VideoCallDetails"] = beLine.VideoCallDetails;
+                  break;
+
+               case AWLogType.VideoManager:
+                  VideoManager vmLine = logLine as VideoManager;
+                  dataRow["VideoEngineState"] = $"{vmLine.VideoEngineState} user {vmLine.User}, uri {vmLine.Uri}";
+                  break;
+
+               case AWLogType.SignInManager:
+                  SignInManager siLine = logLine as SignInManager;
+                  dataRow["SignInState"] = $"{siLine.SignInState} user {siLine.User}, branch {siLine.Branch}, uri {siLine.Uri}";
+                  dataRow["Teller"] = siLine.User;
+                  break;
+
+               case AWLogType.PermissionsManager:
+                  PermissionsManager pmLine = logLine as PermissionsManager;
+                  dataRow["Permissions"] = pmLine.State;
+                  break;
+
+               case AWLogType.MainWindow:
+                  MainWindow mwLine = logLine as MainWindow;
+                  dataRow["ActiveTellerState"] = mwLine.ActiveTellerState;
+                  dataRow["VideoSessionState"] = mwLine.VideoSessionState;
+                  dataRow["Asset"] = mwLine.Asset;
+                  break;
+
+               case AWLogType.IdleEmpty:
+                  IdleEmpty ieLine = logLine as IdleEmpty;
+                  dataRow["ProcessStats"] = $"Memory {ieLine.Memory}, VMSize {ieLine.VMSize}, PrivateSize {ieLine.PrivateSize}, Handles {ieLine.HandleCount}";
+                  break;
+
+               case AWLogType.ConnectionManager:
+                  ConnectionManager cmLine = logLine as ConnectionManager;
+                  dataRow["SignalRConnectionState"] = cmLine.SignalRConnectionState;
+                  dataRow["ActiveTellerConnectionState"] = cmLine.ActiveTellerConnectionState;
+                  dataRow["RemoteControlSessionState"] = cmLine.RemoteControlSessionState;
+                  dataRow["TellerAvailability"] = cmLine.TellerAvailability;
+                  dataRow["TellerAssistSessionState"] = cmLine.TellerAssistSessionState;
+                  dataRow["ServerConnectionState"] = cmLine.ServerConnectionState;
+                  dataRow["HttpImageRetrievalState"] = cmLine.HttpImageRetrievalState;
+                  dataRow["HttpServerRequest"] = cmLine.HttpServerRequest;
+                  break;
+
+               case AWLogType.DataFlowManager:
+                  DataFlowManager dfmLine = logLine as DataFlowManager;
+                  dataRow["Event"] = dfmLine.Event;
+                  dataRow["Asset"] = dfmLine.Asset;
+                  dataRow["ActiveTellerConnectionState"] = dfmLine.ActiveTellerConnectionState;
+                  dataRow["AssistRequestEvent"] = dfmLine.AssistRequestEvent;
+                  dataRow["CheckImageStatus"] = dfmLine.CheckImageStatus;
+                  dataRow["IDScanImageStatus"] = dfmLine.IDScanImageStatus;
+                  dataRow["ControlSessionStatus"] = dfmLine.ControlSessionStatus;
+                  dataRow["RemoteControlSessionState"] = dfmLine.RemoteControlSessionState;
+                  dataRow["TaskStatusEvent"] = dfmLine.TaskStatusEvent;
+                  dataRow["TransactionItemStatus"] = dfmLine.TransactionItemStatus;
+                  dataRow["TellerSessionRequest"] = dfmLine.TellerSessionRequest;
+                  dataRow["TransactionItemStatusChange"] = dfmLine.TransactionItemStatusChange;
+                  dataRow["TransactionReviewRequest"] = dfmLine.TransactionReviewRequest;
+                  break;
+
+               case AWLogType.DeviceFactory:
+                  DeviceFactory dfLine = logLine as DeviceFactory;
+                  dataRow["Settings"] = DictionaryStringStringToString(dfLine.SettingDict);
+                  break;
+
+               case AWLogType.Error:
+               case AWLogType.None:
+               default:
+                  break;
+            }
 
             dTableSet.Tables[tableName].AcceptChanges();
          }
          catch (Exception e)
          {
-            ctx.ConsoleWriteLogLine("AddExtensionStartedEvent Exception : " + e.Message);
+            ctx.ConsoleWriteLogLine("AddSettings Exception : " + e.Message);
          }
       }
 
+      /*
       protected void AddNetOpExtensionEvent(LogLineHandler.NetOpExtension logLine)
       {
          try
@@ -405,274 +513,6 @@ namespace AWView
          catch (Exception e)
          {
             ctx.ConsoleWriteLogLine("AddNetOpExtensionEvent Exception : " + e.Message);
-         }
-      }
-
-      protected void AddNextwareExtensionEvent(LogLineHandler.NextwareExtension logLine)
-      {
-         try
-         {
-            string tableName = "NextwareEvents";
-
-            DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
-
-            dataRow["file"] = logLine.LogFile;
-            dataRow["time"] = logLine.Timestamp;
-
-            dataRow["MonitoringDeviceChanges"] = logLine.MonitoringDeviceChanges;
-            dataRow["MonitoringDeviceName"] = logLine.MonitoringDeviceName;
-            dataRow["MonitoringElapsed"] = logLine.MonitoringElapsed;
-
-            dataRow["Id"] = logLine.Id;
-            dataRow["MacAddress"] = logLine.MacAddress;
-            dataRow["DeviceId"] = logLine.DeviceId;
-            dataRow["DeviceClass"] = logLine.DeviceClass;
-            dataRow["DisplayName"] = logLine.DisplayName;
-            dataRow["Status"] = logLine.Status;
-            dataRow["AssetName"] = logLine.AssetName;
-            dataRow["DeviceMediaStatus"] = logLine.DeviceMediaStatus;
-            dataRow["Timestamp"] = logLine.DeviceStateTimestampUTC;
-            dataRow["StatusDeviceName"] = logLine.StatusDeviceName;
-            dataRow["DeviceStatus"] = logLine.DeviceStatus;
-
-            dTableSet.Tables[tableName].AcceptChanges();
-         }
-         catch (Exception e)
-         {
-            ctx.ConsoleWriteLogLine("AddNextwareExtensionEvent Exception : " + e.Message);
-         }
-
-         // also add to MoniPlus2sEvents table
-         try
-         {
-            string tableName = "MoniPlus2sEvents";
-
-            DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
-
-            dataRow["file"] = logLine.LogFile;
-            dataRow["time"] = logLine.Timestamp;
-
-            StringBuilder sb = new StringBuilder();
-            sb.Append((!string.IsNullOrEmpty(logLine.MonitoringDeviceChanges) ? $"Event {logLine.MonitoringDeviceChanges}, " : string.Empty));
-            sb.Append((!string.IsNullOrEmpty(logLine.MonitoringDeviceName) ? $"Device {logLine.MonitoringDeviceName}," : string.Empty));
-            sb.Append((!string.IsNullOrEmpty(logLine.StatusDeviceName) ? $"Status {logLine.StatusDeviceName}" : string.Empty));
-
-            dataRow["Netware"] = sb.ToString();
-
-            dTableSet.Tables[tableName].AcceptChanges();
-         }
-         catch (Exception e)
-         {
-            ctx.ConsoleWriteLogLine("AddNextwareExtensionEvent Exception : " + e.Message);
-         }
-      }
-
-
-      protected void AddMoniPlus2sExtensionEvent(LogLineHandler.MoniPlus2sExtension logLine)
-      {
-         try
-         {
-            string tableName = "MoniPlus2sEvents";
-
-            DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
-
-            dataRow["file"] = logLine.LogFile;
-            dataRow["time"] = logLine.Timestamp;
-
-            dataRow["RemoteTellerActive"] = MoniPlus2sExtension._RemoteTellerActive ? "Active" : string.Empty;
-
-            dataRow["CustomerId"] = logLine.CustomerId;
-
-            // general
-            dataRow["ApplicationAvailability"] = logLine.ApplicationAvailability;
-
-            dataRow["FlowTimestamp"] = logLine.FlowTimestampUTC;
-
-            dataRow["FlowPoint"] = logLine.FlowPoint;
-            dataRow["TransactionType"] = logLine.TransactionType;
-            dataRow["Language"] = logLine.Language;
-            dataRow["VoiceGuidance"] = logLine.VoiceGuidance ? "true" : "false";
-            dataRow["RequestContext"] = logLine.RequestContext;
-
-
-            // operating mode and state
-            dataRow["OperatingMode"] = logLine.OperatingMode;
-            dataRow["State"] = logLine.State;
-            dataRow["ApplicationState"] = logLine.ApplicationState;
-
-
-            // hardware devices
-            dataRow["AssetName"] = logLine.AssetName;
-            dataRow["EnabledDeviceList"] = logLine.EnabledDeviceList;
-
-
-            // network
-            dataRow["IpAddress"] = logLine.IpAddress;
-            dataRow["MacAddress"] = logLine.MacAddress;
-
-
-            // physical assets and status
-            dataRow["Manufacturer"] = logLine.Manufacturer;
-            dataRow["Model"] = logLine.Model;
-            dataRow["Name"] = logLine.Name;
-
-            StringBuilder sb = new StringBuilder();
-            foreach (MoniPlus2sExtension.AssetCapabilities cap in logLine.Capabilities)
-            {
-               sb.Append($"{cap.ToString()};");
-            }
-            dataRow["Capabilities"] = sb.ToString();
-            sb = null;
-
-            dataRow["Status"] = logLine.Status;
-            dataRow["StatusChangedTime"] = logLine.StatusChangedTime;
-            dataRow["StatusReceivedTime"] = logLine.StatusReceivedTime;
-
-
-            // operating mode
-            dataRow["OperatingMode_ModeType"] = logLine.OperatingMode_ModeType;
-            dataRow["OperatingMode_ModeName"] = logLine.OperatingMode_ModeName;
-            dataRow["OperatingMode_CoreStatus"] = logLine.OperatingMode_CoreStatus;
-            dataRow["OperatingMode_CoreProperties"] = logLine.OperatingMode_CoreProperties;
-
-
-            // video conference method
-            dataRow["SupportedCallType"] = logLine.SupportedCallType;
-            dataRow["CallRouting_Summary"] = logLine.CallRouting_Summary;
-
-
-            // Active Teller (workstation)
-            dataRow["TellerId"] = logLine.TellerId;
-            dataRow["TellerName"] = logLine.TellerName;
-            dataRow["TellerVideoConferenceUri"] = logLine.TellerVideoConferenceUri;
-            dataRow["TellerInfo_Summary"] = logLine.TellerInfo_Summary;
-
-
-            // teller session request
-            dataRow["TellerSessionRequest_Timestamp"] = logLine.TellerSessionRequest_TimestampUTC;
-
-
-            // remote control session
-            dataRow["RemoteControlSession_StartTime"] = logLine.RemoteControlSession_StartTimeUTC;
-            dataRow["RemoteControlSession_TellerSessionRequestTimestamp"] = logLine.RemoteControlSession_TellerSessionRequestTimestampUTC;
-
-
-            // remote control task
-            dataRow["RemoteControl_TaskName"] = logLine.RemoteControl_TaskName;
-            dataRow["RemoteControl_EventName"] = logLine.RemoteControl_EventName;
-            dataRow["RemoteControl_AssetName"] = logLine.RemoteControl_AssetName;
-            dataRow["RemoteControlTask_EventData_Name"] = logLine.RemoteControlTask_EventData_Name;
-            dataRow["RemoteControlTask_EventData_TellerId"] = logLine.RemoteControlTask_EventData_TellerId;
-            dataRow["RemoteControlTask_EventData_DateTime"] = logLine.RemoteControlTask_EventData_DateTimeUTC;
-            dataRow["RemoteControlTask_EventData_TaskTimeout"] = logLine.RemoteControlTask_EventData_TaskTimeout;
-
-
-            // accounts
-            dataRow["Accounts_Action"] = ListOfLongToString(logLine.Accounts_Action);
-            dataRow["Accounts_AccountType"] = string.Join(",", logLine.Accounts_AccountType);
-            dataRow["Accounts_Amount"] = string.Join(",", logLine.Accounts_Amount);
-            dataRow["Accounts_Summary"] = string.Join(",", logLine.Accounts_Summary);
-
-
-            // transactions
-            dataRow["TransactionDetail_ApproverId"] = string.Join(",", logLine.TransactionDetail_ApproverId);
-            dataRow["TransactionDetail_Summary"] = string.Join(",", logLine.TransactionDetail_Summary);
-            dataRow["TransactionData_Summary"] = string.Join(",", logLine.TransactionData_Summary);
-            dataRow["Transaction_Warnings_Summary"] = string.Join(",", logLine.Transaction_Warnings_Summary);
-            dataRow["TransactionOtherAmounts_Summary"] = string.Join(",", logLine.TransactionOtherAmounts_Summary);
-
-
-            // checks
-            dataRow["Checks_Amount"] = string.Join(",", logLine.Checks_Amount);
-            dataRow["Checks_AcceptStatus"] = string.Join(",", logLine.Checks_AcceptStatus);
-            dataRow["Checks_AmountRead"] = string.Join(",", logLine.Checks_AmountRead);
-            dataRow["Checks_AmountScore"] = ListOfLongToString(logLine.Checks_AmountScore);
-            dataRow["Checks_BackImageRelativeUri"] = string.Join(",", logLine.Checks_BackImageRelativeUri);
-            dataRow["Checks_CheckDateRead"] = string.Join(",", logLine.Checks_CheckDateRead);
-            dataRow["Checks_CheckDateScore"] = ListOfLongToString(logLine.Checks_CheckDateScore);
-            dataRow["Checks_CheckIndex"] = ListOfLongToString(logLine.Checks_CheckIndex);
-            dataRow["Checks_FrontImageRelativeUri"] = string.Join(",", logLine.Checks_FrontImageRelativeUri);
-            dataRow["Checks_ImageBack"] = string.Join(",", logLine.Checks_ImageBack);
-            dataRow["Checks_ImageFront"] = string.Join(",", logLine.Checks_ImageFront);
-            dataRow["Checks_InvalidReason"] = string.Join(",", logLine.Checks_InvalidReason);
-            dataRow["Checks_Summary"] = string.Join(",", logLine.Checks_Summary);
-
-
-            // cash
-            dataRow["CashDetails_Amount"] = string.Join(",", logLine.CashDetails_Amount);
-            dataRow["CashDetails_CashTransactionType"] = ListOfLongToString(logLine.CashDetails_CashTransactionType);
-            dataRow["CashDetails_Currency"] = string.Join(",", logLine.CashDetails_Currency);
-            dataRow["CashDetails_Summary"] = string.Join(",", logLine.CashDetails_Summary);
-
-
-            // currency
-            dataRow["CurrencyItems_Value"] = ListOfLongToString(logLine.CurrencyItems_Value);
-            dataRow["CurrencyItems_Quantity"] = ListOfLongToString(logLine.CurrencyItems_Quantity);
-            dataRow["CurrencyItems_MediaType"] = ListOfLongToString(logLine.CurrencyItems_MediaType);
-            dataRow["CurrencyItems_Summary"] = string.Join(",", logLine.CurrencyItems_Summary);
-
-
-            // id scans
-            dataRow["IdScans_Summary"] = string.Join(",", logLine.IdScans_Summary);
-
-
-            // reviews
-            dataRow["Review_ReasonForReview"] = ListOfLongToString(logLine.Review_ReasonForReview);
-            dataRow["Review_TellerAmount"] = string.Join(",", logLine.Review_TellerAmount);
-            dataRow["Review_TellerApproval"] = ListOfLongToString(logLine.Review_TellerApproval);
-            dataRow["Review_Reason"] = string.Join(",", logLine.Review_Reason);
-            dataRow["Review_Summary"] = string.Join(",", logLine.Review_Summary);
-
-            // application (server) comms - RESTful requests
-            dataRow["CommunicationResult_Comment"] = logLine.CommunicationResult_Comment;
-            dataRow["RestResource"] = logLine.RestResource;
-            dataRow["MessageBody"] = logLine.MessageBody;
-            dataRow["HttpRequest"] = logLine.HttpRequest;
-            dataRow["ApplicationConnectionState"] = logLine.ApplicationConnectionState;
-
-
-            // internal IDs
-            dataRow["Asset_Id"] = logLine.Asset_Id;
-            dataRow["AssetState_Id"] = logLine.AssetState_Id;
-
-            dataRow["ApplicationState_Id"] = logLine.ApplicationState_Id;
-
-            dataRow["TransactionDetail_Id"] = logLine.TransactionDetail_Id;
-            dataRow["TransactionDetail_TellerSessionActivityId"] = logLine.TransactionDetail_TellerSessionActivityId;
-
-            dataRow["SessionRequest_Id"] = logLine.SessionRequest_Id;
-
-            dataRow["RemoteControlSession_Id"] = logLine.RemoteControlSession_Id;
-            dataRow["RemoteControlSession_TellerSessionRequestId"] = logLine.RemoteControlSession_TellerSessionRequestId;
-
-            dataRow["RemoteControl_TaskId"] = logLine.RemoteControl_TaskId;
-
-            dataRow["TellerSession_Id"] = logLine.TellerSession_Id;
-            dataRow["TellerSessionRequest_Id"] = logLine.TellerSessionRequest_Id;
-
-            dataRow["TellerInfo_ClientSessionId"] = logLine.TellerInfo_ClientSessionId;
-
-            dataRow["CashDetails_Id"] = ListOfLongToString(logLine.CashDetails_Id);
-
-            dataRow["CurrencyItems_Id"] = ListOfLongToString(logLine.CurrencyItems_Id);
-            dataRow["CurrencyItems_CashDetailId"] = ListOfLongToString(logLine.CurrencyItems_CashDetailId);
-
-            dataRow["Checks_Id"] = ListOfLongToString(logLine.Checks_Id);
-            dataRow["Checks_TransactionDetailId"] = ListOfLongToString(logLine.Checks_TransactionDetailId);
-
-            dataRow["Accounts_Id"] = ListOfLongToString(logLine.Accounts_Id);
-            dataRow["Accounts_TransactionDetailId"] = ListOfLongToString(logLine.Accounts_TransactionDetailId);
-
-            dataRow["Review_Id"] = ListOfLongToString(logLine.Review_Id);
-            dataRow["ReviewRequest_Id"] = logLine.ReviewRequest_Id;
-            dataRow["Review_TransactionItemId"] = ListOfLongToString(logLine.Review_TransactionItemId);
-            dataRow["Review_ItemReviewId"] = ListOfLongToString(logLine.Review_ItemReviewId);
-
-            dTableSet.Tables[tableName].AcceptChanges();
-         }
-         catch (Exception e)
-         {
-            ctx.ConsoleWriteLogLine("AddMoniPlus2sExtensionEvent Exception : " + e.Message);
          }
       }
 */
