@@ -9,57 +9,57 @@
     <description></description>
   </Messages>
   
-  <Messages>	
-	<type>fwDevice</type>
+  <Messages>
+    <type>fwDevice</type>
     <code>1</code>
     <brief>offline</brief>
     <description></description>
   </Messages>
   
-  <Messages>	
-	<type>fwDevice</type>
+  <Messages>
+    <type>fwDevice</type>
     <code>2</code>
     <brief>pwroff</brief>
     <description>Powered off or physically not connected</description>
   </Messages>
   
-  <Messages>	
-	<type>fwDevice</type>
+  <Messages>
+    <type>fwDevice</type>
     <code>3</code>
     <brief>nodev</brief>
     <description>The device is not intended to be there</description>
   </Messages>
 
-  <Messages>	
-	<type>fwDevice</type>
+  <Messages>
+    <type>fwDevice</type>
     <code>4</code>
     <brief>hwerror</brief>
     <description>Inoperable due to a hardware error</description>
   </Messages>
 
-  <Messages>	
-	<type>fwDevice</type>
+  <Messages>
+    <type>fwDevice</type>
     <code>5</code>
     <brief>usrerror</brief>
     <description>User is preventing proper device operation</description>
   </Messages>
 
-  <Messages>	
-	<type>fwDevice</type>
+  <Messages>
+    <type>fwDevice</type>
     <code>6</code>
     <brief>busy</brief>
     <description>Unable to process an execute command at this time</description>
   </Messages>
 
-  <Messages>	
-	<type>fwDevice</type>
+  <Messages>
+    <type>fwDevice</type>
     <code>7</code>
     <brief>fraud</brief>
     <description>Inoperable because of detected fraud attempt</description>
   </Messages>
 
-  <Messages>	
-	<type>fwDevice</type>
+  <Messages>
+    <type>fwDevice</type>
     <code>8</code>
     <brief>fraud?</brief>
     <description>Potential fraud attempt detected</description>
@@ -67,53 +67,53 @@
   
   <!-- fwMedia -->
   
-  <Messages>	
-	<type>fwMedia</type>
+  <Messages>
+    <type>fwMedia</type>
     <code>1</code>
     <brief>present</brief>
-    <description></description>
+    <description>Media is present in the device, not in the entering position and not jammed.</description>
   </Messages>
   
-  <Messages>	
-	<type>fwMedia</type>
+  <Messages>
+    <type>fwMedia</type>
     <code>2</code>
     <brief>notpresent</brief>
-    <description></description>
+    <description>Media is not present in the device and not at the entering position.</description>
   </Messages>
   
-  <Messages>	
-	<type>fwMedia</type>
+  <Messages>
+    <type>fwMedia</type>
     <code>3</code>
     <brief>jammed</brief>
-    <description></description>
+    <description>Media is jammed in the device; operator intervention is required.</description>
   </Messages>
 
-  <Messages>	
-	<type>fwMedia</type>
+  <Messages>
+    <type>fwMedia</type>
     <code>4</code>
     <brief>notsupp</brief>
-    <description></description>
+    <description>Capability to report media position is not supported by the device </description>
   </Messages>
 
-  <Messages>	
-	<type>fwMedia</type>
+  <Messages>
+    <type>fwMedia</type>
     <code>5</code>
     <brief>unknown</brief>
-    <description></description>
+    <description>The media state cannot be determined with the device in its current state</description>
   </Messages>
 
-  <Messages>	
-	<type>fwMedia</type>
+  <Messages>
+    <type>fwMedia</type>
     <code>6</code>
     <brief>entering</brief>
-    <description></description>
+    <description>Media is at the entry/exit slot of a motorized device.</description>
   </Messages>
 
-  <Messages>	
-	<type>fwMedia</type>
+  <Messages>
+    <type>fwMedia</type>
     <code>7</code>
     <brief>latched</brief>
-    <description></description>
+    <description>Media is present and latched in a latched dip card unit.</description>
   </Messages>
   
   <!-- fwRetainBin -->
@@ -128,7 +128,7 @@
   <Messages>	
 	<type>fwRetainBin</type>
     <code>2</code>
-    <brief>supp</brief>
+    <brief></brief>
     <description></description>
   </Messages>
   
@@ -158,7 +158,7 @@
   <Messages>	
 	<type>fwSecurity</type>
     <code>1</code>
-    <brief>notsupp</brief>
+    <brief></brief>
     <description></description>
   </Messages>
   
@@ -290,6 +290,59 @@
     <code>4</code>
     <brief>notsupp</brief>
     <description></description>
+  </Messages>
+  
+  <!-- fwType -->
+  
+  <Messages>
+    <type>fwType</type>
+    <code>0x0001</code>
+    <brief>motor</brief>
+    <description>The ID card unit is a motor driven card unit</description>
+  </Messages>
+  
+  <Messages>
+    <type>fwType</type>
+    <code>0x0002</code>
+    <brief>swipe</brief>
+    <description>The ID card unit is a swipe (pull-through) card unit</description>
+  </Messages>
+
+  <Messages>
+    <type>fwType</type>
+    <code>0x0003</code>
+    <brief>dip</brief>
+    <description>The ID card unit is a dip card unit. This dip type is not capable of latching cards entered.</description>
+  </Messages>
+
+  <Messages>
+    <type>fwType</type>
+    <code>0x0004</code>
+    <brief>contactless</brief>
+    <description>The ID card unit is a contactless card unit, i.e. no insertion of the card is required</description>
+  </Messages>
+
+  <Messages>
+    <type>fwType</type>
+    <code>0x0005</code>
+    <brief>contactless</brief>
+    <description>The ID card unit is a latched dip card unit. This device type is used when a dip IDC device supports chip communication.</description>
+  </Messages>
+  
+  <!-- bCompound -->
+  
+  <Messages>
+    <type>bCompound</type>
+    <code>0</code>
+    <brief>false</brief>
+    <description>The logical device is not part of a compound physical device.</description>
+  </Messages>
+
+  <Messages>
+    <type>bCompound</type>
+    <code>1</code>
+    <brief>true</brief>
+    <description>The logical device is part of a compound physical device.</description>
   </Messages>
   
   <!-- error -->

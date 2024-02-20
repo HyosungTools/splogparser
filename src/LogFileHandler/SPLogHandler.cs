@@ -17,6 +17,44 @@ namespace LogFileHandler
       /* 2 - IDC */
       /* INFO */
       static Regex WFS_INF_IDC_STATUS = new Regex("GETINFO.201.[0-9]+WFS_GETINFO_COMPLETE");
+      static Regex WFS_INF_IDC_CAPABILITIES = new Regex("GETINFO.202.[0-9]+WFS_GETINFO_COMPLETE");
+      static Regex WFS_INF_IDC_FORM_LIST = new Regex("GETINFO.203.[0-9]+WFS_GETINFO_COMPLETE");
+      static Regex WFS_INF_IDC_QUERY_FORM = new Regex("GETINFO.204.[0-9]+WFS_GETINFO_COMPLETE");
+      static Regex WFS_INF_IDC_QUERY_IFM_IDENTIFIER = new Regex("GETINFO.205.[0-9]+WFS_GETINFO_COMPLETE");
+
+      /* EXECUTE */
+      static Regex WFS_CMD_IDC_READ_TRACK = new Regex("EXECUTE.201.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_IDC_WRITE_TRACK = new Regex("EXECUTE.202.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_IDC_EJECT_CARD = new Regex("EXECUTE.203.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_IDC_RETAIN_CARD = new Regex("EXECUTE.204.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_IDC_RESET_COUNT = new Regex("EXECUTE.205.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_IDC_SETKEY = new Regex("EXECUTE.206.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_IDC_READ_RAW_DATA = new Regex("EXECUTE.207.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_IDC_WRITE_RAW_DATA = new Regex("EXECUTE.208.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_IDC_CHIP_IO = new Regex("EXECUTE.209.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_IDC_RESET = new Regex("EXECUTE.210.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_IDC_CHIP_POWER = new Regex("EXECUTE.211.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_IDC_PARSE_DATA = new Regex("EXECUTE.212.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_IDC_SET_GUIDANCE_LIGHT = new Regex("EXECUTE.213.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_IDC_POWER_SAVE_CONTROL = new Regex("EXECUTE.214.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_IDC_PARK_CARD = new Regex("EXECUTE.215.[0-9]+WFS_EXECUTE_COMPLETE");
+
+
+      static Regex WFS_EXEE_IDC_INVALIDTRACKDATA = new Regex("EXECUTE_EVENT.201.[0-9]+WFS_EXECUTE_EVENT");
+      static Regex WFS_EXEE_IDC_MEDIAINSERTED = new Regex("EXECUTE_EVENT.203.[0-9]+WFS_EXECUTE_EVENT");
+      static Regex WFS_SRVE_IDC_MEDIAREMOVED = new Regex("SERVICE_EVENT.204.[0-9]+WFS_SERVICE_EVENT");
+      static Regex WFS_SRVE_IDC_CARDACTION = new Regex("SERVICE_EVENT.205.[0-9]+WFS_SERVICE_EVENT");
+      static Regex WFS_USRE_IDC_RETAINBINTHRESHOLD = new Regex("USER_EVENT.206.[0-9]+WFS_USER_EVENT");
+      static Regex WFS_EXEE_IDC_INVALIDMEDIA = new Regex("EXECUTE_EVENT.207.[0-9]+WFS_EXECUTE_EVENT");
+      static Regex WFS_EXEE_IDC_MEDIARETAINED = new Regex("EXECUTE_EVENT.208.[0-9]+WFS_EXECUTE_EVENT");
+      static Regex WFS_SRVE_IDC_MEDIADETECTED = new Regex("SERVICE_EVENT.209.[0-9]+WFS_SERVICE_EVENT");
+      static Regex WFS_SRVE_IDC_RETAINBININSERTED = new Regex("SERVICE_EVENT.210.[0-9]+WFS_SERVICE_EVENT");
+      static Regex WFS_SRVE_IDC_RETAINBINREMOVED = new Regex("SERVICE_EVENT.211.[0-9]+WFS_SERVICE_EVENT");
+      static Regex WFS_EXEE_IDC_INSERTCARD = new Regex("EXECUTE_EVENT.212.[0-9]+WFS_EXECUTE_EVENT");
+      static Regex WFS_SRVE_IDC_DEVICEPOSITION = new Regex("SERVICE_EVENT.213.[0-9]+WFS_SERVICE_EVENT");
+      static Regex WFS_SRVE_IDC_POWER_SAVE_CHANGE = new Regex("SERVICE_EVENT.214.[0-9]+WFS_SERVICE_EVENT");
+      static Regex WFS_EXEE_IDC_TRACKDETECTED = new Regex("EXECUTE_EVENT.215.[0-9]+WFS_EXECUTE_EVENT");
+
 
       /* 3 - CDM */
       /* INFO */
@@ -216,20 +254,87 @@ namespace LogFileHandler
          return (false, logLine);
       }
 
+      virtual protected bool IsMyLine(string logLine, string myDigit)
+      {
+         string getInfo = "GETINFO[" + myDigit;
+         string execute = "EXECUTE[" + myDigit;
+         string serviceEvent = "SERVICE_EVENT[" + myDigit;
+         string executeEvent = "EXECUTE_EVENT[" + myDigit;
+         string userEvent = "USER_EVENT[" + myDigit;
+
+         return logLine.Contains(getInfo) || logLine.Contains(execute) || logLine.Contains(serviceEvent) || logLine.Contains(executeEvent) || logLine.Contains(userEvent);
+      }
+
       public ILogLine IdentifyLine(string logLine)
       {
          (bool success, string subLogLine) result;
 
          /* 2 - IDC */
-         if (logLine.Contains("GETINFO[2") || logLine.Contains("EXECUTE[2") || logLine.Contains("SERVICE_EVENT[2"))
+         if (IsMyLine(logLine, "2"))
          {
             /* Test for INFO */
             result = GenericMatch(WFS_INF_IDC_STATUS, logLine);
             if (result.success) return new WFSIDCSTATUS(this, result.subLogLine);
+
+            result = GenericMatch(WFS_INF_IDC_CAPABILITIES, logLine);
+            if (result.success) return new WFSIDCCAPABILITIES(this, result.subLogLine);
+
+            /* Test for EXEC */
+            result = GenericMatch(WFS_CMD_IDC_READ_RAW_DATA, logLine);
+            if (result.success) return new WFSDEVSTATUS(this, result.subLogLine, XFSType.WFS_CMD_IDC_READ_RAW_DATA);
+
+            result = GenericMatch(WFS_CMD_IDC_CHIP_IO, logLine);
+            if (result.success) return new WFSDEVSTATUS(this, result.subLogLine, XFSType.WFS_CMD_IDC_CHIP_IO);
+
+            result = GenericMatch(WFS_CMD_IDC_CHIP_POWER, logLine);
+            if (result.success) return new WFSDEVSTATUS(this, result.subLogLine, XFSType.WFS_CMD_IDC_CHIP_POWER);
+
+            result = GenericMatch(WFS_CMD_IDC_CHIP_POWER, logLine);
+            if (result.success) return new WFSDEVSTATUS(this, result.subLogLine, XFSType.WFS_CMD_IDC_CHIP_POWER);
+
+            result = GenericMatch(WFS_EXEE_IDC_INVALIDTRACKDATA, logLine);
+            if (result.success) return new WFSDEVSTATUS(this, result.subLogLine, XFSType.WFS_EXEE_IDC_INVALIDTRACKDATA);
+
+            result = GenericMatch(WFS_EXEE_IDC_MEDIAINSERTED, logLine);
+            if (result.success) return new WFSDEVSTATUS(this, result.subLogLine, XFSType.WFS_EXEE_IDC_MEDIAINSERTED);
+
+            result = GenericMatch(WFS_SRVE_IDC_MEDIAREMOVED, logLine);
+            if (result.success) return new WFSDEVSTATUS(this, result.subLogLine, XFSType.WFS_SRVE_IDC_MEDIAREMOVED);
+
+            result = GenericMatch(WFS_USRE_IDC_RETAINBINTHRESHOLD, logLine);
+            if (result.success) return new WFSIDCRETAINBINTHRESHOLD(this, result.subLogLine);
+
+            result = GenericMatch(WFS_EXEE_IDC_INVALIDMEDIA, logLine);
+            if (result.success) return new WFSDEVSTATUS(this, result.subLogLine, XFSType.WFS_EXEE_IDC_INVALIDMEDIA);
+
+            result = GenericMatch(WFS_EXEE_IDC_MEDIARETAINED, logLine);
+            if (result.success) return new WFSDEVSTATUS(this, result.subLogLine, XFSType.WFS_EXEE_IDC_MEDIARETAINED);
+
+            result = GenericMatch(WFS_SRVE_IDC_MEDIADETECTED, logLine);
+            if (result.success) return new WFSIDCMEDIADETECTED(this, result.subLogLine);
+
+            result = GenericMatch(WFS_SRVE_IDC_RETAINBININSERTED, logLine);
+            if (result.success) return new WFSDEVSTATUS(this, result.subLogLine, XFSType.WFS_SRVE_IDC_RETAINBININSERTED);
+
+            result = GenericMatch(WFS_SRVE_IDC_RETAINBINREMOVED, logLine);
+            if (result.success) return new WFSDEVSTATUS(this, result.subLogLine, XFSType.WFS_SRVE_IDC_RETAINBINREMOVED);
+
+            result = GenericMatch(WFS_EXEE_IDC_INSERTCARD, logLine);
+            if (result.success) return new WFSDEVSTATUS(this, result.subLogLine, XFSType.WFS_EXEE_IDC_INSERTCARD);
+
+            result = GenericMatch(WFS_SRVE_IDC_DEVICEPOSITION, logLine);
+            if (result.success) return new WFSIDCDEVICEPOSITION(this, result.subLogLine);
+
+            result = GenericMatch(WFS_SRVE_IDC_POWER_SAVE_CHANGE, logLine);
+            if (result.success) return new WFSIDCPOWERSAVECHANGE(this, result.subLogLine);
+
+            result = GenericMatch(WFS_EXEE_IDC_TRACKDETECTED, logLine);
+            if (result.success) return new WFSIDCPOWERSAVECHANGE(this, result.subLogLine);
+
          }
 
          /* 3 - CDM */
-         if (logLine.Contains("GETINFO[3") || logLine.Contains("EXECUTE[3") || logLine.Contains("SERVICE_EVENT[3"))
+         if (IsMyLine(logLine, "3"))
          {
             /* Test for INFO */
             result = GenericMatch(WFS_INF_CDM_STATUS, logLine);
@@ -275,7 +380,7 @@ namespace LogFileHandler
          }
 
          /* 4 - PIN */
-         if (logLine.Contains("GETINFO[4") || logLine.Contains("EXECUTE[4") || logLine.Contains("SERVICE_EVENT[4"))
+         if (IsMyLine(logLine, "4"))
          {
             /* Test for INFO */
             result = GenericMatch(WFS_INF_PIN_STATUS, logLine);
@@ -283,7 +388,7 @@ namespace LogFileHandler
          }
 
          /* 5 - CHK */
-         if (logLine.Contains("GETINFO[5") || logLine.Contains("EXECUTE[5") || logLine.Contains("SERVICE_EVENT[5"))
+         if (IsMyLine(logLine, "5"))
          {
             /* Test for INFO */
             result = GenericMatch(WFS_INF_CHK_STATUS, logLine);
@@ -291,7 +396,7 @@ namespace LogFileHandler
          }
 
          /* 6 - DEP */
-         if (logLine.Contains("GETINFO[6") || logLine.Contains("EXECUTE[6") || logLine.Contains("SERVICE_EVENT[6"))
+         if (IsMyLine(logLine, "6"))
          {
             /* Test for INFO */
             result = GenericMatch(WFS_INF_DEP_STATUS, logLine);
@@ -299,7 +404,7 @@ namespace LogFileHandler
          }
 
          /* 7 - TTU */
-         if (logLine.Contains("GETINFO[7") || logLine.Contains("EXECUTE[7") || logLine.Contains("SERVICE_EVENT[7"))
+         if (IsMyLine(logLine, "7"))
          {
             /* Test for INFO */
             result = GenericMatch(WFS_INF_TTU_STATUS, logLine);
@@ -307,7 +412,7 @@ namespace LogFileHandler
          }
 
          /* 8 - SIU */
-         if (logLine.Contains("GETINFO[8") || logLine.Contains("EXECUTE[8") || logLine.Contains("SERVICE_EVENT[8"))
+         if (IsMyLine(logLine, "8"))
          {
             /* Test for INFO */
             result = GenericMatch(WFS_INF_SIU_STATUS, logLine);
@@ -315,7 +420,7 @@ namespace LogFileHandler
          }
 
          /* 9 - VDM */
-         if (logLine.Contains("GETINFO[9") || logLine.Contains("EXECUTE[9") || logLine.Contains("SERVICE_EVENT[9"))
+         if (IsMyLine(logLine, "9"))
          {
             /* Test for INFO */
             result = GenericMatch(WFS_INF_VDM_STATUS, logLine);
@@ -323,7 +428,7 @@ namespace LogFileHandler
          }
 
          /* 10 - CAM */
-         if (logLine.Contains("GETINFO[10") || logLine.Contains("EXECUTE[10") || logLine.Contains("SERVICE_EVENT[10"))
+         if (IsMyLine(logLine, "10"))
          {
             /* Test for INFO */
             result = GenericMatch(WFS_INF_CAM_STATUS, logLine);
@@ -331,7 +436,7 @@ namespace LogFileHandler
          }
 
          /* 11 - ALM */
-         if (logLine.Contains("GETINFO[11") || logLine.Contains("EXECUTE[11") || logLine.Contains("SERVICE_EVENT[11"))
+         if (IsMyLine(logLine, "11"))
          {
             /* Test for INFO */
             result = GenericMatch(WFS_INF_ALM_STATUS, logLine);
@@ -339,7 +444,7 @@ namespace LogFileHandler
          }
 
          /* 12 - CEU */
-         if (logLine.Contains("GETINFO[12") || logLine.Contains("EXECUTE[12") || logLine.Contains("SERVICE_EVENT[12"))
+         if (IsMyLine(logLine, "12"))
          {
             /* Test for INFO */
             result = GenericMatch(WFS_INF_CEU_STATUS, logLine);
@@ -347,12 +452,11 @@ namespace LogFileHandler
          }
 
          /* 13 - CIM */
-         if (logLine.Contains("GETINFO[13") || logLine.Contains("EXECUTE[13") || logLine.Contains("SERVICE_EVENT[13") ||
-             logLine.Contains("USER_EVENT[13") || logLine.Contains("EXECUTE_EVENT[13"))
+         if (IsMyLine(logLine, "13"))
          {
             /* Test for INFO */
             result = GenericMatch(WFS_INF_CIM_STATUS, logLine);
-            if (result.success) return new WFSCIMSTATUS(this, result.subLogLine, XFSType.WFS_INF_CIM_STATUS); 
+            if (result.success) return new WFSCIMSTATUS(this, result.subLogLine, XFSType.WFS_INF_CIM_STATUS);
 
             result = GenericMatch(WFS_INF_CIM_CASH_UNIT_INFO, logLine);
             if (result.success) return new WFSCIMCASHINFO(this, result.subLogLine, XFSType.WFS_INF_CIM_CASH_UNIT_INFO);
@@ -415,7 +519,7 @@ namespace LogFileHandler
          }
 
          /* 14 - CRD */
-         if (logLine.Contains("GETINFO[14") || logLine.Contains("EXECUTE[14") || logLine.Contains("SERVICE_EVENT[14"))
+         if (IsMyLine(logLine, "14"))
          {
             /* Test for INFO */
             result = GenericMatch(WFS_INF_CRD_STATUS, logLine);
@@ -423,7 +527,7 @@ namespace LogFileHandler
          }
 
          /* 15 - BCR */
-         if (logLine.Contains("GETINFO[15") || logLine.Contains("EXECUTE[15") || logLine.Contains("SERVICE_EVENT[15"))
+         if (IsMyLine(logLine, "15"))
          {
             /* Test for INFO */
             result = GenericMatch(WFS_INF_BCR_STATUS, logLine);
@@ -431,8 +535,7 @@ namespace LogFileHandler
          }
 
          /* 16 - IPM */
-         if (logLine.Contains("GETINFO[16") || logLine.Contains("EXECUTE[16") || logLine.Contains("SERVICE_EVENT[16") ||
-             logLine.Contains("USER_EVENT[16") || logLine.Contains("EXECUTE_EVENT[16"))
+         if (IsMyLine(logLine, "16"))
          {
 
             /* Test for INFO */
@@ -503,7 +606,8 @@ namespace LogFileHandler
          }
 
          /* 1 - PTR */
-         if (logLine.Contains("GETINFO[1") || logLine.Contains("EXECUTE[1") || logLine.Contains("SERVICE_EVENT[1"))
+         /* this needs to go here so we match '10', '11', '12', etc first */
+         if (IsMyLine(logLine, "1"))
          {
             /* Test for INFO */
             result = GenericMatch(WFS_INF_PTR_STATUS, logLine);

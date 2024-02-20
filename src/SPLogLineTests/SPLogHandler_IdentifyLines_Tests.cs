@@ -47,6 +47,160 @@ namespace SPLogLineTests
          Assert.IsTrue(spLine.Description == "System OK!");
       }
 
+      [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFS_INF_IDC_CAPABILITIES()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_idc.WFS_INF_IDC_CAPABILITIES);
+         Assert.IsTrue(logLine is WFSIDCCAPABILITIES);
+
+         WFSIDCCAPABILITIES spLine = (WFSIDCCAPABILITIES)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_INF_IDC_CAPABILITIES);
+         Assert.IsTrue(spLine.Timestamp == "2024-01-16 03:03:57.592");
+         Assert.IsTrue(spLine.HResult == "");
+
+         Assert.IsTrue(spLine.fwType == "0x0005"); ;
+         Assert.IsTrue(spLine.bCompound == "0");
+         Assert.IsTrue(spLine.fwReadTracks == "0x0007");
+         Assert.IsTrue(spLine.fwWriteTracks == "0x0000");
+         Assert.IsTrue(spLine.fwChipProtocols == "0x0003");
+         Assert.IsTrue(spLine.usCards == "0");
+         Assert.IsTrue(spLine.fwSecType == "1");
+         Assert.IsTrue(spLine.fwPowerOnOption == "1");
+         Assert.IsTrue(spLine.fwPowerOffOption == "1");
+         Assert.IsTrue(spLine.bFluxSensorProgrammable == "0");
+         Assert.IsTrue(spLine.bReadWriteAccessFollowingEject == "0");
+         Assert.IsTrue(spLine.fwWriteMode == "0");
+         Assert.IsTrue(spLine.fwChipPower == "12");
+         Assert.IsTrue(spLine.lpszExtra == "AttemptMSReadFirst=0,XFS_MIB_VERSION=0x00000A01");
+         Assert.IsTrue(spLine.fwDIPMode == "0");
+         Assert.IsTrue(spLine.lpwMemoryChipProtocols == "NULL");
+         Assert.IsTrue(spLine.fwEjectPosition == "0");
+         Assert.IsTrue(spLine.bPowerSaveControl == "0");
+         Assert.IsTrue(spLine.usParkingStations == "0");
+         Assert.IsTrue(spLine.bAntiFraudModule == "0");
+      }
+
+      [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFS_CMD_IDC_READ_RAW_DATA()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_idc.WFS_CMD_IDC_READ_RAW_DATA);
+         Assert.IsTrue(logLine is WFSDEVSTATUS);
+
+         WFSDEVSTATUS spLine = (WFSDEVSTATUS)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_CMD_IDC_READ_RAW_DATA);
+         Assert.IsTrue(spLine.Timestamp == "2024-01-16 09:31:04.379");
+         Assert.IsTrue(spLine.HResult == "-4");
+      }
+
+      [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFS_CMD_IDC_CHIP_IO()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_idc.WFS_CMD_IDC_CHIP_IO);
+         Assert.IsTrue(logLine is WFSDEVSTATUS);
+
+         WFSDEVSTATUS spLine = (WFSDEVSTATUS)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_CMD_IDC_CHIP_IO);
+         Assert.IsTrue(spLine.Timestamp == "2024-01-16 09:11:44.180");
+         Assert.IsTrue(spLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFS_CMD_IDC_CHIP_POWER()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_idc.WFS_CMD_IDC_CHIP_POWER);
+         Assert.IsTrue(logLine is WFSDEVSTATUS);
+
+         WFSDEVSTATUS spLine = (WFSDEVSTATUS)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_CMD_IDC_CHIP_POWER);
+         Assert.IsTrue(spLine.Timestamp == "2024-01-12 08:38:30.060");
+         Assert.IsTrue(spLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFS_EXEE_IDC_MEDIAINSERTED()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_idc.WFS_EXEE_IDC_MEDIAINSERTED);
+         Assert.IsTrue(logLine is WFSDEVSTATUS);
+
+         WFSDEVSTATUS spLine = (WFSDEVSTATUS)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_EXEE_IDC_MEDIAINSERTED);
+         Assert.IsTrue(spLine.Timestamp == "2024-01-16 09:11:41.536");
+         Assert.IsTrue(spLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFS_SRVE_IDC_MEDIAREMOVED()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_idc.WFS_SRVE_IDC_MEDIAREMOVED);
+         Assert.IsTrue(logLine is WFSDEVSTATUS);
+
+         WFSDEVSTATUS spLine = (WFSDEVSTATUS)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_SRVE_IDC_MEDIAREMOVED);
+         Assert.IsTrue(spLine.Timestamp == "2024-02-07 21:22:32.656");
+         Assert.IsTrue(spLine.HResult == "");
+      }
+
+      public void SPLogHandler_IdentifyLines_WFS_USRE_IDC_RETAINBINTHRESHOLD()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_idc.WFS_USRE_IDC_RETAINBINTHRESHOLD);
+         Assert.IsTrue(logLine is WFSIDCSTATUS);
+
+         WFSIDCRETAINBINTHRESHOLD spLine = (WFSIDCRETAINBINTHRESHOLD)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_USRE_IDC_RETAINBINTHRESHOLD);
+         Assert.IsTrue(spLine.Timestamp == "2023-12-07 16:01:20.549");
+         Assert.IsTrue(spLine.HResult == "");
+
+         Assert.IsTrue(spLine.fwRetainBin == "0");
+      }
+
+      [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFS_EXEE_IDC_INVALIDMEDIA()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_idc.WFS_EXEE_IDC_INVALIDMEDIA);
+         Assert.IsTrue(logLine is WFSDEVSTATUS);
+
+         WFSDEVSTATUS spLine = (WFSDEVSTATUS)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_EXEE_IDC_INVALIDMEDIA);
+         Assert.IsTrue(spLine.Timestamp == "2023-12-07 07:49:56.474");
+         Assert.IsTrue(spLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFS_EXEE_IDC_MEDIARETAINED()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_idc.WFS_EXEE_IDC_MEDIARETAINED);
+         Assert.IsTrue(logLine is WFSDEVSTATUS);
+
+         WFSDEVSTATUS spLine = (WFSDEVSTATUS)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_EXEE_IDC_MEDIARETAINED);
+         Assert.IsTrue(spLine.Timestamp == "2024-01-19 13:38:31.092");
+         Assert.IsTrue(spLine.HResult == "");
+      }
+
+      public void SPLogHandler_IdentifyLines_WFS_SRVE_IDC_MEDIADETECTED()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_idc.WFS_SRVE_IDC_MEDIADETECTED);
+         Assert.IsTrue(logLine is WFSIDCMEDIADETECTED);
+
+         WFSIDCMEDIADETECTED spLine = (WFSIDCMEDIADETECTED)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_SRVE_IDC_MEDIADETECTED);
+         Assert.IsTrue(spLine.Timestamp == "2023-12-23 18:02:15.631");
+         Assert.IsTrue(spLine.HResult == "");
+
+         Assert.IsTrue(spLine.lppwResetOut == "3");
+      }
+
+
       /* 3 - CDM */
       [TestMethod]
       public void SPLogHandler_IdentifyLines_WFS_INF_CDM_STATUS()
@@ -483,7 +637,7 @@ namespace SPLogLineTests
          Assert.IsTrue(spLine.ulMaximums[6] == "42");
          Assert.IsTrue(spLine.usStatuses[0] == "43");
          Assert.IsTrue(spLine.usStatuses[6] == "49");
-         Assert.IsTrue(spLine.noteNumbers[4,0] == "5:2158");
+         Assert.IsTrue(spLine.noteNumbers[4, 0] == "5:2158");
          Assert.IsTrue(spLine.noteNumbers[5, 0] == "6:1336");
          Assert.IsTrue(spLine.ulInitialCounts[0] == "100");
          Assert.IsTrue(spLine.ulInitialCounts[6] == "106");
@@ -563,11 +717,11 @@ namespace SPLogLineTests
          Assert.IsTrue(spLine.ulCounts[0] == "1");
          Assert.IsTrue(spLine.ulMaximums[0] == "1400");
          Assert.IsTrue(spLine.usStatuses[0] == "0");
-         Assert.IsTrue(spLine.noteNumbers[0,16] == "17:1");
+         Assert.IsTrue(spLine.noteNumbers[0, 16] == "17:1");
          Assert.IsTrue(spLine.ulInitialCounts[0] == "0");
          Assert.IsTrue(spLine.ulDispensedCounts[0] == "0");
          Assert.IsTrue(spLine.ulPresentedCounts[0] == "0");
-         Assert.IsTrue(spLine.ulRetractedCounts[0] == "0");;
+         Assert.IsTrue(spLine.ulRetractedCounts[0] == "0"); ;
          Assert.IsTrue(spLine.ulRejectCounts[0] == "0");
          Assert.IsTrue(spLine.ulMinimums[0] == "0");
       }
@@ -1040,7 +1194,7 @@ namespace SPLogLineTests
 
          Assert.IsTrue(spLine.lUnitCount == 1);
          Assert.IsTrue(spLine.usBinNumbers[0] == "1");
-         Assert.IsTrue(spLine.fwTypes[0] == "0x0002");;
+         Assert.IsTrue(spLine.fwTypes[0] == "0x0002"); ;
          Assert.IsTrue(spLine.wMediaTypes[0] == "0x0003");
          Assert.IsTrue(spLine.lpstrBinIDs[0] == "CHECK");
          Assert.IsTrue(spLine.ulMediaInCounts[0] == "4");

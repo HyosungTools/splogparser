@@ -11,6 +11,7 @@
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="device" type="xs:string" minOccurs="0" />
               <xs:element name="media" type="xs:string" minOccurs="0" />
+              <xs:element name="trackdata" type="xs:string" minOccurs="0" />
               <xs:element name="retainbin" type="xs:string" minOccurs="0" />
               <xs:element name="security" type="xs:string" minOccurs="0" />
               <xs:element name="uscards" type="xs:string" minOccurs="0" />
