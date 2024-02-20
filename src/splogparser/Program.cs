@@ -19,7 +19,7 @@ namespace splogparser
          if (zipFiles.Length == 0)
          {
             ctx.ConsoleWriteLogLine($"Archive zip file not found.");
-            return false;
+            return true;
          }
 
          foreach (string zipFile in zipFiles)
