@@ -16,8 +16,6 @@ namespace LogLineHandler
 {
    public class NextwareExtension : AELine
    {
-      bool isRecognized = false;
-
       // Start/End
       public bool ExtensionRunning = false;
 
@@ -55,6 +53,7 @@ namespace LogLineHandler
             2023-11-17 03:01:58 [NextwareExtension] OpenSession succeeded: Device = NXPin, Elapsed = 00:00:00.0200079
             2023-11-17 03:01:58 [NextwareExtension] NextwareExtension : OnDeviceStatusChanged: NH.Agent.Extensions.Nextware.NXPin
             2023-11-17 03:01:58 [NextwareExtension] Firing agent message event: DeviceState - POST - {"Id":0,"MacAddress":"70-85-C2-18-7C-DA","DeviceID":"9","DeviceClass":null,"DisplayName":null,"Status":"0","AssetName":null,"MediaStatus":null,"DeviceSpecificStatus":"{\"EncStatus\":\"0\",\"DevicePositionStatus\":\"3\",\"PowerSaveRecoveryTime\":0,\"LogicalServiceName { get; set; }\"ExtraInformation\":\"\"}","Timestamp":"0001-01-01T00:00:00"}
+          //2023-11-20 03:08:17 [NextwareExtension] DetermineDevicesToMonitor: Start
           */
 
          int idx = logLine.IndexOf("[NextwareExtension]");
@@ -65,8 +64,20 @@ namespace LogLineHandler
             //Started monitoring device status changes.
             if (subLogLine == "Started monitoring device status changes.")
             {
-               isRecognized = true;
+               IsRecognized = true;
                MonitoringDeviceChanges = "STARTED";
+            }
+
+            else if (subLogLine == "DetermineDevicesToMonitor: Start")
+            {
+               IsRecognized = true;
+               MonitoringDeviceChanges = "FIND DEVICES TO MONITOR";
+            }
+
+            else if (subLogLine == "DetermineDevicesToMonitor: End")
+            {
+               IsRecognized = true;
+               MonitoringDeviceChanges = "FINISHED FINDING DEVICES TO MONITOR";
             }
 
             else if (subLogLine.Contains("DeviceState - POST - {"))
@@ -186,7 +197,7 @@ namespace LogLineHandler
                            sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
 
                            DeviceStatus = sb.ToString();
-                           isRecognized = true;
+                           IsRecognized = true;
                            break;
 
                         case "SafeDoorStatus":
@@ -257,7 +268,7 @@ namespace LogLineHandler
                            sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
 
                            DeviceStatus = sb.ToString();
-                           isRecognized = true;
+                           IsRecognized = true;
                            break;
 
                         case "CabinetStatus":
@@ -278,7 +289,7 @@ namespace LogLineHandler
                            sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
 
                            DeviceStatus = sb.ToString();
-                           isRecognized = true;
+                           IsRecognized = true;
                            break;
 
                         case "MediaStatus":
@@ -348,7 +359,7 @@ namespace LogLineHandler
                            sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
 
                            DeviceStatus = sb.ToString();
-                           isRecognized = true;
+                           IsRecognized = true;
                            break;
 
                         case "CardUnitStatus":
@@ -389,7 +400,7 @@ namespace LogLineHandler
                            sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
 
                            DeviceStatus = sb.ToString();
-                           isRecognized = true;
+                           IsRecognized = true;
                            break;
 
                         case "OperatorSwitchStatus":
@@ -420,7 +431,7 @@ namespace LogLineHandler
                            sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
 
                            DeviceStatus = sb.ToString();
-                           isRecognized = true;
+                           IsRecognized = true;
                            break;
 
                         case "OpenCloseStatus":
@@ -443,7 +454,7 @@ namespace LogLineHandler
                            sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
 
                            DeviceStatus = sb.ToString();
-                           isRecognized = true;
+                           IsRecognized = true;
                            break;
 
                         case "VolumeStatus":
@@ -472,7 +483,7 @@ namespace LogLineHandler
                            sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
 
                            DeviceStatus = sb.ToString();
-                           isRecognized = true;
+                           IsRecognized = true;
                            break;
 
                         case "AcceptorStatus":
@@ -532,7 +543,7 @@ namespace LogLineHandler
                            sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
 
                            DeviceStatus = sb.ToString();
-                           isRecognized = true;
+                           IsRecognized = true;
                            break;
 
                         case "CheckAcceptorStatus":
@@ -593,7 +604,7 @@ namespace LogLineHandler
                            sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
 
                            DeviceStatus = sb.ToString();
-                           isRecognized = true;
+                           IsRecognized = true;
                            break;
 
                         default:
@@ -622,12 +633,12 @@ namespace LogLineHandler
                {
                   if (m.Groups["action"].Value == "Start")
                   {
-                     isRecognized = true;
+                     IsRecognized = true;
                      ExtensionRunning = true;
                   }
                   else if(m.Groups["action"].Value == "End")
                   {
-                     isRecognized = true;
+                     IsRecognized = true;
                      ExtensionRunning = false;
                   }
                }
@@ -638,7 +649,7 @@ namespace LogLineHandler
                m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
+                  IsRecognized = true;
                   MonitoringDeviceChanges = $"MONITORING {m.Groups["action"].Value.ToUpper()}ED";
                }
 
@@ -647,7 +658,7 @@ namespace LogLineHandler
                m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
+                  IsRecognized = true;
                   MonitoringDeviceChanges = "STATUS CHANGED";
                   MonitoringDeviceName = $"{m.Groups["device"].Value}";
                }
@@ -657,7 +668,7 @@ namespace LogLineHandler
                m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
+                  IsRecognized = true;
                   MonitoringDeviceChanges = "SYNC";
                   MonitoringDeviceName = $"{m.Groups["device"].Value}";
                }
@@ -667,7 +678,7 @@ namespace LogLineHandler
                m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
+                  IsRecognized = true;
                   MonitoringDeviceChanges = "OPEN SESSION";
                   MonitoringDeviceName = $"{m.Groups["device"].Value}";
                }
@@ -677,7 +688,7 @@ namespace LogLineHandler
                m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
+                  IsRecognized = true;
                   MonitoringDeviceChanges = "OPEN SESSION SUCCEEDED";
                   MonitoringDeviceName = $"{m.Groups["device"].Value}";
                   MonitoringElapsed = m.Groups["timespan"].Value;
@@ -685,7 +696,7 @@ namespace LogLineHandler
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"AELogLine.NextwareExtension: did not recognize the log line '{logLine}'");
          }

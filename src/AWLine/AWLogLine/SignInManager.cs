@@ -8,7 +8,6 @@ namespace LogLineHandler
    public class SignInManager : AWLine
    {
       private string className = "SignInManager";
-      private bool isRecognized = false;
 
 
       public string SignInState { get; set; } = string.Empty;
@@ -41,21 +40,21 @@ namespace LogLineHandler
             if (subLogLine.StartsWith(subtag))
             {
                SignInState = "SIGNING OUT";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "ActiveTeller sign-in received a Success response.";
             if (subLogLine.StartsWith(subtag))
             {
                SignInState = "SIGN IN SUCCESS";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "ActiveTeller sign-in received a Unauthorized response.";
             if (subLogLine.StartsWith(subtag))
             {
                SignInState = "UNAUTHORIZED";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             Regex regex = new Regex("Attempting to sign into ActiveTeller: userName=(?<user>.*), branchId=(?<branch>.*)");
@@ -65,7 +64,7 @@ namespace LogLineHandler
                SignInState = "SIGN IN ATTEMPT";
                User = m.Groups["user"].Value;
                Branch = m.Groups["branch"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("The ActiveTeller user (?<user>.*) is signing in; video uri=(?<uri>.*), branchId=(?<branch>.*)");
@@ -76,13 +75,13 @@ namespace LogLineHandler
                User = m.Groups["user"].Value;
                Branch = m.Groups["branch"].Value;
                Uri = m.Groups["uri"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
-            throw new Exception($"AWLogLine.{className}: did not recognize the log line '{logLine}'");
+           throw new Exception($"AWLogLine.{className}: did not recognize the log line '{logLine}'");
          }
       }
    }

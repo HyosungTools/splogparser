@@ -64,11 +64,8 @@ namespace AWView
                switch (seLogLine.awType)
                {
                   case AWLogType.Settings:
-                     {
-                        base.ProcessRow(seLogLine);
-                        AddSettings(seLogLine);
-                        break;
-                     }
+                     base.ProcessRow(seLogLine);
+                     break;
 
                   default:
                      break;
@@ -77,6 +74,10 @@ namespace AWView
             catch (Exception e)
             {
                ctx.LogWriteLine($"AWTable.ProcessRow Settings EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddSettings(seLogLine);
             }
          }
 
@@ -87,19 +88,20 @@ namespace AWView
                switch (srLogLine.awType)
                {
                   case AWLogType.StringResourceManager:
-                     {
-                        base.ProcessRow(srLogLine);
-                        AddSettings(srLogLine);
-                        break;
-                     }
+                     base.ProcessRow(srLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {srLogLine.awType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AWTable.ProcessRow StringResourceManager EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddSettings(srLogLine);
             }
          }
 
@@ -110,19 +112,20 @@ namespace AWView
                switch (cmLogLine.awType)
                {
                   case AWLogType.ConfigurationManager:
-                     {
-                        base.ProcessRow(cmLogLine);
-                        AddSettings(cmLogLine);
-                        break;
-                     }
+                     base.ProcessRow(cmLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {cmLogLine.awType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AWTable.ProcessRow ConfigurationManager EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddSettings(cmLogLine);
             }
          }
 
@@ -133,19 +136,20 @@ namespace AWView
                switch (beLogLine.awType)
                {
                   case AWLogType.BeeHDVideoControl:
-                     {
-                        base.ProcessRow(beLogLine);
-                        AddSettings(beLogLine);
-                        break;
-                     }
+                     base.ProcessRow(beLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {beLogLine.awType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AWTable.ProcessRow BeeHDVideoControl EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddSettings(beLogLine);
             }
          }
 
@@ -156,19 +160,20 @@ namespace AWView
                switch (vmLogLine.awType)
                {
                   case AWLogType.VideoManager:
-                     {
                         base.ProcessRow(vmLogLine);
-                        AddSettings(vmLogLine);
                         break;
-                     }
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {vmLogLine.awType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AWTable.ProcessRow VideoManager EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddSettings(vmLogLine);
             }
          }
 
@@ -179,19 +184,20 @@ namespace AWView
                switch (siLogLine.awType)
                {
                   case AWLogType.SignInManager:
-                     {
-                        base.ProcessRow(siLogLine);
-                        AddSettings(siLogLine);
-                        break;
-                     }
+                     base.ProcessRow(siLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {siLogLine.awType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AWTable.ProcessRow SignInManager EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddSettings(siLogLine);
             }
          }
 
@@ -202,19 +208,20 @@ namespace AWView
                switch (pmLogLine.awType)
                {
                   case AWLogType.PermissionsManager:
-                     {
-                        base.ProcessRow(pmLogLine);
-                        AddSettings(pmLogLine);
-                        break;
-                     }
+                     base.ProcessRow(pmLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {pmLogLine.awType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AWTable.ProcessRow PermissionsManager EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddSettings(pmLogLine);
             }
          }
 
@@ -225,19 +232,20 @@ namespace AWView
                switch (mwLogLine.awType)
                {
                   case AWLogType.MainWindow:
-                     {
-                        base.ProcessRow(mwLogLine);
-                        AddSettings(mwLogLine);
-                        break;
-                     }
+                     base.ProcessRow(mwLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {mwLogLine.awType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AWTable.ProcessRow MainWindow EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddSettings(mwLogLine);
             }
          }
 
@@ -248,19 +256,20 @@ namespace AWView
                switch (ieLogLine.awType)
                {
                   case AWLogType.IdleEmpty:
-                     {
-                        base.ProcessRow(ieLogLine);
-                        AddSettings(ieLogLine);
-                        break;
-                     }
+                     base.ProcessRow(ieLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {ieLogLine.awType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AWTable.ProcessRow IdleEmpty EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddSettings(ieLogLine);
             }
          }
 
@@ -271,19 +280,20 @@ namespace AWView
                switch (cm2LogLine.awType)
                {
                   case AWLogType.ConnectionManager:
-                     {
-                        base.ProcessRow(cm2LogLine);
-                        AddSettings(cm2LogLine);
-                        break;
-                     }
+                     base.ProcessRow(cm2LogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {cm2LogLine.awType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AWTable.ProcessRow ConnectionManager EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddSettings(cm2LogLine);
             }
          }
 
@@ -294,19 +304,20 @@ namespace AWView
                switch (dfmLogLine.awType)
                {
                   case AWLogType.DataFlowManager:
-                     {
-                        base.ProcessRow(dfmLogLine);
-                        AddSettings(dfmLogLine);
-                        break;
-                     }
+                     base.ProcessRow(dfmLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {dfmLogLine.awType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AWTable.ProcessRow DataFlowManager EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddSettings(dfmLogLine);
             }
          }
 
@@ -317,19 +328,20 @@ namespace AWView
                switch (dfLogLine.awType)
                {
                   case AWLogType.DeviceFactory:
-                     {
-                        base.ProcessRow(dfLogLine);
-                        AddSettings(dfLogLine);
-                        break;
-                     }
+                     base.ProcessRow(dfLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {dfLogLine.awType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AWTable.ProcessRow DeviceFactory EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddSettings(dfLogLine);
             }
          }
       }
@@ -371,7 +383,7 @@ namespace AWView
             dataRow["file"] = logLine.LogFile;
             dataRow["time"] = logLine.Timestamp;
 
-            if (isOptionIncludePayload)
+            if (isOptionIncludePayload || !logLine.IsRecognized)
             {
                dataRow["Payload"] = logLine.logLine;
             }

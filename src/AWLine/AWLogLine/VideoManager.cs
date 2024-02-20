@@ -8,7 +8,6 @@ namespace LogLineHandler
    public class VideoManager : AWLine
    {
       private string className = "VideoManager";
-      private bool isRecognized = false;
 
       public string VideoEngineState { get; set; } = string.Empty;
       public string User { get; set; } = string.Empty;
@@ -36,7 +35,7 @@ namespace LogLineHandler
             if (subLogLine == "AssignBeehdLocalAddress : Failed to get IP address from selected network adaptor. Return to default values.")
             {
                VideoEngineState = "SET RVBEEHD IP ADDRESS TO DEFAULT";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             string subtag = string.Empty;
@@ -48,7 +47,7 @@ namespace LogLineHandler
                VideoEngineState = "SIGN IN ATTEMPT";
                User = m.Groups["user"].Value;
                Uri =m.Groups["uri"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("AssignBeehdLocalAddress : Setting rvbeehd to use local IP address of (?<uri>.*)");
@@ -57,11 +56,11 @@ namespace LogLineHandler
             {
                VideoEngineState = "SET RVBEEHD IP ADDRESS";
                Uri = m.Groups["uri"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"AWLogLine.{className}: did not recognize the log line '{logLine}'");
          }

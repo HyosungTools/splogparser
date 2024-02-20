@@ -23,7 +23,6 @@ namespace LogLineHandler
       public string TransactionItemStatusChange { get; private set; } = string.Empty;
       public string TransactionReviewRequest { get; private set; } = string.Empty;
 
-      private bool isRecognized = false;
 
 
       public DataFlowManager(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.DataFlowManager) : base(parent, logLine, awType)
@@ -119,21 +118,21 @@ namespace LogLineHandler
             if (subLogLine.StartsWith(subtag))
             {
                Event = "System settings changed";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "Firing DeviceStateChanged event";
             if (subLogLine.StartsWith(subtag))
             {
                Event = "Device state changed";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "Teller session statistics update received";
             if (subLogLine.StartsWith(subtag))
             {
                Event = "Teller session statistic updated received";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             Regex regex = new Regex("transaction review request (?<requestid>[\\-0-9]*) for asset (?<asset>.*) (?<event>.*)");
@@ -142,7 +141,7 @@ namespace LogLineHandler
             {
                TransactionReviewRequest = $"request id {m.Groups["requestid"].Value}, for ATM {m.Groups["asset"].Value}, event {m.Groups["event"].Value}";
                Asset = m.Groups["asset"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("ActiveTeller connection state changed to (?<newstate>.*)");
@@ -150,7 +149,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ActiveTellerConnectionState = m.Groups["newstate"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("No event handlers were found during attempt to fire (?<event>.*).");
@@ -158,7 +157,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                Event = $"No handler found for event {m.Groups["event"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Application state (?<type>.*) update for asset (?<asset>.*) during (?<action>.*)");
@@ -167,7 +166,7 @@ namespace LogLineHandler
             {
                ActiveTellerConnectionState = $"{m.Groups["type"].Value} updated for ATM {m.Groups["asset"].Value} during {m.Groups["action"].Value}";
                Asset = m.Groups["asset"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Assist request (?<requestid>.*) for asset (?<asset>.*) (?<action>.*)");
@@ -175,7 +174,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                AssistRequestEvent = $"{m.Groups["action"].Value} for ATM {m.Groups["asset"].Value}, request id {m.Groups["requestid"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Check image (?<uri>.*) available");
@@ -183,7 +182,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                CheckImageStatus = $"AVAILABLE uri {m.Groups["uri"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Customer review request (?<num>.*)for asset (?<asset>.*) added");
@@ -191,7 +190,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                TransactionReviewRequest = $"CUSTOMER REVIEW REQUEST {m.Groups["num"].Value} for ATM {m.Groups["asset"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
 
@@ -200,7 +199,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                IDScanImageStatus = $"AVAILABLE uri {m.Groups["uri"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Item Processing Module device state (?<state>[0-9]*) for asset (?<asset>.*)");
@@ -208,7 +207,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                TransactionItemStatus = $"ITEM PROCESSING DEVICE STATE {m.Groups["state"].Value} for ATM {m.Groups["asset"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Control session (?<sessionid>.*) for asset (?<asset>.*) (?<action>.*)");
@@ -216,7 +215,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ControlSessionStatus = $"{m.Groups["action"].Value} for ATM {m.Groups["asset"].Value}, session id {m.Groups["sessionid"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Firing remote control session (?<sessionid>.*) (?<action>.*) for asset (?<asset>.*)");
@@ -225,7 +224,7 @@ namespace LogLineHandler
             {
                RemoteControlSessionState = $"{m.Groups["action"].Value} for ATM {m.Groups["asset"].Value}, session id {m.Groups["sessionid"].Value}";
                Asset = m.Groups["asset"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("(?<device>.*) device state (?<state>.*) for asset (?<asset>.*)");
@@ -234,7 +233,7 @@ namespace LogLineHandler
             {
                RemoteControlSessionState = $"{m.Groups["device"].Value} device state {m.Groups["state"].Value} for ATM {m.Groups["asset"].Value}";
                Asset = m.Groups["asset"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Received (?<event>.*) event for (?<task>.*) (?<val>.*) for asset (?<asset>.*)");
@@ -243,7 +242,7 @@ namespace LogLineHandler
             {
                TaskStatusEvent = $"{m.Groups["event"].Value} for ATM {m.Groups["asset"].Value}, Task {m.Groups["task"].Value}, Value {m.Groups["val"].Value}";
                Asset = m.Groups["asset"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Sending transaction item approval: CheckIndex=(?<checkindex>.*), TellerApproval=(?<approval>.*), TellerAmount=(?<amount>.*), Reason=(?<reason>.*)");
@@ -251,7 +250,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                TransactionItemStatus = $"APPROVAL CheckIndex {m.Groups["checkindex"].Value}, TellerApproval {m.Groups["approval"].Value}, TellerAmount {m.Groups["amount"].Value}, Reason {m.Groups["reason"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Teller session (?<sessionid>[0-9]*) for asset (?<asset>.*) (?<action>.*)");
@@ -260,7 +259,7 @@ namespace LogLineHandler
             {
                TellerSessionRequest = $"TELLER SESSION session id {m.Groups["sessionid"].Value}, for ATM {m.Groups["asset"].Value}, action {m.Groups["action"].Value}";
                Asset = m.Groups["asset"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Teller session request (?<id>[0-9]*) for asset (?<asset>.*) (?<action>.*)");
@@ -269,7 +268,7 @@ namespace LogLineHandler
             {
                TellerSessionRequest = $"TELLER SESSION REQUEST id {m.Groups["id"].Value}, for ATM {m.Groups["asset"].Value}, action {m.Groups["action"].Value}";
                Asset = m.Groups["asset"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Teller session request (?<id>[0-9]*) for asset (?<asset>.*)$");
@@ -278,7 +277,7 @@ namespace LogLineHandler
             {
                TellerSessionRequest = $"TELLER SESSION REQUEST id {m.Groups["id"].Value}, for ATM {m.Groups["asset"].Value}";
                Asset = m.Groups["asset"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Transaction item (?<item>[0-9]*) (?<action>.*) for amount (?<amount>[0-9]*) with reason (?<reason>.*)");
@@ -286,11 +285,11 @@ namespace LogLineHandler
             if (m.Success)
             {
                TransactionItemStatusChange = $"{m.Groups["action"].Value} item-number {m.Groups["item"].Value}, amount {m.Groups["amount"].Value}, reason {m.Groups["reason"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"AWLogLine.{className}: did not recognize the log line '{logLine}'");
          }

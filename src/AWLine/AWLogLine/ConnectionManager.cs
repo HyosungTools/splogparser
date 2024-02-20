@@ -9,7 +9,6 @@ namespace LogLineHandler
    public class ConnectionManager : AWLine
    {
       private string className = "ConnectionManager";
-      private bool isRecognized = false;
 
       public string SignalRConnectionState { get; set; } = string.Empty;
       public string ActiveTellerConnectionState { get; set; } = string.Empty;
@@ -84,49 +83,49 @@ namespace LogLineHandler
             if (subLogLine.StartsWith(subtag))
             {
                SignalRConnectionState = "REGISTERED";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "ActiveTeller connection state change Connecting";
             if (subLogLine.StartsWith(subtag))
             {
                SignalRConnectionState = "CONNECTING";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "Setting teller availability to Busy";
             if (subLogLine.StartsWith(subtag))
             {
                TellerAvailability = "BUSY";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "Attempting to start the ActiveTeller connection";
             if (subLogLine.StartsWith(subtag))
             {
                SignalRConnectionState = "STARTING";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "Request connection...";
             if (subLogLine.StartsWith(subtag))
             {
                SignalRConnectionState = "REQUEST CONNECTION";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "Setting teller availability to Available";
             if (subLogLine.StartsWith(subtag))
             {
                TellerAvailability = "AVAILABLE";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "An exception occurred while trying to set the teller availability:";
             if (subLogLine.StartsWith(subtag))
             {
                TellerAvailability = "EXCEPTION TRYING TO SET TELLER AVAILABILITY";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             Regex regex = new Regex("ActiveTeller connection (?<guid>.*) connected to (?<uri>.*)");
@@ -134,7 +133,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                SignalRConnectionState = $"CONNECTED guid {m.Groups["guid"].Value} to {m.Groups["uri"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Connection disconnected. Requesting connection to (?<uri>.*)");
@@ -142,7 +141,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                SignalRConnectionState = $"DISCONNECTED - REQUESTING CONNECTION TO {m.Groups["uri"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("ActiveTeller connection (?<change>.*)");
@@ -150,7 +149,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                SignalRConnectionState = $"CONNECTION CHANGE {m.Groups["change"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Thread Run has started. Requesting connection to (?<uri>.*)");
@@ -158,7 +157,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                SignalRConnectionState = $"CONNECTION REQUESTED to {m.Groups["uri"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Registering the connection to the server for client session (?<sessionid>.*).");
@@ -166,7 +165,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ServerConnectionState = $"REGISTERING CLIENT SESSION id {m.Groups["sessionid"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Sending teller session for request (?<requestid>.*)");
@@ -174,7 +173,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                TellerAssistSessionState = $"TELLER SESSION REQUESTED id {m.Groups["requestid"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Sending remote control session for teller session (?<sessionid>.*).");
@@ -182,7 +181,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                TellerAssistSessionState = $"REMOTE CONTROL SESSION REQUESTED id {m.Groups["sessionid"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Sending assist session for teller session (?<sessionid>.*).");
@@ -190,7 +189,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                TellerAssistSessionState = $"ASSIST SESSION REQUESTED id {m.Groups["sessionid"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Sending approval response for teller session (?<sessionid>.*).");
@@ -198,7 +197,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                TellerAssistSessionState = $"APPROVAL SENT FOR SESSION id {m.Groups["sessionid"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Sending customer review response for asset (?<asset>.*) for teller session (?<sessionid>.*)");
@@ -206,7 +205,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                TellerAssistSessionState = $"SENT CUSTOMER REVIEW RESPONSE FOR SESSION id {m.Groups["sessionid"].Value} to ATM {m.Groups["asset"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("ActiveTeller connection (?<guid>.*) disconnected");
@@ -214,7 +213,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                SignalRConnectionState = $"DISCONNECTED guid {m.Groups["guid"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Remote control session (?<sessionid>.*) created");
@@ -222,7 +221,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                RemoteControlSessionState = $"CREATED SESSION id {m.Groups["sessionid"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Deleting remote control session (?<sessionid>.*)");
@@ -230,7 +229,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                RemoteControlSessionState = $"DELETING SESSION id {m.Groups["sessionid"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Failed retrieving image from uri (?<uri>.*) with status (?<status>.*)");
@@ -238,7 +237,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                HttpImageRetrievalState = $"FAILED uri {m.Groups["uri"].Value}, status {m.Groups["status"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Failed sending teller session for request (?<id>.*) with status (?<status>.*)");
@@ -246,7 +245,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                HttpImageRetrievalState = $"FAILED SENDING TELLER SESSION FOR REQUEST {m.Groups["id"].Value}, status {m.Groups["status"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Retrieving image with uri (?<uri>.*)");
@@ -254,7 +253,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                HttpImageRetrievalState = $"RETRIEVING uri {m.Groups["uri"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Request teller (?<report>.*) for uri (?<uri>.*)");
@@ -262,7 +261,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                HttpServerRequest = $"GET TELLER REPORT {m.Groups["report"].Value} {m.Groups["uri"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Update teller session statistics: Pending=(?<pending>.*) Current=(?<current>.*)");
@@ -270,7 +269,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                TellerAssistSessionState = $"ASSIST STATISTICS UPDATED Pending {m.Groups["pending"].Value}, Current {m.Groups["current"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Updating teller session statistics subscription: (?<state>.*)");
@@ -278,11 +277,11 @@ namespace LogLineHandler
             if (m.Success)
             {
                TellerAssistSessionState = $"TELLER ASSIST STATE {m.Groups["state"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"AWLogLine.{className}: did not recognize the log line '{logLine}'");
          }

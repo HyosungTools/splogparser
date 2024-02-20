@@ -8,7 +8,6 @@ namespace LogLineHandler
    public class StringResourceManager : AWLine
    {
       private string className = "StringResourceManager";
-      private bool isRecognized = false;
 
       public Dictionary<string, string> SettingDict { get; set; } = new Dictionary<string, string>();
 
@@ -34,18 +33,18 @@ namespace LogLineHandler
             if (subLogLine.StartsWith(subtag))
             {
                SettingDict.Add("CurrentCulture", subLogLine.Substring(subtag.Length));
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "There is no StringResource\\ResourceDictionary.xaml";
             if (subLogLine.StartsWith(subtag))
             {
                SettingDict.Add("ResourceDictionaryXaml", "none");
-               isRecognized = true;
+               IsRecognized = true;
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"AWLogLine.{className}: did not recognize the log line '{logLine}'");
          }

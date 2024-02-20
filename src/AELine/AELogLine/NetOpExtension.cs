@@ -15,7 +15,6 @@ namespace LogLineHandler
 {
    public class NetOpExtension : AELine
    {
-      bool isRecognized = false;
       public string ModelName { get; set; } = string.Empty;
       public string ConfigurationState { get; set; } = string.Empty;
       public string RemoteDesktopServerState { get; set; } = string.Empty;
@@ -46,6 +45,11 @@ namespace LogLineHandler
 	         2023-11-17 09:24:30 [NetOpExtension] The remote desktop server is already running.
             2023-11-13 03:02:58 [NetOpExtension] Attempting to get "Standard" configuration revision 1 or earlier for model 7800I.
             2023-11-13 03:02:58 [NetOpExtension] Located "Standard" configuration revision 1 for model 7800I.
+
+            2023-11-20 01:00:21 [NetOpExtension] Attempting to get "Standard" configuration revision 2 or earlier for model 8300D.
+            2023-11-20 01:00:21 [NetOpExtension] Located "Standard" configuration revision 1 for model 8300D.
+            2023-11-20 01:00:21 [NetOpExtension] The located configuration is already in use.
+            2023-11-20 01:00:21 [NetOpExtension] The remote desktop server is already running.
          */
 
          int idx = logLine.IndexOf("[NetOpExtension]");
@@ -56,69 +60,69 @@ namespace LogLineHandler
             //Tried to set NetOp configurations but the model is null or empty.
             if (subLogLine == "Tried to set NetOp configurations but the model is null or empty.")
             {
-               isRecognized = true;
+               IsRecognized = true;
                ConfigurationState = "TRIED";
                ModelName = "null";
             }
 
             else if (subLogLine == "Tried to set NetOp configurations but the model was not provided.")
             {
-               isRecognized = true;
+               IsRecognized = true;
                ConfigurationState = "TRIED";
                ModelName = "not provided";
             }
 
-            else if (subLogLine.StartsWith("The remote desktop server is already running"))
+            else if (subLogLine.StartsWith("The remote desktop server is already running."))
             {
-               isRecognized = true;
+               IsRecognized = true;
                RemoteDesktopServerState = "RUNNING";
             }
 
             else if (subLogLine.StartsWith("Attempting to update the netop.ini."))
             {
-               isRecognized = true;
+               IsRecognized = true;
                ConfigurationState = "TRIED TO UPDATE netop.ini";
                ModelName = "null";
             }
 
             else if (subLogLine.StartsWith("Updated the netop.ini."))
             {
-               isRecognized = true;
+               IsRecognized = true;
                ConfigurationState = "UPDATED netop.ini";
                ModelName = "null";
             }
 
             else if (subLogLine.StartsWith("The NetOp service was stopped."))
             {
-               isRecognized = true;
+               IsRecognized = true;
                ConfigurationState = "STOPPED NetOp service";
                ModelName = "null";
             }
 
             else if (subLogLine.StartsWith("The NetOp service was started."))
             {
-               isRecognized = true;
+               IsRecognized = true;
                ConfigurationState = "STARTED NetOp service";
                ModelName = "null";
             }
 
             else if (subLogLine.StartsWith("The located configuration is already in use."))
             {
-               isRecognized = true;
+               IsRecognized = true;
                ConfigurationState = "Configuration already in use";
                ModelName = "null";
             }
 
             else if (subLogLine.StartsWith("Time out has expired and the operation has not been completed."))
             {
-               isRecognized = true;
+               IsRecognized = true;
                ConfigurationState = "TIMED OUT, operation not completed";
                ModelName = "null";
             }
 
             else if (subLogLine.StartsWith("Trying to kill "))
             {
-               isRecognized = true;
+               IsRecognized = true;
                ConfigurationState = subLogLine;
                ModelName = "null";
             }
@@ -130,27 +134,29 @@ namespace LogLineHandler
                Match m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
+                  IsRecognized = true;
                   ConfigurationState = "CHECKING";
                   ModelName = m.Groups["machine"].Value;
                }
 
                //Attempting to get "Standard" configuration revision 1 or earlier for model 7800I.
-               regex = new Regex("Attempting to get \"(?<configname>.*)\" configuration revision (?<rev>[0-9]*) or earlier for model (?<machine>.*).$");
+               //Attempting to get "Standard" configuration revision 2 or earlier for model 8300D.
+               regex = new Regex("Attempting to get \"(?<configname>.*)\" configuration revision (?<rev>[0-9]*) or earlier for model (?<machine>.*).");
                m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
-                  ConfigurationState = $"GETTING CONFIGURAITON {m.Groups["configname"].Value} rev {m.Groups["rev"].Value}";
+                  IsRecognized = true;
+                  ConfigurationState = $"GETTING CONFIGURATION {m.Groups["configname"].Value} rev {m.Groups["rev"].Value}";
                   ModelName = m.Groups["machine"].Value;
                }
 
                //Located "Standard" configuration revision 1 for model 7800I.
-               regex = new Regex("Located \"(?<configname>.*)\" configuration revision (?<rev>[0-9]*) for model (?<machine>.*).$");
+               //Located "Standard" configuration revision 1 for model 8300D.
+               regex = new Regex("Located \"(?<configname>.*)\" configuration revision (?<rev>[0-9]*) for model (?<machine>.*).");
                m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
+                  IsRecognized = true;
                   ConfigurationState = $"LOCATED CONFIGURAITON {m.Groups["configname"].Value} rev {m.Groups["rev"].Value}";
                   ModelName = m.Groups["machine"].Value;
                }
@@ -160,7 +166,7 @@ namespace LogLineHandler
                m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
+                  IsRecognized = true;
                   ConfigurationState = "GETTING ASSET CONFIG";
                   ModelName = m.Groups["machine"].Value;
                }
@@ -170,12 +176,12 @@ namespace LogLineHandler
                m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
+                  IsRecognized = true;
                   ConfigurationState = "CONFIGURING (NO VIDEO)";
                   ModelName = m.Groups["machine"].Value;
                }
 
-               if (!isRecognized)
+               if (!IsRecognized)
                {
                   throw new Exception($"AELogLine.NetOpExtension: did not recognize the log line '{logLine}'");
                }

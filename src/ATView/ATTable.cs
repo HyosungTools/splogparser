@@ -10,6 +10,11 @@ namespace ATView
    class ATTable : BaseTable
    {
       /// <summary>
+      /// Include the raw logline in the XML output
+      /// </summary>
+      public bool isOptionIncludePayload { get; set; } = false;
+
+      /// <summary>
       /// constructor
       /// </summary>
       /// <param name="ctx">Context for the command.</param>
@@ -40,19 +45,20 @@ namespace ATView
                switch (atLogLine.atType)
                {
                   case ATLogType.ActiveTellerConnectionState:
-                     {
-                        base.ProcessRow(atLogLine);
-                        AddSignalRConnectionEvent(atLogLine);
-                        break;
-                     }
+                     base.ProcessRow(atLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {atLogLine.atType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine("ATTable.ProcessRow.ConnectionState EXCEPTION:" + e.Message);
+            }
+            finally
+            {
+               AddSignalRConnectionEvent(atLogLine);
             }
          }
 
@@ -63,19 +69,20 @@ namespace ATView
                switch (atLogLine2.atType)
                {
                   case ATLogType.ConnectionManagerAction:
-                     {
-                        base.ProcessRow(atLogLine2);
-                        AddConnectionManagerAction(atLogLine2);
-                        break;
-                     }
+                     base.ProcessRow(atLogLine2);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {atLogLine2.atType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"ATTable.ProcessRow.ConnectionManagerAction EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddConnectionManagerAction(atLogLine2);
             }
          }
 
@@ -86,19 +93,20 @@ namespace ATView
                switch (acLogLine.atType)
                {
                   case ATLogType.AgentConfiguration:
-                     {
-                        base.ProcessRow(acLogLine);
-                        AddAgentConfigurationEvent(acLogLine);
-                        break;
-                     }
+                     base.ProcessRow(acLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {acLogLine.atType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine("ATTable.ProcessRow.AgentConfiguration EXCEPTION:" + e.Message);
+            }
+            finally
+            {
+               AddAgentConfigurationEvent(acLogLine);
             }
          }
 
@@ -110,19 +118,20 @@ namespace ATView
                switch (ahLogLine.atType)
                {
                   case ATLogType.AgentHost:
-                     {
-                        base.ProcessRow(ahLogLine);
-                        AddAgentHostEvent(ahLogLine);
-                        break;
-                     }
+                     base.ProcessRow(ahLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {ahLogLine.atType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine("ATTable.ProcessRow.AgentHost EXCEPTION:" + e.Message);
+            }
+            finally
+            {
+               AddAgentHostEvent(ahLogLine);
             }
          }
 
@@ -134,19 +143,20 @@ namespace ATView
                switch (scLogLine.atType)
                {
                   case ATLogType.ServerRequest:
-                     {
-                        base.ProcessRow(scLogLine);
-                        AddServerHttpRequest(scLogLine);
-                        break;
-                     }
+                     base.ProcessRow(scLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {scLogLine.atType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AETable.ProcessRow MoniPlus2sExtension EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddServerHttpRequest(scLogLine);
             }
          }
       }
@@ -161,6 +171,11 @@ namespace ATView
 
             dataRow["file"] = logLine.LogFile;
             dataRow["time"] = logLine.Timestamp;
+
+            if (isOptionIncludePayload || !logLine.IsRecognized)
+            {
+               dataRow["Payload"] = logLine.logLine;
+            }
 
             dataRow["RequestMethod"] = (logLine.RequestMethod != null) ? logLine.RequestMethod.ToString() : string.Empty;
             dataRow["RequestUrl"] = (logLine.RequestUrl != null) ? logLine.RequestUrl.ToString() : string.Empty;

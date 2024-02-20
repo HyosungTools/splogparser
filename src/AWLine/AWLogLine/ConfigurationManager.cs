@@ -8,7 +8,6 @@ namespace LogLineHandler
    public class ConfigurationManager : AWLine
    {
       private string className = "ConfigurationManager";
-      private bool isRecognized = false;
 
       public string FeatureList {  get; set; } = string.Empty;
       public string SettingsList { get; set; } = string.Empty;
@@ -37,25 +36,25 @@ namespace LogLineHandler
             if (subLogLine.StartsWith(subtag))
             {
                FeatureList = subLogLine.Substring(subtag.Length);
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "MoveNext: settings list ";
             if (subLogLine.StartsWith(subtag))
             {
                SettingsList = subLogLine.Substring(subtag.Length);
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "Setting NetOp license key";
             if (subLogLine.StartsWith(subtag))
             {
                NetOpLicence = "SET";
-               isRecognized = true;
+               IsRecognized = true;
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"AWLogLine.{className}: did not recognize the log line '{logLine}'");
          }

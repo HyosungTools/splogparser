@@ -14,7 +14,6 @@ namespace LogLineHandler
 
 
       private string className = "DeviceFactory";
-      private bool isRecognized = false;
 
 
       public DeviceFactory(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.DeviceFactory) : base(parent, logLine, awType)
@@ -42,7 +41,7 @@ namespace LogLineHandler
             if (subLogLine.StartsWith(subtag))
             {
                SettingDict.Add("UserDeviceFactoryPath", subLogLine.Substring(subtag.Length));
-               isRecognized = true;
+               IsRecognized = true;
             }
             */
 
@@ -51,7 +50,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                string jsonPayload = m.Groups["json"].Value;
-               isRecognized = true;
+               IsRecognized = true;
 
                try
                {
@@ -71,7 +70,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                string jsonPayload = m.Groups["json"].Value;
-               isRecognized = true;
+               IsRecognized = true;
 
                try
                {
@@ -91,7 +90,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                string jsonPayload = m.Groups["json"].Value;
-               isRecognized = true;
+               IsRecognized = true;
 
                try
                {
@@ -107,7 +106,7 @@ namespace LogLineHandler
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"AWLogLine.{className}: did not recognize the log line '{logLine}'");
          }

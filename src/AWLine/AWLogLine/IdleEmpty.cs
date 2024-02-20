@@ -8,7 +8,6 @@ namespace LogLineHandler
    public class IdleEmpty : AWLine
    {
       private string className = "IdleEmpty";
-      private bool isRecognized = false;
 
 
       public string Memory { get; set; } = string.Empty;
@@ -41,7 +40,7 @@ namespace LogLineHandler
             //--------------------------------------------------
 
             // ignore
-            isRecognized = true;
+            IsRecognized = true;
 
 
             /*
@@ -49,7 +48,7 @@ namespace LogLineHandler
             if (subLogLine.StartsWith(subtag))
             {
                SettingDict.Add("UserIdleEmptyPath", subLogLine.Substring(subtag.Length));
-               isRecognized = true;
+               IsRecognized = true;
             }
             */
 
@@ -58,7 +57,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                Memory = m.Groups["size"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("VM      size: (?<size>.*)");
@@ -66,7 +65,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                VMSize = m.Groups["size"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Private size: (?<size>.*)");
@@ -74,7 +73,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                PrivateSize = m.Groups["size"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Handle count:(?<count>.*)");
@@ -82,11 +81,11 @@ namespace LogLineHandler
             if (m.Success)
             {
                HandleCount = m.Groups["count"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"AWLogLine.{className}: did not recognize the log line '{logLine}'");
          }

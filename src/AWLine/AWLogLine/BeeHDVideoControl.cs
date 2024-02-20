@@ -16,9 +16,6 @@ namespace LogLineHandler
       public string VideoCallDetails { get; private set; } = string.Empty;
 
 
-      private bool isRecognized = false;
-
-
       public BeeHDVideoControl(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.BeeHDVideoControl) : base(parent, logLine, awType)
       {
       }
@@ -67,35 +64,35 @@ namespace LogLineHandler
             if (subLogLine.StartsWith(subtag))
             {
                VideoCallState = "ACCEPT";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "HoldVideoCall";
             if (subLogLine.StartsWith(subtag))
             {
                VideoCallState = "HOLD";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "ResumeVideoCall";
             if (subLogLine.StartsWith(subtag))
             {
                VideoCallState = "RESUME";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "StopVideoCall";
             if (subLogLine.StartsWith(subtag))
             {
                VideoCallState = "STOP";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "Uninitialize";
             if (subLogLine.StartsWith(subtag))
             {
                VideoCallState = "UNINITIALIZE";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             Regex regex = new Regex("Initialize: (?<topic>.*)");
@@ -103,7 +100,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                VideoCallState = $"INITIALIZE {m.Groups["topic"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("UpdateCurrentVideoSessionState: Update (?<sessiontype>.*): (?<newstate>.*)");
@@ -111,7 +108,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                VideoCallState = $"UPDATE {m.Groups["sessiontype"].Value} {m.Groups["newstate"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("VideoClient_CallStateChanges: callHandle=(?<handle>.*), prevCallState=(?<prevstate>.*), callState=(?<newstate>.*), callStateReason=(?<reason>.*), callType=(?<calltype>.*), remoteCallerName=(?<remoteaddress>.*), isOutgoing=(?<isoutgoing>.*)");
@@ -128,7 +125,7 @@ namespace LogLineHandler
                sb.Append($"RemoteCaller {m.Groups["remoteaddress"].Value},");
                sb.Append($"CallDirection {(bool.Parse(m.Groups["isoutgoing"].Value) ? "OUTGOING" : "INCOMING")},");
                VideoCallDetails = sb.ToString();
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("GetCallDevices: (?<topic>.*)");
@@ -136,7 +133,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                CallDevicesState = m.Groups["topic"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("SetSelected(?<device>.*): (?<topic>.*)");
@@ -144,7 +141,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                CallDevicesState = $"Selected {m.Groups["device"].Value}, Action {m.Groups["topic"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("SignInServer: SignURI = (?<uri>.*)");
@@ -152,7 +149,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ServerSigninState = $"SignInURI {m.Groups["uri"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("VideoClient_OnHistoryRecordAdded=> kmcRequest=(?<remoteaddress>.*), dateTime=(?<datetime>.*), duration=(?<duration>.*), callType=(?<calltype>.*), callProtocol=(?<protocol>.*), isOutgoing=(?<isoutgoing>.*), isMissedCall=(?<ismissedcall>.*), isEncrypted=(?<isencrypted>.*)");
@@ -170,7 +167,7 @@ namespace LogLineHandler
                sb.Append($"MissedCall {(bool.Parse(m.Groups["ismissedcall"].Value) ? "MISSED" : string.Empty)},");
                sb.Append($"Encrypted {(bool.Parse(m.Groups["isencrypted"].Value) ? "ENCRYPTED" : string.Empty)},");
                VideoCallDetails = sb.ToString();
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("VideoClient_OnNewIncomingCall: callHandle=(?<handle>.*)");
@@ -178,7 +175,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                VideoCallState = $"NEW INCOMING CALL handle {m.Groups["handle"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("VideoClient_OnRemote(?<action>.*): callHandle=(?<handle>.*), islocal=(?<islocal>.*)");
@@ -186,7 +183,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                VideoCallState = $"REMOTE-{m.Groups["action"].Value}, handle {m.Groups["handle"].Value}, {(bool.Parse(m.Groups["islocal"].Value) ? "LOCAL HOLD" : "REMOTE HOLD")}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("VideoClient_OnUserNotify: callHandle=(?<handle>.*), val=(?<value>.*), severity=(?<severity>.*), userType=(?<usertype>.*), description=(?<description>.*), additionalInfo=(?<additionalinfo>.*), suggestedAction=(?<suggestionaction>.*)");
@@ -211,11 +208,11 @@ namespace LogLineHandler
                }
 
                VideoCallDetails = sb.ToString();
-               isRecognized = true;
+               IsRecognized = true;
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"AWLogLine.{className}: did not recognize the log line '{logLine}'");
          }

@@ -13,7 +13,6 @@ namespace LogLineHandler
       public string Asset { get; private set; } = string.Empty;
       public string VideoSessionState { get; private set; } = string.Empty;
 
-      private bool isRecognized = false;
 
 
       public MainWindow(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.MainWindow) : base(parent, logLine, awType)
@@ -93,63 +92,63 @@ namespace LogLineHandler
             if (subLogLine.StartsWith(subtag))
             {
                ActiveTellerState = "WINDOW LOADING";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "Window_Loaded complete";
             if (subLogLine.StartsWith(subtag))
             {
                ActiveTellerState = "WINDOW LOAD COMPLETE";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "CustomerReview request information for ";
             if (subLogLine.StartsWith(subtag))
             {
                ActiveTellerState = "CUSTOMER REVIEW REQUEST INFORMATION";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "Remote desktop connected successfully to the asset";
             if (subLogLine.StartsWith(subtag))
             {
                ActiveTellerState = "REMOTE DESKTOP CONNECTED TO THE ATM";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "Remote desktop connection disconnected";
             if (subLogLine.StartsWith(subtag))
             {
                ActiveTellerState = "REMOTE DESKTOP DISCONNECTED";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "Starting the ActiveTeller connection because the user is allowed to assist customers";
             if (subLogLine.StartsWith(subtag))
             {
                ActiveTellerState = "STARTING, CAN ASSIST CUSTOMERS";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "Remote desktop encountered an error while connecting to the asset.";
             if (subLogLine.StartsWith(subtag))
             {
                ActiveTellerState = "ERROR, FAILED TO CONNECT TO THE ATM";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "Remote desktop encountered an error while connected to the asset.";
             if (subLogLine.StartsWith(subtag))
             {
                ActiveTellerState = "ERROR, FAILED WHILE CONNECTED TO THE ATM";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             subtag = "End conference canceled";
             if (subLogLine.StartsWith(subtag))
             {
                ActiveTellerState = "CONFERENCE CANCELLED";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             Regex regex = new Regex("A new call event from the video control arrived. CanAcceptVideoCall=(?<bool>.*), VideoSessonState=(?<state>.*)");
@@ -158,7 +157,7 @@ namespace LogLineHandler
             {
                ActiveTellerState = $"NEW VIDEO CALL, {(bool.Parse(m.Groups["bool"].Value) ? "CAN ACCEPT" : "CANNOT ACCEPT")}";
                VideoSessionState = m.Groups["state"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Assistance request information for[ ](?<name>.*)");
@@ -166,7 +165,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ActiveTellerState = $"ASSISTANCE REQUEST INFORMATION for {m.Groups["name"].Value}" ;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("(?<name>.*) was clicked");
@@ -174,7 +173,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ActiveTellerState = $"{m.Groups["name"].Value} BUTTON CLICKED";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("(?<name>.*) is closing");
@@ -182,7 +181,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ActiveTellerState = $"{m.Groups["name"].Value} WINDOW CLOSING";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("(?<state>.*) from ActiveTeller");
@@ -190,7 +189,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ActiveTellerState = $"STATE CHANGE, {m.Groups["state"].Value} from ActiveTeller";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Done adding teller session for asset (?<asset>.*) for teller session request (?<id>[\\-0-9]*)");
@@ -199,7 +198,7 @@ namespace LogLineHandler
             {
                ActiveTellerState = $"ADDED SESSION for ATM {m.Groups["asset"].Value}, session request id {m.Groups["id"].Value}";
                Asset = m.Groups["asset"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Teller session added for asset (?<asset>.*) for teller session request (?<id>[\\-0-9]*)");
@@ -208,7 +207,7 @@ namespace LogLineHandler
             {
                ActiveTellerState = $"ADDING SESSION for ATM {m.Groups["asset"].Value}, session request id {m.Groups["id"].Value}";
                Asset = m.Groups["asset"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Teller session requested for asset (?<asset>.*) for teller session request (?<id>[\\-0-9]*). IsAcceptable=(?<bool>.*).");
@@ -217,7 +216,7 @@ namespace LogLineHandler
             {
                ActiveTellerState = $"SESSION REQUESTED for ATM {m.Groups["asset"].Value}, session request id {m.Groups["id"].Value}.  IsAcceptable={m.Groups["bool"].Value}";
                Asset = m.Groups["asset"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Teller session request deleted for teller session request (?<id>[\\-0-9]*)");
@@ -225,7 +224,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ActiveTellerState = $"SESSION REQUEST DELETED, session request id {m.Groups["id"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Finished and unloaded (?<name>.*)");
@@ -233,7 +232,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ActiveTellerState = $"FINISHED, UNLOADED {m.Groups["name"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("HandleTellerSesssionChanged\\((?<event>.*)\\), VideoSessionState=(?<state>.*)");
@@ -242,7 +241,7 @@ namespace LogLineHandler
             {
                ActiveTellerState = $"SESSION CHANGED, {m.Groups["event"].Value}";
                VideoSessionState = m.Groups["state"].Value;
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Moving teller video window to position (?<num>[\\-0-9]*)");
@@ -250,7 +249,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ActiveTellerState = $"MOVING TELLER VIDEO WINDOW to position {m.Groups["num"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("OnInSessionApplicationStateChanged: FlowPoint=(?<name>.*)");
@@ -258,7 +257,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ActiveTellerState = $"SESSION APPLICATION FLOWPOINT CHANGED, {m.Groups["name"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("PeerToPeer_SignIn. SignIn URI = (?<uri>.*)");
@@ -266,7 +265,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ActiveTellerState = $"PEER TO PEER SIGNIN to URI {m.Groups["uri"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("Received (?<event>.*) event.");
@@ -274,7 +273,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ActiveTellerState = $"RECEIVED EVENT, {m.Groups["event"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("TransactionReview request information for (?<name>.*)");
@@ -282,7 +281,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ActiveTellerState = $"TRANSACTION REVIEW REQUEST, {m.Groups["name"].Value}";
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             regex = new Regex("UpdateDeviceInfo:NH.ActiveTeller.ViewModel.Data.(?<device>.*), Error=(?<error>.*)");
@@ -297,11 +296,11 @@ namespace LogLineHandler
                {
                   ActiveTellerState = $"DEVICE OK - {m.Groups["device"].Value}";
                }
-               isRecognized = true;
+               IsRecognized = true;
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"AWLogLine.{className}: did not recognize the log line '{logLine}'");
          }

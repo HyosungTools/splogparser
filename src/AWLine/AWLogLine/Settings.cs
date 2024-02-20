@@ -8,7 +8,6 @@ namespace LogLineHandler
    public class Settings : AWLine
    {
       private string className = "Settings";
-      private bool isRecognized = false;
 
       public Dictionary<string, string> SettingDict { get; set; } = new Dictionary<string, string>();
 
@@ -34,7 +33,7 @@ namespace LogLineHandler
             if (subLogLine.StartsWith(subtag))
             {
                SettingDict.Add("UserSettingsPath", subLogLine.Substring(subtag.Length));
-               isRecognized = true;
+               IsRecognized = true;
             }
 
             Regex regex = new Regex("Notification ring duration is (?<duration>[\\-0-9]*) and location is (?<path>.*)");
@@ -43,11 +42,11 @@ namespace LogLineHandler
             {
                SettingDict.Add("RingDuration", m.Groups["duration"].Value);
                SettingDict.Add("RingPath", m.Groups["path"].Value);
-               isRecognized = true;
+               IsRecognized = true;
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"AWLogLine.{className}: did not recognize the log line '{logLine}'");
          }

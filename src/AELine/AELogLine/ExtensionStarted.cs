@@ -33,9 +33,10 @@ namespace LogLineHandler
             }
 
             extensionName = m.Groups["extension"].Value;
+            IsRecognized = true;
          }
 
-         if (extensionName == string.Empty)
+         if (!IsRecognized)
          {
             throw new Exception($"AELogLine.ExtensionStarted: did not recognize the log line '{logLine}'");
          }

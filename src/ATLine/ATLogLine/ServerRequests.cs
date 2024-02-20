@@ -15,8 +15,6 @@ namespace LogLineHandler
 {
    public class ServerRequests : ATLine
    {
-      bool isRecognized = false;
-
       public enum ServerRequestType
       {
          Unknown,
@@ -96,7 +94,7 @@ namespace LogLineHandler
             if ((subLogLine.StartsWith("{") && subLogLine.EndsWith("}")) ||
                (subLogLine.StartsWith("[") && subLogLine.EndsWith("]")))
             {
-               isRecognized = true;
+               IsRecognized = true;
                Operation = "Message received";
                Payload = subLogLine;
             }
@@ -116,7 +114,7 @@ namespace LogLineHandler
             Match m = regex.Match(subLogLine);
             if (m.Success)
             {
-               isRecognized = true;
+               IsRecognized = true;
                Operation = m.Groups["type"].Value;
                ObjectType = $"{m.Groups["list"].Value}{m.Groups["object"].Value}";
             }
@@ -135,7 +133,7 @@ namespace LogLineHandler
             Match m = regex.Match(subLogLine);
             if (m.Success)
             {
-               isRecognized = true;
+               IsRecognized = true;
 
                RequestMethod = m.Groups["request"].Value;
                RequestUrl = m.Groups["url"].Value;
@@ -153,7 +151,7 @@ namespace LogLineHandler
             Match m = regex.Match(subLogLine);
             if (m.Success)
             {
-               isRecognized = true;
+               IsRecognized = true;
 
                Operation = m.Groups["request"].Value.ToLower();
                ObjectType = m.Groups["type"].Value;
@@ -172,7 +170,7 @@ namespace LogLineHandler
             Match m = regex.Match(subLogLine);
             if (m.Success)
             {
-               isRecognized = true;
+               IsRecognized = true;
 
                Operation = m.Groups["request"].Value;
                ObjectType = m.Groups["type"].Value;
@@ -205,13 +203,13 @@ namespace LogLineHandler
             {"Id":31114,"AssetName":"NM000559","Timestamp":"2023-09-25T15:26:54.797","CustomerId":"0009652240","FlowPoint":"Common-ProcessTransactionReview","RequestContext":"TransactionRequiringReview","ApplicationState":"InTransaction","TransactionType":"Deposit","Language":"English","VoiceGuidance":false,"RoutingProfile":{"SupportedCallType":"BeeHD"}}
           */
 
-         if (isRecognized && !string.IsNullOrEmpty(Payload))
+         if (IsRecognized && !string.IsNullOrEmpty(Payload))
          {
             List<ExpandoObject> json = new List<ExpandoObject>();
 
             try
             {
-               if (Payload.StartsWith("["))
+               if (Payload.StartsWith("[") && Payload.EndsWith("]"))
                {
                   // only SystemParameters - ignore, nothing useful
 
@@ -434,7 +432,7 @@ namespace LogLineHandler
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"ATLogLine.ServerCommunication: did not recognize the log line '{logLine}'");
          }

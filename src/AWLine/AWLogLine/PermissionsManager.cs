@@ -9,7 +9,6 @@ namespace LogLineHandler
    public class PermissionsManager : AWLine
    {
       private string className = "PermissionsManager";
-      private bool isRecognized = false;
 
       public string State { get; set; } = string.Empty;
 
@@ -35,11 +34,11 @@ namespace LogLineHandler
             if (subLogLine.StartsWith(subtag))
             {
                State = "RETRIEVING USER PERMISSIONS";
-               isRecognized = true;
+               IsRecognized = true;
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"AWLogLine.{className}: did not recognize the log line '{logLine}'");
          }
