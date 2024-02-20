@@ -80,6 +80,110 @@ namespace IDCView
                         break;
                      }
 
+                  case LogLineHandler.XFSType.WFS_CMD_IDC_READ_RAW_DATA:
+                     {
+                        base.ProcessRow(spLogLine);
+                        UpdateStatus(spLogLine, "device", "readraw");
+                        break;
+                     }
+
+                  case LogLineHandler.XFSType.WFS_CMD_IDC_CHIP_IO:
+                     {
+                        base.ProcessRow(spLogLine);
+                        UpdateStatus(spLogLine, "device", "readchip");
+                        break;
+                     }
+
+                  case LogLineHandler.XFSType.WFS_CMD_IDC_CHIP_POWER:
+                     {
+                        base.ProcessRow(spLogLine);
+                        UpdateStatus(spLogLine, "device", "powerchip");
+                        break;
+                     }
+
+                  case LogLineHandler.XFSType.WFS_EXEE_IDC_INVALIDTRACKDATA:
+                     {
+                        base.ProcessRow(spLogLine);
+                        UpdateStatus(spLogLine, "trackdata", "invaliddata");
+                        break;
+                     }
+
+                  case LogLineHandler.XFSType.WFS_EXEE_IDC_MEDIAINSERTED:
+                     {
+                        base.ProcessRow(spLogLine);
+                        UpdateStatus(spLogLine, "media", "inserted");
+                        break;
+                     }
+
+                  case LogLineHandler.XFSType.WFS_SRVE_IDC_MEDIAREMOVED:
+                     {
+                        base.ProcessRow(spLogLine);
+                        UpdateStatus(spLogLine, "media", "removed");
+                        break;
+                     }
+
+                  case LogLineHandler.XFSType.WFS_USRE_IDC_RETAINBINTHRESHOLD:
+                     {
+                        break;
+                     }
+
+                  case LogLineHandler.XFSType.WFS_EXEE_IDC_INVALIDMEDIA:
+                     {
+                        base.ProcessRow(spLogLine);
+                        UpdateStatus(spLogLine, "media", "invalid");
+                        break;
+                     }
+
+                  case LogLineHandler.XFSType.WFS_EXEE_IDC_MEDIARETAINED:
+                     {
+                        base.ProcessRow(spLogLine);
+                        UpdateStatus(spLogLine, "media", "retained");
+                        break;
+                     }
+
+                  case LogLineHandler.XFSType.WFS_SRVE_IDC_MEDIADETECTED:
+                     {
+                        base.ProcessRow(spLogLine);
+                        UpdateStatus(spLogLine, "media", "detected");
+                        break;
+                     }
+
+                  case LogLineHandler.XFSType.WFS_SRVE_IDC_RETAINBININSERTED:
+                     {
+                        base.ProcessRow(spLogLine);
+                        UpdateStatus(spLogLine, "retainbin", "inserted");
+                        break;
+                     }
+
+                  case LogLineHandler.XFSType.WFS_SRVE_IDC_RETAINBINREMOVED:
+                     {
+                        base.ProcessRow(spLogLine);
+                        UpdateStatus(spLogLine, "retainbin", "removed");
+                        break;
+                     }
+
+                  case LogLineHandler.XFSType.WFS_EXEE_IDC_INSERTCARD:
+                     {
+                        base.ProcessRow(spLogLine);
+                        UpdateStatus(spLogLine, "device", "ready for card");
+                        break;
+                     }
+
+                  case LogLineHandler.XFSType.WFS_SRVE_IDC_DEVICEPOSITION:
+                     {
+                        break;
+                     }
+
+                  case LogLineHandler.XFSType.WFS_SRVE_IDC_POWER_SAVE_CHANGE:
+                     {
+                        break;
+                     }
+
+                  case LogLineHandler.XFSType.WFS_EXEE_IDC_TRACKDETECTED:
+                     {
+                        break;
+                     }
+
                   default:
                      break;
                }
@@ -106,6 +210,7 @@ namespace IDCView
                   dataRow["error"] = spLogLine.HResult;
                   dataRow["device"] = idcStatus.fwDevice;
                   dataRow["media"] = idcStatus.fwMedia;
+                  dataRow["trackdata"] = string.Empty;
                   dataRow["retainbin"] = idcStatus.fwRetainBin;
                   dataRow["security"] = idcStatus.fwSecurity;
                   dataRow["uscards"] = idcStatus.usCards;
@@ -118,6 +223,46 @@ namespace IDCView
                catch (Exception e)
                {
                   ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IDC_STATUS Status Table Exception {0}. {1}, {2}", spLogLine.LogFile, spLogLine.Timestamp, e.Message));
+               }
+            }
+
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_INF_IDC_STATUS Exception : " + e.Message);
+         }
+      }
+
+      protected void UpdateStatus(SPLine spLogLine, string column, string newStatus)
+      {
+         try
+         {
+            if (spLogLine is WFSDEVSTATUS idcStatus)
+            {
+               try
+               {
+                  DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
+
+                  dataRow["file"] = spLogLine.LogFile;
+                  dataRow["time"] = spLogLine.Timestamp;
+                  dataRow["error"] = spLogLine.HResult;
+                  dataRow["device"] = string.Empty;
+                  dataRow["media"] = string.Empty;
+                  dataRow["trackdata"] = string.Empty;
+                  dataRow["retainbin"] = string.Empty;
+                  dataRow["security"] = string.Empty;
+                  dataRow["uscards"] = string.Empty;
+                  dataRow["chippower"] = string.Empty;
+                  dataRow["chipmodule"] = string.Empty;
+                  dataRow["magreadmodule"] = string.Empty;
+
+                  dataRow[column] = newStatus;
+
+                  dTableSet.Tables["Status"].AcceptChanges();
+               }
+               catch (Exception e)
+               {
+                  ctx.ConsoleWriteLogLine(String.Format("UpdateStatus: Status Table Exception {0}. {1}, {2}", spLogLine.LogFile, spLogLine.Timestamp, e.Message));
                }
             }
 
