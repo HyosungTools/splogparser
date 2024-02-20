@@ -77,12 +77,19 @@ namespace LogLineHandler
 
             //Check image api/checkimages/41923 available
 
+            //Customer review request 222810 for asset 12PROS02L added
+
+            //Doors device state 0 for asset 16CENT01L
+
             //ID Scan image api/IdImages/3377 available
+
+            //Item Processing Module device state 4 for asset 16CENT01L
 
             //Control session 134520 for asset TX005009 updated for  transaction
             //Control session 134647 for asset TX005006 deleted
 
             //Firing remote control session 134996 started for asset NM000564
+            //Firing DeviceStateChanged event
 
             //Received AcceptCashCompleted event for DepositTask 8 for asset TX005006
             //Received CommitDepositCompleted event for CheckCashingTask 6 for asset NM000564
@@ -104,14 +111,21 @@ namespace LogLineHandler
             //Teller session 21497 for asset TX005011 created
             //Teller session request 27933 for asset TX005009 deleted
             //Teller session request 27934 for asset TX005007
+            //Teller session request 23580 for asset 16CENT04D
 
             //Transaction item 0 Approved for amount 10000 with reason 
-
 
             string subtag = "Firing system settings changed event";
             if (subLogLine.StartsWith(subtag))
             {
                Event = "System settings changed";
+               isRecognized = true;
+            }
+
+            subtag = "Firing DeviceStateChanged event";
+            if (subLogLine.StartsWith(subtag))
+            {
+               Event = "Device state changed";
                isRecognized = true;
             }
 
@@ -122,7 +136,7 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
-            Regex regex = new Regex("transaction review request (?<requestid>[\\-0-9]*) for asset (?<asset>\\w\\w[0-9]*) (?<event>.*)");
+            Regex regex = new Regex("transaction review request (?<requestid>[\\-0-9]*) for asset (?<asset>.*) (?<event>.*)");
             Match m = regex.Match(subLogLine);
             if (m.Success)
             {
@@ -147,7 +161,7 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
-            regex = new Regex("Application state (?<type>.*) update for asset (?<asset>\\w\\w[0-9]*) during (?<action>.*)");
+            regex = new Regex("Application state (?<type>.*) update for asset (?<asset>.*) during (?<action>.*)");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
@@ -156,7 +170,7 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
-            regex = new Regex("Assist request (?<requestid>.*) for asset (?<asset>\\w\\w[0-9]*) (?<action>.*)");
+            regex = new Regex("Assist request (?<requestid>.*) for asset (?<asset>.*) (?<action>.*)");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
@@ -172,6 +186,15 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
+            regex = new Regex("Customer review request (?<num>.*)for asset (?<asset>.*) added");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               TransactionReviewRequest = $"CUSTOMER REVIEW REQUEST {m.Groups["num"].Value} for ATM {m.Groups["asset"].Value}";
+               isRecognized = true;
+            }
+
+
             regex = new Regex("ID Scan image (?<uri>.*) available");
             m = regex.Match(subLogLine);
             if (m.Success)
@@ -180,7 +203,15 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
-            regex = new Regex("Control session (?<sessionid>.*) for asset (?<asset>\\w\\w[0-9]*) (?<action>.*)");
+            regex = new Regex("Item Processing Module device state (?<state>[0-9]*) for asset (?<asset>.*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               TransactionItemStatus = $"ITEM PROCESSING DEVICE STATE {m.Groups["state"].Value} for ATM {m.Groups["asset"].Value}";
+               isRecognized = true;
+            }
+
+            regex = new Regex("Control session (?<sessionid>.*) for asset (?<asset>.*) (?<action>.*)");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
@@ -188,7 +219,7 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
-            regex = new Regex("Firing remote control session (?<sessionid>.*) (?<action>.*) for asset (?<asset>\\w\\w[0-9]*)");
+            regex = new Regex("Firing remote control session (?<sessionid>.*) (?<action>.*) for asset (?<asset>.*)");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
@@ -197,7 +228,16 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
-            regex = new Regex("Received (?<event>.*) event for (?<task>.*) (?<val>.*) for asset (?<asset>\\w\\w[0-9]*)");
+            regex = new Regex("(?<device>.*) device state (?<state>.*) for asset (?<asset>.*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               RemoteControlSessionState = $"{m.Groups["device"].Value} device state {m.Groups["state"].Value} for ATM {m.Groups["asset"].Value}";
+               Asset = m.Groups["asset"].Value;
+               isRecognized = true;
+            }
+
+            regex = new Regex("Received (?<event>.*) event for (?<task>.*) (?<val>.*) for asset (?<asset>.*)");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
@@ -214,7 +254,7 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
-            regex = new Regex("Teller session (?<sessionid>[0-9]*) for asset (?<asset>\\w\\w[0-9]*) (?<action>.*)");
+            regex = new Regex("Teller session (?<sessionid>[0-9]*) for asset (?<asset>.*) (?<action>.*)");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
@@ -223,7 +263,7 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
-            regex = new Regex("Teller session request (?<id>[0-9]*) for asset (?<asset>\\w\\w[0-9]*) (?<action>.*)");
+            regex = new Regex("Teller session request (?<id>[0-9]*) for asset (?<asset>.*) (?<action>.*)");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
@@ -232,7 +272,7 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
-            regex = new Regex("Teller session request (?<id>[0-9]*) for asset (?<asset>\\w\\w[0-9]*)$");
+            regex = new Regex("Teller session request (?<id>[0-9]*) for asset (?<asset>.*)$");
             m = regex.Match(subLogLine);
             if (m.Success)
             {

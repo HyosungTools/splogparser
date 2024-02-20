@@ -39,10 +39,15 @@ namespace LogLineHandler
             //ActiveTeller connection 25bc99ad-403b-4e63-8ab7-3afe0a942034 connected to http://V00483107/activeteller/SignalR/signalr/
             //ActiveTeller connection 25bc99ad-403b-4e63-8ab7-3afe0a942034 disconnected
 
+            //An exception occurred while trying to set the teller availability:
+            //Connection disconnected. Requesting connection to http://activeteller.ecu.com/activeteller/SignalR
+
             //ActiveTeller connection registered
             //ActiveTeller connection state change Connecting
             //ActiveTeller connection thread has completed.
             //ActiveTeller connection thread has started.
+            //ActiveTeller connection encountered an error:
+            //ActiveTeller connection is reconnecting
 
             //Attempting to start the ActiveTeller connection
 
@@ -58,6 +63,7 @@ namespace LogLineHandler
             //Deleting remote control session 134647
 
             //Failed retrieving image from uri api/checkimages/41950 with status Gone
+            //Failed sending teller session for request 21227 with status Conflict
 
             //Retrieving image with uri api/IdImages/3376
 
@@ -65,8 +71,11 @@ namespace LogLineHandler
             //Sending assist session for teller session 21497
             //Sending remote control session for teller session 21413
             //Sending teller session for request 28044
+            //Sending customer review response for asset  for teller session 19455
 
             //Request teller activities for uri TellerActivities?userid=21&start=2023-09-13T00:00:00.000-06:00&end=2023-09-13T23:59:59.000-06:00
+            //Request teller transaction history report for uri v2/TellerTransactions?userid=27&start=2023-11-28T00%3a00%3a00.000-06%3a00&end=2023-11-28T23%3a59%3a59.000-06%3a00&transactionstatus=1,2
+            //Request teller settlement history report for uri TellerSettlement?userid=27&start=2023-11-28T00%3a00%3a00.000-06%3a00&end=2023-11-28T23%3a59%3a59.000-06%3a00
 
             //Update teller session statistics: Pending=0 Current=0
             //Updating teller session statistics subscription: enabled
@@ -92,27 +101,6 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
-            subtag = "ActiveTeller connection thread is stopping";
-            if (subLogLine.StartsWith(subtag))
-            {
-               SignalRConnectionState = "STOPPING";
-               isRecognized = true;
-            }
-
-            subtag = "ActiveTeller connection thread has completed.";
-            if (subLogLine.StartsWith(subtag))
-            {
-               SignalRConnectionState = "COMPLETED";
-               isRecognized = true;
-            }
-
-            subtag = "ActiveTeller connection thread has started.";
-            if (subLogLine.StartsWith(subtag))
-            {
-               SignalRConnectionState = "STARTED";
-               isRecognized = true;
-            }
-
             subtag = "Attempting to start the ActiveTeller connection";
             if (subLogLine.StartsWith(subtag))
             {
@@ -134,11 +122,34 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
+            subtag = "An exception occurred while trying to set the teller availability:";
+            if (subLogLine.StartsWith(subtag))
+            {
+               TellerAvailability = "EXCEPTION TRYING TO SET TELLER AVAILABILITY";
+               isRecognized = true;
+            }
+
             Regex regex = new Regex("ActiveTeller connection (?<guid>.*) connected to (?<uri>.*)");
             Match m = regex.Match(subLogLine);
             if (m.Success)
             {
                SignalRConnectionState = $"CONNECTED guid {m.Groups["guid"].Value} to {m.Groups["uri"].Value}";
+               isRecognized = true;
+            }
+
+            regex = new Regex("Connection disconnected. Requesting connection to (?<uri>.*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               SignalRConnectionState = $"DISCONNECTED - REQUESTING CONNECTION TO {m.Groups["uri"].Value}";
+               isRecognized = true;
+            }
+
+            regex = new Regex("ActiveTeller connection (?<change>.*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               SignalRConnectionState = $"CONNECTION CHANGE {m.Groups["change"].Value}";
                isRecognized = true;
             }
 
@@ -190,6 +201,14 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
+            regex = new Regex("Sending customer review response for asset (?<asset>.*) for teller session (?<sessionid>.*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               TellerAssistSessionState = $"SENT CUSTOMER REVIEW RESPONSE FOR SESSION id {m.Groups["sessionid"].Value} to ATM {m.Groups["asset"].Value}";
+               isRecognized = true;
+            }
+
             regex = new Regex("ActiveTeller connection (?<guid>.*) disconnected");
             m = regex.Match(subLogLine);
             if (m.Success)
@@ -222,6 +241,14 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
+            regex = new Regex("Failed sending teller session for request (?<id>.*) with status (?<status>.*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               HttpImageRetrievalState = $"FAILED SENDING TELLER SESSION FOR REQUEST {m.Groups["id"].Value}, status {m.Groups["status"].Value}";
+               isRecognized = true;
+            }
+
             regex = new Regex("Retrieving image with uri (?<uri>.*)");
             m = regex.Match(subLogLine);
             if (m.Success)
@@ -230,11 +257,11 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
-            regex = new Regex("Request teller activities for uri (?<uri>.*)");
+            regex = new Regex("Request teller (?<report>.*) for uri (?<uri>.*)");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               HttpServerRequest = $"GET TELLER STATES {m.Groups["uri"].Value}";
+               HttpServerRequest = $"GET TELLER REPORT {m.Groups["report"].Value} {m.Groups["uri"].Value}";
                isRecognized = true;
             }
 

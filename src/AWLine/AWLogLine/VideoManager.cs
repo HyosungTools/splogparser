@@ -30,6 +30,14 @@ namespace LogLineHandler
             string subLogLine = logLine.Substring(idx+tag.Length);
 
             //Attempting to sign in to BeeHd video: uri=192.168.20.144, user name=lpina
+            //AssignBeehdLocalAddress : Setting rvbeehd to use local IP address of 192.168.20.90
+            //AssignBeehdLocalAddress : Failed to get IP address from selected network adaptor. Return to default values.
+
+            if (subLogLine == "AssignBeehdLocalAddress : Failed to get IP address from selected network adaptor. Return to default values.")
+            {
+               VideoEngineState = "SET RVBEEHD IP ADDRESS TO DEFAULT";
+               isRecognized = true;
+            }
 
             string subtag = string.Empty;
 
@@ -40,6 +48,15 @@ namespace LogLineHandler
                VideoEngineState = "SIGN IN ATTEMPT";
                User = m.Groups["user"].Value;
                Uri =m.Groups["uri"].Value;
+               isRecognized = true;
+            }
+
+            regex = new Regex("AssignBeehdLocalAddress : Setting rvbeehd to use local IP address of (?<uri>.*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               VideoEngineState = "SET RVBEEHD IP ADDRESS";
+               Uri = m.Groups["uri"].Value;
                isRecognized = true;
             }
          }

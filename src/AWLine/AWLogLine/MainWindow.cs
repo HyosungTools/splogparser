@@ -40,7 +40,11 @@ namespace LogLineHandler
             //Disconnected from ActiveTeller
             //Disconnecting from ActiveTeller
 
+            //CustomerReview request information for 
+
             //Done adding teller session for asset TX005022 for teller session request 27950
+
+            //End conference canceled
 
             //Finished and unloaded Report
             //Finished and unloaded TransactionReview
@@ -61,6 +65,7 @@ namespace LogLineHandler
             //Received RemoteControlSessionChanged event.
 
             //Remote desktop connected successfully to the asset
+            //Remote desktop connection disconnected
 
             //Signed out from ActiveTeller
 
@@ -74,6 +79,9 @@ namespace LogLineHandler
 
             //TransactionReview request information for CashDeposit
             //TransactionReview request information for CheckDeposit
+
+            //UpdateDeviceInfo:NH.ActiveTeller.ViewModel.Data.ItemProcessor, Error=True
+            //UpdateDeviceInfo:NH.ActiveTeller.ViewModel.Data.Doors, Error=False
 
             //Window_Loaded complete
 
@@ -95,10 +103,24 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
+            subtag = "CustomerReview request information for ";
+            if (subLogLine.StartsWith(subtag))
+            {
+               ActiveTellerState = "CUSTOMER REVIEW REQUEST INFORMATION";
+               isRecognized = true;
+            }
+
             subtag = "Remote desktop connected successfully to the asset";
             if (subLogLine.StartsWith(subtag))
             {
                ActiveTellerState = "REMOTE DESKTOP CONNECTED TO THE ATM";
+               isRecognized = true;
+            }
+
+            subtag = "Remote desktop connection disconnected";
+            if (subLogLine.StartsWith(subtag))
+            {
+               ActiveTellerState = "REMOTE DESKTOP DISCONNECTED";
                isRecognized = true;
             }
 
@@ -120,6 +142,13 @@ namespace LogLineHandler
             if (subLogLine.StartsWith(subtag))
             {
                ActiveTellerState = "ERROR, FAILED WHILE CONNECTED TO THE ATM";
+               isRecognized = true;
+            }
+
+            subtag = "End conference canceled";
+            if (subLogLine.StartsWith(subtag))
+            {
+               ActiveTellerState = "CONFERENCE CANCELLED";
                isRecognized = true;
             }
 
@@ -164,7 +193,7 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
-            regex = new Regex("Done adding teller session for asset (?<asset>\\w\\w[0-9]*) for teller session request (?<id>[\\-0-9]*)");
+            regex = new Regex("Done adding teller session for asset (?<asset>.*) for teller session request (?<id>[\\-0-9]*)");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
@@ -173,7 +202,7 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
-            regex = new Regex("Teller session added for asset (?<asset>\\w\\w[0-9]*) for teller session request (?<id>[\\-0-9]*)");
+            regex = new Regex("Teller session added for asset (?<asset>.*) for teller session request (?<id>[\\-0-9]*)");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
@@ -182,7 +211,7 @@ namespace LogLineHandler
                isRecognized = true;
             }
 
-            regex = new Regex("Teller session requested for asset (?<asset>\\w\\w[0-9]*) for teller session request (?<id>[\\-0-9]*). IsAcceptable=(?<bool>.*).");
+            regex = new Regex("Teller session requested for asset (?<asset>.*) for teller session request (?<id>[\\-0-9]*). IsAcceptable=(?<bool>.*).");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
@@ -253,6 +282,21 @@ namespace LogLineHandler
             if (m.Success)
             {
                ActiveTellerState = $"TRANSACTION REVIEW REQUEST, {m.Groups["name"].Value}";
+               isRecognized = true;
+            }
+
+            regex = new Regex("UpdateDeviceInfo:NH.ActiveTeller.ViewModel.Data.(?<device>.*), Error=(?<error>.*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               if (bool.Parse(m.Groups["error"].Value))
+               {
+                  ActiveTellerState = $"DEVICE ERROR - {m.Groups["device"].Value}";
+               }
+               else
+               {
+                  ActiveTellerState = $"DEVICE OK - {m.Groups["device"].Value}";
+               }
                isRecognized = true;
             }
          }

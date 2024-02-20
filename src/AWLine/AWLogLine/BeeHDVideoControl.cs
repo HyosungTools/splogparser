@@ -193,15 +193,23 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               VideoCallState = $"USER NOTIFY";
+               VideoCallState = $"VIDEO EVENT";
                StringBuilder sb = new StringBuilder();
-               sb.Append($"CallHandle {m.Groups["handle"].Value},");
-               sb.Append($"Value {m.Groups["value"].Value},");
+               //sb.Append($"CallHandle {m.Groups["handle"].Value},");
+               //sb.Append($"Value {m.Groups["value"].Value},");
                sb.Append($"Severity {m.Groups["severity"].Value},");
-               sb.Append($"UserType {m.Groups["usertype"].Value},");
+               //sb.Append($"UserType {m.Groups["usertype"].Value},");
                sb.Append($"Description {m.Groups["description"].Value},");
-               sb.Append($"AdditionalInfo {m.Groups["additionalinfo"].Value},");
-               sb.Append($"SuggestedAction {m.Groups["suggestedaction"].Value},");
+               if (!string.IsNullOrEmpty(m.Groups["additionalinfo"].Value))
+               {
+                  sb.Append($"AdditionalInfo {m.Groups["additionalinfo"].Value},");
+               }
+
+               if (!string.IsNullOrEmpty(m.Groups["suggestedaction"].Value))
+               {
+                  sb.Append($"SuggestedAction {m.Groups["suggestedaction"].Value},");
+               }
+
                VideoCallDetails = sb.ToString();
                isRecognized = true;
             }
