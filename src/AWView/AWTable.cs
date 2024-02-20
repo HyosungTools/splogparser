@@ -13,6 +13,11 @@ namespace AWView
    class AWTable : BaseTable
    {
       /// <summary>
+      /// Include the raw logline in the XML output
+      /// </summary>
+      public bool isOptionIncludePayload { get; set; } = false;
+
+      /// <summary>
       /// constructor
       /// </summary>
       /// <param name="ctx">Context for the command.</param>
@@ -366,7 +371,10 @@ namespace AWView
             dataRow["file"] = logLine.LogFile;
             dataRow["time"] = logLine.Timestamp;
 
-            dataRow["Payload"] = logLine.logLine;
+            if (isOptionIncludePayload)
+            {
+               dataRow["Payload"] = logLine.logLine;
+            }
 
             switch (logLine.awType)
             {
