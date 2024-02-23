@@ -41,31 +41,53 @@ namespace AVView
       /// <param name="logLine">logline from the file</param>
       public override void ProcessRow(ILogLine logLine)
       {
-         /*
-         if (logLine is LogLineHandler.Settings seLogLine)
+         if (logLine is LogLineHandler.Startup stLogLine)
          {
             try
             {
-               switch (seLogLine.avType)
+               switch (stLogLine.avType)
                {
-                  case AVLogType.Settings:
-                     base.ProcessRow(seLogLine);
+                  case AVLogType.Startup:
+                     base.ProcessRow(stLogLine);
                      break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {stLogLine.avType.ToString()}");
                }
             }
             catch (Exception e)
             {
-               ctx.LogWriteLine($"AVTable.ProcessRow Settings EXCEPTION: {e}");
+               ctx.LogWriteLine($"AVTable.Startup Settings EXCEPTION: {e}");
             }
             finally
             {
-               AddSettings(seLogLine);
+               AddStartup(stLogLine);
             }
          }
-         */
+
+         if (logLine is LogLineHandler.CustomerDataExtension ceLogLine)
+         {
+            try
+            {
+               switch (ceLogLine.avType)
+               {
+                  case AVLogType.SymXchangeCustomerDataExtension:
+                     base.ProcessRow(ceLogLine);
+                     break;
+
+                  default:
+                     throw new Exception($"Unhandled LogType {ceLogLine.avType.ToString()}");
+               }
+            }
+            catch (Exception e)
+            {
+               ctx.LogWriteLine($"AVTable.CustomerDataExtension Settings EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddCustomerDataExtension(ceLogLine);
+            }
+         }
       }
 
 
@@ -94,11 +116,11 @@ namespace AVView
          return sb.ToString();
       }
 
-      protected void AddSettings(AVLine logLine)
+      protected void AddStartup(Startup logLine)
       {
          try
          {
-            string tableName = "Server";
+            string tableName = "ATServer";
 
             DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
 
@@ -110,26 +132,51 @@ namespace AVView
                dataRow["Payload"] = logLine.logLine;
             }
 
-            switch (logLine.avType)
-            {
-               case AVLogType.TBD:
-                  /*
-                  Settings seLine = logLine as Settings;
-                  dataRow["Settings"] = DictionaryStringStringToString(seLine.SettingDict);
-                  */
-                  break;
-
-               case AVLogType.Error:
-               case AVLogType.None:
-               default:
-                  break;
-            }
+            dataRow["state"] = logLine.StartupState;
+            dataRow["time"] = logLine.TimeState;
+            dataRow["api"] = logLine.ApiCall;
+            dataRow["asset"] = logLine.AssetATM;
+            dataRow["mode"] = logLine.ModeATM;
+            dataRow["customer"] = logLine.Customer;
+            dataRow["flowpoint"] = logLine.Flowpoint;
+            dataRow["image"] = logLine.Image;
+            dataRow["teller"] = logLine.Teller;
+            dataRow["database"] = logLine.Database;
+            dataRow["connection"] = logLine.ConnectionSignalR;
+            dataRow["scheduler"] = logLine.Scheduler;
+            dataRow["exception"] = logLine.Exception;
 
             dTableSet.Tables[tableName].AcceptChanges();
          }
          catch (Exception e)
          {
-            ctx.ConsoleWriteLogLine("AddSettings Exception : " + e.Message);
+            ctx.ConsoleWriteLogLine("AddStartup Exception : " + e.Message);
+         }
+      }
+
+      protected void AddCustomerDataExtension(CustomerDataExtension logLine)
+      {
+         try
+         {
+            string tableName = "CustomerDataExtension";
+
+            DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
+
+            dataRow["file"] = logLine.LogFile;
+            dataRow["time"] = logLine.Timestamp;
+
+            if (isOptionIncludePayload || !logLine.IsRecognized)
+            {
+               dataRow["Payload"] = logLine.logLine;
+            }
+
+            dataRow["state"] = logLine.ExtensionState;
+
+            dTableSet.Tables[tableName].AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("AddCustomerDataExtension Exception : " + e.Message);
          }
       }
 

@@ -10,14 +10,56 @@ namespace LogLineHandler
       /* Not a log line we are interested in */
       None,
 
-      TBD,
-
-      /* ERROR */
-      Error
+      Startup,
+      CMCFlexCustomerDataExtension,
+      CorelationKeyBridgeCustomerDataExtension,
+      CSIBridgeCustomerDataExtension,
+      CUAnswersCustomerDataExtension,
+      CUProdigyCustomerDataExtension,
+      DemoCustomerDataExtension,
+      FiservAccessAdvantageCustomerDataExtension,
+      FiservDNACustomerDataExtension,
+      FiservESFCustomerDataExtension,
+      FiservSpectrumCustomerDataExtension,
+      FISHorizonCustomerDataExtension,
+      FISIBSCustomerDataExtension,
+      FISMiserCustomerDataExtension,
+      JXchangeCustomerDataExtension,
+      SymXchangeCustomerDataExtension
    }
+
 
    public class AVLine : LogLine, ILogLine
    {
+
+      /// <summary>
+      /// Gets the log type for the customer data extensionn corresponding to the input name.
+      /// </summary>
+      /// <param name="name"></param>
+      /// <returns></returns>
+      public static AVLogType GetCoreBankingAVLogType(string name)
+      {
+         int idx = name.IndexOf("CustomerDataExtension");
+
+         if (idx > 0)
+         {
+            // remove it
+            name = name.Substring(0, idx);
+         }
+
+         foreach (int i in Enum.GetValues(typeof(AVLogType)))
+         {
+            var eName = Enum.GetName(typeof(AVLogType), i).ToLower();
+
+            if (eName.StartsWith(name.ToLower()) && eName.EndsWith("customerdataextension"))
+            {
+               return (AVLogType)i;
+            }
+         }
+
+         return AVLogType.None;
+      }
+
       public string Timestamp { get; set; }
       public string HResult { get; set; }
       public AVLogType avType { get; set; }
@@ -44,7 +86,8 @@ namespace LogLineHandler
          // set timeStamp to a default time
          string timestamp = @"2023-01-01 00:00:00.000";
 
-         // 2023-11-16 03:00:47 Connection manager registering client using device id 70-85-C2-18-7C-DA
+         //2023-10-16 01:00:01 ActiveTeller Server version 1.3.1.0 is starting
+         //2023-10-16 01:00:04 [SymXchangeCustomerDataExtension] The 'SymXchangeCustomerDataExtension' extension is started.
 
          // search for timestamp in the log line
          string regExp = @"\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}";

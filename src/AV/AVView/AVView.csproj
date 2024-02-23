@@ -72,7 +72,7 @@
   <PropertyGroup>
     <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.pdb" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\AWView.xsd" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\AWView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
+copy "$(MSBuildProjectDirectory)\AVView.xsd" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\AVView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
   </PropertyGroup>
 </Project>
