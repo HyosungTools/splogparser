@@ -72,6 +72,18 @@ namespace LogLineHandler
                ModelName = "not provided";
             }
 
+            else if (subLogLine.StartsWith("Could not start the remote desktop server."))
+            {
+               IsRecognized = true;
+               RemoteDesktopServerState = "START-FAILED";
+            }
+
+            else if (subLogLine.StartsWith("Could not stop the remote desktop server."))
+            {
+               IsRecognized = true;
+               RemoteDesktopServerState = "STOP-FAILED";
+            }
+
             else if (subLogLine.StartsWith("The remote desktop server is already running."))
             {
                IsRecognized = true;
@@ -79,6 +91,12 @@ namespace LogLineHandler
             }
 
             else if (subLogLine.StartsWith("The remote desktop server is already running"))
+            {
+               IsRecognized = true;
+               RemoteDesktopServerState = "RUNNING";
+            }
+
+            else if (subLogLine.StartsWith("The remote desktop server is already stopped."))
             {
                IsRecognized = true;
                RemoteDesktopServerState = "RUNNING";

@@ -219,50 +219,108 @@ namespace LogLineHandler
                               \"LogicalServiceName\":\"\"
                               \"ExtraInformation\":\"\"
                             */
+                           /*
+                            * \"SafeDoorStatus\":\"1\",
+                            * \"AcceptorStatus\":\"0\",
+                            * \"IntermediateStackerStatus\":\"0\",
+                            * \"BankNoteReaderStatus\":\"0\",
+                            * \"PositionStatus\":{\"4\":\"UNKNOWN\",\"512\":\"UNKNOWN\"},
+                            * \"ShutterStatus\":\"0\",
+                            * \"TransportStatus\":\"0\",
+                            * \"DevicePositionStatus\":\"0\",
+                            * \"PowerSaveRecoveryTime\":0,
+                            * \"IsJCM\":false,
+                            * \"ShortName\":\"BNA\",
+                            * \"LogicalServiceName\":\"\",
+                            * \"ExtraInformation\":\"\"}","Timestamp":"0001-01-01T00:00:00"}
+                            * 
+                            * 
+                            * "DeviceSpecificStatus":"{\"SafeDoorStatus\":\"1\",\"AcceptorStatus\":\"0\",\"IntermediateStackerStatus\":\"0\",\"BankNoteReaderStatus\":\"0\",\"PositionStatus\":{\"4\":\"UNKNOWN\",\"512\":\"UNKNOWN\"},\"ShutterStatus\":\"0\",\"TransportStatus\":\"0\",\"DevicePositionStatus\":\"0\",\"PowerSaveRecoveryTime\":0,\"IsJCM\":false,\"ShortName\":\"BNA\",\"LogicalServiceName\":\"\",\"ExtraInformation\":\"\"}","Timestamp":"0001-01-01T00:00:00"}
+                            */
                            sb.Append($"SafeDoorStatus: {dynamicDeviceSpecificStatus.SafeDoorStatus},");
-                           sb.Append($"DispenserStatus: {dynamicDeviceSpecificStatus.DispenserStatus},");
+
+                           // Dispensor or Acceptor - not both
+                           if (((IDictionary<String, object>)dynamicDeviceSpecificStatus).ContainsKey("DispenserStatus"))
+                           {
+                              sb.Append($"DispenserStatus: {dynamicDeviceSpecificStatus.DispenserStatus},");
+                           }
+
+                           if (((IDictionary<String, object>)dynamicDeviceSpecificStatus).ContainsKey("AcceptorStatus"))
+                           {
+                              sb.Append($"AcceptorStatus: {dynamicDeviceSpecificStatus.AcceptorStatus},");
+                           }
+
                            sb.Append($"IntermediateStackerStatus: {dynamicDeviceSpecificStatus.IntermediateStackerStatus},");
                            sb.Append($"ShutterStatus: {dynamicDeviceSpecificStatus.ShutterStatus},");
-                           sb.Append($"PositionStatus: {dynamicDeviceSpecificStatus.PositionStatus},");
+
+                           // a string or an ExpandoObject
+                           if (dynamicDeviceSpecificStatus.PositionStatus is ExpandoObject)
+                           {
+                              sb.Append("PositionStatus: [");
+                              foreach (var obj in dynamicDeviceSpecificStatus.PositionStatus)
+                              {
+                                 sb.Append($"{obj},");
+                              }
+                              sb.Append("],");
+                           }
+                           else
+                           {
+                              sb.Append($"PositionStatus: {dynamicDeviceSpecificStatus.PositionStatus},");
+                           }
+
                            sb.Append($"TransportStatus: {dynamicDeviceSpecificStatus.TransportStatus},");
-                           sb.Append($"TransportStatusStatus: {dynamicDeviceSpecificStatus.TransportStatusStatus},");
                            sb.Append($"DevicePositionStatus: {dynamicDeviceSpecificStatus.DevicePositionStatus},");
                            sb.Append($"PowerSaveRecoveryTime: {dynamicDeviceSpecificStatus.PowerSaveRecoveryTime},");
 
-                           sb.Append("UnitCurrencyID: [");
-                           foreach (var obj in dynamicDeviceSpecificStatus.UnitCurrencyID)
+                           if (((IDictionary<String, object>)dynamicDeviceSpecificStatus).ContainsKey("UnitCurrencyID"))
                            {
-                              sb.Append($"{obj},");
+                              sb.Append("UnitCurrencyID: [");
+                              foreach (var obj in dynamicDeviceSpecificStatus.UnitCurrencyID)
+                              {
+                                 sb.Append($"{obj},");
+                              }
+                              sb.Append("],");
                            }
-                           sb.Append("],");
 
-                           sb.Append("UnitValue: [");
-                           foreach (var obj in dynamicDeviceSpecificStatus.UnitValue)
+                           if (((IDictionary<String, object>)dynamicDeviceSpecificStatus).ContainsKey("UnitValue"))
                            {
-                              sb.Append($"{obj},");
+                              sb.Append("UnitValue: [");
+                              foreach (var obj in dynamicDeviceSpecificStatus.UnitValue)
+                              {
+                                 sb.Append($"{obj},");
+                              }
+                              sb.Append("],");
                            }
-                           sb.Append("],");
 
-                           sb.Append("UnitStatus: [");
-                           foreach (var obj in dynamicDeviceSpecificStatus.UnitStatus)
+                           if (((IDictionary<String, object>)dynamicDeviceSpecificStatus).ContainsKey("UnitStatus"))
                            {
-                              sb.Append($"{obj},");
+                              sb.Append("UnitStatus: [");
+                              foreach (var obj in dynamicDeviceSpecificStatus.UnitStatus)
+                              {
+                                 sb.Append($"{obj},");
+                              }
+                              sb.Append("],");
                            }
-                           sb.Append("],");
 
-                           sb.Append("UnitCount: [");
-                           foreach (var obj in dynamicDeviceSpecificStatus.UnitCount)
+                           if (((IDictionary<String, object>)dynamicDeviceSpecificStatus).ContainsKey("UnitCount"))
                            {
-                              sb.Append($"{obj},");
+                              sb.Append("UnitCount: [");
+                              foreach (var obj in dynamicDeviceSpecificStatus.UnitCount)
+                              {
+                                 sb.Append($"{obj},");
+                              }
+                              sb.Append("],");
                            }
-                           sb.Append("],");
 
-                           sb.Append("UnitType: [");
-                           foreach (var obj in dynamicDeviceSpecificStatus.UnitType)
+                           if (((IDictionary<String, object>)dynamicDeviceSpecificStatus).ContainsKey("UnitType"))
                            {
-                              sb.Append($"{obj},");
+                              sb.Append("UnitType: [");
+                              foreach (var obj in dynamicDeviceSpecificStatus.UnitType)
+                              {
+                                 sb.Append($"{obj},");
+                              }
+                              sb.Append("],");
                            }
-                           sb.Append("],");
 
                            sb.Append($"LogicalServiceName: {dynamicDeviceSpecificStatus.LogicalServiceName},");
                            sb.Append($"ExtraInformation: {dynamicDeviceSpecificStatus.ExtraInformation},");
@@ -653,8 +711,18 @@ namespace LogLineHandler
                   MonitoringDeviceChanges = $"MONITORING {m.Groups["action"].Value.ToUpper()}ED";
                }
 
-               //NextwareExtension : OnDeviceStatusChanged: NH.Agent.Extensions.Nextware.NXDoors
-               regex = new Regex("NextwareExtension : OnDeviceStatusChanged: (?<device>.*)$");
+               //StartMonitoring: Start .....................
+               //StartMonitoring: End .....................
+               regex = new Regex("StartMonitoring: (?<action>.*)");
+               m = regex.Match(subLogLine);
+               if (m.Success)
+               {
+                  IsRecognized = true;
+                  MonitoringDeviceChanges = $"MONITORING {m.Groups["action"].Value.ToUpper()}ED";
+               }
+
+               //OnDeviceStatusChanged: NH.Agent.Extensions.Nextware.NXPin
+               regex = new Regex("OnDeviceStatusChanged: (?<device>.*)$");
                m = regex.Match(subLogLine);
                if (m.Success)
                {

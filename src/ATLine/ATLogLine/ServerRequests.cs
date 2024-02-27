@@ -20,6 +20,7 @@ namespace LogLineHandler
          Unknown,
          SystemParameters,
          TerminalMode,
+         RemoteTellerAvailable,
          RemoteTellerSelected,
          TellerSessionStart,
          TellerTaskEvent,
@@ -37,6 +38,8 @@ namespace LogLineHandler
       public string RequestResult { get; set; }
 
       public string RequestTimeUTC { get; set; }
+      public string RequestId { get; set; }
+
       public long ClientSession { get; set; } = -1;
       public string Terminal { get; set; }
       public string TellerName { get; set; }
@@ -195,6 +198,10 @@ namespace LogLineHandler
 
             RemoteTellerSelected
             {"Id":24022,"AssetName":"NM000559","TellerSessionRequestId":30981,"Timestamp":"2023-09-25T09:38:43.3973841-07:00","TellerInfo":{"ClientSessionId":3895,"TellerName":"Jesus","VideoConferenceUri":"10.255.254.247","TellerId":"jpinon"}}
+         
+            RemoteTellerAvailable
+            {"AssetName":"21PLEA03D","TellerSessionRequestId":20628,"Availability":1,"ExternalRoutingIdentifier":null,"Timestamp":"2023-11-17T18:23:07.4571957-06:00"}
+            {"AssetName":"21PLEA03D","TellerSessionRequestId":20628,"Availability":1,"ExternalRoutingIdentifier":null,"Timestamp":"2023-11-17T18:23:07.4571957-06:00"}
 
             TellerTaskEvent
             {"TaskId":25,"TaskName":"ConfigurationQueryTask","EventName":"ConfigurationRequest","Data":"{\"Name\":\"ConfigurationRequest\",\"TellerId\":null,\"DateTime\":\"2023-11-13T10:27:47.3758284-06:00\",\"TaskTimeout\":null}","Id":2237013,"AssetName":"WI000902","TellerSessionId":147548,"TransactionDetail":null,"Timestamp":"2023-11-13T10:27:47.379449-06:00","TellerInfo":{"ClientSessionId":6782,"TellerName":"Andrea","VideoConferenceUri":"10.206.20.47","TellerId":"aspringman"}}
@@ -230,9 +237,30 @@ namespace LogLineHandler
                   IDictionary<string, object> dict = (IDictionary<string, object>)obj;
                   object fieldvalue;
 
+                  // simple cases first, requiring only one field name to know the request type
                   if (dict.TryGetValue("Name", out fieldvalue))
                   {
                      requestType = ServerRequestType.SystemParameters;
+                  }
+
+                  else if (dict.TryGetValue("TaskName", out fieldvalue))
+                  {
+                     requestType = ServerRequestType.TellerTaskEvent;
+                  }
+
+                  else if (dict.TryGetValue("FlowPoint", out fieldvalue))
+                  {
+                     requestType = ServerRequestType.SelfServiceFlow;
+                  }
+
+                  else if (dict.TryGetValue("Availability", out fieldvalue))
+                  {
+                     requestType = ServerRequestType.RemoteTellerAvailable;
+                  }
+
+                  else if (dict.TryGetValue("TellerSessionRequestId", out fieldvalue))
+                  {
+                     requestType = ServerRequestType.RemoteTellerSelected;
                   }
 
                   else if (dict.TryGetValue("ModeType", out fieldvalue))
@@ -245,6 +273,7 @@ namespace LogLineHandler
                      requestType = ServerRequestType.TellerSessionStart;
                   }
 
+                  // TellerSessionStart also has TransactionDetail - so do this check last
                   else if (dict.TryGetValue("TransactionDetail", out fieldvalue) && fieldvalue != null)
                   {
                      foreach (KeyValuePair<string,object> detail in (ExpandoObject)fieldvalue)
@@ -254,21 +283,6 @@ namespace LogLineHandler
                            requestType = ServerRequestType.TransactionDetails;
                         }
                      }
-                  }
-
-                  else if (dict.TryGetValue("TellerSessionRequestId", out fieldvalue))
-                  {
-                     requestType = ServerRequestType.RemoteTellerSelected;
-                  }
-
-                  else if (dict.TryGetValue("TaskName", out fieldvalue))
-                  {
-                     requestType = ServerRequestType.TellerTaskEvent;
-                  }
-
-                  else if (dict.TryGetValue("FlowPoint", out fieldvalue))
-                  {
-                     requestType = ServerRequestType.SelfServiceFlow;
                   }
 
                   else
@@ -313,11 +327,23 @@ namespace LogLineHandler
                         //{"AssetId":11,"AssetName":"NM000559","ModeType":"Scheduled","ModeName":"Standard","CoreStatus":"","CoreProperties":""}
                         break;
 
+                     case ServerRequestType.RemoteTellerAvailable:
+                        //{"AssetName":"21PLEA03D","TellerSessionRequestId":20628,"Availability":1,"ExternalRoutingIdentifier":null,"Timestamp":"2023-11-17T18:23:07.4571957-06:00"}
+                        RequestTimeUTC = ((DateTime)dict["Timestamp"]).ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec);
+                        Terminal = (string)dict["AssetName"];
+                        RequestId = dict["TellerSessionRequestId"].ToString();
+                        break;
+
                      case ServerRequestType.RemoteTellerSelected:
                         //{"Id":24022,"AssetName":"NM000559","TellerSessionRequestId":30981,"Timestamp":"2023-09-25T09:38:43.3973841-07:00",
                         //"TellerInfo":{"ClientSessionId":3895,"TellerName":"Jesus","VideoConferenceUri":"10.255.254.247","TellerId":"jpinon"}}
 
+                        //{"Id":18850,"AssetName":"21PLEA03D","TellerSessionRequestId":20055,"Timestamp":"2023-11-17T08:01:11.084482-06:00",
+                        //"TellerInfo":{"ClientSessionId":3880,"TellerName":"Alyssa","VideoConferenceUri":"192.168.20.25","TellerId":"ahall"}}
                         RequestTimeUTC = ((DateTime)dict["Timestamp"]).ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec);
+
+                        RequestId = dict["TellerSessionRequestId"].ToString();
+
                         Terminal = (string)dict["AssetName"];
 
                         tellerInfo = (IDictionary<string, object>)dict["TellerInfo"];
