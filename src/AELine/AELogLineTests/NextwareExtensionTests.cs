@@ -201,8 +201,7 @@ namespace AELogLineTests
          Assert.IsNull(line.AssetName);
 
          Assert.AreEqual("SafeDoorStatus", line.StatusDeviceName);
-         Assert.AreEqual("SafeDoorStatus: 1,DispenserStatus: 1,IntermediateStackerStatus: 0,ShutterStatus: 0,PositionStatus: 0,TransportStatus: 0,TransportStatusStatus: 0,DevicePositionStatus: 3,PowerSaveRecoveryTime: 0,UnitCurrencyID: [   ,USD,USD,USD,USD,],UnitValue: [0,1,5,20,50,],UnitStatus: [0,0,3,0,3,],UnitCount: [0,999,274,3127,707,],UnitType: [REJECTCASSETTE,BILLCASSETTE,BILLCASSETTE,BILLCASSETTE,BILLCASSETTE,],LogicalServiceName: ,ExtraInformation: ,", line.DeviceStatus);
-
+         Assert.AreEqual("SafeDoorStatus: 1,DispenserStatus: 1,IntermediateStackerStatus: 0,ShutterStatus: 0,PositionStatus: 0,TransportStatus: 0,DevicePositionStatus: 3,PowerSaveRecoveryTime: 0,UnitCurrencyID: [   ,USD,USD,USD,USD,],UnitValue: [0,1,5,20,50,],UnitStatus: [0,0,3,0,3,],UnitCount: [0,999,274,3127,707,],UnitType: [REJECTCASSETTE,BILLCASSETTE,BILLCASSETTE,BILLCASSETTE,BILLCASSETTE,],LogicalServiceName: ,ExtraInformation: ,", line.DeviceStatus);
          Assert.AreEqual("2023-11-17 03:00:22", line.Timestamp);
          Assert.AreEqual(AELogType.NextwareExtension, line.aeType);
       }
