@@ -76,9 +76,12 @@ The list of Parse Types supported is:
 | Short | Long | Description |
 |-------|------|----------------|
 | -a    | --ap | Parse the [AP] logs (e.g. APLog*.*) in the target file |
+| -t    | --ap | Parse Active Teller ITM logs (e.g. ActiveTeller*.*) in the target file |
+| -e    | --ap | Parse Active Teller Extensions ITM logs (e.g. ActiveTellerExtensions*.*) in the target file |
 | -s    | --sp | Parse the [SP] logs (e.g. *.nwlog) in the target file |
 |       | --ss | Parse the Settlement Server (e.g. settlement-api-all-*.log) in the target file |
-| -w    | --aw | TBD            |
+| -v    | --aw | Parse Active Teller Server logs (e.g. ActiveTellerServer*.*) in the target file |
+| -w    | --aw | Parse Active Teller Workstation logs (e.g. Workstation*.*) in the target file |
 | -r    | --ar | TBD            |
 
 Combine one or more *Parse Type* with one or more *View* to tell the parse what to do. 
