@@ -78,6 +78,12 @@ namespace LogLineHandler
                RemoteDesktopServerState = "RUNNING";
             }
 
+            else if (subLogLine.StartsWith("The remote desktop server is already running"))
+            {
+               IsRecognized = true;
+               RemoteDesktopServerState = "RUNNING";
+            }
+
             else if (subLogLine.StartsWith("Attempting to update the netop.ini."))
             {
                IsRecognized = true;
