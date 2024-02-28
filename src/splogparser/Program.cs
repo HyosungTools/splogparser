@@ -19,7 +19,7 @@ namespace splogparser
          if (zipFiles.Length == 0)
          {
             ctx.ConsoleWriteLogLine($"Archive zip file not found.");
-            return false;
+            return true;
          }
 
          foreach (string zipFile in zipFiles)
@@ -112,6 +112,7 @@ namespace splogparser
          ctx.ConsoleWriteLogLine("opts.ATViews :" + ctx.opts.ATViews);
          ctx.ConsoleWriteLogLine("opts.AEViews :" + ctx.opts.AEViews);
          ctx.ConsoleWriteLogLine("opts.AWViews :" + ctx.opts.AWViews);
+         ctx.ConsoleWriteLogLine("opts.AVViews :" + ctx.opts.AVViews);
          ctx.ConsoleWriteLogLine("opts.SPViews :" + ctx.opts.SPViews);
          ctx.ConsoleWriteLogLine("opts.RTViews :" + ctx.opts.RTViews);
 
@@ -126,6 +127,9 @@ namespace splogparser
 
          ctx.ConsoleWriteLogLine(String.Format("IsAW : {0}", ctx.opts.IsAW ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("AWView Contains  : {0}", ctx.opts.AWViews));
+
+         ctx.ConsoleWriteLogLine(String.Format("IsAV : {0}", ctx.opts.IsAV ? "true" : "false"));
+         ctx.ConsoleWriteLogLine(String.Format("AVView Contains  : {0}", ctx.opts.AVViews));
 
          ctx.ConsoleWriteLogLine(String.Format("IsSP : {0}", ctx.opts.IsSP ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("SPView Contains  : {0}", ctx.opts.SPViews));
@@ -144,6 +148,9 @@ namespace splogparser
 
          // AW Workstation
          if (ctx.opts.IsAW) ctx.logFileHandlers.Add((ILogFileHandler)new AWLogHandler(new CreateTextStreamReader()));
+
+         // AV Server
+         if (ctx.opts.IsAV) ctx.logFileHandlers.Add((ILogFileHandler)new AVLogHandler(new CreateTextStreamReader()));
 
          // SP
          if (ctx.opts.IsSP) ctx.logFileHandlers.Add((ILogFileHandler)new SPLogHandler(new CreateTextStreamReader()));

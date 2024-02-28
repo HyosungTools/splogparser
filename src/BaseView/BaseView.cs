@@ -95,7 +95,7 @@ namespace Impl
                catch (Exception e)
                {
                   ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : Processing file {0} : {1} {2}", fileName, e.Message, e));
-                  return;
+                  // return;
                }
             }
          }

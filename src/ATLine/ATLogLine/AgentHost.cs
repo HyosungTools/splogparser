@@ -13,8 +13,6 @@ namespace LogLineHandler
          Started
       }
 
-      bool isRecognized = false;
-
       public AgentHostStateEnum state { get; set; }
 
 
@@ -41,12 +39,12 @@ namespace LogLineHandler
             //started
             if (subLogLine == "started")
             {
-               isRecognized = true;
+               IsRecognized = true;
                state = AgentHostStateEnum.Started;
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"ATLogLine.AgentHost: did not recognize the log line '{logLine}'");
          }

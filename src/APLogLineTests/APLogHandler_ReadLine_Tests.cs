@@ -201,7 +201,7 @@ namespace APLogLineTests
             catch (Exception e)
             {
                Assert.IsTrue(false);
-               return;
+               throw e;
             }
          }
 

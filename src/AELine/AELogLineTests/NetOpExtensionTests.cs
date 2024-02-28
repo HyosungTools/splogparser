@@ -188,7 +188,7 @@ namespace AELogLineTests
          ILogFileHandler logFileHandler = new AELogHandler(new CreateTextStreamReaderMock());
          NetOpExtension line = new NetOpExtension(logFileHandler, sampleLine, AELogType.NetOpExtension);
          Assert.AreEqual("7800I", line.ModelName);
-         Assert.AreEqual("GETTING CONFIGURAITON Standard rev 1", line.ConfigurationState);
+         Assert.AreEqual("GETTING CONFIGURATION Standard rev 1", line.ConfigurationState);
          Assert.AreEqual(string.Empty, line.RemoteDesktopServerState);
          Assert.AreEqual("2023-11-13 03:02:58", line.Timestamp);
          Assert.AreEqual(AELogType.NetOpExtension, line.aeType);

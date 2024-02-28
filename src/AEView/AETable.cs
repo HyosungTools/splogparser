@@ -13,6 +13,11 @@ namespace AEView
    class AETable : BaseTable
    {
       /// <summary>
+      /// Include the raw logline in the XML output
+      /// </summary>
+      public bool isOptionIncludePayload { get; set; } = false;
+
+      /// <summary>
       /// constructor
       /// </summary>
       /// <param name="ctx">Context for the command.</param>
@@ -43,19 +48,20 @@ namespace AEView
                switch (aeLogLine.aeType)
                {
                   case AELogType.ExtensionStarted:
-                     {
-                        base.ProcessRow(aeLogLine);
-                        AddExtensionStartedEvent(aeLogLine);
-                        break;
-                     }
+                     base.ProcessRow(aeLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {aeLogLine.aeType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AETable.ProcessRow ExtensionStarted EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddExtensionStartedEvent(aeLogLine);
             }
          }
 
@@ -66,19 +72,20 @@ namespace AEView
                switch (noLogLine.aeType)
                {
                   case AELogType.NetOpExtension:
-                     {
-                        base.ProcessRow(noLogLine);
-                        AddNetOpExtensionEvent(noLogLine);
-                        break;
-                     }
+                     base.ProcessRow(noLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {noLogLine.aeType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AETable.ProcessRow NetOpExtension EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddNetOpExtensionEvent(noLogLine);
             }
          }
 
@@ -89,19 +96,20 @@ namespace AEView
                switch (neLogLine.aeType)
                {
                   case AELogType.NextwareExtension:
-                     {
-                        base.ProcessRow(neLogLine);
-                        AddNextwareExtensionEvent(neLogLine);
-                        break;
-                     }
+                     base.ProcessRow(neLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {neLogLine.aeType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AETable.ProcessRow NextwareExtension EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddNextwareExtensionEvent(neLogLine);
             }
          }
 
@@ -112,19 +120,20 @@ namespace AEView
                switch (mpLogLine.aeType)
                {
                   case AELogType.MoniPlus2sExtension:
-                     {
-                        base.ProcessRow(mpLogLine);
-                        AddMoniPlus2sExtensionEvent(mpLogLine);
-                        break;
-                     }
+                     base.ProcessRow(mpLogLine);
+                     break;
 
                   default:
-                     break;
+                     throw new Exception($"Unhandled LogType {mpLogLine.aeType.ToString()}");
                }
             }
             catch (Exception e)
             {
                ctx.LogWriteLine($"AETable.ProcessRow MoniPlus2sExtension EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddMoniPlus2sExtensionEvent(mpLogLine);
             }
          }
       }
@@ -152,6 +161,12 @@ namespace AEView
 
             dataRow["file"] = logLine.LogFile;
             dataRow["time"] = logLine.Timestamp;
+
+            if (isOptionIncludePayload || !logLine.IsRecognized)
+            {
+               dataRow["Payload"] = logLine.logLine;
+            }
+
             dataRow["name"] = logLine.extensionName;
 
             dTableSet.Tables[tableName].AcceptChanges();
@@ -172,6 +187,12 @@ namespace AEView
 
             dataRow["file"] = logLine.LogFile;
             dataRow["time"] = logLine.Timestamp;
+
+            if (isOptionIncludePayload || !logLine.IsRecognized)
+            {
+               dataRow["Payload"] = logLine.logLine;
+            }
+
             dataRow["ModelName"] = logLine.ModelName;
             dataRow["ConfigurationState"] = logLine.ConfigurationState;
             dataRow["RemoteDesktopServerState"] = logLine.RemoteDesktopServerState;
@@ -192,6 +213,11 @@ namespace AEView
 
             dataRow["file"] = logLine.LogFile;
             dataRow["time"] = logLine.Timestamp;
+
+            if (isOptionIncludePayload || !logLine.IsRecognized)
+            {
+               dataRow["Payload"] = logLine.logLine;
+            }
 
             StringBuilder sb = new StringBuilder();
             sb.Append((!string.IsNullOrEmpty(logLine.ModelName) ? $"Model {logLine.ModelName} " : string.Empty));
@@ -218,6 +244,11 @@ namespace AEView
 
             dataRow["file"] = logLine.LogFile;
             dataRow["time"] = logLine.Timestamp;
+
+            if (isOptionIncludePayload || !logLine.IsRecognized)
+            {
+               dataRow["Payload"] = logLine.logLine;
+            }
 
             dataRow["MonitoringDeviceChanges"] = logLine.MonitoringDeviceChanges;
             dataRow["MonitoringDeviceName"] = logLine.MonitoringDeviceName;
@@ -252,6 +283,11 @@ namespace AEView
             dataRow["file"] = logLine.LogFile;
             dataRow["time"] = logLine.Timestamp;
 
+            if (isOptionIncludePayload || !logLine.IsRecognized)
+            {
+               dataRow["Payload"] = logLine.logLine;
+            }
+
             StringBuilder sb = new StringBuilder();
             sb.Append((!string.IsNullOrEmpty(logLine.MonitoringDeviceChanges) ? $"Event {logLine.MonitoringDeviceChanges}, " : string.Empty));
             sb.Append((!string.IsNullOrEmpty(logLine.MonitoringDeviceName) ? $"Device {logLine.MonitoringDeviceName}," : string.Empty));
@@ -278,6 +314,11 @@ namespace AEView
 
             dataRow["file"] = logLine.LogFile;
             dataRow["time"] = logLine.Timestamp;
+
+            if (isOptionIncludePayload || !logLine.IsRecognized)
+            {
+               dataRow["Payload"] = logLine.logLine;
+            }
 
             dataRow["RemoteTellerActive"] = MoniPlus2sExtension._RemoteTellerActive ? "Active" : string.Empty;
 

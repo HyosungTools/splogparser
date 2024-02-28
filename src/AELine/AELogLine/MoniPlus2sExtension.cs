@@ -40,8 +40,6 @@ namespace LogLineHandler
          public string Value { get; private set; } = string.Empty;
       }
 
-      bool isRecognized = false;
-
 
 
       // object tracking Ids
@@ -293,6 +291,12 @@ namespace LogLineHandler
             2023-11-13 08:07:29 [MoniPlus2sExtension] Firing agent message event: RemoteControlEvent - POST - {"TaskId":1,"TaskName":"ConfigurationQueryTask","EventName":"ConfigurationReceived","Data":"{\"CanDispenseCash\":true,\"CanDispenseCoin\":true,\"CanDispenseCheck\":false,\"CanDepositCash\":false,\"CanDepositCoin\":false,\"CanDepositCheck\":false,\"CanDepositCashCheck\":true,\"IsCheckCashingSurchargeSupported\":true,\"IsReceiptBufferingSupported\":true,\"IsTransferSupported\":true,\"IsPaymentSupported\":true,\"IsMultiDeviceDepositSupported\":false,\"IsWithdrawalToThePennySupported\":true,\"Name\":\"ConfigurationReceived\",\"Detail\":\"OK\",\"TransactionDetail\":null}","Id":0,"AssetName":"WI000902","TellerSessionId":147534,"TransactionDetail":null,"Timestamp":"2023-11-13T08:07:29.8308256-06:00","TellerInfo":{"ClientSessionId":6782,"TellerName":null,"VideoConferenceUri":null,"TellerId":null}}
 
             2023-11-13 08:09:13 [MoniPlus2sExtension] Sending TransactionReviewMessage to application: {"Extras":"{\"Accounts\":[],\"Id\":410230,\"TellerSessionActivityId\":2236847,\"TransactionType\":null,\"ApproverId\":null,\"IdScans\":[],\"Checks\":[{\"AcceptStatus\":\"NULL\",\"Amount\":\"3600\",\"AmountRead\":\"3600\",\"AmountScore\":1000,\"BackImageRelativeUri\":\"api/checkimages/1400130\",\"CheckDateRead\":\"11/12/2023\",\"CheckDateScore\":47,\"CheckIndex\":0,\"FrontImageRelativeUri\":\"api/checkimages/1400129\",\"ImageBack\":\"D:\\\\CHECK21\\\\Bottom1.jpg\",\"ImageFront\":\"D:\\\\CHECK21\\\\Top1.jpg\",\"InvalidReason\":\"\",\"Id\":783007,\"TransactionDetailId\":410230,\"Review\":{\"Id\":608334,\"Approval\":{\"TellerAmount\":\"3600\",\"TellerApproval\":1,\"Reason\":\"\",\"TransactionItemReviewId\":608334},\"ReasonForReview\":0,\"TransactionItemId\":783007}},{\"AcceptStatus\":\"NULL\",\"Amount\":\"4000\",\"AmountRead\":\"4000\",\"AmountScore\":1000,\"BackImageRelativeUri\":\"api/checkimages/1400132\",\"CheckDateRead\":\"1/9/2023\",\"CheckDateScore\":1,\"CheckIndex\":1,\"FrontImageRelativeUri\":\"api/checkimages/1400131\",\"ImageBack\":\"D:\\\\CHECK21\\\\Bottom2.jpg\",\"ImageFront\":\"D:\\\\CHECK21\\\\Top2.jpg\",\"InvalidReason\":\"\",\"Id\":783008,\"TransactionDetailId\":410230,\"Review\":{\"Id\":608335,\"Approval\":{\"TellerAmount\":\"4000\",\"TellerApproval\":1,\"Reason\":\"\",\"TransactionItemReviewId\":608335},\"ReasonForReview\":0,\"TransactionItemId\":783008}}],\"TransactionCashDetails\":[{\"Amount\":\"55\",\"CashTransactionType\":1,\"Currency\":\"USD\",\"TransactionCurrencyItems\":[{\"Id\":355075,\"TransactionCashDetailId\":783006,\"Value\":20,\"Quantity\":2,\"MediaType\":0},{\"Id\":355076,\"TransactionCashDetailId\":783006,\"Value\":5,\"Quantity\":1,\"MediaType\":0},{\"Id\":355077,\"TransactionCashDetailId\":783006,\"Value\":10,\"Quantity\":1,\"MediaType\":0}],\"Id\":783006,\"TransactionDetailId\":410230,\"Review\":null}],\"TransactionOtherAmounts\":[],\"TransactionWarnings\":[]}","TellerInfo":{"ClientSessionId":6782,"TellerName":"Andrea","VideoConferenceUri":"10.206.20.47","TellerId":"aspringman"}}
+
+            2023-11-17 15:23:52 [MoniPlus2sExtension] The teller session has ended so the most recent teller session ID (19228) will be used
+
+            TODO
+            //2023-11-20 01:01:20 [MoniPlus2sExtension] System Capabilities: {"Capabilities":[{"Enabled":false,"Name":"VideoRecording","Options":null}]}
+            //Sending SystemCapabilitiesMessage to application: {"Capabilities":[{"Enabled":false,"Name":"VideoRecording","Options":null}]}
          */
 
          string searchFor = "[MoniPlus2sExtension]";
@@ -306,35 +310,35 @@ namespace LogLineHandler
             //Connected.
             if (subLogLine == "Connected.")
             {
-               isRecognized = true;
+               IsRecognized = true;
                ApplicationConnectionState = "CONNECTED";
             }
 
             //Disconnected.
             else if (subLogLine == "Disconnected.")
             {
-               isRecognized = true;
+               IsRecognized = true;
                ApplicationConnectionState = "DISCONNECTED";
             }
 
             //Could not find the type data for EnabledDeviceList
             else if (subLogLine == "Could not find the type data for EnabledDeviceList")
             {
-               isRecognized = true;
+               IsRecognized = true;
                // TODO
             }
 
             //An agent message handler has been added to MoniPlus2sExtension
             else if (subLogLine == "An agent message handler has been added to MoniPlus2sExtension")
             {
-               isRecognized = true;
+               IsRecognized = true;
                // TODO
             }
 
             //An agent message handler has been removed from MoniPlus2sExtension
             else if (subLogLine == "An agent message handler has been removed from MoniPlus2sExtension")
             {
-               isRecognized = true;
+               IsRecognized = true;
                // TODO
             }
 
@@ -345,7 +349,7 @@ namespace LogLineHandler
                Match m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
+                  IsRecognized = true;
                   ApplicationConnectionState = "NO CONNECTION - REFUSED";
 
                   IpAddress = $"{m.Groups["ipaddress"].Value}:{m.Groups["port"].Value}";
@@ -357,7 +361,7 @@ namespace LogLineHandler
                m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
+                  IsRecognized = true;
                   RestResource = m.Groups["resourcetype"].Value;
                   MessageBody = m.Groups["body"].Value;
 
@@ -372,7 +376,7 @@ namespace LogLineHandler
                m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
+                  IsRecognized = true;
                   RestResource = m.Groups["resourcetype"].Value;
                   MessageBody = m.Groups["body"].Value;
 
@@ -385,11 +389,54 @@ namespace LogLineHandler
                m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
+                  IsRecognized = true;
                   RestResource = m.Groups["resourcetype"].Value;
 
                   CommunicationResult_Comment = "RECEIVED";
                }
+
+               //System Capabilities: {"Capabilities":[{"Enabled":false,"Name":"VideoRecording","Options":null}]}
+               regex = new Regex("System Capabilities: (?<json>.*)");
+               m = regex.Match(subLogLine);
+               if (m.Success)
+               {
+                  IsRecognized = true;
+                  RestResource = "SystemCapabilities";
+                  MessageBody = m.Groups["json"].Value;
+                  CommunicationResult_Comment = "OK";
+               }
+
+               //Sending SystemCapabilitiesMessage to application: {"Capabilities":[{"Enabled":false,"Name":"VideoRecording","Options":null}]}
+               regex = new Regex("Sending SystemCapabilitiesMessage to application: (?<json>.*)");
+               m = regex.Match(subLogLine);
+               if (m.Success)
+               {
+                  IsRecognized = true;
+                  RestResource = "SystemCapabilities";
+                  MessageBody = m.Groups["json"].Value;
+                  CommunicationResult_Comment = "SENDING";
+               }
+
+               //There is no connection to the application.  Failed to send SystemCapabilitiesMessage: {"Capabilities":[{"Enabled":false,"Name":"VideoRecording","Options":null}]}
+               regex = new Regex("There is no connection to the application.  Failed to send SystemCapabilitiesMessage: (?<json>.*)");
+               m = regex.Match(subLogLine);
+               if (m.Success)
+               {
+                  IsRecognized = true;
+                  RestResource = "SystemCapabilities";
+                  MessageBody = m.Groups["json"].Value;
+                  CommunicationResult_Comment = "SENDING FAILED";
+                  ApplicationConnectionState = "NO CONNECTION";
+               }
+
+               regex = new Regex("The teller session has ended so the most recent teller session ID \\((?<id>.*)\\) will be used");
+               m = regex.Match(subLogLine);
+               if (m.Success)
+               {
+                  IsRecognized = true;
+                  // TODO
+               }
+
 
                // INTERNAL AGENT COMMS
 
@@ -401,13 +448,14 @@ namespace LogLineHandler
                //Firing agent message event: TellerSessionRequest - POST - {"Id":0,"AssetName":"WI000902","Timestamp":"2023-11-13T08:06:23.8980976-06:00","CustomerId":"","FlowPoint":"Common-RequestAssistance","RequestContext":"TellerIdentificationButton","ApplicationState":"PostIdle","TransactionType":"","Language":"English","VoiceGuidance":false,"RoutingProfile":{"SupportedCallType":"BeeHD"}}
                //Firing agent message event: EnabledDeviceList - POST - PIN,CDM,DOR,IDC,SPR,GUD,SNS,IND,AUX,VDM,IDS,MMA
                //Firing agent message event: AssistRequest - POST - {"CustomerId":"","FlowPoint":"Common-RequestAssistance","ApplicationState":"PostIdle","TransactionType":null,"Language":"English","VoiceGuidance":false,"Id":0,"AssetName":"WI000902","TellerSessionId":147534,"TransactionDetail":null,"Timestamp":"2023-11-13T08:07:23.4869909-06:00","TellerInfo":null}
+               //Firing agent message event: CustomerReviewRequest - POST - {"Warnings":[{"Code":"Warning Code","Description":"76","RequestId":0},{"Code":"Warning Code","Description":"44","RequestId":0},{"Code":"Warning Code","Description":"106","RequestId":0},{"Code":"Warning Code","Description":"52","RequestId":0}],"CustomerId":"0000671037","FlowPoint":"Common-ProcessCustomerReview","ApplicationState":"PostIdle","TransactionType":"CustomerIdentification","Language":"English","VoiceGuidance":false,"Id":0,"AssetName":"21PLEA03D","TellerSessionId":18936,"TransactionDetail":null,"Timestamp":"2023-11-17T10:24:02.4160073-06:00","TellerInfo":null}
                searchFor = "Firing agent message event: <RESOURCETYPE> - <HTTPREQUEST> - <MESSAGEBODY>";
 
                regex = new Regex("Firing agent message event: (?<resourcetype>.*) - (?<httprequest>.*) - (?<body>.*)?$");
                m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
+                  IsRecognized = true;
                   RestResource = m.Groups["resourcetype"].Value;
                   HttpRequest = m.Groups["httprequest"].Value;
                   MessageBody = m.Groups["body"].Value;
@@ -418,7 +466,7 @@ namespace LogLineHandler
                m = regex.Match(subLogLine);
                if (m.Success)
                {
-                  isRecognized = true;
+                  IsRecognized = true;
 
                   dynamic dynamicSending = JsonConvert.DeserializeObject<ExpandoObject>(m.Groups["requestjson"].ToString(), new ExpandoObjectConverter());
 
@@ -521,6 +569,12 @@ namespace LogLineHandler
                         }
                         break;
 
+                     case "TellerSessionUnavailableMessage":
+                        //2023-11-17 18:23:07 [MoniPlus2sExtension] Sending TellerSessionUnavailableMessage to application: {}
+
+                        TellerInfo_Summary = "No teller is available";
+                        break;
+
                      case "AssistRequest":
 
                         //{"CustomerId":"","FlowPoint":"Common-RequestAssistance","ApplicationState":"PostIdle","TransactionType":null,"Language":"English","VoiceGuidance":false,"Id":0,"AssetName":"WI000902","TellerSessionId":147534,"TransactionDetail":null,"Timestamp":"2023-11-13T08:07:23.4869909-06:00","TellerInfo":null}
@@ -589,6 +643,30 @@ namespace LogLineHandler
                         catch (Exception ex)
                         {
                            throw new Exception($"AELogLine.MoniPlus2sExtension: failed to deserialize TellerInfo Json payload for log line '{logLine}'\n{ex}");
+                        }
+                        break;
+
+                     case "AssistanceMessage":
+                        //{"TellerInfo":{"ClientSessionId":3944,"TellerName":"Julianna","VideoConferenceUri":"10.22.5.72","TellerId":"jmckenzie"}}
+
+                        jsonPayload = MessageBody;
+
+                        try
+                        {
+                           dynamic dynamicTellerAssistanceMessage = JsonConvert.DeserializeObject<ExpandoObject>(jsonPayload, new ExpandoObjectConverter());
+
+                           //"TellerInfo":{
+                           // "ClientSessionId":6782,
+                           // "TellerName":"Andrea",
+                           // "VideoConferenceUri":"10.206.20.47",
+                           // "TellerId":"aspringman"
+                           //}
+
+                           TellerInfo_Summary = ProcessTellerInfo(dynamicTellerAssistanceMessage.TellerInfo);
+                        }
+                        catch (Exception ex)
+                        {
+                           throw new Exception($"AELogLine.MoniPlus2sExtension: failed to deserialize TellerAssistanceMessage Json payload for log line '{logLine}'\n{ex}");
                         }
                         break;
 
@@ -1158,6 +1236,78 @@ namespace LogLineHandler
                         }
                         break;
 
+                     case "SystemCapabilities":
+
+                        jsonPayload = MessageBody;
+
+                        try
+                        {
+                           //{"Capabilities":[{"Enabled":false,"Name":"VideoRecording","Options":null}]}
+                           dynamic dynamicCapabilities = JsonConvert.DeserializeObject<ExpandoObject>(jsonPayload, new ExpandoObjectConverter());
+
+                           bool enabled = (bool) dynamicCapabilities.Capabilities[0].Enabled;
+                           string name = dynamicCapabilities.Capabilities[0].Name;
+                           string options = dynamicCapabilities.Capabilities[0].Options;
+
+                           ApplicationState = $"CAPABILITY {name} {(enabled? "ENABLED" : "DISABLED")}{(!string.IsNullOrEmpty(options) ? " ," + options : string.Empty)}";
+                        }
+                        catch (Exception ex)
+                        {
+                           throw new Exception($"AELogLine.MoniPlus2sExtension: failed to deserialize TransactionReviewRequest Json payload for log line '{logLine}'\n{ex}");
+                        }
+                        break;
+
+                     case "CustomerReviewRequest":
+                        //{"Warnings":[
+                        //{"Code":"Warning Code","Description":"76","RequestId":0},
+                        //{"Code":"Warning Code","Description":"44","RequestId":0},
+                        //{"Code":"Warning Code","Description":"106","RequestId":0},
+                        //{"Code":"Warning Code","Description":"52","RequestId":0}
+                        //],
+                        //"CustomerId":"0000671037",
+                        //"FlowPoint":"Common-ProcessCustomerReview",
+                        //"ApplicationState":"PostIdle",
+                        //"TransactionType":"CustomerIdentification",
+                        //"Language":"English",
+                        //"VoiceGuidance":false,
+                        //"Id":0,
+                        //"AssetName":"21PLEA03D",
+                        //"TellerSessionId":18936,
+                        //"TransactionDetail":null,
+                        //"Timestamp":"2023-11-17T10:24:02.4160073-06:00",
+                        //"TellerInfo":null}
+
+                        jsonPayload = MessageBody;
+
+                        try
+                        {
+                           dynamic dynamicReviewRequest = JsonConvert.DeserializeObject<ExpandoObject>(jsonPayload, new ExpandoObjectConverter());
+
+                           ApplicationState = $"TODO: {MessageBody}";
+                        }
+                        catch (Exception ex)
+                        {
+                           throw new Exception($"AELogLine.MoniPlus2sExtension: failed to deserialize CustomerReviewRequest Json payload for log line '{logLine}'\n{ex}");
+                        }
+                        break;
+
+                     case "CustomerReviewResponse":
+                        //{"TellerApproval":{"Approval":2},"Id":216381,"AssetName":"21PLEA03D","TellerSessionId":18936,"TransactionDetail":null,"Timestamp":"2023-11-17T10:28:35.1401239-06:00","TellerInfo":{"ClientSessionId":3880,"TellerName":"Alyssa","VideoConferenceUri":"192.168.20.25","TellerId":"ahall"}}'
+
+                        jsonPayload = MessageBody;
+
+                        try
+                        {
+                           dynamic dynamicReviewResponse = JsonConvert.DeserializeObject<ExpandoObject>(jsonPayload, new ExpandoObjectConverter());
+
+                           ApplicationState = $"TODO: {MessageBody}";
+                        }
+                        catch (Exception ex)
+                        {
+                           throw new Exception($"AELogLine.MoniPlus2sExtension: failed to deserialize CustomerReviewResponse Json payload for log line '{logLine}'\n{ex}");
+                        }
+                        break;
+
                      default:
                         throw new Exception($"AELogLine.MoniPlus2sExtension: did not handle Resource '{RestResource}'for log line '{logLine}'\n");
                   }
@@ -1165,7 +1315,7 @@ namespace LogLineHandler
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"AELogLine.MoniPlus2sExtension: did not recognize the log line '{logLine}'");
          }

@@ -353,7 +353,7 @@ namespace ATLogLineTests
 
       [TestMethod]
       [ExpectedException(typeof(Exception))]
-      public void ServerRequests_Unsupported()
+      public void ServerRequests_Unsupported_ExceptionThrown()
       {
          string sampleLine = @"2023-11-17 03:00:21 Server message unsupported text";
 

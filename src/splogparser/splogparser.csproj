@@ -88,4 +88,14 @@
     <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\$(MSBuildProjectName).exe" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\CommandLine.dll" $(SolutionDir)\..\dist</PostBuildEvent>
   </PropertyGroup>
+  <Target Name="DeleteFiles" AfterTargets="Clean">
+    <ItemGroup>
+      <FilesToDelete Include="$(SolutionDir)\..\dist\*.dll" />
+    </ItemGroup>
+    <Message Text="Deleting Files @(FilesToDelete)" />
+    <Delete Files="@(FilesToDelete)">
+      <Output TaskParameter="DeletedFiles" ItemName="FilesDeleted" />
+    </Delete>
+    <Message Text="Files deleted: @(FilesDeleted)" />
+  </Target>
 </Project>

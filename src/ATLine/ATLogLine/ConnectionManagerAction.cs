@@ -21,8 +21,6 @@ namespace LogLineHandler
          RegistrationException
       }
 
-      bool isRecognized = false;
-
       public ConnectionManagerActionEnum state { get; set; }
       public string deviceId { get; set; }
       public string macAddress { get; set; }
@@ -57,62 +55,62 @@ namespace LogLineHandler
 
             if (subLogLine.StartsWith("thread starting"))
             {
-               isRecognized = true;
+               IsRecognized = true;
                state = ConnectionManagerActionEnum.ManagerThreadStarting;
             }
 
             else if (subLogLine.StartsWith("registering client using device id"))
             {
-               isRecognized = true;
+               IsRecognized = true;
                state = ConnectionManagerActionEnum.RegisteringClient;
                deviceId = subLogLine.Substring(subLogLine.LastIndexOf(" ") + 1);
             }
 
             else if (subLogLine.StartsWith("registering asset using MAC Address"))
             {
-               isRecognized = true;
+               IsRecognized = true;
                state = ConnectionManagerActionEnum.RegisteringAssetUsingMAC;
                macAddress = subLogLine.Substring(subLogLine.LastIndexOf(" ") + 1);
             }
 
             else if (subLogLine.StartsWith("registration exception"))
             {
-               isRecognized = true;
+               IsRecognized = true;
                state = ConnectionManagerActionEnum.RegistrationException;
             }
 
             else if (subLogLine.StartsWith("preparing the ActiveTeller connection"))
             {
-               isRecognized = true;
+               IsRecognized = true;
                state = ConnectionManagerActionEnum.PreparingActiveTellerConnection;
             }
 
             else if (subLogLine.StartsWith("configuring the ActiveTeller hub proxy"))
             {
-               isRecognized = true;
+               IsRecognized = true;
                state = ConnectionManagerActionEnum.ConfiguringActiveTellerHubProxy;
             }
 
             else if (subLogLine.StartsWith("initiating ActiveTeller connection"))
             {
-               isRecognized = true;
+               IsRecognized = true;
                state = ConnectionManagerActionEnum.InitiatingActiveTellerConnection;
             }
          }
 
          else if (logLine.Contains("Attempting to contact the ActiveTeller server"))
          {
-            isRecognized = true;
+            IsRecognized = true;
             state = ConnectionManagerActionEnum.AttemptingActiveTellerServerContact;
          }
 
          else if (logLine.Contains("Successfully contacted the ActiveTeller server"))
          {
-            isRecognized = true;
+            IsRecognized = true;
             state = ConnectionManagerActionEnum.ActiveTellerServerContacted;
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"ATLogLine.ConnectionManagerAction: did not recognize the log line '{logLine}'");
          }

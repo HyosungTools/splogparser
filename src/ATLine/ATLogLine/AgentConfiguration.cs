@@ -7,8 +7,6 @@ namespace LogLineHandler
 {
    public class AgentConfiguration : ATLine
    {
-      bool isRecognized = false;
-
       public string serverUrl { get; set; }
       public long reconnectInterval { get; set; }
 
@@ -35,7 +33,7 @@ namespace LogLineHandler
             Match m = regex.Match(subLogLine);
             if (m.Success)
             {
-               isRecognized = true;
+               IsRecognized = true;
                serverUrl = m.Groups["url"].Value;
             }
 
@@ -44,12 +42,12 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               isRecognized = true;
+               IsRecognized = true;
                reconnectInterval = long.Parse(m.Groups["interval"].Value);
             }
          }
 
-         if (!isRecognized)
+         if (!IsRecognized)
          {
             throw new Exception($"ATLogLine.AgentConfiguration: did not recognize the log line '{logLine}'");
          }

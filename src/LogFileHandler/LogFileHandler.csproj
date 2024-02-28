@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AELogHandler.cs" />
+    <Compile Include="AVLogHandler.cs" />
     <Compile Include="AWLogHandler.cs" />
     <Compile Include="ATLogHandler.cs" />
     <Compile Include="APLogHandler.cs" />
@@ -64,6 +65,10 @@
     <ProjectReference Include="..\ATLine\ATLogLine\ATLogLine.csproj">
       <Project>{b5af3249-8e88-422f-829d-2a26d6a9072b}</Project>
       <Name>ATLogLine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AVLine\AVLogLine\AVLogLine.csproj">
+      <Project>{850679c2-9f71-4927-b188-aa5c1f42672d}</Project>
+      <Name>AVLogLine</Name>
     </ProjectReference>
     <ProjectReference Include="..\AWLine\AWLogLine\AWLogLine.csproj">
       <Project>{512e54f5-1e15-4dae-9d74-79c87afba9f6}</Project>

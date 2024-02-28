@@ -20,6 +20,9 @@ namespace splogparser
       [Option('w', "atworkstation", Default = "x", Required = false, HelpText = "Parse Active Teller Workstation logs.")]
       public string AWViews { get; set; }
 
+      [Option('v', "atserver", Default = "x", Required = false, HelpText = "Parse Active Teller Server logs.")]
+      public string AVViews { get; set; }
+
       [Option('s', "sp", Default = "x", Required = false, HelpText = "Parse Service Provider logs.")]
       public string SPViews { get; set; }
 
@@ -37,6 +40,7 @@ namespace splogparser
       public bool IsAT { get { return ATViews != "x"; } }
       public bool IsAE { get { return AEViews != "x"; } }
       public bool IsAW { get { return AWViews != "x"; } }
+      public bool IsAV { get { return AVViews != "x"; } }
       public bool IsSP { get { return SPViews != "x"; } }
       public bool IsRT { get { return RTViews != "x"; } }
       public bool IsSS { get { return SSViews != "x"; } }
@@ -50,7 +54,8 @@ namespace splogparser
               ( (IsRT && parseType == ParseType.RT) && (RTViews.Contains(viewName) || RTViews.Contains("*"))) ||
               ( (IsAE && parseType == ParseType.AE) && (AEViews.Contains(viewName) || AEViews.Contains("*"))) ||
               ( (IsAT && parseType == ParseType.AT) && (ATViews.Contains(viewName) || ATViews.Contains("*"))) ||
-              ( (IsAW && parseType == ParseType.AW) && (AWViews.Contains(viewName) || AWViews.Contains("*")))
+              ( (IsAW && parseType == ParseType.AW) && (AWViews.Contains(viewName) || AWViews.Contains("*"))) ||
+              ( (IsAV && parseType == ParseType.AV) && (AVViews.Contains(viewName) || AVViews.Contains("*")))
             );
       }
 
@@ -66,6 +71,7 @@ namespace splogparser
          if (IsAT) suffix += _Suffix("__AT", ATViews);
          if (IsAE) suffix += _Suffix("__AE", AEViews);
          if (IsAW) suffix += _Suffix("__AW", AWViews);
+         if (IsAV) suffix += _Suffix("__AV", AVViews);
          if (IsSP) suffix += _Suffix("__SP", SPViews);
          if (IsRT) suffix += _Suffix("__RT", RTViews);
          if (IsSS) suffix += _Suffix("__SS", RTViews);

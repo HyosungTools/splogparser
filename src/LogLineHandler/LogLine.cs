@@ -33,6 +33,11 @@ namespace LogLineHandler
       // my logLine
       public string logLine;
 
+      // whether the log line is recognized (parsed)
+      public bool IsRecognized { get; set; } = false;
+
+      public bool ThrowExceptionIfNotRecognized { get; set; } = false;
+
       public LogLine(ILogFileHandler parent, string logLine)
       {
          parentHandler = parent;
