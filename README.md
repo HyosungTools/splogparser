@@ -49,13 +49,15 @@ This will error reporting you need to enter command line options.
 
 #### CommandLine Options
 
-First, you always need to specify the target (e.g. zip) file. This command runs without errors:
+First, you always need to specify the target, which can be a folder or a file with .zip extension.  The wildcard filename patterns are listed in the *Parse Types* table.  If the target folder contains many matching files, the scan can take a very long time.
+
+This command runs without errors:
 
 ```text
 splogparser -f 20221116175903.zip
 ```
 
-But this will *do nothing* because you havent said what you want it to do. You need to add (one or more) *Parse Types* and (one or more) *Views* to generate. For example, to get a complete parse of the SP logs you can type:
+But this will *do nothing* because you haven't said what you want it to do. You need to add (one or more) *Parse Types* and (one or more) *Views* to generate. For example, to get a complete parse of the SP logs you can type:
 
 ```text
 splogparser -s * -f 20221116175903.zip
@@ -68,6 +70,7 @@ splogparser -s CDM,CIM -f 20221116175903.zip
 ```
 
 In this case the output file would be `20221116175903__SP_CDM_CIM.xlsx`.
+
 
 ### Parse Types
 
