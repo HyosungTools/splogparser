@@ -54,25 +54,25 @@
     <Compile Include="SSLogHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\splogparser-beehd\src\AELine\AELogLine\AELogLine.csproj">
+    <ProjectReference Include="..\AELine\AELogLine\AELogLine.csproj">
       <Project>{1b515233-5a88-43c0-b02f-5f8a3d481cf8}</Project>
       <Name>AELogLine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\splogparser-beehd\src\ATLine\ATLogLine\ATLogLine.csproj">
-      <Project>{b5af3249-8e88-422f-829d-2a26d6a9072b}</Project>
-      <Name>ATLogLine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\splogparser-beehd\src\AVLine\AVLogLine\AVLogLine.csproj">
-      <Project>{850679c2-9f71-4927-b188-aa5c1f42672d}</Project>
-      <Name>AVLogLine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\splogparser-beehd\src\AWLine\AWLogLine\AWLogLine.csproj">
-      <Project>{512e54f5-1e15-4dae-9d74-79c87afba9f6}</Project>
-      <Name>AWLogLine</Name>
     </ProjectReference>
     <ProjectReference Include="..\APLine\APLogLine.csproj">
       <Project>{79fe7807-0694-473c-8dd5-7d7013e14edf}</Project>
       <Name>APLogLine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATLine\ATLogLine\ATLogLine.csproj">
+      <Project>{b5af3249-8e88-422f-829d-2a26d6a9072b}</Project>
+      <Name>ATLogLine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AVLine\AVLogLine\AVLogLine.csproj">
+      <Project>{850679c2-9f71-4927-b188-aa5c1f42672d}</Project>
+      <Name>AVLogLine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AWLine\AWLogLine\AWLogLine.csproj">
+      <Project>{512e54f5-1e15-4dae-9d74-79c87afba9f6}</Project>
+      <Name>AWLogLine</Name>
     </ProjectReference>
     <ProjectReference Include="..\BELine\BELogLine.csproj">
       <Project>{9c7b3c9d-b324-4f6e-acd7-5f8597e456b2}</Project>

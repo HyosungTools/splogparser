@@ -47,23 +47,23 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AVLine\AVLogLine\AVLogLine.csproj">
+    <ProjectReference Include="..\AVLine\AVLogLine\AVLogLine.csproj">
       <Project>{850679c2-9f71-4927-b188-aa5c1f42672d}</Project>
       <Name>AVLogLine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\BaseView\BaseView.csproj">
+    <ProjectReference Include="..\BaseView\BaseView.csproj">
       <Project>{db43982d-e960-4dba-83ef-1bb6e7a60a49}</Project>
       <Name>BaseView</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Contract\Contract.csproj">
+    <ProjectReference Include="..\Contract\Contract.csproj">
       <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
       <Name>Contract</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Impl\Impl.csproj">
+    <ProjectReference Include="..\Impl\Impl.csproj">
       <Project>{f89403e5-4c5c-4d8f-8401-b2d56f6d8a2b}</Project>
       <Name>Impl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\LogLineHandler\LogLineHandler.csproj">
+    <ProjectReference Include="..\LogLineHandler\LogLineHandler.csproj">
       <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>
       <Name>LogLineHandler</Name>
     </ProjectReference>
