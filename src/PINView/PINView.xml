@@ -221,6 +221,76 @@
     <description></description>
   </Messages>
   
+  <Messages>
+    <type>wCompletion</type>
+    <code>0</code>
+    <brief>auto</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+    <type>wCompletion</type>
+    <code>1</code>
+    <brief>enter</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+    <type>wCompletion</type>
+    <code>2</code>
+    <brief>cancel</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+    <type>wCompletion</type>
+    <code>6</code>
+    <brief>continue</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+    <type>wCompletion</type>
+    <code>7</code>
+    <brief>clear</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+    <type>wCompletion</type>
+    <code>8</code>
+    <brief>back</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+    <type>wCompletion</type>
+    <code>9</code>
+    <brief>FDK</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+    <type>wCompletion</type>
+    <code>10</code>
+    <brief>help</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+    <type>wCompletion</type>
+    <code>11</code>
+    <brief>FK</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+    <type>wCompletion</type>
+    <code>12</code>
+    <brief>contFDK</brief>
+    <description></description>
+  </Messages>
+  
   <!-- error -->
   
   <Messages>	

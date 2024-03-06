@@ -72,7 +72,7 @@ namespace SPLogLineTests
          Assert.IsTrue(spLine.bReadWriteAccessFollowingEject == "0");
          Assert.IsTrue(spLine.fwWriteMode == "0");
          Assert.IsTrue(spLine.fwChipPower == "12");
-         Assert.IsTrue(spLine.lpszExtra == "AttemptMSReadFirst=0,XFS_MIB_VERSION=0x00000A01");
+         Assert.IsTrue(spLine.lpszExtra2 == "AttemptMSReadFirst=0,XFS_MIB_VERSION=0x00000A01");
          Assert.IsTrue(spLine.fwDIPMode == "0");
          Assert.IsTrue(spLine.lpwMemoryChipProtocols == "NULL");
          Assert.IsTrue(spLine.fwEjectPosition == "0");
@@ -453,6 +453,110 @@ namespace SPLogLineTests
          Assert.IsTrue(spLine.Timestamp == "2023-01-24 03:02:10.462");
          Assert.IsTrue(spLine.HResult == "");
       }
+
+      [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFS_CMD_PIN_GET_PIN()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_pin.WFS_CMD_PIN_GET_PIN);
+         Assert.IsTrue(logLine is WFSPINGETPIN);
+
+         WFSPINGETPIN spLine = (WFSPINGETPIN)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_CMD_PIN_GET_PIN);
+         Assert.IsTrue(spLine.Timestamp == "2024-01-31 19:21:42.844");
+         Assert.IsTrue(spLine.HResult == "");
+
+         Assert.IsTrue(spLine.wCompletion == "1");
+         Assert.IsTrue(spLine.usDigits == "4");
+      }
+
+      [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFS_CMD_PIN_GET_PIN_2()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_pin.WFS_CMD_PIN_GET_PIN_2);
+         Assert.IsTrue(logLine is WFSPINGETPIN);
+
+         WFSPINGETPIN spLine = (WFSPINGETPIN)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_CMD_PIN_GET_PIN);
+         Assert.IsTrue(spLine.Timestamp == "2024-01-16 09:11:56.394");
+         Assert.IsTrue(spLine.HResult == "");
+
+         Assert.IsTrue(spLine.wCompletion == "1");
+         Assert.IsTrue(spLine.usDigits == "4");
+      }
+
+      [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFS_CMD_PIN_GET_PINBLOCK()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_pin.WFS_CMD_PIN_GET_PINBLOCK);
+         Assert.IsTrue(logLine is SPLine);
+
+         SPLine spLine = (SPLine)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_CMD_PIN_GET_PINBLOCK);
+         Assert.IsTrue(spLine.Timestamp == "2024-01-31 19:21:43.433");
+         Assert.IsTrue(spLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFS_CMD_PIN_GET_DATA()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_pin.WFS_CMD_PIN_GET_DATA);
+         Assert.IsTrue(logLine is SPLine);
+
+         SPLine spLine = (SPLine)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_CMD_PIN_GET_DATA);
+         Assert.IsTrue(spLine.Timestamp == "2024-02-28 21:24:23.209");
+         Assert.IsTrue(spLine.HResult == "-4");
+      }
+
+      [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFS_CMD_PIN_RESET()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_pin.WFS_CMD_PIN_RESET);
+         Assert.IsTrue(logLine is SPLine);
+
+         SPLine spLine = (SPLine)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_CMD_PIN_RESET);
+         Assert.IsTrue(spLine.Timestamp == "2024-01-26 16:46:02.043");
+         Assert.IsTrue(spLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFS_EXEE_PIN_KEY()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_pin.WFS_EXEE_PIN_KEY);
+         Assert.IsTrue(logLine is WFSPINKEY);
+
+         WFSPINKEY spLine = (WFSPINKEY)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_EXEE_PIN_KEY);
+         Assert.IsTrue(spLine.Timestamp == "2024-01-16 09:16:06.205");
+         Assert.IsTrue(spLine.HResult == "");
+
+         Assert.IsTrue(spLine.wCompletion == "6");
+         Assert.IsTrue(spLine.ulDigit == "0");
+      }
+
+      [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFS_EXEE_PIN_KE2()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_pin.WFS_EXEE_PIN_KEY_2);
+         Assert.IsTrue(logLine is WFSPINKEY);
+
+         WFSPINKEY spLine = (WFSPINKEY)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_EXEE_PIN_KEY);
+         Assert.IsTrue(spLine.Timestamp == "2024-03-01 18:52:53.336");
+         Assert.IsTrue(spLine.HResult == "");
+
+         Assert.IsTrue(spLine.wCompletion == "6");
+         Assert.IsTrue(spLine.ulDigit == "0");
+      }
+
 
       /* 5 - CHK  - Ignore */
       [Ignore]

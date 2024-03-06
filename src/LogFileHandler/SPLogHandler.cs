@@ -78,6 +78,72 @@ namespace LogFileHandler
       /* 4 - PIN */
       /* INFO */
       static Regex WFS_INF_PIN_STATUS = new Regex("GETINFO.401.[0-9]+WFS_GETINFO_COMPLETE");
+      static Regex WFS_INF_PIN_CAPABILITIES = new Regex("GETINFO.402.[0-9]+WFS_GETINFO_COMPLETE");
+      static Regex WFS_INF_PIN_KEY_DETAIL = new Regex("GETINFO.404.[0-9]+WFS_GETINFO_COMPLETE");
+      static Regex WFS_INF_PIN_FUNCKEY_DETAIL = new Regex("GETINFO.405.[0-9]+WFS_GETINFO_COMPLETE");
+      static Regex WFS_INF_PIN_HSM_TDATA = new Regex("GETINFO.406.[0-9]+WFS_GETINFO_COMPLETE");
+      static Regex WFS_INF_PIN_KEY_DETAIL_EX = new Regex("GETINFO.407.[0-9]+WFS_GETINFO_COMPLETE");
+      static Regex WFS_INF_PIN_SECUREKEY_DETAIL = new Regex("GETINFO.408.[0-9]+WFS_GETINFO_COMPLETE");
+      static Regex WFS_INF_PIN_QUERY_LOGICAL_HSM_DETAIL = new Regex("GETINFO.409.[0-9]+WFS_GETINFO_COMPLETE");
+      static Regex WFS_INF_PIN_QUERY_PCIPTS_DEVICE_ID = new Regex("GETINFO.410.[0-9]+WFS_GETINFO_COMPLETE");
+
+      static Regex WFS_CMD_PIN_CRYPT = new Regex("EXECUTE.401.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_IMPORT_KEY = new Regex("EXECUTE.403.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_GET_PIN = new Regex("EXECUTE.405.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_GET_PINBLOCK = new Regex("EXECUTE.407.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_GET_DATA = new Regex("EXECUTE.408.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_INITIALIZATION = new Regex("EXECUTE.409.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_LOCAL_DES = new Regex("EXECUTE.410.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_LOCAL_EUROCHEQUE = new Regex("EXECUTE.411.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_LOCAL_VISA = new Regex("EXECUTE.412.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_CREATE_OFFSET = new Regex("EXECUTE.413.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_DERIVE_KEY = new Regex("EXECUTE.414.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_PRESENT_IDC = new Regex("EXECUTE.415.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_LOCAL_BANKSYS = new Regex("EXECUTE.416.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_BANKSYS_IO = new Regex("EXECUTE.417.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_RESET = new Regex("EXECUTE.418.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_HSM_SET_TDATA = new Regex("EXECUTE.419.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_SECURE_MSG_SEND = new Regex("EXECUTE.420.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_SECURE_MSG_RECEIVE = new Regex("EXECUTE.421.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_GET_JOURNAL = new Regex("EXECUTE.422.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_IMPORT_KEY_EX = new Regex("EXECUTE.423.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_ENC_IO = new Regex("EXECUTE.424.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_HSM_INIT = new Regex("EXECUTE.425.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_IMPORT_RSA_PUBLIC_KEY = new Regex("EXECUTE.426.[0-9]+WFS_EXECUTE_COMPLETE");
+
+      static Regex WFS_CMD_PIN_EXPORT_RSA_ISSUER_SIGNED_ITEM = new Regex("EXECUTE.427.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_IMPORT_RSA_SIGNED_DES_KEY = new Regex("EXECUTE.428.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_GENERATE_RSA_KEY_PAIR = new Regex("EXECUTE.429.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_EXPORT_RSA_EPP_SIGNED_ITEM = new Regex("EXECUTE.430.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_LOAD_CERTIFICATE = new Regex("EXECUTE.431.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_GET_CERTIFICATE = new Regex("EXECUTE.432.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_REPLACE_CERTIFICATE = new Regex("EXECUTE.433.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_START_KEY_EXCHANGE = new Regex("EXECUTE.434.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_IMPORT_RSA_ENCIPHERED_PKCS7_KEY = new Regex("EXECUTE.435.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_EMV_IMPORT_PUBLIC_KEY = new Regex("EXECUTE.436.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_DIGEST = new Regex("EXECUTE.437.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_SECUREKEY_ENTRY = new Regex("EXECUTE.438.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_GENERATE_KCV = new Regex("EXECUTE.439.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_SET_GUIDANCE_LIGHT = new Regex("EXECUTE.441.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_MAINTAIN_PIN = new Regex("EXECUTE.442.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_KEYPRESS_BEEP = new Regex("EXECUTE.443.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_SET_PINBLOCK_DATA = new Regex("EXECUTE.444.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_SET_LOGICAL_HSM = new Regex("EXECUTE.445.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_IMPORT_KEYBLOCK = new Regex("EXECUTE.446.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_PIN_POWER_SAVE_CONTROL = new Regex("EXECUTE.447.[0-9]+WFS_EXECUTE_COMPLETE");
+
+
+      static Regex WFS_EXEE_PIN_KEY = new Regex("EXECUTE_EVENT.401.[0-9]+WFS_EXECUTE_EVENT");
+      static Regex WFS_SRVE_PIN_INITIALIZED = new Regex("SERVICE_EVENT.402.[0-9]+WFS_SERVICE_EVENT");
+      static Regex WFS_SRVE_PIN_ILLEGAL_KEY_ACCESS = new Regex("SERVICE_EVENT.403.[0-9]+WFS_SERVICE_EVENT");
+      static Regex WFS_SRVE_PIN_OPT_REQUIRED = new Regex("SERVICE_EVENT.404.[0-9]+WFS_SERVICE_EVENT");
+      static Regex WFS_SRVE_PIN_HSM_TDATA_CHANGED = new Regex("SERVICE_EVENT.405.[0-9]+WFS_SERVICE_EVENT");
+      static Regex WFS_SRVE_PIN_CERTIFICATE_CHANGE = new Regex("SERVICE_EVENT.406.[0-9]+WFS_SERVICE_EVENT");
+      static Regex WFS_SRVE_PIN_HSM_CHANGED = new Regex("SERVICE_EVENT.407.[0-9]+WFS_SERVICE_EVENT");
+      static Regex WFS_EXEE_PIN_ENTERDATA = new Regex("EXECUTE_EVENT.408.[0-9]+WFS_EXECUTE_EVENT");
+      static Regex WFS_SRVE_PIN_DEVICEPOSITION = new Regex("SERVICE_EVENT.409.[0-9]+WFS_SERVICE_EVENT");
+      static Regex WFS_SRVE_PIN_POWER_SAVE_CHANGE = new Regex("SERVICE_EVENT.410.[0-9]+WFS_SERVICE_EVENT");
+
 
       /* 5 - CHK */
       /* INFO */
@@ -385,6 +451,25 @@ namespace LogFileHandler
             /* Test for INFO */
             result = GenericMatch(WFS_INF_PIN_STATUS, logLine);
             if (result.success) return new WFSPINSTATUS(this, result.subLogLine, XFSType.WFS_INF_PIN_STATUS);
+
+            result = GenericMatch(WFS_CMD_PIN_GET_PIN, logLine);
+            if (result.success) return new WFSPINGETPIN(this, result.subLogLine);
+
+            result = GenericMatch(WFS_CMD_PIN_GET_PINBLOCK, logLine);
+            if (result.success) return new SPLine(this, result.subLogLine, XFSType.WFS_CMD_PIN_GET_PINBLOCK);
+
+            result = GenericMatch(WFS_CMD_PIN_GET_DATA, logLine);
+            if (result.success) return new SPLine(this, result.subLogLine, XFSType.WFS_CMD_PIN_GET_DATA);
+
+            result = GenericMatch(WFS_CMD_PIN_RESET, logLine);
+            if (result.success) return new SPLine(this, result.subLogLine, XFSType.WFS_CMD_PIN_RESET);
+
+            result = GenericMatch(WFS_EXEE_PIN_KEY, logLine);
+            if (result.success) return new WFSPINKEY(this, result.subLogLine);
+
+
+
+
          }
 
          /* 5 - CHK */

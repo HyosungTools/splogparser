@@ -18,7 +18,7 @@ namespace LogLineHandler
       public string bReadWriteAccessFollowingEject { get; set; }
       public string fwWriteMode { get; set; }
       public string fwChipPower { get; set; }
-      public string lpszExtra { get; set; }
+      public string lpszExtra2 { get; set; }
       public string fwDIPMode { get; set; }
       public string lpwMemoryChipProtocols { get; set; }
       public string fwEjectPosition { get; set; }
@@ -75,8 +75,8 @@ namespace LogLineHandler
          result = fwChipPowerFromIDCCapabilities(logLine);
          if (result.success) fwChipPower = result.xfsMatch.Trim();
 
-         result = lpszExtraFromIDCCapabilities(logLine);
-         if (result.success) lpszExtra = result.xfsMatch.Trim();
+         result = lpszExtra2FromIDCCapabilities(logLine);
+         if (result.success) lpszExtra2 = result.xfsMatch.Trim();
 
          result = fwDIPModeFromIDCCapabilities(logLine);
          if (result.success) fwDIPMode = result.xfsMatch.Trim();
@@ -162,7 +162,7 @@ namespace LogLineHandler
          return Util.MatchList(logLine, "fwChipPower = \\[(.*)\\]", "0");
       }
 
-      protected static (bool success, string xfsMatch, string subLogLine) lpszExtraFromIDCCapabilities(string logLine)
+      protected static (bool success, string xfsMatch, string subLogLine) lpszExtra2FromIDCCapabilities(string logLine)
       {
          return Util.MatchList(logLine, "lpszExtra = \\[(.*)\\]", "0");
       }
