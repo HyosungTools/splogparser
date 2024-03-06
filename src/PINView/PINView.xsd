@@ -8,18 +8,21 @@
             <xs:sequence>
               <xs:element name="file" type="xs:string" minOccurs="0" />
               <xs:element name="time" type="xs:string" minOccurs="0" />
-              <xs:element name="error" type="xs:string" minOccurs="0" />              
-			  <xs:element name="device" type="xs:string" minOccurs="0" />
-			  <xs:element name="encstat" type="xs:string" minOccurs="0" />			  
-			  <xs:element name="autobeepmode" type="xs:string" minOccurs="0" />
-			  <xs:element name="certificatestate" type="xs:string" minOccurs="0" />
-			  <xs:element name="deviceposition" type="xs:string" minOccurs="0" />
-			  <xs:element name="powersaverecoverytime" type="xs:string" minOccurs="0" />
-			  <xs:element name="antifraudmodule" type="xs:string" minOccurs="0" />			  		  
-			  <xs:element name="comment" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="device" type="xs:string" minOccurs="0" />
+              <xs:element name="encstat" type="xs:string" minOccurs="0" />
+              <xs:element name="autobeepmode" type="xs:string" minOccurs="0" />
+              <xs:element name="certificatestate" type="xs:string" minOccurs="0" />
+              <xs:element name="deviceposition" type="xs:string" minOccurs="0" />
+              <xs:element name="powersaverecoverytime" type="xs:string" minOccurs="0" />
+              <xs:element name="antifraudmodule" type="xs:string" minOccurs="0" />
+              <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="completion" type="xs:string" minOccurs="0" />
+              <xs:element name="fkfdk" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
-        </xs:element>			
+        </xs:element>
       </xs:choice>
     </xs:complexType>
   </xs:element>

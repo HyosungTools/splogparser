@@ -54,6 +54,8 @@
     <Compile Include="WFSIDCCAPABILITIES.cs" />
     <Compile Include="WFSIDCMEDIADETECTED.cs" />
     <Compile Include="WFSIDCRETAINBINTHRESHOLD.cs" />
+    <Compile Include="WFSPINGETPIN.cs" />
+    <Compile Include="WFSPINKEY.cs" />
     <Compile Include="WFSPTRSTATUS.cs" />
     <Compile Include="WFSCDMSTATUS.cs" />
     <Compile Include="WFSCIMCASHINFO.cs" />

@@ -10,7 +10,6 @@ namespace CashDispView
    internal class DispTable : BaseTable
    {
       DataRow m_lcuRow;
-      DataRow m_denominated;
 
       /// <summary>
       /// constructor
