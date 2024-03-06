@@ -7,7 +7,7 @@
     <ProjectGuid>{9C7B3C9D-B324-4F6E-ACD7-5F8597E456B2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BHDLine</RootNamespace>
+    <RootNamespace>BELine</RootNamespace>
     <AssemblyName>BELine</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

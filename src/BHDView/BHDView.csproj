@@ -7,8 +7,8 @@
     <ProjectGuid>{C613F280-6BC2-4A97-B9E9-44B2C5CC0FEC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BHDView</RootNamespace>
-    <AssemblyName>BHDView</AssemblyName>
+    <RootNamespace>BEView</RootNamespace>
+    <AssemblyName>BEView</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

@@ -19,7 +19,7 @@ namespace splogparser
          if (zipFiles.Length == 0)
          {
             ctx.ConsoleWriteLogLine($"Archive zip file not found.");
-            return false;
+            return true;
          }
 
          foreach (string zipFile in zipFiles)
@@ -123,8 +123,9 @@ namespace splogparser
          ctx.ConsoleWriteLogLine("opts.AWViews :" + ctx.opts.AWViews);
          ctx.ConsoleWriteLogLine("opts.AVViews :" + ctx.opts.AVViews);
          ctx.ConsoleWriteLogLine("opts.SPViews :" + ctx.opts.SPViews);
-         ctx.ConsoleWriteLogLine("opts.RTViews :" + ctx.opts.RTViews);
+//         ctx.ConsoleWriteLogLine("opts.RTViews :" + ctx.opts.RTViews);
          ctx.ConsoleWriteLogLine("opts.BEViews :" + ctx.opts.BEViews);
+         ctx.ConsoleWriteLogLine("opts.SSViews :" + ctx.opts.SSViews);
 
          ctx.ConsoleWriteLogLine(String.Format("IsAP : {0}", ctx.opts.IsAP ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("APView Contains  : {0}", ctx.opts.APViews));
@@ -146,6 +147,12 @@ namespace splogparser
 
          ctx.ConsoleWriteLogLine(String.Format("IsBE : {0}", ctx.opts.IsBE ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("BEView Contains  : {0}", ctx.opts.BEViews));
+
+//         ctx.ConsoleWriteLogLine(String.Format("IsRT : {0}", ctx.opts.IsRT ? "true" : "false"));
+//         ctx.ConsoleWriteLogLine(String.Format("RTView Contains  : {0}", ctx.opts.RTViews));
+
+         ctx.ConsoleWriteLogLine(String.Format("IsSS : {0}", ctx.opts.IsSS ? "true" : "false"));
+         ctx.ConsoleWriteLogLine(String.Format("SSView Contains  : {0}", ctx.opts.SSViews));
 
          // Only create a LogFileHandler if their ParseType was specified on the command line
          ctx.ConsoleWriteLogLine(String.Format("Create the LogFileHandlers"));
@@ -172,7 +179,6 @@ namespace splogparser
          // if (ctx.IsRT) ctx.logFileHandlers.Add((ILogFileHandler)new RTLogHandler(new CreateTextStreamReader()));
 
          // SS
-         if (ctx.opts.IsSS) ctx.logFileHandlers.Add((ILogFileHandler)new SSLogHandler(new CreateTextStreamReader()));
          if (ctx.opts.IsSS) ctx.logFileHandlers.Add((ILogFileHandler)new SSLogHandler(new CreateTextStreamReader()));
 
          // BE

@@ -23,6 +23,9 @@ namespace splogparser
       [Option('v', "atserver", Default = "x", Required = false, HelpText = "Parse Active Teller Server logs.")]
       public string AVViews { get; set; }
 
+      [Option('b', "be", Default = "x", Required = false, HelpText = "Parse BeeHD logs.")]
+      public string BEViews { get; set; }
+	  
       [Option('s', "sp", Default = "x", Required = false, HelpText = "Parse Service Provider logs.")]
       public string SPViews { get; set; }
 
