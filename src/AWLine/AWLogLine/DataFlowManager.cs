@@ -193,7 +193,6 @@ namespace LogLineHandler
                IsRecognized = true;
             }
 
-
             regex = new Regex("ID Scan image (?<uri>.*) available");
             m = regex.Match(subLogLine);
             if (m.Success)

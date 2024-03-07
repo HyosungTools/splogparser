@@ -6,6 +6,8 @@ namespace Impl
 {
    public static class LogLine
    {
+      public static string TimeFormatStringMsec = "yyyy-mm-dd hh:mm:ss.ffff";
+
       /// <summary>
       /// Given a nwlog log line (that can span multiple lines in the log file) read one line
       /// Returns a tuple where: 

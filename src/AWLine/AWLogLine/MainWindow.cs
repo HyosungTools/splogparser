@@ -14,7 +14,6 @@ namespace LogLineHandler
       public string VideoSessionState { get; private set; } = string.Empty;
 
 
-
       public MainWindow(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.MainWindow) : base(parent, logLine, awType)
       {
       }
