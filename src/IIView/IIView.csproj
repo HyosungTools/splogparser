@@ -55,6 +55,10 @@
       <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
       <Name>Contract</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IILogLine\IILogLine.csproj">
+      <Project>{7761b5cc-c5df-41b9-9db6-50b2a1d91d8b}</Project>
+      <Name>IILogLine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Impl\Impl.csproj">
       <Project>{f89403e5-4c5c-4d8f-8401-b2d56f6d8a2b}</Project>
       <Name>Impl</Name>
@@ -65,7 +69,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-    <PropertyGroup>
+  <PropertyGroup>
     <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.pdb" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\IIView.xsd" $(SolutionDir)\..\dist

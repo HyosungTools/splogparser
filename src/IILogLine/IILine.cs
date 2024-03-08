@@ -11,7 +11,9 @@ namespace LogLineHandler
    public enum IILogType
    {
       /* Not a log line we are interested in */
-      None
+      None,
+      IISComment,
+      IISRequest
    }
 
    public class IILine : LogLine, ILogLine
@@ -20,10 +22,15 @@ namespace LogLineHandler
       public string HResult { get; set; }
       public IILogType iiType { get; set; }
 
+      public string lineNumber = string.Empty;
+
       public IILine(ILogFileHandler parent, string logLine, IILogType iiType) : base(parent, logLine)
       {
          this.iiType = iiType;
          Initialize();
+
+
+         lineNumber = parent.LineNumber.ToString();
       }
 
       protected virtual void Initialize()

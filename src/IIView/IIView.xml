@@ -1,5 +1,7 @@
 <?xml version="1.0" standalone="yes"?>
 <IiView>
-  <IISLog>
-  </IISLog>
+  <IISService>
+  </IISService>
+  <IISServer>
+  </IISServer>
 </IiView>

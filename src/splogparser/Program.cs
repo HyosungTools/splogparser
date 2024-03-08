@@ -304,6 +304,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // P R E   P R O C E S S   V I E W S
 
@@ -338,6 +339,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // P R O C E S S   T I M E  S E R I E S  F I L E  P R O C E S S I N G
 
@@ -393,6 +395,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // P O S T   P R O C E S S - W R I T E  O U T  X M L
 
@@ -426,6 +429,9 @@ namespace splogparser
          elapsedTime = stopwatch.Elapsed;
          ctx.ConsoleWriteLogLine($"Elapsed Time: {elapsedTime.TotalMilliseconds} milliseconds");
 
+         // Start the stopwatch
+         stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // P R E  A N A L Y Z E
 
@@ -458,7 +464,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
-
+         stopwatch.Start();
 
          // A N A L Y Z E
 
@@ -491,6 +497,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // P O S T   A N A L Y Z E
 
@@ -523,7 +530,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
-
+         stopwatch.Start();
 
          // W R I T E   E X C E L
 
@@ -560,7 +567,6 @@ namespace splogparser
             }
          }
 
-
          // Stop the stopwatch
          stopwatch.Stop();
 
@@ -570,6 +576,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // for each View DLL found
          using (loader.Container)
@@ -594,7 +601,6 @@ namespace splogparser
                return;
             }
          }
-
 
          // Stop the stopwatch
          stopwatch.Stop();

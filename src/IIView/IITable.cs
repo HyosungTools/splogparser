@@ -41,31 +41,58 @@ namespace IIView
       /// <param name="logLine">logline from the file</param>
       public override void ProcessRow(ILogLine logLine)
       {
-         /*
-         if (logLine is LogLineHandler.Startup stLogLine)
+
+         if (logLine is LogLineHandler.IISComment coLogLine)
          {
             try
             {
-               switch (stLogLine.avType)
+               switch (coLogLine.iiType)
                {
-                  case IILogType.Startup:
-                     base.ProcessRow(stLogLine);
+                  case IILogType.IISComment:
+                     base.ProcessRow(coLogLine);
                      break;
 
                   default:
-                     throw new Exception($"Unhandled LogType {stLogLine.avType.ToString()}");
+                     throw new Exception($"Unhandled LogType {coLogLine.iiType.ToString()}");
                }
             }
             catch (Exception e)
             {
-               ctx.LogWriteLine($"IITable.Startup Settings EXCEPTION: {e}");
+               ctx.LogWriteLine($"IITable.IISComment Settings EXCEPTION: {e}");
             }
             finally
             {
-               AddStartup(stLogLine);
+               AddIISComment(coLogLine);
             }
          }
-         */
+
+         if (logLine is LogLineHandler.IISRequest rqLogLine)
+         {
+            try
+            {
+               switch (rqLogLine.iiType)
+               {
+                  case IILogType.IISRequest:
+                     base.ProcessRow(rqLogLine);
+                     break;
+
+                  default:
+                     throw new Exception($"Unhandled LogType {rqLogLine.iiType.ToString()}");
+               }
+            }
+            catch (Exception e)
+            {
+               ctx.LogWriteLine($"IITable.IISRequest Settings EXCEPTION: {e}");
+            }
+            finally
+            {
+               if (!rqLogLine.IgnoreThis)
+               {
+                  AddIISRequest(rqLogLine);
+               }
+            }
+
+         }
       }
 
 
@@ -94,44 +121,90 @@ namespace IIView
          return sb.ToString();
       }
 
-      /*
-      protected void AddStartup(Startup logLine)
+
+      protected void AddIISComment(IISComment logLine)
       {
          try
          {
-            string tableName = "ATServer";
+            string tableName = "IISService";
+
+            // add the TIME ADJUSTMENT column after the timestamp field
+            long sheetRow = dTableSet.Tables[tableName].Rows.Count + 2;   // Convert.ToInt64(bhdLine.lineNumber) + 1;
+            string timeAdjustmentFormula = "=rowcol+TIMEADJUSTMENT";
 
             DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
 
-            dataRow["file"] = logLine.LogFile;
+            dataRow["tracefile"] = logLine.LogFile;
+            dataRow["linenumber"] = logLine.lineNumber;
             dataRow["time"] = logLine.Timestamp;
+            dataRow["adjustedtime"] = timeAdjustmentFormula;
 
             if (isOptionIncludePayload || !logLine.IsRecognized)
             {
                dataRow["Payload"] = logLine.logLine;
             }
 
-            dataRow["state"] = logLine.StartupState;
-            dataRow["time"] = logLine.TimeState;
-            dataRow["api"] = logLine.ApiCall;
-            dataRow["asset"] = logLine.AssetATM;
-            dataRow["mode"] = logLine.ModeATM;
-            dataRow["customer"] = logLine.Customer;
-            dataRow["flowpoint"] = logLine.Flowpoint;
-            dataRow["image"] = logLine.Image;
-            dataRow["teller"] = logLine.Teller;
-            dataRow["database"] = logLine.Database;
-            dataRow["connection"] = logLine.ConnectionSignalR;
-            dataRow["scheduler"] = logLine.Scheduler;
             dataRow["exception"] = logLine.Exception;
+            dataRow["IISVersion"] = IISComment.IISVersion;
+            dataRow["IISApplicationName"] = IISComment.IISApplicationName;
+            dataRow["IISCommentState"] = IISComment.IISCommentState;
 
             dTableSet.Tables[tableName].AcceptChanges();
          }
          catch (Exception e)
          {
-            ctx.ConsoleWriteLogLine("AddStartup Exception : " + e.Message);
+            ctx.ConsoleWriteLogLine("AddIISComment Exception : " + e.Message);
          }
       }
-      */
+
+      protected void AddIISRequest(IISRequest logLine)
+      {
+         try
+         {
+            string tableName = "IISServer";
+
+
+            // add the TIME ADJUSTMENT column after the timestamp field
+            long sheetRow = dTableSet.Tables[tableName].Rows.Count + 2;   // Convert.ToInt64(bhdLine.lineNumber) + 1;
+            string timeAdjustmentFormula = "=rowcol+TIMEADJUSTMENT";
+
+            DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
+
+            dataRow["tracefile"] = logLine.LogFile;
+            dataRow["linenumber"] = logLine.lineNumber;
+            dataRow["time"] = logLine.Timestamp;
+            dataRow["adjustedtime"] = timeAdjustmentFormula;
+
+            if (isOptionIncludePayload || !logLine.IsRecognized)
+            {
+               dataRow["Payload"] = logLine.logLine;
+            }
+
+            dataRow["exception"] = logLine.Exception;
+
+            dataRow["IISRequestState"] = logLine.IISRequestState;
+            dataRow["Server_IpAddress"] = logLine.Server_IpAddress;
+            dataRow["Method"] = logLine.Method;
+            dataRow["Uri"] = logLine.Uri;
+            dataRow["Query"] = logLine.Query;
+            dataRow["Port"] = logLine.Port;
+            dataRow["Username"] = logLine.Username;
+            dataRow["Client_IpAddress"] = logLine.Client_IpAddress;
+            dataRow["UserAgent"] = logLine.UserAgent;
+            dataRow["Referer"] = logLine.Referer;
+            dataRow["HttpStatusCode"] = logLine.HttpStatusCode;
+            dataRow["SubStatusCode"] = logLine.SubStatusCode;
+            dataRow["HttpError"] = logLine.HttpError;
+            dataRow["Win32StatusCode"] = logLine.Win32StatusCode;
+            dataRow["Win32Error"] = logLine.Win32Error;
+            dataRow["ElapsedMsec"] = logLine.TimeTakenMsec;
+
+            dTableSet.Tables[tableName].AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("AddIISRequest Exception : " + e.Message);
+         }
+      }
    }
 }

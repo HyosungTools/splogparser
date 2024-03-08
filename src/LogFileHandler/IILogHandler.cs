@@ -77,12 +77,12 @@ namespace LogFileHandler
          #Version: 1.0
          #Date: 2023-11-14 00:00:00
          #Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
-
          2023-11-14 00:00:00 10.201.33.12 PUT /ActiveTeller/api/applicationstates/6 - 80 - 10.50.230.10 - - 200 0 0 110
          2023-11-14 00:04:26 10.201.33.12 GET /ActiveTeller/api/operatingmodes AssetName=A060314 80 - 10.50.209.10 - - 200 0 0 79
+
          #Software: Microsoft Internet Information Services 10.0
          #Version: 1.0
-         #Date: 2023-11-14 07:00:00
+         #Date: 2023-11-14 06:03:29
          #Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
          2023-11-14 06:03:29 10.201.33.12 POST /ActiveTeller/signalr/send clientProtocol=1.4&transport=serverSentEvents&connectionData=[%7B%22Name%22:%22clientHub%22%7D]&connectionToken=u7E8uiZjg1phc%2BMJVogr7zAFpMO%2FoMcvfr9INhtUCr0ljZnPrECpx%2FJLQ1NP9Objku%2Bmns91Y1OnKnsKRrC5osoNorBT3O7A%2FQ8rucfW68KbCbHOqb%2FmBxC2U8TUkoxZ 80 - 10.50.230.10 SignalR.Client.NET45/2.2.2.0+(Microsoft+Windows+NT+6.2.9200.0) - 200 0 0 146
          2023-11-14 06:03:29 10.201.33.12 POST /ActiveTeller/api/assets - 80 - 10.50.230.10 - - 201 0 0 263
@@ -90,6 +90,7 @@ namespace LogFileHandler
          2023-11-14 06:03:29 10.201.33.12 GET /ActiveTeller/api/operatingmodes AssetName=A060302 80 - 10.50.230.10 - - 200 0 0 90
          2023-11-14 06:03:29 10.201.33.12 POST /ActiveTeller/api/assetconfigurations - 80 - 10.50.230.10 - - 201 0 0 134
          2023-11-14 06:03:31 10.201.33.12 GET /ActiveTeller/signalr/connect clientProtocol=1.4&transport=serverSentEvents&connectionData=[%7B%22Name%22:%22clientHub%22%7D]&connectionToken=u7E8uiZjg1phc%2BMJVogr7zAFpMO%2FoMcvfr9INhtUCr0ljZnPrECpx%2FJLQ1NP9Objku%2Bmns91Y1OnKnsKRrC5osoNorBT3O7A%2FQ8rucfW68KbCbHOqb%2FmBxC2U8TUkoxZ 80 - 10.50.230.10 SignalR.Client.NET45/2.2.2.0+(Microsoft+Windows+NT+6.2.9200.0) - 200 0 64 56813827
+
          #Software: Microsoft Internet Information Services 10.0
          #Version: 1.0
          #Date: 2023-11-14 07:00:00
@@ -101,27 +102,12 @@ namespace LogFileHandler
 
           */
 
-         /*
-         //2023-10-16 01:01:08 [SymXchangeCustomerDataExtension]
-         Regex regex = new Regex("\\[(?<extension>.*)CustomerDataExtension\\] (?<sublogline>.*)");
-         Match m = regex.Match(logLine.Substring(20));
-         if (m.Success)
+         if (logLine.StartsWith("#") && !logLine.StartsWith("#Fields:"))
          {
-            // process ActiveTellerServerExtension log
-
-            string coreBankingExtension = m.Groups["extension"].Value;
-            string subLogLine = m.Groups["sublogline"].Value;
-
-            // expected that all log lines in the ActiveTellerServerExtension log file are for the same extension type
-            return new CustomerDataExtension(this, logLine, IILine.GetCoreBankingIILogType(coreBankingExtension));
+            return new IISComment(this, logLine, IILogType.IISComment);
          }
 
-         // process ActiveTellerServer log
-
-         return new Startup(this, logLine, IILogType.Startup);
-         */
-
-         return new IILine(this, logLine, IILogType.None);
+         return new IISRequest(this, logLine, IILogType.IISRequest);
       }
    }
 }
