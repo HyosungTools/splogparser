@@ -314,12 +314,14 @@ namespace LogLineHandler
             }
             else
             {
+               /*
                if (prev_request_count > 1)
                {
                   // TODO  - actually want to defer output until the last duplicate, show the # of occurrences and the min/avg/max time duration
 
                   Console.WriteLine($"{prev_IISRequestState} ({prev_request_count} occurrences)");
                }
+               */
 
                prev_IISRequestState = IISRequestState;
                prev_request_count = 0;
