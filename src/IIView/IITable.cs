@@ -131,7 +131,7 @@ namespace IIView
 
             // add the TIME ADJUSTMENT column after the timestamp field
             long sheetRow = dTableSet.Tables[tableName].Rows.Count + 2;   // Convert.ToInt64(bhdLine.lineNumber) + 1;
-            string timeAdjustmentFormula = "TODO";
+            string timeAdjustmentFormula = "TODO - TIMES ARE UTC";
 
             DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
 
@@ -172,7 +172,7 @@ namespace IIView
 
             // add the TIME ADJUSTMENT column after the timestamp field
             long sheetRow = dTableSet.Tables[tableName].Rows.Count + 2;   // Convert.ToInt64(bhdLine.lineNumber) + 1;
-            string timeAdjustmentFormula = "TODO";
+            string timeAdjustmentFormula = "TODO - TIMES ARE UTC";
 
             DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
 
@@ -207,7 +207,7 @@ namespace IIView
 
             // add the TIME ADJUSTMENT column after the timestamp field
             long sheetRow = dTableSet.Tables[tableName].Rows.Count + 2;   // Convert.ToInt64(bhdLine.lineNumber) + 1;
-            string timeAdjustmentFormula = "TODO";
+            string timeAdjustmentFormula = "TODO - TIMES ARE UTC";
 
             DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
 
