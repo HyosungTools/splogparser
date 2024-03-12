@@ -86,12 +86,8 @@ namespace IIView
             }
             finally
             {
-               if (!rqLogLine.IgnoreThis)
-               {
-                  AddIISRequest(rqLogLine);
-               }
+               AddIISRequest(rqLogLine);
             }
-
          }
       }
 
@@ -124,13 +120,18 @@ namespace IIView
 
       protected void AddIISComment(IISComment logLine)
       {
+         if (logLine.IgnoreThis)
+         {
+            return;
+         }
+
          try
          {
             string tableName = "IISService";
 
             // add the TIME ADJUSTMENT column after the timestamp field
             long sheetRow = dTableSet.Tables[tableName].Rows.Count + 2;   // Convert.ToInt64(bhdLine.lineNumber) + 1;
-            string timeAdjustmentFormula = "=rowcol+TIMEADJUSTMENT";
+            string timeAdjustmentFormula = "TODO";
 
             DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
 
@@ -145,9 +146,9 @@ namespace IIView
             }
 
             dataRow["exception"] = logLine.Exception;
-            dataRow["IISVersion"] = IISComment.IISVersion;
-            dataRow["IISApplicationName"] = IISComment.IISApplicationName;
-            dataRow["IISCommentState"] = IISComment.IISCommentState;
+
+            dataRow["IISApplication"] = $"{IISComment.IISApplicationName} {IISComment.IISVersion}";
+            dataRow["IISCommentState"] = logLine.IISCommentState;
 
             dTableSet.Tables[tableName].AcceptChanges();
          }
@@ -155,6 +156,47 @@ namespace IIView
          {
             ctx.ConsoleWriteLogLine("AddIISComment Exception : " + e.Message);
          }
+
+         if (logLine.EventTimestamp != string.Empty)
+         {
+            // record IIS restarts in the IISRequests tab
+            AddIISRequest_ServerComment(logLine);
+         }
+      }
+
+      protected void AddIISRequest_ServerComment(IISComment logLine)
+      {
+         try
+         {
+            string tableName = "IISServer";
+
+            // add the TIME ADJUSTMENT column after the timestamp field
+            long sheetRow = dTableSet.Tables[tableName].Rows.Count + 2;   // Convert.ToInt64(bhdLine.lineNumber) + 1;
+            string timeAdjustmentFormula = "TODO";
+
+            DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
+
+            dataRow["tracefile"] = logLine.LogFile;
+            dataRow["linenumber"] = logLine.lineNumber;
+            dataRow["time"] = logLine.EventTimestamp;                  // comments don't usually have a timestamp field, so use this one
+            dataRow["adjustedtime"] = timeAdjustmentFormula;
+
+            if (isOptionIncludePayload || !logLine.IsRecognized)
+            {
+               dataRow["Payload"] = logLine.logLine;
+            }
+
+            dataRow["exception"] = logLine.Exception;
+
+            dataRow["IISRequestState"] = $"{logLine.IISCommentState} {IISComment.IISApplicationName} {IISComment.IISVersion}";
+
+            dTableSet.Tables[tableName].AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("AddIISRequest_ServerComment Exception : " + e.Message);
+         }
+
       }
 
       protected void AddIISRequest(IISRequest logLine)
@@ -163,10 +205,9 @@ namespace IIView
          {
             string tableName = "IISServer";
 
-
             // add the TIME ADJUSTMENT column after the timestamp field
             long sheetRow = dTableSet.Tables[tableName].Rows.Count + 2;   // Convert.ToInt64(bhdLine.lineNumber) + 1;
-            string timeAdjustmentFormula = "=rowcol+TIMEADJUSTMENT";
+            string timeAdjustmentFormula = "TODO";
 
             DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
 
@@ -183,6 +224,7 @@ namespace IIView
             dataRow["exception"] = logLine.Exception;
 
             dataRow["IISRequestState"] = logLine.IISRequestState;
+            dataRow["RepeatCount"] = logLine.RepeatCount;
             dataRow["Server_IpAddress"] = logLine.Server_IpAddress;
             dataRow["Method"] = logLine.Method;
             dataRow["Uri"] = logLine.Uri;

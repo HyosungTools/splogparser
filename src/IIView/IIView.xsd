@@ -12,8 +12,7 @@
               <xs:element name="adjustedtime" type="xs:string" minOccurs="0" />
               <xs:element name="payload" type="xs:string" minOccurs="0" />
               <xs:element name="exception" type="xs:string" minOccurs="0" />
-              <xs:element name="IISVersion" type="xs:string" minOccurs="0" />
-              <xs:element name="IISApplicationName" type="xs:string" minOccurs="0" />
+              <xs:element name="IISApplication" type="xs:string" minOccurs="0" />
               <xs:element name="IISCommentState" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
@@ -28,6 +27,7 @@
               <xs:element name="payload" type="xs:string" minOccurs="0" />
               <xs:element name="exception" type="xs:string" minOccurs="0" />
               <xs:element name="IISRequestState" type="xs:string" minOccurs="0" />
+              <xs:element name="RepeatCount" type="xs:string" minOccurs="0" />
               <xs:element name="Server_IpAddress" type="xs:string" minOccurs="0" />
               <xs:element name="Method" type="xs:string" minOccurs="0" />
               <xs:element name="Uri" type="xs:string" minOccurs="0" />

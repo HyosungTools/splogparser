@@ -18,6 +18,7 @@ namespace LogLineHandler
 
       public bool IgnoreThis { get; private set; } = false;
       public string IISRequestState { get; private set; } = string.Empty;
+      public string RepeatCount { get; private set; } = string.Empty;
       public string Server_IpAddress { get; private set; } = string.Empty;
       public string Method { get; private set; } = string.Empty;
       public string Uri { get; private set; } = string.Empty;
@@ -60,6 +61,7 @@ namespace LogLineHandler
          {
             IISRequestState = logLine;
             IsRecognized = true;
+            IgnoreThis = true;
 
             prev_IISRequestState = string.Empty;
             prev_request_count = 0;
@@ -307,6 +309,8 @@ namespace LogLineHandler
             if (IgnoreThis)
             {
                prev_request_count++;
+
+               RepeatCount = prev_request_count.ToString();
             }
             else
             {

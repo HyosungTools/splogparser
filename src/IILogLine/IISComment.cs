@@ -12,7 +12,9 @@ namespace LogLineHandler
 
       public static string IISVersion { get; private set; } = string.Empty;
       public static string IISApplicationName { get; private set; } = string.Empty;
-      public static string IISCommentState { get; private set; } = string.Empty;
+      public bool IgnoreThis { get; private set; } = false;
+      public string IISCommentState { get; private set; } = string.Empty;
+      public string EventTimestamp { get; private set; } = string.Empty;
       public string Exception { get; private set; } = string.Empty;
 
       public IISComment(ILogFileHandler parent, string logLine, IILogType awType = IILogType.IISComment) : base(parent, logLine, awType)
@@ -34,6 +36,7 @@ namespace LogLineHandler
          {
             IISApplicationName = m.Groups["application"].Value;
             IsRecognized = true;
+            IgnoreThis = true;
             return;
          }
 
@@ -43,6 +46,7 @@ namespace LogLineHandler
          {
             IISVersion = m.Groups["version"].Value;
             IsRecognized = true;
+            IgnoreThis = true;
             return;
          }
 
@@ -51,6 +55,7 @@ namespace LogLineHandler
          if (m.Success)
          {
             IISCommentState = $"IIS RESTARTED at {m.Groups["timestamp"].Value}";
+            EventTimestamp = m.Groups["timestamp"].Value;
             IsRecognized = true;
             return;
          }
