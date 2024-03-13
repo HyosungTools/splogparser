@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using Contract;
 
 namespace LogLineHandler
@@ -205,8 +206,10 @@ namespace LogLineHandler
 
    public class SPLine : LogLine, ILogLine
    {
+      // implementations of the ILogLine interface
       public string Timestamp { get; set; }
       public string HResult { get; set; }
+
       public XFSType xfsType { get; set; }
 
       public SPLine(ILogFileHandler parent, string logLine, XFSType xfsType) : base(parent, logLine)
@@ -218,15 +221,14 @@ namespace LogLineHandler
       protected virtual void Initialize()
       {
          Timestamp = tsTimestamp();
+         IsValidTimestamp = bCheckValidTimestamp(Timestamp);
          HResult = hResult();
-
-         // truncate the logLine
-
       }
 
       protected virtual void Initialize(int lUnitCount = 1)
       {
          Timestamp = tsTimestamp();
+         IsValidTimestamp = bCheckValidTimestamp(Timestamp);
          HResult = hResult();
       }
 

@@ -7,6 +7,7 @@ using Impl;
 using LogFileHandler;
 using CommandLine;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace splogparser
 {
@@ -104,6 +105,40 @@ namespace splogparser
 
          // Write out settings so far...
          ctx.ConsoleWriteLogLine("Application Start");
+
+         // check the time range values
+         if (opts.TimeStart != "x")
+         {
+            DateTime startTime;
+            DateTime endTime;
+            int spanMinutes;
+
+            if (!DateTime.TryParseExact(opts.TimeStart, "yyyyMMddhhmm", CultureInfo.InvariantCulture, DateTimeStyles.None, out startTime))
+            {
+               ctx.ConsoleWriteLogLine("Invalid start time: " + $"{opts.TimeStart}, expecting yyyyMMddhhmm");
+               return;
+            }
+
+            if (opts.TimeSpanMinutes == "x")
+            {
+               ctx.ConsoleWriteLogLine("Expecting parameter timespan,");
+               return;
+            }
+
+            if (!int.TryParse(opts.TimeSpanMinutes, out spanMinutes))
+            {
+               ctx.ConsoleWriteLogLine("Invalid time span minutes: " + $"{opts.TimeSpanMinutes}");
+               return;
+            }
+
+            endTime = startTime + new TimeSpan(0, spanMinutes, 0);
+
+            opts.StartTime = startTime;
+            opts.EndTime = endTime;
+
+            ctx.ConsoleWriteLogLine($"TIME RANGE: {opts.StartTime} to {opts.EndTime}");
+         }
+
 
          ctx.ConsoleWriteLogLine("Work Folder: " + ctx.WorkFolder);
 

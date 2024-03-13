@@ -22,8 +22,10 @@ namespace LogLineHandler
 
    public class ATLine : LogLine, ILogLine
    {
+      // implementations of the ILogLine interface
       public string Timestamp { get; set; }
       public string HResult { get; set; }
+
       public ATLogType atType { get; set; }
 
       public ATLine(ILogFileHandler parent, string logLine, ATLogType atType) : base(parent, logLine)
@@ -35,6 +37,7 @@ namespace LogLineHandler
       protected virtual void Initialize()
       {
          Timestamp = tsTimestamp();
+         IsValidTimestamp = bCheckValidTimestamp(Timestamp);
          HResult = hResult();
       }
 
@@ -46,7 +49,7 @@ namespace LogLineHandler
       protected override string tsTimestamp()
       {
          // set timeStamp to a default time
-         string timestamp = @"2023-01-01 00:00:00.000";
+         string timestamp = LogLine.DefaultTimestamp;
 
          // 2023-11-16 03:00:47 Connection manager registering client using device id 70-85-C2-18-7C-DA
 

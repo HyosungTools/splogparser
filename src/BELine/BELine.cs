@@ -218,8 +218,10 @@ namespace LogLineHandler
 
       private bool success = false;
 
+      // implementations of the ILogLine interface
       public string Timestamp { get; set; }
       public string HResult { get; set; }
+
 
       public bool isLogSipMessage = false;
       public string lineNumber = string.Empty;
@@ -325,6 +327,12 @@ namespace LogLineHandler
                   _activeSipSession = _sipSessions[0];
                }
             }
+         }
+
+         Initialize();
+         if (IgnoreThisLine)
+         {
+            return;
          }
 
          lineNumber = parent.LineNumber.ToString();
@@ -958,7 +966,7 @@ namespace LogLineHandler
                         catch (Exception ex)
                         {
                            // bad XML
-                           Console.WriteLine(">>>EXCEPTION BHDLine constructor bad XML : " + ex.Message);
+                           Console.WriteLine(">>>EXCEPTION BELine constructor bad XML : " + ex.Message);
                            Console.WriteLine($"Line {lineNumber} {logLine}");
                         }
                      }
@@ -2776,7 +2784,7 @@ namespace LogLineHandler
          }
          catch (Exception ex)
          {
-            Console.WriteLine(">>>EXCEPTION BHDLine constructor : Processing logline : " + ex.Message);
+            Console.WriteLine(">>>EXCEPTION BELine constructor : Processing logline : " + ex.Message);
             if (ex.InnerException != null)
             {
                Console.WriteLine(">>>INNER EXCEPTION : " + ex.InnerException.Message);
@@ -2793,6 +2801,14 @@ namespace LogLineHandler
       public bool InterestingLogLine { get { return _interestingLogLine;  } }
 
 
+
+      protected virtual void Initialize()
+      {
+         Timestamp = tsTimestamp();  // "11/13/23 07:34:23.011"
+         IsValidTimestamp = bCheckValidTimestamp(Timestamp);
+         HResult = hResult();
+      }
+
       protected override string hResult()
       {
          return "";
@@ -2802,25 +2818,14 @@ namespace LogLineHandler
       protected override string tsTimestamp()
       {
          // set timeStamp to a default time
-         string timeStamp = @"2023-01-01 00:00:00.000";
+         string timeStamp = DateTime.MinValue.ToString("MM/dd/yy hh:mm:ss.fff");
 
          // search for timestamp in the log line
-         string regExp = @"\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}-\d{3}\]";
-         Regex timeRegex = new Regex(regExp);
+         Regex timeRegex = new Regex(@"^(?<pre>.*) (?<stamp>\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}\.\d{3})");
          Match m = timeRegex.Match(logLine);
          if (m.Success)
          {
-            timeStamp = m.Groups[0].Value;
-
-            // post process the timestamp so its in a form suitable for Excel timestamp math
-            timeStamp = timeStamp.Replace("[", "");
-            timeStamp = timeStamp.Replace("]", "");
-
-            int lastIndex = timeStamp.LastIndexOf('-');
-            if (lastIndex > -1)
-            {
-               timeStamp = timeStamp.Substring(0, lastIndex) + "." + timeStamp.Substring(lastIndex + 1);
-            }
+            timeStamp = m.Groups["stamp"].Value;
          }
 
          return timeStamp;

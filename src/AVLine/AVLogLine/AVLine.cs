@@ -60,8 +60,10 @@ namespace LogLineHandler
          return AVLogType.None;
       }
 
+      // implementations of the ILogLine interface
       public string Timestamp { get; set; }
       public string HResult { get; set; }
+
       public AVLogType avType { get; set; }
 
       public AVLine(ILogFileHandler parent, string logLine, AVLogType avType) : base(parent, logLine)
@@ -73,6 +75,7 @@ namespace LogLineHandler
       protected virtual void Initialize()
       {
          Timestamp = tsTimestamp();
+         IsValidTimestamp = bCheckValidTimestamp(Timestamp);
          HResult = hResult();
       }
 
@@ -84,7 +87,7 @@ namespace LogLineHandler
       protected override string tsTimestamp()
       {
          // set timeStamp to a default time
-         string timestamp = @"2023-01-01 00:00:00.000";
+         string timestamp = LogLine.DefaultTimestamp;
 
          //2023-10-16 01:00:01 ActiveTeller Server version 1.3.1.0 is starting
          //2023-10-16 01:00:04 [SymXchangeCustomerDataExtension] The 'SymXchangeCustomerDataExtension' extension is started.

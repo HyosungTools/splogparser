@@ -1,4 +1,6 @@
-﻿namespace Contract
+﻿using System;
+
+namespace Contract
 {
    public enum ParseType
    {
@@ -32,7 +34,9 @@
       string BEViews { get; set; }
 
       string InputFile { get; set; }
+      string Suffix();
 
-      string Suffix(); 
+      DateTime StartTime { get; set; }
+      DateTime EndTime { get; set; }
    }
 }

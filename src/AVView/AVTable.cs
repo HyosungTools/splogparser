@@ -133,7 +133,7 @@ namespace AVView
             }
 
             dataRow["state"] = logLine.StartupState;
-            dataRow["time"] = logLine.TimeState;
+            dataRow["requesttime"] = logLine.TimeState;
             dataRow["api"] = logLine.ApiCall;
             dataRow["asset"] = logLine.AssetATM;
             dataRow["mode"] = logLine.ModeATM;
