@@ -121,6 +121,16 @@ Combine one or more *Parse Type* with one or more *View* to tell the parse what 
 |----------|----------------------|
 | *        | All views |
 
+
+### Time Filtering
+
+By specifying both a start time and a span in minutes, the scan can be made much faster by eliminating log lines whose timestamps lie outside the range.
+
+ --timestart 202311040600 --timespan 1440
+ 
+The start time is expressed as yyyyMMddhhmm.  Timespan is in minutes.
+ 
+
 ### Samples Commands and their Meaning
 
 Parse the [SP] logs and show me all Dispense and Deposit operations:
