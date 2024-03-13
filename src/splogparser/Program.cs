@@ -123,7 +123,8 @@ namespace splogparser
          ctx.ConsoleWriteLogLine("opts.AWViews :" + ctx.opts.AWViews);
          ctx.ConsoleWriteLogLine("opts.AVViews :" + ctx.opts.AVViews);
          ctx.ConsoleWriteLogLine("opts.SPViews :" + ctx.opts.SPViews);
-//         ctx.ConsoleWriteLogLine("opts.RTViews :" + ctx.opts.RTViews);
+         //         ctx.ConsoleWriteLogLine("opts.RTViews :" + ctx.opts.RTViews);
+         ctx.ConsoleWriteLogLine("opts.IIViews :" + ctx.opts.IIViews);
          ctx.ConsoleWriteLogLine("opts.BEViews :" + ctx.opts.BEViews);
          ctx.ConsoleWriteLogLine("opts.SSViews :" + ctx.opts.SSViews);
 
@@ -148,8 +149,11 @@ namespace splogparser
          ctx.ConsoleWriteLogLine(String.Format("IsBE : {0}", ctx.opts.IsBE ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("BEView Contains  : {0}", ctx.opts.BEViews));
 
-//         ctx.ConsoleWriteLogLine(String.Format("IsRT : {0}", ctx.opts.IsRT ? "true" : "false"));
-//         ctx.ConsoleWriteLogLine(String.Format("RTView Contains  : {0}", ctx.opts.RTViews));
+         ctx.ConsoleWriteLogLine(String.Format("IsII : {0}", ctx.opts.IsII ? "true" : "false"));
+         ctx.ConsoleWriteLogLine(String.Format("IIView Contains  : {0}", ctx.opts.IIViews));
+
+         //         ctx.ConsoleWriteLogLine(String.Format("IsRT : {0}", ctx.opts.IsRT ? "true" : "false"));
+         //         ctx.ConsoleWriteLogLine(String.Format("RTView Contains  : {0}", ctx.opts.RTViews));
 
          ctx.ConsoleWriteLogLine(String.Format("IsSS : {0}", ctx.opts.IsSS ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("SSView Contains  : {0}", ctx.opts.SSViews));
@@ -183,6 +187,9 @@ namespace splogparser
 
          // BE
          if (ctx.opts.IsBE) ctx.logFileHandlers.Add((ILogFileHandler)new BELogHandler(new CreateTextStreamReader()));
+
+         // II
+         if (ctx.opts.IsII) ctx.logFileHandlers.Add((ILogFileHandler)new IILogHandler(new CreateTextStreamReader()));
 
          if (zipFileName.ToLower().EndsWith(".zip"))
          {
@@ -297,6 +304,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // P R E   P R O C E S S   V I E W S
 
@@ -331,6 +339,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // P R O C E S S   T I M E  S E R I E S  F I L E  P R O C E S S I N G
 
@@ -386,6 +395,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // P O S T   P R O C E S S - W R I T E  O U T  X M L
 
@@ -419,6 +429,9 @@ namespace splogparser
          elapsedTime = stopwatch.Elapsed;
          ctx.ConsoleWriteLogLine($"Elapsed Time: {elapsedTime.TotalMilliseconds} milliseconds");
 
+         // Start the stopwatch
+         stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // P R E  A N A L Y Z E
 
@@ -451,7 +464,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
-
+         stopwatch.Start();
 
          // A N A L Y Z E
 
@@ -484,6 +497,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // P O S T   A N A L Y Z E
 
@@ -516,7 +530,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
-
+         stopwatch.Start();
 
          // W R I T E   E X C E L
 
@@ -553,7 +567,6 @@ namespace splogparser
             }
          }
 
-
          // Stop the stopwatch
          stopwatch.Stop();
 
@@ -563,6 +576,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // for each View DLL found
          using (loader.Container)
@@ -587,7 +601,6 @@ namespace splogparser
                return;
             }
          }
-
 
          // Stop the stopwatch
          stopwatch.Stop();
