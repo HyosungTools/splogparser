@@ -98,7 +98,13 @@ Combine one or more *Parse Type* with one or more *View* to tell the parse what 
 | EJ       | EJ Insert commands            |
 | XmlParam | Config files and their parameters in table form |
 | AddKey   | Keys loaded on start-up |
-| fullscan | use with -b option to do a detailed breakdown of BeeHD logs.  Very slow and memory-intensive. |
+| *        | All of the above |
+
+### -b (--ab) View Option Meaning
+
+| View     | Description |
+|----------|----------------------|
+| fullscan | Include a detailed listing in the BeeHDMessages tab.  Can run out of memory processing large files.  If this occurs use Time Filtering to limit the number of lines processed. |
 | *        | All of the above |
 
 ### -s (--sp) View Option Meaning

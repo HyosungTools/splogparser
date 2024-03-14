@@ -139,6 +139,11 @@ namespace splogparser
             ctx.ConsoleWriteLogLine($"TIME RANGE: {opts.StartTime} to {opts.EndTime}");
          }
 
+         else
+         {
+            ctx.ConsoleWriteLogLine($"TIME RANGE: ALL");
+         }
+
 
          ctx.ConsoleWriteLogLine("Work Folder: " + ctx.WorkFolder);
 
@@ -306,14 +311,14 @@ namespace splogparser
                      string oldFile = ctx.WorkFolder + "\\" + viewName + ".xml";
                      if (ctx.ioProvider.Exists(oldFile))
                      {
-                        ctx.ConsoleWriteLogLine($"BHDView: removing old {oldFile}");
+                        ctx.ConsoleWriteLogLine($"Program: removing old {oldFile}");
                         ctx.ioProvider.Delete(oldFile);
                      }
 
                      oldFile = ctx.WorkFolder + "\\" + viewName + ".xsd";
                      if (ctx.ioProvider.Exists(oldFile))
                      {
-                        ctx.ConsoleWriteLogLine($"BHDView: removing old {oldFile}");
+                        ctx.ConsoleWriteLogLine($"Program: removing old {oldFile}");
                         ctx.ioProvider.Delete(oldFile);
                      }
 
@@ -569,7 +574,8 @@ namespace splogparser
 
          // W R I T E   E X C E L
 
-         string excelFileName = ctx.WorkFolder + "\\" + Path.GetFileNameWithoutExtension(ctx.ZipFileName) + ctx.opts.Suffix() + ".xlsx";
+         string excelFileName = ctx.ExcelFileName;
+         ctx.ConsoleWriteLogLine("Excel output filename: " + excelFileName);
 
          // if the Excel file exists, delete it.
          Console.WriteLine("If the Excel file exists, delete it:");

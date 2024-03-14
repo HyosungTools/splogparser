@@ -17,6 +17,9 @@ namespace LogFileHandler
       {
          LogExpression = "u_ex*.log";    // u_ex231114.log
          Name = "IILogFileHandler";
+
+         // IIS log time offset is normally zero
+         UtcTimeOffset = TimeSpan.Zero;
       }
 
 

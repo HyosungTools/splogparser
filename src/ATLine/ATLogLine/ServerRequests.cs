@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Dynamic;
 using System.Linq;
 using System.Net;
@@ -289,6 +290,63 @@ namespace LogLineHandler
                   {
                      requestType = ServerRequestType.Unknown;
                   }
+
+                  // try and figure out the time offsets.  
+
+                  string fieldstring = string.Empty;
+                  if (dict.ContainsKey("Timestamp"))
+                  {
+                     // if conversion to DateTime sees "ANY" timezone offset in the string .NET adjusts the result to LocalTime
+                     // FOR THE MACHINE ON WHICH THIS PARSER IS RUNNING, not the source machine of the log file
+                     string wonkyTimestamp = dict["Timestamp"].ToString();
+
+                     //{"TaskId":8,"TaskName":"ConfigurationQueryTask","EventName":"ConfigurationRequest","Data":"{\"Name\":\"ConfigurationRequest\",\"TellerId\":null,\"DateTime\":\"2023-11-04T10:09:15.0458147-07:00\",\"TaskTimeout\":null}","Id":228113,"AssetName":"NM000562","TellerSessionId":34462,"TransactionDetail":null,"Timestamp":"2023-11-04T10:09:15.0468129-07:00","TellerInfo":{"ClientSessionId":5140,"TellerName":"Jorge","VideoConferenceUri":"192.168.20.142","TellerId":"jocadena"}}
+                     //"Timestamp":"2023-11-04T10:09:15.0468129-07:00"
+                     //\"DateTime\":\"2023-11-04T10:09:15.0458147-07:00\"
+                     Regex regex = new Regex(@".*,\""(?<field>.*)\"":\""(?<datetime>[0-9\-]*T[0-9\:\.]*)\-(?<utcoffset>[0-9\:]*)\"",");
+                     Match m = regex.Match(Payload);
+                     if (m.Success)
+                     {
+                        //2023-11-04T10:09:13.8862465-07:00
+                        string serverRawDateTime = m.Groups["datetime"].Value + "-" + m.Groups["utcoffset"].Value;
+
+                        //2023-11-04T10:09:13.8862465 AM
+                        DateTime serverLocalTime = DateTime.Parse(m.Groups["datetime"].Value);
+                        TimeSpan serverUtcOffset = TimeSpan.Parse(m.Groups["utcoffset"].Value);
+
+                        //2023-11-04T05:09:13.8862465 PM
+                        DateTime serverUtcTime = DateTime.Parse(serverRawDateTime).ToUniversalTime();
+
+                        //2023-11-04 11:06:13
+                        DateTime loglineTimestamp = DateTime.Parse(Timestamp);
+
+
+                        // calculate the UTC offset for the log-source-machine
+                        // server and local clocks are unlikely to be perfectly synchronized so allow room for error,
+                        // 30 minutes seems like a reasonable maximum
+
+                        //-00:56:59.1137535
+                        TimeSpan correctionToServerTime = serverLocalTime - loglineTimestamp;
+
+                        // time difference should be a multiple of hours (half-hour timezones are rare in North America)
+                        if (correctionToServerTime.TotalHours < 0)
+                        {
+                           // log-source-machine local time is ahead of the server
+                        }
+                        else if (correctionToServerTime.TotalHours > 0)
+                        {
+                           // log-source-machine local time is behind of the server
+                        }
+                        else
+                        {
+                           // log-source-machine and server local times are the same
+                        }
+                     }
+                  }
+                  //(ActiveTellerServer_20231128_010002.log)          2023-11-28 08:01:11 TellerRequestManager.HandleTellerSessionRequest handled tellerRequest {"Id":23565,"AssetName":"21PLEA04D","Timestamp":"2023-11-28T08:01:13.3746831-06:00","CustomerId":"0000632448","CustomerName":"PHILLIPS,CAMERON","FlowPoint":"Common-RequestAssistance","RequestContext":"HelpButton","ApplicationState":"MainMenu","TransactionType":"","Language":"English","VoiceGuidance":false,"RoutingProfile":{"SupportedCallType":"BeeHD"}}
+
+                  //(ActiveTellerAgentExtensions_20231104_030107.log) 2023-11-04 10:45:07 [MoniPlus2sExtension] Sending TellerSession to application: {"Id":34442,"AssetName":"NM000562","TellerSessionRequestId":43278,"Timestamp":"2023-11-04T09:48:07.4570066-07:00","TellerInfo":{"ClientSessionId":5140,"TellerName":"Jorge","VideoConferenceUri":"192.168.20.142","TellerId":"jocadena"}}
+                  //(ActiveTellerAgent_20231104_030107.log)           2023-11-04 10:45:07 Server message data {"Id":34442,"AssetName":"NM000562","TellerSessionRequestId":43278,"Timestamp":"2023-11-04T09:48:07.4570066-07:00","TellerInfo":{"ClientSessionId":5140,"TellerName":"Jorge","VideoConferenceUri":"192.168.20.142","TellerId":"jocadena"}}
 
                   // process the request
 
