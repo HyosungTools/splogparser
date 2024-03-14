@@ -14,6 +14,7 @@ namespace LogLineHandler
          AttemptingActiveTellerServerContact,
          ActiveTellerServerContacted,
          RegisteringClient,
+         TellerAway,
          PreparingActiveTellerConnection,
          ConfiguringActiveTellerHubProxy,
          InitiatingActiveTellerConnection,
@@ -108,6 +109,17 @@ namespace LogLineHandler
          {
             IsRecognized = true;
             state = ConnectionManagerActionEnum.ActiveTellerServerContacted;
+         }
+
+         Regex regex = new Regex("Setting teller availability to (?<value>.*)");
+         Match m = regex.Match(logLine);
+         if (m.Success)
+         {
+            if (m.Groups["value"].Value == "Away")
+            {
+               state = ConnectionManagerActionEnum.TellerAway;
+               IsRecognized = true;
+            }
          }
 
          if (!IsRecognized)
