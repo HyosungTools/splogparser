@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Contract;
 
 namespace LogFileHandler
@@ -37,6 +38,10 @@ namespace LogFileHandler
       protected int traceFilePos = 0;
 
       protected string LogExpression;
+
+      // correction of the timestamps in the log file to UTC time
+      protected TimeSpan UtcTimeOffset { get; set; } = TimeSpan.Zero;
+
 
       public LogHandler(ParseType parseType, ICreateStreamReader createReader)
       {

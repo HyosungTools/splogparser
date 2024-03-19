@@ -246,6 +246,7 @@ namespace LogFileHandler
             //Thread Run has started. Requesting connection to http://V00483107/activeteller/SignalR
             //Update teller session statistics: Pending=0 Current=0
             //Updating teller session statistics subscription: enabled
+            //Returned asset health list with count of 15
 
             return new ConnectionManager(this, logLine, AWLogType.ConnectionManager);
          }

@@ -79,6 +79,10 @@ namespace LogLineHandler
             //Update teller session statistics: Pending=0 Current=0
             //Updating teller session statistics subscription: enabled
 
+            //Returned asset health list with count of 15
+
+            //Teller session statistics are disabled because the connection has been disconnected.
+
             string subtag = "ActiveTeller connection registered";
             if (subLogLine.StartsWith(subtag))
             {
@@ -127,6 +131,14 @@ namespace LogLineHandler
                TellerAvailability = "EXCEPTION TRYING TO SET TELLER AVAILABILITY";
                IsRecognized = true;
             }
+
+            subtag = "Teller session statistics are disabled because the connection has been disconnected.";
+            if (subLogLine.StartsWith(subtag))
+            {
+               ServerConnectionState = "SESSION STATISTICS DISABLED - LOST CONNECTION";
+               IsRecognized = true;
+            }
+
 
             Regex regex = new Regex("ActiveTeller connection (?<guid>.*) connected to (?<uri>.*)");
             Match m = regex.Match(subLogLine);
@@ -277,6 +289,14 @@ namespace LogLineHandler
             if (m.Success)
             {
                TellerAssistSessionState = $"TELLER ASSIST STATE {m.Groups["state"].Value}";
+               IsRecognized = true;
+            }
+
+            regex = new Regex("Returned asset health list with count of (?<count>.*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               TellerAssistSessionState = $"TELLER ASSET HEALTH LIST COUNT {m.Groups["count"].Value}";
                IsRecognized = true;
             }
          }

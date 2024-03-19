@@ -44,6 +44,14 @@ namespace LogLineHandler
                SettingDict.Add("RingPath", m.Groups["path"].Value);
                IsRecognized = true;
             }
+
+            regex = new Regex("ActiveTellerServerUrl: (?<url>.*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               SettingDict.Add("ServerUrl", m.Groups["url"].Value);
+               IsRecognized = true;
+            }
          }
 
          if (!IsRecognized)

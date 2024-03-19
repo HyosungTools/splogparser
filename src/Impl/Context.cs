@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Contract;
 
 namespace Impl
@@ -31,6 +32,41 @@ namespace Impl
 
       // Command Line Options
       public IOptions opts { get; set; }
+
+
+      /// <summary>
+      /// Returns a standard Excel filename
+      /// </summary>
+      /// <returns></returns>
+      public string ExcelFileName
+      {
+         get
+         {
+            string extension = ".xlsx";
+            string filename = Path.GetFileNameWithoutExtension(ZipFileName) + opts.Suffix() + extension;
+
+            // illegal characters for Excel filename
+            char[] badchars = new char[] { '<', '>', '?', '[', ']', ':', '|', '*' };
+            foreach (char c in badchars)
+            {
+               filename = filename.Replace(c, '_');
+            }
+
+            string excelFilePath = WorkFolder + "\\" + filename;
+
+            // truncate path longer than 218 characters
+            int maxpathlen = 218;
+
+            if (excelFilePath.Length > maxpathlen)
+            {
+               ConsoleWriteLogLine($"Excel output filename too long ({excelFilePath.Length}), truncating to {maxpathlen} characters");
+
+               excelFilePath = excelFilePath.Replace(extension, string.Empty).Substring(0, (maxpathlen - extension.Length)) + extension;
+            }
+
+            return excelFilePath;
+         }
+      }
 
 
 
@@ -70,6 +106,5 @@ namespace Impl
          Console.WriteLine(message);
          LogWriteLine(message);
       }
-
    }
 }

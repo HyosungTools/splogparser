@@ -78,6 +78,9 @@ namespace LogLineHandler
 
             //Customer review request 222810 for asset 12PROS02L added
 
+            //Customer search started
+            //Customer search returned 6 customers
+
             //Doors device state 0 for asset 16CENT01L
 
             //ID Scan image api/IdImages/3377 available
@@ -284,6 +287,14 @@ namespace LogLineHandler
             if (m.Success)
             {
                TransactionItemStatusChange = $"{m.Groups["action"].Value} item-number {m.Groups["item"].Value}, amount {m.Groups["amount"].Value}, reason {m.Groups["reason"].Value}";
+               IsRecognized = true;
+            }
+
+            regex = new Regex("Customer search (?<action>.*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               Event = $"Customer search {m.Groups["action"].Value}";
                IsRecognized = true;
             }
          }

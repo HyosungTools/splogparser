@@ -1,5 +1,6 @@
 ﻿using Contract;
 using CommandLine;
+using System;
 
 namespace splogparser
 {
@@ -37,6 +38,21 @@ namespace splogparser
 
       [Option('f', "file", Required = true, HelpText = "Input files to be processed.")]
       public string InputFile { get; set; }
+
+      [Option("timestart", Default = "x", Required = false, HelpText = "Start time to consider (yyyymmddhhmm).  See timespan.")]
+      public string TimeStart { get; set; }
+
+      [Option("timespan", Default = "x", Required = false, HelpText = "Add to timestart to get the End time to consider (minutes).")]
+      public string TimeSpanMinutes { get; set; }
+
+      [Option("rawlogline", Default = false, Required = false, HelpText = "Include raw log line in the payload column.")]
+      public bool RawLogLine { get; set; }
+
+
+      // default time range includes-all
+      public DateTime StartTime { get; set; } = DateTime.MinValue;
+      public DateTime EndTime { get; set; } = DateTime.MaxValue;
+
 
       // Omitting long name, defaults to name of property, ie "--ssrv"
       [Option("ss", Default = "x", Required = false, HelpText = "Parse Settlement Server API logs.")]

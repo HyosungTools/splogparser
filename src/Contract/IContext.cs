@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace Contract
 {
@@ -27,6 +28,8 @@ namespace Contract
 
       // Name of the log zip file
       string ZipFileName { get; set; }
+
+      string ExcelFileName { get; }
 
       // Commandline Options
       IOptions opts { get; set; }

@@ -30,8 +30,10 @@ namespace LogLineHandler
 
    public class AWLine : LogLine, ILogLine
    {
+      // implementations of the ILogLine interface
       public string Timestamp { get; set; }
       public string HResult { get; set; }
+
       public AWLogType awType { get; set; }
 
       public AWLine(ILogFileHandler parent, string logLine, AWLogType awType) : base(parent, logLine)
@@ -43,6 +45,7 @@ namespace LogLineHandler
       protected virtual void Initialize()
       {
          Timestamp = tsTimestamp();
+         IsValidTimestamp = bCheckValidTimestamp(Timestamp);
          HResult = hResult();
       }
 
@@ -53,7 +56,7 @@ namespace LogLineHandler
       protected override string tsTimestamp()
       {
          // set timeStamp to a default time
-         string timestamp = @"2023-01-01 00:00:00.000";
+         string timestamp = LogLine.DefaultTimestamp;
 
          //2023-11-17 00:59:17 [MoniPlus2sExtension] Sending OperatingMode to application: {"AssetId":11,"AssetName":"A036201","ModeType":"Scheduled","ModeName":"Standard","CoreStatus":"","CoreProperties":""}
          //[2023-09-13 10:02:21-717][3][BeeHDVideoControl   ]Initialize: Video client initializing.

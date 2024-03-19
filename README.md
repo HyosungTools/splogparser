@@ -79,14 +79,14 @@ The list of Parse Types supported is:
 | Short | Long | Description |
 |-------|------|----------------|
 | -a    | --ap | Parse the [AP] logs (e.g. APLog*.*) in the target file |
-| -t    | --at | Parse Active Teller ITM logs (e.g. ActiveTeller*.*) in the target file |
-| -e    | --ae | Parse Active Teller Extensions ITM logs (e.g. ActiveTellerExtensions*.*) in the target file |
-| -b    | --ab | Parse the [BeeHD] logs (e.g. rvbeehd*.*) in the target file |
+| -t    | --atagent | Parse Active Teller ITM logs (e.g. ActiveTeller*.*) in the target file |
+| -e    | --atagentextensions | Parse Active Teller Extensions ITM logs (e.g. ActiveTellerExtensions*.*) in the target file |
+| -b    | --be | Parse the [BeeHD] logs (e.g. rvbeehd*.*) in the target file |
 | -s    | --sp | Parse the [SP] logs (e.g. *.nwlog) in the target file |
 |       | --ss | Parse the Settlement Server (e.g. settlement-api-all-*.log) in the target file |
-| -v    | --av | Parse Active Teller Server logs (e.g. ActiveTellerServer*.*) in the target file |
-| -w    | --aw | Parse Active Teller Workstation logs (e.g. Workstation*.*) in the target file |
-| -r    | --ar | TBD            |
+| -v    | --atserver | Parse Active Teller Server logs (e.g. ActiveTellerServer*.*) in the target file |
+| -w    | --atworkstation | Parse Active Teller Workstation logs (e.g. Workstation*.*) in the target file |
+| -r    | --rt | TBD            |
 
 Combine one or more *Parse Type* with one or more *View* to tell the parse what to do. 
 
@@ -98,8 +98,14 @@ Combine one or more *Parse Type* with one or more *View* to tell the parse what 
 | EJ       | EJ Insert commands            |
 | XmlParam | Config files and their parameters in table form |
 | AddKey   | Keys loaded on start-up |
-| fullscan | use with -b option to do a detailed breakdown of BeeHD logs.  Very slow and memory-intensive. |
 | *        | All of the above |
+
+### -b (--be) View Option Meaning
+
+| View          | Description |
+|---------------|----------------------|
+| beehdmessages | Include a detailed listing in the BeeHDMessages tab.  Can run out of memory processing large files, if this occurs use Time Filtering to limit the number of lines processed. |
+| *             | All of the above |
 
 ### -s (--sp) View Option Meaning
 
@@ -120,6 +126,23 @@ Combine one or more *Parse Type* with one or more *View* to tell the parse what 
 | View     | Description |
 |----------|----------------------|
 | *        | All views |
+
+
+### Global Option - Time Filtering
+
+By specifying both a start time and a span in minutes, the scan can be made much faster by eliminating log lines whose timestamps lie outside the range.
+
+ --timestart 202311040600 --timespan 1440
+ 
+The start time is expressed as yyyyMMddhhmm.  Timespan is in minutes.
+
+ 
+### Global Option - Include Raw Log line
+
+Each Excel worksheet has a payload column, which optionally contains the raw log lines.  Default is to exclude the raw log lines, to include them:
+
+--rawlogline
+
 
 ### Samples Commands and their Meaning
 

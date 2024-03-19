@@ -36,6 +36,7 @@ namespace LogLineHandler
       protected virtual void Initialize()
       {
          Timestamp = tsTimestamp();
+         IsValidTimestamp = bCheckValidTimestamp(Timestamp);
          HResult = hResult();
       }
 
@@ -47,7 +48,7 @@ namespace LogLineHandler
       protected override string tsTimestamp()
       {
          // set timeStamp to a default time
-         string timestamp = @"2023-01-01 00:00:00.000";
+         string timestamp = LogLine.DefaultTimestamp;
 
          // #Software: Microsoft Internet Information Services 10.0
          // #Version: 1.0

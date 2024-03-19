@@ -145,6 +145,7 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          //Returning 409 (Conflict): Teller session could not be created. Teller session request 20088 already received a response.
          //Updating teller transaction status to failed for teller session 19225 because the session ended while the transaction was still in progress.
          //RemoveTellerSessionRequestsForClient deleted TellerSessionRequestId=20616 for clientSessionId=3951
+         //Removing 2 expired client session(s).
 
          //CHECKS
 
@@ -158,7 +159,7 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          //A database update exception occurred while attempting to insert record. An error occurred while updating the entries. See the inner exception for details.
          //Inner exception: An error occurred while updating the entries. See the inner exception for details.
          //Encountered FormatException while attempting to delete RemoteDesktopSession 8861.
-
+         //Unexpected exception attempting to delete record. An exception has been raised that is likely due to a transient failure. If you are connecting to a SQL Azure database consider using SqlAzureExecutionStrategy.
 
          // remove the timestamp
          string subLogLine = logLine.Substring(20);
@@ -471,6 +472,15 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          {
             Database = subLogLine;
             AssetATM = m.Groups["asset"].Value;
+            IsRecognized = true;
+            return;
+         }
+
+         regex = new Regex("Removing (?<asset>.*) expired client session\\(s\\).");
+         m = regex.Match(subLogLine);
+         if (m.Success)
+         {
+            Database = subLogLine;
             IsRecognized = true;
             return;
          }
@@ -834,7 +844,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
 
                AssetATM = $"{tellerSessionRequest.AssetName}";
                Customer = $"{tellerSessionRequest.CustomerId} {tellerSessionRequest.CustomerName}";
-               TimeState = $"{tellerSessionRequest.Timestamp.ToString(TimeFormatStringMsec)}";
+               //2023-11-20T08:42:40.2709727-06:00
+               TimeState = $"{tellerSessionRequest.Timestamp.ToString(DateTimeFormatStringMsec)}";
                Flowpoint = $"{tellerSessionRequest.ApplicationState} {tellerSessionRequest.FlowPoint} {tellerSessionRequest.RequestContext} {tellerSessionRequest.TransactionType}";
             }
             catch (Exception ex)
@@ -901,6 +912,14 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             }
 
             regex = new Regex("Encountered (?<exception>.*) while attempting to (?<action>.*) (?<object>.*).");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               IsRecognized = true;
+               return;
+            }
+
+            regex = new Regex("Unexpected exception attempting to (?<action>.*). (?<description>.*).");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
