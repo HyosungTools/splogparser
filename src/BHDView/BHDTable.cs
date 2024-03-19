@@ -12,12 +12,6 @@ namespace BHDView
    class BHDTable : BaseTable
    {
       /// <summary>
-      /// Include the raw logline in the XML output
-      /// </summary>
-      public bool isOptionIncludePayload { get; set; } = false;
-
-
-      /// <summary>
       /// constructor
       /// </summary>
       /// <param name="ctx">Context for the command.</param>
@@ -457,18 +451,18 @@ namespace BHDView
                            timeColumns.Cells.ColumnWidth = 21;
                         }
 
-                        if (summaryTextColumn > 1)
+                        if (summaryTextColumn >= 1)
                         {
-                           // ctx.ConsoleWriteLogLine("---Set the format for the bucketoffset column");
+                           // ctx.ConsoleWriteLogLine("---Set the format for the summary column");
 
-                           Range summaryTextColumns = worksheetSheet.Range[
+                           Range summaryTextColumnsRange = worksheetSheet.Range[
                               worksheetSheet.Cells[worksheetDataStartRow, summaryTextColumn],
                               worksheetSheet.Cells[worksheetDataEndRow, summaryTextColumn]];
 
-                           // text value is already correct - adding this NumberFormat causes the minutes to be lost!  (01:05 is rendered as 00:05)
-                           // timeColumns.Cells.NumberFormat = "mm:ss";
+                           summaryTextColumnsRange.Cells.ColumnWidth = 200;
 
-                           summaryTextColumns.Cells.ColumnWidth = 100;
+                           //timeAdjustmentColumns = timeAdjustmentSheet.Range[timeAdjustmentSheet.Cells[3, 5], timeAdjustmentSheet.Cells[3, 5]];
+                           //timeAdjustmentColumns.Cells.ColumnWidth = 35;
                         }
 
                         // make an Excel range the same size as the data to be copied
@@ -563,8 +557,8 @@ namespace BHDView
                         Range hideColumnRange = worksheetSheet.Range[worksheetSheet.Cells[worksheetDataStartRow, hideColumnStart], worksheetSheet.Cells[worksheetDataEndRow, hideColumnEnd]];
                         hideColumnRange.EntireColumn.Hidden = true;
 
-                        // 2. reduce column widths for the first two columns (rownumber, bucketoffset)
-                       Range widthColumnRange = worksheetSheet.Range[worksheetSheet.Cells[worksheetDataStartRow, 1], worksheetSheet.Cells[worksheetDataEndRow, 2]];
+                        // 2. reduce column widths for the columns 2-3 (rownumber, bucketoffset)
+                       Range widthColumnRange = worksheetSheet.Range[worksheetSheet.Cells[worksheetDataStartRow, 2], worksheetSheet.Cells[worksheetDataEndRow, 3]];
                         widthColumnRange.EntireColumn.ColumnWidth = 10;
                      }
 
@@ -678,7 +672,7 @@ namespace BHDView
                base.ProcessRow(bhdLine);
 
                // BHDLogLine writes to the BHDView.xml and can become very large, running out of memory
-               if (ctx.opts.BEViews.Contains("fullscan"))
+               if (ctx.opts.BEViews.ToLower().Contains("beehdmessages"))
                {
                   BHDLogLine(bhdLine);
                }
@@ -721,7 +715,9 @@ namespace BHDView
             dataRow["time"] = bhdLine.Timestamp;
             dataRow["adjustedtime"] = timeAdjustmentFormula;
 
-            if (isOptionIncludePayload || !bhdLine.IsRecognized)
+            // TODO - don't include IsRecognized failures because BELine is set up already with 'interesting' and 'non-interesting' tags.  Might
+            //        need to adjust later, if there truly is an interesting pattern but the regex fails for a new type of log line.
+            if (isOptionIncludePayload) // || !bhdLine.IsRecognized)
             {
                dataRow["Payload"] = bhdLine.logLine;
             }

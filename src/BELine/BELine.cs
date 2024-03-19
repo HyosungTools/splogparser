@@ -460,11 +460,10 @@ namespace LogLineHandler
             if (considerAllSourceTags || Array.Find(interestingTags, element => element == source) == source)
             {
                _interestingLogLine = true;
-
-               // start using flag - TODO set it in each of the regex below
-               IsRecognized = true;
-
                interestingTag = "yes";
+
+               // TODO move to individual cases
+               IsRecognized = true;
 
                // analysis based on source name ..
                if (source.StartsWith("AUDIO"))

@@ -45,6 +45,10 @@ namespace splogparser
       [Option("timespan", Default = "x", Required = false, HelpText = "Add to timestart to get the End time to consider (minutes).")]
       public string TimeSpanMinutes { get; set; }
 
+      [Option("rawlogline", Default = false, Required = false, HelpText = "Include raw log line in the payload column.")]
+      public bool RawLogLine { get; set; }
+
+
       // default time range includes-all
       public DateTime StartTime { get; set; } = DateTime.MinValue;
       public DateTime EndTime { get; set; } = DateTime.MaxValue;

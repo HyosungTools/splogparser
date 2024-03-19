@@ -52,6 +52,11 @@ namespace Impl
       protected bool _zeroAsBlank = false;
 
       /// <summary>
+      /// Include the raw logline in the XML output
+      /// </summary>
+      public bool isOptionIncludePayload { get; set; } = true;
+
+      /// <summary>
       /// constructor
       /// </summary>
       /// <param name="ctx">The context for the instruction</param>
@@ -65,6 +70,8 @@ namespace Impl
          id = 0;
          this.ctx = ctx;
          this.viewName = viewName;
+
+         isOptionIncludePayload = this.ctx.opts.RawLogLine;
 
          Console.WriteLine("BaseTable.constructor complete");
 

@@ -144,6 +144,10 @@ namespace splogparser
             ctx.ConsoleWriteLogLine($"TIME RANGE: ALL");
          }
 
+         if (opts.RawLogLine)
+         {
+            ctx.ConsoleWriteLogLine($"INCLUDE RAW LOG LINE IN PAYLOAD");
+         }
 
          ctx.ConsoleWriteLogLine("Work Folder: " + ctx.WorkFolder);
 

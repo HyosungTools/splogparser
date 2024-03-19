@@ -102,10 +102,10 @@ Combine one or more *Parse Type* with one or more *View* to tell the parse what 
 
 ### -b (--ab) View Option Meaning
 
-| View     | Description |
-|----------|----------------------|
-| fullscan | Include a detailed listing in the BeeHDMessages tab.  Can run out of memory processing large files.  If this occurs use Time Filtering to limit the number of lines processed. |
-| *        | All of the above |
+| View          | Description |
+|---------------|----------------------|
+| beehdmessages | Include a detailed listing in the BeeHDMessages tab.  Can run out of memory processing large files, if this occurs use Time Filtering to limit the number of lines processed. |
+| *             | All of the above |
 
 ### -s (--sp) View Option Meaning
 
@@ -136,6 +136,11 @@ By specifying both a start time and a span in minutes, the scan can be made much
  
 The start time is expressed as yyyyMMddhhmm.  Timespan is in minutes.
  
+### Include Raw Log line
+
+Each Excel worksheet has a payload column, which optionally contains the raw log lines.  Default is to exclude the raw log lines, to include them:
+
+--rawlogline
 
 ### Samples Commands and their Meaning
 

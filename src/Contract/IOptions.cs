@@ -32,6 +32,7 @@ namespace Contract
       string IIViews { get; set; }
       string SSViews { get; set; }
       string BEViews { get; set; }
+      bool RawLogLine { get; set; }
 
       string InputFile { get; set; }
       string Suffix();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using Contract;
 
 namespace LogLineHandler
@@ -21,7 +22,6 @@ namespace LogLineHandler
       {
          return (dt == DateTime.MinValue) || (dt == default(DateTime)) ? string.Empty : dt.ToString(TimeFormatStringMsec);
       }
-
 
       // my parent
       public ILogFileHandler parentHandler;

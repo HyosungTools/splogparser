@@ -13,11 +13,6 @@ namespace AVView
    class AVTable : BaseTable
    {
       /// <summary>
-      /// Include the raw logline in the XML output
-      /// </summary>
-      public bool isOptionIncludePayload { get; set; } = false;
-
-      /// <summary>
       /// constructor
       /// </summary>
       /// <param name="ctx">Context for the command.</param>
