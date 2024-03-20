@@ -109,7 +109,7 @@
               <xs:element name="MessageBody" type="xs:string" minOccurs="0" />
               <xs:element name="HttpRequest" type="xs:string" minOccurs="0" />
               <xs:element name="ApplicationConnectionState" type="xs:string" minOccurs="0" />
-              <xs:element name="Asset_Id" type="xs:string" minOccurs="0" />
+              <xs:element name="AssetId" type="xs:string" minOccurs="0" />
               <xs:element name="AssetState_Id" type="xs:string" minOccurs="0" />
               <xs:element name="ApplicationState_Id" type="xs:string" minOccurs="0" />
               <xs:element name="TransactionDetail_Id" type="xs:string" minOccurs="0" />

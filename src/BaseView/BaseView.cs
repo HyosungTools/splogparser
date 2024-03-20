@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using Contract;
@@ -60,6 +61,11 @@ namespace Impl
          // create a table instance
          bTable = CreateTableInstance(ctx);
          ctx.LogWriteLine("Table created: " + viewName);
+      }
+
+      public DataSet GetDataSet()
+      {
+         return bTable.dTableSet;
       }
 
       public virtual void PreProcess(IContext ctx)

@@ -13,7 +13,8 @@
               <xs:element name="VideoCallState" type="xs:string" minOccurs="0" />
               <xs:element name="VideoEngineState" type="xs:string" minOccurs="0" />
               <xs:element name="SignInState" type="xs:string" minOccurs="0" />
-              <xs:element name="Asset" type="xs:string" minOccurs="0" />
+              <xs:element name="AssetName" type="xs:string" minOccurs="0" />
+              <xs:element name="SessionRequestId" type="xs:string" minOccurs="0" />
               <xs:element name="Teller" type="xs:string" minOccurs="0" />
               <xs:element name="ServerSigninState" type="xs:string" minOccurs="0" />
               <xs:element name="ActiveTellerState" type="xs:string" minOccurs="0" />

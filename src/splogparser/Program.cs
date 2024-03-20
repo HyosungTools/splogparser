@@ -8,6 +8,8 @@ using LogFileHandler;
 using CommandLine;
 using System.Collections.Generic;
 using System.Globalization;
+using LogLineHandler;
+using System.Data;
 
 namespace splogparser
 {
@@ -102,6 +104,10 @@ namespace splogparser
 
          // Define the Context. 
          IContext ctx = new Context(ioProvider, logger, workFolder, subFolder, zipFileName, opts);
+
+         // Define the dataset which will hold all the tables
+         DataSet combinedDataSet = new DataSet();
+
 
          // Write out settings so far...
          ctx.ConsoleWriteLogLine("Application Start");
@@ -456,6 +462,8 @@ namespace splogparser
                      viewName = thisView.Name;
                      ctx.ConsoleWriteLogLine(String.Format("Post-Processing view : {0}", viewName));
                      thisView.PostProcess(ctx);
+
+                     combinedDataSet.Merge(thisView.GetDataSet());
                   }
                }
             }
@@ -618,6 +626,55 @@ namespace splogparser
          // Log the elapsed time
          elapsedTime = stopwatch.Elapsed;
          ctx.ConsoleWriteLogLine($"Elapsed Time: {elapsedTime.TotalMilliseconds} milliseconds");
+
+
+
+         // evaluations
+
+         foreach (MachineTime mt in LogLineHandler.LogLine.MachineTimesList)
+         {
+            ctx.ConsoleWriteLogLine($"\t{mt.LogSourceMachine}\t{mt.LogLineTime}\t{mt.InputRawTimestamp}\t{mt.TimeSourceMachine}\t{mt.SourceMachineLocalTime}\t{mt.InputTimeDifference}\t{mt.SourceMachineUtcTime}\t{mt.PayloadType}\t{mt.SourcePayload}");
+         }
+
+         try
+         {
+            // evaluate use of Linq queries across all the tables
+
+            DataTable atmRequests = combinedDataSet.Tables["ServerHttpRequests"];
+            DataTable serverRequests = combinedDataSet.Tables["ATServer"];
+            //DataTable teller = combinedDataSet.Tables["Workstation"];
+
+            if (atmRequests.AsEnumerable() != null && serverRequests.AsEnumerable() != null)
+            {
+               var query =
+                   from atm in atmRequests.AsEnumerable()
+                   join server in serverRequests.AsEnumerable()
+                   on atm.Field<string>("AssetName") equals server.Field<string>("AssetName")
+                   where atm.Field<string>("AssetName") != ""
+                   select new
+                   {
+                      Timestamp =
+                           server.Field<string>("time"),
+                      AssetName =
+                           atm.Field<string>("AssetName"),
+                      FlowPoint =
+                           atm.Field<string>("flowpoint"),
+                      TellerName =
+                           server.Field<string>("teller")
+                   };
+
+               foreach (var line in query)
+               {
+                  ctx.ConsoleWriteLogLine($"{line.AssetName}\t{line.FlowPoint}\t{line.Timestamp}\t{line.TellerName}");
+               }
+            }
+         }
+         catch (Exception ex)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : dataset query : {0}", ex.Message));
+         }
+
+
 
          // Start the stopwatch
          stopwatch = new Stopwatch();

@@ -37,7 +37,7 @@ namespace Impl
       /// <summary>
       /// Data table that will become Excel worksheet. 
       /// </summary>
-      protected DataSet dTableSet;
+      public DataSet dTableSet;
       /// <summary>
       /// Manages writing to the log file. 
       /// </summary>

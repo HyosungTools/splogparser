@@ -428,7 +428,7 @@ namespace AWView
                   MainWindow mwLine = logLine as MainWindow;
                   dataRow["ActiveTellerState"] = mwLine.ActiveTellerState;
                   dataRow["VideoSessionState"] = mwLine.VideoSessionState;
-                  dataRow["Asset"] = mwLine.Asset;
+                  dataRow["AssetName"] = mwLine.Asset;
                   break;
 
                case AWLogType.IdleEmpty:
@@ -451,7 +451,8 @@ namespace AWView
                case AWLogType.DataFlowManager:
                   DataFlowManager dfmLine = logLine as DataFlowManager;
                   dataRow["Event"] = dfmLine.Event;
-                  dataRow["Asset"] = dfmLine.Asset;
+                  dataRow["AssetName"] = dfmLine.Asset;
+                  dataRow["SessionRequestId"] = dfmLine.SessionRequestId;
                   dataRow["ActiveTellerConnectionState"] = dfmLine.ActiveTellerConnectionState;
                   dataRow["AssistRequestEvent"] = dfmLine.AssistRequestEvent;
                   dataRow["CheckImageStatus"] = dfmLine.CheckImageStatus;

@@ -57,6 +57,8 @@
              <xs:element name="Payload" type="xs:string" minOccurs="0" />
              <xs:element name="Netop" type="xs:string" minOccurs="0" />
              <xs:element name="Netware" type="xs:string" minOccurs="0" />
+             <xs:element name="AssetName" type="xs:string" minOccurs="0" />
+             <xs:element name="SessionId" type="xs:string" minOccurs="0" />
              <xs:element name="AgentConfiguration" type="xs:string" minOccurs="0" />
              <xs:element name="ConnectionManager" type="xs:string" minOccurs="0" />
              <xs:element name="ServerHttp" type="xs:string" minOccurs="0" />
@@ -75,10 +77,13 @@
               <xs:element name="ObjectHandler" type="xs:string" minOccurs="0" />
               <xs:element name="RequestMethod" type="xs:string" minOccurs="0" />
               <xs:element name="RequestUrl" type="xs:string" minOccurs="0" />
+              <xs:element name="RequestDomain" type="xs:string" minOccurs="0" />
+              <xs:element name="RequestPath" type="xs:string" minOccurs="0" />
               <xs:element name="RequestResult" type="xs:string" minOccurs="0" />
               <xs:element name="RequestTime" type="xs:string" minOccurs="0" />
               <xs:element name="ClientSession" type="xs:string" minOccurs="0" />
-              <xs:element name="Terminal" type="xs:string" minOccurs="0" />
+              <xs:element name="AssetName" type="xs:string" minOccurs="0" />
+              <xs:element name="SessionId" type="xs:string" minOccurs="0" />
               <xs:element name="TellerName" type="xs:string" minOccurs="0" />
               <xs:element name="TellerId" type="xs:string" minOccurs="0" />
               <xs:element name="TellerUri" type="xs:string" minOccurs="0" />

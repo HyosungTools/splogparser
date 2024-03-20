@@ -1,4 +1,6 @@
-﻿namespace Contract
+﻿using System.Data;
+
+namespace Contract
 {
    public interface IView
    {
@@ -14,6 +16,12 @@
       /// </summary>
       /// <param name="ctx">Context for the command</param>
       void Initialize(IContext ctx);
+
+      /// <summary>
+      /// Gets the collection of tables for the dataset 
+      /// </summary>
+      /// <returns></returns>
+      DataSet GetDataSet();
 
       /// <summary>
       /// Instruct the view to process this line 

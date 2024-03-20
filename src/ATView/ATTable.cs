@@ -4,6 +4,7 @@ using LogLineHandler;
 using System;
 using System.Data;
 using System.Text;
+using System.Xml.Linq;
 
 namespace ATView
 {
@@ -172,31 +173,34 @@ namespace ATView
                dataRow["Payload"] = logLine.logLine;
             }
 
-            dataRow["RequestMethod"] = (logLine.RequestMethod != null) ? logLine.RequestMethod.ToString() : string.Empty;
-            dataRow["RequestUrl"] = (logLine.RequestUrl != null) ? logLine.RequestUrl.ToString() : string.Empty;
-            dataRow["RequestResult"] = (logLine.RequestResult != null) ? logLine.RequestResult.ToString() : string.Empty;
+            dataRow["RequestMethod"] = logLine.RequestMethod;
+            dataRow["RequestUrl"] = logLine.RequestUrl;
+            dataRow["RequestDomain"] = logLine.RequestDomain;
+            dataRow["RequestPath"] = logLine.RequestPath;
 
-            dataRow["Operation"] = (logLine.Operation != null) ? logLine.Operation.ToString() : string.Empty;
-            dataRow["ObjectType"] = (logLine.ObjectType != null) ? logLine.ObjectType.ToString() : string.Empty;
-            dataRow["ObjectHandler"] = (logLine.ObjectHandler != null) ? logLine.ObjectHandler.ToString() : string.Empty;
+            dataRow["RequestResult"] = logLine.RequestResult;
+            dataRow["Operation"] = logLine.Operation;
+            dataRow["ObjectType"] = logLine.ObjectType;
+            dataRow["ObjectHandler"] = logLine.ObjectHandler;
 
-            dataRow["RequestTime"] = (logLine.RequestTimeUTC != null) ? logLine.RequestTimeUTC : string.Empty;
+            dataRow["RequestTime"] = logLine.RequestTimeUTC;
 
             dataRow["ClientSession"] = logLine.ClientSession;
-            dataRow["Terminal"] = (logLine.Terminal != null) ? logLine.Terminal.ToString() : string.Empty;
-            dataRow["TellerName"] = (logLine.TellerName != null) ? logLine.TellerName.ToString() : string.Empty;
-            dataRow["TellerId"] = (logLine.TellerId != null) ? logLine.TellerId.ToString() : string.Empty;
-            dataRow["TellerUri"] = (logLine.TellerUri != null) ? logLine.TellerUri.ToString() : string.Empty;
-            dataRow["TaskName"] = (logLine.TaskName != null) ? logLine.TaskName.ToString() : string.Empty;
-            dataRow["EventName"] = (logLine.EventName != null) ? logLine.EventName.ToString() : string.Empty;
-            dataRow["FlowPoint"] = (logLine.FlowPoint != null) ? logLine.FlowPoint.ToString() : string.Empty;
-            dataRow["CustomerId"] = (logLine.CustomerId != null) ? logLine.CustomerId.ToString() : string.Empty;
-            dataRow["RequestName"] = (logLine.RequestName != null) ? logLine.RequestName.ToString() : string.Empty;
-            dataRow["RequestContext"] = (logLine.RequestContext != null) ? logLine.RequestContext.ToString() : string.Empty;
-            dataRow["ApplicationState"] = (logLine.ApplicationState != null) ? logLine.ApplicationState.ToString() : string.Empty;
-            dataRow["TransactionType"] = (logLine.TransactionType != null) ? logLine.TransactionType.ToString() : string.Empty;
+            dataRow["AssetName"] = logLine.AssetName;
+            dataRow["SessionId"] = logLine.SessionId;
+            dataRow["TellerName"] = logLine.TellerName;
+            dataRow["TellerId"] = logLine.TellerId;
+            dataRow["TellerUri"] = logLine.TellerUri;
+            dataRow["TaskName"] = logLine.TaskName;
+            dataRow["EventName"] = logLine.EventName;
+            dataRow["FlowPoint"] = logLine.FlowPoint;
+            dataRow["CustomerId"] = logLine.CustomerId;
+            dataRow["RequestName"] = logLine.RequestName;
+            dataRow["RequestContext"] = logLine.RequestContext;
+            dataRow["ApplicationState"] = logLine.ApplicationState;
+            dataRow["TransactionType"] = logLine.TransactionType;
 
-            dataRow["Payload"] = (logLine.Payload != null) ? logLine.Payload.ToString() : string.Empty;
+            dataRow["Payload"] = logLine.Payload;
 
             dTableSet.Tables[tableName].AcceptChanges();
          }
@@ -222,6 +226,9 @@ namespace ATView
             sb.Append((!string.IsNullOrEmpty(logLine.Operation) ? $"Operation {logLine.Operation}, " : string.Empty));
             sb.Append((!string.IsNullOrEmpty(logLine.ObjectType) ? $"ObjectType {logLine.ObjectType}, " : string.Empty));
             sb.Append((!string.IsNullOrEmpty(logLine.ObjectHandler) ? $"Handler {logLine.ObjectHandler}" : string.Empty));
+
+            sb.Append((!string.IsNullOrEmpty(logLine.AssetName) ? logLine.AssetName : string.Empty));
+            sb.Append((!string.IsNullOrEmpty(logLine.SessionId) ? logLine.SessionId : string.Empty));
 
             dataRow["ServerHttp"] = sb.ToString();
 

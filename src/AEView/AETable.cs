@@ -467,7 +467,7 @@ namespace AEView
 
 
             // internal IDs
-            dataRow["Asset_Id"] = logLine.Asset_Id;
+            dataRow["AssetId"] = logLine.Asset_Id;
             dataRow["AssetState_Id"] = logLine.AssetState_Id;
 
             dataRow["ApplicationState_Id"] = logLine.ApplicationState_Id;
