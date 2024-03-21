@@ -18,12 +18,6 @@ namespace Contract
       void Initialize(IContext ctx);
 
       /// <summary>
-      /// Gets the collection of tables for the dataset 
-      /// </summary>
-      /// <returns></returns>
-      DataSet GetDataSet();
-
-      /// <summary>
       /// Instruct the view to process this line 
       /// </summary>
       /// <param name="ctx">Context for the command</param>

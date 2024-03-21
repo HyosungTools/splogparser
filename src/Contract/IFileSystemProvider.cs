@@ -54,8 +54,9 @@ namespace Contract
       /// </summary>
       /// <param name="path">path to the directory to search</param>
       /// <param name="searchPattern">search pattern of files to look for (or *)</param>
+      /// <param name="recursive">whether to recursively search the path</param>
       /// <returns>an array of file names, or an empty array if no files are found</returns>
-      string[] GetFiles(string path, string searchPattern);
+      string[] GetFiles(string path, string searchPattern, bool recursive = true);
 
       /// <summary>
       /// Create a directory

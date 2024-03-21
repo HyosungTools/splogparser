@@ -892,19 +892,6 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
                throw new Exception($"AVLogLine.Startup: failed to deserialize tellerSessionRequest Json payload for log line '{subLogLine}'\n{ex}");
             }
 
-            try
-            {
-               MachineTime machineTime = new MachineTime(DateTime.Parse(Timestamp), "ATServer", AssetName, "TellerSessionRequest", m.Groups["json"].Value);
-
-               MachineTimesList.Add(machineTime);
-
-               //MachineTimes.Add(machineTime.LogSourceMachine, machineTime);
-            }
-            catch (Exception ex)
-            {
-               // failed format - ignore for now
-            }
-
             IsRecognized = true;
             return;
          }

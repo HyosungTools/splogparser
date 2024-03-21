@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace LogLineHandler
+namespace MetaView
 {
    /// <summary>
    /// A class that derives time information from the timestamp of a log line which comes from a source machine,

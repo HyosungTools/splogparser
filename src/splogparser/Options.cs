@@ -36,6 +36,9 @@ namespace splogparser
       [Option('i', "ii", Default = "x", Required = false, HelpText = "Parse IIS logs.")]
       public string IIViews { get; set; }
 
+      [Option('m', "meta", Default = "x", Required = false, HelpText = "Meta Analysis.")]
+      public string MetaViews { get; set; }
+
       [Option('f', "file", Required = true, HelpText = "Input files to be processed.")]
       public string InputFile { get; set; }
 
@@ -68,6 +71,7 @@ namespace splogparser
       public bool IsRT { get { return RTViews != "x"; } }
       public bool IsII { get { return IIViews != "x"; } }
       public bool IsSS { get { return SSViews != "x"; } }
+      public bool IsMeta { get { return MetaViews != "x"; } }
 
       public bool RunView(ParseType parseType, string viewName)
       {
@@ -82,6 +86,7 @@ namespace splogparser
               ( (IsAW && parseType == ParseType.AW) && (AWViews.Contains(viewName) || AWViews.Contains("*"))) ||
               ( (IsBE && parseType == ParseType.BE) && (BEViews.Contains(viewName) || BEViews.Contains("*"))) ||
               ( (IsAV && parseType == ParseType.AV) && (AVViews.Contains(viewName) || AVViews.Contains("*"))) ||
+              ( (IsMeta && parseType == ParseType.Meta) && (MetaViews.Contains(viewName) || MetaViews.Contains("*"))) ||
               ( (IsSS && parseType == ParseType.SS) && (SSViews.Contains(viewName) || SSViews.Contains("*")))
             );
       }
@@ -104,6 +109,7 @@ namespace splogparser
          if (IsRT) suffix += _Suffix("__RT", RTViews);
          if (IsII) suffix += _Suffix("__II", IIViews);
          if (IsSS) suffix += _Suffix("__SS", SSViews);
+         if (IsMeta) suffix += _Suffix("__META", SSViews);
 
          return suffix; 
       }

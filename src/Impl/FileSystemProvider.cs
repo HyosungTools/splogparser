@@ -62,11 +62,11 @@ namespace Impl
          }
       }
 
-      public string[] GetFiles(string path, string searchPattern)
+      public string[] GetFiles(string path, string searchPattern, bool recursive = true)
       {
          try
          {
-            return Directory.GetFiles(path, searchPattern, SearchOption.AllDirectories);
+            return Directory.GetFiles(path, searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
          }
          catch (Exception e)
          {

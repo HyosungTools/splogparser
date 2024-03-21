@@ -80,16 +80,6 @@ namespace LogLineHandler
       public bool IsValidTimestamp { get; set; } = false;
 
       /// <summary>
-      /// A dictionary of machine time information, the key is the machine AssetName.
-      /// </summary>
-      //public Dictionary<string, MachineTime> MachineTimes = new Dictionary<string, MachineTime>();
-
-      /// <summary>
-      /// A list of machine time information from all log messages.
-      /// </summary>
-      public static List<MachineTime> MachineTimesList = new List<MachineTime>();
-
-      /// <summary>
       /// A value indicating whether an exception should be thrown if the log line
       /// is not recognized by the parser.
       /// </summary>

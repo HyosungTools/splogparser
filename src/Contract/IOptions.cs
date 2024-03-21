@@ -4,7 +4,7 @@ namespace Contract
 {
    public enum ParseType
    {
-      AP, AT, AE, AW, AV, SP, RT, SS, BE, II
+      AP, AT, AE, AW, AV, SP, RT, SS, BE, II, Meta
    }
 
    public interface IOptions
@@ -19,6 +19,7 @@ namespace Contract
       bool IsII { get; }
       bool IsSS { get; }
       bool IsBE { get; }
+      bool IsMeta { get; }
 
       bool RunView(ParseType parseType, string viewName);
 
@@ -32,6 +33,7 @@ namespace Contract
       string IIViews { get; set; }
       string SSViews { get; set; }
       string BEViews { get; set; }
+      string MetaViews { get; set; }
       bool RawLogLine { get; set; }
 
       string InputFile { get; set; }

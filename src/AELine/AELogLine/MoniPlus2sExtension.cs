@@ -1398,24 +1398,6 @@ namespace LogLineHandler
                      default:
                         throw new Exception($"AELogLine.MoniPlus2sExtension: did not handle Resource '{RestResource}'for log line '{logLine}'\n");
                   }
-
-
-                  try
-                  {
-                     MachineTime machineTime = new MachineTime(DateTime.Parse(Timestamp), AssetName, AssetName, RestResource, MessageBody);
-
-                     if (machineTime.IsValid)
-                     {
-                        MachineTimesList.Add(machineTime);
-
-                        //MachineTimes.Add(machineTime.LogSourceMachine, machineTime);
-                     }
-                  }
-                  catch (Exception ex)
-                  {
-                     // failed format - ignore for now
-                  }
-
                }
             }
          }
