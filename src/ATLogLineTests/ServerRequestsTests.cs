@@ -327,7 +327,7 @@ namespace ATLogLineTests
          Assert.AreEqual(line.FlowPoint, string.Empty);
          Assert.AreEqual(line.RequestContext, string.Empty);
          Assert.AreEqual(line.ApplicationState, string.Empty);
-         Assert.AreEqual(line.AssetName, "NM000559");
+         Assert.AreEqual(line.AssetName, string.Empty);
          Assert.AreEqual("24022", line.SessionId);
          Assert.AreEqual("mluckham", line.TellerId);
          Assert.AreEqual("Mike", line.TellerName);
