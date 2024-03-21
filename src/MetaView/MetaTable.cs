@@ -21,17 +21,14 @@ namespace MetaView
       }
 
       /// <summary>
-      /// Reads the DataTables into a DataSet, using all the available View Xml files in the working folder. 
+      /// Gets a DataSet containing all view Xml files in the working folder. 
       /// </summary>
-      /// <returns>true if the read is successful, false otherwise. </returns>      
+      /// <returns>A dataset containing tables.</returns>      
       public DataSet ReadXmlFilesForQuery()
       {
          DataSet combinedDS = new DataSet();
 
          string processingFile = string.Empty;
-
-         // reads the MetaView.xsd and adds its tables to the return value DataSet
-         // base.ReadXmlFile();
 
          try
          {
@@ -86,106 +83,6 @@ namespace MetaView
 
          return combinedDS;
       }
-
-      /*
-      protected void MetaLogLine(MetaLine bhdLine)
-      {
-         try
-         {
-            // after changing MetaView.xsd, Clean the solution and rebuild to distribute the .xsd to the /dist folder
-
-            // columns in the same order as the Messages table in MetaView.xsd
-
-            // this gets very slow when the table gets very large > 10000
-            // pre-allocate the table rows???
-            // when gets too big, export to Excel and clear the table?
-            // filter what is written to the table?
-
-            string tableName = "BeeHDMessages";
-
-            // add the TIME ADJUSTMENT column after the timestamp field
-            long sheetRow = dTableSet.Tables[tableName].Rows.Count + 2;   // Convert.ToInt64(bhdLine.lineNumber) + 1;
-            string timeAdjustmentFormula = "=rowcol+TIMEADJUSTMENT";
-
-            DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
-
-            dataRow["tracefile"] = bhdLine.LogFile;
-            dataRow["linenumber"] = bhdLine.lineNumber;
-            dataRow["time"] = bhdLine.Timestamp;
-            dataRow["adjustedtime"] = timeAdjustmentFormula;
-
-            // TODO - don't include IsRecognized failures because MetaLine is set up already with 'interesting' and 'non-interesting' tags.  Might
-            //        need to adjust later, if there truly is an interesting pattern but the regex fails for a new type of log line.
-            if (isOptionIncludePayload) // || !bhdLine.IsRecognized)
-            {
-               dataRow["Payload"] = bhdLine.logLine;
-            }
-
-            dataRow["source"] = bhdLine.source;
-            dataRow["interest"] = bhdLine.interestingTag;
-            dataRow["level"] = bhdLine.logLevel;
-            dataRow["head"] = bhdLine.headTag;
-            dataRow["thread"] = bhdLine.threadId;
-            dataRow["class"] = bhdLine.className;
-            dataRow["method"] = bhdLine.methodName;
-            dataRow["direction"] = bhdLine.direction;
-            dataRow["protocol"] = bhdLine.protocol;
-            dataRow["analysis"] = bhdLine.analysis;
-            dataRow["endpoints"] = bhdLine.endPoints;
-            dataRow["callstate"] = bhdLine.callState.ToString();
-            dataRow["audstate"] = bhdLine.audioState.ToString();
-            dataRow["vidstate"] = bhdLine.videoState.ToString();
-            dataRow["devstate"] = bhdLine.deviceStateChange;
-            dataRow["spkstate"] = bhdLine.speakerState;
-            dataRow["micstate"] = bhdLine.microphoneState;
-            dataRow["camstate"] = bhdLine.cameraState;
-            dataRow["audtxstate"] = bhdLine.audioTransmitterState;
-            dataRow["audrxstate"] = bhdLine.audioReceiverState;
-            dataRow["vidtxstate"] = bhdLine.videoTransmitterState;
-            dataRow["vidrxstate"] = bhdLine.videoReceiverState;
-            dataRow["timedelta"] = bhdLine.timeSinceLastMessage;
-            dataRow["msgheader"] = bhdLine.msgHeader;
-            dataRow["cseqheader"] = bhdLine.cseqHeader;
-            dataRow["callidheader"] = bhdLine.callIdHeader;
-            dataRow["transidheader"] = bhdLine.transactionId;
-            dataRow["contact"] = bhdLine.contact;
-            dataRow["originator"] = bhdLine.sessionOriginator;
-            dataRow["rportoption"] = bhdLine.rportOption;
-            dataRow["msgnote"] = bhdLine.msgNote;
-            dataRow["expectnote"] = bhdLine.msgExpectNote;
-            dataRow["sumnote"] = bhdLine.summaryNote;
-            dataRow["audsent"] = bhdLine.audioSent.ToString();
-            dataRow["audreceived"] = bhdLine.audioReceived.ToString();
-            dataRow["audlost"] = bhdLine.audioLost;
-            dataRow["audjitter"] = bhdLine.audioJitter;
-            dataRow["vidsent"] = bhdLine.videoSent.ToString();
-            dataRow["vidreceived"] = bhdLine.videoReceived.ToString();
-            dataRow["vidlost"] = bhdLine.videoLost;
-            dataRow["vidjitter"] = bhdLine.videoJitter;
-            dataRow["micdatacount"] = bhdLine.microphoneDataCount;
-            dataRow["camdatacount"] = bhdLine.cameraDataCount;
-
-            // dTableSet.Tables[tableName].AcceptChanges();
-         }
-         catch (NullReferenceException e)
-         {
-            ctx.ConsoleWriteLogLine(">>>EXCEPTION BeeHDTable.MetaLogLine : " + e.Message);
-            ctx.ConsoleWriteLogLine("Check that MetaView.xsd exists and contains a valid \"Message\" table definition.");
-            throw;
-         }
-         catch (System.OutOfMemoryException e)
-         {
-            ctx.ConsoleWriteLogLine(">>>EXCEPTION BeeHDTable.MetaLogLine : " + e.Message);
-            ctx.ConsoleWriteLogLine("Too many lines to process - split the input logs into smaller files or process one file at a time.");
-            throw;
-         }
-         catch (Exception e)
-         {
-            ctx.ConsoleWriteLogLine(">>>EXCEPTION BeeHDTable.MetaLogLine : " + e.Message);
-         }
-      }
-      */
-
    }
 }
 

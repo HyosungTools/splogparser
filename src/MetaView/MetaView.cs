@@ -33,97 +33,6 @@ namespace MetaView
          return installTable;
       }
 
-      public override void Process(IContext ctx)
-      {
-         if (ctx.activeHandler == null)
-         {
-            ctx.ConsoleWriteLogLine("MetaView: active log handler is null.");
-            return;
-         }
-
-         /*
-         MetaLogHandler MetalogHandler = (ctx.activeHandler as MetaLogHandler);
-
-         // process all the log lines
-         base.Process(ctx);
-
-         // writes SIP session summary lines to the output log
-
-         ctx.ConsoleWriteLogLine(MetalogHandler.LogSummary());
-
-         foreach (string summary in MetalogHandler.SessionSummaries())
-         {
-            ctx.ConsoleWriteLogLine(summary);
-         }
-         */
-      }
-
-      public override void PostProcess(IContext ctx)
-      {
-         // write the MetaView table(s) built out to file
-         // bTable.WriteXmlFile();
-
-         base.PostProcess(ctx);
-
-         /*
-         if (MetaLine.SipSessionTables() == null)
-         {
-            return;
-         }
-
-         // write additional XML files, one per SIP session
-         try
-         {
-            foreach (System.Data.DataTable table in MetaLine.SipSessionTables())
-            {
-               // writes SIP Session timeline-buckets to XML, for output to Excel worksheets
-               // the main XML is output below, after this loop
-               //
-               // MetaView_Session_0.xsd  (to _n)   - written only if there were SIP sessions
-               // MetaView_Session_0.xml
-               // MetaView.xsd
-               // MetaView.xml
-
-               if (table.Rows.Count == 0)
-               {
-                  continue;
-               }
-
-               // table name contains the day and time - it should be unique
-               string outFileName = $"{ctx.WorkFolder}\\{viewName}_{table.TableName}";
-               string outFile = string.Empty;
-
-               try
-               {
-                  outFile = $"{outFileName}.xsd";
-                  ctx.ConsoleWriteLogLine(String.Format("Write out SIP Session data schema to '{0}'", outFile));
-                  table.WriteXmlSchema(outFile);
-
-                  outFile = $"{outFileName}.xml";
-                  ctx.ConsoleWriteLogLine(String.Format("Write out SIP Session data set to '{0}'", outFile));
-                  table.WriteXml(outFile, XmlWriteMode.WriteSchema);
-               }
-               catch (InvalidOperationException ex)
-               {
-                  //  a column type in the DataRow being written/read implements IDynamicMetaObjectProvider 
-                  // and does not implement IXmlSerializable.
-                  ctx.ConsoleWriteLogLine($">>>EXCEPTION BeeHDView.PostProcess invalid operation writing {outFile} : " + ex.Message);
-               }
-               catch (Exception ex)
-               {
-                  // unknown exception 
-                  ctx.ConsoleWriteLogLine($">>>EXCEPTION BeeHDView.PostProcess writing {outFile} : " + ex.Message);
-               }
-            }
-         }
-         catch (Exception ex)
-         {
-            // there are no session summaries
-            ctx.ConsoleWriteLogLine(">>>EXCEPTION BeeHDView.PostProcess Processing SessionSummaries : " + ex.Message);
-         }
-         */
-      }
-
       public override void Analyze(IContext ctx)
       {
          Dictionary<string, MachineTime> MachineTimes = new Dictionary<string, MachineTime>();
@@ -372,40 +281,6 @@ namespace MetaView
       public override void Cleanup(IContext ctx)
       {
          base.Cleanup(ctx);
-
-         /*
-         // delete the SIP session XML/XSD files
-         foreach (System.Data.DataTable table in MetaLine.SipSessionTables())
-         {
-            try
-            {
-               // table name contains the day and time - it should be unique
-               string outFileName = $"{ctx.WorkFolder}\\{viewName}_{table.TableName}";
-
-               string outFileToDelete = $"{outFileName}.xsd";
-               if (File.Exists(outFileToDelete))
-               {
-                  ctx.ConsoleWriteLogLine("Deleting file : " + outFileToDelete);
-                  File.Delete(outFileToDelete);
-               }
-
-               outFileToDelete = $"{outFileName}.xml";
-               if (File.Exists(outFileToDelete))
-               {
-                  ctx.ConsoleWriteLogLine("Deleting file : " + outFileToDelete);
-                  File.Delete(outFileToDelete);
-               }
-            }
-            catch (Exception ex)
-            {
-               // there are no session summaries
-               ctx.ConsoleWriteLogLine(">>>EXCEPTION BeeHDView.Cleanup Processing SipSessionTables : " + ex.Message);
-            }
-         }
-
-         MetaLine.ReleaseSipSessionTables();
-
-         */
       }
    }
 }

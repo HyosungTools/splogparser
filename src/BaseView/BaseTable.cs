@@ -537,7 +537,7 @@ namespace Impl
                {
                   if (!Convert.IsDBNull(dataRow[colIndex]))
                   {
-                     // unless we know the data is all numberrs (e.g. Dispense) we need to check for values 
+                     // unless we know the data is all numbers (e.g. Dispense) we need to check for values 
                      // starting with = and replace them with '= or else this procedure blows up
                      string val = dataRow[colIndex].ToString();
                      if (val.StartsWith("="))
