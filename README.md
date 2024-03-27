@@ -86,6 +86,7 @@ The list of Parse Types supported is:
 |       | --ss | Parse the Settlement Server (e.g. settlement-api-all-*.log) in the target file |
 | -v    | --atserver | Parse Active Teller Server logs (e.g. ActiveTellerServer*.*) in the target file |
 | -w    | --atworkstation | Parse Active Teller Workstation logs (e.g. Workstation*.*) in the target file |
+| -m    | --metaview | Analyzes the results from the other views |
 | -r    | --rt | TBD            |
 
 Combine one or more *Parse Type* with one or more *View* to tell the parse what to do. 
@@ -106,6 +107,8 @@ Combine one or more *Parse Type* with one or more *View* to tell the parse what 
 |---------------|----------------------|
 | beehdmessages | Include a detailed listing in the BeeHDMessages tab.  Can run out of memory processing large files, if this occurs use Time Filtering to limit the number of lines processed. |
 | *             | All of the above |
+
+  -bbeehdmessages* --rawlogline   -f "<logdir>"
 
 ### -s (--sp) View Option Meaning
 

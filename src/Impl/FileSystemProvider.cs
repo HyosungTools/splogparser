@@ -62,11 +62,11 @@ namespace Impl
          }
       }
 
-      public string[] GetFiles(string path, string searchPattern)
+      public string[] GetFiles(string path, string searchPattern, bool recursive = true)
       {
          try
          {
-            return Directory.GetFiles(path, searchPattern, SearchOption.AllDirectories);
+            return Directory.GetFiles(path, searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
          }
          catch (Exception e)
          {
@@ -144,7 +144,23 @@ namespace Impl
          return File.Exists(path);
       }
 
-      public void Delete(string fileName)
+      public bool FileInUse(string path)
+      {
+         try
+         {
+            using (var stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
+            {
+            }
+         }
+         catch (IOException)
+         {
+            return true;
+         }
+
+         return false;
+      }
+
+         public void Delete(string fileName)
       {
          try
          {

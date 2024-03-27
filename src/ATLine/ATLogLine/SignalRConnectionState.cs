@@ -22,7 +22,7 @@ namespace LogLineHandler
       }
 
       public ConnectionStateEnum ConnectionState { get; set; }
-      public string Url { get; set; }
+      public string ConnectionUrl { get; set; }
       public string ConnectionGuid { get; set; }
       public string Exception { get; set; }
 
@@ -127,7 +127,7 @@ namespace LogLineHandler
                {
                   ConnectionState = ConnectionStateEnum.Reconnected;
                   ConnectionGuid = m.Groups["guid"].Value;
-                  Url = m.Groups["url"].Value.Replace("'", string.Empty);
+                  ConnectionUrl = m.Groups["url"].Value.Replace("'", string.Empty);
                }
             }
 
@@ -140,7 +140,7 @@ namespace LogLineHandler
                Exception = subLogLine.Substring(subLogLine.IndexOf(search) + search.Length);
 
                search = "connected host has failed to respond ";
-               Url = subLogLine.Substring(subLogLine.IndexOf(search) + search.Length);
+               ConnectionUrl = subLogLine.Substring(subLogLine.IndexOf(search) + search.Length);
             }
          }
 

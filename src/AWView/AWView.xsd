@@ -13,7 +13,8 @@
               <xs:element name="VideoCallState" type="xs:string" minOccurs="0" />
               <xs:element name="VideoEngineState" type="xs:string" minOccurs="0" />
               <xs:element name="SignInState" type="xs:string" minOccurs="0" />
-              <xs:element name="Asset" type="xs:string" minOccurs="0" />
+              <xs:element name="AssetName" type="xs:string" minOccurs="0" />
+              <xs:element name="SessionRequestId" type="xs:string" minOccurs="0" />
               <xs:element name="Teller" type="xs:string" minOccurs="0" />
               <xs:element name="ServerSigninState" type="xs:string" minOccurs="0" />
               <xs:element name="ActiveTellerState" type="xs:string" minOccurs="0" />
@@ -26,6 +27,9 @@
               <xs:element name="Event" type="xs:string" minOccurs="0" />
               <xs:element name="HttpImageRetrievalState" type="xs:string" minOccurs="0" />
               <xs:element name="HttpServerRequest" type="xs:string" minOccurs="0" />
+              <xs:element name="ConnectionGuid" type="xs:string" minOccurs="0" />
+              <xs:element name="ConnectionUri" type="xs:string" minOccurs="0" />
+              <xs:element name="ClientSessionId" type="xs:string" minOccurs="0" />
               <xs:element name="IDScanImageStatus" type="xs:string" minOccurs="0" />
               <xs:element name="SignalRConnectionState" type="xs:string" minOccurs="0" />
               <xs:element name="TaskStatusEvent" type="xs:string" minOccurs="0" />

@@ -54,8 +54,9 @@ namespace Contract
       /// </summary>
       /// <param name="path">path to the directory to search</param>
       /// <param name="searchPattern">search pattern of files to look for (or *)</param>
+      /// <param name="recursive">whether to recursively search the path</param>
       /// <returns>an array of file names, or an empty array if no files are found</returns>
-      string[] GetFiles(string path, string searchPattern);
+      string[] GetFiles(string path, string searchPattern, bool recursive = true);
 
       /// <summary>
       /// Create a directory
@@ -77,6 +78,13 @@ namespace Contract
       /// <param name="path">file to check for existence</param>
       /// <returns>true if the file exists; false otherwise.</returns>
       bool Exists(string path);
+
+      /// <summary>
+      /// Determines whether a file is not read-only.
+      /// </summary>
+      /// <param name="path">file to check for existence</param>
+      /// <returns>true if the file is writable; false otherwise.</returns>
+      bool FileInUse(string path);
 
       /// <summary>
       /// Deletes a specified file

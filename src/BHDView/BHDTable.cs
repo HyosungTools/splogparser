@@ -229,7 +229,7 @@ namespace BHDView
                      adjustedTimeColumn = colNum + 1;
                   }
 
-                  if (dTable.Columns[colNum].ToString().Equals("tracefile", StringComparison.InvariantCultureIgnoreCase))
+                  if (dTable.Columns[colNum].ToString().Equals("file", StringComparison.InvariantCultureIgnoreCase))
                   {
                      traceFileColumn = colNum + 1;
                   }
@@ -258,7 +258,7 @@ namespace BHDView
                if (dTable.TableName == "Messages" && traceFileColumn >= 0 && timeColumn >= 0)
                {
                   // sort by filename and time
-                  dataView.Sort = "TraceFile, Time ASC";
+                  dataView.Sort = "File, Time ASC";
                }
 
                // create a 2D array of the cell contents, we have to massage the data because there
@@ -710,7 +710,7 @@ namespace BHDView
 
             DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
 
-            dataRow["tracefile"] = bhdLine.LogFile;
+            dataRow["file"] = bhdLine.LogFile;
             dataRow["linenumber"] = bhdLine.lineNumber;
             dataRow["time"] = bhdLine.Timestamp;
             dataRow["adjustedtime"] = timeAdjustmentFormula;
@@ -729,6 +729,7 @@ namespace BHDView
             dataRow["thread"] = bhdLine.threadId;
             dataRow["class"] = bhdLine.className;
             dataRow["method"] = bhdLine.methodName;
+            dataRow["machinetype"] = bhdLine.machineType;
             dataRow["direction"] = bhdLine.direction;
             dataRow["protocol"] = bhdLine.protocol;
             dataRow["analysis"] = bhdLine.analysis;

@@ -286,6 +286,8 @@ namespace LogLineHandler
 
             2023-11-13 08:09:13 [MoniPlus2sExtension] Sending TransactionReviewMessage to application: {"Extras":"{\"Accounts\":[],\"Id\":410230,\"TellerSessionActivityId\":2236847,\"TransactionType\":null,\"ApproverId\":null,\"IdScans\":[],\"Checks\":[{\"AcceptStatus\":\"NULL\",\"Amount\":\"3600\",\"AmountRead\":\"3600\",\"AmountScore\":1000,\"BackImageRelativeUri\":\"api/checkimages/1400130\",\"CheckDateRead\":\"11/12/2023\",\"CheckDateScore\":47,\"CheckIndex\":0,\"FrontImageRelativeUri\":\"api/checkimages/1400129\",\"ImageBack\":\"D:\\\\CHECK21\\\\Bottom1.jpg\",\"ImageFront\":\"D:\\\\CHECK21\\\\Top1.jpg\",\"InvalidReason\":\"\",\"Id\":783007,\"TransactionDetailId\":410230,\"Review\":{\"Id\":608334,\"Approval\":{\"TellerAmount\":\"3600\",\"TellerApproval\":1,\"Reason\":\"\",\"TransactionItemReviewId\":608334},\"ReasonForReview\":0,\"TransactionItemId\":783007}},{\"AcceptStatus\":\"NULL\",\"Amount\":\"4000\",\"AmountRead\":\"4000\",\"AmountScore\":1000,\"BackImageRelativeUri\":\"api/checkimages/1400132\",\"CheckDateRead\":\"1/9/2023\",\"CheckDateScore\":1,\"CheckIndex\":1,\"FrontImageRelativeUri\":\"api/checkimages/1400131\",\"ImageBack\":\"D:\\\\CHECK21\\\\Bottom2.jpg\",\"ImageFront\":\"D:\\\\CHECK21\\\\Top2.jpg\",\"InvalidReason\":\"\",\"Id\":783008,\"TransactionDetailId\":410230,\"Review\":{\"Id\":608335,\"Approval\":{\"TellerAmount\":\"4000\",\"TellerApproval\":1,\"Reason\":\"\",\"TransactionItemReviewId\":608335},\"ReasonForReview\":0,\"TransactionItemId\":783008}}],\"TransactionCashDetails\":[{\"Amount\":\"55\",\"CashTransactionType\":1,\"Currency\":\"USD\",\"TransactionCurrencyItems\":[{\"Id\":355075,\"TransactionCashDetailId\":783006,\"Value\":20,\"Quantity\":2,\"MediaType\":0},{\"Id\":355076,\"TransactionCashDetailId\":783006,\"Value\":5,\"Quantity\":1,\"MediaType\":0},{\"Id\":355077,\"TransactionCashDetailId\":783006,\"Value\":10,\"Quantity\":1,\"MediaType\":0}],\"Id\":783006,\"TransactionDetailId\":410230,\"Review\":null}],\"TransactionOtherAmounts\":[],\"TransactionWarnings\":[]}","TellerInfo":{"ClientSessionId":6782,"TellerName":"Andrea","VideoConferenceUri":"10.206.20.47","TellerId":"aspringman"}}
 
+            2024-03-05 15:05:28 [MoniPlus2sExtension] Sending ExternalCommandMessage to application: {"Command":{"CommandName":"InitiateSession","Extras":"{\"Customer\":{\"Id\":\"0079567501\"}}"},"TellerInfo":{"ClientSessionId":127,"TellerName":"Teller","VideoConferenceUri":"10.35.210.10","TellerId":"Teller"}}
+
             2023-11-17 15:23:52 [MoniPlus2sExtension] The teller session has ended so the most recent teller session ID (19228) will be used
 
             TODO
@@ -442,6 +444,8 @@ namespace LogLineHandler
                //Firing agent message event: EnabledDeviceList - POST - PIN,CDM,DOR,IDC,SPR,GUD,SNS,IND,AUX,VDM,IDS,MMA
                //Firing agent message event: AssistRequest - POST - {"CustomerId":"","FlowPoint":"Common-RequestAssistance","ApplicationState":"PostIdle","TransactionType":null,"Language":"English","VoiceGuidance":false,"Id":0,"AssetName":"WI000902","TellerSessionId":147534,"TransactionDetail":null,"Timestamp":"2023-11-13T08:07:23.4869909-06:00","TellerInfo":null}
                //Firing agent message event: CustomerReviewRequest - POST - {"Warnings":[{"Code":"Warning Code","Description":"76","RequestId":0},{"Code":"Warning Code","Description":"44","RequestId":0},{"Code":"Warning Code","Description":"106","RequestId":0},{"Code":"Warning Code","Description":"52","RequestId":0}],"CustomerId":"0000671037","FlowPoint":"Common-ProcessCustomerReview","ApplicationState":"PostIdle","TransactionType":"CustomerIdentification","Language":"English","VoiceGuidance":false,"Id":0,"AssetName":"21PLEA03D","TellerSessionId":18936,"TransactionDetail":null,"Timestamp":"2023-11-17T10:24:02.4160073-06:00","TellerInfo":null}
+               //Firing agent message event: ExternalCommandMessage - POST - {"Command":{"CommandName":"InitiateSession","Extras":"{\"Customer\":{\"Id\":\"0079567501\"}}"},"TellerInfo":{"ClientSessionId":127,"TellerName":"Teller","VideoConferenceUri":"10.35.210.10","TellerId":"Teller"}}
+               //Firing agent message event: ExternalCommandResponse - POST - {"Id":0,"ExternalCommand":{"Id":1,"AssetName":"G1A030","Command":{"CommandName":"InitiateSession","Extras":"{\"CustomerId\":\"0079567501\",\"Extras\":null}"},"TellerInfo":{"ClientSessionId":127,"TellerName":"Teller","VideoConferenceUri":"10.35.210.10","TellerId":"Teller"}},"Timestamp":"2024-03-05T15:05:28.5672085-05:00","Result":0,"Extras":null}
                searchFor = "Firing agent message event: <RESOURCETYPE> - <HTTPREQUEST> - <MESSAGEBODY>";
 
                regex = new Regex("Firing agent message event: (?<resourcetype>.*) - (?<httprequest>.*) - (?<body>.*)?$");
@@ -480,11 +484,104 @@ namespace LogLineHandler
                {
                   switch (RestResource)
                   {
+                     case "ExternalCommandMessage":
+
+                        //{"Command":{"CommandName":"InitiateSession","Extras":"{\"Customer\":{\"Id\":\"0079567501\"}}"},"TellerInfo":{"ClientSessionId":127,"TellerName":"Teller","VideoConferenceUri":"10.35.210.10","TellerId":"Teller"}}
+
+                        string jsonPayload = MessageBody;
+
+                        try
+                        {
+                           dynamic dynamicExternalCommandMessage = JsonConvert.DeserializeObject<ExpandoObject>(jsonPayload, new ExpandoObjectConverter());
+
+                           //{
+                           // "Command":
+                           // {
+                           //  "CommandName":"InitiateSession",
+                           //  "Extras":"
+                           //  {
+                           //   \"Customer\":
+                           //   {
+                           //    \"Id\":\"0079567501\"
+                           //   }
+                           //  }"
+                           // },
+                           //  "TellerInfo":{
+                           //   "ClientSessionId":127,
+                           //   "TellerName":"Teller",
+                           //   "VideoConferenceUri":"10.35.210.10",
+                           //   "TellerId":"Teller"
+                           //  }
+                           //}
+
+                           dynamic dynamicExtras = JsonConvert.DeserializeObject<ExpandoObject>(dynamicExternalCommandMessage.Command.Extras, new ExpandoObjectConverter());
+
+                           ApplicationState = dynamicExternalCommandMessage.Command.CommandName;
+                           CustomerId  = dynamicExtras.Customer.Id;
+                           TellerInfo_Summary = ProcessTellerInfo(dynamicExternalCommandMessage.TellerInfo);
+                        }
+                        catch (Exception ex)
+                        {
+                           throw new Exception($"AELogLine.MoniPlus2sExtension: failed to deserialize ExternalCommandMessage Json payload for log line '{logLine}'\n{ex}");
+                        }
+                        break;
+
+                     case "ExternalCommandResponse":
+
+                        //{"Id":0,"ExternalCommand":{"Id":1,"AssetName":"G1A030","Command":{"CommandName":"InitiateSession","Extras":"{\"CustomerId\":\"0079567501\",\"Extras\":null}"},"TellerInfo":{"ClientSessionId":127,"TellerName":"Teller","VideoConferenceUri":"10.35.210.10","TellerId":"Teller"}},"Timestamp":"2024-03-05T15:05:28.5672085-05:00","Result":0,"Extras":null}
+
+                        jsonPayload = MessageBody;
+
+                        try
+                        {
+                           dynamic dynamicExternalCommandResponse = JsonConvert.DeserializeObject<ExpandoObject>(jsonPayload, new ExpandoObjectConverter());
+
+                           //{
+                           // "Id":0,
+                           // "ExternalCommand":
+                           // {
+                           //  "Id":1,
+                           //  "AssetName":"G1A030",
+                           //  "Command":
+                           //  {
+                           //   "CommandName":"InitiateSession",
+                           //   "Extras":
+                           //   "{
+                           //    \"CustomerId\":\"0079567501\",
+                           //    \"Extras\":null
+                           //   }"
+                           //  },
+                           //  "TellerInfo":
+                           //  {
+                           //   "ClientSessionId":127,
+                           //   "TellerName":"Teller",
+                           //   "VideoConferenceUri":"10.35.210.10",
+                           //   "TellerId":"Teller"
+                           //  }
+                           // },
+                           // "Timestamp":"2024-03-05T15:05:28.5672085-05:00",
+                           // "Result":0,
+                           // "Extras":null
+                           //}
+
+                           ApplicationState =$"Id={dynamicExternalCommandResponse.ExternalCommand.Id}, Command={dynamicExternalCommandResponse.ExternalCommand.Command.CommandName}, Result={dynamicExternalCommandResponse.Result}";
+                           AssetName = dynamicExternalCommandResponse.ExternalCommand.AssetName;
+                           dynamic dynamicExtras = JsonConvert.DeserializeObject<ExpandoObject>(dynamicExternalCommandResponse.ExternalCommand.Command.Extras, new ExpandoObjectConverter());
+
+                           CustomerId = dynamicExtras.CustomerId;
+                           TellerInfo_Summary = ProcessTellerInfo(dynamicExternalCommandResponse.ExternalCommand.TellerInfo);
+                        }
+                        catch (Exception ex)
+                        {
+                           throw new Exception($"AELogLine.MoniPlus2sExtension: failed to deserialize ExternalCommandResponse Json payload for log line '{logLine}'\n{ex}");
+                        }
+                        break;
+
                      case "TellerSessionRequest":
 
                         //{"Id":0,"AssetName":"WI000902","Timestamp":"2023-11-13T08:06:23.8980976-06:00","CustomerId":"","FlowPoint":"Common-RequestAssistance","RequestContext":"TellerIdentificationButton","ApplicationState":"PostIdle","TransactionType":"","Language":"English","VoiceGuidance":false,"RoutingProfile":{"SupportedCallType":"BeeHD"}}
 
-                        string jsonPayload = MessageBody;
+                        jsonPayload = MessageBody;
 
                         try
                         {
@@ -1052,6 +1149,7 @@ namespace LogLineHandler
 
                            AssetState_Id = dynamicAssetState.Id;
                            IpAddress = dynamicAssetState.IpAddress;
+                           AssetName = IpAddress;
                            MacAddress = dynamicAssetState.MacAddress;
                            Manufacturer = dynamicAssetState.Manufacturer != null ? dynamicAssetState.Manufacturer : string.Empty;
                            Model = dynamicAssetState.Model != null ? dynamicAssetState.Model : string.Empty;
@@ -1073,7 +1171,7 @@ namespace LogLineHandler
                                     switch (kvp.Key)
                                     {
                                        case "AssetName":
-                                          assetName = kvp.Value.ToString();
+                                          AssetName = kvp.Value.ToString();
                                           break;
 
                                        case "Name":
@@ -1202,8 +1300,6 @@ namespace LogLineHandler
                         //}'
 
                         jsonPayload = MessageBody;
-
-                        // TODO
 
                         try
                         {

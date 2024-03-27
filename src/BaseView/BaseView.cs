@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using Contract;
@@ -151,6 +152,7 @@ namespace Impl
 
       /// <summary>Call to process the datatable (merge of all log lines)</summary>
       /// <returns>void</returns>
+      /// <remarks>The view's tables are added to the combined dataset</remarks>
       public virtual void PostProcess(IContext ctx)
       {
          ctx.LogWriteLine("------------------------------------------------");

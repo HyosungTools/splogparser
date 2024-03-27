@@ -1,0 +1,43 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="METAVIEW" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="METAVIEW" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="MetaStory">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="line" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="machinetype" type="xs:string" minOccurs="0" />
+			  <!-- Active Teller -->
+              <xs:element name="query" type="xs:string" minOccurs="0" />
+              <xs:element name="AtmFile" type="xs:string" minOccurs="0" />
+              <xs:element name="AtmLine" type="xs:string" minOccurs="0" />
+              <xs:element name="AtmTime" type="xs:string" minOccurs="0" />
+              <xs:element name="TellerFile" type="xs:string" minOccurs="0" />
+              <xs:element name="TellerLine" type="xs:string" minOccurs="0" />
+              <xs:element name="TellerTime" type="xs:string" minOccurs="0" />
+              <xs:element name="ServerFile" type="xs:string" minOccurs="0" />
+              <xs:element name="ServerLine" type="xs:string" minOccurs="0" />
+              <xs:element name="ServerTime" type="xs:string" minOccurs="0" />
+              <xs:element name="TimeDiffAtmServer" type="xs:string" minOccurs="0" />
+              <xs:element name="TimeDiffAtmTeller" type="xs:string" minOccurs="0" />
+              <xs:element name="TimeDiffTellerServer" type="xs:string" minOccurs="0" />
+              <xs:element name="AssetName" type="xs:string" minOccurs="0" />
+              <xs:element name="SessionRequestId" type="xs:string" minOccurs="0" />
+              <xs:element name="ClientSessionId" type="xs:string" minOccurs="0" />
+              <xs:element name="TellerName" type="xs:string" minOccurs="0" />
+              <xs:element name="FlowPoint" type="xs:string" minOccurs="0" />
+  			  <!-- BeeHD -->
+              <xs:element name="CallIdHeader" type="xs:string" minOccurs="0" />
+              <xs:element name="MsgHeader" type="xs:string" minOccurs="0" />
+              <xs:element name="CSeqHeader" type="xs:string" minOccurs="0" />
+              <xs:element name="Direction" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+		</xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

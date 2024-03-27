@@ -1,4 +1,6 @@
-﻿namespace Contract
+﻿using System.Data;
+
+namespace Contract
 {
    public interface IView
    {

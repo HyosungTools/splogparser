@@ -14,15 +14,21 @@ namespace LogLineHandler
 
       public string StartupState { get; set; } = string.Empty;
       public string TimeState { get; set; } = string.Empty;
-      public string ApiCall { get; set; } = string.Empty;
-      public string AssetATM { get; set; } = string.Empty;
+      public string RequestMethod { get; set; } = string.Empty;
+      public string RequestPath { get; set; } = string.Empty;
+      public string AssetATMState { get; set; } = string.Empty;
+      public string AssetId {  get; set; } = string.Empty;
+      public string AssetName { get; set; } = string.Empty;
       public string ModeATM { get; set; } = string.Empty;
+      public string ClientSessionId { get; set; } = string.Empty;
+      public string SessionRequestId { get; set; } = string.Empty;
       public string Customer { get; set; } = string.Empty;
       public string Flowpoint { get; set; } = string.Empty;
       public string Image { get; set; } = string.Empty;
       public string Teller { get; set; } = string.Empty;
       public string Database { get; set; } = string.Empty;
       public string ConnectionSignalR { get; set; } = string.Empty;
+      public string ConnectionGuid { get; set; } = string.Empty;
       public string Scheduler { get; set; } = string.Empty;
       public string Exception { get; set; } = string.Empty;
 
@@ -222,7 +228,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          m = regex.Match(subLogLine);
          if (m.Success)
          {
-            AssetATM = $"{m.Groups["asset"].Value} processing job {m.Groups["id"].Value}";
+            AssetATMState = $"{m.Groups["asset"].Value} processing job {m.Groups["id"].Value}";
+            AssetName = m.Groups["asset"].Value;
             IsRecognized = true;
             // no return - fall through to next check
          }
@@ -248,7 +255,9 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             Scheduler = subLogLine;
-            AssetATM = $"{m.Groups["asset"].Value} job {m.Groups["id"].Value} due to execute";
+            AssetATMState = $"{m.Groups["asset"].Value} job {m.Groups["id"].Value} due to execute";
+            AssetId = m.Groups["asset"].Value;
+
             IsRecognized = true;
             // no return - fall through to next check
          }
@@ -371,35 +380,40 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             //GetUserPermissions - /ActiveTeller/api/permissions/14
             //Post - /ActiveTeller/api/auth/register
 
-            ApiCall = subLogLine;
+            string[] tokens = subLogLine.Split(new char[] { '-' });
+            if (tokens.Length == 2)
+            {
+               RequestMethod = tokens[0].Trim().ToUpper();
+               RequestPath = tokens[1].Replace("activeteller", "ActiveTeller").Replace("assetName", "AssetName").Replace("assetname", "AssetName");
+            }
             IsRecognized = true;
 
-            regex = new Regex("(?<api>.*)/applicationstates/(?<asset>[0-9]*)");
-            m = regex.Match(subLogLine);
+            regex = new Regex("/ActiveTeller/api/applicationstates/(?<asset>[0-9]*)");
+            m = regex.Match(RequestPath);
             if (m.Success)
             {
-               AssetATM = m.Groups["asset"].Value;
+               AssetId = m.Groups["asset"].Value;
             }
 
-            regex = new Regex("(?<api>.*)/permissions/(?<asset>[0-9]*)");
-            m = regex.Match(subLogLine);
+            regex = new Regex("/ActiveTeller/permissions/(?<asset>[0-9]*)");
+            m = regex.Match(RequestPath);
             if (m.Success)
             {
-               AssetATM = m.Groups["asset"].Value;
+               AssetId = m.Groups["asset"].Value;
             }
 
-            regex = new Regex("(?<api>.*)/operatingmodes\\?[Aa]ssetName=(?<asset>.*)");
-            m = regex.Match(subLogLine);
+            regex = new Regex("/ActiveTeller/operatingmodes\\?AssetName=(?<asset>.*)");
+            m = regex.Match(RequestPath);
             if (m.Success)
             {
-               AssetATM = m.Groups["asset"].Value;
+               AssetName = m.Groups["asset"].Value;
             }
 
-            regex = new Regex("(?<api>.*)/devicestates\\?[Aa]ssetName=(?<asset>.*)&(?<params>.*)");
-            m = regex.Match(subLogLine);
+            regex = new Regex("/ActiveTeller/devicestates\\?AssetName=(?<asset>.*)&(?<params>.*)");
+            m = regex.Match(RequestPath);
             if (m.Success)
             {
-               AssetATM = m.Groups["asset"].Value;
+               AssetName = m.Groups["asset"].Value;
             }
 
             return;
@@ -410,7 +424,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             Scheduler = subLogLine;
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetId = m.Groups["asset"].Value;
             ModeATM = m.Groups["mode"].Value;
             IsRecognized = true;
             return;
@@ -420,7 +435,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          m = regex.Match(subLogLine);
          if (m.Success)
          {
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetId = m.Groups["asset"].Value;
             Database = subLogLine;
             IsRecognized = true;
             return;
@@ -449,7 +465,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             Database = subLogLine;
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetId = m.Groups["asset"].Value;
             Customer = m.Groups["customer"].Value;
             IsRecognized = true;
             return;
@@ -460,7 +477,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             Database = subLogLine;
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetId = m.Groups["asset"].Value;
             Customer = m.Groups["customer"].Value;
             IsRecognized = true;
             return;
@@ -471,12 +489,13 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             Database = subLogLine;
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetId = m.Groups["asset"].Value;
             IsRecognized = true;
             return;
          }
 
-         regex = new Regex("Removing (?<asset>.*) expired client session\\(s\\).");
+         regex = new Regex("Removing (?<num>.*) expired client session\\(s\\).");
          m = regex.Match(subLogLine);
          if (m.Success)
          {
@@ -490,7 +509,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             Database = subLogLine;
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetName = m.Groups["asset"].Value;
             IsRecognized = true;
             return;
          }
@@ -500,7 +520,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             Database = subLogLine;
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetName = m.Groups["asset"].Value;
             IsRecognized = true;
             return;
          }
@@ -519,7 +540,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             ModeATM = subLogLine;
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetId = m.Groups["asset"].Value;
             IsRecognized = true;
             return;
          }
@@ -538,7 +560,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             Database = subLogLine;
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetId = m.Groups["asset"].Value;
             IsRecognized = true;
             return;
          }
@@ -548,7 +571,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             Database = subLogLine;
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetId = m.Groups["asset"].Value;
             IsRecognized = true;
             return;
          }
@@ -558,7 +582,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             Database = subLogLine;
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetName = m.Groups["asset"].Value;
             ModeATM = $"{m.Groups["mode"].Value} failed";
             IsRecognized = true;
             return;
@@ -569,7 +594,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             Database = subLogLine;
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetId = m.Groups["asset"].Value;
             IsRecognized = true;
             return;
          }
@@ -579,7 +605,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             Database = subLogLine;
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetId = m.Groups["asset"].Value;
             IsRecognized = true;
             return;
          }
@@ -591,6 +618,7 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             if (m.Success)
             {
                ConnectionSignalR = $"{m.Groups["guid"].Value } {m.Groups["event"].Value}";
+               ConnectionGuid = m.Groups["guid"].Value;
                IsRecognized = true;
                return;
             }
@@ -600,6 +628,7 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             if (m.Success)
             {
                ConnectionSignalR = $"{m.Groups["guid"].Value} added";
+               ConnectionGuid = m.Groups["guid"].Value;
                Database = subLogLine;
                IsRecognized = true;
                return;
@@ -610,6 +639,7 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             if (m.Success)
             {
                ConnectionSignalR = $"{m.Groups["guid"].Value} added";
+               ConnectionGuid = m.Groups["guid"].Value;
                Database = subLogLine;
                Teller = m.Groups["client"].Value;
                IsRecognized = true;
@@ -620,8 +650,11 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             if (m.Success)
             {
                ConnectionSignalR = $"{m.Groups["guid"].Value} added";
+               ConnectionGuid = m.Groups["guid"].Value;
                Database = subLogLine;
-               AssetATM = m.Groups["asset"].Value;
+               ConnectionGuid = m.Groups["guid"].Value;
+               AssetATMState = m.Groups["asset"].Value;
+               AssetName = m.Groups["asset"].Value;
                IsRecognized = true;
                return;
             }
@@ -631,6 +664,7 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             if (m.Success)
             {
                ConnectionSignalR = $"{m.Groups["guid"].Value} updated";
+               ConnectionGuid = m.Groups["guid"].Value;
                Database = subLogLine;
                IsRecognized = true;
                return;
@@ -641,8 +675,10 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             if (m.Success)
             {
                ConnectionSignalR = $"{m.Groups["guid"].Value} updated";
+               ConnectionGuid = m.Groups["guid"].Value;
                Database = subLogLine;
-               AssetATM = m.Groups["asset"].Value;
+               AssetATMState = m.Groups["asset"].Value;
+               AssetName = m.Groups["asset"].Value;
                IsRecognized = true;
                return;
             }
@@ -652,6 +688,7 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             if (m.Success)
             {
                ConnectionSignalR = $"{m.Groups["guid"].Value} removed";
+               ConnectionGuid = m.Groups["guid"].Value;
                Database = subLogLine;
                IsRecognized = true;
                return;
@@ -662,8 +699,10 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             if (m.Success)
             {
                ConnectionSignalR = $"{m.Groups["guid"].Value} removed";
+               ConnectionGuid = m.Groups["guid"].Value;
                Database = subLogLine;
-               AssetATM = $"{m.Groups["asset"].Value} removed";
+               AssetATMState = $"{m.Groups["asset"].Value} removed";
+               AssetName = m.Groups["asset"].Value;
                IsRecognized = true;
                return;
             }
@@ -673,6 +712,7 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             if (m.Success)
             {
                ConnectionSignalR = $"{m.Groups["guid"].Value} removed";
+               ConnectionGuid = m.Groups["guid"].Value;
                Database = subLogLine;
                Teller = $"{m.Groups["session"].Value} removed";
                IsRecognized = true;
@@ -684,6 +724,7 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             if (m.Success)
             {
                ConnectionSignalR = $"{m.Groups["guid"].Value} updated subscription";
+               ConnectionGuid = m.Groups["guid"].Value;
                Teller = $"update statistics subscription";
                Database = subLogLine;
                IsRecognized = true;
@@ -695,6 +736,7 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             if (m.Success)
             {
                ConnectionSignalR = $"{m.Groups["guid"].Value} starting";
+               ConnectionGuid = m.Groups["guid"].Value;
                Database = subLogLine;
                IsRecognized = true;
                return;
@@ -705,6 +747,7 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             if (m.Success)
             {
                ConnectionSignalR = $"{m.Groups["guid"].Value} finishing";
+               ConnectionGuid = m.Groups["guid"].Value;
                Database = subLogLine;
                IsRecognized = true;
                return;
@@ -774,7 +817,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             Teller = subLogLine;
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetId = m.Groups["asset"].Value;
             IsRecognized = true;
             return;
          }
@@ -784,40 +828,47 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             Teller = subLogLine;
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetName = m.Groups["asset"].Value;
             IsRecognized = true;
             return;
          }
 
-         regex = new Regex("RemoveTellerSessionRequestsForClient deleted TellerSessionRequestId=(?<requestid>.*) for clientSessionId=(?<sessionid>.*)");
+         regex = new Regex("RemoveTellerSessionRequestsForClient deleted TellerSessionRequestId=(?<sessionrequestid>.*) for clientSessionId=(?<clientsessionid>.*)");
          m = regex.Match(subLogLine);
          if (m.Success)
          {
             Database = subLogLine;
-            AssetATM = $"{m.Groups["requestedid"].Value} request deleted";
-            Teller = $"{m.Groups["sessionid"].Value}";
+            AssetATMState = $"{m.Groups["requestedid"].Value} request deleted";
+            Teller = $"{m.Groups["clientsessionid"].Value}";
+            ClientSessionId = $"{m.Groups["clientsessionid"].Value}";
+            SessionRequestId = m.Groups["sessionrequestid"].Value;
             IsRecognized = true;
             return;
          }
 
-         regex = new Regex("Client session (?<session>.*) subscribed to asset (?<asset>.*)");
+         regex = new Regex("Client session (?<clientsession>.*) subscribed to asset (?<asset>.*)");
          m = regex.Match(subLogLine);
          if (m.Success)
          {
             ConnectionSignalR = subLogLine;
             Teller = $"{m.Groups["session"].Value} removed";
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetName = m.Groups["asset"].Value;
+            ClientSessionId = m.Groups["clientsession"].Value;
             IsRecognized = true;
             return;
          }
 
-         regex = new Regex("Client session (?<session>.*) can handle the request from (?<asset>.*)");
+         regex = new Regex("Client session (?<clientsession>.*) can handle the request from (?<asset>.*)");
          m = regex.Match(subLogLine);
          if (m.Success)
          {
             ConnectionSignalR = subLogLine;
             Teller = $"{m.Groups["session"].Value}";
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetName = m.Groups["asset"].Value;
+            ClientSessionId = m.Groups["clientsession"].Value;
             IsRecognized = true;
             return;
          }
@@ -827,7 +878,8 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
          if (m.Success)
          {
             Teller = subLogLine;
-            AssetATM = m.Groups["asset"].Value;
+            AssetATMState = m.Groups["asset"].Value;
+            AssetName = m.Groups["asset"].Value;
             IsRecognized = true;
             return;
          }
@@ -842,7 +894,10 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             {
                dynamic tellerSessionRequest = JsonConvert.DeserializeObject<ExpandoObject>((string) m.Groups["json"].Value, new ExpandoObjectConverter());
 
-               AssetATM = $"{tellerSessionRequest.AssetName}";
+               AssetATMState = $"{tellerSessionRequest.AssetName}";
+               AssetName = $"{tellerSessionRequest.AssetName}";
+               SessionRequestId = $"{tellerSessionRequest.Id}";
+
                Customer = $"{tellerSessionRequest.CustomerId} {tellerSessionRequest.CustomerName}";
                //2023-11-20T08:42:40.2709727-06:00
                TimeState = $"{tellerSessionRequest.Timestamp.ToString(DateTimeFormatStringMsec)}";
@@ -937,12 +992,14 @@ public Startup(ILogFileHandler parent, string logLine, AVLogType awType = AVLogT
             return;
          }
 
-         regex = new Regex("Updating teller transaction status to failed for teller session (?<id>.*) because the session ended while the transaction was still in progress.");
+         regex = new Regex("Updating teller transaction status to failed for teller session (?<clientsessionid>.*) because the session ended while the transaction was still in progress.");
          m = regex.Match(subLogLine);
          if (m.Success)
          {
             Database = subLogLine;
             Teller = $"{m.Groups["id"].Value} update failed";
+            ClientSessionId = $"{m.Groups["clientsessionid"].Value}";
+            SessionRequestId = m.Groups["id"].Value;
 
             IsRecognized = true;
             return;

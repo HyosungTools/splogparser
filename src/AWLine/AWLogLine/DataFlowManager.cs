@@ -20,6 +20,7 @@ namespace LogLineHandler
       public string TaskStatusEvent { get; private set; } = string.Empty;
       public string TransactionItemStatus { get; private set; } = string.Empty;
       public string TellerSessionRequest { get; private set; } = string.Empty;
+      public string SessionRequestId { get; private set; } = string.Empty;
       public string TransactionItemStatusChange { get; private set; } = string.Empty;
       public string TransactionReviewRequest { get; private set; } = string.Empty;
 
@@ -260,6 +261,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                TellerSessionRequest = $"TELLER SESSION session id {m.Groups["sessionid"].Value}, for ATM {m.Groups["asset"].Value}, action {m.Groups["action"].Value}";
+               SessionRequestId = m.Groups["sessionid"].Value;
                Asset = m.Groups["asset"].Value;
                IsRecognized = true;
             }
@@ -268,8 +270,9 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               TellerSessionRequest = $"TELLER SESSION REQUEST id {m.Groups["id"].Value}, for ATM {m.Groups["asset"].Value}, action {m.Groups["action"].Value}";
+               TellerSessionRequest = $"TELLER SESSION REQUEST id {m.Groups["sessionid"].Value}, for ATM {m.Groups["asset"].Value}, action {m.Groups["action"].Value}";
                Asset = m.Groups["asset"].Value;
+               SessionRequestId = m.Groups["sessionid"].Value;
                IsRecognized = true;
             }
 
@@ -277,8 +280,9 @@ namespace LogLineHandler
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               TellerSessionRequest = $"TELLER SESSION REQUEST id {m.Groups["id"].Value}, for ATM {m.Groups["asset"].Value}";
+               TellerSessionRequest = $"TELLER SESSION REQUEST id {m.Groups["sessionid"].Value}, for ATM {m.Groups["asset"].Value}";
                Asset = m.Groups["asset"].Value;
+               SessionRequestId = m.Groups["sessionid"].Value;
                IsRecognized = true;
             }
 
