@@ -80,6 +80,13 @@ namespace Contract
       bool Exists(string path);
 
       /// <summary>
+      /// Determines whether a file is not read-only.
+      /// </summary>
+      /// <param name="path">file to check for existence</param>
+      /// <returns>true if the file is writable; false otherwise.</returns>
+      bool FileInUse(string path);
+
+      /// <summary>
       /// Deletes a specified file
       /// </summary>
       /// <param name="fileName"></param>

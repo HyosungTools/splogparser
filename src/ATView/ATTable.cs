@@ -185,9 +185,10 @@ namespace ATView
 
             dataRow["RequestTime"] = logLine.RequestTimeUTC;
 
-            dataRow["ClientSession"] = logLine.ClientSession;
+            dataRow["SessionRequestId"] = logLine.SessionRequestId;
+            dataRow["ClientSessionId"] = logLine.ClientSessionId;
             dataRow["AssetName"] = logLine.AssetName;
-            dataRow["SessionId"] = logLine.SessionId;
+            dataRow["MessageId"] = logLine.MessageId;
             dataRow["TellerName"] = logLine.TellerName;
             dataRow["TellerId"] = logLine.TellerId;
             dataRow["TellerUri"] = logLine.TellerUri;
@@ -228,7 +229,7 @@ namespace ATView
             sb.Append((!string.IsNullOrEmpty(logLine.ObjectHandler) ? $"Handler {logLine.ObjectHandler}" : string.Empty));
 
             sb.Append((!string.IsNullOrEmpty(logLine.AssetName) ? logLine.AssetName : string.Empty));
-            sb.Append((!string.IsNullOrEmpty(logLine.SessionId) ? logLine.SessionId : string.Empty));
+            sb.Append((!string.IsNullOrEmpty(logLine.MessageId) ? logLine.MessageId : string.Empty));
 
             dataRow["ServerHttp"] = sb.ToString();
 
@@ -252,8 +253,8 @@ namespace ATView
             dataRow["file"] = logLine.LogFile;
             dataRow["time"] = logLine.Timestamp;
             dataRow["state"] = logLine.ConnectionState.ToString();
-            dataRow["url"] = (logLine.Url != null) ? logLine.Url : string.Empty;
-            dataRow["guid"] = (logLine.ConnectionGuid != null) ? logLine.ConnectionGuid : string.Empty;
+            dataRow["connectionurl"] = (logLine.ConnectionUrl != null) ? logLine.ConnectionUrl : string.Empty;
+            dataRow["connectionguid"] = (logLine.ConnectionGuid != null) ? logLine.ConnectionGuid : string.Empty;
             dataRow["exception"] = (logLine.Exception != null) ? logLine.Exception : string.Empty;
 
             dTableSet.Tables[tableName].AcceptChanges();
@@ -275,7 +276,7 @@ namespace ATView
 
             StringBuilder sb = new StringBuilder();
             sb.Append($"State {logLine.ConnectionState}, ");
-            sb.Append((!string.IsNullOrEmpty(logLine.Url) ? $"URL {logLine.Url}, " : string.Empty));
+            sb.Append((!string.IsNullOrEmpty(logLine.ConnectionUrl) ? $"URL {logLine.ConnectionUrl}, " : string.Empty));
             sb.Append((!string.IsNullOrEmpty(logLine.Exception) ? $"Exception {logLine.Exception}, " : string.Empty));
 
             dataRow["ServerSignalR"] = sb.ToString();

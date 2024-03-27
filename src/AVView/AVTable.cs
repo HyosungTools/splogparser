@@ -131,10 +131,11 @@ namespace AVView
             dataRow["requesttime"] = logLine.TimeState;
             dataRow["RequestMethod"] = logLine.RequestMethod;
             dataRow["RequestPath"] = logLine.RequestPath;
-            dataRow["asset"] = logLine.AssetATM;
+            dataRow["AssetState"] = logLine.AssetATMState;
             dataRow["AssetName"] = logLine.AssetName;
             dataRow["AssetId"] = logLine.AssetId;
-            dataRow["SessionId"] = logLine.SessionId;
+            dataRow["SessionRequestId"] = logLine.SessionRequestId;
+            dataRow["ClientSessionId"] = logLine.ClientSessionId;
             dataRow["mode"] = logLine.ModeATM;
             dataRow["customer"] = logLine.Customer;
             dataRow["flowpoint"] = logLine.Flowpoint;

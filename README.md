@@ -108,6 +108,8 @@ Combine one or more *Parse Type* with one or more *View* to tell the parse what 
 | beehdmessages | Include a detailed listing in the BeeHDMessages tab.  Can run out of memory processing large files, if this occurs use Time Filtering to limit the number of lines processed. |
 | *             | All of the above |
 
+  -bbeehdmessages* --rawlogline   -f "<logdir>"
+
 ### -s (--sp) View Option Meaning
 
 | View     | Description |

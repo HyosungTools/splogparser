@@ -13,10 +13,11 @@
               <xs:element name="requesttime" type="xs:string" minOccurs="0" />
               <xs:element name="RequestMethod" type="xs:string" minOccurs="0" />
               <xs:element name="RequestPath" type="xs:string" minOccurs="0" />
-              <xs:element name="asset" type="xs:string" minOccurs="0" />
+              <xs:element name="AssetState" type="xs:string" minOccurs="0" />
               <xs:element name="AssetName" type="xs:string" minOccurs="0" />
               <xs:element name="AssetId" type="xs:string" minOccurs="0" />
-              <xs:element name="SessionId" type="xs:string" minOccurs="0" />
+              <xs:element name="SessionRequestId" type="xs:string" minOccurs="0" />
+              <xs:element name="ClientSessionId" type="xs:string" minOccurs="0" />
               <xs:element name="mode" type="xs:string" minOccurs="0" />
               <xs:element name="customer" type="xs:string" minOccurs="0" />
               <xs:element name="flowpoint" type="xs:string" minOccurs="0" />

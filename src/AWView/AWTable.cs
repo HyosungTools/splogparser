@@ -446,6 +446,11 @@ namespace AWView
                   dataRow["ServerConnectionState"] = cmLine.ServerConnectionState;
                   dataRow["HttpImageRetrievalState"] = cmLine.HttpImageRetrievalState;
                   dataRow["HttpServerRequest"] = cmLine.HttpServerRequest;
+                  dataRow["ConnectionGuid"] = cmLine.ConnectionGuid;
+                  dataRow["ConnectionUri"] = cmLine.ConnectionUri;
+                  dataRow["AssetName"] = cmLine.AssetName;
+                  dataRow["ClientSessionId"] = cmLine.ClientSessionId;
+                  dataRow["SessionRequestId"] = cmLine.SessionRequestId;
                   break;
 
                case AWLogType.DataFlowManager:

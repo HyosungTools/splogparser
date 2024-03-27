@@ -20,6 +20,12 @@ namespace LogLineHandler
       public string HttpServerRequest { get; set; } = string.Empty;
 
 
+      public string ConnectionGuid { get; set; } = string.Empty;
+      public string ConnectionUri { get; set; } = string.Empty;
+      public string AssetName { get; set; } = string.Empty;
+      public string ClientSessionId { get; set; } = string.Empty;
+      public string SessionRequestId { get; set; } = string.Empty;
+
       public ConnectionManager(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.ConnectionManager) : base(parent, logLine, awType)
       {
       }
@@ -145,6 +151,8 @@ namespace LogLineHandler
             if (m.Success)
             {
                SignalRConnectionState = $"CONNECTED guid {m.Groups["guid"].Value} to {m.Groups["uri"].Value}";
+               ConnectionGuid = m.Groups["guid"].Value;
+               ConnectionUri = m.Groups["uri"].Value;
                IsRecognized = true;
             }
 
@@ -153,6 +161,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                SignalRConnectionState = $"DISCONNECTED - REQUESTING CONNECTION TO {m.Groups["uri"].Value}";
+               ConnectionUri = m.Groups["uri"].Value;
                IsRecognized = true;
             }
 
@@ -169,6 +178,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                SignalRConnectionState = $"CONNECTION REQUESTED to {m.Groups["uri"].Value}";
+               ConnectionUri = m.Groups["uri"].Value;
                IsRecognized = true;
             }
 
@@ -177,6 +187,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                ServerConnectionState = $"REGISTERING CLIENT SESSION id {m.Groups["sessionid"].Value}";
+               ClientSessionId = m.Groups["sessionid"].Value;
                IsRecognized = true;
             }
 
@@ -185,6 +196,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                TellerAssistSessionState = $"TELLER SESSION REQUESTED id {m.Groups["requestid"].Value}";
+               SessionRequestId = m.Groups["requestid"].Value;
                IsRecognized = true;
             }
 
@@ -193,6 +205,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                TellerAssistSessionState = $"REMOTE CONTROL SESSION REQUESTED id {m.Groups["sessionid"].Value}";
+               ClientSessionId = m.Groups["sessionid"].Value;
                IsRecognized = true;
             }
 
@@ -201,6 +214,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                TellerAssistSessionState = $"ASSIST SESSION REQUESTED id {m.Groups["sessionid"].Value}";
+               ClientSessionId = m.Groups["sessionid"].Value;
                IsRecognized = true;
             }
 
@@ -209,6 +223,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                TellerAssistSessionState = $"APPROVAL SENT FOR SESSION id {m.Groups["sessionid"].Value}";
+               ClientSessionId = m.Groups["sessionid"].Value;
                IsRecognized = true;
             }
 
@@ -217,6 +232,8 @@ namespace LogLineHandler
             if (m.Success)
             {
                TellerAssistSessionState = $"SENT CUSTOMER REVIEW RESPONSE FOR SESSION id {m.Groups["sessionid"].Value} to ATM {m.Groups["asset"].Value}";
+               ClientSessionId = m.Groups["sessionid"].Value;
+               AssetName = m.Groups["asset"].Value;
                IsRecognized = true;
             }
 
@@ -225,6 +242,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                SignalRConnectionState = $"DISCONNECTED guid {m.Groups["guid"].Value}";
+               ConnectionGuid = m.Groups["guid"].Value;
                IsRecognized = true;
             }
 
@@ -233,6 +251,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                RemoteControlSessionState = $"CREATED SESSION id {m.Groups["sessionid"].Value}";
+               ClientSessionId = m.Groups["sessionid"].Value;
                IsRecognized = true;
             }
 
@@ -241,6 +260,7 @@ namespace LogLineHandler
             if (m.Success)
             {
                RemoteControlSessionState = $"DELETING SESSION id {m.Groups["sessionid"].Value}";
+               ClientSessionId = m.Groups["sessionid"].Value;
                IsRecognized = true;
             }
 
@@ -252,11 +272,12 @@ namespace LogLineHandler
                IsRecognized = true;
             }
 
-            regex = new Regex("Failed sending teller session for request (?<id>.*) with status (?<status>.*)");
+            regex = new Regex("Failed sending teller session for request (?<requestid>.*) with status (?<status>.*)");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               HttpImageRetrievalState = $"FAILED SENDING TELLER SESSION FOR REQUEST {m.Groups["id"].Value}, status {m.Groups["status"].Value}";
+               HttpImageRetrievalState = $"FAILED SENDING TELLER SESSION FOR REQUEST {m.Groups["requestid"].Value}, status {m.Groups["status"].Value}";
+               SessionRequestId = m.Groups["requestid"].Value;
                IsRecognized = true;
             }
 

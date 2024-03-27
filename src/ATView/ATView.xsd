@@ -31,8 +31,8 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="Payload" type="xs:string" minOccurs="0" />
               <xs:element name="state" type="xs:string" minOccurs="0" />
-              <xs:element name="url" type="xs:string" minOccurs="0" />
-              <xs:element name="guid" type="xs:string" minOccurs="0" />
+              <xs:element name="ConnectionUrl" type="xs:string" minOccurs="0" />
+              <xs:element name="ConnectionGuid" type="xs:string" minOccurs="0" />
               <xs:element name="exception" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
@@ -81,9 +81,10 @@
               <xs:element name="RequestPath" type="xs:string" minOccurs="0" />
               <xs:element name="RequestResult" type="xs:string" minOccurs="0" />
               <xs:element name="RequestTime" type="xs:string" minOccurs="0" />
-              <xs:element name="ClientSession" type="xs:string" minOccurs="0" />
+              <xs:element name="MessageId" type="xs:string" minOccurs="0" />
+              <xs:element name="SessionRequestId" type="xs:string" minOccurs="0" />
+              <xs:element name="ClientSessionId" type="xs:string" minOccurs="0" />
               <xs:element name="AssetName" type="xs:string" minOccurs="0" />
-              <xs:element name="SessionId" type="xs:string" minOccurs="0" />
               <xs:element name="TellerName" type="xs:string" minOccurs="0" />
               <xs:element name="TellerId" type="xs:string" minOccurs="0" />
               <xs:element name="TellerUri" type="xs:string" minOccurs="0" />

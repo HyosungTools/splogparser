@@ -288,6 +288,16 @@ namespace splogparser
 
          ctx.ConsoleWriteLogLine("Application folder: " + ctx.ioProvider.GetCurrentDirectory());
 
+         // if the Excel file exists but is not writable, user must correct the issue
+         if (ctx.ioProvider.FileInUse(ctx.ExcelFileName))
+         {
+            ctx.ConsoleWriteLogLine($"WARNING: the output file {ctx.ExcelFileName} is in use by another process!");
+
+            // usually it's a still-open Excel UI, or a prior program crash while debugging left EXCEL.EXE running in the background
+            // sometimes an unknown process, possibly a leftover from VS (debug or a Data Source query), has the file open
+            // return;
+         }
+
          // Create a Stopwatch instance
          Stopwatch stopwatch = new Stopwatch();
 

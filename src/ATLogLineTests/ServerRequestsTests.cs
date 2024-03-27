@@ -239,11 +239,11 @@ namespace ATLogLineTests
          Assert.AreEqual(line.ObjectHandler, string.Empty);
          Assert.AreEqual("Message received", line.Operation);
          Assert.AreEqual("2023-09-25 10:42:29", line.Timestamp);
-         Assert.AreEqual(3895, line.ClientSession);
+         Assert.AreEqual(3895, line.ClientSessionId);
          Assert.AreEqual("mluckham", line.TellerId);
          Assert.AreEqual("Mike", line.TellerName);
          Assert.AreEqual("NM000559", line.AssetName);
-         Assert.AreEqual("24022", line.SessionId);
+         Assert.AreEqual("24022", line.MessageId);
          Assert.AreEqual("10.255.254.247", line.TellerUri);
 
          Assert.AreEqual("2023-09-25 04:38:43.3973", line.RequestTimeUTC);
@@ -272,7 +272,7 @@ namespace ATLogLineTests
          Assert.AreEqual("TellerIdentificationButton", line.RequestContext);
          Assert.AreEqual("PostIdle", line.ApplicationState);
          Assert.AreEqual("WI000902", line.AssetName);
-         Assert.AreEqual(line.SessionId, string.Empty);
+         Assert.AreEqual(line.MessageId, string.Empty);
          Assert.AreEqual(line.atType, ATLogType.None);
       }
 
@@ -297,11 +297,11 @@ namespace ATLogLineTests
          Assert.AreEqual("2023-11-13 08:16:32", line.Timestamp);
          Assert.AreEqual(line.ApplicationState, string.Empty);
          Assert.AreEqual("WI000902", line.AssetName);
-         Assert.AreEqual("2236837", line.SessionId);
+         Assert.AreEqual("2236837", line.MessageId);
          Assert.AreEqual("mluckham", line.TellerId);
          Assert.AreEqual("Mike", line.TellerName);
          Assert.AreEqual("10.206.20.47", line.TellerUri);
-         Assert.AreEqual(6782, line.ClientSession);
+         Assert.AreEqual(6782, line.ClientSessionId);
 
          Assert.AreEqual("2023-11-13 02:11:57.9696", line.RequestTimeUTC);
 
@@ -328,11 +328,11 @@ namespace ATLogLineTests
          Assert.AreEqual(line.RequestContext, string.Empty);
          Assert.AreEqual(line.ApplicationState, string.Empty);
          Assert.AreEqual(line.AssetName, string.Empty);
-         Assert.AreEqual("24022", line.SessionId);
+         Assert.AreEqual("24022", line.MessageId);
          Assert.AreEqual("mluckham", line.TellerId);
          Assert.AreEqual("Mike", line.TellerName);
          Assert.AreEqual("10.255.254.247", line.TellerUri);
-         Assert.AreEqual(3895, line.ClientSession);
+         Assert.AreEqual(3895, line.ClientSessionId);
          Assert.AreEqual(line.RequestTimeUTC, string.Empty);
          Assert.AreEqual("CheckDeposit", line.TransactionType);
          Assert.AreEqual(line.atType, ATLogType.None);
@@ -358,11 +358,11 @@ namespace ATLogLineTests
          Assert.AreEqual(line.RequestContext, string.Empty);
          Assert.AreEqual(line.ApplicationState, string.Empty);
          Assert.AreEqual("WI000902", line.AssetName);
-         Assert.AreEqual("2237013", line.SessionId);
+         Assert.AreEqual("2237013", line.MessageId);
          Assert.AreEqual("mluckham", line.TellerId);
          Assert.AreEqual("Mike", line.TellerName);
          Assert.AreEqual("10.206.20.47", line.TellerUri);
-         Assert.AreEqual(6782, line.ClientSession);
+         Assert.AreEqual(6782, line.ClientSessionId);
          Assert.AreEqual("ConfigurationRequest", line.RequestName);
          Assert.AreEqual("ConfigurationRequest", line.EventName);
          Assert.AreEqual("ConfigurationQueryTask", line.TaskName);

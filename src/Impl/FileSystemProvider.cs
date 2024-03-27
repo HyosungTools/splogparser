@@ -144,7 +144,23 @@ namespace Impl
          return File.Exists(path);
       }
 
-      public void Delete(string fileName)
+      public bool FileInUse(string path)
+      {
+         try
+         {
+            using (var stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
+            {
+            }
+         }
+         catch (IOException)
+         {
+            return true;
+         }
+
+         return false;
+      }
+
+         public void Delete(string fileName)
       {
          try
          {

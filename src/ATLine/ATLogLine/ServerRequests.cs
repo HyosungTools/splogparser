@@ -59,12 +59,12 @@ namespace LogLineHandler
       public string RequestResult { get; set; } = string.Empty;
 
       public string RequestTimeUTC { get; set; } = string.Empty;
-      public string RequestId { get; set; } = string.Empty;
+      public string SessionRequestId { get; set; } = string.Empty;
 
-      public long ClientSession { get; set; } = -1;
+      public long ClientSessionId { get; set; } = -1;
       public string AssetName { get; set; } = string.Empty;
       public string Terminal { get; set; } = string.Empty;
-      public string SessionId { get; set; } = string.Empty;
+      public string MessageId { get; set; } = string.Empty;
       public string TellerName { get; set; } = string.Empty;
       public string TellerId { get; set; } = string.Empty;
       public string TellerUri { get; set; } = string.Empty;
@@ -364,7 +364,7 @@ namespace LogLineHandler
                         //{"AssetName":"21PLEA03D","TellerSessionRequestId":20628,"Availability":1,"ExternalRoutingIdentifier":null,"Timestamp":"2023-11-17T18:23:07.4571957-06:00"}
                         RequestTimeUTC = ((DateTime)dict["Timestamp"]).ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec);
                         AssetName = (string)dict["AssetName"];
-                        RequestId = dict["TellerSessionRequestId"].ToString();
+                        SessionRequestId = dict["TellerSessionRequestId"].ToString();
                         break;
 
                      case ServerRequestType.RemoteTellerSessionContactInfo:
@@ -375,13 +375,13 @@ namespace LogLineHandler
                         //"TellerInfo":{"ClientSessionId":3880,"TellerName":"Alyssa","VideoConferenceUri":"192.168.20.25","TellerId":"ahall"}}
                         RequestTimeUTC = ((DateTime)dict["Timestamp"]).ToUniversalTime().ToString(LogLine.DateTimeFormatStringMsec);
 
-                        RequestId = dict["TellerSessionRequestId"].ToString();
+                        SessionRequestId = dict["TellerSessionRequestId"].ToString();
 
                         AssetName = (string)dict["AssetName"];
-                        SessionId = dict["Id"].ToString();
+                        MessageId = dict["Id"].ToString();
 
                         tellerInfo = (IDictionary<string, object>)dict["TellerInfo"];
-                        ClientSession = (long)tellerInfo["ClientSessionId"];
+                        ClientSessionId = (long)tellerInfo["ClientSessionId"];
                         TellerName = (string)tellerInfo["TellerName"];
                         TellerId = (string)tellerInfo["TellerId"];
                         TellerUri = (string)tellerInfo["VideoConferenceUri"];
@@ -394,10 +394,10 @@ namespace LogLineHandler
 
                         RequestTimeUTC = ((DateTime)dict["Timestamp"]).ToUniversalTime().ToString(ServerRequests.DateTimeFormatStringMsec);
                         AssetName = (string)dict["AssetName"];
-                        SessionId = dict["Id"].ToString();
+                        MessageId = dict["Id"].ToString();
 
                         tellerInfo = (IDictionary<string, object>)dict["TellerInfo"];
-                        ClientSession = (long)tellerInfo["ClientSessionId"];
+                        ClientSessionId = (long)tellerInfo["ClientSessionId"];
                         TellerName = (string)tellerInfo["TellerName"];
                         TellerId = (string)tellerInfo["TellerId"];
                         TellerUri = (string)tellerInfo["VideoConferenceUri"];
@@ -412,7 +412,7 @@ namespace LogLineHandler
                         TaskName = (string)dict["TaskName"];
                         EventName = (string)dict["EventName"];
                         AssetName = (string)dict["AssetName"];
-                        SessionId = dict["Id"].ToString();
+                        MessageId = dict["Id"].ToString();
 
                         dynamic dynamicData = JsonConvert.DeserializeObject<ExpandoObject>((string)dict["Data"], new ExpandoObjectConverter());
 
@@ -420,7 +420,7 @@ namespace LogLineHandler
                         RequestTimeUTC = ((DateTime)dynamicData.DateTime).ToUniversalTime().ToString(ServerRequests.DateTimeFormatStringMsec);
 
                         tellerInfo = (IDictionary<string, object>)dict["TellerInfo"];
-                        ClientSession = (long)tellerInfo["ClientSessionId"];
+                        ClientSessionId = (long)tellerInfo["ClientSessionId"];
                         TellerName = (string)tellerInfo["TellerName"];
                         TellerId = (string)tellerInfo["TellerId"];
                         TellerUri = (string)tellerInfo["VideoConferenceUri"];
@@ -462,8 +462,8 @@ namespace LogLineHandler
                         }
 
                         tellerInfo = (IDictionary<string, object>)dict["TellerInfo"];
-                        SessionId = long.Parse(dict["TellerSessionId"].ToString()).ToString();
-                        ClientSession = (long)tellerInfo["ClientSessionId"];
+                        SessionRequestId = long.Parse(dict["TellerSessionId"].ToString()).ToString();
+                        ClientSessionId = (long)tellerInfo["ClientSessionId"];
                         TellerName = (string)tellerInfo["TellerName"];
                         TellerId = (string)tellerInfo["TellerId"];
                         TellerUri = (string)tellerInfo["VideoConferenceUri"];

@@ -150,6 +150,7 @@ namespace LogLineHandler
       private static string _sipAudioState = string.Empty;
       private static string _sipVideoState = string.Empty;
 
+      private static string _machineType = string.Empty;
       private static string _speakerState = string.Empty;
       private static string _microphoneState = string.Empty;
       private static string _cameraState = string.Empty;
@@ -230,6 +231,7 @@ namespace LogLineHandler
       public string threadId = string.Empty;
       public string className = string.Empty;
       public string methodName = string.Empty;
+      public string machineType = string.Empty;
       public string source = string.Empty;
       public string logLevel = string.Empty;
       public string payLoad = string.Empty;
@@ -2692,6 +2694,18 @@ namespace LogLineHandler
 
             // output values that persist between SIP message lines ..
             callState = _sipCallState;
+
+            if (msgHeader == "INVITE" && direction == "sent")
+            {
+               _machineType = "atm";
+            }
+
+            if (msgHeader == "OK" && direction == "sent")
+            {
+               _machineType = "teller";
+            }
+
+            machineType = _machineType;
 
             if (_sipMessage != null)
             {
