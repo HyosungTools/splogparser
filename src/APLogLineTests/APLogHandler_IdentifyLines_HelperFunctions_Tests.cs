@@ -18,14 +18,14 @@ namespace APLogLineTests
       {
          ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
          ILogLine logLine = logFileHandler.IdentifyLine(samples_helperfunctions.HelperFunctions_GetConfiguredBillMixList);
-         Assert.IsTrue(logLine is HelperFunctions_GetConfiguredBillMixList);
+         Assert.IsTrue(logLine is APLineField);
 
-         HelperFunctions_GetConfiguredBillMixList apLine = (HelperFunctions_GetConfiguredBillMixList)logLine;
+         APLineField apLine = (APLineField)logLine;
          Assert.IsTrue(apLine.apType == APLogType.HelperFunctions_GetConfiguredBillMixList);
          Assert.IsTrue(apLine.Timestamp == "2023-12-19 20:18:13.380");
          Assert.IsTrue(apLine.HResult == "");
 
-         Assert.IsTrue(apLine.configuredbillmixlist == "20~2|5~0");
+         Assert.IsTrue(apLine.field == "20~2|5~0");
 
       }
 
@@ -34,14 +34,14 @@ namespace APLogLineTests
       {
          ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
          ILogLine logLine = logFileHandler.IdentifyLine(samples_helperfunctions.HelperFunctions_GetFewestBillMixList);
-         Assert.IsTrue(logLine is HelperFunctions_GetFewestBillMixList);
+         Assert.IsTrue(logLine is APLineField);
 
-         HelperFunctions_GetFewestBillMixList apLine = (HelperFunctions_GetFewestBillMixList)logLine;
+         APLineField apLine = (APLineField)logLine;
          Assert.IsTrue(apLine.apType == APLogType.HelperFunctions_GetFewestBillMixList);
          Assert.IsTrue(apLine.Timestamp == "2023-12-19 22:30:32.531");
          Assert.IsTrue(apLine.HResult == "");
 
-         Assert.IsTrue(apLine.fewestbillmixlist == "20~5|5~0");
+         Assert.IsTrue(apLine.field == "20~5|5~0");
 
       }
    }

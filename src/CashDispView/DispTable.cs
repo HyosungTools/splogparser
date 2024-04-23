@@ -63,6 +63,7 @@ namespace CashDispView
 
             // delete rows where the denom is -1, meaning not set
             DeleteRedundantRows(tableName, "denom", "-1");
+            dTableSet.Tables[tableName].AcceptChanges();
 
          }
          catch (Exception e)
@@ -129,17 +130,26 @@ namespace CashDispView
                         summaryRow["cindex"] = cstListRow["cstindex"].ToString();
                      }
                   }
-                  ctx.ConsoleWriteLogLine(String.Format("notetype : {0} CSTIndex {1}", cstListRow["notetype"].ToString(), cstListRow["cstindex"].ToString()));
+                  ctx.ConsoleWriteLogLine(message: String.Format("notetype : {0} CSTIndex {1}", cstListRow["notetype"].ToString(), cstListRow["cstindex"].ToString()));
                }
 
                // delete the table
                dTableSet.Tables.Remove(tableName);
                dTableSet.AcceptChanges();
 
+               foreach (DataTable dataTable in dTableSet.Tables)
+               {
+                  ctx.ConsoleWriteLogLine(message: String.Format("Post Delete CSTList Table, table name is : {0}", dataTable.TableName));
+               }
+
             }
             catch (Exception e)
             {
-               ctx.ConsoleWriteLogLine("SETUP_CSTLIST Exception : " + e.Message);
+               ctx.ConsoleWriteLogLine(message: String.Format("PostProcess Exception : {0}",e.Message));
+
+               // delete the table
+               dTableSet.Tables.Remove(tableName);
+               dTableSet.AcceptChanges();
             }
 
          }
@@ -158,6 +168,10 @@ namespace CashDispView
       /// <returns>true if the write was successful</returns>
       public override bool WriteExcelFile()
       {
+         foreach (DataTable dataTable in dTableSet.Tables)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("WriteExcelFile, table name is : {0}", dataTable.TableName));
+         }
          return base.WriteExcelFile();
       }
 
@@ -333,7 +347,7 @@ namespace CashDispView
                   case APLogType.Core_ProcessWithdrawalTransaction_Account:
                      {
                         base.ProcessRow(apLogLine);
-                        if (apLogLine is Core_ProcessWithdrawalTransactionAccount wdAccount)
+                        if (apLogLine is Core_ProcessWithdrawalTransaction_Account wdAccount)
                         {
                            UPDATE_DISPENSE(apLogLine, "coreaccount", wdAccount.account);
                         }
@@ -370,18 +384,18 @@ namespace CashDispView
                   case APLogType.HelperFunctions_GetConfiguredBillMixList:
                      {
                         base.ProcessRow(apLogLine);
-                        if (apLogLine is HelperFunctions_GetConfiguredBillMixList billMixList)
+                        if (apLogLine is APLineField billMixList)
                         {
-                           UPDATE_DISPENSE_BILLMIX(billMixList, "configured", billMixList.configuredbillmixlist);
+                           UPDATE_DISPENSE_BILLMIX(billMixList, "configured", billMixList.field);
                         }
                         break;
                      }
                   case APLogType.HelperFunctions_GetFewestBillMixList:
                      {
                         base.ProcessRow(apLogLine);
-                        if (apLogLine is HelperFunctions_GetFewestBillMixList billMixList)
+                        if (apLogLine is APLineField billMixList)
                         {
-                           UPDATE_DISPENSE_BILLMIX(billMixList, "fewest", billMixList.fewestbillmixlist);
+                           UPDATE_DISPENSE_BILLMIX(billMixList, "fewest", billMixList.field);
                         }
                         break;
                      }
@@ -459,7 +473,6 @@ namespace CashDispView
 
             if (apLogLine is CashDispenser_DispenseSyncAsync dispSync)
             {
-               ctx.ConsoleWriteLogLine(String.Format("UPDATE_DENOMINATED add DispenseSyncAsync"));
                for (int i = 0; i < dispSync.dispense.Length; i++)
                {
                   dataRow["LU" + i.ToString()] = dispSync.dispense[i];

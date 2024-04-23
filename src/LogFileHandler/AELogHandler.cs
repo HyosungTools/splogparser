@@ -40,8 +40,6 @@ namespace LogFileHandler
          // while not EOL or EOF
          while (!endOfLine && !EOF())
          {
-            //2023-11-17 03:01:58 [NextwareExtension] The 'NextwareExtension' extension is started.
-
             char c = logFile[traceFilePos];
             traceFilePos++;
 
@@ -68,54 +66,6 @@ namespace LogFileHandler
 
       public ILogLine IdentifyLine(string logLine)
       {
-         // (bool success, string apLogLine) result;
-
-         /* APLOG_INSTALL */
-         //if (logLine.StartsWith("=======") && logLine.EndsWith("========\r\n"))
-         //   return new APLine(this, logLine, APLogType.APLOG_INSTALL);
-
-         /* AddKey */
-         //if (logLine.Contains("[AbstractConfigHandler") && logLine.Contains("AddMoniplusData") && logLine.Contains("Add Key="))
-         //   return new AddKey(this, logLine);
-
-         /* CASHDISP */
-         //if (logLine.Contains("[CashDispenser"))
-         //{
-         //   ILogLine iLine = CashDispenser.Factory(this, logLine);
-         //   if (iLine != null) return iLine;
-         //}
-
-         ///* NDC */
-         //if (logLine.Contains("[RecvProcAsync") && logLine.Contains("HOST2ATM:"))
-         //{
-         //   ILogLine iLine = Host2Atm.Factory(this, logLine);
-         //   if (iLine != null) return iLine;
-         //}
-
-         //if (logLine.Contains("[RecvProcAsync") && logLine.Contains("ATM2HOST:"))
-         //{
-         //   ILogLine iLine = Atm2Host.Factory(this, logLine);
-         //   if (iLine != null) return iLine;
-         //}
-
-         /* CORE */
-         //if (logLine.Contains("WebServiceRequestFlowPoint"))
-         //{
-         //   ILogLine iLine = Core.Factory(this, logLine);
-         //   if (iLine != null) return iLine;
-         //}
-
-         /* EJ */
-         //if (logLine.Contains("INSERT INTO "))
-         //   return new EJInsert(this, logLine);
-
-         /* HELPER FUNCTIONS */
-         //if (logLine.Contains("[HelperFunctions"))
-         //{
-         //   ILogLine iLine = HelperFunctions.Factory(this, logLine);
-         //   if (iLine != null) return iLine;
-         //}
-
          //2023-11-17 03:00:22 [MoniPlus2sExtension] The 'MoniPlus2sExtension' extension is started.
          if (logLine.Contains("extension is started"))
          {

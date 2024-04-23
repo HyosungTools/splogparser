@@ -18,7 +18,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-		<xs:element name="Deposit">
+        <xs:element name="Deposit">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="file" type="xs:string" minOccurs="0" />
@@ -26,18 +26,18 @@
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="position" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
-              <xs:element name="refused" type="xs:string" minOccurs="0" />			  
+              <xs:element name="refused" type="xs:string" minOccurs="0" />  
               <xs:element name="amount" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD0" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD1" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD2" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD5" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD10" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
-			  <xs:element name="comment" type="xs:string" minOccurs="0" />
-			  <xs:element name="N0" type="xs:string" minOccurs="0" />
+              <xs:element name="USD0" type="xs:string" minOccurs="0" />
+              <xs:element name="USD1" type="xs:string" minOccurs="0" />
+              <xs:element name="USD2" type="xs:string" minOccurs="0" />
+              <xs:element name="USD5" type="xs:string" minOccurs="0" />
+              <xs:element name="USD10" type="xs:string" minOccurs="0" />
+              <xs:element name="USD20" type="xs:string" minOccurs="0" />
+              <xs:element name="USD50" type="xs:string" minOccurs="0" />
+              <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
+              <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
               <xs:element name="N3" type="xs:string" minOccurs="0" />
@@ -57,7 +57,7 @@
               <xs:element name="N17" type="xs:string" minOccurs="0" />
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
-			  <xs:element name="N20" type="xs:string" minOccurs="0" />
+              <xs:element name="N20" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

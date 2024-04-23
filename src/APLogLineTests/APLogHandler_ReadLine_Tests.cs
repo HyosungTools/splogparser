@@ -19,16 +19,19 @@ namespace APLogLineTests
 
          // Reads the entire installation record. 
          ILogLine logLine = logFileHandler.IdentifyLine(logFileHandler.ReadLine());
-         Assert.IsTrue(logLine is APLine);
+         Assert.IsTrue(logLine is MachineInfo);
 
-         APLine apLine = (APLine)logLine;
+         MachineInfo apLine = (MachineInfo)logLine;
          Assert.IsTrue(apLine.apType == APLogType.APLOG_INSTALL);
+
+         Assert.IsTrue(apLine.installedPrograms[148,0] == "Windows 10 Update Assistant");
+         Assert.IsTrue(apLine.installedPackages[51,0] == "WinLockUpdate-01.00.06.00-20190503");
 
          logLine = logFileHandler.IdentifyLine(logFileHandler.ReadLine());
          Assert.IsTrue(logLine is APLine);
 
-         apLine = (APLine)logLine;
-         Assert.IsTrue(apLine.Timestamp == "2023-03-30 18:08:32.876");
+         APLine apLine2 = (APLine)logLine;
+         Assert.IsTrue(apLine2.Timestamp == "2023-03-30 18:08:32.876");
 
       }
 

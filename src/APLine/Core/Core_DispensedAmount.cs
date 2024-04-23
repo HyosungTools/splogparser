@@ -4,7 +4,7 @@ namespace LogLineHandler
 {
    public class Core_DispensedAmount : Core
    {
-      public string amount;
+      public string amount = string.Empty;
 
       public Core_DispensedAmount(ILogFileHandler parent, string logLine, APLogType apType = APLogType.Core_DispensedAmount) : base(parent, logLine, apType)
       {

@@ -34,6 +34,7 @@ namespace LogLineHandler
          lUnitCount = 1;
          int indexOfTable = logLine.IndexOf("lppCashIn->");
          int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfNull = logLine.IndexOf("lppCashIn=NULL");
 
          if (indexOfTable > 0)
          {
@@ -80,6 +81,10 @@ namespace LogLineHandler
             ulRetractedCounts = ulRetractedCountsFromList(result.subLogLine, lUnitCount);
             ulRejectCounts = ulRejectCountsFromList(result.subLogLine, lUnitCount);
             ulMinimums = ulMinimumsFromList(result.subLogLine, lUnitCount);
+         }
+         else if (indexOfNull > 0)
+         {
+            lUnitCount = 0; 
          }
       }
 
