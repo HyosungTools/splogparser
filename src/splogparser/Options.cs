@@ -76,6 +76,7 @@ namespace splogparser
             ( ( (IsAP && parseType == ParseType.AP) && (APViews.Contains(viewName) || APViews.Contains("*"))) ||
               ( (IsSP && parseType == ParseType.SP) && (SPViews.Contains(viewName) || SPViews.Contains("*"))) ||
               ( (IsRT && parseType == ParseType.RT) && (RTViews.Contains(viewName) || RTViews.Contains("*"))) ||
+              ( (IsSS && parseType == ParseType.SS) && (SSViews.Contains(viewName) || SSViews.Contains("*"))) ||
               ( (IsII && parseType == ParseType.II) && (IIViews.Contains(viewName) || IIViews.Contains("*"))) ||
               ( (IsSS && parseType == ParseType.SS) && (SSViews.Contains(viewName) || SSViews.Contains("*"))) ||
               ( (IsAE && parseType == ParseType.AE) && (AEViews.Contains(viewName) || AEViews.Contains("*"))) ||
