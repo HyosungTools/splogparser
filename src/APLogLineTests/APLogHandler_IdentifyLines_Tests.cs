@@ -17,7 +17,7 @@ namespace APLogLineTests
          Assert.IsTrue(logLine is AddKey);
 
          AddKey apLine = (AddKey)logLine;
-         Assert.IsTrue(apLine.apType == APLogType.AddKey);
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_ADDKEY);
          Assert.IsTrue(apLine.Timestamp == "2023-10-31 20:49:31.901");
          Assert.IsTrue(apLine.HResult == "");
 
@@ -34,7 +34,7 @@ namespace APLogLineTests
          Assert.IsTrue(logLine is AddKey);
 
          AddKey apLine = (AddKey)logLine;
-         Assert.IsTrue(apLine.apType == APLogType.AddKey);
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_ADDKEY);
          Assert.IsTrue(apLine.Timestamp == "2023-10-31 20:49:31.907");
          Assert.IsTrue(apLine.HResult == "");
 
@@ -51,7 +51,7 @@ namespace APLogLineTests
          Assert.IsTrue(logLine is AddKey);
 
          AddKey apLine = (AddKey)logLine;
-         Assert.IsTrue(apLine.apType == APLogType.AddKey);
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_ADDKEY);
          Assert.IsTrue(apLine.Timestamp == "2023-10-31 20:57:21.435");
          Assert.IsTrue(apLine.HResult == "");
 
@@ -68,7 +68,7 @@ namespace APLogLineTests
          Assert.IsTrue(logLine is AddKey);
 
          AddKey apLine = (AddKey)logLine;
-         Assert.IsTrue(apLine.apType == APLogType.AddKey);
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_ADDKEY);
          Assert.IsTrue(apLine.Timestamp == "2023-10-31 04:01:39.960");
          Assert.IsTrue(apLine.HResult == "");
 
@@ -85,7 +85,7 @@ namespace APLogLineTests
          Assert.IsTrue(logLine is AddKey);
 
          AddKey apLine = (AddKey)logLine;
-         Assert.IsTrue(apLine.apType == APLogType.AddKey);
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_ADDKEY);
          Assert.IsTrue(apLine.Timestamp == "2023-10-31 04:01:39.971");
          Assert.IsTrue(apLine.HResult == "");
 
@@ -102,7 +102,7 @@ namespace APLogLineTests
          Assert.IsTrue(logLine is AddKey);
 
          AddKey apLine = (AddKey)logLine;
-         Assert.IsTrue(apLine.apType == APLogType.AddKey);
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_ADDKEY);
          Assert.IsTrue(apLine.Timestamp == "2023-12-13 03:01:11.589");
          Assert.IsTrue(apLine.HResult == "");
 

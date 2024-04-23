@@ -38,7 +38,7 @@ namespace AddKeyView
             {
                switch (akLogLine.apType)
                {
-                  case APLogType.AddKey:
+                  case APLogType.APLOG_ADDKEY:
                      {
                         base.ProcessRow(akLogLine);
                         AddKey(akLogLine);

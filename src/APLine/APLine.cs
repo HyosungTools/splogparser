@@ -15,25 +15,47 @@ namespace LogLineHandler
       APLOG_SETTINGS,
       APLOG_SETTINGS_CONFIG,
 
-      APLOG_FLW_CURRENTMODE,
-      APLOG_FLW_HOST,
-      APLOG_FLW_CARD,
-      APLOG_FLW_CARD_PAN,
+      APLOG_CURRENTMODE,
+      APLOG_HOST,
+
+      APLOG_CARD,
+      APLOG_CARD_OPEN,
+      APLOG_CARD_CLOSE,
+      APLOG_CARD_ONMEDIAINSERTED,
+      APLOG_CARD_ONREADCOMPLETE,
+      APLOG_CARD_ONEJECTCOMPLETE,
+      APLOG_CARD_ONMEDIAREMOVED,
+      APLOG_CARD_PAN,
+
       APLOG_FLW_SWITCH_FIT,
-      APLOG_FLW_HEADSET,
-      APLOG_FLW_PIN,
-      APLOG_FLW_PINBLOCK,
-      APLOG_FLW_PINBLOCK_FAILED,
-      //APLOG_FLW_SCREEN,
-      APLOG_FLW_SCREEN_NAME,
-      APLOG_FLW_STATE,
-      APLOG_FLW_FUNCTIONKEY,
-      APLOG_FLW_FUNCTIONKEY2,
-      APLOG_FLW_DEVICE_FITNESS,
+
+      APLOG_PIN,
+      APLOG_PIN_OPEN,
+      APLOG_PIN_CLOSE,
+      APLOG_PIN_ISPCI,
+      APLOG_PIN_ISTR31,
+      APLOG_PIN_ISTR34,
+      APLOG_PIN_KEYIMPORTED,
+      APLOG_PIN_RAND,
+      APLOG_PIN_PINBLOCK,
+      APLOG_PIN_PINBLOCK_FAILED,
+      APLOG_PIN_TIMEOUT,
+      APLOG_PIN_READCOMPLETE,
+
+      APLOG_DISPLAYLOAD,
+
+      APLOG_LOCALXMLHELPER_ABOUT_TO_EXECUTE,
+
+      APLOG_STATE_CREATED,
+      APLOG_FUNCTIONKEY_SELECTED,
+      APLOG_FUNCTIONKEY_SELECTED2,
+      APLOG_DEVICE_FITNESS,
+
+      APLOG_EXCEPTION,
 
       EJInsert,
 
-      AddKey,
+      APLOG_ADDKEY,
 
       DEV_UNSOL_EVENT,
 
@@ -84,9 +106,17 @@ namespace LogLineHandler
 
       /* NDC */
       NDC,
-      Atm2Host11,
-      Host2Atm1,
-
+      NDC_ATM2HOST11,
+      NDC_ATM2HOST12,
+      NDC_ATM2HOST22,
+      NDC_ATM2HOST23,
+      NDC_ATM2HOST51,
+      NDC_ATM2HOST61,
+      NDC_HOST2ATM1,
+      NDC_HOST2ATM3,
+      NDC_HOST2ATM4,
+      NDC_HOST2ATM6,
+      NDC_HOST2ATM7,
 
       /* SUMMARY */
 
@@ -123,29 +153,10 @@ namespace LogLineHandler
 
 
       /*
-      APLOG_NDC_ATM2HOST11, 
-      APLOG_NDC_ATM2HOST12, 
-      APLOG_NDC_ATM2HOST22, 
-      APLOG_NDC_ATM2HOST23, 
-      APLOG_NDC_ATM2HOST51, 
-      APLOG_NDC_ATM2HOST61, 
-      */
-      APLOG_NDC_ATM2HOST,
-
-      /*
-      APLOG_NDC_HOST2ATM1, 
-      APLOG_NDC_HOST2ATM3, 
-      APLOG_NDC_HOST2ATM4, 
-      APLOG_NDC_HOST2ATM7, 
-      */
-      APLOG_NDC_HOST2ATM,
-
-      /*
 [2023-04-29 13:17:31-169][3][][MDBJournalWriter    ][ExecuteQuery        ][NORMAL]INSERT INTO [Transaction] (ATMId,IdRelatedTx,SessionId,[ATMDateTime],TransactionDateTime,TransactionType,SequenceNumber,AccountNumberMasked,AccountType,AmountRequested,AmountDispensed,AmountDeposited,HostType,TotalCashAmount,TotalCheckAmount,TotalChecksDeposited,Success) VALUES ('DE00901',0,14454,'4/29/2023 1:17:30 PM','4/29/2023 1:17:30 PM','Advice','9397','6295','Checking',100,0,0,'Core',200,0,0,True)
       */
 
       APLOG_WD_WITHDRAW,
-      HLPR_BILLMIX,
       APLOG_WD_EMVAMOUNT,
       APLOG_WD_ATM2HOST,
       APLOG_WD_HOST2ATM,

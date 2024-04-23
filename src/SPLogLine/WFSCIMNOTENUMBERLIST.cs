@@ -46,10 +46,12 @@ namespace LogLineHandler
 
          // iterate over each line of the block and load up the array
          int colCount = 0;
-         char[] trimChars = { '\t' };
+         char[] trimChars = { '\t', '\r' };
          (bool found, string oneLine, string subLogLine) result = LogLine.ReadNextLine(subLogLine);
 
-         while (result.found)
+         // Discovered a scenario where following line can be NULL
+
+         while (result.found && result.oneLine.Trim(trimChars).Trim() != "NULL")
          {
             result.oneLine = result.oneLine.TrimStart(trimChars).Replace("\t\t", ",");
             string[] match = result.oneLine.Split(',');

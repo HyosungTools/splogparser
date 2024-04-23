@@ -4,7 +4,7 @@ namespace LogLineHandler
 {
    public class Core_RequiredBillMixList : Core
    {
-      public string requiredbillmixlist;
+      public string requiredbillmixlist = string.Empty;
 
       public Core_RequiredBillMixList(ILogFileHandler parent, string logLine, APLogType apType = APLogType.Core_RequiredBillMixList) : base(parent, logLine, apType)
       {

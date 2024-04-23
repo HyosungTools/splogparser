@@ -52,6 +52,7 @@ namespace splogparser
             ( ( (IsAP && parseType == ParseType.AP) && (APViews.Contains(viewName) || APViews.Contains("*"))) ||
               ( (IsSP && parseType == ParseType.SP) && (SPViews.Contains(viewName) || SPViews.Contains("*"))) ||
               ( (IsRT && parseType == ParseType.RT) && (RTViews.Contains(viewName) || RTViews.Contains("*"))) ||
+              ( (IsSS && parseType == ParseType.SS) && (SSViews.Contains(viewName) || SSViews.Contains("*"))) ||
               ( (IsAE && parseType == ParseType.AE) && (AEViews.Contains(viewName) || AEViews.Contains("*"))) ||
               ( (IsAT && parseType == ParseType.AT) && (ATViews.Contains(viewName) || ATViews.Contains("*"))) ||
               ( (IsAW && parseType == ParseType.AW) && (AWViews.Contains(viewName) || AWViews.Contains("*"))) ||
@@ -74,7 +75,7 @@ namespace splogparser
          if (IsAV) suffix += _Suffix("__AV", AVViews);
          if (IsSP) suffix += _Suffix("__SP", SPViews);
          if (IsRT) suffix += _Suffix("__RT", RTViews);
-         if (IsSS) suffix += _Suffix("__SS", RTViews);
+         if (IsSS) suffix += _Suffix("__SS", SSViews);
 
          return suffix; 
       }

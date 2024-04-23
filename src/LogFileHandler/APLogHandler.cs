@@ -39,20 +39,15 @@ namespace LogFileHandler
          // while not EOL or EOF
          while (!endOfLine && !EOF())
          {
-            //==========================================================================================================
-            // - Machine Number           = A036201
-            //==========================================================================================================
-            //Installed Programs:
-            // - A2iA CheckReader V9.0, Installed: 07/26/2023, Version: 9.0
-            //==========================================================================================================
-            //Installed Packages:
-            // - Basic Media-V02.01.02.00, Installed: Thu 05/19/2022
-            //==========================================================================================================
-            //[2023-11-16 00:00:29-315][3][][BeehdControl        ][<BeehdClient_OnUserNotify>b__0][NORMAL]BeehdClient_OnUserNotify=>callHandle=0, val=4001, severity=SEVERITY_INFO, userType=NOTIFIER_USER_TYPE_ALL,description=,additionalInfo=, suggestedAction= 
-            //[2023-11-16 00:16:13-749][3][][Archiving           ][CreateArchive       ][NORMAL]CreateArchive(): About to run, runNow=False
-            //[2023-11-16 00:16:13-752][3][][Management          ][CopyLogFile         ][NORMAL]Parameter pStartDateTime: 11/15/2023 12:16:13 AM
-
-            char c = logFile[traceFilePos];
+            char c = ' ';
+            try
+            {
+               c = logFile[traceFilePos];
+            }
+            catch (Exception e)
+            {
+               this.ctx.ConsoleWriteLogLine(String.Format("Exception {0} - traceFilePos = {1} logFile.Length = {2}", e.Message, traceFilePos, logFile.Length));
+            }
             if (c < 128)
             {
                builder.Append(c);
@@ -86,9 +81,8 @@ namespace LogFileHandler
                            );
                      }
                   }
-                  catch (Exception e)
+                  catch (Exception)
                   {
-                     Console.WriteLine(String.Format("Exception {0}", e.Message));
                      endOfLine = true;
                   }
                }
@@ -105,7 +99,117 @@ namespace LogFileHandler
 
          /* APLOG_INSTALL */
          if (logLine.StartsWith("=======") && logLine.EndsWith("========\r\n"))
-            return new APLine(this, logLine, APLogType.APLOG_INSTALL);
+            return new MachineInfo(this, logLine);
+
+
+         /* APLOG_SETTINGS_CONFIG */
+         if (logLine.Contains("[ConfigurationFramework") && logLine.Contains("ProcessXMLFiles") && logLine.Contains("Adding xml file:"))
+            return new APLineField(this, logLine, APLogType.APLOG_SETTINGS_CONFIG);
+
+
+         /* APLOG_CURRENTMODE */
+         if (logLine.Contains("Current Mode: "))
+            return new APLineField(this, logLine, APLogType.APLOG_CURRENTMODE);
+
+         /* APLOG_HOST */
+         if (logLine.Contains("[CommunicationFramework") && logLine.Contains("OnConnectedHost") && logLine.Contains("Host Connected") ||
+             logLine.Contains("[CommunicationFramework") && logLine.Contains("OnDisconnectedHost") && logLine.Contains("Host disconnected"))
+            return new APLineField(this, logLine, APLogType.APLOG_HOST);
+
+
+         /* [CardReader          ] */
+         if (logLine.Contains("[CardReader") && logLine.Contains("CardReader.OpenSessionSync"))
+            return new APLine(this, logLine, APLogType.APLOG_CARD_OPEN);
+
+         if (logLine.Contains("[CardReader") && logLine.Contains("CardReaderClose called"))
+            return new APLine(this, logLine, APLogType.APLOG_CARD_CLOSE);
+
+         if (logLine.Contains("[CardReader") && logLine.Contains("[OnMediaInserted"))
+            return new APLine(this, logLine, APLogType.APLOG_CARD_ONMEDIAINSERTED);
+
+         if (logLine.Contains("[CardReader") && logLine.Contains("[OnReadComplete"))
+            return new APLine(this, logLine, APLogType.APLOG_CARD_ONREADCOMPLETE);
+
+         if (logLine.Contains("[CardReader") && logLine.Contains("[OnEjectComplete"))
+            return new APLine(this, logLine, APLogType.APLOG_CARD_ONEJECTCOMPLETE);
+
+         if (logLine.Contains("[CardReader") && logLine.Contains("[OnMediaRemoved"))
+            return new APLine(this, logLine, APLogType.APLOG_CARD_ONMEDIAREMOVED);
+
+         if (logLine.Contains("Device.CardReader.PANData    :"))
+            return new APLineField(this, logLine, APLogType.APLOG_CARD_PAN);
+
+
+         /* APLOG_FLW_SWITCH_FIT */
+         if (logLine.Contains("[FITSwitchState") && logLine.Contains("ExecuteState") && logLine.Contains("Next State is to be "))
+            return new APLineField(this, logLine, APLogType.APLOG_FLW_SWITCH_FIT);
+
+
+         /* [Pinpad              */
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[Open"))
+            return new APLine(this, logLine, APLogType.APLOG_PIN_OPEN);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[Close"))
+            return new APLine(this, logLine, APLogType.APLOG_PIN_CLOSE);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[CheckTheEppIsPci"))
+            return new APLineField(this, logLine, APLogType.APLOG_PIN_ISPCI);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[CheckTheEppSupportTR31"))
+            return new APLineField(this, logLine, APLogType.APLOG_PIN_ISTR31);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[CheckTheEppSupportTR34"))
+            return new APLineField(this, logLine, APLogType.APLOG_PIN_ISTR34);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[OnKeyImported"))
+            return new APLine(this, logLine, APLogType.APLOG_PIN_KEYIMPORTED);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[OnRandomNumberGenerated"))
+            return new APLine(this, logLine, APLogType.APLOG_PIN_RAND);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("OnPinBlockComplete"))
+            return new APLine(this, logLine, APLogType.APLOG_PIN_PINBLOCK);
+
+         if (logLine.Contains("[PinEntryState") && logLine.Contains("BuildPINBlock failed"))
+            return new APLine(this, logLine, APLogType.APLOG_PIN_PINBLOCK_FAILED);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[OnTimeout"))
+            return new APLine(this, logLine, APLogType.APLOG_PIN_TIMEOUT);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[OnReadPinComplete"))
+            return new APLine(this, logLine, APLogType.APLOG_PIN_READCOMPLETE);
+
+
+
+         if (logLine.Contains("[LocalScreenWindowEx") && logLine.Contains("[DisplayLoadCompleted"))
+            return new APLineField(this, logLine, APLogType.APLOG_DISPLAYLOAD);
+
+
+         if (logLine.Contains("[LocalXmlHelper") && logLine.Contains("About to execute: Class: HelperFunctions, Method:"))
+            return new APLineField(this, logLine, APLogType.APLOG_LOCALXMLHELPER_ABOUT_TO_EXECUTE);
+
+
+         if (logLine.Contains("[HybridFlowEngine") && logLine.Contains("State created:"))
+            return new APLineField(this, logLine, APLogType.APLOG_STATE_CREATED);
+
+
+
+         /* OLD [ScreenDecoratorLocal][OnFunctionKeySelected][NORMAL]Raising FunctionKeySelected event with values FunctionKey[No], PinInputData[], ResultData[]. */
+         if (logLine.Contains("[OnFunctionKeySelected") && logLine.Contains("Raising FunctionKeySelected event with values FunctionKey"))
+            return new APLineField(this, logLine, APLogType.APLOG_FUNCTIONKEY_SELECTED);
+
+         /* NEW [ScreenDecoratorLocal.OnFunctionKeySelected] The No button was pressed.*/
+         if (logLine.Contains("[ScreenDecoratorLocal.OnFunctionKeySelected]"))
+            return new APLineField(this, logLine, APLogType.APLOG_FUNCTIONKEY_SELECTED2);
+
+
+         if (logLine.Contains("[GetDeviceFitness") && logLine.Contains("Parameter pDvcStatus:"))
+            return new APLineField(this, logLine, APLogType.APLOG_DEVICE_FITNESS);
+
+
+         if (logLine.Contains("?????????????????????????????????????????????"))
+            return new APLine(this, logLine, APLogType.APLOG_EXCEPTION);
+
 
          /* AddKey */
          if (logLine.Contains("[AbstractConfigHandler") && logLine.Contains("AddMoniplusData") && logLine.Contains("Add Key="))
@@ -118,18 +222,7 @@ namespace LogFileHandler
             if (iLine != null) return iLine;
          }
 
-         ///* NDC */
-         //if (logLine.Contains("[RecvProcAsync") && logLine.Contains("HOST2ATM:"))
-         //{
-         //   ILogLine iLine = Host2Atm.Factory(this, logLine);
-         //   if (iLine != null) return iLine;
-         //}
 
-         //if (logLine.Contains("[RecvProcAsync") && logLine.Contains("ATM2HOST:"))
-         //{
-         //   ILogLine iLine = Atm2Host.Factory(this, logLine);
-         //   if (iLine != null) return iLine;
-         //}
 
          /* CORE */
          if (logLine.Contains("WebServiceRequestFlowPoint"))
@@ -142,12 +235,20 @@ namespace LogFileHandler
          if (logLine.Contains("INSERT INTO "))
             return new EJInsert(this, logLine);
 
+
          /* HELPER FUNCTIONS */
-         if (logLine.Contains("[HelperFunctions"))
-         {
-            ILogLine iLine = HelperFunctions.Factory(this, logLine);
-            if (iLine != null) return iLine;
-         }
+         if (logLine.Contains("[HelperFunctions") && logLine.Contains("[GetConfiguredBillMixList") && logLine.Contains("ConfiguredBillMixList:"))
+            return new APLineField(this, logLine, APLogType.HelperFunctions_GetConfiguredBillMixList);
+
+         if (logLine.Contains("[HelperFunctions") && logLine.Contains("[GetFewestBillMixList") && logLine.Contains("FewestBillMixList:"))
+            return new APLineField(this, logLine, APLogType.HelperFunctions_GetFewestBillMixList);
+
+         /* NDC */
+         if (logLine.Contains("Send") && logLine.Contains("ATM2HOST:"))
+            return Atm2Host.Factory(this, logLine);
+
+         if (logLine.Contains("RecvProcAsync") && logLine.Contains("HOST2ATM:"))
+            return Host2Atm.Factory(this, logLine);
 
          return new APLine(this, logLine, APLogType.None);
       }

@@ -9,7 +9,7 @@ namespace LogLineHandler
       public string keyName { get; set; }
       public string value { get; set; }
 
-      public AddKey(ILogFileHandler parent, string logLine, APLogType apType = APLogType.AddKey) : base(parent, logLine, apType)
+      public AddKey(ILogFileHandler parent, string logLine, APLogType apType = APLogType.APLOG_ADDKEY) : base(parent, logLine, apType)
       {
       }
 

@@ -15,8 +15,93 @@ namespace APSamples
 @"[2023-11-16 03:01:00-649][3][][ConfigurationFramework][ProcessXMLFiles     ][NORMAL]Adding xml file: C:\Hyosung\MoniPlus2S\Config\Application\Communication.xml
 ";
 
-      public const string APLOG_FLW_CURRENTMODE =
+      public const string APLOG_CURRENTMODE =
 @"[2023-11-16 03:06:10-108][3][][PowerUpMode         ][UpdateRMSMonitorLEDs][NORMAL]Current Mode: PowerUp
+";
+      public const string APLOG_HOST =
+@"[2023-11-16 03:06:09-811][3][][CommunicationFramework][OnConnectedHost][NORMAL] Host Connected
+";
+
+      // Card Reader
+      public const string APLOG_CARD_OPEN =
+@"[2024-01-16 03:02:56-855][3][][CardReader          ][Open                ][NORMAL]CardReader.OpenSessionSync method returned OK
+";
+      public const string APLOG_CARD_CLOSE =
+@"[2024-01-16 03:00:00-153][3][][CardReader          ][Close               ][NORMAL]CardReaderClose called
+";
+      public const string APLOG_CARD_ONMEDIAINSERTED = 
+@"[2024-01-16 09:11:41-552][3][][CardReader          ][OnMediaInserted     ][NORMAL][CardReader Log] OnMediaInserted
+";
+      public const string APLOG_CARD_ONREADCOMPLETE =
+@"[2024-01-16 09:11:42-573][3][][CardReader          ][OnReadComplete      ][NORMAL]OnReadComplete event received
+";
+      public const string APLOG_CARD_ONEJECTCOMPLETE =
+@"[2024-01-16 09:17:28-435][3][][CardReader          ][OnEjectComplete     ][NORMAL]m_NxCard.OnEjectComplete event received
+";
+      public const string APLOG_CARD_ONMEDIAREMOVED =
+@"[2024-01-16 09:17:31-888][3][][CardReader          ][OnMediaRemoved      ][NORMAL]m_NxCard.OnMediaRemoved event received
+";
+      public const string APLOG_CARD_PAN =
+@"[2024-01-16 10:03:33-675][3][][NCompleteICCAppSelectState][SetTrackData        ][NORMAL]Device.CardReader.PANData    : 411395XXXXXX1667
+";
+
+      // Pin
+      public const string APLOG_PIN_OPEN =
+@"[2024-02-27 03:01:12-695][3][][Pinpad              ][Open                ][NORMAL]Pinpad.OpenSessionSync method returned OK
+";
+      public const string APLOG_PIN_CLOSE =
+@"[2024-02-27 03:00:12-160][3][][Pinpad              ][Close               ][NORMAL]PinpadClose called
+";
+      public const string APLOG_PIN_ISPCI =
+@"[2024-02-28 10:14:47-401][3][][Pinpad              ][CheckTheEppIsPci    ][NORMAL]This is PCI EPP
+";
+      public const string APLOG_PIN_ISTR31 =
+@"[2024-02-27 03:01:12-979][3][][Pinpad              ][CheckTheEppSupportTR31][NORMAL]TR31 is supported.
+";
+      public const string APLOG_PIN_ISTR34 =
+@"[2024-02-27 03:01:12-979][3][][Pinpad              ][CheckTheEppSupportTR34][NORMAL]TR34 is supported.
+";
+      public const string APLOG_PIN_KEYIMPORTED =
+@"[2024-02-27 03:02:40-740][3][][Pinpad              ][OnKeyImported       ][NORMAL]m_NxPin.OnKeyImported event received
+";
+      public const string APLOG_PIN_RAND =
+@"[2024-02-27 06:00:45-140][3][][Pinpad              ][OnRandomNumberGenerated][NORMAL]m_NxPin.RandomNumberGenerated event received
+";
+      public const string APLOG_PIN_PINBLOCK =
+@"[2024-02-27 06:00:50-356][3][][Pinpad              ][OnPinBlockComplete  ][NORMAL]m_NxPin.OnPinBlockComplete event received
+";
+      public const string APLOG_PIN_PINBLOCK_FAILED =
+@"[2023-08-16 14:22:41-356][2][][PinEntryState       ][ProcessBuildPINBlock][NORMAL]BuildPINBlock failed, next state is DFC
+";
+      public const string APLOG_PIN_TIMEOUT =
+@"[2024-01-16 16:04:06-363][3][][Pinpad              ][OnTimeout           ][NORMAL]m_NxPin.OnTimeout event received
+";
+      public const string APLOG_PIN_READCOMPLETE =
+@"[2024-01-16 13:52:24-388][3][][Pinpad              ][OnReadPinComplete   ][NORMAL]m_NxPin.OnReadPinComplete event received
+";
+
+      public const string APLOG_DISPLAYLOAD =
+   @"[2024-01-16 10:12:49-021][3][][LocalScreenWindowEx ][DisplayLoadCompleted][NORMAL][MainFrame.LoadCompleted] for screen [MainMenu].
+";
+
+      public const string APLOG_LOCALXMLHELPER_ABOUT_TO_EXECUTE =
+   @"[2024-01-16 10:48:45-625][3][][LocalXmlHelper      ][ProcessExecuteNode  ][NORMAL]ProcessExecuteNode(): About to execute: Class: HelperFunctions, Method: UpdateCheck21XML
+";
+
+      public const string APLOG_STATE_CREATED =
+   @"[2024-01-16 09:11:46-843][3][][HybridFlowEngine    ][CreateNextState     ][NORMAL]State created: Common-EnterPIN (StateWrapperFlowPoint)
+";
+
+      public const string APLOG_FUNCTIONKEY_SELECTED =
+   @"[2024-01-16 16:42:56-456][3][][ScreenDecoratorLocal][OnFunctionKeySelected][NORMAL]Raising FunctionKeySelected event with values FunctionKey[Withdrawal], PinInputData[], ResultData[].
+";
+
+      public const string APLOG_FUNCTIONKEY_SELECTED2 =
+@"  INFO [2024-03-08 08:58:12-281] [ScreenDecoratorLocal.OnFunctionKeySelected] The Yes button was pressed.
+";
+
+      public const string APLOG_DEVICE_FITNESS =
+@"[2023-11-27 16:20:42-413][3][][FitnessData][GetDeviceFitness][NORMAL]Parameter pDvcStatus:DEVHWERROR
 ";
 
       public const string DEV_UNSOL_EVENT_1 =
@@ -29,7 +114,7 @@ namespace APSamples
 @"[2023-11-27 16:42:59-748][3][][BundleCheckAcceptor ][RaiseDeviceUnSolEvent][NORMAL]FireDeviceUnsolEvent(MediaBinInfoChanged, MEDIABIN_STATUS)
 ";
 
-      public const string APLOG_FLW_CARD_PAN_1 = 
+      public const string APLOG_CARD_PAN_1 = 
 @"[2023-11-16 14:19:39-217][3][][NCompleteICCAppSelectState][SetTrackData        ][NORMAL]Device.CardReader.PANData    : 405610XXXXXX2366
 ";
 
@@ -66,27 +151,29 @@ namespace APSamples
 @"[2023-08-16 14:22:41-356][2][][PinEntryState       ][ProcessBuildPINBlock][NORMAL]BuildPINBlock failed, next state is DFC
 ";
 
-      public const string APLOG_FLW_SCREEN_NAME =
-@"[2023-08-16 09:17:53-137][3][][LocalScreenWindowEx ][ProcessPageRequest  ][NORMAL]Starting to change the display to screen name [SelectBills].
-";
 
-      public const string APLOG_FLW_STATE_1 =
+
+//      public const string APLOG_DISPLAYLOAD =
+//@"[2023-08-16 09:17:53-137][3][][LocalScreenWindowEx ][ProcessPageRequest  ][NORMAL]Starting to change the display to screen name [SelectBills].
+//";
+
+      public const string APLOG_STATE_CREATED_1 =
 @"[2023-08-16 09:20:35-025][3][][HybridFlowEngine    ][CreateNextState     ][NORMAL]State created: Common-ValidateTransaction (StandardFlowPoint)
 ";
-      public const string APLOG_FLW_STATE_2 =
+      public const string APLOG_STATE_CREATED_2 =
 @"[2023-08-16 09:20:35-000][3][][HybridFlowEngine    ][CreateNextState     ][NORMAL]State created: Common-DetermineTransactionReview (StandardFlowPoint)
 ";
-      public const string APLOG_FLW_STATE_3 =
+      public const string APLOG_STATE_CREATED_3 =
 @"[2023-08-16 09:20:35-166][3][][HybridFlowEngine    ][CreateNextState     ][NORMAL]State created: PLACEHOLDER-PerformTransactionRequestNDC (StateWrapperFlowPoint)
 ";
 
-      public const string APLOG_FLW_FUNCTIONKEY =
-@"[2023-06-07 07:41:58-476][3][][ScreenDecoratorLocal][OnFunctionKeySelected][NORMAL]Raising FunctionKeySelected event with values FunctionKey[Enter], PinInputData[], ResultData[].
-";
+//      public const string APLOG_FUNCTIONKEY_SELECTED =
+//@"[2023-06-07 07:41:58-476][3][][ScreenDecoratorLocal][OnFunctionKeySelected][NORMAL]Raising FunctionKeySelected event with values FunctionKey[Enter], PinInputData[], ResultData[].
+//";
 
-      public const string APLOG_FLW_DEVICE_FITNESS =
-@"[2023-11-02 19:09:04-449][3][][FitnessData         ][GetDeviceFitness    ][NORMAL]Parameter pDvcStatus:DEVHWERROR
-";
+//      public const string APLOG_DEVICE_FITNESS =
+//@"[2023-11-02 19:09:04-449][3][][FitnessData         ][GetDeviceFitness    ][NORMAL]Parameter pDvcStatus:DEVHWERROR
+//";
       /* Add Key */
 
       public const string AddKey_1 =
