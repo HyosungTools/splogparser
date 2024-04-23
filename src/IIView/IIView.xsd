@@ -1,0 +1,54 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="IIVIEW" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="IIVIEW" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="IISService">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="tracefile" type="xs:string" minOccurs="0" />
+              <xs:element name="linenumber" type="xs:string" minOccurs="0" />
+              <xs:element name="utctime" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="adjustedtime" type="xs:string" minOccurs="0" />
+              <xs:element name="payload" type="xs:string" minOccurs="0" />
+              <xs:element name="exception" type="xs:string" minOccurs="0" />
+              <xs:element name="IISApplication" type="xs:string" minOccurs="0" />
+              <xs:element name="IISCommentState" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="IISServer">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="tracefile" type="xs:string" minOccurs="0" />
+              <xs:element name="linenumber" type="xs:string" minOccurs="0" />
+              <xs:element name="utctime" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="adjustedtime" type="xs:string" minOccurs="0" />
+              <xs:element name="payload" type="xs:string" minOccurs="0" />
+              <xs:element name="exception" type="xs:string" minOccurs="0" />
+              <xs:element name="IISRequestState" type="xs:string" minOccurs="0" />
+              <xs:element name="RepeatCount" type="xs:string" minOccurs="0" />
+              <xs:element name="Server_IpAddress" type="xs:string" minOccurs="0" />
+              <xs:element name="Method" type="xs:string" minOccurs="0" />
+              <xs:element name="Uri" type="xs:string" minOccurs="0" />
+              <xs:element name="Query" type="xs:string" minOccurs="0" />
+              <xs:element name="Port" type="xs:string" minOccurs="0" />
+              <xs:element name="Username" type="xs:string" minOccurs="0" />
+              <xs:element name="Client_IpAddress" type="xs:string" minOccurs="0" />
+              <xs:element name="UserAgent" type="xs:string" minOccurs="0" />
+              <xs:element name="Referer" type="xs:string" minOccurs="0" />
+              <xs:element name="HttpStatusCode" type="xs:string" minOccurs="0" />
+              <xs:element name="SubStatusCode" type="xs:string" minOccurs="0" />
+              <xs:element name="HttpError" type="xs:string" minOccurs="0" />
+              <xs:element name="Win32StatusCode" type="xs:string" minOccurs="0" />
+              <xs:element name="Win32Error" type="xs:string" minOccurs="0" />
+              <xs:element name="ElapsedMsec" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

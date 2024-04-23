@@ -76,6 +76,10 @@
       <Project>{9af8b5cf-72dc-4a01-b1bd-976b811d7ae4}</Project>
       <Name>LogFileHandler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LogLineHandler\LogLineHandler.csproj">
+      <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>
+      <Name>LogLineHandler</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

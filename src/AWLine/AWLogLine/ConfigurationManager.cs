@@ -52,6 +52,14 @@ namespace LogLineHandler
                NetOpLicence = "SET";
                IsRecognized = true;
             }
+
+            Regex regex = new Regex("System settings changed WaitForAssign=(?<value>.*)");
+            Match m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               SettingsList = $"WaitForAssign={m.Groups["value"].Value}";
+               IsRecognized = true;
+            }
          }
 
          if (!IsRecognized)

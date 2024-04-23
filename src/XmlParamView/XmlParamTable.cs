@@ -46,7 +46,7 @@ namespace XmlParamsView
             return true;
          }
 
-         string excelFileName = ctx.WorkFolder + "\\" + Path.GetFileNameWithoutExtension(ctx.ZipFileName) + ctx.opts.Suffix() + ".xlsx";
+         string excelFileName = ctx.ExcelFileName;
          Console.WriteLine("Write DataTable to Excel:" + excelFileName);
 
          // create Excel 

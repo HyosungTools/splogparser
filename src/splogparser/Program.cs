@@ -7,6 +7,7 @@ using Impl;
 using LogFileHandler;
 using CommandLine;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace splogparser
 {
@@ -104,9 +105,61 @@ namespace splogparser
 
          // Write out settings so far...
          ctx.ConsoleWriteLogLine("Application Start");
-         ctx.ConsoleWriteLogLine("ZipFileName: " + $"{zipFileName}");
+
+         // check the time range values
+         if (opts.TimeStart != "x")
+         {
+            DateTime startTime;
+            DateTime endTime;
+            int spanMinutes;
+
+            if (!DateTime.TryParseExact(opts.TimeStart, "yyyyMMddhhmm", CultureInfo.InvariantCulture, DateTimeStyles.None, out startTime))
+            {
+               ctx.ConsoleWriteLogLine("Invalid start time: " + $"{opts.TimeStart}, expecting yyyyMMddhhmm");
+               return;
+            }
+
+            if (opts.TimeSpanMinutes == "x")
+            {
+               ctx.ConsoleWriteLogLine("Expecting parameter timespan,");
+               return;
+            }
+
+            if (!int.TryParse(opts.TimeSpanMinutes, out spanMinutes))
+            {
+               ctx.ConsoleWriteLogLine("Invalid time span minutes: " + $"{opts.TimeSpanMinutes}");
+               return;
+            }
+
+            endTime = startTime + new TimeSpan(0, spanMinutes, 0);
+
+            opts.StartTime = startTime;
+            opts.EndTime = endTime;
+
+            ctx.ConsoleWriteLogLine($"TIME RANGE: {opts.StartTime} to {opts.EndTime}");
+         }
+
+         else
+         {
+            ctx.ConsoleWriteLogLine($"TIME RANGE: ALL");
+         }
+
+         if (opts.RawLogLine)
+         {
+            ctx.ConsoleWriteLogLine($"INCLUDE RAW LOG LINE IN PAYLOAD");
+         }
+
          ctx.ConsoleWriteLogLine("Work Folder: " + ctx.WorkFolder);
-         ctx.ConsoleWriteLogLine("unzip to   : " + ctx.WorkFolder + "\\" + ctx.SubFolder);
+
+         if (zipFileName.ToLower().EndsWith(".zip"))
+         {
+            ctx.ConsoleWriteLogLine("ZipFileName: " + $"{zipFileName}");
+            ctx.ConsoleWriteLogLine("unzip to   : " + ctx.WorkFolder + "\\" + ctx.SubFolder);
+         }
+         else
+         {
+            ctx.ConsoleWriteLogLine("LogDirectoryName: " + ctx.WorkFolder + "\\" + ctx.SubFolder);
+         }
 
          ctx.ConsoleWriteLogLine("opts.APViews :" + ctx.opts.APViews);
          ctx.ConsoleWriteLogLine("opts.ATViews :" + ctx.opts.ATViews);
@@ -114,7 +167,10 @@ namespace splogparser
          ctx.ConsoleWriteLogLine("opts.AWViews :" + ctx.opts.AWViews);
          ctx.ConsoleWriteLogLine("opts.AVViews :" + ctx.opts.AVViews);
          ctx.ConsoleWriteLogLine("opts.SPViews :" + ctx.opts.SPViews);
-         ctx.ConsoleWriteLogLine("opts.RTViews :" + ctx.opts.RTViews);
+         //         ctx.ConsoleWriteLogLine("opts.RTViews :" + ctx.opts.RTViews);
+         ctx.ConsoleWriteLogLine("opts.IIViews :" + ctx.opts.IIViews);
+         ctx.ConsoleWriteLogLine("opts.BEViews :" + ctx.opts.BEViews);
+         ctx.ConsoleWriteLogLine("opts.SSViews :" + ctx.opts.SSViews);
 
          ctx.ConsoleWriteLogLine(String.Format("IsAP : {0}", ctx.opts.IsAP ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("APView Contains  : {0}", ctx.opts.APViews));
@@ -133,6 +189,15 @@ namespace splogparser
 
          ctx.ConsoleWriteLogLine(String.Format("IsSP : {0}", ctx.opts.IsSP ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("SPView Contains  : {0}", ctx.opts.SPViews));
+
+         ctx.ConsoleWriteLogLine(String.Format("IsBE : {0}", ctx.opts.IsBE ? "true" : "false"));
+         ctx.ConsoleWriteLogLine(String.Format("BEView Contains  : {0}", ctx.opts.BEViews));
+
+         ctx.ConsoleWriteLogLine(String.Format("IsII : {0}", ctx.opts.IsII ? "true" : "false"));
+         ctx.ConsoleWriteLogLine(String.Format("IIView Contains  : {0}", ctx.opts.IIViews));
+
+         //         ctx.ConsoleWriteLogLine(String.Format("IsRT : {0}", ctx.opts.IsRT ? "true" : "false"));
+         //         ctx.ConsoleWriteLogLine(String.Format("RTView Contains  : {0}", ctx.opts.RTViews));
 
          ctx.ConsoleWriteLogLine(String.Format("IsSS : {0}", ctx.opts.IsSS ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("SSView Contains  : {0}", ctx.opts.SSViews));
@@ -164,27 +229,45 @@ namespace splogparser
          // SS
          if (ctx.opts.IsSS) ctx.logFileHandlers.Add((ILogFileHandler)new SSLogHandler(new CreateTextStreamReader()));
 
+         // BE
+         if (ctx.opts.IsBE) ctx.logFileHandlers.Add((ILogFileHandler)new BELogHandler(new CreateTextStreamReader()));
 
-         // if the unzip folder already exists delete it
-         if (ctx.ioProvider.DirExists(ctx.WorkFolder + "\\" + ctx.SubFolder))
+         // II
+         if (ctx.opts.IsII) ctx.logFileHandlers.Add((ILogFileHandler)new IILogHandler(new CreateTextStreamReader()));
+
+         if (zipFileName.ToLower().EndsWith(".zip"))
          {
-            Console.WriteLine("Folder already exists. Deleting the folder.");
-            ctx.ioProvider.DeleteDir(ctx.WorkFolder + "\\" + ctx.SubFolder, true);
+            // if the unzip folder already exists delete it
+            if (ctx.ioProvider.DirExists(ctx.WorkFolder + "\\" + ctx.SubFolder))
+            {
+               Console.WriteLine("Folder already exists. Deleting the folder.");
+               ctx.ioProvider.DeleteDir(ctx.WorkFolder + "\\" + ctx.SubFolder, true);
+            }
+
+            // create it
+            if (!ctx.ioProvider.CreateDirectory(ctx.WorkFolder + "\\" + ctx.SubFolder))
+            {
+               ctx.ConsoleWriteLogLine("Failed to create directory:" + ctx.SubFolder);
+               return;
+            }
+
+            // Unzip the zip file
+            ctx.ConsoleWriteLogLine("Unzipping the archive...");
+            if (!ExtractZipFiles(ctx))
+            {
+               ctx.ConsoleWriteLogLine("Failed to extract files.");
+               return;
+            }
          }
-
-         // create it
-         if (!ctx.ioProvider.CreateDirectory(ctx.WorkFolder + "\\" + ctx.SubFolder))
+         else
          {
-            ctx.ConsoleWriteLogLine("Failed to create directory:" + ctx.SubFolder);
-            return;
-         }
+            if (!ctx.ioProvider.DirExists(ctx.WorkFolder + "\\" + ctx.SubFolder))
+            {
+               Console.WriteLine("LogDirectory Folder does not exist.");
+               return;
+            }
 
-         // Unzip the zip file
-         ctx.ConsoleWriteLogLine("Unzipping the archive...");
-         if (!ExtractZipFiles(ctx))
-         {
-            ctx.ConsoleWriteLogLine("Failed to extract files.");
-            return;
+            Console.WriteLine("LogDirectory Folder exists.");
          }
 
          //set CurrentDirectory to the base directory that the assembly resolver uses to probe for assemblies.
@@ -206,6 +289,8 @@ namespace splogparser
 
          // Load the Views in the application 'dist' directory (does not work in Debug mode unless the executable in dist is specified)
          ViewLoader loader = new ViewLoader(ctx.ioProvider.GetCurrentDirectory());
+         ctx.ConsoleWriteLogLine($"ViewLoader found {loader.Views.Count()} view DLLs.");
+
          string viewName = string.Empty;
 
          using (loader.Container)
@@ -224,6 +309,23 @@ namespace splogparser
                   {
                      viewName = thisView.Name;
                      ctx.ConsoleWriteLogLine(String.Format("\nInitializing view : {0}", viewName));
+
+                     // remove old XML and XSD files in the working folder, so a previous run's data is not included in this one
+
+                     string oldFile = ctx.WorkFolder + "\\" + viewName + ".xml";
+                     if (ctx.ioProvider.Exists(oldFile))
+                     {
+                        ctx.ConsoleWriteLogLine($"Program: removing old {oldFile}");
+                        ctx.ioProvider.Delete(oldFile);
+                     }
+
+                     oldFile = ctx.WorkFolder + "\\" + viewName + ".xsd";
+                     if (ctx.ioProvider.Exists(oldFile))
+                     {
+                        ctx.ConsoleWriteLogLine($"Program: removing old {oldFile}");
+                        ctx.ioProvider.Delete(oldFile);
+                     }
+
                      thisView.Initialize(ctx);
                      continue;
                   }
@@ -246,6 +348,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // P R E   P R O C E S S   V I E W S
 
@@ -280,6 +383,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // P R O C E S S   T I M E  S E R I E S  F I L E  P R O C E S S I N G
 
@@ -335,6 +439,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // P O S T   P R O C E S S - W R I T E  O U T  X M L
 
@@ -368,6 +473,9 @@ namespace splogparser
          elapsedTime = stopwatch.Elapsed;
          ctx.ConsoleWriteLogLine($"Elapsed Time: {elapsedTime.TotalMilliseconds} milliseconds");
 
+         // Start the stopwatch
+         stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // P R E  A N A L Y Z E
 
@@ -400,7 +508,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
-
+         stopwatch.Start();
 
          // A N A L Y Z E
 
@@ -433,6 +541,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // P O S T   A N A L Y Z E
 
@@ -465,11 +574,12 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
-
+         stopwatch.Start();
 
          // W R I T E   E X C E L
 
-         string excelFileName = ctx.WorkFolder + "\\" + Path.GetFileNameWithoutExtension(ctx.ZipFileName) + ctx.opts.Suffix() + ".xlsx";
+         string excelFileName = ctx.ExcelFileName;
+         ctx.ConsoleWriteLogLine("Excel output filename: " + excelFileName);
 
          // if the Excel file exists, delete it.
          Console.WriteLine("If the Excel file exists, delete it:");
@@ -502,7 +612,6 @@ namespace splogparser
             }
          }
 
-
          // Stop the stopwatch
          stopwatch.Stop();
 
@@ -512,6 +621,7 @@ namespace splogparser
 
          // Start the stopwatch
          stopwatch = new Stopwatch();
+         stopwatch.Start();
 
          // for each View DLL found
          using (loader.Container)
@@ -536,7 +646,6 @@ namespace splogparser
                return;
             }
          }
-
 
          // Stop the stopwatch
          stopwatch.Stop();

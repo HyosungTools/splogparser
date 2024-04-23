@@ -175,7 +175,6 @@ namespace LogLineHandler
                }
 
                //Located "Standard" configuration revision 1 for model 7800I.
-               //Located "Standard" configuration revision 1 for model 8300D.
                regex = new Regex("Located \"(?<configname>.*)\" configuration revision (?<rev>[0-9]*) for model (?<machine>.*).");
                m = regex.Match(subLogLine);
                if (m.Success)

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Linq;
 using Contract;
 
 namespace Impl
@@ -36,7 +38,6 @@ namespace Impl
 
       /// <summary>(get) name of View for display/logging purposes.</summary>
       public virtual string Name { get { return viewName; } }
-
 
       /// <summary>
       /// Abstract - Every View must implement CreateTableInstance
@@ -87,7 +88,21 @@ namespace Impl
             }
 
             ctx.ConsoleWriteLogLine(String.Format("Processing file: {0}", fileName));
+
+            if (fileName.EndsWith(".zip"))
+            {
+               ctx.ConsoleWriteLogLine(".zip file skipped");
+               continue;
+            }
+
             ctx.activeHandler.OpenLogFile(fileName);
+
+            ctx.activeHandler.LineNumber = 1;
+
+            long rowsProcessed = 0;
+            long rowsTimeAccepted = 0;
+            DateTime firstTimestamp = DateTime.MinValue;
+            DateTime lastTimestamp = DateTime.MinValue;
 
             // For each log line in this file...
             while (!ctx.activeHandler.EOF())
@@ -95,14 +110,47 @@ namespace Impl
                try
                {
                   ILogLine logLine = ctx.activeHandler.IdentifyLine(ctx.activeHandler.ReadLine());
-                  bTable.ProcessRow(logLine);
+
+                  if (fileName.Contains("Workstation20231103"))
+                  {
+                     // debugging breakpoint
+                  }
+
+                  // TIME RANGE
+                  if (logLine.IsValidTimestamp)
+                  {
+                     DateTime logTimestamp = DateTime.Parse(logLine.Timestamp);
+
+                     lastTimestamp = logTimestamp;
+                     firstTimestamp = (firstTimestamp == DateTime.MinValue) ? lastTimestamp : firstTimestamp;
+
+                     if (DateTime.Compare(logTimestamp, ctx.opts.StartTime) < 0 || DateTime.Compare(logTimestamp, ctx.opts.EndTime) > 0 )
+                     {
+                        continue;
+                     }
+
+                     rowsTimeAccepted++;
+                  }
+
+                  if (!logLine.IgnoreThisLine)
+                  {
+                     // store the result in the output XML
+
+                     bTable.ProcessRow(logLine);
+                     rowsProcessed++;
+                  }
                }
                catch (Exception e)
                {
                   ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : Processing file {0} : {1} {2}", fileName, e.Message, e));
-                  // return;
+               }
+               finally
+               {
+                  ctx.activeHandler.LineNumber += 1;
                }
             }
+
+            ctx.ConsoleWriteLogLine($"{ctx.activeHandler.LineNumber - 1} lines {firstTimestamp} to {lastTimestamp} ({rowsTimeAccepted} in time range, {rowsProcessed} processed) ");
          }
       }
 

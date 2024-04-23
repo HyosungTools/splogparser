@@ -49,13 +49,15 @@ This will error reporting you need to enter command line options.
 
 #### CommandLine Options
 
-First, you always need to specify the target (e.g. zip) file. This command runs without errors:
+First, you always need to specify the target, which can be a folder or a file with .zip extension.  The wildcard filename patterns are listed in the *Parse Types* table.  If the target folder contains many matching files, the scan can take a very long time.
+
+This command runs without errors:
 
 ```text
 splogparser -f 20221116175903.zip
 ```
 
-But this will *do nothing* because you havent said what you want it to do. You need to add (one or more) *Parse Types* and (one or more) *Views* to generate. For example, to get a complete parse of the SP logs you can type:
+But this will *do nothing* because you haven't said what you want it to do. You need to add (one or more) *Parse Types* and (one or more) *Views* to generate. For example, to get a complete parse of the SP logs you can type:
 
 ```text
 splogparser -s * -f 20221116175903.zip
@@ -69,6 +71,7 @@ splogparser -s CDM,CIM -f 20221116175903.zip
 
 In this case the output file would be `20221116175903__SP_CDM_CIM.xlsx`.
 
+
 ### Parse Types
 
 The list of Parse Types supported is:
@@ -76,13 +79,14 @@ The list of Parse Types supported is:
 | Short | Long | Description |
 |-------|------|----------------|
 | -a    | --ap | Parse the [AP] logs (e.g. APLog*.*) in the target file |
-| -t    | --ap | Parse Active Teller ITM logs (e.g. ActiveTeller*.*) in the target file |
-| -e    | --ap | Parse Active Teller Extensions ITM logs (e.g. ActiveTellerExtensions*.*) in the target file |
+| -t    | --atagent | Parse Active Teller ITM logs (e.g. ActiveTeller*.*) in the target file |
+| -e    | --atagentextensions | Parse Active Teller Extensions ITM logs (e.g. ActiveTellerExtensions*.*) in the target file |
+| -b    | --be | Parse the [BeeHD] logs (e.g. rvbeehd*.*) in the target file |
 | -s    | --sp | Parse the [SP] logs (e.g. *.nwlog) in the target file |
 |       | --ss | Parse the Settlement Server (e.g. settlement-api-all-*.log) in the target file |
-| -v    | --aw | Parse Active Teller Server logs (e.g. ActiveTellerServer*.*) in the target file |
-| -w    | --aw | Parse Active Teller Workstation logs (e.g. Workstation*.*) in the target file |
-| -r    | --ar | TBD            |
+| -v    | --atserver | Parse Active Teller Server logs (e.g. ActiveTellerServer*.*) in the target file |
+| -w    | --atworkstation | Parse Active Teller Workstation logs (e.g. Workstation*.*) in the target file |
+| -r    | --rt | TBD            |
 
 Combine one or more *Parse Type* with one or more *View* to tell the parse what to do. 
 
@@ -95,6 +99,13 @@ Combine one or more *Parse Type* with one or more *View* to tell the parse what 
 | XmlParam | Config files and their parameters in table form |
 | AddKey   | Keys loaded on start-up |
 | *        | All of the above |
+
+### -b (--be) View Option Meaning
+
+| View          | Description |
+|---------------|----------------------|
+| beehdmessages | Include a detailed listing in the BeeHDMessages tab.  Can run out of memory processing large files, if this occurs use Time Filtering to limit the number of lines processed. |
+| *             | All of the above |
 
 ### -s (--sp) View Option Meaning
 
@@ -115,6 +126,23 @@ Combine one or more *Parse Type* with one or more *View* to tell the parse what 
 | View     | Description |
 |----------|----------------------|
 | *        | All views |
+
+
+### Global Option - Time Filtering
+
+By specifying both a start time and a span in minutes, the scan can be made much faster by eliminating log lines whose timestamps lie outside the range.
+
+ --timestart 202311040600 --timespan 1440
+ 
+The start time is expressed as yyyyMMddhhmm.  Timespan is in minutes.
+
+ 
+### Global Option - Include Raw Log line
+
+Each Excel worksheet has a payload column, which optionally contains the raw log lines.  Default is to exclude the raw log lines, to include them:
+
+--rawlogline
+
 
 ### Samples Commands and their Meaning
 

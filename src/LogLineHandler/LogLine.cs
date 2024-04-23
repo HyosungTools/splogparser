@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using Contract;
 
 namespace LogLineHandler
@@ -8,6 +10,8 @@ namespace LogLineHandler
    {
       public static string DateTimeFormatStringMsec = "yyyy-MM-dd hh:mm:ss.ffff";
       public static string TimeFormatStringMsec = "hh:mm:ss.ffff";
+      public static string DefaultTimestamp = @"2020-01-01 00:00:00.000";
+
 
       public static string DateTimestampToTableString(DateTime dt)
       {
@@ -18,8 +22,6 @@ namespace LogLineHandler
       {
          return (dt == DateTime.MinValue) || (dt == default(DateTime)) ? string.Empty : dt.ToString(TimeFormatStringMsec);
       }
-
-
 
       // my parent
       public ILogFileHandler parentHandler;
@@ -33,10 +35,27 @@ namespace LogLineHandler
       // my logLine
       public string logLine;
 
-      // whether the log line is recognized (parsed)
+      /// <summary>
+      /// A value indicating whether the log line is recognized by the parser. 
+      /// </summary>
       public bool IsRecognized { get; set; } = false;
 
+      /// <summary>
+      /// A value indicating whether the log line should be ignored.
+      /// </summary>
+      public bool IgnoreThisLine { get; set; } = false;
+
+      /// <summary>
+      /// A value indicating whether the Timestamp property contains a valid value.
+      /// </summary>
+      public bool IsValidTimestamp { get; set; } = false;
+
+      /// <summary>
+      /// A value indicating whether an exception should be thrown if the log line
+      /// is not recognized by the parser.
+      /// </summary>
       public bool ThrowExceptionIfNotRecognized { get; set; } = false;
+
 
       public LogLine(ILogFileHandler parent, string logLine)
       {
@@ -44,8 +63,39 @@ namespace LogLineHandler
          this.logLine = logLine;
       }
 
+      protected LogLine(ILogFileHandler parent)
+      {
+          this.parentHandler = parent;
+      }
+
+      /// <summary>
+      /// Gets the Timestamp from the logline text.
+      /// </summary>
+      /// <returns>A formatted DateTime string.</returns>
       protected abstract string tsTimestamp();
+
+      /// <summary>
+      /// Gets the value of an hResult field from the logline text.
+      /// </summary>
+      /// <returns></returns>
       protected abstract string hResult();
+
+
+      /// <summary>
+      /// Gets a value indicating whether the timestamp string contains a valid DateTime formatted string.
+      /// </summary>
+      /// <param name="timestamp"></param>
+      /// <returns></returns>
+      protected virtual bool bCheckValidTimestamp(string timestamp)
+      {
+         if (timestamp == DefaultTimestamp)
+         {
+            return false;
+         }
+
+         DateTime dtResult;
+         return DateTime.TryParse(timestamp, out dtResult);
+      }
 
 
       /// <summary>

@@ -14,7 +14,6 @@ namespace LogLineHandler
       public string VideoSessionState { get; private set; } = string.Empty;
 
 
-
       public MainWindow(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.MainWindow) : base(parent, logLine, awType)
       {
       }
@@ -86,7 +85,13 @@ namespace LogLineHandler
 
             //Remote desktop encountered an error while connecting to the asset.
 
+            //Remote desktop connection timed-out attempting to connect to the asset.
+            //Setting NetOp License key
+            //Started the ImperoConnect Guest application to IP: 10.50.240.10.
 
+            //ActiveTeller sign-out failed
+            //Reconnecting to ActiveTeller
+            //DeleteRequest request information for 
 
             string subtag = "Loading...";
             if (subLogLine.StartsWith(subtag))
@@ -123,10 +128,45 @@ namespace LogLineHandler
                IsRecognized = true;
             }
 
+            subtag = "Remote desktop connection timed-out attempting to connect to the asset.";
+            if (subLogLine.StartsWith(subtag))
+            {
+               ActiveTellerState = "REMOTE DESKTOP CONNECTION ATTEMPT TIMED OUT";
+               IsRecognized = true;
+            }
+
+            subtag = "Setting NetOp License key";
+            if (subLogLine.StartsWith(subtag))
+            {
+               ActiveTellerState = "SETTING NETOP LICENSE KEY";
+               IsRecognized = true;
+            }
+
             subtag = "Starting the ActiveTeller connection because the user is allowed to assist customers";
             if (subLogLine.StartsWith(subtag))
             {
                ActiveTellerState = "STARTING, CAN ASSIST CUSTOMERS";
+               IsRecognized = true;
+            }
+
+            subtag = "ActiveTeller sign-out failed";
+            if (subLogLine.StartsWith(subtag))
+            {
+               ActiveTellerState = "ACTIVE-TELLER SIGN-OUT FAILED";
+               IsRecognized = true;
+            }
+
+            subtag = "Reconnecting to ActiveTeller";
+            if (subLogLine.StartsWith(subtag))
+            {
+               ActiveTellerState = "RECONNECTING TO ACTIVE-TELLER";
+               IsRecognized = true;
+            }
+
+            subtag = "DeleteRequest request information for";
+            if (subLogLine.StartsWith(subtag))
+            {
+               ActiveTellerState = "DELETE REQUEST - INFORMATION FOR x";
                IsRecognized = true;
             }
 
@@ -157,6 +197,14 @@ namespace LogLineHandler
             {
                ActiveTellerState = $"NEW VIDEO CALL, {(bool.Parse(m.Groups["bool"].Value) ? "CAN ACCEPT" : "CANNOT ACCEPT")}";
                VideoSessionState = m.Groups["state"].Value;
+               IsRecognized = true;
+            }
+
+            regex = new Regex("Started the ImperoConnect Guest application to IP: (?<ip>.*).");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               ActiveTellerState = $"IMPEROCONNECT GUEST IP {m.Groups["ip"].Value}";
                IsRecognized = true;
             }
 

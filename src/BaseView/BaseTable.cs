@@ -1,6 +1,5 @@
 ﻿using Contract;
 using Microsoft.Office.Interop.Excel;
-using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -53,6 +52,11 @@ namespace Impl
       protected bool _zeroAsBlank = false;
 
       /// <summary>
+      /// Include the raw logline in the XML output
+      /// </summary>
+      public bool isOptionIncludePayload { get; set; } = true;
+
+      /// <summary>
       /// constructor
       /// </summary>
       /// <param name="ctx">The context for the instruction</param>
@@ -66,6 +70,8 @@ namespace Impl
          id = 0;
          this.ctx = ctx;
          this.viewName = viewName;
+
+         isOptionIncludePayload = this.ctx.opts.RawLogLine;
 
          Console.WriteLine("BaseTable.constructor complete");
 
@@ -180,7 +186,7 @@ namespace Impl
       {
          try
          {
-            // if the working files exist, just load the ViewName Xsd and Xml files
+            // use the working files for the WRITE EXCEL pass
             if (ctx.ioProvider.Exists(ctx.WorkFolder + "\\" + viewName + ".xsd"))
             {
                // Load the View xsd and xml
@@ -189,6 +195,7 @@ namespace Impl
             }
             else
             {
+               // if no working files, use the distribution
                // Load the BaseView and ViewName Xsd and Xml files
                dTableSet.ReadXmlSchema(ctx.ioProvider.GetCurrentDirectory() + "\\BaseView.xsd");
                dTableSet.ReadXml(ctx.ioProvider.GetCurrentDirectory() + "\\BaseView.xml");
@@ -422,7 +429,7 @@ namespace Impl
          }
 
 
-         string excelFileName = ctx.WorkFolder + "\\" + Path.GetFileNameWithoutExtension(ctx.ZipFileName) + ctx.opts.Suffix() + ".xlsx";
+         string excelFileName = ctx.ExcelFileName;
          Console.WriteLine("Write DataTable to Excel:" + excelFileName);
 
          // create Excel 

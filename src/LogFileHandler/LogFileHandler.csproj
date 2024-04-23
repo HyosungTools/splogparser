@@ -42,11 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AELogHandler.cs" />
+    <Compile Include="IILogHandler.cs" />
     <Compile Include="AVLogHandler.cs" />
     <Compile Include="AWLogHandler.cs" />
     <Compile Include="ATLogHandler.cs" />
     <Compile Include="APLogHandler.cs" />
-    <Compile Include="BHDLogHandler.cs" />
+    <Compile Include="BELogHandler.cs" />
     <Compile Include="CreateTextStreamReader.cs" />
     <Compile Include="LogHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,9 +75,17 @@
       <Project>{512e54f5-1e15-4dae-9d74-79c87afba9f6}</Project>
       <Name>AWLogLine</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BELine\BELogLine.csproj">
+      <Project>{9c7b3c9d-b324-4f6e-acd7-5f8597e456b2}</Project>
+      <Name>BELogLine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Contract\Contract.csproj">
       <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
       <Name>Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IILogLine\IILogLine.csproj">
+      <Project>{7761b5cc-c5df-41b9-9db6-50b2a1d91d8b}</Project>
+      <Name>IILogLine</Name>
     </ProjectReference>
     <ProjectReference Include="..\LogLineHandler\LogLineHandler.csproj">
       <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>

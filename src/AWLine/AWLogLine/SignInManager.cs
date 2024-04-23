@@ -35,6 +35,7 @@ namespace LogLineHandler
             //ActiveTeller sign-in received a Success response.
             //The ActiveTeller user is signing out
             //ActiveTeller sign-in received a Unauthorized response.
+            //MoveNext failed with status InternalServerError.
 
             string subtag = "The ActiveTeller user is signing out";
             if (subLogLine.StartsWith(subtag))
@@ -54,6 +55,13 @@ namespace LogLineHandler
             if (subLogLine.StartsWith(subtag))
             {
                SignInState = "UNAUTHORIZED";
+               IsRecognized = true;
+            }
+
+            subtag = "MoveNext failed with status InternalServerError.";
+            if (subLogLine.StartsWith(subtag))
+            {
+               SignInState = "FAILED - INTERNAL SERVER ERROR";
                IsRecognized = true;
             }
 

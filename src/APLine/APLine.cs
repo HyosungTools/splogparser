@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Text.RegularExpressions;
 using Contract;
 
@@ -179,8 +180,10 @@ namespace LogLineHandler
 
    public class APLine : LogLine, ILogLine
    {
+      // implementations of the ILogLine interface
       public string Timestamp { get; set; }
       public string HResult { get; set; }
+
       public APLogType apType { get; set; }
 
       public APLine(ILogFileHandler parent, string logLine, APLogType apType) : base(parent, logLine)
@@ -192,6 +195,7 @@ namespace LogLineHandler
       protected virtual void Initialize()
       {
          Timestamp = tsTimestamp();
+         IsValidTimestamp = bCheckValidTimestamp(Timestamp);
          HResult = hResult();
       }
 
@@ -203,7 +207,7 @@ namespace LogLineHandler
       protected override string tsTimestamp()
       {
          // set timeStamp to a default time
-         string timestamp = @"2023-01-01 00:00:00.000";
+         string timestamp = LogLine.DefaultTimestamp;
 
          // search for timestamp in the log line
          string regExp = @"\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}-\d{3}\]";

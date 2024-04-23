@@ -38,6 +38,12 @@ namespace LogLineHandler
                IsRecognized = true;
             }
 
+            if (subLogLine == "Encountered an exception trying to create and sign in Video:")
+            {
+               VideoEngineState = "EXCEPTION CREATING AND SIGNING IN VIDEO";
+               IsRecognized = true;
+            }
+
             string subtag = string.Empty;
 
             Regex regex = new Regex("Attempting to sign in to BeeHd video: uri=(?<uri>.*), user name=(?<user>.*)");
