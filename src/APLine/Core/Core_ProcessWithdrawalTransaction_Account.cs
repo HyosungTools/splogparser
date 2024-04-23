@@ -2,11 +2,11 @@
 
 namespace LogLineHandler
 {
-   public class Core_ProcessWithdrawalTransactionAccount : Core
+   public class Core_ProcessWithdrawalTransaction_Account : Core
    {
-      public string account;
+      public string account = string.Empty;
 
-      public Core_ProcessWithdrawalTransactionAccount(ILogFileHandler parent, string logLine, APLogType apType = APLogType.Core_ProcessWithdrawalTransaction_Account) : base(parent, logLine, apType)
+      public Core_ProcessWithdrawalTransaction_Account(ILogFileHandler parent, string logLine, APLogType apType = APLogType.Core_ProcessWithdrawalTransaction_Account) : base(parent, logLine, apType)
       {
       }
 

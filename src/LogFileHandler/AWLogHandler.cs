@@ -42,13 +42,6 @@ namespace LogFileHandler
          // while not EOL or EOF
          while (!endOfLine && !EOF())
          {
-            //==========================================================================================================
-            // - Software Name    = C:\Program Files (x86)\Nautilus Hyosung\ActiveTeller\Workstation\NH.ActiveTeller.Client.exe
-            // - Version          = 1.3.0.0
-            // - File Description = ActiveTeller Workstation
-            //==========================================================================================================
-            //[2023-09-13 10:02:12-399][3][Settings            ]UserSettings Path: C:\Users\lpina\AppData\Local\Nautilus_Hyosung\NH.ActiveTeller.Client.ex_Url_qnalorbjt4q0zmjb1ac1ptpbvvqeo5na\1.3.0.0\user.config
-
             char c = logFile[traceFilePos];
             traceFilePos++;
 

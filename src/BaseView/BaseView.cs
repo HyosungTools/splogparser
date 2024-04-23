@@ -64,6 +64,11 @@ namespace Impl
 
       public virtual void PreProcess(IContext ctx)
       {
+         this.ctx = ctx;
+
+         ctx.LogWriteLine("------------------------------------------------");
+         ctx.LogWriteLine("PreProcess: " + viewName);
+
          return;
       }
 

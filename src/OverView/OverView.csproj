@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{79FE7807-0694-473C-8DD5-7D7013E14EDF}</ProjectGuid>
+    <ProjectGuid>{768CA0EC-1793-411B-AA5D-84D03DE62005}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>APLine</RootNamespace>
-    <AssemblyName>APLine</AssemblyName>
+    <RootNamespace>OverView</RootNamespace>
+    <AssemblyName>OverView</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,65 +42,64 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddKey.cs" />
-    <Compile Include="APLine.cs" />
-    <Compile Include="CashDispenser\CashDispener.cs" />
-    <Compile Include="CashDispenser\CashDispenser_DispenseSyncAsync.cs" />
-    <Compile Include="CashDispenser\CashDispenser_ExecDispense.cs" />
-    <Compile Include="CashDispenser\CashDispenser_GetLCULastDispensedCount.cs" />
-    <Compile Include="CashDispenser\CashDispenser_Open.cs" />
-    <Compile Include="CashDispenser\CashDispenser_SetupCSTList.cs" />
-    <Compile Include="CashDispenser\CashDispenser_SetupNoteType.cs" />
-    <Compile Include="CashDispenser\CashDispenser_UpdateTypeInfoToDispense.cs" />
-    <Compile Include="CommFrmWork.cs" />
-    <Compile Include="APLineField.cs" />
-    <Compile Include="Core\Core.cs" />
-    <Compile Include="Core\Core_DispensedAmount.cs" />
-    <Compile Include="Core\Core_ProcessWithdrawalTransaction_Account.cs" />
-    <Compile Include="Core\Core_ProcessWithdrawalTransaction_Amount.cs" />
-    <Compile Include="Core\Core_RequiredBillMixList.cs" />
-    <Compile Include="DevUnSolEvent.cs" />
-    <Compile Include="EJInsert.cs" />
-    <Compile Include="MachineInfo.cs" />
-    <Compile Include="NDC\Atm2Host\Atm2Host.cs" />
-    <Compile Include="NDC\Atm2Host\Atm2Host11.cs" />
-    <Compile Include="NDC\Atm2Host\Atm2Host12.cs" />
-    <Compile Include="NDC\Atm2Host\Atm2Host22.cs" />
-    <Compile Include="NDC\Atm2Host\Atm2Host23.cs" />
-    <Compile Include="NDC\Atm2Host\Atm2Host51.cs" />
-    <Compile Include="NDC\Atm2Host\Atm2Host61.cs" />
-    <Compile Include="NDC\Host2Atm\Host2Atm.cs" />
-    <Compile Include="NDC\Host2Atm\Host2Atm1.cs" />
-    <Compile Include="NDC\Host2Atm\Host2Atm3.cs" />
-    <Compile Include="NDC\Host2Atm\Host2Atm4.cs" />
-    <Compile Include="NDC\Host2Atm\Host2Atm6.cs" />
-    <Compile Include="NDC\Host2Atm\Host2Atm7.cs" />
-    <Compile Include="NDC\NDC.cs" />
-    <Compile Include="Pinpad.cs" />
+    <Compile Include="OverTable.cs" />
+    <Compile Include="OverView.cs" />
+    <Compile Include="OverView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OverView.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\APSamplesTests\APSamples.csproj">
-      <Project>{98624250-55f4-407e-9a99-242690d17f0f}</Project>
-      <Name>APSamples</Name>
+    <ProjectReference Include="..\APLine\APLogLine.csproj">
+      <Project>{79fe7807-0694-473c-8dd5-7d7013e14edf}</Project>
+      <Name>APLogLine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\APLOG\NDC.csproj">
+      <Project>{af20812c-58dd-4729-8e22-d51aeed9a701}</Project>
+      <Name>NDC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BaseView\BaseView.csproj">
+      <Project>{db43982d-e960-4dba-83ef-1bb6e7a60a49}</Project>
+      <Name>BaseView</Name>
     </ProjectReference>
     <ProjectReference Include="..\Contract\Contract.csproj">
       <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
       <Name>Contract</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Impl\Impl.csproj">
+      <Project>{f89403e5-4c5c-4d8f-8401-b2d56f6d8a2b}</Project>
+      <Name>Impl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LogLineHandler\LogLineHandler.csproj">
       <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>
       <Name>LogLineHandler</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RegEx\RegEx.csproj">
-      <Project>{08528b3a-39f6-4e08-81fa-9b3c2935316a}</Project>
-      <Name>RegEx</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="OverView.xsc">
+      <DependentUpon>OverView.xsd</DependentUpon>
+    </None>
+    <None Include="OverView.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>OverView.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="OverView.xss">
+      <DependentUpon>OverView.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OverView.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.pdb" $(SolutionDir)\..\dist</PostBuildEvent>
+copy "$(MSBuildProjectDirectory)\OverView.xsd" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\OverView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
   </PropertyGroup>
 </Project>

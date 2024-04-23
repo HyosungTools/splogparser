@@ -608,12 +608,16 @@ namespace CIMView
 
                try
                {
-                  for (int j = 0; j < 20; j++)
+                  if (cashInfo.lUnitCount > 0)
                   {
-                     if (!string.IsNullOrEmpty(cashInfo.noteNumbers[0, j]) && cashInfo.noteNumbers[0, j].Contains(":"))
+
+                     for (int j = 0; j < 20; j++)
                      {
-                        string[] noteNum = cashInfo.noteNumbers[0, j].Split(':');
-                        dataRow["N" + noteNum[0]] = noteNum[1];
+                        if (!string.IsNullOrEmpty(cashInfo.noteNumbers[0, j]) && cashInfo.noteNumbers[0, j].Contains(":"))
+                        {
+                           string[] noteNum = cashInfo.noteNumbers[0, j].Split(':');
+                           dataRow["N" + noteNum[0]] = noteNum[1];
+                        }
                      }
                   }
                }

@@ -19,6 +19,17 @@ namespace LogLineHandler
       {
       }
 
+      protected override void Initialize()
+      {
+         base.Initialize();
+
+         (bool success, string subLine) result = NDC.IsolateNdcMessage(logLine);
+         if (result.success)
+         {
+            ndcmsg = result.subLine; 
+         }
+      }
+
       public virtual bool ParseToEnglishBrief()
       {
          return false;

@@ -77,12 +77,12 @@ namespace splogparser
               ( (IsSP && parseType == ParseType.SP) && (SPViews.Contains(viewName) || SPViews.Contains("*"))) ||
               ( (IsRT && parseType == ParseType.RT) && (RTViews.Contains(viewName) || RTViews.Contains("*"))) ||
               ( (IsII && parseType == ParseType.II) && (IIViews.Contains(viewName) || IIViews.Contains("*"))) ||
+              ( (IsSS && parseType == ParseType.SS) && (SSViews.Contains(viewName) || SSViews.Contains("*"))) ||
               ( (IsAE && parseType == ParseType.AE) && (AEViews.Contains(viewName) || AEViews.Contains("*"))) ||
               ( (IsAT && parseType == ParseType.AT) && (ATViews.Contains(viewName) || ATViews.Contains("*"))) ||
               ( (IsAW && parseType == ParseType.AW) && (AWViews.Contains(viewName) || AWViews.Contains("*"))) ||
               ( (IsBE && parseType == ParseType.BE) && (BEViews.Contains(viewName) || BEViews.Contains("*"))) ||
-              ( (IsAV && parseType == ParseType.AV) && (AVViews.Contains(viewName) || AVViews.Contains("*"))) ||
-              ( (IsSS && parseType == ParseType.SS) && (SSViews.Contains(viewName) || SSViews.Contains("*")))
+              ( (IsAV && parseType == ParseType.AV) && (AVViews.Contains(viewName) || AVViews.Contains("*")))
             );
       }
 
