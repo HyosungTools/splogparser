@@ -46,11 +46,8 @@
     <Compile Include="samples_settlementserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Contract\Contract.csproj">
-      <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
-      <Name>Contract</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent />
+  </PropertyGroup>
 </Project>

@@ -88,8 +88,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.pdb" $(SolutionDir)\..\dist
+    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\SettingsView.dll" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\XmlParamView.xsd" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\XmlParamView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
   </PropertyGroup>

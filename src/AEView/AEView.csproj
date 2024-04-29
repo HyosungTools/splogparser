@@ -70,8 +70,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.pdb" $(SolutionDir)\..\dist
+    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\AEView.dll" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\AEView.xsd" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\AEView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
   </PropertyGroup>

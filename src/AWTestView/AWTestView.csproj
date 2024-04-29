@@ -71,7 +71,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.pdb" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\AWTestView.xsd" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\AWTestView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
   </PropertyGroup>
