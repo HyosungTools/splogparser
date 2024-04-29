@@ -617,7 +617,7 @@ namespace CashDispView
          }
          catch (Exception e)
          {
-            ctx.ConsoleWriteLogLine("SETUP_CSTLIST Exception : " + e.Message);
+            ctx.ConsoleWriteLogLine("SETUP_NOTETYPE Exception : " + e.Message);
          }
       }
    }

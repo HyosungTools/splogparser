@@ -157,6 +157,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverView", "OverView\OverVi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSLogLineTests", "SSLogLineTests\SSLogLineTests.csproj", "{A982415C-65A9-4567-A591-68AD84DE4A39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstallView", "InstallView\InstallView.csproj", "{590A53C0-9000-4BEB-8752-92C54CDCFBCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -351,6 +353,10 @@ Global
 		{A982415C-65A9-4567-A591-68AD84DE4A39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A982415C-65A9-4567-A591-68AD84DE4A39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A982415C-65A9-4567-A591-68AD84DE4A39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{590A53C0-9000-4BEB-8752-92C54CDCFBCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{590A53C0-9000-4BEB-8752-92C54CDCFBCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{590A53C0-9000-4BEB-8752-92C54CDCFBCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{590A53C0-9000-4BEB-8752-92C54CDCFBCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -417,6 +423,7 @@ Global
 		{942F160B-5B17-4570-A894-914EB9D4A6B2} = {761EEA8B-E4F5-4170-B716-74F5DA1E7DF3}
 		{6B4AFFA1-5082-4873-8606-8CCB912CEE3B} = {942F160B-5B17-4570-A894-914EB9D4A6B2}
 		{A982415C-65A9-4567-A591-68AD84DE4A39} = {CD14D015-709D-4F20-AB4F-0A0BF3F25C57}
+		{590A53C0-9000-4BEB-8752-92C54CDCFBCB} = {BDCD7A03-828B-44E6-9169-223946D1BBC9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E3C1D19-CB84-47CD-B2F7-F495926D01C3}

@@ -24,6 +24,15 @@ namespace LogLineHandler
       public MachineInfo(ILogFileHandler parent, string logLine, APLogType apType = APLogType.APLOG_INSTALL) : base(parent, logLine, apType)
       {
       }
+      protected override string hResult()
+      {
+         return "";
+      }
+
+      protected override string tsTimestamp()
+      {
+         return "";
+      }
 
       protected override void Initialize()
       {
@@ -42,6 +51,7 @@ namespace LogLineHandler
          {
             return packages;
          }
+
 
          // isolated the installed packages part of the line
          installedPackages = logLine.Substring(logLine.IndexOf(installedPackages) + installedPackages.Length);
@@ -96,18 +106,42 @@ namespace LogLineHandler
          int i = 0;
          foreach (string line in lines)
          {
-            string[] elements = Regex.Split(line, ",");
-            packages[i, 0] = (elements.Length > 0) ? elements[0].Replace(" - ", "").Trim() : string.Empty;
-            packages[i, 1] = (elements.Length > 1) ? elements[1].Replace(" Installed: ", "").Trim() : string.Empty;
-            packages[i, 2] = (elements.Length > 2) ? elements[2].Replace(" Version: ", "").Trim() : string.Empty;
+            string installed = ", Installed:";
+            string version = ", Version:";
 
-            // For Installed Programs, the date format is MM/dd/yyyy. Normalize to yyyy-MM-dd
-            string inputDateString = packages[i, 1];
-            if (!string.IsNullOrEmpty(inputDateString))
+            packages[i, 0] = string.Empty;
+            packages[i, 1] = string.Empty;
+            packages[i, 2] = string.Empty;
+
+            int idx = line.IndexOf(installed);
+            if (idx > 0)
             {
-               DateTime inputDate = DateTime.ParseExact(inputDateString, "MM/dd/yyyy", null);
-               packages[i, 1] = inputDate.ToString("yyyy-MM-dd");
+               // packages[i, 0] - the package(s) installed
+               packages[i, 0] = line.Substring(0, idx).Replace(" - ", "").Trim();
+               string subLine = line.Substring(idx + installed.Length);
+
+               idx = subLine.IndexOf(version);
+               if (idx > 0)
+               {
+                  // only try to parse the install date if it's the correct length
+                  if (subLine.Substring(0, idx).Length > 10)
+                  {
+                     packages[i, 1] = subLine.Substring(0, idx).Trim();
+                     try
+                     {
+                        DateTime inputDate = DateTime.ParseExact(packages[i, 1], "MM/dd/yyyy", null);
+                        packages[i, 1] = inputDate.ToString("yyyy-MM-dd");
+                     }
+                     catch (Exception e)
+                     {
+                        parentHandler.ctx.ConsoleWriteLogLine(String.Format("Exception - Failed to parse time from {0}, {1}, {2}", subLine, packages[i, 1], e.Message));
+                     }
+                  }
+                  packages[i, 2] = line.Substring(idx + version.Length).Trim();
+
+               }
             }
+
             i++;
          }
 
