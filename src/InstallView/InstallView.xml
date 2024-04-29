@@ -1,0 +1,550 @@
+<?xml version="1.0" standalone="yes"?>
+<CIM>
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>0</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>1</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>2</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>3</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>4</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>5</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>6</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>7</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>8</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>9</number>
+	<type></type>
+	<name></name>
+	<currency></currency>
+	<denom></denom>
+	<max></max>
+	<comment></comment>
+  </Summary>
+
+    <!-- fwDevice -->
+  <Messages>
+    <type>fwDevice</type>
+    <code>0</code>
+    <brief>online</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>1</code>
+    <brief>offline</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>2</code>
+    <brief>pwoff</brief>
+    <description>Powered off or physically not connected</description>
+  </Messages>
+  
+  <Messages>	
+	<type>fwDevice</type>
+    <code>3</code>
+    <brief>nodev</brief>
+    <description>The device is not intended to be there</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>4</code>
+    <brief>hwerror</brief>
+    <description>Inoperable due to a hardware error</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>5</code>
+    <brief>usrerr</brief>
+    <description>User is preventing proper device operation</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>6</code>
+    <brief>busy</brief>
+    <description>Unable to process an execute command at this time</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>7</code>
+    <brief>fraud</brief>
+    <description>Inoperable because of detected fraud attempt</description>
+  </Messages>
+
+  <Messages>	
+	<type>fwDevice</type>
+    <code>8</code>
+    <brief>fraud?</brief>
+    <description>Potential fraud attempt detected</description>
+  </Messages>
+
+    <!-- fwSafeDoor-->
+
+  <Messages>
+	<type>fwSafeDoor</type>
+    <code>1</code>
+    <brief>notsupp</brief>
+    <description>Not supported</description>
+  </Messages>
+  
+  <Messages>
+	<type>fwSafeDoor</type>
+    <code>2</code>
+    <brief>open</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>fwSafeDoor</type>
+    <code>3</code>
+    <brief>closed</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>fwSafeDoor</type>
+    <code>4</code>
+    <brief>unkwn</brief>
+    <description></description>
+  </Messages>
+
+  <!-- fwAcceptor -->
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>0</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages>
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>1</code>
+    <brief>ustate</brief>
+    <description>high, full, inoperative or manipulated condition</description>
+  </Messages>
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>2</code>
+    <brief>ustop</brief>
+    <description>No items can be accepted</description>
+  </Messages>
+
+  <Messages>
+	<type>fwAcceptor</type>
+    <code>3</code>
+    <brief>unkwn</brief>
+    <description>state cannot be determined</description>
+  </Messages>  
+  
+  <!-- fwIntermediateStacker -->
+
+  <Messages>
+    <type>fwIntermediateStacker</type>
+    <code>0</code>
+    <brief>empty</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>fwIntermediateStacker</type>
+    <code>1</code>
+    <brief>notempty</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>fwIntermediateStacker</type>
+    <code>2</code>
+    <brief>notemptycust</brief>
+    <description>The items have been in customer access.</description>
+  </Messages>
+  
+  <Messages>
+	<type>fwIntermediateStacker</type>
+    <code>3</code>
+    <brief>notemptyunkn</brief>
+    <description>It is not known if the items have been in customer access.</description>
+  </Messages>
+  
+  <Messages>
+	<type>fwIntermediateStacker</type>
+    <code>4</code>
+    <brief>unkn</brief>
+    <description>Due to a hardware error or other condition, the state of the intermediate stacker cannot be determined.</description>
+  </Messages>
+  
+  <Messages>
+	<type>fwIntermediateStacker</type>
+    <code>5</code>
+    <brief>nosup</brief>
+    <description>The physical device has no intermediate stacker.</description>
+  </Messages>
+  
+    <!-- fwStackerItems -->
+
+  <Messages>
+	<type>fwStackerItems</type>
+    <code>0</code>
+    <brief>cust</brief>
+    <description>Items have been in customer access</description>
+  </Messages>
+  
+  <Messages>
+	<type>fwStackerItems</type>
+    <code>1</code>
+    <brief>nocust</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>fwStackerItems</type>
+    <code>3</code>
+    <brief>unkwn</brief>
+    <description></description>
+  </Messages>
+  
+  <Messages>
+	<type>fwStackerItems</type>
+    <code>4</code>
+    <brief>noitems</brief>
+    <description></description>
+  </Messages>
+  
+  <!-- fwType -->
+  
+  
+   <Messages>
+	<type>fwType</type>
+    <code>1</code>
+    <brief>recycle</brief>
+    <description></description>
+  </Messages> 
+  
+   <Messages>
+	<type>fwType</type>
+    <code>2</code>
+    <brief>cashin</brief>
+    <description></description>
+  </Messages> 
+  
+   <Messages>
+	<type>fwType</type>
+    <code>3</code>
+    <brief>replen</brief>
+    <description></description>
+  </Messages> 
+  
+   <Messages>
+	<type>fwType</type>
+    <code>4</code>
+    <brief>retract</brief>
+    <description></description>
+  </Messages> 
+
+   <Messages>
+	<type>fwType</type>
+    <code>5</code>
+    <brief>reject</brief>
+    <description></description>
+  </Messages> 
+
+   <Messages>
+	<type>fwType</type>
+    <code>6</code>
+    <brief>specific</brief>
+    <description></description>
+  </Messages> 
+  
+  <!-- wStatus -->
+  
+  <Messages>
+    <type>wStatus</type>
+    <code>0</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+    <type>wStatus</type>
+    <code>1</code>
+    <brief>rollback</brief>
+    <description>transaction ended with a rollback</description>
+  </Messages> 
+
+  <Messages>
+    <type>wStatus</type>
+    <code>2</code>
+    <brief>active</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+    <type>wStatus</type>
+    <code>3</code>
+    <brief>retract</brief>
+    <description>transaction ended with a retract</description>
+  </Messages> 
+
+  <Messages>
+    <type>wStatus</type>
+    <code>4</code>
+    <brief>unknown</brief>
+    <description>state is unknown.</description>
+  </Messages> 
+
+  <Messages>
+    <type>wStatus</type>
+    <code>5</code>
+    <brief>reset</brief>
+    <description>transaction ended with a reset</description>
+  </Messages> 
+  
+  <!-- usStatus -->
+
+  <Messages>
+    <type>usStatus</type>
+    <code>0</code>
+    <brief>ok</brief>
+    <description></description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>1</code>
+    <brief>full</brief>
+    <description>The cash unit is full</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>2</code>
+    <brief>high</brief>
+    <description>The cash unit is almost full</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>3</code>
+    <brief>low</brief>
+    <description>The cash unit is almost empty</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>4</code>
+    <brief>empty</brief>
+    <description>The cash unit is empty</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>5</code>
+    <brief>inop</brief>
+    <description>The cash unit is inoperative</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>6</code>
+    <brief>missing</brief>
+    <description>The cash unit is missing</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>7</code>
+    <brief>noval</brief>
+    <description>Unavailable</description>
+  </Messages> 
+
+  <Messages>
+    <type>usStatus</type>
+    <code>8</code>
+    <brief>noref</brief>
+    <description>No Reference</description>
+  </Messages>
+
+  <Messages>
+    <type>usStatus</type>
+    <code>9</code>
+    <brief>inserted</brief>
+    <description>The cash unit has been inserted</description>
+  </Messages>  
+
+  <!-- noteType -->
+
+   <Messages>
+    <type>noteType</type>
+    <code>0</code>
+    <brief>USD0</brief>
+    <description>N0</description>
+  </Messages>   
+
+   <Messages>
+    <type>noteType</type>
+    <code>1</code>
+    <brief>USD1</brief>
+    <description>N1</description>
+  </Messages> 
+  
+   <Messages>
+    <type>noteType</type>
+    <code>2</code>
+    <brief>USD2</brief>
+    <description>N2</description>
+  </Messages> 
+
+   <Messages>
+    <type>noteType</type>
+    <code>5</code>
+    <brief>USD5</brief>
+    <description>N3,N8,N13</description>
+  </Messages> 
+
+   <Messages>
+    <type>noteType</type>
+    <code>10</code>
+    <brief>USD10</brief>
+    <description>N4,N9,N14</description>
+  </Messages> 
+
+   <Messages>
+    <type>noteType</type>
+    <code>20</code>
+    <brief>USD20</brief>
+    <description>N5,N10,N15</description>
+  </Messages> 
+
+   <Messages>
+    <type>noteType</type>
+    <code>50</code>
+    <brief>USD50</brief>
+    <description>N6,N11,N16</description>
+  </Messages> 
+
+   <Messages>
+    <type>noteType</type>
+    <code>100</code>
+    <brief>USD100</brief>
+    <description>N7,N12,N17</description>
+  </Messages> 
+   
+</CIM>
