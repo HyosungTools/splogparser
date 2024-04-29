@@ -57,4 +57,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\IILine.dll" $(SolutionDir)\..\dist</PostBuildEvent>
+  </PropertyGroup>
 </Project>

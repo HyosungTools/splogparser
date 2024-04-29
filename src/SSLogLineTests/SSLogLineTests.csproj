@@ -74,17 +74,6 @@
       <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>
       <Name>LogLineHandler</Name>
     </ProjectReference>
-<<<<<<< HEAD
-=======
-    <ProjectReference Include="..\Samples\SampleTests.csproj">
-      <Project>{915d5fb6-69c8-4bab-984b-090801a300ca}</Project>
-      <Name>SampleTests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SPLogLine\SPLogLine.csproj">
-      <Project>{f0e36fc7-76a9-4bcd-9364-f8d5327729d6}</Project>
-      <Name>SPLogLine</Name>
-    </ProjectReference>
->>>>>>> a18f390 (rebased with main)
     <ProjectReference Include="..\SSLine\SSLogLine.csproj">
       <Project>{4e7796f3-414a-4fae-b3c1-4386165e35c2}</Project>
       <Name>SSLogLine</Name>

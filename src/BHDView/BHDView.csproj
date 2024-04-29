@@ -95,10 +95,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.pdb" $(SolutionDir)\..\dist
-      copy "$(MSBuildProjectDirectory)\BHDView.xml"  $(SolutionDir)\..\dist
-      copy "$(MSBuildProjectDirectory)\BHDView.xsd"  $(SolutionDir)\..\dist
+    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\BEView.dll" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\BHDView.xml"  $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\BHDView.xsd"  $(SolutionDir)\..\dist
 </PostBuildEvent>
   </PropertyGroup>
   <Target Name="AfterClean">
