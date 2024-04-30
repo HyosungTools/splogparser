@@ -3,42 +3,27 @@
   <xs:element name="INSTALL" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-		<xs:element name="Programs">
+        <xs:element name="Programs">
           <xs:complexType>
             <xs:sequence>
-			  <xs:element name="installed" type="xs:string" minOccurs="0" />
+              <xs:element name="installed" type="xs:string" minOccurs="0" />
               <xs:element name="name" type="xs:string" minOccurs="0" />
               <xs:element name="version" type="xs:string" minOccurs="0" />
-			  <xs:element name="comment" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
         <xs:element name="Packages">
           <xs:complexType>
             <xs:sequence>
-			  <xs:element name="installed" type="xs:string" minOccurs="0" />
+              <xs:element name="installed" type="xs:string" minOccurs="0" />
               <xs:element name="name" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
-			  <xs:element name="comment" type="xs:string" minOccurs="0" />
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>		
-        <xs:element name="Messages">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="type" type="xs:string" />
-              <xs:element name="code" type="xs:string" />
-              <xs:element name="brief" type="xs:string" minOccurs="0" />
-              <xs:element name="description" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
       </xs:choice>
     </xs:complexType>
-    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
-      <xs:selector xpath=".//Messages" />
-      <xs:field xpath="type" />
-      <xs:field xpath="code" />
-    </xs:unique>
   </xs:element>
 </xs:schema>

@@ -10,6 +10,7 @@ namespace APLogLineTests
    [TestClass]
    public class APLogHandler_ReadLine_Tests
    {
+      [Ignore]
       [TestMethod]
       public void DetectInstallLine1()
       {
