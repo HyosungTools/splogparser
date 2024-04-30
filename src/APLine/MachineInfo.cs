@@ -52,7 +52,6 @@ namespace LogLineHandler
             return packages;
          }
 
-
          // isolated the installed packages part of the line
          installedPackages = logLine.Substring(logLine.IndexOf(installedPackages) + installedPackages.Length);
 
@@ -62,6 +61,7 @@ namespace LogLineHandler
             installedPackages = installedPackages.Substring(0, installedPackages.IndexOf(installedPackagesEnd));
          }
 
+
          string[] lines = Regex.Split(installedPackages, "\r\n");
 
          // storage will be 2D array, one for each line
@@ -70,10 +70,28 @@ namespace LogLineHandler
          int i = 0;
          foreach (string line in lines)
          {
-            string[] elements = Regex.Split(line, ",");
-            packages[i, 0] = (elements.Length > 0) ? elements[0].Replace(" - ", "").Trim() : string.Empty;
-            packages[i, 1] = (elements.Length > 1) ? elements[1].Replace(" Installed: ", "").Trim() : string.Empty;
-            packages[i, 2] = (elements.Length > 2) ? elements[2].Replace(" Status: ", "").Trim() : string.Empty;
+            packages[i, 0] = string.Empty;
+            packages[i, 1] = string.Empty;
+            packages[i, 2] = string.Empty;
+
+            // e.g.: - a2ia-v9.0, Installed: 2024-04-17 12:36:25, Status: Good
+
+            Regex regex = new Regex("^ - (?<package>.*), Installed:(?<installDate>.*), Status:(?<status>.*)?");
+            Match m = regex.Match(line);
+            if (!m.Success)
+            {
+               continue;
+            }
+
+            if (m.Groups["package"].Value.Length > 0)
+               packages[i, 0] = m.Groups["package"].Value.Trim();
+
+            if (m.Groups["installDate"].Value.Length > 0)
+               packages[i, 1] = m.Groups["installDate"].Value.Trim();
+
+            if (m.Groups["status"].Value.Length > 0)
+               packages[i, 2] = m.Groups["status"].Value.Trim();
+
             i++;
          }
 
@@ -98,6 +116,8 @@ namespace LogLineHandler
             installedPrograms = installedPrograms.Substring(0, installedPrograms.IndexOf(installedProgramsEnd));
          }
 
+
+
          string[] lines = Regex.Split(installedPrograms, "\r\n");
 
          // storage will be 2D array, one for each line
@@ -106,41 +126,27 @@ namespace LogLineHandler
          int i = 0;
          foreach (string line in lines)
          {
-            string installed = ", Installed:";
-            string version = ", Version:";
-
             packages[i, 0] = string.Empty;
             packages[i, 1] = string.Empty;
             packages[i, 2] = string.Empty;
 
-            int idx = line.IndexOf(installed);
-            if (idx > 0)
+            // e.g.: - A2iA CheckReader V9.0, Installed: 04/17/2024, Version: 9.0
+
+            Regex regex = new Regex("^ - (?<program>.*), Installed:(?<installDate>.*), Version:(?<version>.*)?");
+            Match m = regex.Match(line);
+            if (!m.Success)
             {
-               // packages[i, 0] - the package(s) installed
-               packages[i, 0] = line.Substring(0, idx).Replace(" - ", "").Trim();
-               string subLine = line.Substring(idx + installed.Length);
-
-               idx = subLine.IndexOf(version);
-               if (idx > 0)
-               {
-                  // only try to parse the install date if it's the correct length
-                  if (subLine.Substring(0, idx).Length > 10)
-                  {
-                     packages[i, 1] = subLine.Substring(0, idx).Trim();
-                     try
-                     {
-                        DateTime inputDate = DateTime.ParseExact(packages[i, 1], "MM/dd/yyyy", null);
-                        packages[i, 1] = inputDate.ToString("yyyy-MM-dd");
-                     }
-                     catch (Exception e)
-                     {
-                        parentHandler.ctx.ConsoleWriteLogLine(String.Format("Exception - Failed to parse time from {0}, {1}, {2}", subLine, packages[i, 1], e.Message));
-                     }
-                  }
-                  packages[i, 2] = line.Substring(idx + version.Length).Trim();
-
-               }
+               continue;
             }
+
+            if (m.Groups["program"].Value.Length > 0)
+               packages[i, 0] = m.Groups["program"].Value.Trim();
+
+            if (m.Groups["installDate"].Value.Length > 0)
+               packages[i, 1] = m.Groups["installDate"].Value.Trim();
+
+            if (m.Groups["version"].Value.Length > 0)
+               packages[i, 2] = m.Groups["version"].Value.Trim();
 
             i++;
          }

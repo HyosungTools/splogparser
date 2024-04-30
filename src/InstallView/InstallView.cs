@@ -10,7 +10,7 @@ namespace InstallView
       /// <summary>
       /// Constructor
       /// </summary>
-      InstallView() : base(ParseType.AP, "Install") { }
+      InstallView() : base(ParseType.AP, "InstallView") { }
 
       /// <summary>
       /// Creates an CIM Table instance. 

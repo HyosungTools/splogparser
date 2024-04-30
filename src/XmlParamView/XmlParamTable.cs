@@ -34,7 +34,7 @@ namespace XmlParamsView
          ctx.ConsoleWriteLogLine(String.Format("{0} : WriteExcel", this.viewName));
 
          // Remove duplicate rows - use distinctTable going forward
-         ctx.ConsoleWriteLogLine(String.Format("{0} : Remove Duplicate Rows", this.viewName));
+         ctx.ConsoleWriteLogLine(String.Format("{0} : Remove Duplicate Rows", tableName));
          DataTable distinctTable = dTableSet.Tables[tableName].DefaultView.ToTable(true);
          distinctTable.TableName = tableName;
 
