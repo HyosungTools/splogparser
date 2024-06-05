@@ -22,7 +22,7 @@ namespace LogLineHandler
          }
          catch (Exception e)
          {
-            this.parentHandler.ctx.ConsoleWriteLogLine(String.Format("{0} Unexpected parse in message : {1}", myName, ndcmsg));
+            this.parentHandler.ctx.ConsoleWriteLogLine(String.Format("{0} Unexpected parse in message : {1}, {2}", myName, ndcmsg, e.Message));
          }
 
          return ;
