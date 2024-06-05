@@ -47,7 +47,6 @@ namespace Impl
             {
                if (lastRow[colName].ToString() == secondLastRow[colName].ToString())
                {
-                  lastRow[colName] = string.Empty;
                   zeroCount++;
                }
             }

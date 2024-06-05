@@ -51,7 +51,7 @@ namespace APLogLineTests
             {
                _ = logFileHandler.ReadLine();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                Assert.IsTrue(false);
                return;

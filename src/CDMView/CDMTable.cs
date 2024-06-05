@@ -55,12 +55,6 @@ namespace CDMView
                         WFS_CMD_CDM_DISPENSE(spLogLine);
                         break;
                      }
-                  case LogLineHandler.XFSType.WFS_CMD_CDM_PRESENT:
-                     {
-                        base.ProcessRow(spLogLine);
-                        WFS_CMD_CDM_PRESENT(spLogLine);
-                        break;
-                     }
                   case LogLineHandler.XFSType.WFS_CMD_CDM_REJECT:
                      {
                         base.ProcessRow(spLogLine);
@@ -218,6 +212,10 @@ namespace CDMView
             // D I S P E N S E  T A B L E 
 
             tableName = "Dispense";
+
+            //// COMPRESS
+            string[] columns = new string[] { "error", "position", "amount" };
+            CompressTable(tableName, columns);
 
             // ADD ENGLISH 
             string[,] colKeyMap = new string[1, 2]

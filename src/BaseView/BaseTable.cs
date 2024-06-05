@@ -374,6 +374,33 @@ namespace Impl
          return;
       }
 
+      /// <summary>
+      /// PreAnalyze - steps not related to time series
+      /// </summary>
+      /// <param name="ctx"></param>
+      public virtual void PreAnalyze(IContext ctx)
+      {
+         return;
+      }
+
+      /// <summary>
+      /// PostAnalyze - steps not related to time series
+      /// </summary>
+      /// <param name="ctx"></param>
+      public virtual void PostAnalyze(IContext ctx)
+      {
+         return;
+      }
+
+      /// <summary>
+      /// Analyze - steps not related to time series
+      /// </summary>
+      /// <param name="ctx"></param>
+      public virtual void Analyze(IContext ctx)
+      {
+         return;
+      }
+
       protected (bool success, DataRow dataRow) FindMessages(string type, string code)
       {
          // Create an array for the key values to find.

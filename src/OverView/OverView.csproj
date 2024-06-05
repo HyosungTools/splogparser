@@ -56,10 +56,6 @@
       <Project>{79fe7807-0694-473c-8dd5-7d7013e14edf}</Project>
       <Name>APLogLine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\APLOG\NDC.csproj">
-      <Project>{af20812c-58dd-4729-8e22-d51aeed9a701}</Project>
-      <Name>NDC</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BaseView\BaseView.csproj">
       <Project>{db43982d-e960-4dba-83ef-1bb6e7a60a49}</Project>
       <Name>BaseView</Name>
