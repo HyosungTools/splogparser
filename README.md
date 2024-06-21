@@ -87,6 +87,7 @@ The list of Parse Types supported is:
 | -v    | --atserver | Parse Active Teller Server logs (e.g. ActiveTellerServer*.*) in the target file |
 | -w    | --atworkstation | Parse Active Teller Workstation logs (e.g. Workstation*.*) in the target file |
 | -r    | --rt | TBD            |
+|       | --a2 | Parse A2iAResult log files in the target file  |
 
 Combine one or more *Parse Type* with one or more *View* to tell the parse what to do. 
 
@@ -127,6 +128,11 @@ Combine one or more *Parse Type* with one or more *View* to tell the parse what 
 |----------|----------------------|
 | *        | All views |
 
+### --a2 View Option Meaning
+
+| View     | Description |
+|----------|----------------------|
+| *        | All views |
 
 ### Global Option - Time Filtering
 

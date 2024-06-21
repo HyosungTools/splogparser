@@ -1,0 +1,38 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="A2" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="A2" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="A2">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="nodate" type="xs:string" minOccurs="0" />
+              <xs:element name="nopayee" type="xs:string" minOccurs="0" />
+              <xs:element name="nocar" type="xs:string" minOccurs="0" />
+              <xs:element name="nolar" type="xs:string" minOccurs="0" />
+              <xs:element name="nosign" type="xs:string" minOccurs="0" />
+              <xs:element name="nocodeline" type="xs:string" minOccurs="0" />
+              <xs:element name="noendorse" type="xs:string" minOccurs="0" />
+              <xs:element name="amt" type="xs:string" minOccurs="0" />
+              <xs:element name="amtscore" type="xs:string" minOccurs="0" />
+              <xs:element name="codeline" type="xs:string" minOccurs="0" />
+              <xs:element name="codelinescore" type="xs:string" minOccurs="0" />
+              <xs:element name="date" type="xs:string" minOccurs="0" />
+              <xs:element name="datescore" type="xs:string" minOccurs="0" />
+              <xs:element name="sig" type="xs:string" minOccurs="0" />
+              <xs:element name="sigscore" type="xs:string" minOccurs="0" />
+              <xs:element name="lar" type="xs:string" minOccurs="0" />
+              <xs:element name="larscore" type="xs:string" minOccurs="0" />
+              <xs:element name="car" type="xs:string" minOccurs="0" />
+              <xs:element name="carscore" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
