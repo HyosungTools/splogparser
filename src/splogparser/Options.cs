@@ -48,15 +48,18 @@ namespace splogparser
       [Option("rawlogline", Default = false, Required = false, HelpText = "Include raw log line in the payload column.")]
       public bool RawLogLine { get; set; }
 
+      // Omitting long name, defaults to name of property, ie "--ss"
+      [Option("ss", Default = "x", Required = false, HelpText = "Parse Settlement Server API logs.")]
+      public string SSViews { get; set; }
+
+      [Option("a2", Default = "x", Required = false, HelpText = "Parse A2iA Result logs.")]
+      public string A2Views { get; set; }
+
 
       // default time range includes-all
       public DateTime StartTime { get; set; } = DateTime.MinValue;
       public DateTime EndTime { get; set; } = DateTime.MaxValue;
 
-
-      // Omitting long name, defaults to name of property, ie "--ssrv"
-      [Option("ss", Default = "x", Required = false, HelpText = "Parse Settlement Server API logs.")]
-      public string SSViews { get; set; }
 
       public bool IsAP { get { return APViews != "x"; } }
       public bool IsAT { get { return ATViews != "x"; } }
@@ -68,6 +71,7 @@ namespace splogparser
       public bool IsRT { get { return RTViews != "x"; } }
       public bool IsII { get { return IIViews != "x"; } }
       public bool IsSS { get { return SSViews != "x"; } }
+      public bool IsA2 { get { return A2Views != "x"; } }
 
       public bool RunView(ParseType parseType, string viewName)
       {
@@ -83,6 +87,7 @@ namespace splogparser
               ( (IsAT && parseType == ParseType.AT) && (ATViews.Contains(viewName) || ATViews.Contains("*"))) ||
               ( (IsAW && parseType == ParseType.AW) && (AWViews.Contains(viewName) || AWViews.Contains("*"))) ||
               ( (IsBE && parseType == ParseType.BE) && (BEViews.Contains(viewName) || BEViews.Contains("*"))) ||
+              ( (IsA2 && parseType == ParseType.A2) && (A2Views.Contains(viewName) || A2Views.Contains("*"))) ||
               ( (IsAV && parseType == ParseType.AV) && (AVViews.Contains(viewName) || AVViews.Contains("*")))
             );
       }
@@ -105,6 +110,7 @@ namespace splogparser
          if (IsRT) suffix += _Suffix("__RT", RTViews);
          if (IsII) suffix += _Suffix("__II", IIViews);
          if (IsSS) suffix += _Suffix("__SS", SSViews);
+         if (IsA2) suffix += _Suffix("__A2", A2Views);
 
          return suffix; 
       }

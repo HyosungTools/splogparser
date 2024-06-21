@@ -171,6 +171,7 @@ namespace splogparser
          ctx.ConsoleWriteLogLine("opts.IIViews :" + ctx.opts.IIViews);
          ctx.ConsoleWriteLogLine("opts.BEViews :" + ctx.opts.BEViews);
          ctx.ConsoleWriteLogLine("opts.SSViews :" + ctx.opts.SSViews);
+         ctx.ConsoleWriteLogLine("opts.A2Views :" + ctx.opts.A2Views);
 
          ctx.ConsoleWriteLogLine(String.Format("IsAP : {0}", ctx.opts.IsAP ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("APView Contains  : {0}", ctx.opts.APViews));
@@ -196,11 +197,11 @@ namespace splogparser
          ctx.ConsoleWriteLogLine(String.Format("IsII : {0}", ctx.opts.IsII ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("IIView Contains  : {0}", ctx.opts.IIViews));
 
-         //         ctx.ConsoleWriteLogLine(String.Format("IsRT : {0}", ctx.opts.IsRT ? "true" : "false"));
-         //         ctx.ConsoleWriteLogLine(String.Format("RTView Contains  : {0}", ctx.opts.RTViews));
-
          ctx.ConsoleWriteLogLine(String.Format("IsSS : {0}", ctx.opts.IsSS ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("SSView Contains  : {0}", ctx.opts.SSViews));
+
+         ctx.ConsoleWriteLogLine(String.Format("IsA2 : {0}", ctx.opts.IsA2 ? "true" : "false"));
+         ctx.ConsoleWriteLogLine(String.Format("A2View Contains  : {0}", ctx.opts.A2Views));
 
          // Only create a LogFileHandler if their ParseType was specified on the command line
          ctx.ConsoleWriteLogLine(String.Format("Create the LogFileHandlers"));
@@ -228,6 +229,9 @@ namespace splogparser
 
          // SS
          if (ctx.opts.IsSS) ctx.logFileHandlers.Add((ILogFileHandler)new SSLogHandler(new CreateTextStreamReader()));
+
+         // A2
+         if (ctx.opts.IsA2) ctx.logFileHandlers.Add((ILogFileHandler)new A2iALogHandler(new CreateTextStreamReader()));
 
          // BE
          if (ctx.opts.IsBE) ctx.logFileHandlers.Add((ILogFileHandler)new BELogHandler(new CreateTextStreamReader()));
