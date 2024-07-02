@@ -110,10 +110,9 @@ namespace Impl
                try
                {
                   ILogLine logLine = ctx.activeHandler.IdentifyLine(ctx.activeHandler.ReadLine());
-
-                  if (fileName.Contains("Workstation20231103"))
+                  if (logLine == null)
                   {
-                     // debugging breakpoint
+                     continue; 
                   }
 
                   // TIME RANGE
@@ -124,7 +123,7 @@ namespace Impl
                      lastTimestamp = logTimestamp;
                      firstTimestamp = (firstTimestamp == DateTime.MinValue) ? lastTimestamp : firstTimestamp;
 
-                     if (DateTime.Compare(logTimestamp, ctx.opts.StartTime) < 0 || DateTime.Compare(logTimestamp, ctx.opts.EndTime) > 0 )
+                     if (DateTime.Compare(logTimestamp, ctx.opts.StartTime) < 0 || DateTime.Compare(logTimestamp, ctx.opts.EndTime) > 0)
                      {
                         continue;
                      }
