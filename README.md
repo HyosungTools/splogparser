@@ -95,6 +95,7 @@ Combine one or more *Parse Type* with one or more *View* to tell the parse what 
 
 | View     | Description |
 |----------|----------------------|
+| Over     | Overview of transactions |
 | Disp     | Cash Dispense |
 | EJ       | EJ Insert commands            |
 | XmlParam | Config files and their parameters in table form |
