@@ -86,13 +86,17 @@
       <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>
       <Name>LogLineHandler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TCLogLine\TCRLogLine.csproj">
+      <Project>{BECB9C9A-59A9-42CB-90ED-152A509DE332}</Project>
+      <Name>TCRLogLine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\$(MSBuildProjectName).exe" $(SolutionDir)\..\dist
 copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\CommandLine.dll" $(SolutionDir)\..\dist</PostBuildEvent>
   </PropertyGroup>
-  <Target Name="DeleteFiles" AfterTargets="Clean" >
+  <Target Name="DeleteFiles" AfterTargets="Clean">
     <ItemGroup>
       <FilesToDelete Include="$(SolutionDir)\..\dist\*.dll" />
       <FilesToDelete Include="$(SolutionDir)\..\dist\*.pdb" />

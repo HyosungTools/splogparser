@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Contract;
 using LogLineHandler;
 
@@ -9,7 +10,7 @@ namespace LogFileHandler
    /// </summary>
    public class A2iALogHandler : LogHandler, ILogFileHandler
    {
-      public A2iALogHandler(ICreateStreamReader createReader) : base(ParseType.A2, createReader)
+      public A2iALogHandler(ICreateStreamReader createReader, Func<ILogFileHandler, string, ILogLine> Factory = null) : base(ParseType.A2, createReader, Factory)
       {
          LogExpression = "A2iaResults*.log";
          Name = "A2iALogFileHandler";

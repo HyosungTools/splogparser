@@ -11,7 +11,7 @@ namespace LogFileHandler
    /// </summary>
    public class AELogHandler : LogHandler, ILogFileHandler
    {
-      public AELogHandler(ICreateStreamReader createReader) : base(ParseType.AE, createReader)
+      public AELogHandler(ICreateStreamReader createReader, Func<ILogFileHandler, string, ILogLine> Factory = null) : base(ParseType.AE, createReader, Factory)
       {
          LogExpression = "ActiveTellerAgentExtensions_*.*";
          Name = "AELogFileHandler";

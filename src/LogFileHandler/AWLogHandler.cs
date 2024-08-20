@@ -12,7 +12,7 @@ namespace LogFileHandler
    /// </summary>
    public class AWLogHandler : LogHandler, ILogFileHandler
    {
-      public AWLogHandler(ICreateStreamReader createReader) : base(ParseType.AW, createReader)
+      public AWLogHandler(ICreateStreamReader createReader, Func<ILogFileHandler, string, ILogLine> Factory = null) : base(ParseType.AW, createReader, Factory)
       {
          LogExpression = "Workstation*.*";
          Name = "AWLogFileHandler";

@@ -1,0 +1,32 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="TCRTrans" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="TCRTrans" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Trans">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="trans" type="xs:string" minOccurs="0" />
+              <xs:element name="tellerid" type="xs:string" minOccurs="0" />
+              <xs:element name="result" type="xs:string" minOccurs="0" />
+              <xs:element name="errcode" type="xs:string" minOccurs="0" />
+              <xs:element name="USD0" type="xs:string" minOccurs="0" />
+              <xs:element name="USD1" type="xs:string" minOccurs="0" />
+              <xs:element name="USD2" type="xs:string" minOccurs="0" />
+              <xs:element name="USD5" type="xs:string" minOccurs="0" />
+              <xs:element name="USD10" type="xs:string" minOccurs="0" />
+              <xs:element name="USD20" type="xs:string" minOccurs="0" />
+              <xs:element name="USD50" type="xs:string" minOccurs="0" />
+              <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="amt" type="xs:string" minOccurs="0" />
+              <xs:element name="bal" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

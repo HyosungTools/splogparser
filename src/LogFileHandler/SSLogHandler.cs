@@ -10,7 +10,7 @@ namespace LogFileHandler
    /// </summary>
    public class SSLogHandler : LogHandler, ILogFileHandler
    {
-      public SSLogHandler(ICreateStreamReader createReader) : base(ParseType.SS, createReader)
+      public SSLogHandler(ICreateStreamReader createReader, Func<ILogFileHandler, string, ILogLine> Factory = null) : base(ParseType.SS, createReader, Factory)
       {
          LogExpression = "settlement-api-all-*.log";
          Name = "SettlementServer"; 

@@ -12,7 +12,7 @@ namespace LogFileHandler
    /// </summary>
    public class BELogHandler : LogHandler, ILogFileHandler
    {
-      public BELogHandler(ICreateStreamReader createReader) : base(ParseType.BE, createReader)
+      public BELogHandler(ICreateStreamReader createReader, Func<ILogFileHandler, string, ILogLine> Factory = null) : base(ParseType.BE, createReader, Factory)
       {
          LogExpression = "rvbeehd*.*";    // .log or .txt
          Name = "BELogFileHandler";

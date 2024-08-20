@@ -10,7 +10,7 @@ namespace LogFileHandler
    /// </summary>
    public class ATLogHandler : LogHandler, ILogFileHandler
    {
-      public ATLogHandler(ICreateStreamReader createReader) : base(ParseType.AT, createReader)
+      public ATLogHandler(ICreateStreamReader createReader, Func<ILogFileHandler, string, ILogLine> Factory = null) : base(ParseType.AT, createReader, Factory)
       {
          LogExpression = "ActiveTellerAgent_*.*";
          Name = "ATLogFileHandler";

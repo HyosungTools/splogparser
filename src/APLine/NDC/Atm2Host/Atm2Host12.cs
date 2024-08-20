@@ -43,11 +43,11 @@ namespace LogLineHandler
 
             if (result.field.Length == 1)
             {
-               english = english + String.Format("Device Id : {0}, ", result.field.Substring(0, 1));
+               english = english + String.Format("Device Id : {0}, ", DeviceIdInEnglish(result.field.Substring(0, 1)));
             }
             else
             {
-               english = english + String.Format("Device Id : {0}, Device Status : {1}", result.field.Substring(0, 1), result.field.Substring(1));
+               english = english + String.Format("Device Id : {0}, Device Status : {1}", DeviceIdInEnglish(result.field.Substring(0, 1)), result.field.Substring(1));
             }
 
             // Field e3 - Error Severity

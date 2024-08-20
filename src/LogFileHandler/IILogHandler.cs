@@ -13,7 +13,7 @@ namespace LogFileHandler
    /// </summary>
    public class IILogHandler : LogHandler, ILogFileHandler
    {
-      public IILogHandler(ICreateStreamReader createReader) : base(ParseType.II, createReader)
+      public IILogHandler(ICreateStreamReader createReader, Func<ILogFileHandler, string, ILogLine> Factory = null) : base(ParseType.II, createReader, Factory)
       {
          LogExpression = "u_ex*.log";    // u_ex231114.log
          Name = "IILogFileHandler";

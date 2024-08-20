@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Text.RegularExpressions;
 using Contract;
 using LogLineHandler;
@@ -250,7 +251,7 @@ namespace LogFileHandler
       /// <summary>
       /// Constructor - reads the entire trace file into the traceFile array
       /// </summary>
-      public SPLogHandler(ICreateStreamReader createReader) : base(ParseType.SP, createReader)
+      public SPLogHandler(ICreateStreamReader createReader, Func<ILogFileHandler, string, ILogLine> Factory = null) : base(ParseType.SP, createReader, Factory)
       {
          LogExpression = "*.nwlog";
          Name = "SPLogFileHandler";

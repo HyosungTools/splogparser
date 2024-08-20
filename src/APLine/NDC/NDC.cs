@@ -30,6 +30,36 @@ namespace LogLineHandler
          }
       }
 
+      protected string DeviceIdInEnglish(string deviceId)
+      {
+         if (deviceId == "E")
+         {
+            return deviceId + " (Cash Handler) ";
+         }
+         if (deviceId == "d")
+         {
+            return deviceId + " (Cash Handler 0) ";
+         }
+         if (deviceId == "e")
+         {
+            return deviceId + " (Cash Handler 1) ";
+         }
+         if (deviceId == "c")
+         {
+            return deviceId + " (emv card reader) ";
+         }
+         if (deviceId == "F")
+         {
+            return deviceId + " (PPD depository) ";
+         }
+         if (deviceId == "q")
+         {
+            return deviceId + " (check processing module) ";
+         }
+
+         return deviceId; 
+      }
+
       public virtual bool ParseToEnglishBrief()
       {
          return false;

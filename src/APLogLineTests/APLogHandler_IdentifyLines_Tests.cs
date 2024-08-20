@@ -220,5 +220,72 @@ namespace APLogLineTests
          Assert.IsTrue(apLine.ejValues[2] == "5868");
          Assert.IsTrue(apLine.ejValues[3] == "PIN");
       }
+
+      [TestMethod]
+      public void APLOG_EMV_INIT()
+      {
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_EMV_INIT);
+         Assert.IsTrue(logLine is APLine);
+
+         APLine apLine = (APLine)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_EMV_INIT);
+         Assert.IsTrue(apLine.Timestamp == "2024-06-27 08:37:41.763");
+         Assert.IsTrue(apLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void APLOG_EMV_INITCHIP()
+      {
+
+      }
+
+      [TestMethod]
+      public void APLOG_EMV_BUILD_CANDIDATE_LIST()
+      {
+
+      }
+
+      [TestMethod]
+      public void APLOG_EMV_CREATE_APPNAME_LIST()
+      {
+
+      }
+
+      [TestMethod]
+      public void APLOG_EMV_APP_SELECTED()
+      {
+
+      }
+
+      [TestMethod]
+      public void APLOG_EMV_PAN()
+      {
+
+      }
+
+      [TestMethod]
+      public void APLOG_EMV_CURRENCY_TYPE()
+      {
+
+      }
+
+      [TestMethod]
+      public void APLOG_EMV_IAPLOG_EMV_OFFLINE_AUTHNIT()
+      {
+
+      }
+
+      [TestMethod]
+      public void APLOG_INSERVICE_ENTERED()
+      {
+
+      }
+
+      [TestMethod]
+      public void APLOG_TRANSACTION_TIMEOUT()
+      {
+
+      }
    }
 }

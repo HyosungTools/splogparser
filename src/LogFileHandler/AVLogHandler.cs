@@ -13,7 +13,7 @@ namespace LogFileHandler
    /// </summary>
    public class AVLogHandler : LogHandler, ILogFileHandler
    {
-      public AVLogHandler(ICreateStreamReader createReader) : base(ParseType.AV, createReader)
+      public AVLogHandler(ICreateStreamReader createReader, Func<ILogFileHandler, string, ILogLine> Factory = null) : base(ParseType.AV, createReader, Factory)
       {
          LogExpression = "ActiveTellerServer*.*";    // ActiveTellerServer, ActiveTellerServerExtensions
          Name = "AVLogFileHandler";

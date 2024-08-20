@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AddKey.cs" />
     <Compile Include="APLine.cs" />
+    <Compile Include="APLineField.cs" />
     <Compile Include="CashDispenser\CashDispener.cs" />
     <Compile Include="CashDispenser\CashDispenser_DispenseSyncAsync.cs" />
     <Compile Include="CashDispenser\CashDispenser_ExecDispense.cs" />
@@ -52,7 +53,7 @@
     <Compile Include="CashDispenser\CashDispenser_SetupNoteType.cs" />
     <Compile Include="CashDispenser\CashDispenser_UpdateTypeInfoToDispense.cs" />
     <Compile Include="CommFrmWork.cs" />
-    <Compile Include="APLineField.cs" />
+    <Compile Include="APLineEmvCurrencyType.cs" />
     <Compile Include="Core\Core.cs" />
     <Compile Include="Core\Core_DispensedAmount.cs" />
     <Compile Include="Core\Core_ProcessWithdrawalTransaction_Account.cs" />

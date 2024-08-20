@@ -220,5 +220,42 @@ namespace APSamples
       public const string SYMX_DISPENSE =
 @"[2023-10-31 18:00:43-655][3][][SymXchangeWebServiceRequestFlowPoint][DispenseCurrency    ][NORMAL]RequiredBillMixList: 100~15|20~19|5~24|1~0
 ";
+
+      /* EMV */
+
+      public const string APLOG_EMV_INIT =
+@"[2024-06-27 08:37:41-763][3][][CardReader          ][EMV_Initial         ][NORMAL][CardReader Log] Call EMV_Initial()";
+
+      public const string APLOG_EMV_INITCHIP =
+@"[2024-06-27 08:38:12-599][3][][EMVProcessing       ][InitializeChip      ][NORMAL]InitializeChip() start";
+
+      public const string APLOG_EMV_BUILD_CANDIDATE_LIST =
+@"[2024-06-27 08:38:13-460][3][][EMVProcessing       ][BuildCandidateList  ][NORMAL]Device.CardReader.EMV_Sel_BuildCandidateApp()' Result = 1";
+
+      public const string APLOG_EMV_CREATE_APPNAME_LIST =
+@"[2024-06-13 16:25:15-783][3][][BeginICCAppSelectionLocalFlowPoint][CreateAppNameList   ][NORMAL]AppNameList  = VISA DEBITO|DEBITO ATH";
+
+      public const string APLOG_EMV_APP_SELECTED =
+@"[2024-06-13 05:08:42-563][3][][EMVProcessing       ][AppSelect           ][NORMAL]SelectedAID:A0000000980840, SelectedAIDName:ATH DEBITO";
+
+      public const string APLOG_EMV_PAN =
+@"[2024-06-13 05:08:48-185][3][][NCompleteICCAppSelectState][SetTrackData        ][NORMAL]Device.CardReader.PANData    : 487038XXXXXX5106";
+
+      public const string APLOG_EMV_CURRENCY_TYPE =
+@"[2024-06-13 05:09:04-186][3][][NSetICCTranDataState][SetCurrencyType     ][NORMAL]      strCurrencyType : 5F2A0208405F360100";
+
+      public const string APLOG_EMV_OFFLINE_AUTH =
+@"[2024-06-13 05:09:04-472][3][][CardReader          ][EMV_OffDataAuth     ][NORMAL][CardReader Log] Return EMV_OffDataAuth() : 1";
+
+
+      /* ManagementJournal */
+
+      public const string APLOG_INSERVICE_ENTERED =
+@"
+[2024-06-19 06:14:35-032][3][][ManagementFramework ][ModeFramework_ModeChangedEvent][NORMAL]ATMModeName.InService StartRMSService
+";
+      public const string APLOG_TRANSACTION_TIMEOUT =
+@"[2024-06-27 08:31:27-243][3][][ManagementJournal   ][WriteFile           ][NORMAL]Parameter pFileData:TRANSACTION TIMEOUT";
+
    }
 }
