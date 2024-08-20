@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="yes"?>
+<TCROver>
+   <Messages>
+    <type>Screen</type>
+    <code>901-Idle-Horizontal-MS500</code>
+    <brief>Idle</brief>
+    <description></description>
+  </Messages> 
+   <Messages>
+    <type>Screen</type>
+    <code>904-ProcessingCash</code>
+    <brief>ProcessingCash</brief>
+    <description></description>
+  </Messages> 
+   <Messages>
+    <type>Screen</type>
+    <code>923-InventoryAmount</code>
+    <brief>InventoryAmount</brief>
+    <description></description>
+  </Messages> 
+</TCROver>

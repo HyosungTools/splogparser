@@ -55,6 +55,8 @@ namespace splogparser
       [Option("a2", Default = "x", Required = false, HelpText = "Parse A2iA Result logs.")]
       public string A2Views { get; set; }
 
+      [Option("tcr", Default = "x", Required = false, HelpText = "Parse TCR AP Logs.")]
+      public string TCRViews { get; set; }
 
       // default time range includes-all
       public DateTime StartTime { get; set; } = DateTime.MinValue;
@@ -72,7 +74,7 @@ namespace splogparser
       public bool IsII { get { return IIViews != "x"; } }
       public bool IsSS { get { return SSViews != "x"; } }
       public bool IsA2 { get { return A2Views != "x"; } }
-
+      public bool IsTCR { get { return TCRViews != "x"; } }
       public bool RunView(ParseType parseType, string viewName)
       {
          viewName = viewName.Replace("View", "");
@@ -88,6 +90,7 @@ namespace splogparser
               ( (IsAW && parseType == ParseType.AW) && (AWViews.Contains(viewName) || AWViews.Contains("*"))) ||
               ( (IsBE && parseType == ParseType.BE) && (BEViews.Contains(viewName) || BEViews.Contains("*"))) ||
               ( (IsA2 && parseType == ParseType.A2) && (A2Views.Contains(viewName) || A2Views.Contains("*"))) ||
+              ( (IsTCR && parseType == ParseType.TCR) && (TCRViews.Contains(viewName) || TCRViews.Contains("*"))) ||
               ( (IsAV && parseType == ParseType.AV) && (AVViews.Contains(viewName) || AVViews.Contains("*")))
             );
       }
@@ -111,7 +114,7 @@ namespace splogparser
          if (IsII) suffix += _Suffix("__II", IIViews);
          if (IsSS) suffix += _Suffix("__SS", SSViews);
          if (IsA2) suffix += _Suffix("__A2", A2Views);
-
+         if (IsTCR) suffix += _Suffix("__TCR", TCRViews);
          return suffix; 
       }
    }

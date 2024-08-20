@@ -6,6 +6,9 @@ namespace LogFileHandler
 {
    public class LogHandler
    {
+      // Factory method for creating LogLines
+      protected Func<ILogFileHandler, string, ILogLine> Factory;
+
       public IContext ctx { get; set; }
       protected ICreateStreamReader createReader;
 
@@ -43,10 +46,11 @@ namespace LogFileHandler
       protected TimeSpan UtcTimeOffset { get; set; } = TimeSpan.Zero;
 
 
-      public LogHandler(ParseType parseType, ICreateStreamReader createReader)
+      public LogHandler(ParseType parseType, ICreateStreamReader createReader, Func<ILogFileHandler, string, ILogLine> Factory)
       {
          this.parseType = parseType;
          this.createReader = createReader;
+         this.Factory = Factory;
       }
 
       public bool Initialize(IContext ctx)

@@ -63,51 +63,43 @@ namespace OverView
                   case APLogType.APLOG_CARD_OPEN:
                      {
                         base.ProcessRow(logLine);
-                        if (apLogLine is APLineField)
-                        {
-                           APLine apLine = (APLine)apLogLine;
-                           APLINE(apLine, "card", "open");
-                        }
+                        APLINE(apLogLine, "card", "open");
                         break;
                      }
                   case APLogType.APLOG_CARD_CLOSE:
                      {
                         base.ProcessRow(logLine);
-                        if (apLogLine is APLineField)
-                        {
-                           APLine apLine = (APLine)apLogLine;
-                           APLINE(apLine, "card", "close");
-                        }
+                        APLINE(apLogLine, "card", "close");
+                        break;
+                     }
+                  case APLogType.APLOG_CARD_ONMEDIAPRESENT:
+                     {
+                        base.ProcessRow(logLine);
+                        APLINE(apLogLine, "card", "present");
+                        break;
+                     }
+                  case APLogType.APLOG_CARD_ONMEDIANOTPRESENT:
+                     {
+                        base.ProcessRow(logLine);
+                        APLINE(apLogLine, "card", "not present");
                         break;
                      }
                   case APLogType.APLOG_CARD_ONMEDIAINSERTED:
                      {
                         base.ProcessRow(logLine);
-                        if (apLogLine is APLineField)
-                        {
-                           APLine apLine = (APLine)apLogLine;
-                           APLINE(apLine, "card", "inserted");
-                        }
+                        APLINE(apLogLine, "card", "inserted");
                         break;
                      }
                   case APLogType.APLOG_CARD_ONREADCOMPLETE:
                      {
                         base.ProcessRow(logLine);
-                        if (apLogLine is APLineField)
-                        {
-                           APLine apLine = (APLine)apLogLine;
-                           APLINE(apLine, "card", "read");
-                        }
+                        APLINE(apLogLine, "card", "read");
                         break;
                      }
                   case APLogType.APLOG_CARD_ONEJECTCOMPLETE:
                      {
                         base.ProcessRow(logLine);
-                        if (apLogLine is APLineField)
-                        {
-                           APLine apLine = (APLine)apLogLine;
-                           APLINE(apLine, "card", "ejected");
-                        }
+                        APLINE(apLogLine, "card", "ejected");
                         break;
                      }
                   case APLogType.APLOG_CARD_PAN:
@@ -120,6 +112,99 @@ namespace OverView
                         }
                         break;
                      }
+
+                  case APLogType.APLOG_TRANSACTION_TIMEOUT:
+                     {
+                        base.ProcessRow(logLine);
+                        APLINE(apLogLine, "state", "transaction timeout");
+                        break;
+                     }
+
+                  /* emv */
+
+                  case APLogType.APLOG_EMV_INIT:
+                     {
+                        base.ProcessRow(logLine);
+                        APLINE(apLogLine, "emv", "init");
+                        break;
+                     }
+
+
+                  case APLogType.APLOG_EMV_INITCHIP:
+                     {
+                        base.ProcessRow(logLine);
+                        APLINE(apLogLine, "emv", "init_chip");
+                        break;
+                     }
+
+                  case APLogType.APLOG_EMV_BUILD_CANDIDATE_LIST:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLineField)
+                        {
+                           APLineField lineField = (APLineField)apLogLine;
+                           APLINE2(lineField, "emv", "build candidate list", "comment", lineField.field == "1" ? "success" : "failed");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_EMV_CREATE_APPNAME_LIST:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLineField)
+                        {
+                           APLineField lineField = (APLineField)apLogLine;
+                           APLINE2(lineField, "emv", "create appname list", "comment", lineField.field);
+                        }
+                        break;
+                     }
+                  case APLogType.APLOG_EMV_APP_SELECTED:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLineField)
+                        {
+                           APLineField lineField = (APLineField)apLogLine;
+                           APLINE2(lineField, "emv", "app selected", "comment", lineField.field);
+                        }
+                        break;
+                     }
+                  case APLogType.APLOG_EMV_PAN:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLineField)
+                        {
+                           APLineField lineField = (APLineField)apLogLine;
+                           APLINE(lineField, "card", lineField.field);
+                        }
+                        break;
+                     }
+                  case APLogType.APLOG_EMV_CURRENCY_TYPE:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLineEmvCurrencyType)
+                        {
+                           APLineEmvCurrencyType lineField = (APLineEmvCurrencyType)apLogLine;
+                           APLINE(lineField, "emv", lineField.field);
+                        }
+                        break;
+                     }
+                  case APLogType.APLOG_EMV_OFFLINE_AUTH:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLineField)
+                        {
+                           APLineField lineField = (APLineField)apLogLine;
+                           APLINE2(lineField, "emv", "offline auth", "comment", lineField.field == "1" ? "success" : "failed");
+                        }
+                        break;
+                     }
+                  case APLogType.APLOG_EMV_FAULT_SMART_CARDREADER:
+                     {
+                        base.ProcessRow(logLine);
+                        APLINE(apLogLine, "emv", "smartcard fault");
+                        break;
+                     }
+
 
                   /* pin */
                   case APLogType.APLOG_PIN_OPEN:
@@ -235,6 +320,7 @@ namespace OverView
 
                   /* screen */
                   case APLogType.APLOG_DISPLAYLOAD:
+                  case APLogType.APLOG_SCREENWINDOW:
                      {
                         base.ProcessRow(logLine);
                         if (apLogLine is APLineField)
@@ -354,7 +440,28 @@ namespace OverView
                      }
 
 
-                  /* dispense */
+                  /* cash dispenser */
+
+                  case APLogType.CashDispenser_OnDenominateComplete:
+                     {
+                        base.ProcessRow(apLogLine);
+                        APLINE(apLogLine, "dispensed", "denominated");
+                        break;
+                     }
+
+                  case APLogType.CashDispenser_OnPresentComplete:
+                     {
+                        base.ProcessRow(apLogLine);
+                        APLINE(apLogLine, "dispensed", "presented");
+                        break;
+                     }
+                  case APLogType.CashDispenser_OnItemsTaken:
+                     {
+                        base.ProcessRow(apLogLine);
+                        APLINE(apLogLine, "dispensed", "items taken");
+                        break;
+                     }
+
                   case APLogType.CashDispenser_UpdateTypeInfoToDispense:
                      {
                         base.ProcessRow(apLogLine);

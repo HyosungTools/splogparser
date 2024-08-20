@@ -64,6 +64,61 @@ namespace LogLineHandler
                   }
                   break;
                }
+            case APLogType.APLOG_EMV_BUILD_CANDIDATE_LIST:
+               {
+                  lookFor = "Result =";
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                  }
+                  break;
+               }
+            case APLogType.APLOG_EMV_CREATE_APPNAME_LIST:
+               {
+                  lookFor = "AppNameList  =";
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                  }
+                  break;
+               }
+            case APLogType.APLOG_EMV_APP_SELECTED:
+               {
+                  lookFor = "]";
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                  }
+                  break;
+               }
+            case APLogType.APLOG_EMV_PAN:
+               {
+                  lookFor = "Device.CardReader.PANData    :";
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                  }
+                  break;
+               }
+            case APLogType.APLOG_EMV_OFFLINE_AUTH:
+               {
+                  lookFor = "Return EMV_OffDataAuth() :";
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                  }
+                  break;
+               }
+
+
+
+
+
             case APLogType.APLOG_FLW_SWITCH_FIT:
                {
                   lookFor = "Next State is to be";
@@ -111,6 +166,17 @@ namespace LogLineHandler
                   if (idx != -1)
                   {
                      char[] trimChars = { '[', ']', '.'};
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
+                  }
+                  break;
+               }
+            case APLogType.APLOG_SCREENWINDOW:
+               {
+                  lookFor = "[";
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     char[] trimChars = { '[', ']', '.' };
                      field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;

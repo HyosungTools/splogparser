@@ -131,7 +131,35 @@ namespace Impl
       {
          try
          {
-            ZipFile.ExtractToDirectory(zipFilePath, extractPath);
+            using (FileStream zipFileStream = new FileStream(zipFilePath, FileMode.Open, FileAccess.Read))
+            using (ZipArchive archive = new ZipArchive(zipFileStream, ZipArchiveMode.Read))
+            {
+               foreach (ZipArchiveEntry entry in archive.Entries)
+               {
+                  string fullPath = Path.Combine(extractPath, entry.FullName);
+
+                  // Create the directory if it doesn't exist
+                  if (entry.FullName.EndsWith("/"))
+                  {
+                     Directory.CreateDirectory(fullPath);
+                  }
+                  else
+                  {
+                     // Ensure the parent directory exists
+                     Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+
+                     // Extract the file
+                     entry.ExtractToFile(fullPath, true);
+
+                     // Check if the extracted file is a ZIP file
+                     if (Path.GetExtension(fullPath).Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                     {
+                        // Recursively unzip the nested ZIP file
+                        ExtractToDirectory(fullPath, Path.Combine(extractPath, Path.GetFileNameWithoutExtension(fullPath)));
+                     }
+                  }
+               }
+            }
          }
          catch (Exception e)
          {

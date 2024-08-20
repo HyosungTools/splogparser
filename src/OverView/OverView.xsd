@@ -13,6 +13,7 @@
               <xs:element name="host" type="xs:string" minOccurs="0" />
               <xs:element name="headset" type="xs:string" minOccurs="0" />
               <xs:element name="card" type="xs:string" minOccurs="0" />
+              <xs:element name="emv" type="xs:string" minOccurs="0" />
               <xs:element name="pin" type="xs:string" minOccurs="0" />
               <xs:element name="screen" type="xs:string" minOccurs="0" />
               <xs:element name="state" type="xs:string" minOccurs="0" />

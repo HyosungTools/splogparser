@@ -8,6 +8,7 @@ using LogFileHandler;
 using CommandLine;
 using System.Collections.Generic;
 using System.Globalization;
+using LogLineHandler;
 
 namespace splogparser
 {
@@ -50,8 +51,10 @@ namespace splogparser
       public static bool ExtractZipFiles(IContext ctx)
       {
          // Extract current zip file
+         ctx.ConsoleWriteLogLine(String.Format("Extract to Directory, zip file path : {0}, extract path : {1}", ctx.WorkFolder + "\\" + ctx.ZipFileName, ctx.WorkFolder + "\\" + ctx.SubFolder));
          ctx.ioProvider.ExtractToDirectory(ctx.WorkFolder + "\\" + ctx.ZipFileName, ctx.WorkFolder + "\\" + ctx.SubFolder);
-         return _ExtractZipFiles(ctx, ctx.WorkFolder + "\\" + ctx.SubFolder);
+         return true; 
+         //return _ExtractZipFiles(ctx, ctx.WorkFolder + "\\" + ctx.SubFolder);
       }
 
       static void Main(string[] args)
@@ -172,6 +175,7 @@ namespace splogparser
          ctx.ConsoleWriteLogLine("opts.BEViews :" + ctx.opts.BEViews);
          ctx.ConsoleWriteLogLine("opts.SSViews :" + ctx.opts.SSViews);
          ctx.ConsoleWriteLogLine("opts.A2Views :" + ctx.opts.A2Views);
+         ctx.ConsoleWriteLogLine("opts.TCRViews :" + ctx.opts.TCRViews);
 
          ctx.ConsoleWriteLogLine(String.Format("IsAP : {0}", ctx.opts.IsAP ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("APView Contains  : {0}", ctx.opts.APViews));
@@ -203,6 +207,9 @@ namespace splogparser
          ctx.ConsoleWriteLogLine(String.Format("IsA2 : {0}", ctx.opts.IsA2 ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("A2View Contains  : {0}", ctx.opts.A2Views));
 
+         ctx.ConsoleWriteLogLine(String.Format("IsTCR : {0}", ctx.opts.IsTCR ? "true" : "false"));
+         ctx.ConsoleWriteLogLine(String.Format("TCRView Contains  : {0}", ctx.opts.TCRViews));
+
          // Only create a LogFileHandler if their ParseType was specified on the command line
          ctx.ConsoleWriteLogLine(String.Format("Create the LogFileHandlers"));
 
@@ -232,6 +239,9 @@ namespace splogparser
 
          // A2
          if (ctx.opts.IsA2) ctx.logFileHandlers.Add((ILogFileHandler)new A2iALogHandler(new CreateTextStreamReader()));
+
+         // TCR
+         if (ctx.opts.IsTCR) ctx.logFileHandlers.Add((ILogFileHandler)new APLogHandler(new CreateTextStreamReader(), ParseType.TCR,  TCRLogLine.Factory));
 
          // BE
          if (ctx.opts.IsBE) ctx.logFileHandlers.Add((ILogFileHandler)new BELogHandler(new CreateTextStreamReader()));
@@ -394,9 +404,10 @@ namespace splogparser
          // For each Log Handler defined...
          foreach (ILogFileHandler fileHandler in ctx.logFileHandlers)
          {
+            ctx.ConsoleWriteLogLine(String.Format("\n\nProcess using LogFileHandler : {0}", fileHandler.Name));
 
             // Find all files by calling File Handler Initialize
-            ctx.ConsoleWriteLogLine(String.Format("FileLogHandler {0} Find all files...", fileHandler.Name));
+            ctx.ConsoleWriteLogLine(String.Format("LogFileHandler {0} Find all files...", fileHandler.Name));
             if (!fileHandler.Initialize(ctx))
             {
                ctx.ConsoleWriteLogLine(String.Format("LogFileHandler {0} failed to Initialize, no input files found.", fileHandler.Name));
@@ -406,21 +417,22 @@ namespace splogparser
             // Set the Active Handler
             ctx.activeHandler = fileHandler;
 
-            ctx.ConsoleWriteLogLine(String.Format("FileLogHandler {0} found {1} files.", ctx.activeHandler.Name, ctx.activeHandler.FilesFound.Length));
+            ctx.ConsoleWriteLogLine(String.Format("LogFileHandler {0} found {1} files.", ctx.activeHandler.Name, ctx.activeHandler.FilesFound.Length));
             using (loader.Container)
             {
                try
                {
                   foreach (IView thisView in loader.Views)
                   {
-                     // Only call a View if the View ParseType matches the LogFileHandler ParseType and either the view name is
-                     // mentioned in the arguments (or the argument was '*')
-                     if (ctx.opts.RunView(thisView.parseType, thisView.Name))
+                     // Only call a View if the View ParseType matches the LogFileHandler ParseType 
+                     if (thisView.parseType == fileHandler.parseType)
                      {
-                        if (thisView.parseType == ctx.activeHandler.parseType)
+                        ctx.ConsoleWriteLogLine(String.Format("thisView.Name : {0} thisView.parseType {1} fileHandler.parseType : {2}", thisView.Name, thisView.parseType.ToString(), fileHandler.parseType.ToString()));
+                        // Only call a View if the View Name is mentioned in the arguments, or the argument was '*'
+                        if (ctx.opts.RunView(thisView.parseType, thisView.Name))
                         {
                            viewName = thisView.Name;
-                           ctx.ConsoleWriteLogLine(String.Format("Processing view : {0}", viewName));
+                           ctx.ConsoleWriteLogLine(String.Format("\nProcessing view : {0}", viewName));
                            thisView.Process(ctx);
                         }
                      }
@@ -431,6 +443,9 @@ namespace splogparser
                   ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : Processing view {0} : {1}", viewName, e.Message));
                   return;
                }
+
+               ctx.ConsoleWriteLogLine(String.Format("Done process using LogFileHandler : {0}", fileHandler.Name));
+
             }
          }
 
