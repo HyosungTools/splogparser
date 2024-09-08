@@ -214,7 +214,7 @@ namespace splogparser
          ctx.ConsoleWriteLogLine(String.Format("Create the LogFileHandlers"));
 
          // AP 
-         if (ctx.opts.IsAP) ctx.logFileHandlers.Add((ILogFileHandler)new APLogHandler(new CreateTextStreamReader()));
+         if (ctx.opts.IsAP) ctx.logFileHandlers.Add((ILogFileHandler)new APLogHandler(new CreateTextStreamReader(), ParseType.AP, APLine.Factory));
 
          // AT ActiveTeller
          if (ctx.opts.IsAT) ctx.logFileHandlers.Add((ILogFileHandler)new ATLogHandler(new CreateTextStreamReader()));
@@ -241,7 +241,7 @@ namespace splogparser
          if (ctx.opts.IsA2) ctx.logFileHandlers.Add((ILogFileHandler)new A2iALogHandler(new CreateTextStreamReader()));
 
          // TCR
-         if (ctx.opts.IsTCR) ctx.logFileHandlers.Add((ILogFileHandler)new APLogHandler(new CreateTextStreamReader(), ParseType.TCR,  TCRLogLine.Factory));
+         if (ctx.opts.IsTCR) ctx.logFileHandlers.Add((ILogFileHandler)new APLogHandler(new CreateTextStreamReader(), ParseType.TCR, TCRLogLine.Factory));
 
          // BE
          if (ctx.opts.IsBE) ctx.logFileHandlers.Add((ILogFileHandler)new BELogHandler(new CreateTextStreamReader()));

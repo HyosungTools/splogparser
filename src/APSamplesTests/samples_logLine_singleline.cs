@@ -3,18 +3,12 @@
    public static class samples_logLine_singleline
    {
       public const string SAMPLE_SINGLELINE_1 =
-         @"[2023-03-30 18:08:32-948][3][][CardReader          ][EMV_TerminalRiskMgmt][NORMAL][CardReader Log] Call EMV_TerminalRiskMgmt()
-[2023-03-30 18:08:32-952][3][][EMVDataHelper       ][CheckApplicationVersionNumber][NORMAL]Get TLV to check version : 8000048000
-[2023-03-30 18:08:32-954][3][][EMVDataHelper       ][CheckApplicationVersionNumber][NORMAL]bit = 0
-[2023-03-30 18:08:32-955][3][][EMVDataHelper       ][CheckApplicationVersionNumber][NORMAL]bitExpress = 0000
-[2023-03-30 18:08:32-955][3][][EMVDataHelper       ][CheckApplicationVersionNumber][NORMAL]Version is same
-[2023-03-30 18:08:32-955][3][][CardReader          ][EMV_ActionAnalysis  ][NORMAL][CardReader Log] Call EMV_ActionAnalysis()
-[2023-03-30 18:08:33-248][3][][CardReader          ][EMV_ActionAnalysis  ][NORMAL][CardReader Log] Return EMV_ActionAnalysis() : 1
-[2023-03-30 18:08:33-249][3][][EMVProcessing       ][GenerateARQC        ][NORMAL]EMV_ActionAnalysis Result :   
-[2023-03-30 18:08:33-249][3][][EMVProcessing       ][UpdateEMVTagList    ][NORMAL]Call 'Device.CardReader.GetRequestedDataObjects()'
-[2023-03-30 18:08:33-250][3][][EMVProcessing       ][UpdateEMVTagList    ][NORMAL]EMVState.SelectedAID                      : A0000000041010
-[2023-03-30 18:08:33-250][3][][EMVTagDefinition    ][GetRequestTagList   ][NORMAL]pAID           :A0000000041010
-[2023-03-30 18:08:33-250][3][][EMVTagDefinition    ][GetRequestTagList   ][NORMAL]_AID_INFO_FILE :D:\EMVIni\EMVAID.ini
+         @"[2024-01-16 16:30:39-988][3][][CardReader          ][OnMediaStatusChanged][NORMAL]m_NxCard.CardMediaStatusChanged event received(NOTPRESENT)
+[2024-01-16 16:30:39-988][3][][CardReader          ][RaiseDeviceUnSolEvent][NORMAL]FireDeviceUnsolEvent(CardMediaStatusChanged, MEDIA_NOTPRESENT)
+[2024-01-16 16:30:39-989][3][][SMIFramework        ][Device_UnSolEvent   ][NORMAL]Update operate window:CardReader
+[2024-01-16 16:30:39-989][3][][Main                ][UpdateDeviceStatus  ][NORMAL]parameter pDevice:IDC
+[2024-01-16 16:30:39-989][3][][ATMStatusMonitor    ][GetDeviceStatusFullCode][NORMAL]Parameter pShortName:IDC
+
 ";
 
       public const string SAMPLE_SINGLELINE_2 =

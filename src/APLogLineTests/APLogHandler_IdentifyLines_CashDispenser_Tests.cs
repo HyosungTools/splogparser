@@ -15,7 +15,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_Open()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDisp_Open);
          Assert.IsTrue(logLine is CashDispenser_Open);
 
@@ -34,7 +34,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnLine()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnLine);
          Assert.IsTrue(logLine is APLine);
 
@@ -47,7 +47,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OffLine()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OffLine);
          Assert.IsTrue(logLine is APLine);
 
@@ -61,7 +61,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnHWError()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnHWError);
          Assert.IsTrue(logLine is APLine);
 
@@ -74,7 +74,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_DeviceError()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_DeviceError);
          Assert.IsTrue(logLine is APLine);
 
@@ -87,7 +87,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnDeviceOK()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_DeviceOK);
          Assert.IsTrue(logLine is APLine);
 
@@ -103,7 +103,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_NotInPosition()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_NotInPosition);
          Assert.IsTrue(logLine is APLine);
 
@@ -116,7 +116,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_InPosition()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_InPosition);
          Assert.IsTrue(logLine is APLine);
 
@@ -132,7 +132,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnNoDispense()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnNoDispense);
          Assert.IsTrue(logLine is APLine);
 
@@ -145,7 +145,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnDispenserOK()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnDispenserOK);
          Assert.IsTrue(logLine is APLine);
 
@@ -162,7 +162,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnShutterOpen()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnShutterOpen);
          Assert.IsTrue(logLine is APLine);
 
@@ -175,7 +175,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnShutterClosed()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnShutterClosed);
          Assert.IsTrue(logLine is APLine);
 
@@ -188,7 +188,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnStackerNotEmpty()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnStackerNotEmpty);
          Assert.IsTrue(logLine is APLine);
 
@@ -201,7 +201,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnStackerEmpty()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnStackerEmpty);
          Assert.IsTrue(logLine is APLine);
 
@@ -214,7 +214,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnTransportNotEmpty()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnTransportNotEmpty);
          Assert.IsTrue(logLine is APLine);
 
@@ -227,7 +227,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnTransportEmpty()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnTransportEmpty);
          Assert.IsTrue(logLine is APLine);
 
@@ -240,7 +240,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnPositionNotEmpty()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnPositionNotEmpty);
          Assert.IsTrue(logLine is APLine);
 
@@ -253,7 +253,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnPositionEmpty()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnPositionEmpty);
          Assert.IsTrue(logLine is APLine);
 
@@ -266,7 +266,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnCashUnitChanged()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnCashUnitChanged);
          Assert.IsTrue(logLine is APLine);
 
@@ -284,7 +284,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_SetupCSTList()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_SetupCSTList);
          Assert.IsTrue(logLine is CashDispenser_SetupCSTList);
 
@@ -301,7 +301,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_SetupNoteType()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_SetupNoteType);
          Assert.IsTrue(logLine is CashDispenser_SetupNoteType);
 
@@ -323,7 +323,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnDenominateComplete()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnDenominateComplete);
          Assert.IsTrue(logLine is APLine);
 
@@ -336,7 +336,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_ExecDispense()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_ExecDispense);
          Assert.IsTrue(logLine is CashDispenser_ExecDispense);
 
@@ -351,7 +351,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_DispenseSyncAsync()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_DispenseSyncAsync);
          Assert.IsTrue(logLine is CashDispenser_DispenseSyncAsync);
 
@@ -376,7 +376,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnDispenseComplete()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnDispenseComplete);
          Assert.IsTrue(logLine is APLine);
 
@@ -388,7 +388,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnPresentComplete()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnPresentComplete);
          Assert.IsTrue(logLine is APLine);
 
@@ -401,7 +401,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_OnItemsTaken()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_OnItemsTaken);
          Assert.IsTrue(logLine is APLine);
 
@@ -414,7 +414,7 @@ namespace APLogLineTests
       [TestMethod]
       public void CashDispenser_GetLCULastDispensedCount()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cashdisp.CashDispenser_GetLCULastDispensedCount);
          Assert.IsTrue(logLine is CashDispenser_GetLCULastDispensedCount);
 

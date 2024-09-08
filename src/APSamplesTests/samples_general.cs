@@ -14,35 +14,109 @@ namespace APSamples
       public const string APLOG_SETTINGS_CONFIG =
 @"[2023-11-16 03:01:00-649][3][][ConfigurationFramework][ProcessXMLFiles     ][NORMAL]Adding xml file: C:\Hyosung\MoniPlus2S\Config\Application\Communication.xml
 ";
-
+      public const string APLOG_SETTINGS_CONFIG_1 =
+@"  INFO [2024-07-19 03:01:07-565] [ConfigurationFramework.ProcessXMLFiles] Adding xml file: C:\Hyosung\MoniPlus2s\Config\Application\Communication.xml
+";
       public const string APLOG_CURRENTMODE =
 @"[2023-11-16 03:06:10-108][3][][PowerUpMode         ][UpdateRMSMonitorLEDs][NORMAL]Current Mode: PowerUp
 ";
+      public const string APLOG_CURRENTMODE_1 =
+@"  INFO [2024-07-19 00:23:54-485] [InServiceMode.UpdateRMSMonitorLEDs] Current Mode: InService
+";
       public const string APLOG_HOST =
 @"[2023-11-16 03:06:09-811][3][][CommunicationFramework][OnConnectedHost][NORMAL] Host Connected
+";
+      public const string APLOG_HOST_1 =
+@"  WARN [2024-07-08 12:33:10-723] [CommunicationFramework.OnDisconnectedHost] Host disconnected
 ";
 
       // Card Reader
       public const string APLOG_CARD_OPEN =
 @"[2024-01-16 03:02:56-855][3][][CardReader          ][Open                ][NORMAL]CardReader.OpenSessionSync method returned OK
 ";
+      public const string APLOG_CARD_OPEN_1 =
+@"  INFO [2024-07-08 12:33:08-741] [CardReader.Open] CardReader.OpenSessionSync method returned OK
+";
       public const string APLOG_CARD_CLOSE =
 @"[2024-01-16 03:00:00-153][3][][CardReader          ][Close               ][NORMAL]CardReaderClose called
 ";
+      public const string APLOG_CARD_CLOSE_1 =
+@"  INFO [2024-08-14 08:37:33-273] [CardReader.Close] CardReaderClose called
+";
+      public const string APLOG_CARD_ONMEDIAPRESENT =
+@"[2024-01-16 16:36:18-822][3][][CardReader][OnMediaStatusChanged][NORMAL] m_NxCard.CardMediaStatusChanged event received(PRESENT)
+";
+      public const string APLOG_CARD_ONMEDIAPRESENT_1 =
+@"  INFO [2024-08-14 08:46:55-747] [CardReader.OnMediaStatusChanged] m_NxCard.CardMediaStatusChanged event received(PRESENT)
+";
+      public const string APLOG_CARD_ONMEDIANOTPRESENT =
+@"[2024-01-16 16:30:39-988][3][][CardReader          ][OnMediaStatusChanged][NORMAL]m_NxCard.CardMediaStatusChanged event received(NOTPRESENT)
+";
+      public const string APLOG_CARD_ONMEDIANOTPRESENT_1 =
+@"  INFO [2024-07-19 13:15:23-466] [CardReader.OnMediaStatusChanged] m_NxCard.CardMediaStatusChanged event received(NOTPRESENT)
+";
+
       public const string APLOG_CARD_ONMEDIAINSERTED = 
 @"[2024-01-16 09:11:41-552][3][][CardReader          ][OnMediaInserted     ][NORMAL][CardReader Log] OnMediaInserted
 ";
+      public const string APLOG_CARD_ONMEDIAINSERTED_1 =
+@"  INFO [2024-07-19 08:37:48-868] [CardReader.OnMediaInserted] [CardReader Log] OnMediaInserted
+";
+
       public const string APLOG_CARD_ONREADCOMPLETE =
 @"[2024-01-16 09:11:42-573][3][][CardReader          ][OnReadComplete      ][NORMAL]OnReadComplete event received
 ";
+      public const string APLOG_CARD_ONREADCOMPLETE_1 =
+@"  INFO [2024-07-19 08:37:49-916] [CardReader.OnReadComplete] OnReadComplete event received
+";
+
       public const string APLOG_CARD_ONEJECTCOMPLETE =
 @"[2024-01-16 09:17:28-435][3][][CardReader          ][OnEjectComplete     ][NORMAL]m_NxCard.OnEjectComplete event received
+";
+      public const string APLOG_CARD_ONEJECTCOMPLETE_1 =
+@"  INFO [2024-07-19 08:39:10-407] [CardReader.OnEjectComplete] m_NxCard.OnEjectComplete event received
 ";
       public const string APLOG_CARD_ONMEDIAREMOVED =
 @"[2024-01-16 09:17:31-888][3][][CardReader          ][OnMediaRemoved      ][NORMAL]m_NxCard.OnMediaRemoved event received
 ";
+      public const string APLOG_CARD_ONMEDIAREMOVED_1 =
+@"  INFO [2024-07-19 08:39:11-096] [CardReader.OnMediaRemoved] m_NxCard.OnMediaRemoved event received
+";
+
       public const string APLOG_CARD_PAN =
 @"[2024-01-16 10:03:33-675][3][][NCompleteICCAppSelectState][SetTrackData        ][NORMAL]Device.CardReader.PANData    : 411395XXXXXX1667
+";
+      public const string APLOG_CARD_PAN_1 =
+@"  INFO [2024-01-16 10:03:33-675] [NCompleteICCAppSelectState.SetTrackData] Device.CardReader.PANData    : 551088XXXXXX3030
+";
+      //RFID
+
+      public const string APLOG_RFID_DELETE =
+@"[2024-08-02 21:24:19-780][3][][RFIDReader          ][DeleteTrackData     ][NORMAL]Clearing card read data from the previous read.
+";
+      public const string APLOG_RFID_ACCEPTCANCELLED =
+@"[2024-08-02 20:22:42-161][3][][RFIDReader          ][ExecuteDeviceCommand][NORMAL]m_NxRFID.CancelAccept result is AcceptCancelled
+";
+      public const string APLOG_RFID_ONMEDIAINSERTED =
+@"[2024-08-02 21:44:07-356][3][][RFIDReader          ][OnMediaInserted     ][NORMAL][CardReader Log] OnMediaInserted
+";
+      public const string APLOG_RFID_ONMEDIAREMOVED =
+@"[2024-08-02 22:23:27-536][3][][RFIDReader          ][OnMediaRemoved      ][NORMAL]m_NxCard.OnMediaRemoved event received
+";
+      public const string APLOG_RFID_TIMEREXPIRED =
+@"[2024-08-02 22:36:52-548][3][][RFIDReader          ][ExecuteDeviceCommand][NORMAL]m_NxRFID.CancelAccept result is TimerExpired
+";
+      public const string APLOG_RFID_ONMEDIAPRESENT =
+@"[2024-08-02 21:25:51-302][3][][RFIDReader          ][OnMediaStatusChanged][NORMAL]m_NxCard.CardMediaStatusChanged event received(PRESENT)
+";
+      public const string APLOG_RFID_ONMEDIANOTPRESENT =
+@"[2024-08-02 09:12:10-300][3][][RFIDReader          ][RaiseDeviceUnSolEvent][NORMAL]FireDeviceUnsolEvent(CardMediaStatusChanged, MEDIA_NOTPRESENT)
+";
+      public const string APLOG_RFID_WAITCOMMANDCOMPLETE =
+@"[2024-08-02 22:35:32-723][3][][RFIDReader          ][WaitCommandComplete ][NORMAL]WaitCommandComplete returns [ERROR]
+";
+      public const string APLOG_RFID_COMMAND_COMPLETE_ERROR =
+@"[2024-08-02 22:35:32-723][2][][RFIDReader          ][WaitCommandComplete ][NORMAL]Command completed with error : [pResultIdx = 8]
 ";
 
       // Pin
@@ -113,11 +187,6 @@ namespace APSamples
       public const string DEV_UNSOL_EVENT_3 =
 @"[2023-11-27 16:42:59-748][3][][BundleCheckAcceptor ][RaiseDeviceUnSolEvent][NORMAL]FireDeviceUnsolEvent(MediaBinInfoChanged, MEDIABIN_STATUS)
 ";
-
-      public const string APLOG_CARD_PAN_1 = 
-@"[2023-11-16 14:19:39-217][3][][NCompleteICCAppSelectState][SetTrackData        ][NORMAL]Device.CardReader.PANData    : 405610XXXXXX2366
-";
-
       public const string APLOG_FLW_SWITCH_FIT =
 @"[2023-11-16 14:17:24-748][3][][FITSwitchState      ][ExecuteState        ][NORMAL]Next State is to be 001
 ";
@@ -256,6 +325,12 @@ namespace APSamples
 ";
       public const string APLOG_TRANSACTION_TIMEOUT =
 @"[2024-06-27 08:31:27-243][3][][ManagementJournal   ][WriteFile           ][NORMAL]Parameter pFileData:TRANSACTION TIMEOUT";
+
+      /* Account */
+
+      public const string APLOG_ACCOUNT_ENTERED =
+@"[2024-08-15 09:33:55-766][3][][Account             ][.ctor               ][NORMAL]Account is Entered. Account = Supervisor
+";
 
    }
 }

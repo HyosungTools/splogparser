@@ -120,6 +120,68 @@ namespace OverView
                         break;
                      }
 
+
+                  /* rfid */
+                  case APLogType.APLOG_RFID_DELETE:
+                     {
+                        base.ProcessRow(logLine);
+                        APLINE(apLogLine, "rfid", "delete data");
+                        break;
+                     }
+
+                  case APLogType.APLOG_RFID_ACCEPTCANCELLED:
+                     {
+                        base.ProcessRow(logLine);
+                        APLINE(apLogLine, "rfid", "accept cancelled");
+                        break;
+                     }
+
+                  case APLogType.APLOG_RFID_ONMEDIAINSERTED:
+                     {
+                        base.ProcessRow(logLine);
+                        APLINE(apLogLine, "rfid", "inserted");
+                        break;
+                     }
+
+                  case APLogType.APLOG_RFID_ONMEDIAREMOVED:
+                     {
+                        base.ProcessRow(logLine);
+                        APLINE(apLogLine, "rfid", "removed");
+                        break;
+                     }
+
+                  case APLogType.APLOG_RFID_TIMEREXPIRED:
+                     {
+                        base.ProcessRow(logLine);
+                        APLINE(apLogLine, "rfid", "timer expired");
+                        break;
+                     }
+
+                  case APLogType.APLOG_RFID_ONMEDIAPRESENT:
+                     {
+                        base.ProcessRow(logLine);
+                        APLINE(apLogLine, "rfid", "present");
+                        break;
+                     }
+
+                  case APLogType.APLOG_RFID_ONMEDIANOTPRESENT:
+                     {
+                        base.ProcessRow(logLine);
+                        APLINE(apLogLine, "rfid", "not present");
+                        break;
+                     }
+
+                  case APLogType.APLOG_RFID_WAITCOMMANDCOMPLETE:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLineField)
+                        {
+                           APLineField lineField = (APLineField)apLogLine;
+                           APLINE(lineField, "rfid", lineField.field);
+                        }
+                        break;
+                     }
+
                   /* emv */
 
                   case APLogType.APLOG_EMV_INIT:
@@ -468,6 +530,32 @@ namespace OverView
                         if (apLogLine is CashDispenser_UpdateTypeInfoToDispense typeInfoToDispense)
                         {
                            APLINE(apLogLine, "dispensed", String.Format("${0}", typeInfoToDispense.dispenseAmount));
+                        }
+                        break;
+                     }
+
+                  /* Account */
+
+                  case APLogType.APLOG_ACCOUNT_ENTERED:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLineField)
+                        {
+                           APLineField lineField = (APLineField)apLogLine;
+                           APLINE(lineField, "account", lineField.field);
+                        }
+                        break;
+                     }
+
+                  /* operator menu */
+
+                  case APLogType.APLOG_OPERATOR_MENU:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLineField)
+                        {
+                           APLineField lineField = (APLineField)apLogLine;
+                           APLINE(lineField, "operator menu", lineField.field);
                         }
                         break;
                      }

@@ -11,7 +11,7 @@ namespace LogLineHandler
       {
       }
 
-      public static ILogLine Factory(ILogFileHandler logFileHandler, string logLine)
+      public static new ILogLine Factory(ILogFileHandler logFileHandler, string logLine)
       {
          (bool success, string subLine) result = NDC.IsolateNdcMessage(logLine);
          if (!result.success)
