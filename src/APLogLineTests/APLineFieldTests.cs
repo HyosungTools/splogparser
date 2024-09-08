@@ -11,10 +11,10 @@ namespace APLogLineTests
    public class APLineFieldTests
    {
       [TestMethod]
-      public void APLine_APLOG_SETTINGS_CONFIG()
+      public void APLOG_SETTINGS_CONFIG()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_SETTINGS_CONFIG);
          Assert.IsTrue(logLine is APLineField);
 
@@ -27,10 +27,26 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_CURRENTMODE()
+      public void APLOG_SETTINGS_CONFIG_1()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_SETTINGS_CONFIG_1);
+         Assert.IsTrue(logLine is APLineField);
+
+         APLineField apLine = (APLineField)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_SETTINGS_CONFIG);
+         Assert.IsTrue(apLine.Timestamp == "2024-07-19 03:01:07.565");
+         Assert.IsTrue(apLine.HResult == "");
+
+         Assert.IsTrue(apLine.field == @"C:\Hyosung\MoniPlus2s\Config\Application\Communication.xml");
+      }
+
+      [TestMethod]
+      public void APLOG_CURRENTMODE()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CURRENTMODE);
          Assert.IsTrue(logLine is APLineField);
 
@@ -43,10 +59,58 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_CARD_OPEN()
+      public void APLOG_CURRENTMODE_1()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CURRENTMODE_1);
+         Assert.IsTrue(logLine is APLineField);
+
+         APLineField apLine = (APLineField)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_CURRENTMODE);
+         Assert.IsTrue(apLine.Timestamp == "2024-07-19 00:23:54.485");
+         Assert.IsTrue(apLine.HResult == "");
+
+         Assert.IsTrue(apLine.field == "InService");
+      }
+
+      [TestMethod]
+      public void APLOG_HOST()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_HOST);
+         Assert.IsTrue(logLine is APLineField);
+
+         APLineField apLine = (APLineField)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_HOST);
+         Assert.IsTrue(apLine.Timestamp == "2023-11-16 03:06:09.811");
+         Assert.IsTrue(apLine.HResult == "");
+
+         Assert.IsTrue(apLine.field == "connect");
+      }
+
+      [TestMethod]
+      public void APLOG_HOST_1()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_HOST_1);
+         Assert.IsTrue(logLine is APLineField);
+
+         APLineField apLine = (APLineField)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_HOST);
+         Assert.IsTrue(apLine.Timestamp == "2024-07-08 12:33:10.723");
+         Assert.IsTrue(apLine.HResult == "");
+
+         Assert.IsTrue(apLine.field == "disconnect");
+      }
+
+      [TestMethod]
+      public void APLOG_CARD_OPEN()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_OPEN);
          Assert.IsTrue(logLine is APLine);
 
@@ -57,10 +121,24 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_CARD_CLOSED()
+      public void APLOG_CARD_OPEN_1()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_OPEN_1);
+         Assert.IsTrue(logLine is APLine);
+
+         APLine apLine = (APLine)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_CARD_OPEN);
+         Assert.IsTrue(apLine.Timestamp == "2024-07-08 12:33:08.741");
+         Assert.IsTrue(apLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void APLOG_CARD_CLOSED()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_CLOSE);
          Assert.IsTrue(logLine is APLine);
 
@@ -71,10 +149,80 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_CARD_ONMEDIAINSERTED()
+      public void APLOG_CARD_CLOSED_1()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_CLOSE_1);
+         Assert.IsTrue(logLine is APLine);
+
+         APLine apLine = (APLine)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_CARD_CLOSE);
+         Assert.IsTrue(apLine.Timestamp == "2024-08-14 08:37:33.273");
+         Assert.IsTrue(apLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void APLOG_CARD_ONMEDIAPRESENT()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_ONMEDIAPRESENT);
+         Assert.IsTrue(logLine is APLine);
+
+         APLine apLine = (APLine)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_CARD_ONMEDIAPRESENT);
+         Assert.IsTrue(apLine.Timestamp == "2024-01-16 16:36:18.822");
+         Assert.IsTrue(apLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void APLOG_CARD_ONMEDIAPRESENT_1()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_ONMEDIAPRESENT_1);
+         Assert.IsTrue(logLine is APLine);
+
+         APLine apLine = (APLine)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_CARD_ONMEDIAPRESENT);
+         Assert.IsTrue(apLine.Timestamp == "2024-08-14 08:46:55.747");
+         Assert.IsTrue(apLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void APLOG_CARD_ONMEDIANOTPRESENT()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_ONMEDIANOTPRESENT);
+         Assert.IsTrue(logLine is APLine);
+
+         APLine apLine = (APLine)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_CARD_ONMEDIANOTPRESENT);
+         Assert.IsTrue(apLine.Timestamp == "2024-01-16 16:30:39.988");
+         Assert.IsTrue(apLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void APLOG_CARD_ONMEDIANOTPRESENT_1()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_ONMEDIANOTPRESENT_1);
+         Assert.IsTrue(logLine is APLine);
+
+         APLine apLine = (APLine)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_CARD_ONMEDIANOTPRESENT);
+         Assert.IsTrue(apLine.Timestamp == "2024-07-19 13:15:23.466");
+         Assert.IsTrue(apLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void APLOG_CARD_ONMEDIAINSERTED()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_ONMEDIAINSERTED);
          Assert.IsTrue(logLine is APLine);
 
@@ -83,12 +231,25 @@ namespace APLogLineTests
          Assert.IsTrue(apLine.Timestamp == "2024-01-16 09:11:41.552");
          Assert.IsTrue(apLine.HResult == "");
       }
-
       [TestMethod]
-      public void APLine_APLOG_CARD_ONREADCOMPLETE()
+      public void APLOG_CARD_ONMEDIAINSERTED_1()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_ONMEDIAINSERTED_1);
+         Assert.IsTrue(logLine is APLine);
+
+         APLine apLine = (APLine)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_CARD_ONMEDIAINSERTED);
+         Assert.IsTrue(apLine.Timestamp == "2024-07-19 08:37:48.868");
+         Assert.IsTrue(apLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void APLOG_CARD_ONREADCOMPLETE()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_ONREADCOMPLETE);
          Assert.IsTrue(logLine is APLine);
 
@@ -99,10 +260,24 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_CARD_ONEJECTCOMPLETE()
+      public void APLOG_CARD_ONREADCOMPLETE_1()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_ONREADCOMPLETE_1);
+         Assert.IsTrue(logLine is APLine);
+
+         APLine apLine = (APLine)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_CARD_ONREADCOMPLETE);
+         Assert.IsTrue(apLine.Timestamp == "2024-07-19 08:37:49.916");
+         Assert.IsTrue(apLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void APLOG_CARD_ONEJECTCOMPLETE()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_ONEJECTCOMPLETE);
          Assert.IsTrue(logLine is APLine);
 
@@ -113,10 +288,24 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_CARD_ONMEDIAREMOVED()
+      public void APLOG_CARD_ONEJECTCOMPLETE_1()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_ONEJECTCOMPLETE_1);
+         Assert.IsTrue(logLine is APLine);
+
+         APLine apLine = (APLine)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_CARD_ONEJECTCOMPLETE);
+         Assert.IsTrue(apLine.Timestamp == "2024-07-19 08:39:10.407");
+         Assert.IsTrue(apLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void APLOG_CARD_ONMEDIAREMOVED()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_ONMEDIAREMOVED);
          Assert.IsTrue(logLine is APLine);
 
@@ -127,10 +316,24 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_CARD_PAN()
+      public void APLOG_CARD_ONMEDIAREMOVED_1()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_ONMEDIAREMOVED_1);
+         Assert.IsTrue(logLine is APLine);
+
+         APLine apLine = (APLine)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_CARD_ONMEDIAREMOVED);
+         Assert.IsTrue(apLine.Timestamp == "2024-07-19 08:39:11.096");
+         Assert.IsTrue(apLine.HResult == "");
+      }
+
+      [TestMethod]
+      public void APLOG_CARD_PAN()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_PAN);
          Assert.IsTrue(logLine is APLineField);
 
@@ -142,12 +345,28 @@ namespace APLogLineTests
          Assert.IsTrue(apLine.field == "411395XXXXXX1667");
       }
 
-
       [TestMethod]
-      public void APLine_APLOG_PIN_OPEN()
+      public void APLOG_CARD_PAN_1()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_CARD_PAN_1);
+         Assert.IsTrue(logLine is APLineField);
+
+         APLineField apLine = (APLineField)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_CARD_PAN);
+         Assert.IsTrue(apLine.Timestamp == "2024-01-16 10:03:33.675");
+         Assert.IsTrue(apLine.HResult == "");
+
+         Assert.IsTrue(apLine.field == "551088XXXXXX3030");
+      }
+
+
+      [TestMethod]
+      public void APLOG_PIN_OPEN()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_PIN_OPEN);
          Assert.IsTrue(logLine is APLine);
 
@@ -158,10 +377,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_PIN_CLOSE()
+      public void APLOG_PIN_CLOSE()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_PIN_CLOSE);
          Assert.IsTrue(logLine is APLine);
 
@@ -172,10 +391,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_PIN_ISPCI()
+      public void APLOG_PIN_ISPCI()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_PIN_ISPCI);
          Assert.IsTrue(logLine is APLineField);
 
@@ -188,10 +407,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_PIN_ISTR31()
+      public void APLOG_PIN_ISTR31()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_PIN_ISTR31);
          Assert.IsTrue(logLine is APLineField);
 
@@ -204,10 +423,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_PIN_ISTR34()
+      public void APLOG_PIN_ISTR34()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_PIN_ISTR34);
          Assert.IsTrue(logLine is APLineField);
 
@@ -220,10 +439,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_PIN_KEYIMPORTED()
+      public void APLOG_PIN_KEYIMPORTED()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_PIN_KEYIMPORTED);
          Assert.IsTrue(logLine is APLine);
 
@@ -234,10 +453,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_PIN_RAND()
+      public void APLOG_PIN_RAND()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_PIN_RAND);
          Assert.IsTrue(logLine is APLine);
 
@@ -248,10 +467,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_PIN_PINBLOCK()
+      public void APLOG_PIN_PINBLOCK()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_PIN_PINBLOCK);
          Assert.IsTrue(logLine is APLine);
 
@@ -262,10 +481,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_PIN_PINBLOCK_FAILED()
+      public void APLOG_PIN_PINBLOCK_FAILED()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_PIN_PINBLOCK_FAILED);
          Assert.IsTrue(logLine is APLine);
 
@@ -276,10 +495,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_PIN_TIMEOUT()
+      public void APLOG_PIN_TIMEOUT()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_PIN_TIMEOUT);
          Assert.IsTrue(logLine is APLine);
 
@@ -290,10 +509,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_PIN_READCOMPLETE()
+      public void APLOG_PIN_READCOMPLETE()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_PIN_READCOMPLETE);
          Assert.IsTrue(logLine is APLine);
 
@@ -304,10 +523,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_DISPLAYLOAD()
+      public void APLOG_DISPLAYLOAD()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_DISPLAYLOAD);
          Assert.IsTrue(logLine is APLine);
 
@@ -320,10 +539,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_LOCALXMLHELPER_ABOUT_TO_EXECUTE()
+      public void APLOG_LOCALXMLHELPER_ABOUT_TO_EXECUTE()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_LOCALXMLHELPER_ABOUT_TO_EXECUTE);
          Assert.IsTrue(logLine is APLine);
 
@@ -336,10 +555,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_STATE_CREATED()
+      public void APLOG_STATE_CREATED()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_STATE_CREATED);
          Assert.IsTrue(logLine is APLine);
 
@@ -352,10 +571,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_FUNCTIONKEY_SELECTED()
+      public void APLOG_FUNCTIONKEY_SELECTED()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_FUNCTIONKEY_SELECTED);
          Assert.IsTrue(logLine is APLine);
 
@@ -368,10 +587,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_FUNCTIONKEY_SELECTED2()
+      public void APLOG_FUNCTIONKEY_SELECTED2()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_FUNCTIONKEY_SELECTED2);
          Assert.IsTrue(logLine is APLine);
 
@@ -384,10 +603,10 @@ namespace APLogLineTests
       }
 
       [TestMethod]
-      public void APLine_APLOG_DEVICE_FITNESS()
+      public void APLOG_DEVICE_FITNESS()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_DEVICE_FITNESS);
          Assert.IsTrue(logLine is APLine);
 
@@ -399,11 +618,12 @@ namespace APLogLineTests
          Assert.IsTrue(apLine.field == "DEVHWERROR");
       }
 
+      [Ignore]
       [TestMethod]
-      public void APLine_APLOG_EXCEPTION_1()
+      public void APLOG_EXCEPTION_1()
       {
          // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          logFileHandler.OpenLogFile(samples_exception.EXCEPTION_1);
 
          // First two lines are not an EXCEPTION

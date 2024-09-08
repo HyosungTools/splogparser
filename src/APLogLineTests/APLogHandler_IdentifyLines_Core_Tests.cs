@@ -17,7 +17,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_ProcessWithdrawalTransaction_Amount_1()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_ProcessWithdrawalTransaction_Amount_1);
          Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Amount);
 
@@ -33,7 +33,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_ProcessWithdrawalTransaction_Account_1()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_ProcessWithdrawalTransaction_Account_1);
          Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Account);
 
@@ -49,7 +49,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_RequiredBillMixList_1()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_RequiredBillMixList_1);
          Assert.IsTrue(logLine is Core_RequiredBillMixList);
 
@@ -65,7 +65,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_DispensedAmount_1()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_DispensedAmount_1);
          Assert.IsTrue(logLine is Core_DispensedAmount);
 
@@ -84,7 +84,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_ProcessWithdrawalTransaction_Amount_2()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_ProcesWithdrawalTransaction_Amount_2);
          Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Amount);
 
@@ -100,7 +100,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_ProcessWithdrawalTransaction_Account_2()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_ProcessWithdrawalTransaction_Account_2);
          Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Account);
 
@@ -116,7 +116,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_RequiredBillMixList_2()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_RequiredBillMixList_2);
          Assert.IsTrue(logLine is Core_RequiredBillMixList);
 
@@ -132,7 +132,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_DispensedAmount_2()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_DispensedAmount_2);
          Assert.IsTrue(logLine is Core_DispensedAmount);
 
@@ -151,7 +151,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_ProcessWithdrawalTransaction_Amount_3()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_ProcessWithdrawalTransaction_Amount_3);
          Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Amount);
 
@@ -167,7 +167,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_ProcessWithdrawalTransaction_Account_3()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_ProcessWithdrawalTransaction_Account_3);
          Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Account);
 
@@ -183,7 +183,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_RequiredBillMixList_3()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_RequiredBillMixList_3);
          Assert.IsTrue(logLine is Core_RequiredBillMixList);
 
@@ -199,7 +199,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_DispensedAmount_3()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_DispensedAmount_3);
          Assert.IsTrue(logLine is Core_DispensedAmount);
 
@@ -218,7 +218,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_ProcessWithdrawalTransaction_Amount_4()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_ProcessWithdrawalTransaction_Amount_4);
          Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Amount);
 
@@ -234,7 +234,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_ProcessWithdrawalTransaction_Account_4()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_ProcessWithdrawalTransaction_Account_4);
          Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Account);
 
@@ -250,7 +250,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_RequiredBillMixList_4()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_RequiredBillMixList_4);
          Assert.IsTrue(logLine is Core_RequiredBillMixList);
 
@@ -266,7 +266,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_DispensedAmount_4()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_DispensedAmount_4);
          Assert.IsTrue(logLine is Core_DispensedAmount);
 
@@ -285,7 +285,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_ProcessWithdrawalTransaction_Amount_5()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_ProcessWithdrawalTransaction_Amount_5);
          Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Amount);
 
@@ -301,7 +301,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_ProcessWithdrawalTransaction_Account_5()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_ProcessWithdrawalTransaction_Account_5);
          Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Account);
 
@@ -317,7 +317,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_RequiredBillMixList_5()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_RequiredBillMixList_5);
          Assert.IsTrue(logLine is Core_RequiredBillMixList);
 
@@ -333,7 +333,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_DispensedAmount_5()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_DispensedAmount_5);
          Assert.IsTrue(logLine is Core_DispensedAmount);
 
@@ -352,7 +352,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_ProcessWithdrawalTransaction_Amount_6()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_ProcessWithdrawalTransaction_Amount_6);
          Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Amount);
 
@@ -368,7 +368,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_ProcessWithdrawalTransaction_Account_6()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_ProcessWithdrawalTransaction_Account_6);
          Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Account);
 
@@ -384,7 +384,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_RequiredBillMixList_6()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_RequiredBillMixList_6);
          Assert.IsTrue(logLine is Core_RequiredBillMixList);
 
@@ -400,7 +400,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_DispensedAmount_6()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_DispensedAmount_6);
          Assert.IsTrue(logLine is Core_DispensedAmount);
 
@@ -419,7 +419,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_ProcessWithdrawalTransaction_Amount_7()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_ProcessWithdrawalTransaction_Amount_7);
          Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Amount);
 
@@ -435,7 +435,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_ProcessWithdrawalTransaction_Account_7()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_ProcessWithdrawalTransaction_Account_7);
          Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Account);
 
@@ -451,7 +451,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_RequiredBillMixList_7()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_RequiredBillMixList_7);
          Assert.IsTrue(logLine is Core_RequiredBillMixList);
 
@@ -467,7 +467,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_DispensedAmount_7()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_DispensedAmount_7);
          Assert.IsTrue(logLine is Core_DispensedAmount);
 

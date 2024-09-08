@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Contract;
 
 namespace LogLineHandler
@@ -29,6 +27,16 @@ namespace LogLineHandler
       APLOG_CARD_ONEJECTCOMPLETE,
       APLOG_CARD_ONMEDIAREMOVED,
       APLOG_CARD_PAN,
+
+      APLOG_RFID_DELETE,
+      APLOG_RFID_ACCEPTCANCELLED,
+      APLOG_RFID_ONMEDIAINSERTED,
+      APLOG_RFID_ONMEDIAREMOVED,
+      APLOG_RFID_TIMEREXPIRED,
+      APLOG_RFID_ONMEDIAPRESENT,
+      APLOG_RFID_ONMEDIANOTPRESENT,
+      APLOG_RFID_WAITCOMMANDCOMPLETE,
+      APLOG_RFID_COMMAND_COMPLETE_ERROR,
 
       APLOG_EMV_INIT,
       APLOG_EMV_INITCHIP,
@@ -193,17 +201,26 @@ namespace LogLineHandler
       APLOG_OPER_MENUNAME,
       APLOG_OPER_DOOR,
 
+      /* Account */
+
+      APLOG_ACCOUNT_ENTERED,
+
+      /* Operator Menu */
+
+      APLOG_OPERATOR_MENU,
+
+
       /* ERROR */
       Error
    }
 
    public class APLine : LogLine, ILogLine
    {
+      public APLogType apType { get; set; }
+
       // implementations of the ILogLine interface
       public string Timestamp { get; set; }
       public string HResult { get; set; }
-
-      public APLogType apType { get; set; }
 
       public APLine(ILogFileHandler parent, string logLine, APLogType apType) : base(parent, logLine)
       {
@@ -248,6 +265,307 @@ namespace LogLineHandler
          }
 
          return timestamp;
+      }
+
+      public static ILogLine Factory(ILogFileHandler logFileHandler, string logLine)
+      {
+         /* APLOG_INSTALL */
+         if (logLine.StartsWith("=======") && logLine.EndsWith("========\r\n"))
+            return new MachineInfo(logFileHandler, logLine);
+
+
+         /* APLOG_SETTINGS_CONFIG */
+         if (logLine.Contains("[ConfigurationFramework") && logLine.Contains("ProcessXMLFiles") && logLine.Contains("Adding xml file:"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_SETTINGS_CONFIG);
+
+
+         /* APLOG_CURRENTMODE */
+         if (logLine.Contains("UpdateRMSMonitorLEDs") && logLine.Contains("Current Mode: "))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_CURRENTMODE);
+
+         /* APLOG_HOST */
+         if (logLine.Contains("[CommunicationFramework") && logLine.Contains("OnConnectedHost") && logLine.Contains("Host Connected") ||
+             logLine.Contains("[CommunicationFramework") && logLine.Contains("OnDisconnectedHost") && logLine.Contains("Host disconnected"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_HOST);
+
+
+         /* RFID */
+         if (logLine.Contains("[RFIDReader") && logLine.Contains("DeleteTrackData"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_RFID_DELETE);
+
+         if (logLine.Contains("[RFIDReader") && logLine.Contains("AcceptCancelled"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_RFID_ACCEPTCANCELLED);
+
+         if (logLine.Contains("[RFIDReader") && logLine.Contains("OnMediaInserted"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_RFID_ONMEDIAINSERTED);
+
+         if (logLine.Contains("[RFIDReader") && logLine.Contains("OnMediaRemoved"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_RFID_ONMEDIAREMOVED);
+
+         if (logLine.Contains("[RFIDReader") && logLine.Contains("TimerExpired"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_RFID_TIMEREXPIRED);
+
+         if (logLine.Contains("[RFIDReader") && logLine.Contains("OnMediaStatusChanged") && logLine.Contains("(PRESENT)"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_RFID_ONMEDIAPRESENT);
+
+         if (logLine.Contains("[RFIDReader") && logLine.Contains("RaiseDeviceUnSolEvent") && logLine.Contains("MEDIA_NOTPRESENT"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_RFID_ONMEDIANOTPRESENT);
+
+         if (logLine.Contains("[RFIDReader") && logLine.Contains("WaitCommandComplete returns"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_RFID_WAITCOMMANDCOMPLETE);
+
+         if (logLine.Contains("[RFIDReader") && logLine.Contains("Command completed with error :"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_RFID_COMMAND_COMPLETE_ERROR);
+
+
+         /* [CardReader          ] */
+
+         if (logLine.Contains("[CardReader") && !logLine.Contains("[RFIDReader"))
+         {
+            if (logLine.Contains("[Open") || logLine.Contains("CardReader.Open"))
+               return new APLine(logFileHandler, logLine, APLogType.APLOG_CARD_OPEN);
+
+            if (logLine.Contains("CardReaderClose called"))
+               return new APLine(logFileHandler, logLine, APLogType.APLOG_CARD_CLOSE);
+
+            if (logLine.Contains("DeleteTrackData"))
+               return new APLine(logFileHandler, logLine, APLogType.APLOG_RFID_DELETE);
+
+            if (logLine.Contains("OnMediaStatusChanged") && logLine.Contains("(PRESENT)"))
+               return new APLine(logFileHandler, logLine, APLogType.APLOG_CARD_ONMEDIAPRESENT);
+
+            if (logLine.Contains("OnMediaStatusChanged") && logLine.Contains("(NOTPRESENT)"))
+               return new APLine(logFileHandler, logLine, APLogType.APLOG_CARD_ONMEDIANOTPRESENT);
+
+            if (logLine.Contains("OnMediaInserted"))
+               return new APLine(logFileHandler, logLine, APLogType.APLOG_CARD_ONMEDIAINSERTED);
+
+            if (logLine.Contains("OnReadComplete"))
+               return new APLine(logFileHandler, logLine, APLogType.APLOG_CARD_ONREADCOMPLETE);
+
+            if (logLine.Contains("OnEjectComplete"))
+               return new APLine(logFileHandler, logLine, APLogType.APLOG_CARD_ONEJECTCOMPLETE);
+
+            if (logLine.Contains("OnMediaRemoved"))
+               return new APLine(logFileHandler, logLine, APLogType.APLOG_CARD_ONMEDIAREMOVED);
+         }
+
+         if (logLine.Contains("Device.CardReader.PANData    :"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_CARD_PAN);
+
+
+         /* EMV */
+
+         if (logLine.Contains("[CardReader") && logLine.Contains("EMV_Initial"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_EMV_INIT);
+
+         if (logLine.Contains("[EMVProcessing") && logLine.Contains("InitializeChip() start"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_EMV_INITCHIP);
+
+         if (logLine.Contains("[EMVProcessing") && logLine.Contains("Device.CardReader.EMV_Sel_BuildCandidateApp()' Result ="))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_EMV_BUILD_CANDIDATE_LIST);
+
+         if (logLine.Contains("[BeginICCAppSelectionLocalFlowPoint") && logLine.Contains("AppNameList  ="))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_EMV_CREATE_APPNAME_LIST);
+
+         if (logLine.Contains("[EMVProcessing") && logLine.Contains("SelectedAID:"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_EMV_APP_SELECTED);
+
+         if (logLine.Contains("[NCompleteICCAppSelectState") && logLine.Contains("Device.CardReader.PANData"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_EMV_PAN);
+
+         if (logLine.Contains("[NSetICCTranDataState") && logLine.Contains("strCurrencyType :"))
+            return new APLineEmvCurrencyType(logFileHandler, logLine, APLogType.APLOG_EMV_CURRENCY_TYPE);
+
+         if (logLine.Contains("[CardReader") && logLine.Contains("Return EMV_OffDataAuth() :"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_EMV_OFFLINE_AUTH);
+
+         if (logLine.Contains("[CommunicationFramework") && logLine.Contains("EXT=FAULT_SMART_CARDREADER"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_EMV_FAULT_SMART_CARDREADER);
+
+         /* ManagementJournal */
+
+         if (logLine.Contains("[ManagementJournal") && logLine.Contains("INSERVICE ENTERED"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_INSERVICE_ENTERED);
+
+         if (logLine.Contains("[ManagementJournal") && logLine.Contains("TRANSACTION TIMEOUT"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_TRANSACTION_TIMEOUT);
+
+         /* APLOG_FLW_SWITCH_FIT */
+         if (logLine.Contains("[FITSwitchState") && logLine.Contains("ExecuteState") && logLine.Contains("Next State is to be "))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_FLW_SWITCH_FIT);
+
+
+         /* [Pinpad              */
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[Open"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_OPEN);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[Close"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_CLOSE);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[CheckTheEppIsPci"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_PIN_ISPCI);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[CheckTheEppSupportTR31"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_PIN_ISTR31);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[CheckTheEppSupportTR34"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_PIN_ISTR34);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[OnKeyImported"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_KEYIMPORTED);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[OnRandomNumberGenerated"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_RAND);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("OnPinBlockComplete"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_PINBLOCK);
+
+         if (logLine.Contains("[PinEntryState") && logLine.Contains("BuildPINBlock failed"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_PINBLOCK_FAILED);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[OnTimeout"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_TIMEOUT);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("[OnReadPinComplete"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_READCOMPLETE);
+
+
+
+         if (logLine.Contains("[LocalScreenWindowEx") && logLine.Contains("[DisplayLoadCompleted"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_DISPLAYLOAD);
+
+         if (logLine.Contains("[ScreenWindow") && logLine.Contains("LogAdditionalInformation"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_SCREENWINDOW);
+
+
+         if (logLine.Contains("[LocalXmlHelper") && logLine.Contains("About to execute: Class: HelperFunctions, Method:"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_LOCALXMLHELPER_ABOUT_TO_EXECUTE);
+
+
+         if (logLine.Contains("[HybridFlowEngine") && logLine.Contains("State created:"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_STATE_CREATED);
+
+
+
+         /* OLD [ScreenDecoratorLocal][OnFunctionKeySelected][NORMAL]Raising FunctionKeySelected event with values FunctionKey[No], PinInputData[], ResultData[]. */
+         if (logLine.Contains("[OnFunctionKeySelected") && logLine.Contains("Raising FunctionKeySelected event with values FunctionKey"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_FUNCTIONKEY_SELECTED);
+
+         /* NEW [ScreenDecoratorLocal.OnFunctionKeySelected] The No button was pressed.*/
+         if (logLine.Contains("[ScreenDecoratorLocal.OnFunctionKeySelected]"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_FUNCTIONKEY_SELECTED2);
+
+
+         if (logLine.Contains("[GetDeviceFitness") && logLine.Contains("Parameter pDvcStatus:"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_DEVICE_FITNESS);
+
+
+         if (logLine.Contains("?????????????????????????????????????????????"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_EXCEPTION);
+
+
+         /* AddKey */
+         if (logLine.Contains("[AbstractConfigHandler") && logLine.Contains("AddMoniplusData") && logLine.Contains("Add Key="))
+            return new AddKey(logFileHandler, logLine);
+
+         /* CASHDISP */
+         if (logLine.Contains("[CashDispenser"))
+         {
+            ILogLine iLine = CashDispenser.Factory(logFileHandler, logLine);
+            if (iLine != null) return iLine;
+         }
+
+
+
+         /* CORE */
+         if (logLine.Contains("WebServiceRequestFlowPoint"))
+         {
+            ILogLine iLine = Core.Factory(logFileHandler, logLine);
+            if (iLine != null) return iLine;
+         }
+
+         /* EJ */
+         if (logLine.Contains("INSERT INTO "))
+            return new EJInsert(logFileHandler, logLine);
+
+
+         /* HELPER FUNCTIONS */
+         if (logLine.Contains("[HelperFunctions") && logLine.Contains("[GetConfiguredBillMixList") && logLine.Contains("ConfiguredBillMixList:"))
+            return new APLineField(logFileHandler, logLine, APLogType.HelperFunctions_GetConfiguredBillMixList);
+
+         if (logLine.Contains("[HelperFunctions") && logLine.Contains("[GetFewestBillMixList") && logLine.Contains("FewestBillMixList:"))
+            return new APLineField(logFileHandler, logLine, APLogType.HelperFunctions_GetFewestBillMixList);
+
+         /* NDC */
+         if (logLine.Contains("Send") && logLine.Contains("ATM2HOST:"))
+            return Atm2Host.Factory(logFileHandler, logLine);
+
+         if (logLine.Contains("RecvProcAsync") && logLine.Contains("HOST2ATM:"))
+            return Host2Atm.Factory(logFileHandler, logLine);
+
+
+         /* CASH DISPENSER */
+
+         if (logLine.Contains("[CashDispenser") && logLine.Contains("OnDenominateComplete"))
+            return new APLine(logFileHandler, logLine, APLogType.CashDispenser_OnDenominateComplete);
+
+         if (logLine.Contains("[CashDispenser") && logLine.Contains("OnPresentComplete"))
+            return new APLine(logFileHandler, logLine, APLogType.CashDispenser_OnPresentComplete);
+
+         if (logLine.Contains("[CashDispenser") && logLine.Contains("OnItemsTaken"))
+            return new APLine(logFileHandler, logLine, APLogType.CashDispenser_OnItemsTaken);
+
+
+
+         //   CashDispenser_Open,
+
+         ///* STATUS */
+
+         ///* device */
+         //CashDispenser_OnLine,
+         //CashDispenser_OffLine,
+         //CashDispenser_OnHWError,
+         //CashDispenser_DeviceError,
+         //CashDispenser_OnDeviceOK,
+
+
+         ///* position status */
+
+         //CashDispenser_NotInPosition,
+         //CashDispenser_InPosition,
+
+
+         ///* dispense */
+
+         //CashDispenser_OnNoDispense,
+         //CashDispenser_OnDispenserOK,
+         //CashDispenser_DeGrade,
+
+
+
+         ///* status - shutter, position, stacker, transport */
+
+         //CashDispenser_OnShutterOpen,
+         //CashDispenser_OnShutterClosed,
+         //CashDispenser_OnStackerNotEmpty,
+         //CashDispenser_OnStackerEmpty,
+         //CashDispenser_OnPositionNotEmpty,
+         //CashDispenser_OnPositionEmpty,
+         //CashDispenser_OnTransportNotEmpty,
+         //CashDispenser_OnTransportEmpty,
+         //CashDispenser_OnCashUnitChanged,
+
+         /* Account */
+
+         if (logLine.Contains("[Account") && logLine.Contains("Account is Entered. Account ="))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_ACCOUNT_ENTERED);
+
+         /* Operator Menu */
+         if (logLine.Contains("[OperatorWindow") && logLine.Contains("Parameter pMenuName:"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_OPERATOR_MENU);
+
+         return null;
       }
    }
 }

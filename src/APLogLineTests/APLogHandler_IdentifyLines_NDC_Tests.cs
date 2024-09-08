@@ -13,7 +13,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host11_1()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST11_1);
          Assert.IsTrue(logLine is Atm2Host11);
 
@@ -25,7 +25,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host11_2()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST11_2);
          Assert.IsTrue(logLine is Atm2Host11);
 
@@ -37,7 +37,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host11_3()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST11_3);
          Assert.IsTrue(logLine is Atm2Host11);
 
@@ -49,7 +49,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host11_4()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST11_4);
          Assert.IsTrue(logLine is Atm2Host11);
 
@@ -61,7 +61,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host11_5()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST11_5);
          Assert.IsTrue(logLine is Atm2Host11);
 
@@ -73,7 +73,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host11_6()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST11_6);
          Assert.IsTrue(logLine is Atm2Host11);
 
@@ -85,7 +85,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host11_CashDepot_1()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST11_CASHDEPOT_1);
          Assert.IsTrue(logLine is Atm2Host11);
 
@@ -97,7 +97,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host11_CashDepot_2()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST11_CASHDEPOT_2);
          Assert.IsTrue(logLine is Atm2Host11);
 
@@ -109,7 +109,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host12_1()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST12_1);
          Assert.IsTrue(logLine is Atm2Host12);
 
@@ -121,7 +121,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host12_2()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST12_2);
          Assert.IsTrue(logLine is Atm2Host12);
 
@@ -133,7 +133,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host12_3()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST12_3);
          Assert.IsTrue(logLine is Atm2Host12);
 
@@ -145,7 +145,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host12_4()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST12_4);
          Assert.IsTrue(logLine is Atm2Host12);
 
@@ -157,7 +157,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host12_5()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST12_5);
          Assert.IsTrue(logLine is Atm2Host12);
 
@@ -169,7 +169,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host22_1()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST22_1);
          Assert.IsTrue(logLine is Atm2Host22);
 
@@ -181,7 +181,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host22_2()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST22_2);
          Assert.IsTrue(logLine is Atm2Host22);
 
@@ -193,7 +193,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host22_3()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST22_3);
          Assert.IsTrue(logLine is Atm2Host22);
 
@@ -205,7 +205,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host22_4()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST22_4);
          Assert.IsTrue(logLine is Atm2Host22);
 
@@ -217,7 +217,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host22_5()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST22_5);
          Assert.IsTrue(logLine is Atm2Host22);
 
@@ -229,7 +229,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Atm2Host22_6()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST22_6);
          Assert.IsTrue(logLine is Atm2Host22);
 
@@ -241,7 +241,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm4_1()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM4_1);
          Assert.IsTrue(logLine is Host2Atm4);
 
@@ -253,7 +253,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm4_2()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM4_2);
          Assert.IsTrue(logLine is Host2Atm4);
 
@@ -265,7 +265,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm4_3()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM4_3);
          Assert.IsTrue(logLine is Host2Atm4);
 
@@ -277,7 +277,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm4_4()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM4_4);
          Assert.IsTrue(logLine is Host2Atm4);
 
@@ -289,7 +289,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm4_5()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM4_5);
          Assert.IsTrue(logLine is Host2Atm4);
 
@@ -301,7 +301,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm4_6()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM4_6);
          Assert.IsTrue(logLine is Host2Atm4);
 
@@ -313,7 +313,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm4_7()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM4_7);
          Assert.IsTrue(logLine is Host2Atm4);
 
@@ -325,7 +325,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm4_8()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM4_8);
          Assert.IsTrue(logLine is Host2Atm4);
 
@@ -337,7 +337,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm4_9()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM4_9);
          Assert.IsTrue(logLine is Host2Atm4);
 
@@ -349,7 +349,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm4_10()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM4_10);
          Assert.IsTrue(logLine is Host2Atm4);
 
@@ -359,7 +359,7 @@ namespace APLogLineTests
       }
       public void Host2Atm1_1()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM1_1);
          Assert.IsTrue(logLine is Host2Atm1);
 
@@ -371,7 +371,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm1_2()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM1_2);
          Assert.IsTrue(logLine is Host2Atm1);
 
@@ -383,7 +383,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm1_4()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM1_4);
          Assert.IsTrue(logLine is Host2Atm1);
 
@@ -395,7 +395,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm1_5()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM1_5);
          Assert.IsTrue(logLine is Host2Atm1);
 
@@ -407,7 +407,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm3_1()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM3_1);
          Assert.IsTrue(logLine is Host2Atm3);
 
@@ -419,7 +419,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm3_2()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM3_2);
          Assert.IsTrue(logLine is Host2Atm3);
 
@@ -431,7 +431,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm3_3()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM3_3);
          Assert.IsTrue(logLine is Host2Atm3);
 
@@ -443,7 +443,7 @@ namespace APLogLineTests
       [TestMethod]
       public void Host2Atm3_4()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.HOST2ATM3_4);
          Assert.IsTrue(logLine is Host2Atm3);
 

@@ -16,7 +16,7 @@ namespace APLogLineTests
       [TestMethod]
       public void HelperFunctions_GetConfiguredBillMixList()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_helperfunctions.HelperFunctions_GetConfiguredBillMixList);
          Assert.IsTrue(logLine is APLineField);
 
@@ -32,7 +32,7 @@ namespace APLogLineTests
       [TestMethod]
       public void HelperFunctions_GetFewestBillMixList()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock());
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_helperfunctions.HelperFunctions_GetFewestBillMixList);
          Assert.IsTrue(logLine is APLineField);
 

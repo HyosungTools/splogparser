@@ -18,6 +18,7 @@ namespace LogLineHandler
             return; 
 
          string lookFor = string.Empty;
+         char[] trimChars = { '[', ']', '.' };
          int idx; 
 
          switch (this.apType)
@@ -28,7 +29,7 @@ namespace LogLineHandler
                   idx = logLine.IndexOf(lookFor);
                   if (idx != -1)
                   {
-                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;
                }
@@ -38,7 +39,7 @@ namespace LogLineHandler
                   idx = logLine.IndexOf(lookFor);
                   if (idx != -1)
                   {
-                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;
                }
@@ -60,7 +61,7 @@ namespace LogLineHandler
                   idx = logLine.LastIndexOf(lookFor);
                   if (idx != -1)
                   {
-                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;
                }
@@ -70,7 +71,7 @@ namespace LogLineHandler
                   idx = logLine.LastIndexOf(lookFor);
                   if (idx != -1)
                   {
-                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;
                }
@@ -80,7 +81,7 @@ namespace LogLineHandler
                   idx = logLine.LastIndexOf(lookFor);
                   if (idx != -1)
                   {
-                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;
                }
@@ -90,7 +91,7 @@ namespace LogLineHandler
                   idx = logLine.LastIndexOf(lookFor);
                   if (idx != -1)
                   {
-                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;
                }
@@ -100,7 +101,7 @@ namespace LogLineHandler
                   idx = logLine.LastIndexOf(lookFor);
                   if (idx != -1)
                   {
-                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;
                }
@@ -110,22 +111,17 @@ namespace LogLineHandler
                   idx = logLine.LastIndexOf(lookFor);
                   if (idx != -1)
                   {
-                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;
                }
-
-
-
-
-
             case APLogType.APLOG_FLW_SWITCH_FIT:
                {
                   lookFor = "Next State is to be";
                   idx = logLine.LastIndexOf(lookFor);
                   if (idx != -1)
                   {
-                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;
                }
@@ -135,7 +131,7 @@ namespace LogLineHandler
                   idx = logLine.LastIndexOf(lookFor);
                   if (idx != -1)
                   {
-                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;
                }
@@ -165,7 +161,6 @@ namespace LogLineHandler
                   idx = logLine.LastIndexOf(lookFor);
                   if (idx != -1)
                   {
-                     char[] trimChars = { '[', ']', '.'};
                      field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;
@@ -176,7 +171,6 @@ namespace LogLineHandler
                   idx = logLine.LastIndexOf(lookFor);
                   if (idx != -1)
                   {
-                     char[] trimChars = { '[', ']', '.' };
                      field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;
@@ -187,7 +181,6 @@ namespace LogLineHandler
                   idx = logLine.LastIndexOf(lookFor);
                   if (idx != -1)
                   {
-                     char[] trimChars = { '[', ']', '.' };
                      field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;
@@ -202,7 +195,7 @@ namespace LogLineHandler
                      idx = field.IndexOf("(");
                      if (idx != -1)
                      {
-                        field = field.Substring(0, idx - 1).Trim();
+                        field = field.Substring(0, idx - 1).Trim().Trim(trimChars);
                      }
                   }
                   break;
@@ -217,7 +210,6 @@ namespace LogLineHandler
                      idx = field.IndexOf(",");
                      if (idx != -1)
                      {
-                        char[] trimChars = { '[', ']', '.' };
                         field = field.Substring(0, idx - 1).Trim().Trim(trimChars);
                      }
                   }
@@ -233,7 +225,6 @@ namespace LogLineHandler
                      idx = field.IndexOf(" ");
                      if (idx != -1)
                      {
-                        char[] trimChars = { '[', ']', '.' };
                         field = field.Substring(0, idx).Trim().Trim(trimChars);
                      }
                   }
@@ -241,27 +232,62 @@ namespace LogLineHandler
                }
             case APLogType.HelperFunctions_GetConfiguredBillMixList:
                {
-                  string findMe = "ConfiguredBillMixList:";
+                  lookFor = "ConfiguredBillMixList:";
 
-                  idx = logLine.LastIndexOf(findMe);
+                  idx = logLine.LastIndexOf(lookFor);
                   if (idx != -1)
                   {
-                     field = logLine.Substring(idx + findMe.Length).Trim();
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;
                }
             case APLogType.HelperFunctions_GetFewestBillMixList:
                {
-                  string findMe = "FewestBillMixList:";
+                  lookFor = "FewestBillMixList:";
 
-                  idx = logLine.LastIndexOf(findMe);
+                  idx = logLine.LastIndexOf(lookFor);
                   if (idx != -1)
                   {
-                     field = logLine.Substring(idx + findMe.Length).Trim();
+                     field = logLine.Substring(idx + lookFor.Length).Trim();
+                  }
+                  break;
+               }
+            case APLogType.APLOG_RFID_WAITCOMMANDCOMPLETE:
+            case APLogType.APLOG_RFID_COMMAND_COMPLETE_ERROR:
+            {
+                  lookFor = "[";
+
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
+                  }
+                  break;
+            }
+
+            case APLogType.APLOG_ACCOUNT_ENTERED:
+               {
+                  lookFor = "=";
+
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
                   }
                   break;
                }
 
+            case APLogType.APLOG_OPERATOR_MENU:
+               {
+                  lookFor = ":";
+
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
+                  }
+                  break;
+               }
          }
       }
    }

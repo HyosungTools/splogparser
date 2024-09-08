@@ -12,6 +12,7 @@
               <xs:element name="mode" type="xs:string" minOccurs="0" />
               <xs:element name="host" type="xs:string" minOccurs="0" />
               <xs:element name="headset" type="xs:string" minOccurs="0" />
+              <xs:element name="rfid" type="xs:string" minOccurs="0" />
               <xs:element name="card" type="xs:string" minOccurs="0" />
               <xs:element name="emv" type="xs:string" minOccurs="0" />
               <xs:element name="pin" type="xs:string" minOccurs="0" />
@@ -19,6 +20,8 @@
               <xs:element name="state" type="xs:string" minOccurs="0" />
               <xs:element name="functionkey" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
+              <xs:element name="account" type="xs:string" minOccurs="0" />
+              <xs:element name="operator menu" type="xs:string" minOccurs="0" />
               <xs:element name="comment" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
