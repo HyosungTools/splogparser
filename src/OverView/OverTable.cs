@@ -555,7 +555,7 @@ namespace OverView
                         if (apLogLine is APLineField)
                         {
                            APLineField lineField = (APLineField)apLogLine;
-                           APLINE(lineField, "operator menu", lineField.field);
+                           APLINE(lineField, "operatormenu", lineField.field);
                         }
                         break;
                      }
