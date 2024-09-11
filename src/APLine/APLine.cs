@@ -69,6 +69,7 @@ namespace LogLineHandler
 
       APLOG_DISPLAYLOAD,
       APLOG_SCREENWINDOW, 
+      APLOG_KEYPRESS,
 
       APLOG_LOCALXMLHELPER_ABOUT_TO_EXECUTE,
 
@@ -397,25 +398,25 @@ namespace LogLineHandler
 
 
          /* [Pinpad              */
-         if (logLine.Contains("[Pinpad") && logLine.Contains("[Open"))
+         if (logLine.Contains("[Pinpad") && logLine.Contains("Open"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_OPEN);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("[Close"))
+         if (logLine.Contains("[Pinpad") && logLine.Contains("Close"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_CLOSE);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("[CheckTheEppIsPci"))
+         if (logLine.Contains("[Pinpad") && logLine.Contains("CheckTheEppIsPci"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_PIN_ISPCI);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("[CheckTheEppSupportTR31"))
+         if (logLine.Contains("[Pinpad") && logLine.Contains("CheckTheEppSupportTR31"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_PIN_ISTR31);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("[CheckTheEppSupportTR34"))
+         if (logLine.Contains("[Pinpad") && logLine.Contains("CheckTheEppSupportTR34"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_PIN_ISTR34);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("[OnKeyImported"))
+         if (logLine.Contains("[Pinpad") && logLine.Contains("OnKeyImported"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_KEYIMPORTED);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("[OnRandomNumberGenerated"))
+         if (logLine.Contains("[Pinpad") && logLine.Contains("OnRandomNumberGenerated"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_RAND);
 
          if (logLine.Contains("[Pinpad") && logLine.Contains("OnPinBlockComplete"))
@@ -424,20 +425,22 @@ namespace LogLineHandler
          if (logLine.Contains("[PinEntryState") && logLine.Contains("BuildPINBlock failed"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_PINBLOCK_FAILED);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("[OnTimeout"))
+         if (logLine.Contains("[Pinpad") && logLine.Contains("OnTimeout"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_TIMEOUT);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("[OnReadPinComplete"))
+         if (logLine.Contains("[Pinpad") && logLine.Contains("OnReadPinComplete"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_READCOMPLETE);
 
 
 
-         if (logLine.Contains("[LocalScreenWindowEx") && logLine.Contains("[DisplayLoadCompleted"))
+         if (logLine.Contains("[LocalScreenWindowEx") && logLine.Contains("DisplayLoadCompleted"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_DISPLAYLOAD);
 
          if (logLine.Contains("[ScreenWindow") && logLine.Contains("LogAdditionalInformation"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_SCREENWINDOW);
 
+         if (logLine.Contains("[ScreenDecoratorLocal") && logLine.Contains("PinpadKeyPressed"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_KEYPRESS);
 
          if (logLine.Contains("[LocalXmlHelper") && logLine.Contains("About to execute: Class: HelperFunctions, Method:"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_LOCALXMLHELPER_ABOUT_TO_EXECUTE);

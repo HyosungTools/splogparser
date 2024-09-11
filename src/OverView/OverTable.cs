@@ -501,6 +501,16 @@ namespace OverView
                         break;
                      }
 
+                  case APLogType.APLOG_KEYPRESS:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLINE(apLogLine, "functionkey", "keypress");
+                        }
+                        break;
+                     }
+
 
                   /* cash dispenser */
 
