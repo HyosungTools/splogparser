@@ -426,5 +426,31 @@ namespace APLogLineTests
 
          Assert.IsTrue(apLine.field == "Supervisor");
       }
+
+      [TestMethod]
+      public void APLOG_KEYPRESS()
+      {
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_KEYPRESS);
+         Assert.IsTrue(logLine is APLine);
+
+         APLine apLine = (APLine)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_KEYPRESS);
+         Assert.IsTrue(apLine.Timestamp == "2024-06-23 17:41:05.937");
+         Assert.IsTrue(apLine.HResult == "");;
+      }
+
+      [TestMethod]
+      public void APLOG_KEYPRESS_1()
+      {
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_KEYPRESS_1);
+         Assert.IsTrue(logLine is APLine);
+
+         APLine apLine = (APLine)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_KEYPRESS);
+         Assert.IsTrue(apLine.Timestamp == "2024-09-05 03:15:16.644");
+         Assert.IsTrue(apLine.HResult == "");
+      }
    }
 }

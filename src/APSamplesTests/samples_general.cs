@@ -173,6 +173,13 @@ namespace APSamples
       public const string APLOG_FUNCTIONKEY_SELECTED2 =
 @"  INFO [2024-03-08 08:58:12-281] [ScreenDecoratorLocal.OnFunctionKeySelected] The Yes button was pressed.
 ";
+      public const string APLOG_KEYPRESS =
+@"[2024-06-23 17:41:05-937][3][][ScreenDecoratorLocal][PinpadKeyPressed    ][NORMAL]PinpadKeyPressed, PostMessageevent WM_KEYDOWN WindowHandle, 0
+";
+
+      public const string APLOG_KEYPRESS_1 =
+@"  INFO [2024-09-05 03:15:16-644] [ScreenDecoratorLocal.PinpadKeyPressed] PinpadKeyPressed, PostMessageevent WM_KEYDOWN WindowHandle, 0
+";
 
       public const string APLOG_DEVICE_FITNESS =
 @"[2023-11-27 16:20:42-413][3][][FitnessData][GetDeviceFitness][NORMAL]Parameter pDvcStatus:DEVHWERROR
