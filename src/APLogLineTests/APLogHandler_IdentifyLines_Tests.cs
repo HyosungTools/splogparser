@@ -452,5 +452,20 @@ namespace APLogLineTests
          Assert.IsTrue(apLine.Timestamp == "2024-09-05 03:15:16.644");
          Assert.IsTrue(apLine.HResult == "");
       }
+
+      [TestMethod]
+      public void APLOG_ERROR()
+      {
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_ERROR);
+         Assert.IsTrue(logLine is APLineField);
+
+         APLineField apLine = (APLineField)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_ERROR);
+         Assert.IsTrue(apLine.Timestamp == "2024-08-29 17:44:54.672");
+         Assert.IsTrue(apLine.HResult == "");
+
+         Assert.IsTrue(apLine.field == "Encryption.EncryptString, Error found while encrypting:  no certificate was found");
+      }
    }
 }

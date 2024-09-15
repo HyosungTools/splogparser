@@ -288,6 +288,18 @@ namespace LogLineHandler
                   }
                   break;
                }
+
+            case APLogType.APLOG_ERROR:
+               {
+                  lookFor = "[";
+
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars).Replace(']',',');
+                  }
+                  break;
+               }
          }
       }
    }
