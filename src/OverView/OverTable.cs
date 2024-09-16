@@ -511,6 +511,18 @@ namespace OverView
                         break;
                      }
 
+                  /* Error */
+
+                  case APLogType.APLOG_ERROR:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLineField)
+                        {
+                           APLineField lineField = (APLineField)apLogLine;
+                           APLINE2(lineField, "error", "error", "comment", lineField.field);
+                        }
+                        break;
+                     }
 
                   /* cash dispenser */
 

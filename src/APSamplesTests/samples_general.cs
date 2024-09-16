@@ -339,5 +339,11 @@ namespace APSamples
 @"[2024-08-15 09:33:55-766][3][][Account             ][.ctor               ][NORMAL]Account is Entered. Account = Supervisor
 ";
 
+      /* Error */
+      public const string APLOG_ERROR =
+@" ERROR [2024-08-29 17:44:54-672] [Encryption.EncryptString] Error found while encrypting:  no certificate was found
+";
+
+
    }
 }

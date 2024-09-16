@@ -212,6 +212,9 @@ namespace LogLineHandler
 
 
       /* ERROR */
+
+      APLOG_ERROR, 
+
       Error
    }
 
@@ -567,6 +570,12 @@ namespace LogLineHandler
          /* Operator Menu */
          if (logLine.Contains("[OperatorWindow") && logLine.Contains("Parameter pMenuName:"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_OPERATOR_MENU);
+
+         /* Error */
+         if (logLine.Contains(" ERROR ["))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_ERROR);
+         
+
 
          return null;
       }
