@@ -524,6 +524,17 @@ namespace OverView
                         break;
                      }
 
+                  case APLogType.APLOG_EXCEPTION:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLineField)
+                        {
+                           APLineField lineField = (APLineField)apLogLine;
+                           APLINE2(lineField, "error", "exception", "comment", lineField.field);
+                        }
+                        break;
+                     }
+
                   /* cash dispenser */
 
                   case APLogType.CashDispenser_OnDenominateComplete:
