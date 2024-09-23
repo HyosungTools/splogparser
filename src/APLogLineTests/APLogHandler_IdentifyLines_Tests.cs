@@ -437,7 +437,7 @@ namespace APLogLineTests
          APLine apLine = (APLine)logLine;
          Assert.IsTrue(apLine.apType == APLogType.APLOG_KEYPRESS);
          Assert.IsTrue(apLine.Timestamp == "2024-06-23 17:41:05.937");
-         Assert.IsTrue(apLine.HResult == "");;
+         Assert.IsTrue(apLine.HResult == "");
       }
 
       [TestMethod]

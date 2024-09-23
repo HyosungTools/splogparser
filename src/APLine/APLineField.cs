@@ -18,7 +18,7 @@ namespace LogLineHandler
             return; 
 
          string lookFor = string.Empty;
-         char[] trimChars = { '[', ']', '.' };
+         char[] trimChars = { '[', ']', '.','\n','\r' };
          int idx; 
 
          switch (this.apType)
@@ -297,6 +297,22 @@ namespace LogLineHandler
                   if (idx != -1)
                   {
                      field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars).Replace(']',',');
+                  }
+                  break;
+               }
+            case APLogType.APLOG_EXCEPTION:
+               {
+                  lookFor = "EXCEPTION MESSAGE :";
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx).Trim().Trim(trimChars);
+                     lookFor = "\n";
+                     idx = field.IndexOf(lookFor);
+                     if (idx != -1)
+                     {
+                        field = field.Substring(0, idx).Trim().Trim(trimChars);
+                     }
                   }
                   break;
                }

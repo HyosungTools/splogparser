@@ -618,40 +618,49 @@ namespace APLogLineTests
          Assert.IsTrue(apLine.field == "DEVHWERROR");
       }
 
-      [Ignore]
       [TestMethod]
       public void APLOG_EXCEPTION_1()
       {
-         // Test Sample Line
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
-         logFileHandler.OpenLogFile(samples_exception.EXCEPTION_1);
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_exception.APLOG_EXCEPTION_1);
+         Assert.IsTrue(logLine is APLineField);
 
-         // First two lines are not an EXCEPTION
-         ILogLine logLine = logFileHandler.IdentifyLine(logFileHandler.ReadLine());
-         Assert.IsTrue(logLine is APLine);
-         APLine apLine = (APLine)logLine;
-         Assert.IsFalse(apLine.apType == APLogType.APLOG_EXCEPTION);
-         Assert.IsTrue(apLine.Timestamp == "2024-01-16 17:01:48.430");
-
-         logLine = logFileHandler.IdentifyLine(logFileHandler.ReadLine());
-         Assert.IsTrue(logLine is APLine);
-         apLine = (APLine)logLine;
-         Assert.IsFalse(apLine.apType == APLogType.APLOG_EXCEPTION);
-         Assert.IsTrue(apLine.Timestamp == "2024-01-16 17:01:50.485");
-
-         // Third Line is an EXCEPTION
-         logLine = logFileHandler.IdentifyLine(logFileHandler.ReadLine());
-         Assert.IsTrue(logLine is APLine);
-         apLine = (APLine)logLine;
+         APLineField apLine = (APLineField)logLine;
          Assert.IsTrue(apLine.apType == APLogType.APLOG_EXCEPTION);
-         Assert.IsTrue(apLine.Timestamp == "2024-01-16 17:01:50.490");
+         Assert.IsTrue(apLine.Timestamp == "2024-09-09 03:03:18.386");
+         Assert.IsTrue(apLine.HResult == "");
 
-         // Fourth Line is not an EXCEPTION
-         logLine = logFileHandler.IdentifyLine(logFileHandler.ReadLine());
-         Assert.IsTrue(logLine is APLine);
-         apLine = (APLine)logLine;
-         Assert.IsFalse(apLine.apType == APLogType.APLOG_EXCEPTION);
-         Assert.IsTrue(apLine.Timestamp == "2024-01-16 17:01:50.522");
+         Assert.IsTrue(apLine.field == "EXCEPTION MESSAGE : Unable to read data from the transport connection: An existing connection was forcibly closed by the remote host");
+      }
+
+      [TestMethod]
+      public void APLOG_EXCEPTION_2()
+      {
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_exception.APLOG_EXCEPTION_2);
+         Assert.IsTrue(logLine is APLineField);
+
+         APLineField apLine = (APLineField)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_EXCEPTION);
+         Assert.IsTrue(apLine.Timestamp == "2024-09-09 03:01:44.016");
+         Assert.IsTrue(apLine.HResult == "");
+
+         Assert.IsTrue(apLine.field == "EXCEPTION MESSAGE : Unable to read data from the transport connection: An existing connection was forcibly closed by the remote host");
+      }
+
+      [TestMethod]
+      public void APLOG_EXCEPTION_3()
+      {
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_exception.APLOG_EXCEPTION_3);
+         Assert.IsTrue(logLine is APLineField);
+
+         APLineField apLine = (APLineField)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_EXCEPTION);
+         Assert.IsTrue(apLine.Timestamp == "2024-01-16 12:43:47.072");
+         Assert.IsTrue(apLine.HResult == "");
+
+         Assert.IsTrue(apLine.field == "EXCEPTION MESSAGE : GetAccountRecord() Exception: GetAccountSelectFields() Exception: [MessageId=getAccountSelectFields]  The requested record was not found : The requested record was not found");
       }
    }
 }
