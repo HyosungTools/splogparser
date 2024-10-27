@@ -291,9 +291,9 @@ namespace LogLineHandler
 
             case APLogType.APLOG_ERROR:
                {
-                  lookFor = "[";
+                  lookFor = "]";
 
-                  idx = logLine.LastIndexOf(lookFor);
+                  idx = logLine.IndexOf(lookFor);
                   if (idx != -1)
                   {
                      field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars).Replace(']',',');

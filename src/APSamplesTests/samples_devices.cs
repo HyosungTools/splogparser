@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace APSamples
 {
-   public class samples_cashdisp
+   public class samples_devices
    {
       /* CASH DISPENSER */
 
@@ -17,25 +17,94 @@ namespace APSamples
 
       /* STATUS */
 
-      /* device */
+      /* CDM */
 
-      public const string CashDispenser_OnLine =
+      public const string APLOG_CDM_ONLINE =
 @"[2023-10-31 20:48:45-499][3][][CashDispenser       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVONLINE)
 ";
-      public const string CashDispenser_OffLine =
+      public const string APLOG_CDM_OFFLINE =
 @"[2023-11-01 08:22:59-387][3][][CashDispenser       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVOFFLINE)
 ";
-      public const string CashDispenser_OnHWError =
-@"[2023-10-31 20:48:13-399][3][][CashDispenser       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVHWERROR)";
-
-      public const string CashDispenser_DeviceError =
+      public const string APLOG_CDM_ONHWERROR =
+@"[2023-10-31 20:48:13-399][3][][CashDispenser       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVHWERROR)
+";
+      public const string APLOG_CDM_DEVERROR =
 @"[2023-06-07 11:39:02-264][3][][CashDispenser       ][RaiseDeviceUnSolEvent][NORMAL]FireDeviceUnsolEvent(DeviceStatusChanged, DEVICE_ERROR)
 ";
-      public const string CashDispenser_DeviceOK =
+      public const string APLOG_CDM_ONOK =
 @"[2023-11-01 08:10:45-642][3][][CashDispenser       ][RaiseDeviceUnSolEvent][NORMAL]FireDeviceUnsolEvent(DeviceStatusChanged, DEVICE_OK)
 ";
+      /* CIM */
 
+      public const string APLOG_CIM_ONLINE =
+@"[2023-10-31 20:48:45-499][3][][CashAcceptor       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVONLINE)
+";
+      public const string APLOG_CIM_OFFLINE =
+@"[2023-11-01 08:22:59-387][3][][CashAcceptor       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVOFFLINE)
+";
+      public const string APLOG_CIM_ONHWERROR =
+@"[2023-10-31 20:48:13-399][3][][CashAcceptor       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVHWERROR)";
 
+      public const string APLOG_CIM_DEVERROR =
+@"[2023-06-07 11:39:02-264][3][][CashAcceptor       ][RaiseDeviceUnSolEvent][NORMAL]FireDeviceUnsolEvent(DeviceStatusChanged, DEVICE_ERROR)
+";
+      public const string APLOG_CIM_ONOK =
+@"[2023-11-01 08:10:45-642][3][][CashAcceptor       ][RaiseDeviceUnSolEvent][NORMAL]FireDeviceUnsolEvent(DeviceStatusChanged, DEVICE_OK)
+";
+
+      /* IPM */
+
+      public const string APLOG_IPM_ONLINE =
+@"[2023-10-31 20:48:45-499][3][][BundleCheckAcceptor       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVONLINE)
+";
+      public const string APLOG_IPM_OFFLINE =
+@"[2023-11-01 08:22:59-387][3][][BundleCheckAcceptor       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVOFFLINE)
+";
+      public const string APLOG_IPM_ONHWERROR =
+@"[2023-10-31 20:48:13-399][3][][BundleCheckAcceptor       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVHWERROR)
+";
+      public const string APLOG_IPM_DEVERROR =
+@"[2023-06-07 11:39:02-264][3][][BundleCheckAcceptor       ][RaiseDeviceUnSolEvent][NORMAL]FireDeviceUnsolEvent(DeviceStatusChanged, DEVICE_ERROR)
+";
+      public const string APLOG_IPM_ONOK =
+@"[2023-11-01 08:10:45-642][3][][BundleCheckAcceptor       ][RaiseDeviceUnSolEvent][NORMAL]FireDeviceUnsolEvent(DeviceStatusChanged, DEVICE_OK)
+";
+
+      /* MMA */
+
+      public const string APLOG_MMA_ONLINE =
+@"[2023-10-31 20:48:45-499][3][][MixedMediaAcceptor       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVONLINE)
+";
+      public const string APLOG_MMA_OFFLINE =
+@"[2023-11-01 08:22:59-387][3][][MixedMediaAcceptor       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVOFFLINE)
+";
+      public const string APLOG_MMA_ONHWERROR =
+@"[2023-10-31 20:48:13-399][3][][MixedMediaAcceptor       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVHWERROR)
+";
+      public const string APLOG_MMA_DEVERROR =
+@"[2023-06-07 11:39:02-264][3][][MixedMediaAcceptor       ][RaiseDeviceUnSolEvent][NORMAL]FireDeviceUnsolEvent(DeviceStatusChanged, DEVICE_ERROR)
+";
+      public const string APLOG_MMA_ONOK =
+@"[2023-11-01 08:10:45-642][3][][MixedMediaAcceptor       ][RaiseDeviceUnSolEvent][NORMAL]FireDeviceUnsolEvent(DeviceStatusChanged, DEVICE_OK)
+";
+
+      /* Receipt Printer */
+
+      public const string APLOG_RCT_ONLINE =
+@"[2023-10-31 20:48:45-499][3][][ReceiptPrinter       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVONLINE)
+";
+      public const string APLOG_RCT_OFFLINE =
+@"[2023-11-01 08:22:59-387][3][][ReceiptPrinter       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVOFFLINE)
+";
+      public const string APLOG_RCT_ONHWERROR =
+@"[2023-10-31 20:48:13-399][3][][ReceiptPrinter       ][OnDeviceStatusChanged][NORMAL]m_NxCashDispenser.OnDeviceStatusChanged event received(DEVHWERROR)
+";
+      public const string APLOG_RCT_DEVERROR =
+@"[2023-06-07 11:39:02-264][3][][ReceiptPrinter       ][RaiseDeviceUnSolEvent][NORMAL]FireDeviceUnsolEvent(DeviceStatusChanged, DEVICE_ERROR)
+";
+      public const string APLOG_RCT_ONOK =
+@"[2023-11-01 08:10:45-642][3][][ReceiptPrinter       ][RaiseDeviceUnSolEvent][NORMAL]FireDeviceUnsolEvent(DeviceStatusChanged, DEVICE_OK)
+";
 
       /* position status */
 

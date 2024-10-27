@@ -30,11 +30,59 @@ namespace LogLineHandler
          }
       }
 
-      protected string DeviceIdInEnglish(string deviceId)
+      public static string DeviceIdInEnglish(string deviceId)
       {
+         if (deviceId == "B")
+         {
+            return deviceId + " (Power Failure) ";
+         }
+         if (deviceId == "D")
+         {
+            return deviceId + " (Card Reader/Writer) ";
+         }
          if (deviceId == "E")
          {
             return deviceId + " (Cash Handler) ";
+         }
+         if (deviceId == "F")
+         {
+            return deviceId + " (Depository) ";
+         }
+         if (deviceId == "G")
+         {
+            return deviceId + " (Receipt Printer) ";
+         }
+         if (deviceId == "H")
+         {
+            return deviceId + " (Journal Printer) ";
+         }
+         if (deviceId == "K")
+         {
+            return deviceId + " (Night Safe Depository) ";
+         }
+         if (deviceId == "L")
+         {
+            return deviceId + " (Encryptor) ";
+         }
+         if (deviceId == "P")
+         {
+            return deviceId + " (Sensors) ";
+         }
+         if (deviceId == "Q")
+         {
+            return deviceId + " (Touch Screen Keyboard) ";
+         }
+         if (deviceId == "R")
+         {
+            return deviceId + " (Supervisor Keys) ";
+         }
+         if (deviceId == "V")
+         {
+            return deviceId + " (Statement Printer) ";
+         }
+         if (deviceId == "Y")
+         {
+            return deviceId + " (Coin Dispenser) ";
          }
          if (deviceId == "d")
          {
@@ -44,19 +92,26 @@ namespace LogLineHandler
          {
             return deviceId + " (Cash Handler 1) ";
          }
+         if (deviceId == "f")
+         {
+            return deviceId + " (Barcode Reader) ";
+         }
          if (deviceId == "c")
          {
             return deviceId + " (emv card reader) ";
          }
-         if (deviceId == "F")
-         {
-            return deviceId + " (PPD depository) ";
-         }
          if (deviceId == "q")
          {
-            return deviceId + " (check processing module) ";
+            return deviceId + " (Check Processing Module) ";
          }
-
+         if (deviceId == "w")
+         {
+            return deviceId + " (Bunch Note Acceptor) ";
+         }
+         if (deviceId == "\\")
+         {
+            return deviceId + " (Envelope Dispenser) ";
+         }
          return deviceId; 
       }
 
@@ -229,14 +284,22 @@ namespace LogLineHandler
       {
          char separator = (char)Convert.ToInt32(separatorHex, 16);
 
+         if (ndcMessage == string.Empty)
+         {
+            // Nothing to do
+            return (false, string.Empty, string.Empty);
+         }
+
          int idx = ndcMessage.IndexOf(separator);
          if (idx < 0)
          {
-            // error
-            return (false, string.Empty, ndcMessage);
+            // there is no next separator, this is the last field, return the original ndcMessage as the next field
+            return (false, ndcMessage, string.Empty);
          }
          if (idx == 0)
          {
+            // there is a field separate at the beginning of the string, return the null as this field
+            // then the rest of the string
             return (true, string.Empty, ndcMessage.Substring(idx + 1));
          }
 

@@ -98,12 +98,35 @@ namespace LogLineHandler
       /* STATUS */
 
       /* device */
-      CashDispenser_OnLine,
-      CashDispenser_OffLine,
-      CashDispenser_OnHWError,
-      CashDispenser_DeviceError,
-      CashDispenser_OnDeviceOK,
+      APLOG_CDM_ONLINE,
+      APLOG_CDM_OFFLINE,
+      APLOG_CDM_ONHWERROR,
+      APLOG_CDM_DEVERROR,
+      APLOG_CDM_ONOK,
 
+      APLOG_CIM_ONLINE,
+      APLOG_CIM_OFFLINE,
+      APLOG_CIM_ONHWERROR,
+      APLOG_CIM_DEVERROR,
+      APLOG_CIM_ONOK,
+
+      APLOG_IPM_ONLINE,
+      APLOG_IPM_OFFLINE,
+      APLOG_IPM_ONHWERROR,
+      APLOG_IPM_DEVERROR,
+      APLOG_IPM_ONOK,
+
+      APLOG_MMA_ONLINE,
+      APLOG_MMA_OFFLINE,
+      APLOG_MMA_ONHWERROR,
+      APLOG_MMA_DEVERROR,
+      APLOG_MMA_ONOK,
+
+      APLOG_RCT_ONLINE,
+      APLOG_RCT_OFFLINE,
+      APLOG_RCT_ONHWERROR,
+      APLOG_RCT_DEVERROR,
+      APLOG_RCT_ONOK,
 
       /* position status */
 
@@ -475,6 +498,89 @@ namespace LogLineHandler
          if (logLine.Contains("[AbstractConfigHandler") && logLine.Contains("AddMoniplusData") && logLine.Contains("Add Key="))
             return new AddKey(logFileHandler, logLine);
 
+         /* STATUS */
+
+         /* cash dispenser */
+         if (logLine.Contains("[CashDispenser") && logLine.Contains("[OnDeviceStatusChanged") && logLine.Contains("DEVONLINE"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_CDM_ONLINE);
+
+         if (logLine.Contains("[CashDispenser") && logLine.Contains("OnDeviceStatusChanged") && logLine.Contains("DEVOFFLINE"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_CDM_OFFLINE);
+
+         if (logLine.Contains("[CashDispenser") && logLine.Contains("OnDeviceStatusChanged") && logLine.Contains("DEVHWERROR"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_CDM_ONHWERROR);
+
+         if (logLine.Contains("[CashDispenser") && logLine.Contains("RaiseDeviceUnSolEvent") && logLine.Contains("DEVICE_ERROR"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_CDM_DEVERROR);
+
+         if (logLine.Contains("[CashDispenser") && logLine.Contains("RaiseDeviceUnSolEvent") && logLine.Contains("DEVICE_OK"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_CDM_ONOK);
+
+
+         /*  cash acceptor */
+         if (logLine.Contains("[CashAcceptor") && logLine.Contains("OnDeviceStatusChanged") && logLine.Contains("DEVONLINE"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_CIM_ONLINE);
+
+         if (logLine.Contains("[CashAcceptor") && logLine.Contains("OnDeviceStatusChanged") && logLine.Contains("DEVOFFLINE"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_CIM_OFFLINE);
+
+         if (logLine.Contains("[CashAcceptor") && logLine.Contains("OnDeviceStatusChanged") && logLine.Contains("DEVHWERROR"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_CIM_ONHWERROR);
+
+         if (logLine.Contains("[CashAcceptor") && logLine.Contains("RaiseDeviceUnSolEvent") && logLine.Contains("DEVICE_ERROR"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_CIM_DEVERROR);
+
+         if (logLine.Contains("[CashAcceptor") && logLine.Contains("RaiseDeviceUnSolEvent") && logLine.Contains("DEVICE_OK"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_CIM_ONOK);
+
+         /*  item processor */
+         if (logLine.Contains("[BundleCheckAcceptor") && logLine.Contains("OnDeviceStatusChanged") && logLine.Contains("DEVONLINE"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_IPM_ONLINE);
+
+         if (logLine.Contains("[BundleCheckAcceptor") && logLine.Contains("OnDeviceStatusChanged") && logLine.Contains("DEVOFFLINE"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_IPM_OFFLINE);
+
+         if (logLine.Contains("[BundleCheckAcceptor") && logLine.Contains("OnDeviceStatusChanged") && logLine.Contains("DEVHWERROR"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_IPM_ONHWERROR);
+
+         if (logLine.Contains("[BundleCheckAcceptor") && logLine.Contains("RaiseDeviceUnSolEvent") && logLine.Contains("DEVICE_ERROR"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_IPM_DEVERROR);
+
+         if (logLine.Contains("[BundleCheckAcceptor") && logLine.Contains("RaiseDeviceUnSolEvent") && logLine.Contains("DEVICE_OK"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_IPM_ONOK);
+
+         /*  mixed media */
+         if (logLine.Contains("[MixedMediaAcceptor") && logLine.Contains("OnDeviceStatusChanged") && logLine.Contains("DEVONLINE"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_MMA_ONLINE);
+
+         if (logLine.Contains("[MixedMediaAcceptor") && logLine.Contains("OnDeviceStatusChanged") && logLine.Contains("DEVOFFLINE"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_MMA_OFFLINE);
+
+         if (logLine.Contains("[MixedMediaAcceptor") && logLine.Contains("OnDeviceStatusChanged") && logLine.Contains("DEVHWERROR"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_MMA_ONHWERROR);
+
+         if (logLine.Contains("[MixedMediaAcceptor") && logLine.Contains("RaiseDeviceUnSolEvent") && logLine.Contains("DEVICE_ERROR"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_MMA_DEVERROR);
+
+         if (logLine.Contains("[MixedMediaAcceptor") && logLine.Contains("RaiseDeviceUnSolEvent") && logLine.Contains("DEVICE_OK"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_MMA_ONOK);
+
+         /*  receipt */
+         if (logLine.Contains("[ReceiptPrinter") && logLine.Contains("OnDeviceStatusChanged") && logLine.Contains("DEVONLINE"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_RCT_ONLINE);
+
+         if (logLine.Contains("[ReceiptPrinter") && logLine.Contains("OnDeviceStatusChanged") && logLine.Contains("DEVOFFLINE"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_RCT_OFFLINE);
+
+         if (logLine.Contains("[ReceiptPrinter") && logLine.Contains("OnDeviceStatusChanged") && logLine.Contains("DEVHWERROR"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_RCT_ONHWERROR);
+
+         if (logLine.Contains("[ReceiptPrinter") && logLine.Contains("RaiseDeviceUnSolEvent") && logLine.Contains("DEVICE_ERROR"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_RCT_DEVERROR);
+
+         if (logLine.Contains("[ReceiptPrinter") && logLine.Contains("RaiseDeviceUnSolEvent") && logLine.Contains("DEVICE_OK"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_RCT_ONOK);
+
          /* CASHDISP */
          if (logLine.Contains("[CashDispenser"))
          {
@@ -528,39 +634,12 @@ namespace LogLineHandler
 
          ///* STATUS */
 
-         ///* device */
-         //CashDispenser_OnLine,
-         //CashDispenser_OffLine,
-         //CashDispenser_OnHWError,
-         //CashDispenser_DeviceError,
-         //CashDispenser_OnDeviceOK,
-
-
          ///* position status */
-
-         //CashDispenser_NotInPosition,
-         //CashDispenser_InPosition,
-
 
          ///* dispense */
 
-         //CashDispenser_OnNoDispense,
-         //CashDispenser_OnDispenserOK,
-         //CashDispenser_DeGrade,
-
-
-
          ///* status - shutter, position, stacker, transport */
 
-         //CashDispenser_OnShutterOpen,
-         //CashDispenser_OnShutterClosed,
-         //CashDispenser_OnStackerNotEmpty,
-         //CashDispenser_OnStackerEmpty,
-         //CashDispenser_OnPositionNotEmpty,
-         //CashDispenser_OnPositionEmpty,
-         //CashDispenser_OnTransportNotEmpty,
-         //CashDispenser_OnTransportEmpty,
-         //CashDispenser_OnCashUnitChanged,
 
          /* Account */
 

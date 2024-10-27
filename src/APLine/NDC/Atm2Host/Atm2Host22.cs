@@ -175,10 +175,10 @@ namespace LogLineHandler
             {
                // Device Identification Graphic
                string DIG = m.Groups["g1"].Value; 
-               English = English + " #DIG#" + DIG + "#,";
+               English = English + NDC.DeviceIdInEnglish(DIG);
 
                // Transaction Status
-               English = English + " Trans Status : " + m.Groups["g2"].Value + "#,";
+               English = English + " Trans Status : " + m.Groups["g2"].Value + ",";
 
                if (m.Groups["rest"].Value.Length > 0)
                {
@@ -207,7 +207,7 @@ namespace LogLineHandler
 
                            // Characters 1 and 2 contain a main error status value (M-Status) in the range 0 - 99,
                            // transmitted as two characters which give the decimal representation of the M - Status value.
-                           English = English + "#MStatus#" + DIG + "#" + m.Groups["g4"].Value.Substring(0, 2) + "#,";
+                           English = English + "#MStatus#" + NDC.DeviceIdInEnglish(DIG) + "#" + m.Groups["g4"].Value.Substring(0, 2) + "#,";
 
                            // Characters 3 to n (M-Data) contain detailed diagnostic information related to the device.
                            English = English + "#MData#" + DIG + "#" + m.Groups["g4"].Value.Substring(2) + "#,";

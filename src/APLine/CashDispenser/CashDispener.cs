@@ -11,24 +11,6 @@ namespace LogLineHandler
          if (logLine.Contains("[CashDispenser") && logLine.Contains("[Open") && logLine.Contains("NumberOfPhysicalUnits"))
             return new CashDispenser_Open(logFileHandler, logLine);
 
-         /* STATUS */
-
-         /* device */
-         if (logLine.Contains("[CashDispenser") && logLine.Contains("[OnDeviceStatusChanged") && logLine.Contains("DEVONLINE"))
-            return new APLine(logFileHandler, logLine, APLogType.CashDispenser_OnLine);
-
-         if (logLine.Contains("[CashDispenser") && logLine.Contains("[OnDeviceStatusChanged") && logLine.Contains("DEVOFFLINE"))
-            return new APLine(logFileHandler, logLine, APLogType.CashDispenser_OffLine);
-
-         if (logLine.Contains("[CashDispenser") && logLine.Contains("[OnDeviceStatusChanged") && logLine.Contains("DEVHWERROR"))
-            return new APLine(logFileHandler, logLine, APLogType.CashDispenser_OnHWError);
-
-         if (logLine.Contains("[CashDispenser") && logLine.Contains("[RaiseDeviceUnSolEvent") && logLine.Contains("DEVICE_ERROR"))
-            return new APLine(logFileHandler, logLine, APLogType.CashDispenser_DeviceError);
-
-         if (logLine.Contains("[CashDispenser") && logLine.Contains("[RaiseDeviceUnSolEvent") && logLine.Contains("DEVICE_OK"))
-            return new APLine(logFileHandler, logLine, APLogType.CashDispenser_OnDeviceOK);
-
 
          /* position status */
 

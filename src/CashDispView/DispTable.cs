@@ -190,31 +190,31 @@ namespace CashDispView
                {
                   /* UPDATE_STATUS */
 
-                  case APLogType.CashDispenser_OnLine:
+                  case APLogType.APLOG_CDM_ONLINE:
                      {
                         base.ProcessRow(apLogLine);
                         UPDATE_STATUS(apLogLine, "device", "online");
                         break;
                      }
-                  case APLogType.CashDispenser_OffLine:
+                  case APLogType.APLOG_CDM_OFFLINE:
                      {
                         base.ProcessRow(apLogLine);
                         UPDATE_STATUS(apLogLine, "device", "offline");
                         break;
                      }
-                  case APLogType.CashDispenser_OnHWError:
+                  case APLogType.APLOG_CDM_ONHWERROR:
                      {
                         base.ProcessRow(apLogLine);
                         UPDATE_STATUS(apLogLine, "device", "hwerror");
                         break;
                      }
-                  case APLogType.CashDispenser_DeviceError:
+                  case APLogType.APLOG_CDM_DEVERROR:
                      {
                         base.ProcessRow(apLogLine);
                         UPDATE_STATUS(apLogLine, "device", "deverror");
                         break;
                      }
-                  case APLogType.CashDispenser_OnDeviceOK:
+                  case APLogType.APLOG_CDM_ONOK:
                      {
                         base.ProcessRow(apLogLine);
                         UPDATE_STATUS(apLogLine, "device", "devok");
