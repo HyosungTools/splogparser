@@ -380,6 +380,284 @@ namespace OverView
                         break;
                      }
 
+                  /* device */
+
+                  case APLogType.APLOG_CDM_ONLINE:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "cdm", "online");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_CDM_OFFLINE:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "cdm", "offline");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_CDM_ONHWERROR:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "cdm", "hwerror");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_CDM_DEVERROR:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "cdm", "deverror");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_CDM_ONOK:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "cdm", "ok");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_CIM_ONLINE:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "cim", "online");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_CIM_OFFLINE:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "cim", "offline");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_CIM_ONHWERROR:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "cim", "hwerror");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_CIM_DEVERROR:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "cim", "deverror");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_CIM_ONOK:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "cim", "ok");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_IPM_ONLINE:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "ipm", "online");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_IPM_OFFLINE:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "ipm", "offline");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_IPM_ONHWERROR:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "ipm", "hwerror");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_IPM_DEVERROR:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "ipm", "deverror");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_IPM_ONOK:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "ipm", "ok");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_MMA_ONLINE:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "mma", "online");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_MMA_OFFLINE:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "mma", "offline");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_MMA_ONHWERROR:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "mma", "hwerror");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_MMA_DEVERROR:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "mma", "deverror");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_MMA_ONOK:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "mma", "ok");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_RCT_ONLINE:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "rct", "online");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_RCT_OFFLINE:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "rct", "offline");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_RCT_ONHWERROR:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "rct", "hwerror");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_RCT_DEVERROR:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "rct", "deverror");
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_RCT_ONOK:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLine)
+                        {
+                           APLine apLine = (APLine)apLogLine;
+                           APLINE(apLine, "rct", "ok");
+                        }
+                        break;
+                     }
+
+
                   /* screen */
                   case APLogType.APLOG_DISPLAYLOAD:
                   case APLogType.APLOG_SCREENWINDOW:
@@ -618,7 +896,6 @@ namespace OverView
 
             dataRow["mode"] = string.Empty;
             dataRow["host"] = string.Empty;
-            dataRow["headset"] = string.Empty;
             dataRow["card"] = string.Empty;
             dataRow["pin"] = string.Empty;
             dataRow["screen"] = string.Empty;
@@ -648,7 +925,6 @@ namespace OverView
 
             dataRow["mode"] = string.Empty;
             dataRow["host"] = string.Empty;
-            dataRow["headset"] = string.Empty;
             dataRow["card"] = string.Empty;
             dataRow["pin"] = string.Empty;
             dataRow["screen"] = string.Empty;
@@ -704,7 +980,6 @@ namespace OverView
 
             dataRow["mode"] = string.Empty;
             dataRow["host"] = string.Empty;
-            dataRow["headset"] = string.Empty;
             dataRow["card"] = string.Empty;
             dataRow["pin"] = string.Empty;
             dataRow["screen"] = string.Empty;

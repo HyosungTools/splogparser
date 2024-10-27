@@ -11,11 +11,15 @@
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="mode" type="xs:string" minOccurs="0" />
               <xs:element name="host" type="xs:string" minOccurs="0" />
-              <xs:element name="headset" type="xs:string" minOccurs="0" />
               <xs:element name="rfid" type="xs:string" minOccurs="0" />
               <xs:element name="card" type="xs:string" minOccurs="0" />
               <xs:element name="emv" type="xs:string" minOccurs="0" />
               <xs:element name="pin" type="xs:string" minOccurs="0" />
+              <xs:element name="cdm" type="xs:string" minOccurs="0" />
+              <xs:element name="cim" type="xs:string" minOccurs="0" />
+              <xs:element name="ipm" type="xs:string" minOccurs="0" />
+              <xs:element name="mma" type="xs:string" minOccurs="0" />
+              <xs:element name="rct" type="xs:string" minOccurs="0" />
               <xs:element name="screen" type="xs:string" minOccurs="0" />
               <xs:element name="state" type="xs:string" minOccurs="0" />
               <xs:element name="functionkey" type="xs:string" minOccurs="0" />

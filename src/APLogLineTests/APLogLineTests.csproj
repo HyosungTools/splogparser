@@ -53,7 +53,7 @@
     <Compile Include="APLogHandler_IdentifyLines_Core_Tests.cs" />
     <Compile Include="APLogHandler_IdentifyLines_HelperFunctions_Tests.cs" />
     <Compile Include="APLogHandler_IdentifyLines_NDC_Tests.cs" />
-    <Compile Include="APLogHandler_IdentifyLines_CashDispenser_Tests.cs" />
+    <Compile Include="APLogHandler_IdentifyLines_Device_Tests.cs" />
     <Compile Include="CreateTextStreamReaderMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="APLogHandler_IdentifyLines_Tests.cs" />

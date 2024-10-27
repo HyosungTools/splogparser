@@ -46,7 +46,7 @@
     <Compile Include="samples_exception.cs" />
     <Compile Include="samples_helperfunctions.cs" />
     <Compile Include="samples_core.cs" />
-    <Compile Include="samples_cashdisp.cs" />
+    <Compile Include="samples_devices.cs" />
     <Compile Include="samples_ejcommands.cs" />
     <Compile Include="samples_ejinsert.cs" />
     <Compile Include="samples_entirefile.cs" />
