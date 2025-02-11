@@ -296,9 +296,18 @@ namespace LogLineHandler
 
       public static ILogLine Factory(ILogFileHandler logFileHandler, string logLine)
       {
+
+         /* Test for Exception first. Don't try to parse a line with an exception error */ 
+         if (logLine.Contains("?????????????????????????????????????????????"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_EXCEPTION);
+
          /* APLOG_INSTALL */
          if (logLine.StartsWith("=======") && logLine.EndsWith("========\r\n"))
             return new MachineInfo(logFileHandler, logLine);
+
+         /* EJ */
+         if (logLine.Contains("INSERT INTO "))
+            return new EJInsert(logFileHandler, logLine);
 
 
          /* APLOG_SETTINGS_CONFIG */
@@ -490,8 +499,6 @@ namespace LogLineHandler
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_DEVICE_FITNESS);
 
 
-         if (logLine.Contains("?????????????????????????????????????????????"))
-            return new APLineField(logFileHandler, logLine, APLogType.APLOG_EXCEPTION);
 
 
          /* AddKey */
@@ -597,9 +604,7 @@ namespace LogLineHandler
             if (iLine != null) return iLine;
          }
 
-         /* EJ */
-         if (logLine.Contains("INSERT INTO "))
-            return new EJInsert(logFileHandler, logLine);
+
 
 
          /* HELPER FUNCTIONS */

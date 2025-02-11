@@ -159,7 +159,7 @@ namespace APLogLineTests
          Assert.IsTrue(apLine.ejColumns[0] == "ATMId");
          Assert.IsTrue(apLine.ejColumns[1] == "IdRelatedTx");
          Assert.IsTrue(apLine.ejColumns[2] == "SessionId");
-         Assert.IsTrue(apLine.ejColumns[3] == "ATMDateTime");
+         Assert.IsTrue(apLine.ejColumns[3] == "[ATMDateTime]");
          Assert.IsTrue(apLine.ejColumns[4] == "TransactionDateTime");
          Assert.IsTrue(apLine.ejColumns[5] == "TransactionType");
          Assert.IsTrue(apLine.ejColumns[6] == "SequenceNumber");

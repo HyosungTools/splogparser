@@ -595,7 +595,7 @@ namespace LogFileHandler
             if (result.success) return new SPLine(this, result.subLogLine, XFSType.WFS_SRVE_CIM_ITEMSINSERTED);
 
             result = GenericMatch(WFS_EXEE_CIM_NOTEERROR, logLine);
-            if (result.success) return new SPLine(this, result.subLogLine, XFSType.WFS_EXEE_CIM_NOTEERROR);
+            if (result.success) return new WFSCIMNOTEERROR(this, result.subLogLine, XFSType.WFS_EXEE_CIM_NOTEERROR);
 
             result = GenericMatch(WFS_SRVE_CIM_MEDIADETECTED, logLine);
             if (result.success) return new SPLine(this, result.subLogLine, XFSType.WFS_SRVE_CIM_MEDIADETECTED);

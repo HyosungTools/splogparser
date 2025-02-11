@@ -48,6 +48,7 @@
     <Compile Include="WFSCDMCUINFO.cs" />
     <Compile Include="WFSCDMDENOMINATION.cs" />
     <Compile Include="WFSCDMPRESENTSTATUS.cs" />
+    <Compile Include="WFSCIMNOTEERROR.cs" />
     <Compile Include="WFSIDCTRACKDETECTED.cs" />
     <Compile Include="WFSIDCPOWERSAVECHANGE.cs" />
     <Compile Include="WFSIDCDEVICEPOSITION.cs" />

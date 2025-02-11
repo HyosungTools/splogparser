@@ -639,6 +639,56 @@
     <brief>end exchange</brief>
     <description>The cash units to be returned to their normal physical state.</description>
   </Messages>  
+  
+   <Messages>
+    <type>position</type>
+    <code>note error-1</code>
+    <brief>note error-double note</brief>
+    <description>Double notes have been detected.</description>
+  </Messages> 
+  
+   <Messages>
+    <type>position</type>
+    <code>note error-2</code>
+    <brief>note error-long note</brief>
+    <description>A long note has been detected.</description>
+  </Messages>
+
+   <Messages>
+    <type>position</type>
+    <code>note error-3</code>
+    <brief>note error-skewed notes</brief>
+    <description>A skewed note has been detected.</description>
+  </Messages>
+
+   <Messages>
+    <type>position</type>
+    <code>note error-4</code>
+    <brief>note error-incorrect count</brief>
+    <description>An item counting error has occurred.</description>
+  </Messages>    
+
+   <Messages>
+    <type>position</type>
+    <code>note error-5</code>
+    <brief>note error-notes too close</brief>
+    <description>Notes have been detected as being too close.</description>
+  </Messages> 
+
+   <Messages>
+    <type>position</type>
+    <code>note error-6</code>
+    <brief>note error-other</brief>
+    <description>An item error not covered by the other values has been detected.</description>
+  </Messages> 
+
+   <Messages>
+    <type>position</type>
+    <code>note error-7</code>
+    <brief>note error-short note</brief>
+    <description>A short note has been detected.</description>
+  </Messages> 
+  
   <!-- error -->
   
   <Messages>

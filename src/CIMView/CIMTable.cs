@@ -124,6 +124,30 @@ namespace CIMView
                         WFS_EXEE_CIM_INPUTREFUSE(spLogLine);
                         break;
                      }
+                  case LogLineHandler.XFSType.WFS_EXEE_CIM_NOTEERROR:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_EXEE_CIM_NOTEERROR(spLogLine);
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_SRVE_CIM_ITEMSPRESENTED:
+                     {
+                        base.ProcessRow(spLogLine);
+                        CIM_UPDATE_POSITION(spLogLine, "presented", "WFS_SRVE_CIM_ITEMSPRESENTED");
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_SRVE_CIM_ITEMSINSERTED:
+                     {
+                        base.ProcessRow(spLogLine);
+                        CIM_UPDATE_POSITION(spLogLine, "inserted", "WFS_SRVE_CIM_ITEMSINSERTED");
+                        break;
+                     }
+                  case LogLineHandler.XFSType.WFS_SRVE_IPM_MEDIADETECTED:
+                     {
+                        base.ProcessRow(spLogLine);
+                        CIM_UPDATE_POSITION(spLogLine, "detected", "WFS_SRVE_IPM_MEDIADETECTED");
+                        break;
+                     }
                   default:
                      break;
                }
@@ -1020,6 +1044,54 @@ namespace CIMView
          catch (Exception e)
          {
             ctx.ConsoleWriteLogLine("WFS_EXEE_CIM_INPUTREFUSE Exception : " + e.Message);
+         }
+      }
+
+      protected void WFS_EXEE_CIM_NOTEERROR(SPLine spLogLine)
+      {
+         try
+         {
+            if (spLogLine is WFSCIMNOTEERROR cimRefused)
+            {
+               // add new row
+               DataRow dataRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+               dataRow["file"] = spLogLine.LogFile;
+               dataRow["time"] = spLogLine.Timestamp;
+               dataRow["error"] = spLogLine.HResult;
+
+               // position
+               dataRow["position"] = String.Format("note error-{0}", cimRefused.usReason);
+               dataRow["refused"] = "";
+
+               dTableSet.Tables["Deposit"].AcceptChanges();
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_EXEE_CIM_INPUTREFUSE Exception : " + e.Message);
+         }
+      }
+      protected void CIM_UPDATE_POSITION(SPLine spLogLine, string positionValue, string xfsString)
+      {
+         try
+         {
+            // add new row
+            DataRow dataRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+            dataRow["file"] = spLogLine.LogFile;
+            dataRow["time"] = spLogLine.Timestamp;
+            dataRow["error"] = spLogLine.HResult;
+
+            // position
+            dataRow["position"] = positionValue;
+            dataRow["refused"] = "";
+
+            dTableSet.Tables["Deposit"].AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(xfsString + " Exception : " + e.Message);
          }
       }
    }
