@@ -1004,6 +1004,21 @@ namespace SPLogLineTests
       }
 
       [TestMethod]
+      public void SPLogHandler_IdentifyLines_WFSCIMNOTEERROR()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_cim.WFS_EXEE_CIM_NOTEERROR_2);
+         Assert.IsTrue(logLine is WFSCIMNOTEERROR);
+
+         WFSCIMNOTEERROR spLine = (WFSCIMNOTEERROR)logLine;
+         Assert.IsTrue(spLine.xfsType == XFSType.WFS_EXEE_CIM_NOTEERROR);
+         Assert.IsTrue(spLine.Timestamp == "2024-12-11 13:38:13.895");
+         Assert.IsTrue(spLine.HResult == "");
+
+         Assert.IsTrue(spLine.usReason == "3");
+      }
+
+      [TestMethod]
       public void SPLogHandler_IdentifyLines_WFS_SRVE_CIM_ITEMSPRESENTED()
       {
          ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());

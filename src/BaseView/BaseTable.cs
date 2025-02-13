@@ -619,6 +619,9 @@ namespace Impl
                   allCellRange = (Excel.Range)activeSheet.Range[activeSheet.Cells[1, 1], activeSheet.Cells[dataView.Count, colCount + 2]];
                   allCellRange.AutoFilter(2, Type.Missing, Excel.XlAutoFilterOperator.xlAnd, Type.Missing, true);
 
+                  // disable text wrapping
+                  allCellRange.WrapText = false; 
+
                   // freeze the top row so that column headers are always visible when scrolling
                   activeSheet.Application.ActiveWindow.SplitRow = 1;
                   activeSheet.Application.ActiveWindow.FreezePanes = true;
@@ -632,6 +635,7 @@ namespace Impl
                                                    Type.Missing, Type.Missing)) ;
                   format.Font.Bold = true;
                   format.Font.Color = 0x000000FF;
+
                }
                catch (Exception ex)
                {
