@@ -6,7 +6,7 @@ namespace LogLineHandler
    {
       public string field = string.Empty;
 
-      public APLineField(ILogFileHandler parent, string logLine, APLogType apType,  string field = "") : base(parent, logLine, apType)
+      public APLineField(ILogFileHandler parent, string logLine, APLogType apType) : base(parent, logLine, apType)
       {
       }
 
@@ -62,6 +62,25 @@ namespace LogLineHandler
                   if (idx != -1)
                   {
                      field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
+                  }
+                  break;
+               }
+            case APLogType.APLOG_CARD_READAVAILABLERAWDATA:
+               {
+                  lookFor = "Arg:";
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
+                  }
+                  else
+                  {
+                     lookFor = "result is";
+                     idx = logLine.LastIndexOf(lookFor);
+                     if (idx != -1)
+                     {
+                        field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
+                     }
                   }
                   break;
                }
