@@ -23,6 +23,7 @@ namespace LogLineHandler
       APLOG_CARD_ONMEDIAPRESENT,
       APLOG_CARD_ONMEDIANOTPRESENT,
       APLOG_CARD_ONMEDIAINSERTED,
+      APLOG_CARD_READAVAILABLERAWDATA,
       APLOG_CARD_ONREADCOMPLETE,
       APLOG_CARD_ONEJECTCOMPLETE,
       APLOG_CARD_ONMEDIAREMOVED,
@@ -375,6 +376,12 @@ namespace LogLineHandler
 
             if (logLine.Contains("OnMediaInserted"))
                return new APLine(logFileHandler, logLine, APLogType.APLOG_CARD_ONMEDIAINSERTED);
+
+            if (logLine.Contains("ExecuteDeviceCommand:ReadAvailableRawData"))
+               return new APLineField(logFileHandler, logLine, APLogType.APLOG_CARD_READAVAILABLERAWDATA);
+
+            if (logLine.Contains("m_NxCard.ReadAvailableRawData result is"))
+               return new APLineField(logFileHandler, logLine, APLogType.APLOG_CARD_READAVAILABLERAWDATA);
 
             if (logLine.Contains("OnReadComplete"))
                return new APLine(logFileHandler, logLine, APLogType.APLOG_CARD_ONREADCOMPLETE);

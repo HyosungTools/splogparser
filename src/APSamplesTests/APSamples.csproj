@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="samples_apfilereader.cs" />
+    <Compile Include="samples_card.cs" />
     <Compile Include="samples_cashdepot_loglines.cs" />
     <Compile Include="samples_exception.cs" />
     <Compile Include="samples_helperfunctions.cs" />

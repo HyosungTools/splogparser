@@ -361,6 +361,52 @@ namespace APLogLineTests
          Assert.IsTrue(apLine.field == "551088XXXXXX3030");
       }
 
+      [TestMethod]
+      public void APLOG_CARD_READAVAILABLERAWDATA_1()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_card.APLOG_CARD_READAVAILABLERAWDATA_1);
+         Assert.IsTrue(logLine is APLineField);
+
+         APLineField apLine = (APLineField)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_CARD_READAVAILABLERAWDATA);
+         Assert.IsTrue(apLine.Timestamp == "2025-02-03 13:40:29.113");
+         Assert.IsTrue(apLine.HResult == "");
+
+         //Assert.IsTrue(apLine.field == "CHIP");
+      }
+
+      [TestMethod]
+      public void APLOG_CARD_READAVAILABLERAWDATA_2()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_card.APLOG_CARD_READAVAILABLERAWDATA_2);
+         Assert.IsTrue(logLine is APLineField);
+
+         APLineField apLine = (APLineField)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_CARD_READAVAILABLERAWDATA);
+         Assert.IsTrue(apLine.Timestamp == "2025-02-03 11:04:20.965");
+         Assert.IsTrue(apLine.HResult == "");
+
+         Assert.IsTrue(apLine.field == "ReadComplete");
+      }
+      [TestMethod]
+      public void APLOG_CARD_READAVAILABLERAWDATA_3()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_card.APLOG_CARD_READAVAILABLERAWDATA_3);
+         Assert.IsTrue(logLine is APLineField);
+
+         APLineField apLine = (APLineField)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.APLOG_CARD_READAVAILABLERAWDATA);
+         Assert.IsTrue(apLine.Timestamp == "2025-02-03 11:44:34.420");
+         Assert.IsTrue(apLine.HResult == "");
+
+         Assert.IsTrue(apLine.field == "InvalidMedia");
+      }
 
       [TestMethod]
       public void APLOG_PIN_OPEN()
