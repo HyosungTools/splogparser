@@ -9,6 +9,7 @@ using CommandLine;
 using System.Collections.Generic;
 using System.Globalization;
 using LogLineHandler;
+using SplogParser;
 
 namespace splogparser
 {
@@ -62,8 +63,8 @@ namespace splogparser
          // command-line parameters - a set of parse types (Option letters) that identify specific log file types plus one(?) view name that processes the log lines
          // for example AddKeyView.dll has an internal parse type of .AP and a view name of AddKeyView.  Can also specify "*" instead of a view name.
          //
-         // -aAddKeyView "-fAPLog_A036201_20231117_20231117.zip"
-         // -a* "-fAPLog_A036201_20231117_20231117.zip"
+         // -a AddKey "-f APLog_A036201_20231117_20231117.zip"
+         // -a * "-f APLog_A036201_20231117_20231117.zip"
          //
          //
          // view DLLs are loaded from the exe directory ... which is fine for Release builds because all DLLs and EXE are copied to the dist folder.  But in
@@ -76,6 +77,8 @@ namespace splogparser
 
       private static void HandleParseError(IEnumerable<Error> errs)
       {
+         Console.WriteLine($"Running SplogParser version {VersionInfo.Current}");
+
          if (errs.IsVersion())
          {
             Console.WriteLine("Version Request");
@@ -92,6 +95,8 @@ namespace splogparser
 
       private static void Run(Options opts)
       {
+         Console.WriteLine($"Running SplogParser version {VersionInfo.Current}");
+
          // Define the FileSystemProvider for this run
          IFileSystemProvider ioProvider = new FileSystemProvider();
 
@@ -170,7 +175,7 @@ namespace splogparser
          ctx.ConsoleWriteLogLine("opts.AWViews :" + ctx.opts.AWViews);
          ctx.ConsoleWriteLogLine("opts.AVViews :" + ctx.opts.AVViews);
          ctx.ConsoleWriteLogLine("opts.SPViews :" + ctx.opts.SPViews);
-         //         ctx.ConsoleWriteLogLine("opts.RTViews :" + ctx.opts.RTViews);
+         ctx.ConsoleWriteLogLine("opts.RTViews :" + ctx.opts.RTViews);
          ctx.ConsoleWriteLogLine("opts.IIViews :" + ctx.opts.IIViews);
          ctx.ConsoleWriteLogLine("opts.BEViews :" + ctx.opts.BEViews);
          ctx.ConsoleWriteLogLine("opts.SSViews :" + ctx.opts.SSViews);
@@ -232,7 +237,7 @@ namespace splogparser
          if (ctx.opts.IsSP) ctx.logFileHandlers.Add((ILogFileHandler)new SPLogHandler(new CreateTextStreamReader()));
 
          // RT
-         // if (ctx.IsRT) ctx.logFileHandlers.Add((ILogFileHandler)new RTLogHandler(new CreateTextStreamReader()));
+         if (ctx.opts.IsRT) ctx.logFileHandlers.Add((ILogFileHandler)new RTLogHandler(new CreateTextStreamReader(), ParseType.RT, RTLine.Factory));
 
          // SS
          if (ctx.opts.IsSS) ctx.logFileHandlers.Add((ILogFileHandler)new SSLogHandler(new CreateTextStreamReader()));
@@ -383,7 +388,7 @@ namespace splogparser
             }
             catch (Exception e)
             {
-               ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : Processing view {0} : {1}", viewName, e.Message));
+               ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : PreProcessing view {0} : {1}", viewName, e.Message));
                return;
             }
          }
@@ -480,7 +485,7 @@ namespace splogparser
             }
             catch (Exception ex)
             {
-               ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : Processing view {0} : {1}", viewName, ex.Message));
+               ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : Post-Processing view {0} : {1}", viewName, ex.Message));
                return;
             }
          }
