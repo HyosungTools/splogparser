@@ -30,10 +30,10 @@ jobs:
         run: cd src && nuget restore && cd ..
 
       - name: Build
-        run: msbuild src/splogparser.sln /p:Configuration=Release
+        run: msbuild src\\splogparser.sln /m:1 /t:Clean,Build /p:Configuration="Release" /p:Platform="Any CPU" /nodeReuse:false
 
       - name: Package Build Output
-        run: Compress-Archive -Path src\\splogparser\\bin\\Release\\net6.0\\* -Destination splogparser-${{ github.event.inputs.version }}.zip
+        run: Compress-Archive -Path dist\\* -Destination splogparser-${{ github.event.inputs.version }}.zip
         shell: pwsh
 
       - name: Create Git Tag
