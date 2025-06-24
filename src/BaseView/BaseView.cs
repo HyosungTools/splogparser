@@ -76,8 +76,8 @@ namespace Impl
       /// <returns>void</returns>
       public virtual void Process(IContext ctx)
       {
-         ctx.LogWriteLine("------------------------------------------------");
-         ctx.LogWriteLine("Process: " + viewName);
+         ctx.LogWriteLine("BaseView.------------------------------------------------");
+         ctx.LogWriteLine("BaseView.Process: " + viewName);
 
          // For each file found by this log handler...
          foreach (string fileName in ctx.activeHandler.FilesFound)
@@ -87,7 +87,7 @@ namespace Impl
                continue;
             }
 
-            ctx.ConsoleWriteLogLine(String.Format("Processing file: {0}", fileName));
+            ctx.ConsoleWriteLogLine(String.Format("BaseView.Process: Processing file: {0}", fileName));
 
             if (fileName.EndsWith(".zip"))
             {
@@ -95,6 +95,7 @@ namespace Impl
                continue;
             }
 
+            ctx.activeHandler.OpenLogFile(fileName);
             ctx.activeHandler.OpenLogFile(fileName);
 
             ctx.activeHandler.LineNumber = 1;
@@ -141,7 +142,7 @@ namespace Impl
                }
                catch (Exception e)
                {
-                  ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : Processing file {0} : {1} {2}", fileName, e.Message, e));
+                  ctx.ConsoleWriteLogLine(String.Format("EXCEPTION : BaseView.Processing file {0} : {1} {2}", fileName, e.Message, e));
                }
                finally
                {

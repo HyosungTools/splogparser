@@ -63,6 +63,7 @@
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Version.cs" />
     <Compile Include="ViewLoader.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +90,10 @@
     <ProjectReference Include="..\LogLineHandler\LogLineHandler.csproj">
       <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>
       <Name>LogLineHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RTLogLine\RTLogLine.csproj">
+      <Project>{94e4d663-ed8e-4605-b551-31b5d18d8a1a}</Project>
+      <Name>RTLogLine</Name>
     </ProjectReference>
     <ProjectReference Include="..\TCLogLine\TCRLogLine.csproj">
       <Project>{BECB9C9A-59A9-42CB-90ED-152A509DE332}</Project>

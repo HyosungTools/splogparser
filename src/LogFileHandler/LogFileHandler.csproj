@@ -52,6 +52,7 @@
     <Compile Include="CreateTextStreamReader.cs" />
     <Compile Include="LogHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RTLogHandler.cs" />
     <Compile Include="SPLogHandler.cs" />
     <Compile Include="SSLogHandler.cs" />
   </ItemGroup>
@@ -95,6 +96,10 @@
     <ProjectReference Include="..\LogLineHandler\LogLineHandler.csproj">
       <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>
       <Name>LogLineHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RTLogLine\RTLogLine.csproj">
+      <Project>{94e4d663-ed8e-4605-b551-31b5d18d8a1a}</Project>
+      <Name>RTLogLine</Name>
     </ProjectReference>
     <ProjectReference Include="..\SPLogLine\SPLogLine.csproj">
       <Project>{F0E36FC7-76A9-4BCD-9364-F8D5327729D6}</Project>
