@@ -3,6 +3,7 @@ using LogFileHandler;
 using LogLineHandler;
 using Samples;
 using Contract;
+using System;
 
 namespace SPLogLineTests
 {
@@ -231,47 +232,192 @@ namespace SPLogLineTests
       }
 
       [TestMethod]
-      public void SPLogHandler_IdentifyLines_WFS_INF_CDM_CASH_UNIT_INFO()
+      public void WFS_INF_CDM_CASH_UNIT_INFO_1()
       {
          ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_1);
          Assert.IsTrue(logLine is WFSCDMCUINFO);
 
-         WFSCDMCUINFO spLine = (WFSCDMCUINFO)logLine;
-         Assert.IsTrue(spLine.xfsType == XFSType.WFS_INF_CDM_CASH_UNIT_INFO);
-         Assert.IsTrue(spLine.Timestamp == "2023-01-24 00:59:14.655");
-         Assert.IsTrue(spLine.HResult == "-1");
+         WFSCDMCUINFO info = (WFSCDMCUINFO)logLine;
 
-         Assert.IsTrue(spLine.lUnitCount == 6);
+         // Verify logical unit count and truncation status
+         Assert.AreEqual(6, info.lUnitCount, "Expected 6 logical cash units");
+         Assert.IsFalse(info.IsTruncated, "Log should not be truncated");
 
-         Assert.IsTrue(spLine.usNumbers[0] == "1");
-         Assert.IsTrue(spLine.usNumbers[5] == "6");
-         Assert.IsTrue(spLine.usTypes[0] == "6");
-         Assert.IsTrue(spLine.usTypes[5] == "12");
-         Assert.IsTrue(spLine.cUnitIDs[0] == "LCU00");
-         Assert.IsTrue(spLine.cUnitIDs[5] == "LCU05");
-         Assert.IsTrue(spLine.cCurrencyIDs[0] == "");
-         Assert.IsTrue(spLine.cCurrencyIDs[5] == "USD");
-         Assert.IsTrue(spLine.ulValues[0] == "0");
-         Assert.IsTrue(spLine.ulValues[5] == "50");
-         Assert.IsTrue(spLine.ulInitialCounts[0] == "0");
-         Assert.IsTrue(spLine.ulInitialCounts[5] == "2000");
-         Assert.IsTrue(spLine.ulCounts[0] == "0");
-         Assert.IsTrue(spLine.ulCounts[5] == "1336");
-         Assert.IsTrue(spLine.ulRejectCounts[0] == "1");
-         Assert.IsTrue(spLine.ulRejectCounts[5] == "6");
-         Assert.IsTrue(spLine.ulMinimums[0] == "0");
-         Assert.IsTrue(spLine.ulMinimums[5] == "0");
-         Assert.IsTrue(spLine.ulMaximums[0] == "80");
-         Assert.IsTrue(spLine.ulMaximums[5] == "0");
-         Assert.IsTrue(spLine.usStatuses[0] == "4");
-         Assert.IsTrue(spLine.usStatuses[5] == "0");
-         Assert.IsTrue(spLine.ulDispensedCounts[0] == "0");
-         Assert.IsTrue(spLine.ulDispensedCounts[5] == "846");
-         Assert.IsTrue(spLine.ulPresentedCounts[0] == "0");
-         Assert.IsTrue(spLine.ulPresentedCounts[5] == "842");
-         Assert.IsTrue(spLine.ulRetractedCounts[0] == "1");
-         Assert.IsTrue(spLine.ulRetractedCounts[5] == "6");
+         // Expected values for logical units (from WFS_INF_CDM_CASH_UNIT_INFO_1, no physical data)
+         var expectedLogical = new[]
+         {
+        new { Number = "1", Type = "6", UnitID = "LCU00", Currency = "", Value = "0", InitialCount = "0", Count = "0", RejectCount = "1", Minimum = "0", Maximum = "80", Status = "4", Dispensed = "0", Presented = "0", Retracted = "1" },
+        new { Number = "2", Type = "2", UnitID = "LCU01", Currency = "", Value = "0", InitialCount = "0", Count = "0", RejectCount = "2", Minimum = "0", Maximum = "210", Status = "4", Dispensed = "0", Presented = "0", Retracted = "2" },
+        new { Number = "3", Type = "12", UnitID = "LCU02", Currency = "USD", Value = "1", InitialCount = "2000", Count = "1994", RejectCount = "3", Minimum = "0", Maximum = "0", Status = "0", Dispensed = "43", Presented = "43", Retracted = "3" },
+        new { Number = "4", Type = "12", UnitID = "LCU03", Currency = "USD", Value = "5", InitialCount = "2000", Count = "1797", RejectCount = "4", Minimum = "0", Maximum = "0", Status = "0", Dispensed = "219", Presented = "215", Retracted = "4" },
+        new { Number = "5", Type = "12", UnitID = "LCU04", Currency = "USD", Value = "20", InitialCount = "2000", Count = "2158", RejectCount = "5", Minimum = "0", Maximum = "0", Status = "0", Dispensed = "194", Presented = "190", Retracted = "5" },
+        new { Number = "6", Type = "12", UnitID = "LCU05", Currency = "USD", Value = "50", InitialCount = "2000", Count = "1336", RejectCount = "6", Minimum = "0", Maximum = "0", Status = "0", Dispensed = "846", Presented = "842", Retracted = "6" }
+    };
+
+         // Verify logical unit fields
+         for (int i = 0; i < info.lUnitCount; i++)
+         {
+            Assert.AreEqual(expectedLogical[i].Number, info.usNumbers[i], $"usNumbers[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Type, info.usTypes[i], $"usTypes[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].UnitID, info.cUnitIDs[i], $"cUnitIDs[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Currency, info.cCurrencyIDs[i], $"cCurrencyIDs[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Value, info.ulValues[i], $"ulValues[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].InitialCount, info.ulInitialCounts[i], $"ulInitialCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Count, info.ulCounts[i], $"ulCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].RejectCount, info.ulRejectCounts[i], $"ulRejectCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Minimum, info.ulMinimums[i], $"ulMinimums[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Maximum, info.ulMaximums[i], $"ulMaximums[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Status, info.usStatuses[i], $"usStatuses[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Dispensed, info.ulDispensedCounts[i], $"ulDispensedCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Presented, info.ulPresentedCounts[i], $"ulPresentedCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Retracted, info.ulRetractedCounts[i], $"ulRetractedCounts[{i}] mismatch");
+         }
+      }
+
+      [TestMethod]
+      public void WFS_INF_CDM_CASH_UNIT_INFO_2()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_2);
+         Assert.IsTrue(logLine is WFSCDMCUINFO);
+
+         WFSCDMCUINFO info = (WFSCDMCUINFO)logLine;
+
+         // Verify logical unit count and truncation status
+         Assert.AreEqual(6, info.lUnitCount, "Expected 6 logical cash units");
+         Assert.IsFalse(info.IsTruncated, "Log should not be truncated");
+
+         // Expected values for logical units (from WFS_INF_CDM_CASH_UNIT_INFO_2)
+         var expectedLogical = new[]
+         {
+        new { Number = "1", Type = "6", UnitID = "LCU00", Currency = "", Value = "0", InitialCount = "0", Count = "0", RejectCount = "0", Minimum = "0", Maximum = "80", Status = "4", Dispensed = "0", Presented = "0", Retracted = "0" },
+        new { Number = "2", Type = "2", UnitID = "LCU01", Currency = "", Value = "0", InitialCount = "0", Count = "2", RejectCount = "2", Minimum = "0", Maximum = "210", Status = "0", Dispensed = "0", Presented = "0", Retracted = "0" },
+        new { Number = "3", Type = "12", UnitID = "LCU02", Currency = "USD", Value = "1", InitialCount = "1400", Count = "1334", RejectCount = "1", Minimum = "0", Maximum = "0", Status = "0", Dispensed = "101", Presented = "95", Retracted = "0" },
+        new { Number = "4", Type = "12", UnitID = "LCU03", Currency = "USD", Value = "5", InitialCount = "1400", Count = "1336", RejectCount = "0", Minimum = "0", Maximum = "0", Status = "0", Dispensed = "78", Presented = "75", Retracted = "0" },
+        new { Number = "5", Type = "12", UnitID = "LCU04", Currency = "USD", Value = "20", InitialCount = "1400", Count = "1362", RejectCount = "1", Minimum = "0", Maximum = "0", Status = "0", Dispensed = "187", Presented = "182", Retracted = "0" },
+        new { Number = "6", Type = "12", UnitID = "LCU05", Currency = "USD", Value = "100", InitialCount = "1400", Count = "1342", RejectCount = "0", Minimum = "0", Maximum = "0", Status = "0", Dispensed = "87", Presented = "85", Retracted = "0" }
+    };
+
+         // Expected values for physical units (from lppPhysical-> section)
+         var expectedPhysical = new[]
+         {
+        new { PositionName = "RetractCassette", UnitID = "RTCST", InitialCount = "0", Count = "0", RejectCount = "0", Maximum = "80", PStatus = "4", HardwareSensor = "1", Dispensed = "0", Presented = "0", Retracted = "0" },
+        new { PositionName = "RejectCassette", UnitID = "RJCST", InitialCount = "0", Count = "2", RejectCount = "2", Maximum = "210", PStatus = "0", HardwareSensor = "1", Dispensed = "0", Presented = "0", Retracted = "0" },
+        new { PositionName = "CassetteA", UnitID = "CST_A", InitialCount = "1400", Count = "1334", RejectCount = "1", Maximum = "0", PStatus = "0", HardwareSensor = "1", Dispensed = "101", Presented = "95", Retracted = "0" },
+        new { PositionName = "CassetteB", UnitID = "CST_B", InitialCount = "1400", Count = "1336", RejectCount = "0", Maximum = "0", PStatus = "0", HardwareSensor = "1", Dispensed = "78", Presented = "75", Retracted = "0" },
+        new { PositionName = "CassetteC", UnitID = "CST_C", InitialCount = "1400", Count = "1362", RejectCount = "1", Maximum = "0", PStatus = "0", HardwareSensor = "1", Dispensed = "187", Presented = "182", Retracted = "0" },
+        new { PositionName = "CassetteD", UnitID = "CST_D", InitialCount = "1400", Count = "1342", RejectCount = "0", Maximum = "0", PStatus = "0", HardwareSensor = "1", Dispensed = "87", Presented = "85", Retracted = "0" }
+    };
+
+         // Verify logical unit fields
+         for (int i = 0; i < info.lUnitCount; i++)
+         {
+            Assert.AreEqual(expectedLogical[i].Number, info.usNumbers[i], $"usNumbers[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Type, info.usTypes[i], $"usTypes[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].UnitID, info.cUnitIDs[i], $"cUnitIDs[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Currency, info.cCurrencyIDs[i], $"cCurrencyIDs[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Value, info.ulValues[i], $"ulValues[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].InitialCount, info.ulInitialCounts[i], $"ulInitialCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Count, info.ulCounts[i], $"ulCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].RejectCount, info.ulRejectCounts[i], $"ulRejectCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Minimum, info.ulMinimums[i], $"ulMinimums[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Maximum, info.ulMaximums[i], $"ulMaximums[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Status, info.usStatuses[i], $"usStatuses[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Dispensed, info.ulDispensedCounts[i], $"ulDispensedCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Presented, info.ulPresentedCounts[i], $"ulPresentedCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Retracted, info.ulRetractedCounts[i], $"ulRetractedCounts[{i}] mismatch");
+            Assert.AreEqual("1", info.numPhysicalCUs[i], $"numPhysicalCUs[{i}] should be 1");
+            Assert.AreEqual(6, info.listPhysical.Count, $"listPhysical[{i}] should have 1 physical unit");
+
+            // Verify physical unit fields
+            var pcu = info.listPhysical[i];
+            Assert.AreEqual(expectedPhysical[i].PositionName, pcu.lpPhysicalPositionName, $"listPhysical[{i}][0].lpPhysicalPositionName mismatch");
+            Assert.AreEqual(expectedPhysical[i].UnitID, pcu.cUnitID, $"listPhysical[{i}][0].cUnitID mismatch");
+            Assert.AreEqual(expectedPhysical[i].InitialCount, pcu.ulInitialCount, $"listPhysical[{i}][0].ulInitialCount mismatch");
+            Assert.AreEqual(expectedPhysical[i].Count, pcu.ulCount, $"listPhysical[{i}][0].ulCount mismatch");
+            Assert.AreEqual(expectedPhysical[i].RejectCount, pcu.ulRejectCount, $"listPhysical[{i}][0].ulRejectCount mismatch");
+            Assert.AreEqual(expectedPhysical[i].Maximum, pcu.ulMaximum, $"listPhysical[{i}][0].ulMaximum mismatch");
+            Assert.AreEqual(expectedPhysical[i].PStatus, pcu.usPStatus, $"listPhysical[{i}][0].usPStatus mismatch");
+            Assert.AreEqual(expectedPhysical[i].HardwareSensor, pcu.bHardwareSensor, $"listPhysical[{i}][0].bHardwareSensor mismatch");
+            Assert.AreEqual(expectedPhysical[i].Dispensed, pcu.ulDispensedCount, $"listPhysical[{i}][0].ulDispensedCount mismatch");
+            Assert.AreEqual(expectedPhysical[i].Presented, pcu.ulPresentedCount, $"listPhysical[{i}][0].ulPresentedCount mismatch");
+            Assert.AreEqual(expectedPhysical[i].Retracted, pcu.ulRetractedCount, $"listPhysical[{i}][0].ulRetractedCount mismatch");
+         }
+      }
+
+      [TestMethod]
+      public void WFS_INF_CDM_CASH_UNIT_INFO_3()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_3);
+         Assert.IsTrue(logLine is WFSCDMCUINFO, "Log line should be identified as WFSCDMCUINFO");
+
+         WFSCDMCUINFO info = (WFSCDMCUINFO)logLine;
+
+         // Verify logical unit count and truncation status
+         Assert.AreEqual(5, info.lUnitCount, "Expected 6 logical cash units from here 'usCount = [6]'");
+         Assert.IsTrue(info.IsTruncated, "Log should be marked as truncated due to '......(More Data)......'");
+
+         // Expected values for logical units (from WFS_INF_CDM_CASH_UNIT_INFO_3)
+         var expectedLogical = new[]
+         {
+        new { Number = "1", Type = "6", UnitID = "LCU00", Currency = "   ", Value = "0", InitialCount = "0", Count = "0", RejectCount = "0", Minimum = "0", Maximum = "400", Status = "4", NumPhysicalCUs = "2", Dispensed = "0", Presented = "0", Retracted = "0" },
+        new { Number = "2", Type = "2", UnitID = "LCU01", Currency = "   ", Value = "0", InitialCount = "0", Count = "36", RejectCount = "36", Minimum = "0", Maximum = "0", Status = "0", NumPhysicalCUs = "1", Dispensed = "0", Presented = "0", Retracted = "0" },
+        new { Number = "3", Type = "12", UnitID = "LCU02", Currency = "USD", Value = "1", InitialCount = "1092", Count = "1044", RejectCount = "0", Minimum = "0", Maximum = "0", Status = "0", NumPhysicalCUs = "1", Dispensed = "306", Presented = "106", Retracted = "0" },
+        new { Number = "4", Type = "12", UnitID = "LCU03", Currency = "USD", Value = "5", InitialCount = "1874", Count = "1690", RejectCount = "14", Minimum = "0", Maximum = "0", Status = "0", NumPhysicalCUs = "1", Dispensed = "205", Presented = "191", Retracted = "0" },
+        new { Number = "5", Type = "12", UnitID = "LCU04", Currency = "USD", Value = "20", InitialCount = "1237", Count = "1052", RejectCount = "0", Minimum = "0", Maximum = "0", Status = "0", NumPhysicalCUs = "1", Dispensed = "252", Presented = "252", Retracted = "0" }
+    };
+
+         // Expected values for physical units (from lppPhysical blocks)
+         var expectedPhysical = new[]
+         {
+        new { PositionName = "RetractCassette", UnitID = "RTCST", InitialCount = "0", Count = "0", RejectCount = "0", Maximum = "400", PStatus = "4", HardwareSensor = "1", Dispensed = "0", Presented = "0", Retracted = "0" },
+        new { PositionName = "RetractCassette", UnitID = "RTCST", InitialCount = "0", Count = "0", RejectCount = "0", Maximum = "400", PStatus = "4", HardwareSensor = "1", Dispensed = "0", Presented = "0", Retracted = "0" },
+        new { PositionName = "RejectCassette", UnitID = "RJCST", InitialCount = "0", Count = "36", RejectCount = "36", Maximum = "0", PStatus = "0", HardwareSensor = "1", Dispensed = "0", Presented = "0", Retracted = "0" },
+        new { PositionName = "CassetteA", UnitID = "CST_A", InitialCount = "1092", Count = "1044", RejectCount = "0", Maximum = "0", PStatus = "0", HardwareSensor = "1", Dispensed = "306", Presented = "106", Retracted = "0" },
+        new { PositionName = "CassetteB", UnitID = "CST_B", InitialCount = "1874", Count = "1690", RejectCount = "14", Maximum = "0", PStatus = "0", HardwareSensor = "1", Dispensed = "205", Presented = "191", Retracted = "0" },
+        new { PositionName = "CassetteC", UnitID = "CST_C", InitialCount = "1237", Count = "1052", RejectCount = "0", Maximum = "0", PStatus = "0", HardwareSensor = "1", Dispensed = "252", Presented = "252", Retracted = "0" },
+        new { PositionName = "", UnitID = "", InitialCount = "", Count = "", RejectCount = "", Maximum = "", PStatus = "", HardwareSensor = "", Dispensed = "", Presented = "", Retracted = "" }
+    };
+
+         // Verify logical unit fields
+         for (int i = 0; i < info.lUnitCount; i++)
+         {
+            Assert.AreEqual(expectedLogical[i].Number, info.usNumbers[i], $"usNumbers[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Type, info.usTypes[i], $"usTypes[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].UnitID, info.cUnitIDs[i], $"cUnitIDs[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Currency, info.cCurrencyIDs[i], $"cCurrencyIDs[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Value, info.ulValues[i], $"ulValues[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].InitialCount, info.ulInitialCounts[i], $"ulInitialCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Count, info.ulCounts[i], $"ulCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].RejectCount, info.ulRejectCounts[i], $"ulRejectCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Minimum, info.ulMinimums[i], $"ulMinimums[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Maximum, info.ulMaximums[i], $"ulMaximums[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Status, info.usStatuses[i], $"usStatuses[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Dispensed, info.ulDispensedCounts[i], $"ulDispensedCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Presented, info.ulPresentedCounts[i], $"ulPresentedCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].Retracted, info.ulRetractedCounts[i], $"ulRetractedCounts[{i}] mismatch");
+            Assert.AreEqual(expectedLogical[i].NumPhysicalCUs, info.numPhysicalCUs[i], $"numPhysicalCUs[{i}] should be 1");
+            Assert.AreEqual(6, info.listPhysical.Count, $"listPhysical[{i}] should have 1 physical unit");
+         }
+
+         for (int i = 0; i < info.listPhysical.Count; i++)
+         {
+            // Verify physical unit fields
+            var pcu = info.listPhysical[i];
+            Assert.AreEqual(expectedPhysical[i].PositionName, pcu.lpPhysicalPositionName, $"listPhysical[{i}].lpPhysicalPositionName mismatch");
+            Assert.AreEqual(expectedPhysical[i].UnitID, pcu.cUnitID, $"listPhysical[{i}].cUnitID mismatch");
+            Assert.AreEqual(expectedPhysical[i].InitialCount, pcu.ulInitialCount, $"listPhysical[{i}].ulInitialCount mismatch");
+            Assert.AreEqual(expectedPhysical[i].Count, pcu.ulCount, $"listPhysical[{i}].ulCount mismatch");
+            Assert.AreEqual(expectedPhysical[i].RejectCount, pcu.ulRejectCount, $"listPhysical[{i}].ulRejectCount mismatch");
+            Assert.AreEqual(expectedPhysical[i].Maximum, pcu.ulMaximum, $"listPhysical[{i}].ulMaximum mismatch");
+            Assert.AreEqual(expectedPhysical[i].PStatus, pcu.usPStatus, $"listPhysical[{i}].usPStatus mismatch");
+            Assert.AreEqual(expectedPhysical[i].HardwareSensor, pcu.bHardwareSensor, $"listPhysical[{i}].bHardwareSensor mismatch");
+            Assert.AreEqual(expectedPhysical[i].Dispensed, pcu.ulDispensedCount, $"listPhysical[{i}].ulDispensedCount mismatch");
+            Assert.AreEqual(expectedPhysical[i].Presented, pcu.ulPresentedCount, $"listPhysical[{i}].ulPresentedCount mismatch");
+            Assert.AreEqual(expectedPhysical[i].Retracted, pcu.ulRetractedCount, $"listPhysical[{i}].ulRetractedCount mismatch");
+         }
       }
 
       [TestMethod]
@@ -398,6 +544,10 @@ namespace SPLogLineTests
          Assert.IsTrue(spLine.HResult == "");
       }
 
+
+
+
+
       [TestMethod]
       public void SPLogHandler_IdentifyLines_WFS_SRVE_CDM_CASHUNITINFOCHANGED()
       {
@@ -410,21 +560,54 @@ namespace SPLogLineTests
          Assert.IsTrue(spLine.Timestamp == "2023-11-01 09:37:41.012");
          Assert.IsTrue(spLine.HResult == "");
 
-         Assert.IsTrue(spLine.lUnitCount == 1);
-         Assert.IsTrue(spLine.usNumbers[0] == "3");
-         Assert.IsTrue(spLine.usTypes[0] == "12");
-         Assert.IsTrue(spLine.cUnitIDs[0] == "LCU02");
-         Assert.IsTrue(spLine.cCurrencyIDs[0] == "USD");
-         Assert.IsTrue(spLine.ulValues[0] == "20");
-         Assert.IsTrue(spLine.ulInitialCounts[0] == "0");
-         Assert.IsTrue(spLine.ulCounts[0] == "0");
-         Assert.IsTrue(spLine.ulRejectCounts[0] == "0");
-         Assert.IsTrue(spLine.ulMinimums[0] == "0");
-         Assert.IsTrue(spLine.ulMaximums[0] == "0");
-         Assert.IsTrue(spLine.usStatuses[0] == "0");
-         Assert.IsTrue(spLine.ulDispensedCounts[0] == "17");
-         Assert.IsTrue(spLine.ulPresentedCounts[0] == "0");
-         Assert.IsTrue(spLine.ulRetractedCounts[0] == "0");
+         // Expected values for logical units (from WFS_INF_CDM_CASH_UNIT_INFO_2)
+         var expectedLogical = new[]
+         {
+            new { Number = "3", Type = "12", UnitID = "LCU02", Currency = "USD", Value = "20", InitialCount = "0", Count = "0", RejectCount = "0", Minimum = "0", Maximum = "0", Status = "4", Dispensed = "106", Presented = "3", Retracted = "0" }
+         };
+
+         // Expected values for physical units (from lppPhysical-> section)
+         var expectedPhysical = new[]
+         {
+           new { PositionName = "CassetteA", UnitID = "CST_A", InitialCount = "0", Count = "0", RejectCount = "0", Maximum = "0", PStatus = "0", HardwareSensor = "1", Dispensed = "17", Presented = "0", Retracted = "0" },
+           new { PositionName = "CassetteB", UnitID = "CST_B", InitialCount = "0", Count = "0", RejectCount = "0", Maximum = "0", PStatus = "0", HardwareSensor = "1", Dispensed = "33", Presented = "3", Retracted = "0" },
+           new { PositionName = "CassetteC", UnitID = "CST_C", InitialCount = "0", Count = "0", RejectCount = "0", Maximum = "0", PStatus = "0", HardwareSensor = "1", Dispensed = "56", Presented = "0", Retracted = "0" }
+         };
+
+         Assert.AreEqual(1, spLine.lUnitCount, $"lUnitCount mismatch");
+         Assert.AreEqual(expectedLogical[0].Number, spLine.usNumbers[0], $"usNumbers[0] mismatch");
+         Assert.AreEqual(expectedLogical[0].Type, spLine.usTypes[0], $"usTypes[0] mismatch");
+         Assert.AreEqual(expectedLogical[0].UnitID, spLine.cUnitIDs[0], $"cUnitIDs[0] mismatch");
+         Assert.AreEqual(expectedLogical[0].Currency, spLine.cCurrencyIDs[0], $"cCurrencyIDs[0] mismatch");
+         Assert.AreEqual(expectedLogical[0].Value, spLine.ulValues[0], $"ulValues[0] mismatch");
+         Assert.AreEqual(expectedLogical[0].InitialCount, spLine.ulInitialCounts[0], $"ulInitialCounts[0] mismatch");
+         Assert.AreEqual(expectedLogical[0].Count, spLine.ulCounts[0], $"ulCounts[0] mismatch");
+         Assert.AreEqual(expectedLogical[0].RejectCount, spLine.ulRejectCounts[0], $"ulRejectCounts[0] mismatch");
+         Assert.AreEqual(expectedLogical[0].Minimum, spLine.ulMinimums[0], $"ulMinimums[0] mismatch");
+         Assert.AreEqual(expectedLogical[0].Maximum, spLine.ulMaximums[0], $"ulMaximums[0] mismatch");
+         Assert.AreEqual(expectedLogical[0].Status, spLine.usStatuses[0], $"usStatuses[0] mismatch");
+         Assert.AreEqual(expectedLogical[0].Dispensed, spLine.ulDispensedCounts[0], $"ulDispensedCounts[0] mismatch");
+         Assert.AreEqual(expectedLogical[0].Presented, spLine.ulPresentedCounts[0], $"ulPresentedCounts[0] mismatch");
+         Assert.AreEqual(expectedLogical[0].Retracted, spLine.ulRetractedCounts[0], $"ulRetractedCounts[0] mismatch");
+
+
+         for (int i = 0; i < spLine.listPhysical.Count; i++)
+         {
+            // Verify physical unit fields
+            var pcu = spLine.listPhysical[i];
+            Assert.AreEqual(expectedPhysical[i].PositionName, pcu.lpPhysicalPositionName, $"listPhysical[{i}].lpPhysicalPositionName mismatch");
+            Assert.AreEqual(expectedPhysical[i].UnitID, pcu.cUnitID, $"listPhysical[{i}].cUnitID mismatch");
+            Assert.AreEqual(expectedPhysical[i].InitialCount, pcu.ulInitialCount, $"listPhysical[{i}].ulInitialCount mismatch");
+            Assert.AreEqual(expectedPhysical[i].Count, pcu.ulCount, $"listPhysical[{i}].ulCount mismatch");
+            Assert.AreEqual(expectedPhysical[i].RejectCount, pcu.ulRejectCount, $"listPhysical[{i}].ulRejectCount mismatch");
+            Assert.AreEqual(expectedPhysical[i].Maximum, pcu.ulMaximum, $"listPhysical[{i}].ulMaximum mismatch");
+            Assert.AreEqual(expectedPhysical[i].PStatus, pcu.usPStatus, $"listPhysical[{i}].usPStatus mismatch");
+            Assert.AreEqual(expectedPhysical[i].HardwareSensor, pcu.bHardwareSensor, $"listPhysical[{i}].bHardwareSensor mismatch");
+            Assert.AreEqual(expectedPhysical[i].Dispensed, pcu.ulDispensedCount, $"listPhysical[{i}].ulDispensedCount mismatch");
+            Assert.AreEqual(expectedPhysical[i].Presented, pcu.ulPresentedCount, $"listPhysical[{i}].ulPresentedCount mismatch");
+            Assert.AreEqual(expectedPhysical[i].Retracted, pcu.ulRetractedCount, $"listPhysical[{i}].ulRetractedCount mismatch");
+         }
+
       }
 
       [TestMethod]
@@ -1411,6 +1594,7 @@ namespace SPLogLineTests
          Assert.IsTrue(spLine.wMediaLocation == "2");
          Assert.IsTrue(spLine.bPresentRequired == "0");
       }
+
 
       //public void SPLogHandler_IdentifyLines_WFS_EXEE_IPM_MEDIAREJECTED()
       //{

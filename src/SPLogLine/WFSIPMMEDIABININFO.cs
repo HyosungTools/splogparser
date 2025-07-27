@@ -78,12 +78,12 @@ namespace LogLineHandler
       protected static string[] usBinNumbersFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = Util.NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
 
          for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(usBinNumber(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = Util.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
 
@@ -92,12 +92,12 @@ namespace LogLineHandler
       protected static string[] fwTypesFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = Util.NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
 
          for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(fwType(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = Util.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -105,12 +105,12 @@ namespace LogLineHandler
       protected static string[] wMediaTypesFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = Util.NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
 
          for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(wMediaType(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = Util.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -118,12 +118,12 @@ namespace LogLineHandler
       protected static string[] lpstrBinIDsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = Util.NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
 
          for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(lpstrBinID(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = Util.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount, ""));
       }
@@ -131,12 +131,12 @@ namespace LogLineHandler
       protected static string[] ulMediaInCountsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = Util.NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
 
          for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(ulMediaInCount(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = Util.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount, ""));
       }
@@ -144,12 +144,12 @@ namespace LogLineHandler
       protected static string[] ulCountsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = Util.NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
 
          for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(ulCount(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = Util.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -157,12 +157,12 @@ namespace LogLineHandler
       protected static string[] ulRetractOperationsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = Util.NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
 
          for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(ulRetractOperation(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = Util.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -170,12 +170,12 @@ namespace LogLineHandler
       protected static string[] ulMaximumItemsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = Util.NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
 
          for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(ulMaximumItem(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = Util.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -183,12 +183,12 @@ namespace LogLineHandler
       protected static string[] ulMaximumRetractOperationsFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = Util.NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
 
          for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(ulMaximumRetractOperation(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = Util.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -196,12 +196,12 @@ namespace LogLineHandler
       protected static string[] usStatusesFromList(string logLine, int lUnitCount = 1)
       {
          List<string> values = new List<string>();
-         (string thisUnit, string nextUnits) logicalUnits = Util.NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
 
          for (int i = 0; i < lUnitCount; i++)
          {
             values.Add(usStatus(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = Util.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }

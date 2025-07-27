@@ -11,6 +11,7 @@ namespace LogLineHandler
       public string intTamper { get; set; }
       public string cabinet { get; set; }
       public string ups { get; set; }
+      public string audio { get; set; }
       public string errorCode { get; set; }
       public string description { get; set; }
 
@@ -41,6 +42,9 @@ namespace LogLineHandler
 
          result = upsFromSIUStatus(logLine);
          if (result.success) ups = result.xfsMatch.Trim();
+
+         result = enhancedAudioFromSIUStatus(logLine);
+         if (result.success) audio = result.xfsMatch.Trim();
 
          result = errorCodeFromSIUStatus(logLine);
          if (result.success) errorCode = result.xfsMatch.Trim();
@@ -77,6 +81,11 @@ namespace LogLineHandler
       protected static (bool success, string xfsMatch, string subLogLine) upsFromSIUStatus(string logLine)
       {
          return Util.MatchList(logLine, "fwAuxiliaries\\[WFS_SIU_UPS\\] = \\[(.*)\\]", "0");
+      }
+
+      protected static (bool success, string xfsMatch, string sublogLne) enhancedAudioFromSIUStatus(string logLine)
+      {
+         return Util.MatchList(logLine, "fwAuxiliaries\\[WFS_SIU_ENHANCEDAUDIOCONTROL\\] = \\[(.*)\\]", "0");
       }
 
       protected static (bool success, string xfsMatch, string subLogLine) errorCodeFromSIUStatus(string logLine)

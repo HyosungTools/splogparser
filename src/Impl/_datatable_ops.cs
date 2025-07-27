@@ -282,5 +282,57 @@ namespace Impl
          return (true, string.Empty);
 
       }
+
+      public static DataTable MergeTable(DataTable originalDt)
+      {
+         // Clone the original DataTable structure for the result
+         DataTable mergedDt = originalDt.Clone();
+
+         // Group rows by 'file' and 'time' (use anonymous type for key)
+         var groups = originalDt.AsEnumerable()
+             .GroupBy(row => new
+             {
+                File = row["file"],
+                Time = row["time"]
+             });
+
+         // Iterate through each group and merge values into a new row
+         foreach (var group in groups)
+         {
+            DataRow newRow = mergedDt.NewRow();
+            newRow["file"] = group.Key.File;
+            newRow["time"] = group.Key.Time;
+
+            // Combine values from the group, overwriting only if non-null
+            // Assumes no conflicts; takes the last non-null value per column
+            foreach (var row in group)
+            {
+               if (!row.IsNull("error") && row["error"] != DBNull.Value)
+               {
+                  newRow["error"] = row["error"];
+               }
+               if (!row.IsNull("status") && row["status"] != DBNull.Value)
+               {
+                  newRow["status"] = row["status"];
+               }
+               if (!row.IsNull("count") && row["count"] != DBNull.Value)
+               {
+                  newRow["count"] = row["count"];
+               }
+               if (!row.IsNull("reject") && row["reject"] != DBNull.Value)
+               {
+                  newRow["reject"] = row["reject"];
+               }
+               if (!row.IsNull("comment") && row["comment"] != DBNull.Value)
+               {
+                  newRow["comment"] = row["comment"];
+               }
+            }
+
+            mergedDt.Rows.Add(newRow);
+         }
+
+         return mergedDt;
+      }
    }
 }

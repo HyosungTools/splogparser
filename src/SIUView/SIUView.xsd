@@ -16,6 +16,7 @@
               <xs:element name="inttamper" type="xs:string" minOccurs="0" />
               <xs:element name="cabinet" type="xs:string" minOccurs="0" />
               <xs:element name="ups" type="xs:string" minOccurs="0" />
+              <xs:element name="audio" type="xs:string" minOccurs="0" />
               <xs:element name="errorcode" type="xs:string" minOccurs="0" />
               <xs:element name="description" type="xs:string" minOccurs="0" />
               <xs:element name="comment" type="xs:string" minOccurs="0" />

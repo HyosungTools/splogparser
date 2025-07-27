@@ -28,6 +28,9 @@ jobs:
 
       - name: Restore Dependencies
         run: cd src && nuget restore && cd ..
+        
+      - name: Make Dir
+        run: mkdir dist
 
       - name: Build
         run: msbuild src\\splogparser.sln /m:1 /t:Clean,Build /p:Configuration="Release" /p:Platform="Any CPU" /nodeReuse:false

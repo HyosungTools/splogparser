@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E408246E-D9ED-4F43-A201-0585CC08AD41}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CDMView_Flat</RootNamespace>
+    <AssemblyName>CDMView_Flat</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CDMTable_Flat.cs" />
+    <Compile Include="CDMView_Flat.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CDMView_Flat.xsc">
+      <DependentUpon>CDMView_Flat.xsd</DependentUpon>
+    </None>
+    <None Include="CDMView_Flat.xsd" />
+    <None Include="CDMView_Flat.xss">
+      <DependentUpon>CDMView_Flat.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CDMView_Flat.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseView\BaseView.csproj">
+      <Project>{db43982d-e960-4dba-83ef-1bb6e7a60a49}</Project>
+      <Name>BaseView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Contract\Contract.csproj">
+      <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
+      <Name>Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Impl\Impl.csproj">
+      <Project>{f89403e5-4c5c-4d8f-8401-b2d56f6d8a2b}</Project>
+      <Name>Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogLineHandler\LogLineHandler.csproj">
+      <Project>{43796EA3-F9FB-4BE0-8730-A9D5B807C9C3}</Project>
+      <Name>LogLineHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SPFlatLogLines\SPFlatLogLine.csproj">
+      <Project>{1d59f4c4-6979-47e6-a88f-1c5e4b2f5698}</Project>
+      <Name>SPFlatLogLine</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\CDMView_Flat.xsd" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\CDMView_Flat.xml" $(SolutionDir)\..\dist</PostBuildEvent>
+  </PropertyGroup>
+</Project>

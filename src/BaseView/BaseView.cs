@@ -96,7 +96,6 @@ namespace Impl
             }
 
             ctx.activeHandler.OpenLogFile(fileName);
-            ctx.activeHandler.OpenLogFile(fileName);
 
             ctx.activeHandler.LineNumber = 1;
 

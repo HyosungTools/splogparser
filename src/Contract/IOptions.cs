@@ -4,7 +4,7 @@ namespace Contract
 {
    public enum ParseType
    {
-      AP, AT, AE, AW, AV, SP, RT, SS, BE, II, A2, TCR
+      AP, AT, AE, AW, AV, SP, SF, RT, SS, BE, II, A2, TCR
    }
 
    public interface IOptions
@@ -15,6 +15,7 @@ namespace Contract
       bool IsAW { get; }
       bool IsAV { get; }
       bool IsSP { get; }
+      bool IsSF { get; }
       bool IsRT { get; }
       bool IsII { get; }
       bool IsSS { get; }
@@ -30,6 +31,7 @@ namespace Contract
       string AWViews { get; set; }
       string AVViews { get; set; }
       string SPViews { get; set; }
+      string SFViews { get; set; }
       string RTViews { get; set; }
       string IIViews { get; set; }
       string SSViews { get; set; }

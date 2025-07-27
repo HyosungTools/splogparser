@@ -259,6 +259,57 @@
     <description>The UPS was engaged when the main power went off</description>
   </Messages>
   
+  <!-- enhanced audio -->
+  
+   <Messages>
+    <type>audio</type>
+    <code>0x0000</code>
+    <brief>not avail</brief>
+    <description>The status is not available</description>
+  </Messages>
+
+   <Messages>
+    <type>audio</type>
+    <code>0x0001</code>		<!-- WFS_SIU_PUBLICAUDIO_MANUAL -->
+    <brief>manual</brief>
+    <description>Audio will be played through speakers only</description>
+  </Messages>
+
+   <Messages>
+    <type>audio</type>
+    <code>0x0002</code>		<!-- WFS_SIU_PUBLICAUDIO_AUTO -->
+    <brief>auto</brief>
+    <description>When a headset is connected, the device will go private</description>
+  </Messages>
+
+   <Messages>
+    <type>audio</type>
+    <code>0x0004</code> 	<!-- WFS_SIU_PUBLICAUDIO_SEMI_AUTO -->
+    <brief>semi-auto</brief>
+    <description>When a headset is connected, the device will go private</description>
+  </Messages>
+
+   <Messages>
+    <type>audio</type>
+    <code>0x0008</code> 	<!-- WFS_SIU_PRIVATEAUDIO_MANUAL -->
+    <brief>private manual</brief>
+    <description>No audio through public speakers, only headset</description>
+  </Messages>
+
+   <Messages>
+    <type>audio</type>
+    <code>0x0010</code> 	<!-- WFS_SIU_PRIVATEAUDIO_AUTO -->
+    <brief>private auto</brief>
+    <description>No audio through public speakers, only headset</description>
+  </Messages>
+
+   <Messages>
+    <type>audio</type>
+    <code>0x0020</code> 	<!-- WFS_SIU_PRIVATEAUDIO_SEMI_AUTO -->
+    <brief>semi auto</brief>
+    <description>No audio through public speakers, only headset</description>
+  </Messages>
+  
   <!-- error -->
   
    <Messages>
