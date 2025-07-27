@@ -175,6 +175,7 @@ namespace splogparser
          ctx.ConsoleWriteLogLine("opts.AWViews :" + ctx.opts.AWViews);
          ctx.ConsoleWriteLogLine("opts.AVViews :" + ctx.opts.AVViews);
          ctx.ConsoleWriteLogLine("opts.SPViews :" + ctx.opts.SPViews);
+         ctx.ConsoleWriteLogLine("opts.SFViews :" + ctx.opts.SFViews);
          ctx.ConsoleWriteLogLine("opts.RTViews :" + ctx.opts.RTViews);
          ctx.ConsoleWriteLogLine("opts.IIViews :" + ctx.opts.IIViews);
          ctx.ConsoleWriteLogLine("opts.BEViews :" + ctx.opts.BEViews);
@@ -199,6 +200,9 @@ namespace splogparser
 
          ctx.ConsoleWriteLogLine(String.Format("IsSP : {0}", ctx.opts.IsSP ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("SPView Contains  : {0}", ctx.opts.SPViews));
+
+         ctx.ConsoleWriteLogLine(String.Format("IsSF : {0}", ctx.opts.IsSF ? "true" : "false"));
+         ctx.ConsoleWriteLogLine(String.Format("SFView Contains  : {0}", ctx.opts.SFViews));
 
          ctx.ConsoleWriteLogLine(String.Format("IsBE : {0}", ctx.opts.IsBE ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("BEView Contains  : {0}", ctx.opts.BEViews));
@@ -235,6 +239,9 @@ namespace splogparser
 
          // SP
          if (ctx.opts.IsSP) ctx.logFileHandlers.Add((ILogFileHandler)new SPLogHandler(new CreateTextStreamReader()));
+
+         // SF
+         if (ctx.opts.IsSF) ctx.logFileHandlers.Add((ILogFileHandler)new SPFlatLogHandler(new CreateTextStreamReader(), SPFlatLine.Factory));
 
          // RT
          if (ctx.opts.IsRT) ctx.logFileHandlers.Add((ILogFileHandler)new RTLogHandler(new CreateTextStreamReader(), ParseType.RT, RTLine.Factory));

@@ -35,12 +35,12 @@ namespace SIUView
             tableName = "Status";
 
             // COMPRESS
-            string[] columns = new string[] { "error", "safe", "device", "opswitch", "tamper", "inttamper", "cabinet", "ups", "errorcode", "description" };
+            string[] columns = new string[] { "error", "safe", "device", "opswitch", "tamper", "inttamper", "cabinet", "ups", "audio", "errorcode", "description" };
             CompressTable(tableName, columns);
 
             // ADD ENGLISH
             ctx.ConsoleWriteLogLine(String.Format("Add English to {0} Table", tableName));
-            string[,] colKeyMap = new string[7, 2]
+            string[,] colKeyMap = new string[8, 2]
             {
                {"safe", "fwSafeDoor" },
                {"device", "fwDevice"},
@@ -48,7 +48,8 @@ namespace SIUView
                {"tamper", "tamper"},
                {"inttamper", "intTamper"},
                {"cabinet", "cabinet"},
-               {"ups", "ups" }
+               {"ups", "ups" },
+               {"audio", "audio" }
             };
             AddEnglishToTable(tableName, colKeyMap);
          }
@@ -109,6 +110,7 @@ namespace SIUView
                dataRow["inttamper"] = siuStatus.intTamper;
                dataRow["cabinet"] = siuStatus.cabinet;
                dataRow["ups"] = siuStatus.ups;
+               dataRow["audio"] = siuStatus.audio;
                dataRow["description"] = siuStatus.description;
 
                dTableSet.Tables["Status"].AcceptChanges();

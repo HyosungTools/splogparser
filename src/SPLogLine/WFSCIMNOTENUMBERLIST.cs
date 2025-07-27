@@ -88,7 +88,7 @@ namespace LogLineHandler
             return lpNoteNumberList;
          }
 
-         (string thisUnit, string nextUnits) logicalUnits = Util.NextLogicalUnit(logLine);
+         (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
 
          for (int i = 0; i < lUnitCount; i++)
          {
@@ -100,7 +100,7 @@ namespace LogLineHandler
                lpNoteNumberList[i, j] = usNoteIDs[j] + ":" + ulCounts[j];
             }
 
-            logicalUnits = Util.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
          }
 
          return lpNoteNumberList; 
@@ -119,12 +119,12 @@ namespace LogLineHandler
          (bool success, string xfsMatch, string subLogLine) result = usNumOfNoteNumbers(logLine);
          int usCount = int.Parse(result.xfsMatch.Trim());
 
-         (string thisUnit, string nextUnits) logicalUnits = Util.NextLogicalUnit(result.subLogLine);
+         (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(result.subLogLine);
 
          for (int i = 0; i < usCount; i++)
          {
             values.Add(usNoteID(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = Util.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), usCount));
       }
@@ -136,12 +136,12 @@ namespace LogLineHandler
          (bool success, string xfsMatch, string subLogLine) result = usNumOfNoteNumbers(logLine);
          int usCount = int.Parse(result.xfsMatch.Trim());
 
-         (string thisUnit, string nextUnits) logicalUnits = Util.NextLogicalUnit(result.subLogLine);
+         (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(result.subLogLine);
 
          for (int i = 0; i < usCount; i++)
          {
             values.Add(ulCount(logicalUnits.thisUnit).xfsMatch.Trim());
-            logicalUnits = Util.NextLogicalUnit(logicalUnits.nextUnits);
+            logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), usCount));
       }

@@ -42,8 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="samples_flat_cdm.cs" />
     <Compile Include="samples_cdm.cs" />
     <Compile Include="samples_cim.cs" />
+    <Compile Include="samples_flat_cim.cs" />
+    <Compile Include="samples_flat_ipm.cs" />
     <Compile Include="samples_general.cs" />
     <Compile Include="samples_idc.cs" />
     <Compile Include="samples_ipm.cs" />

@@ -53,6 +53,7 @@
     <Compile Include="LogHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RTLogHandler.cs" />
+    <Compile Include="SPFlatLogHandler.cs" />
     <Compile Include="SPLogHandler.cs" />
     <Compile Include="SSLogHandler.cs" />
   </ItemGroup>
