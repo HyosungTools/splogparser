@@ -189,7 +189,7 @@ namespace RegEx
                }
             }
          }
-
+//         Console.WriteLine($"MatchTable: {string.Join("|", values)}");
          return values.ToArray();
       }
 
@@ -260,6 +260,7 @@ namespace RegEx
          {
             values[i] = defValue;
          }
+//         Console.WriteLine($"Resize: {string.Join("|", values)}");
          return values;
       }
 

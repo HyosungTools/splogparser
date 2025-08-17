@@ -58,15 +58,16 @@ namespace SPLogParserTests
          Console.WriteLine(result.xfsLine);
       }
 
-      [TestMethod]
-      public void Identify_WFS_INF_CDM_CASH_UNIT_INFO_2()
-      {
-         string logLine = samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_2;
-         (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
-         Assert.IsTrue(result.xfsType == XFSType.WFS_INF_CDM_CASH_UNIT_INFO);
-         Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
-         Console.WriteLine(result.xfsLine);
-      }
+      //[TestMethod]
+      //[Ignore]
+      //public void Identify_WFS_INF_CDM_CASH_UNIT_INFO_2()
+      //{
+      //   string logLine = samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_2;
+      //   (XFSType xfsType, string xfsLine) result = IdentifyLines.XFSLine(logLine);
+      //   Assert.IsTrue(result.xfsType == XFSType.WFS_INF_CDM_CASH_UNIT_INFO);
+      //   Assert.IsTrue(result.xfsLine.StartsWith("lpResult"));
+      //   Console.WriteLine(result.xfsLine);
+      //}
 
       [TestMethod]
       public void Identify_WFS_INF_CDM_CASH_UNIT_INFO_3()

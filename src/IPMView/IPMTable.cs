@@ -433,7 +433,7 @@ namespace IPMView
                   }
                   catch (Exception e)
                   {
-                     ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IPM_MEDIA_BIN_INFO Cash Unit Table Exception {0}, {1}, {2}, {3}", spLogLine.LogFile, spLogLine.Timestamp, e.Message, i));
+                     ctx.ConsoleWriteLogLine(String.Format("WFS_INF_IPM_MEDIA_BIN_INFO IPM Exception {0}, {1}, {2}, {3}", spLogLine.LogFile, spLogLine.Timestamp, e.Message, i));
                   }
                }
             }

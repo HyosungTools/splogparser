@@ -271,15 +271,15 @@
    <Messages>
     <type>audio</type>
     <code>0x0001</code>		<!-- WFS_SIU_PUBLICAUDIO_MANUAL -->
-    <brief>manual</brief>
-    <description>Audio will be played through speakers only</description>
+    <brief>present</brief>
+    <description>There is a headset connected</description>
   </Messages>
 
    <Messages>
     <type>audio</type>
     <code>0x0002</code>		<!-- WFS_SIU_PUBLICAUDIO_AUTO -->
-    <brief>auto</brief>
-    <description>When a headset is connected, the device will go private</description>
+    <brief>not-present</brief>
+    <description>There is no headset connected</description>
   </Messages>
 
    <Messages>

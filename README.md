@@ -115,6 +115,7 @@ Combine one or more *Parse Type* with one or more *View* to tell the parse what 
 | View     | Description |
 |----------|----------------------|
 | CDM      | Cash Dispense Module Status, Dispense operation and Counts |
+| PHY      | Physical Cash Dispenser Cassettes |
 | CIM      | Cash-In Module Status, Deposits operations and Counts|
 | DEV      | Device Status over time |
 | Extra    | The lpszExtra values from device status. Good for flagging error codes |
