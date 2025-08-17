@@ -57,24 +57,45 @@ namespace LogFileHandler
       static Regex WFS_EXEE_IDC_TRACKDETECTED = new Regex("EXECUTE_EVENT.215.[0-9]+WFS_EXECUTE_EVENT");
 
 
-      /* 3 - CDM */
+      /* 3 - CDM  CASH */
       /* INFO */
-      static Regex WFS_INF_CDM_STATUS = new Regex("GETINFO.301.[0-9]+WFS_GETINFO_COMPLETE");
-      static Regex WFS_INF_CDM_CASH_UNIT_INFO = new Regex("GETINFO.303.[0-9]+WFS_GETINFO_COMPLETE");
-      static Regex WFS_INF_CDM_PRESENT_STATUS = new Regex("GETINFO.309.[0-9]+WFS_GETINFO_COMPLETE");
+      static readonly Regex WFS_INF_CDM_STATUS = new Regex(@"CashDispenser.*GETINFO.301.[0-9]+WFS_GETINFO_COMPLETE", RegexOptions.Compiled);
+      static readonly Regex WFS_INF_CDM_CASH_UNIT_INFO = new Regex(@"CashDispenser.*GETINFO\[303\][0-9]+WFS_GETINFO_COMPLETE", RegexOptions.Compiled);
+      static readonly Regex WFS_INF_CDM_PRESENT_STATUS = new Regex(@"CashDispenser.*GETINFO.309.[0-9]+WFS_GETINFO_COMPLETE", RegexOptions.Compiled);
 
       /* EXECUTE */
-      static Regex WFS_CMD_CDM_DISPENSE = new Regex("EXECUTE.302.[0-9]+WFS_EXECUTE_COMPLETE");
-      static Regex WFS_CMD_CDM_PRESENT = new Regex("EXECUTE.303.[0-9]+WFS_EXECUTE_COMPLETE");
-      static Regex WFS_CMD_CDM_REJECT = new Regex("EXECUTE.304.[0-9]+WFS_EXECUTE_COMPLETE");
-      static Regex WFS_CMD_CDM_RETRACT = new Regex("EXECUTE.305.[0-9]+WFS_EXECUTE_COMPLETE");
-      static Regex WFS_CMD_CDM_STARTEX = new Regex("EXECUTE.311.[0-9]+WFS_EXECUTE_COMPLETE");
-      static Regex WFS_CMD_CDM_ENDEX = new Regex("EXECUTE.312.[0-9]+WFS_EXECUTE_COMPLETE");
-      static Regex WFS_CMD_CDM_RESET = new Regex("EXECUTE.321.[0-9]+WFS_EXECUTE_COMPLETE");
+      static Regex WFS_CMD_CDM_DISPENSE = new Regex(@"CashDispenser.*EXECUTE.302.[0-9]+WFS_EXECUTE_COMPLETE", RegexOptions.Compiled);
+      static Regex WFS_CMD_CDM_PRESENT = new Regex(@"CashDispenser.*EXECUTE.303.[0-9]+WFS_EXECUTE_COMPLETE", RegexOptions.Compiled);
+      static Regex WFS_CMD_CDM_REJECT = new Regex(@"CashDispenser.*EXECUTE.304.[0-9]+WFS_EXECUTE_COMPLETE", RegexOptions.Compiled);
+      static Regex WFS_CMD_CDM_RETRACT = new Regex(@"CashDispenser.*EXECUTE.305.[0-9]+WFS_EXECUTE_COMPLETE", RegexOptions.Compiled);
+      static Regex WFS_CMD_CDM_STARTEX = new Regex(@"CashDispenser.*EXECUTE.311.[0-9]+WFS_EXECUTE_COMPLETE", RegexOptions.Compiled);
+      static Regex WFS_CMD_CDM_ENDEX = new Regex(@"CashDispenser.*EXECUTE.312.[0-9]+WFS_EXECUTE_COMPLETE", RegexOptions.Compiled);
+      static Regex WFS_CMD_CDM_RESET = new Regex(@"CashDispenser.*EXECUTE.321.[0-9]+WFS_EXECUTE_COMPLETE", RegexOptions.Compiled);
 
       /* EVENTS */
-      static Regex WFS_SRVE_CDM_CASHUNITINFOCHANGED = new Regex("SERVICE_EVENT.304.[0-9]+WFS_SERVICE_EVENT");
-      static Regex WFS_SRVE_CDM_ITEMSTAKEN = new Regex("SERVICE_EVENT.309.[0-9]+WFS_SERVICE_EVENT");
+      static Regex WFS_SRVE_CDM_CASHUNITINFOCHANGED = new Regex(@"CashDispenser.*SERVICE_EVENT.304.[0-9]+WFS_SERVICE_EVENT", RegexOptions.Compiled);
+      static Regex WFS_SRVE_CDM_ITEMSTAKEN = new Regex(@"CashDispenser.*SERVICE_EVENT.309.[0-9]+WFS_SERVICE_EVENT", RegexOptions.Compiled);
+
+
+      /* 3 - CDM  COIN */
+      /* INFO */
+      static readonly Regex WFS_INF_CDM_STATUS_COIN = new Regex(@"CoinDispenser.*GETINFO.301.[0-9]+WFS_GETINFO_COMPLETE", RegexOptions.Compiled);
+      static readonly Regex WFS_INF_CDM_CASH_UNIT_INFO_COIN = new Regex(@"CoinDispenser.*GETINFO\[303\][0-9]+WFS_GETINFO_COMPLETE", RegexOptions.Compiled);
+      static readonly Regex WFS_INF_CDM_PRESENT_STATUS_COIN = new Regex(@"CoinDispenser.*GETINFO.309.[0-9]+WFS_GETINFO_COMPLETE", RegexOptions.Compiled);
+
+      /* EXECUTE */
+      static Regex WFS_CMD_CDM_DISPENSE_COIN = new Regex(@"CoinDispenser.*EXECUTE.302.[0-9]+WFS_EXECUTE_COMPLETE", RegexOptions.Compiled);
+      static Regex WFS_CMD_CDM_PRESENT_COIN = new Regex(@"CoinDispenser.*EXECUTE.303.[0-9]+WFS_EXECUTE_COMPLETE", RegexOptions.Compiled);
+      static Regex WFS_CMD_CDM_REJECT_COIN = new Regex(@"CoinDispenser.*EXECUTE.304.[0-9]+WFS_EXECUTE_COMPLETE", RegexOptions.Compiled);
+      static Regex WFS_CMD_CDM_RETRACT_COIN = new Regex(@"CoinDispenser.*EXECUTE.305.[0-9]+WFS_EXECUTE_COMPLETE", RegexOptions.Compiled);
+      static Regex WFS_CMD_CDM_STARTEX_COIN = new Regex(@"Coin.*EXECUTE.311.[0-9]+WFS_EXECUTE_COMPLETE", RegexOptions.Compiled);
+      static Regex WFS_CMD_CDM_ENDEX_COIN = new Regex(@"CoinDispenser.*EXECUTE.312.[0-9]+WFS_EXECUTE_COMPLETE", RegexOptions.Compiled);
+      static Regex WFS_CMD_CDM_RESET_COIN = new Regex(@"CoinDispenser.*EXECUTE.321.[0-9]+WFS_EXECUTE_COMPLETE", RegexOptions.Compiled);
+
+      /* EVENTS */
+      static Regex WFS_SRVE_CDM_CASHUNITINFOCHANGED_COIN = new Regex(@"CoinDispenser.*SERVICE_EVENT.304.[0-9]+WFS_SERVICE_EVENT.*Coin", RegexOptions.Compiled);
+      static Regex WFS_SRVE_CDM_ITEMSTAKEN_COIN = new Regex(@"CoinDispenser.*SERVICE_EVENT.309.[0-9]+WFS_SERVICE_EVENT.*Coin", RegexOptions.Compiled);
+
 
       /* 4 - PIN */
       /* INFO */

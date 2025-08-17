@@ -1,0 +1,76 @@
+<?xml version="1.0" standalone="yes"?>
+<PHY>
+
+<!-- usPStatus -->
+
+  <Messages>
+    <type>usPStatus</type>
+    <code>0</code>
+    <brief>ok</brief>
+    <description>The cash unit is in a good state</description>
+  </Messages>   
+
+  <Messages>
+    <type>usPStatus</type>
+    <code>1</code>
+    <brief>full</brief>
+    <description>The cash unit is full.</description>
+  </Messages>   
+
+  <Messages>
+    <type>usPStatus</type>
+    <code>2</code>
+    <brief>high</brief>
+    <description>The cash unit is almost full (i.e. reached or exceeded the threshold defined by ulMaximum).</description>
+  </Messages>   
+
+  <Messages>
+    <type>usPStatus</type>
+    <code>3</code>
+    <brief>low</brief>
+    <description>The cash unit is almost empty (i.e. reached or below the threshold defined by ulMinimum). </description>
+  </Messages>   
+
+  <Messages>
+    <type>usPStatus</type>
+    <code>4</code>
+    <brief>empty</brief>
+    <description>The cash unit is empty, or insufficient items in the cash unit are preventing further dispense operations.</description>
+  </Messages>   
+
+  <Messages>
+    <type>usPStatus</type>
+    <code>5</code>
+    <brief>inop</brief>
+    <description>The cash unit is inoperative.</description>
+  </Messages>   
+
+  <Messages>
+    <type>usPStatus</type>
+    <code>6</code>
+    <brief>missing</brief>
+    <description>The cash unit is missing.</description>
+  </Messages>
+
+  <Messages>
+    <type>usPStatus</type>
+    <code>7</code>
+    <brief>noval</brief>
+    <description>The values of the specified cash unit are not available</description>
+  </Messages>   
+
+  <Messages>
+    <type>usPStatus</type>
+    <code>8</code>
+    <brief>noref</brief>
+    <description>There is no reference value available for the notes in this cash unit. The cash unit has not been calibrated.</description>
+  </Messages>   
+
+  <Messages>
+    <type>usPStatus</type>
+    <code>9</code>
+    <brief>manip</brief>
+    <description>The cash unit has been inserted when the device was not in the exchange state. This cash unit cannot be dispensed from.</description>
+  </Messages>
+
+</PHY>

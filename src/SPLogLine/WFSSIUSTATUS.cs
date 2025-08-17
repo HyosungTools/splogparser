@@ -85,7 +85,7 @@ namespace LogLineHandler
 
       protected static (bool success, string xfsMatch, string sublogLne) enhancedAudioFromSIUStatus(string logLine)
       {
-         return Util.MatchList(logLine, "fwAuxiliaries\\[WFS_SIU_ENHANCEDAUDIOCONTROL\\] = \\[(.*)\\]", "0");
+         return Util.MatchList(logLine, "fwSensors\\[WFS_SIU_ENHANCEDAUDIO\\] = \\[(.*)\\]", "0");
       }
 
       protected static (bool success, string xfsMatch, string subLogLine) errorCodeFromSIUStatus(string logLine)

@@ -16,22 +16,34 @@ namespace LogLineHandler
 
       protected override void Initialize()
       {
-         base.Initialize();
+         try
+         {
+            base.Initialize();
 
-         // GetUnitID0043UnitID[(51060)(51060)(51063)(51066)(51171)]
-         // GetUnitType0085UnitType[(RETRACTCASSETTE)(REJECTCASSETTE)(BILLCASSETTE)(BILLCASSETTE)(BILLCASSETTE)]
-         // UnitCurrencyID[(   )(   )(USD)(USD)(USD)
-         // UnitValue[(0)(0)(5)(20)(50)]
+            if (flatType == SPFlatType.CDM_PhysicalCounts)
+            {
+               //Console.WriteLine("Physical Counts...so the log line is getting created");
+            }
 
-         // Regular expression to match content inside parentheses
-         string pattern = @"\(([^)]*)\)";
-         MatchCollection matches = Regex.Matches(logLine, pattern);
+            // GetUnitID0043UnitID[(51060)(51060)(51063)(51066)(51171)]
+            // GetUnitType0085UnitType[(RETRACTCASSETTE)(REJECTCASSETTE)(BILLCASSETTE)(BILLCASSETTE)(BILLCASSETTE)]
+            // UnitCurrencyID[(   )(   )(USD)(USD)(USD)
+            // UnitValue[(0)(0)(5)(20)(50)]
 
-         // Extract content and convert whitespace-only to empty string
-         unitList = matches
-             .Cast<Match>()
-             .Select(m => string.IsNullOrWhiteSpace(m.Groups[1].Value) ? "" : m.Groups[1].Value)
-             .ToArray();
+            // Regular expression to match content inside parentheses
+            string pattern = @"\(([^)]*)\)";
+            MatchCollection matches = Regex.Matches(logLine, pattern);
+
+            // Extract content and convert whitespace-only to empty string
+            unitList = matches
+                .Cast<Match>()
+                .Select(m => string.IsNullOrWhiteSpace(m.Groups[1].Value) ? "" : m.Groups[1].Value)
+                .ToArray();
+         }
+         catch (Exception e)
+         {
+            Console.WriteLine("Exception in Initialize()");
+         }
       }
    }
 }

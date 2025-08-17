@@ -247,8 +247,8 @@ namespace SPLogLineTests
          // Expected values for logical units (from WFS_INF_CDM_CASH_UNIT_INFO_1, no physical data)
          var expectedLogical = new[]
          {
-        new { Number = "1", Type = "6", UnitID = "LCU00", Currency = "", Value = "0", InitialCount = "0", Count = "0", RejectCount = "1", Minimum = "0", Maximum = "80", Status = "4", Dispensed = "0", Presented = "0", Retracted = "1" },
-        new { Number = "2", Type = "2", UnitID = "LCU01", Currency = "", Value = "0", InitialCount = "0", Count = "0", RejectCount = "2", Minimum = "0", Maximum = "210", Status = "4", Dispensed = "0", Presented = "0", Retracted = "2" },
+        new { Number = "1", Type = "6", UnitID = "LCU00", Currency = "   ", Value = "0", InitialCount = "0", Count = "0", RejectCount = "1", Minimum = "0", Maximum = "80", Status = "4", Dispensed = "0", Presented = "0", Retracted = "1" },
+        new { Number = "2", Type = "2", UnitID = "LCU01", Currency = "   ", Value = "0", InitialCount = "0", Count = "0", RejectCount = "2", Minimum = "0", Maximum = "210", Status = "4", Dispensed = "0", Presented = "0", Retracted = "2" },
         new { Number = "3", Type = "12", UnitID = "LCU02", Currency = "USD", Value = "1", InitialCount = "2000", Count = "1994", RejectCount = "3", Minimum = "0", Maximum = "0", Status = "0", Dispensed = "43", Presented = "43", Retracted = "3" },
         new { Number = "4", Type = "12", UnitID = "LCU03", Currency = "USD", Value = "5", InitialCount = "2000", Count = "1797", RejectCount = "4", Minimum = "0", Maximum = "0", Status = "0", Dispensed = "219", Presented = "215", Retracted = "4" },
         new { Number = "5", Type = "12", UnitID = "LCU04", Currency = "USD", Value = "20", InitialCount = "2000", Count = "2158", RejectCount = "5", Minimum = "0", Maximum = "0", Status = "0", Dispensed = "194", Presented = "190", Retracted = "5" },
@@ -291,8 +291,8 @@ namespace SPLogLineTests
          // Expected values for logical units (from WFS_INF_CDM_CASH_UNIT_INFO_2)
          var expectedLogical = new[]
          {
-        new { Number = "1", Type = "6", UnitID = "LCU00", Currency = "", Value = "0", InitialCount = "0", Count = "0", RejectCount = "0", Minimum = "0", Maximum = "80", Status = "4", Dispensed = "0", Presented = "0", Retracted = "0" },
-        new { Number = "2", Type = "2", UnitID = "LCU01", Currency = "", Value = "0", InitialCount = "0", Count = "2", RejectCount = "2", Minimum = "0", Maximum = "210", Status = "0", Dispensed = "0", Presented = "0", Retracted = "0" },
+        new { Number = "1", Type = "6", UnitID = "LCU00", Currency = "   ", Value = "0", InitialCount = "0", Count = "0", RejectCount = "0", Minimum = "0", Maximum = "80", Status = "4", Dispensed = "0", Presented = "0", Retracted = "0" },
+        new { Number = "2", Type = "2", UnitID = "LCU01", Currency = "   ", Value = "0", InitialCount = "0", Count = "2", RejectCount = "2", Minimum = "0", Maximum = "210", Status = "0", Dispensed = "0", Presented = "0", Retracted = "0" },
         new { Number = "3", Type = "12", UnitID = "LCU02", Currency = "USD", Value = "1", InitialCount = "1400", Count = "1334", RejectCount = "1", Minimum = "0", Maximum = "0", Status = "0", Dispensed = "101", Presented = "95", Retracted = "0" },
         new { Number = "4", Type = "12", UnitID = "LCU03", Currency = "USD", Value = "5", InitialCount = "1400", Count = "1336", RejectCount = "0", Minimum = "0", Maximum = "0", Status = "0", Dispensed = "78", Presented = "75", Retracted = "0" },
         new { Number = "5", Type = "12", UnitID = "LCU04", Currency = "USD", Value = "20", InitialCount = "1400", Count = "1362", RejectCount = "1", Minimum = "0", Maximum = "0", Status = "0", Dispensed = "187", Presented = "182", Retracted = "0" },
@@ -443,27 +443,25 @@ namespace SPLogLineTests
       }
 
       [TestMethod]
-      public void SPLogHandler_IdentifyLines_WFS_CMD_CDM_DISPENSE()
+      public void WFS_CMD_CDM_DISPENSE_1()
       {
          ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
          ILogLine logLine = logFileHandler.IdentifyLine(samples_cdm.WFS_CMD_CDM_DISPENSE_1);
-         Assert.IsTrue(logLine is WFSCDMDENOMINATION);
+
+         Assert.IsTrue(logLine is WFSCDMDENOMINATION, "Expected logLine is WFSCDMDENOMINATION");
 
          WFSCDMDENOMINATION spLine = (WFSCDMDENOMINATION)logLine;
-         Assert.IsTrue(spLine.xfsType == XFSType.WFS_CMD_CDM_DISPENSE);
-         Assert.IsTrue(spLine.Timestamp == "2023-01-24 00:33:24.804");
-         Assert.IsTrue(spLine.HResult == "");
+         string[] expected = new[] { "0", "0", "0", "4", "9", "3" };
 
-         Assert.IsTrue(spLine.cCurrencyID == "USD");
-         Assert.IsTrue(spLine.ulAmount == "30");
-         Assert.IsTrue(spLine.usCount == "31");
-         Assert.IsTrue(spLine.lpulValues[0] == "32");
-         Assert.IsTrue(spLine.lpulValues[1] == "33");
-         Assert.IsTrue(spLine.lpulValues[2] == "34");
-         Assert.IsTrue(spLine.lpulValues[3] == "35");
-         Assert.IsTrue(spLine.lpulValues[4] == "36");
-         Assert.IsTrue(spLine.lpulValues[5] == "37");
-         Assert.IsTrue(spLine.ulCashBox == "38");
+         Assert.AreEqual(spLine.xfsType, XFSType.WFS_CMD_CDM_DISPENSE, $"Expected logLine is XFSType.WFS_CMD_CDM_DISPENSE");
+         Assert.AreEqual(spLine.Timestamp, "2025-06-01 06:49:36.332", $"Expected timestamp 2025-06-01 06:49:36.332, actual timestamp {spLine.Timestamp}");
+         Assert.AreEqual(spLine.HResult, "", $"Expected HResult is '', actual HResult is '{spLine.HResult}'");
+
+         Assert.AreEqual(spLine.cCurrencyID,"USD", $"Expected currency is USD, actual currency is {spLine.cCurrencyID}");
+         Assert.AreEqual(spLine.ulAmount, "500", $"Expected amount is 500, actual amount is {spLine.ulAmount}");
+         Assert.AreEqual(spLine.usCount, "6", $"Expected count is 5, actual count is {spLine.usCount}");
+         CollectionAssert.AreEqual(expected, spLine.lpulValues, "Expected values to be 0, 0, 4, 9, 3");
+         Assert.AreEqual(spLine.ulCashBox, "0", $"Expected Cash Box 0, actual cash box {spLine.ulCashBox}");
       }
 
       [TestMethod]
@@ -535,18 +533,14 @@ namespace SPLogLineTests
       public void SPLogHandler_IdentifyLines_WFS_CMD_CDM_ENDEX()
       {
          ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
-         ILogLine logLine = logFileHandler.IdentifyLine(samples_cdm.WFS_CMD_CDM_END_EXCHANGE);
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_cdm.WFS_CMD_CDM_END_EXCHANGE_1);
          Assert.IsTrue(logLine is SPLine);
 
          SPLine spLine = (SPLine)logLine;
          Assert.IsTrue(spLine.xfsType == XFSType.WFS_CMD_CDM_ENDEX);
-         Assert.IsTrue(spLine.Timestamp == "2023-04-03 11:59:57.419");
-         Assert.IsTrue(spLine.HResult == "");
+         Assert.AreEqual(spLine.Timestamp, "2025-06-11 10:53:27.053", $"Expected timestamp 2025-06-11 10:53:27.053, actual timestamp {spLine.Timestamp}");
+         Assert.AreEqual(spLine.HResult, "", $"Expected HResult 0, actual HResult {spLine.HResult}");
       }
-
-
-
-
 
       [TestMethod]
       public void SPLogHandler_IdentifyLines_WFS_SRVE_CDM_CASHUNITINFOCHANGED()
@@ -618,9 +612,9 @@ namespace SPLogLineTests
          Assert.IsTrue(logLine is SPLine);
 
          SPLine spLine = (SPLine)logLine;
-         Assert.IsTrue(spLine.xfsType == XFSType.WFS_SRVE_CDM_ITEMSTAKEN);
-         Assert.IsTrue(spLine.Timestamp == "2022-12-18 23:15:26.187");
-         Assert.IsTrue(spLine.HResult == "");
+         Assert.AreEqual(spLine.xfsType, XFSType.WFS_SRVE_CDM_ITEMSTAKEN, $"Expected value XFSType.WFS_SRVE_CDM_ITEMSTAKEN, actual value {spLine.xfsType}");
+         Assert.AreEqual(spLine.Timestamp, "2025-05-31 23:06:19.057", $"Expected value 2025-05-31 23:06:19.057, actual value {spLine.Timestamp}");
+         Assert.AreEqual(spLine.HResult, "", $"Expected value '', actual value {spLine.HResult}");
       }
 
       /* 4 - PIN */
@@ -1166,9 +1160,9 @@ namespace SPLogLineTests
          Assert.IsTrue(logLine is SPLine);
 
          SPLine spLine = (SPLine)logLine;
-         Assert.IsTrue(spLine.xfsType == XFSType.WFS_SRVE_CIM_ITEMSTAKEN);
-         Assert.IsTrue(spLine.Timestamp == "2023-01-24 13:22:45.453");
-         Assert.IsTrue(spLine.HResult == "");
+         Assert.AreEqual(spLine.xfsType, XFSType.WFS_SRVE_CIM_ITEMSTAKEN, $"Expected type XFSType.WFS_SRVE_CIM_ITEMSTAKEN, actual value {spLine.xfsType}");
+         Assert.AreEqual(spLine.Timestamp, "2023-01-24 13:22:45.453", $"Expected timestamp 2023-01-24 13:22:45.453, actual timestamp {spLine.Timestamp}");
+         Assert.AreEqual(spLine.HResult, "", $"Expected HResult '', actual HResult {spLine.HResult}");
       }
 
       [TestMethod]
