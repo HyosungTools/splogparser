@@ -17,6 +17,9 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
+        
+    - name: Fetch all tags
+      run: git fetch --prune origin +refs/tags/*:refs/tags/*
     
     # Semantic Versioning
     - name: Semantic versioning  
