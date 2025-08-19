@@ -178,8 +178,8 @@ namespace RegEx
          Match m = regEx.Match(logLine);
          if (m.Success)
          {
-            values = m.Groups[0].Value.Split('\t').ToList();
-            values.RemoveAll(s => s == "");
+            values = m.Groups[1].Value.Split('\t').ToList();
+            values.RemoveAll(s => string.IsNullOrEmpty(s));
 
             for (int i = 0; i < values.Count; i++)
             {
@@ -189,7 +189,8 @@ namespace RegEx
                }
             }
          }
-//         Console.WriteLine($"MatchTable: {string.Join("|", values)}");
+
+         Console.WriteLine($"MatchTable - size: {values.Count} elements : {string.Join("|", values)}");
          return values.ToArray();
       }
 

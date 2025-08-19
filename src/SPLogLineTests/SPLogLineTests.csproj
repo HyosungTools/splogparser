@@ -57,6 +57,7 @@
     <Compile Include="WFPOPENTests.cs" />
     <Compile Include="WFPCLOSETests.cs" />
     <Compile Include="WFSCDMCUINFOTests.cs" />
+    <Compile Include="WFSCDMDENOMINATIONTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contract\Contract.csproj">
