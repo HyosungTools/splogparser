@@ -2,16 +2,23 @@
 using LogFileHandler;
 using LogLineHandler;
 using Samples;
+using Contract;
 
 namespace SPLogLineTests
 {
+   [TestClass]
    public class WFPCLOSETests
    {
       [TestMethod]
       public void WFPCLOSE_Timestamp()
       {
-         WFPCLOSE spLine = new WFPCLOSE(new SPLogHandler(new CreateTextStreamReaderMock()), samples_general.WFPCLOSE, XFSType.WFPCLOSE);
-         Assert.IsTrue(spLine.Timestamp == "2023-03-17 08:42:28.033");
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.WFPCLOSE);
+         string expected = "2023-04-04 02:59:48.532";
+
+         Assert.IsTrue(logLine is WFPCLOSE);
+         WFPCLOSE spLine = (WFPCLOSE)logLine;
+         Assert.AreEqual(expected, spLine.Timestamp, $"Expected {expected} Actual {spLine.Timestamp}");
       }
 
       [TestMethod]

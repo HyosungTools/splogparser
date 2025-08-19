@@ -100,8 +100,8 @@ namespace LogLineHandler
 
             usNumbers = usNumbersFromTable(logicalSubLogLine);
             usTypes = usTypesFromTable(logicalSubLogLine);
-            cUnitIDs = cUnitIDsFromTable(logicalSubLogLine, lUnitCount);
-            cCurrencyIDs = cCurrencyIDsFromTable(logicalSubLogLine, lUnitCount);
+            cUnitIDs = cUnitIDsFromTable(logicalSubLogLine);
+            cCurrencyIDs = cCurrencyIDsFromTable(logicalSubLogLine);
             ulValues = ulValuesFromTable(logicalSubLogLine);
             ulInitialCounts = ulInitialCountsFromTable(logicalSubLogLine);
             ulCounts = ulCountsFromTable(logicalSubLogLine);
@@ -273,131 +273,131 @@ namespace LogLineHandler
 
       protected static string[] usNumbersFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=usNumber\s+)([^\n]*)(?=\s*(?:\n|$))");
+         return Util.MatchTable(logLine, @"(?<=usNumber\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] usTypesFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=usType\s+)([^\n]*)(?=\s*(?:\n|$))");
+         return Util.MatchTable(logLine, @"(?<=usType\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
-      protected static string[] cUnitIDsFromTable(string logLine, int lUnitCount = 1)
+      protected static string[] cUnitIDsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=cUnitID\s+)([^\n]*)(?=\s*(?:\n|$))");
+         return Util.MatchTable(logLine, @"(?<=cUnitID\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
-      protected static string[] cCurrencyIDsFromTable(string logLine, int lUnitCount = 1)
+      protected static string[] cCurrencyIDsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=cCurrencyID\s+)([^\n]*)(?=\s*(?:\n|$))");
+         return Util.MatchTable(logLine, @"(?<=cCurrencyID\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] ulValuesFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulValues\s+)([^\n]*)(?=\s*(?:\n|$))");
+         return Util.MatchTable(logLine, @"(?<=ulValues\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] ulCountsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulCount\s+)([^\n]*)(?=\s*(?:\n|$))");
+         return Util.MatchTable(logLine, @"(?<=ulCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] usStatusesFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=usStatus\s+)([^\n]*)(?=\s*(?:\n|$))");
+         return Util.MatchTable(logLine, @"(?<=usStatus\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] ulInitialCountsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulInitialCount\s+)([^\n]*)(?=\s*(?:\n|$))");
+         return Util.MatchTable(logLine, @"(?<=ulInitialCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] ulMinimumsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulMinimum\s+)([^\n]*)(?=\s*(?:\n|$))");
+         return Util.MatchTable(logLine, @"(?<=ulMinimum\s+)([^\n]*)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] ulMaximumsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulMaximum\s+)([^\n]*)(?=\s*(?:\n|$))");
+         return Util.MatchTable(logLine, @"(?<=ulMaximum\s+)([^\n]*)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] ulRejectCountsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulRejectCount\s+)([^\n]*)(?=\s*(?:\n|$))");
+         return Util.MatchTable(logLine, @"(?<=ulRejectCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] ulDispensedCountsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulDispensedCount\s+)([^\n]*)(?=\s*(?:\n|$))");
+         return Util.MatchTable(logLine, @"(?<=ulDispensedCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] ulPresentedCountsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulPresentedCount\s+)([^\n]*)(?=\s*(?:\n|$))");
+         return Util.MatchTable(logLine, @"(?<=ulPresentedCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] ulRetractedCountsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulRetractedCount\s+)([^\n]*)(?=\s*(?:\n|$))");
+         return Util.MatchTable(logLine, @"(?<=ulRetractedCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] usNumPhysicalCUsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=usNumPhysicalCUs\s+)((?:[0-9]+\s*)+)");
+         return Util.MatchTable(logLine, @"(?<=usNumPhysicalCUs\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] lpPhysicalPositionNamesFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=lpPhysicalPositionName\s+)([^\n]+)");
+         return Util.MatchTable(logLine, @"(?<=lpPhysicalPositionName\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] p_cUnitIDsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=cUnitID\s+)([^\n]+)");
+         return Util.MatchTable(logLine, @"(?<=cUnitID\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
       protected static string[] p_ulInitialCountsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulInitialCount\s+)([^\n]+)");
+         return Util.MatchTable(logLine, @"(?<=ulInitialCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] p_ulCountsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulCount\s+)([^\n]+)");
+         return Util.MatchTable(logLine, @"(?<=ulCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] p_ulRejectCountsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulRejectCount\s+)([^\n]+)");
+         return Util.MatchTable(logLine, @"(?<=ulRejectCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] p_ulMaximumsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulMaximum\s+)([^\n]+)");
+         return Util.MatchTable(logLine, @"(?<=ulMaximum\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] p_usPStatusesFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=usPStatus\s+)([^\n]+)");
+         return Util.MatchTable(logLine, @"(?<=usPStatus\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] p_bHardwareSensorsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=bHardwareSensor\s+)([^\n]+)");
+         return Util.MatchTable(logLine, @"(?<=bHardwareSensor\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] p_ulDispensedCountsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulDispensedCount\s+)([^\n]+)");
+         return Util.MatchTable(logLine, @"(?<=ulDispensedCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] p_ulPresentedCountsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulPresentedCount\s+)([^\n]+)");
+         return Util.MatchTable(logLine, @"(?<=ulPresentedCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       protected static string[] p_ulRetractedCountsFromTable(string logLine)
       {
-         return Util.MatchTable(logLine, @"(?<=ulRetractedCount\s+)([^\n]+)");
+         return Util.MatchTable(logLine, @"(?<=ulRetractedCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
       }
 
       // List Access Methods
