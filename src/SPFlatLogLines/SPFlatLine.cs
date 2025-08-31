@@ -33,6 +33,31 @@ namespace LogLineHandler
 
       CDM_HandleItemsTaken,
 
+      CIM_StartCashIn,
+      CIM_AcceptCash,
+      CIM_OpenShutter,
+      CIM_CloseShutter,
+
+      /* CIM LOgical Unit */
+      CIM_LogicalUnit,
+      CIM_LogicalUnit_InitialCount,
+      CIM_LogicalUnit_RejectCount,
+      CIM_LogicalUnit_RetractedCount,
+      CIM_LogicalUnit_DispensedCount,
+      CIM_LogicalUnit_PresentedCount,
+      CIM_LogicalUnit_TotalCount,
+      CIM_LogicalUnit_MaximumCount,
+      CIM_LogicalUnit_CashInCount,
+
+      CIM_LogicalUnit_Type,
+      CIM_LogicalUnit_Status,
+      CIM_LogicalUnit_Number,
+      CIM_LogicalUnit_UnitID,
+      CIM_LogicalUnit_CurrencyID,
+      CIM_LogicalUnit_NumberOfItems,
+      CIM_LogicalUnit_NumberOfPCU,
+
+
       flat_none,
 
       /* ERROR */
@@ -101,6 +126,7 @@ namespace LogLineHandler
       public static ILogLine Factory(ILogFileHandler handler, string logLine)
       {
          // Specialized route for CDM Dispense lines
+         #region CDM
 
          if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::Denominate") && logLine.Contains("Invoked"))
             return new CDMDenominateLine(handler, logLine);
@@ -127,7 +153,7 @@ namespace LogLineHandler
          //   handler.ctx.LogWriteLine(logLine);
 
 
-         //if (logLine.Contains("Ctrl::GetPhysical"))
+         //if (logLine.Contains("CIM0007ACTIVEX"))
          //   handler.ctx.LogWriteLine(logLine);
 
          // L O G I C A L  U N I T S
@@ -173,6 +199,27 @@ namespace LogLineHandler
 
          if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetPhysicalCount"))
             return new CDMUnitList(handler, logLine, SPFlatType.CDM_PhysicalCounts);
+
+         #endregion
+
+         // C I M  
+
+         //if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::StartCashIn") && logLine.Contains("Invoked"))
+         //   return new SPFlatLine(handler, logLine, SPFlatType.CIM_StartCashIn);
+
+         //if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::AcceptCash") && logLine.Contains("Invoked"))
+         //   return new SPFlatLine(handler, logLine, SPFlatType.CIM_AcceptCash);
+
+         //if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::OpenShutter") && logLine.Contains("Invoked"))
+         //   return new SPFlatLine(handler, logLine, SPFlatType.CIM_AcceptCash);
+
+         //if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::CloseShutter") && logLine.Contains("Invoked"))
+         //   return new SPFlatLine(handler, logLine, SPFlatType.CIM_AcceptCash);
+
+         //// Logical Units
+
+         //if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetLogicalUnit.Type"))
+         //   return CIMLogicalUnit.LUFactory(handler, logLine);
 
          return null;
       }

@@ -190,7 +190,7 @@ namespace RegEx
             }
          }
 
-         Console.WriteLine($"MatchTable - size: {values.Count} elements : {string.Join("|", values)}");
+//         Console.WriteLine($"MatchTable - size: {values.Count} elements : {string.Join("|", values)}");
          return values.ToArray();
       }
 

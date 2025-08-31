@@ -84,7 +84,7 @@ namespace CDMView
             foreach (DataTable dTable in dTableSet.Tables)
             {
                ctx.ConsoleWriteLogLine("Looking at table :" + dTable.TableName);
-               if (dTable.TableName.StartsWith("Phy-"))
+               if (!dTable.TableName.StartsWith("Phy") && !dTable.TableName.Equals("Messages"))
                {
                   tableName = dTable.TableName;
                   AddEnglishToTable(tableName, colKeyMap);
