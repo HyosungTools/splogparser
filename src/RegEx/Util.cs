@@ -15,6 +15,82 @@ namespace RegEx
          int numStart = logicalUnitString.IndexOf(numKey);
          if (numStart == -1)
          {
+            // no physical units
+            return logicalUnitString;
+         }
+         numStart += numKey.Length;
+         int numEnd = logicalUnitString.IndexOf("]", numStart);
+         if (numEnd == -1)
+         {
+            return logicalUnitString;
+         }
+         string numStr = logicalUnitString.Substring(numStart, numEnd - numStart);
+         if (!int.TryParse(numStr, out int numUnits) || numUnits <= 0)
+         {
+            // no physical units
+            return logicalUnitString;
+         }
+
+         // Find lppPhysical =
+         string physKey = "lppPhysical =";
+         int start = logicalUnitString.IndexOf(physKey, numEnd);
+         if (start == -1)
+         {
+            return logicalUnitString;
+         }
+
+         int i = start + physKey.Length;
+
+         // Process each physical unit block
+         for (int unit = 0; unit < numUnits; unit++)
+         {
+            // Skip whitespace to find next {
+            while (i < logicalUnitString.Length && char.IsWhiteSpace(logicalUnitString[i]))
+            {
+               i++;
+            }
+            if (i >= logicalUnitString.Length || logicalUnitString[i] != '{')
+            {
+               // Malformed, return original
+               return logicalUnitString;
+            }
+
+            int braceCount = 1;
+            i++; // Skip {
+            while (i < logicalUnitString.Length && braceCount > 0)
+            {
+               if (logicalUnitString[i] == '{')
+               {
+                  braceCount++;
+               }
+               else if (logicalUnitString[i] == '}')
+               {
+                  braceCount--;
+               }
+               i++;
+            }
+
+            if (braceCount != 0)
+            {
+               // Unbalanced, return original
+               return logicalUnitString;
+            }
+         }
+
+         // i is now after the last }
+         int end = i;
+
+         // Remove the section
+         return logicalUnitString.Substring(0, start) + logicalUnitString.Substring(end);
+      }
+
+      public static string RemoveNoteNumberList(string logicalUnitString)
+      {
+         // Find bAppLock = [
+         string numKey = "bAppLock = [";
+         int numStart = logicalUnitString.IndexOf(numKey);
+         if (numStart == -1)
+         {
             return logicalUnitString;
          }
          numStart += numKey.Length;
@@ -30,7 +106,7 @@ namespace RegEx
          }
 
          // Find lppPhysical =
-         string physKey = "lppPhysical =";
+         string physKey = "lpNoteNumberList =";
          int start = logicalUnitString.IndexOf(physKey, numEnd);
          if (start == -1)
          {
@@ -157,6 +233,83 @@ namespace RegEx
          }
 
          return physicalUnits;
+      }
+
+      public static List<string> ExtractNoteNumberList(string logicalUnitString)
+      {
+         List<string> noteNumberList = new List<string>();
+
+         // Find usNumOfNoteNumbers = [
+         string numKey = "usNumOfNoteNumbers = [";
+         int numStart = logicalUnitString.IndexOf(numKey);
+         if (numStart == -1)
+         {
+            return noteNumberList; // Empty list if not found
+         }
+         numStart += numKey.Length;
+         int numEnd = logicalUnitString.IndexOf("]", numStart);
+         if (numEnd == -1)
+         {
+            return noteNumberList;
+         }
+         string numStr = logicalUnitString.Substring(numStart, numEnd - numStart);
+         if (!int.TryParse(numStr, out int numUnits) || numUnits <= 0)
+         {
+            return noteNumberList;
+         }
+
+         // Find lppPhysical =
+         string physKey = "lppNoteNumber =";
+         int start = logicalUnitString.IndexOf(physKey, numEnd);
+         if (start == -1)
+         {
+            return noteNumberList;
+         }
+
+         int i = start + physKey.Length;
+
+         // Process each physical unit block
+         for (int unit = 0; unit < numUnits; unit++)
+         {
+            // Skip whitespace to find next {
+            while (i < logicalUnitString.Length && char.IsWhiteSpace(logicalUnitString[i]))
+            {
+               i++;
+            }
+            if (i >= logicalUnitString.Length || logicalUnitString[i] != '{')
+            {
+               // Malformed, stop and return what we have
+               break;
+            }
+
+            int blockStart = i;
+            int braceCount = 1;
+            i++; // Skip {
+            while (i < logicalUnitString.Length && braceCount > 0)
+            {
+               if (logicalUnitString[i] == '{')
+               {
+                  braceCount++;
+               }
+               else if (logicalUnitString[i] == '}')
+               {
+                  braceCount--;
+               }
+               i++;
+            }
+
+            if (braceCount != 0)
+            {
+               // Unbalanced, skip this one
+               continue;
+            }
+
+            // Extract the block from blockStart to i-1 (including braces)
+            string block = logicalUnitString.Substring(blockStart, i - blockStart);
+            noteNumberList.Add(block);
+         }
+
+         return noteNumberList;
       }
 
       public static (bool success, string xfsMatch, string subLogLine) Match(string logLine, string regStr, string def = "0")
@@ -306,7 +459,7 @@ namespace RegEx
             }
          }
 
-         return (subLogLine.Substring(0, endPos), subLogLine.Substring(endPos + 1));
+         return (subLogLine.Substring(0, endPos + 1), subLogLine.Substring(endPos + 1));
       }
    }
 }

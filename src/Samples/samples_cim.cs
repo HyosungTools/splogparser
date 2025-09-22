@@ -228,6 +228,43 @@ lpResult =
 		}
 	}
 }";
+      public const string WFS_INF_CIM_CASH_UNIT_INFO_LCU_TABLE =
+@"	hWnd = [0x000201a0],
+	RequestID = [17614],
+	hService = [12],
+	tsTimestamp = [2023/01/24 00:59 14.660],
+	hResult = [0],
+	u.dwCommandCode = [1303],
+	lpBuffer = [0x35aa51b4]
+	{
+		usCount=7
+		lppCashIn->
+		{
+			usNumber		1		2		3		4		5		6		7
+			fwType			8		9		11		11		12		13		14
+			fwItemType		0x0001		0x0001		0x0004		0x0004		0x0004		0x0004		0x0003
+			cUnitID			LCU00		LCU01		LCU02		LCU03		LCU04		LCU05		LCU06
+			cCurrencyID		   		   		ABC		DEF		GHI		JKL		   
+			ulValues		15		16		17		18		19		20		21
+			ulCashInCount		22		23		24		25		26		27		28
+			ulCount			29		30		31		32		33		34		35
+			ulMaximum		36		37		38		39		40		41		42
+			usStatus		43		44		45		46		47		48		49
+			bAppLock		0		0		0		0		0		0		0
+";
+      public const string WFS_INF_CIM_CASH_UNIT_INFO_LCU_ETC =
+@"			LCU ETC
+			usCDMType		0		0		0		0		0		0		0
+			lpszCashUnitName	LCU00		LCU01		LCU02		LCU03		LCU04		LCU05		LCU06		
+			ulInitialCount		100		101		102		103		104		105		106
+			ulDispensedCount	107		108		109		110		111		112		113		
+			ulPresentedCount	114		115		116		117		118		119		120		
+			ulRetractedCount	121		122		123		124		125		126		127		
+			ulRejectCount		128		129		130		131		132		133		134
+			ulMinimum		135		136		137		138		139		140		141
+			lpszExtra(LCU)		NULL		NULL		NULL		NULL		NULL		NULL		NULL
+";
+
       public const string WFS_INF_CIM_CASH_UNIT_INFO_2 = @"02454294967295022500164040090006COMMON0009FRAMEWORK00102022/12/07001216:33 16.8110011INFORMATION0033CSpCmdDispatcher::DispatchCommand0106pService->GetInfo() {HSERVICE[11], HWND[0x00020128], REQUESTID[72824], dwCmdCode[1303], dwTimeOut[300000]}02254294967295012000164040100004CCIM0002SP00102022/12/07001216:33 16.8110011INFORMATION0017CCCIMDev::_Sensor0026BDS07 sensor changed(1->0)01204294967295019200164040110003CIM0007ACTIVEX00102022/12/07001216:33 16.8110006XFSAPI0017CService::GetInfo0099WFSAsyncGetInfo(hService=11, dwCategory=1303, lpQueryDetails=0x00000000, RequestID=72824) hResult=001924294967295016600164040120006COMMON0009FRAMEWORK00102022/12/07001216:33 16.8110011INFORMATION0028CServiceProvider::GetService0052service OK {HSERVICE[11], LogicalName[CashAcceptor]}01664294967295012300164040130004CCIM0002SP00102022/12/07001216:33 16.8110011INFORMATION0017CCCIMDev::_Sensor0029ESC_RESI sensor changed(0->1)01234294967295016900164040140003CIM0009FRAMEWORK00102022/12/07001216:33 16.8110011INFORMATION0021CBaseService::GetInfo0065Srvc=1303 ReqID=72824 Wnd=0x00020128 Cmd=1303 TimeOut=300000 IO=101694294967295015800164040150012CashAcceptor0009FRAMEWORK00102022/12/07001216:33 16.8110007DEVCALL0021CBaseService::GetInfo0049HSERVICE[11] CATEGORY[1303] IN BUFFER[0x00000000]01584294967295012100164040160004CCIM0002SP00102022/12/07001216:33 16.8110011INFORMATION0017CCCIMDev::_Sensor0027BDS_UP sensor changed(0->1)01214294967295017100164040170012CashAcceptor0009FRAMEWORK00102022/12/07001216:33 16.8110007DEVRETN0021CBaseService::GetInfo0062HSERVICE[11] CATEGORY[1303] HRESULT[0], OUT BUFFER[0x006A1924]01714294967295020700164040180004CCIM0002SP00102022/12/07001216:33 16.8110011INFORMATION0017CCCIMDev::_Sensor0113##iCheckLog Start SENSOR_DATA Unit: CCIM, Message: 00282200d0420c002302230200264c004483ff018380f9 iCheckLog End##02074294967295418300164040190003CIM0003SPI00102022/12/07001216:33 16.8110009XFS_EVENT0013GETINFO[1303]4095WFS_GETINFO_COMPLETE, 
 lpResult =
 {
@@ -239,7 +276,7 @@ lpResult =
 	u.dwCommandCode = [1303],
 	lpBuffer = [0x2cae943c]
 	{
-		usCount = [2],
+		usCount = [3],
 		lppCashIn =
 		{
 			usNumber = [1],
@@ -359,6 +396,122 @@ lpResult =
 		}
 		{
 			usNumber = [2],
+			fwType = [1],
+			fwItemType = [0x0002],
+			cUnitID = [LCU00],
+			cCurrencyID = [USD],
+			ulValues = [3],
+			ulCashInCount = [4],
+			ulCount = [5],
+			ulMaximum = [6],
+			usStatus = [7],
+			bAppLock = [8],
+			lpNoteNumberList = 
+			{
+				usNumOfNoteNumbers = [18],
+				lppNoteNumber = 
+				{
+					usNoteID = [1],
+					ulCount = [10]
+				}
+				{
+					usNoteID = [2],
+					ulCount = [11]
+				}
+				{
+					usNoteID = [3],
+					ulCount = [12]
+				}
+				{
+					usNoteID = [4],
+					ulCount = [13]
+				}
+				{
+					usNoteID = [5],
+					ulCount = [14]
+				}
+				{
+					usNoteID = [6],
+					ulCount = [14]
+				}
+				{
+					usNoteID = [7],
+					ulCount = [15]
+				}
+				{
+					usNoteID = [8],
+					ulCount = [16]
+				}
+				{
+					usNoteID = [9],
+					ulCount = [17]
+				}
+				{
+					usNoteID = [10],
+					ulCount = [18]
+				}
+				{
+					usNoteID = [11],
+					ulCount = [19]
+				}
+				{
+					usNoteID = [12],
+					ulCount = [20]
+				}
+				{
+					usNoteID = [13],
+					ulCount = [21]
+				}
+				{
+					usNoteID = [14],
+					ulCount = [22]
+				}
+				{
+					usNoteID = [15],
+					ulCount = [23]
+				}
+				{
+					usNoteID = [16],
+					ulCount = [24]
+				}
+				{
+					usNoteID = [17],
+					ulCount = [25]
+				}
+				{
+					usNoteID = [0],
+					ulCount = [26]
+				}
+			}
+			usNumPhysicalCUs = [1],
+			lppPhysical = 
+			{
+				lpPhysicalPositionName = TESTCASSETTE,
+				cUnitID = [PCU09],
+				ulCashInCount = [27],
+				ulCount = [28],
+				ulMaximum = [29],
+				usPStatus = [30],
+				bHardwareSensor = [31],
+				lpszExtra = NULL,
+				ulInitialCount = [32],
+				ulDispensedCount = [33],
+				ulPresentedCount = [34],
+				ulRetractedCount = [35],
+				ulRejectCount = [36],
+			}
+			lpszExtra = NULL,
+			usCDMType = [27],
+			lpszCashUnitName = [TESTCASSETTE],
+			ulInitialCount = [28],
+			ulDispensedCount = [29],
+			ulPresentedCount = [30],
+			ulRetractedCount = [31],
+			ulRejectCount = [32],
+			ulMinimum = [33]
+		}
+      {
+			usNumber = [3],
 			fwType = [2],
 			fwItemType = [0x0001],
 			cUnitID = [LCU01],
@@ -467,6 +620,7 @@ lpResult =
 		......(More Data)......
 	}
 }";
+
       public const string WFS_INF_CIM_CASH_UNIT_INFO_3 = @"02444294967295022401809434980006COMMON0009FRAMEWORK00102023/02/03001211:52 50.2910011INFORMATION0033CSpCmdDispatcher::DispatchCommand0105pService->GetInfo() {HSERVICE[17], HWND[0x00010058], REQUESTID[9112], dwCmdCode[1303], dwTimeOut[300000]}02244294967295019101809434990003CIM0007ACTIVEX00102023/02/03001211:52 50.2920006XFSAPI0017CService::GetInfo0098WFSAsyncGetInfo(hService=17, dwCategory=1303, lpQueryDetails=0x00000000, RequestID=9112) hResult=001914294967295016601809435000006COMMON0009FRAMEWORK00102023/02/03001211:52 50.2920011INFORMATION0028CServiceProvider::GetService0052service OK {HSERVICE[17], LogicalName[CashAcceptor]}01664294967295015901809435010003CIM0007ACTIVEX00102023/02/03001211:52 50.2920011INFORMATION0022CMsgWnd::DefWindowProc0056message=0x00000407, wParam=0x075CA698, lParam=0x0A1737EC01594294967295016801809435020003IPM0009FRAMEWORK00102023/02/03001211:52 50.2920011INFORMATION0021CBaseService::GetInfo0064Srvc=1303 ReqID=9112 Wnd=0x00010058 Cmd=1303 TimeOut=300000 IO=301684294967295015501809435030003CIM0007ACTIVEX00102023/02/03001211:52 50.2920011INFORMATION0031CCimService::HandleCashUnitInfo0043GetInfo-Result[CashUnitInfo] = {hResult[0]}01554294967295015801809435040012CashAcceptor0009FRAMEWORK00102023/02/03001211:52 50.2920007DEVCALL0021CBaseService::GetInfo0049HSERVICE[17] CATEGORY[1303] IN BUFFER[0x00000000]01584294967295017101809435050012CashAcceptor0009FRAMEWORK00102023/02/03001211:52 50.2930007DEVRETN0021CBaseService::GetInfo0062HSERVICE[17] CATEGORY[1303] HRESULT[0], OUT BUFFER[0x008EF5F4]01714294967295418301809435060003CIM0003SPI00102023/02/03001211:52 50.2930009XFS_EVENT0013GETINFO[1303]4095WFS_GETINFO_COMPLETE, 
 lpResult =
 {
