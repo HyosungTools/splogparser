@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Contract;
 using RegEx;
 
@@ -9,7 +10,7 @@ namespace LogLineHandler
    // WFS_CMD_IPM_MEDIA_IN
 
 
-   public class WFSIPMMEDIAREFUSED : SPLine
+   public class WFSIPMMEDIAREFUSED : WFSCUINFO
    {
       public string wReason { get; set; }
       public string wMediaLocation { get; set; }
@@ -26,39 +27,26 @@ namespace LogLineHandler
          base.Initialize();
          (bool success, string xfsMatch, string subLogLine) result;
 
-         // wReason
-         result = wReasonFromList(logLine);
-         if (result.success) wReason = prefix + result.xfsMatch.Trim();
+         wReason = string.Empty;
+         wMediaLocation = string.Empty;
+         bPresentRequired = string.Empty;
 
-         // wMediaLocation
-         result = wMediaLocationFromList(logLine);
+
+         int indexOflpResult = logLine.IndexOf("lpResult =");
+         string logicalSubLogLine = logLine.Substring(indexOflpResult);
+         Console.WriteLine(String.Format("WFSIPMMEDIAREFUSED : logicalSubLogLine : {0}", logicalSubLogLine));
+
+         // e.g wReason = [4],
+         result = NumericPropertyFromList(logicalSubLogLine, "wReason");
+         if (result.success) wReason = result.xfsMatch.Trim();
+
+         // e.g. wMediaLocation = [2],
+         result = NumericPropertyFromList(logicalSubLogLine, "wMediaLocation");
          if (result.success) wMediaLocation = result.xfsMatch.Trim();
 
-         // bPresentRequired
-         result = bPresentRequiredFromList(result.subLogLine);
+         // e.g. bPresentRequired = [0],
+         result = NumericPropertyFromList(logicalSubLogLine, "bPresentRequired");
          if (result.success) bPresentRequired = result.xfsMatch.Trim();
-      }
-
-
-      // I N D I V I D U A L    A C C E S S O R S
-
-
-      // wReason  - we dont need to search for this in the table log line, only in the list log line
-      protected static (bool success, string xfsMatch, string subLogLine) wReasonFromList(string logLine)
-      {
-         return Util.MatchList(logLine, "(?<=wReason = \\[)(\\d+)");
-      }
-
-      // wMediaLocation
-      protected static (bool success, string xfsMatch, string subLogLine) wMediaLocationFromList(string logLine)
-      {
-         return Util.MatchList(logLine, "(?<=wMediaLocation = \\[)(\\d+)");
-      }
-
-      // bPresentRequired
-      protected static (bool success, string xfsMatch, string subLogLine) bPresentRequiredFromList(string logLine)
-      {
-         return Util.MatchList(logLine, "(?<=bPresentRequired = \\[)(\\d+)");
       }
    }
 }

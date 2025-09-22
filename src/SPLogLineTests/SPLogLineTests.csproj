@@ -54,8 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SPLogHandler_IdentifyLines_Tests.cs" />
     <Compile Include="SPLogHandler_ReadLine_Tests.cs" />
+    <Compile Include="WFSCUINFOTests.cs" />
     <Compile Include="WFPOPENTests.cs" />
     <Compile Include="WFPCLOSETests.cs" />
+    <Compile Include="WFSCIMCASHINFOTests.cs" />
     <Compile Include="WFSCDMCUINFOTests.cs" />
     <Compile Include="WFSCDMDENOMINATIONTests.cs" />
   </ItemGroup>

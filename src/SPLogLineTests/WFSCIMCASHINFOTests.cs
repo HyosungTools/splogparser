@@ -6,9 +6,9 @@ using System;
 namespace SPLogLineTests
 {
    [TestClass]
-   public class WFSCDMCUINFOTests
+   public class WFSCIMCASHUNFOTests
    {
-      private static readonly Type WFSCDMCUINFOType = typeof(WFSCDMCUINFO);
+      private static readonly Type WFSCDMCUINFOType = typeof(WFSCIMCASHINFO);
 
       private static string GetLogicalSubLogLineTable(string logLine)
       {
@@ -323,7 +323,7 @@ namespace SPLogLineTests
 
       // Tests for cUnitIDsFromTable
       [TestMethod]
-      public void WFSCDMCUINFO_p_cUnitIDsFromTable()
+      public void WFSCDMCUINFO_cUnitIDsFromTable_1()
       {
          // Arrange
          string physicalSubLogLine = GetPhysicalSubLogLineTable(samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_PHY_1);
@@ -340,7 +340,7 @@ namespace SPLogLineTests
 
       // Tests for p_ulInitialCountsFromTable
       [TestMethod]
-      public void WFSCDMCUINFO_p_ulInitialCountsFromTable()
+      public void WFSCDMCUINFO_ulInitialCountsFromTable_1()
       {
          // Arrange
          string physicalSubLogLine = GetPhysicalSubLogLineTable(samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_PHY_1);
@@ -357,7 +357,7 @@ namespace SPLogLineTests
 
       // Tests for p_ulCountsFromTable
       [TestMethod]
-      public void WFSCDMCUINFO_p_ulCountsFromTable()
+      public void WFSCDMCUINFO_ulCountsFromTable_1()
       {
          // Arrange
          string physicalSubLogLine = GetPhysicalSubLogLineTable(samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_PHY_1);
@@ -374,7 +374,7 @@ namespace SPLogLineTests
 
       // Tests for p_ulRejectCountsFromTable
       [TestMethod]
-      public void WFSCDMCUINFO_p_ulRejectCountsFromTable()
+      public void WFSCDMCUINFO_ulRejectCountsFromTable_1()
       {
          // Arrange
          string physicalSubLogLine = GetPhysicalSubLogLineTable(samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_PHY_1);
@@ -391,7 +391,7 @@ namespace SPLogLineTests
 
       // Tests for p_ulMaximumsFromTable
       [TestMethod]
-      public void WFSCDMCUINFO_p_ulMaximumsFromTable()
+      public void WFSCDMCUINFO_ulMaximumsFromTable_1()
       {
          // Arrange
          string physicalSubLogLine = GetPhysicalSubLogLineTable(samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_PHY_1);
@@ -408,7 +408,7 @@ namespace SPLogLineTests
 
       // Tests for p_usPStatusesFromTable
       [TestMethod]
-      public void WFSCDMCUINFO_p_usPStatusesFromTable()
+      public void WFSCDMCUINFO_usPStatusesFromTable()
       {
          // Arrange
          string physicalSubLogLine = GetPhysicalSubLogLineTable(samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_PHY_1);
@@ -425,7 +425,7 @@ namespace SPLogLineTests
 
       // Tests for p_bHardwareSensorsFromTable
       [TestMethod]
-      public void WFSCDMCUINFO_p_bHardwareSensorsFromTable()
+      public void WFSCDMCUINFO_bHardwareSensorsFromTable()
       {
          // Arrange
          string physicalSubLogLine = GetPhysicalSubLogLineTable(samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_PHY_1);
@@ -442,7 +442,7 @@ namespace SPLogLineTests
 
       // Tests for p_ulDispensedCountsFromTable
       [TestMethod]
-      public void WFSCDMCUINFO_p_ulDispensedCountsFromTable()
+      public void WFSCDMCUINFO_ulDispensedCountsFromTable_1()
       {
          // Arrange
          string physicalSubLogLine = GetPhysicalSubLogLineTable(samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_PHY_1);
@@ -459,7 +459,7 @@ namespace SPLogLineTests
 
       // Tests for p_ulPresentedCountsFromTable
       [TestMethod]
-      public void WFSCDMCUINFO_p_ulPresentedCountsFromTable()
+      public void WFSCDMCUINFO_ulPresentedCountsFromTable_1()
       {
          // Arrange
          string physicalSubLogLine = GetPhysicalSubLogLineTable(samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_PHY_1);
@@ -476,7 +476,7 @@ namespace SPLogLineTests
 
       // Tests for p_ulRetractedCountsFromTable
       [TestMethod]
-      public void WFSCDMCUINFO_p_ulRetractedCountsFromTable()
+      public void WFSCDMCUINFO_ulRetractedCountsFromTable_1()
       {
          // Arrange
          string physicalSubLogLine = GetPhysicalSubLogLineTable(samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_PHY_1);
@@ -491,7 +491,6 @@ namespace SPLogLineTests
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
       }
       #endregion
-
 
    }
 }
