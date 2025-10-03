@@ -94,11 +94,8 @@ namespace LogLineHandler
 
          for (int i = 0; i < lUnitCount; i++)
          {
-            Console.WriteLine($"logicalUnits.thisUnit :{logicalUnits.thisUnit} ");
             string[] usNoteIDs = usNoteIDsFromList(logicalUnits.thisUnit);
             string[] ulCounts = ulCountsFromList(logicalUnits.thisUnit);
-
-            Console.WriteLine($"i = {i}, usNoteIDs.Length = {usNoteIDs.Length}, ulCounts.Length = {ulCounts.Length}");
 
             for (int j = 0; j < usNoteIDs.Length; j++)
             {
