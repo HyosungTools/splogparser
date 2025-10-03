@@ -124,8 +124,6 @@ namespace LogLineHandler
                logicalSubLogLine = logLine.Substring(indexOfTable, indexOfPhysical - indexOfTable);
             }
 
-            Console.WriteLine($"logicalSubLogLine : {logicalSubLogLine}");
-
             // Table form parsing
             // isolate count (e.g usCount=7) default to 1. 
             (bool success, string xfsMatch, string subLogLine) result = usCountFromTable(logLine, lUnitCount);
@@ -155,8 +153,6 @@ namespace LogLineHandler
                {
                   physicalSubLogLine = logLine.Substring(indexOfPhysical, indexOfNoteNumber - indexOfPhysical);
                }
-
-               Console.WriteLine($"physicalSubLogLine : {physicalSubLogLine}"); 
 
                string[] p_numPhysicalCUs = usNumPhysicalCUsFromTable(physicalSubLogLine);
                string[] p_lpPhysicalPositionNames = lpPhysicalPositionNamesFromTable(physicalSubLogLine);
@@ -201,8 +197,6 @@ namespace LogLineHandler
 
             if (indexOfNoteNumber > 0)
             {
-               string noteNumberLogLine = logLine.Substring(indexOfNoteNumber);
-               Console.WriteLine($"noteNumberLogLine : {noteNumberLogLine}");
                noteNumbers = noteNumberListFromTable(logLine, lUnitCount);
             }
 
@@ -211,8 +205,6 @@ namespace LogLineHandler
             if (indexOfLCUETC >= 0)
             {
                string lcuEtcLogLine = logLine.Substring(indexOfLCUETC);
-
-               Console.WriteLine($"lcuEtcLogLine : {lcuEtcLogLine}");
 
                usCDMTypes = usCDMTypesFromTable(lcuEtcLogLine);
                lpszCashUnitNames = lpszCashUnitNamesFromTable(lcuEtcLogLine);
@@ -250,11 +242,6 @@ namespace LogLineHandler
             string logicalSubLogLine = logLine.Substring(indexOfList);
             string[] logicalUnitParts = GetLogicalUnits(logicalSubLogLine, lUnitCount);
 
-            //foreach (string lcu in logicalUnitParts)
-            //{
-            //   Console.WriteLine($"LCU : {lcu}");
-            //}
-
             usNumbers = usNumbersFromList(logicalUnitParts, lUnitCount);
             fwTypes = fwTypesFromList(logicalUnitParts, lUnitCount); 
             fwItemTypes = fwItemTypesFromList(logicalUnitParts, lUnitCount); 
@@ -278,28 +265,7 @@ namespace LogLineHandler
             ulMinimums = ulMinimumsFromList(logicalUnitParts, lUnitCount);
             lpszExtraLCUs = lpszExtrasFromList(logicalUnitParts, lUnitCount);
 
-            Console.WriteLine($"lpszExtraLCUs[0] = {lpszExtraLCUs[0]}");
-            Console.WriteLine($"lpszExtraLCUs[1] = {lpszExtraLCUs[1]}");
-
             noteNumbers = noteNumberListFromList(logicalUnitParts, lUnitCount);
-
-            int rows = noteNumbers.GetLength(0); // Number of logical units
-            int cols = noteNumbers.GetLength(1); // Number of fields per unit (e.g., usNoteID, ulCount)
-
-            //for (int i = 0; i < rows; i++)
-            //{
-            //   //Console.Write("{ ");
-            //   for (int j = 0; j < cols; j++)
-            //   {
-            //      if (noteNumbers[i, j] == string.Empty) Console.Write("String.Empty");
-            //      else if (noteNumbers[i, j] == null) Console.Write("null");
-            //      else Console.Write($"\"{noteNumbers[i, j]}\", ");
-            //   }
-            //   Console.Write("},");
-            //   Console.WriteLine("");
-            //}
-            //Console.WriteLine("");
-
 
             // each logical part reports how many physical parts it has, so sum those up. 
             int totalNumPhysical = 0;
@@ -310,7 +276,6 @@ namespace LogLineHandler
                   totalNumPhysical = totalNumPhysical + value;
             }
 
-            Console.WriteLine($"totalNumPhysical : {totalNumPhysical}");
             listPhysical = new List<PhysicalCIMCU>();
 
             // pull the Physical Unit parts out of the log line - take out all the logical part settings, then build one long string
@@ -318,13 +283,6 @@ namespace LogLineHandler
 
             string[] physicalUnitParts = GetPhysicalUnits(logicalSubLogLine, totalNumPhysical);
             totalNumPhysical = physicalUnitParts.Length; 
-
-            Console.WriteLine($"physicalUnitParts.Length : = {physicalUnitParts.Length}");
-
-            foreach (string pcu in physicalUnitParts)
-            {
-               Console.WriteLine($"PCU : {pcu}");
-            }
 
             string[] p_lpPhysicalPositionNames = lpPhysicalPositionNamesFromList(physicalUnitParts, totalNumPhysical);
             string[] p_cUnitIDs = p_cUnitIDsFromList(physicalUnitParts, totalNumPhysical);
@@ -364,13 +322,12 @@ namespace LogLineHandler
                }
                catch (Exception e)
                {
-                  Console.WriteLine("DEM Failed to add new PhysicalCU");
+                  Console.WriteLine("Failed to add new PhysicalCU");
                }
             }
          }
          else if (indexOfNull > 0)
          {
-            Console.WriteLine($"indexOfNull : {indexOfNull}");
             lUnitCount = 0; 
          }
       }

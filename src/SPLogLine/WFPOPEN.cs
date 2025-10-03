@@ -52,7 +52,6 @@ namespace LogLineHandler
          string time = match.Groups["TIME"].Value.Replace(" ", ":");
          string formatted = $"{date} {time}";
 
-         Console.WriteLine($"ParseTimestamp: {formatted}");
          return formatted;
       }
    }

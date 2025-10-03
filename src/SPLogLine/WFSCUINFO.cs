@@ -50,7 +50,6 @@ namespace LogLineHandler
             }
          }
 
-         Console.WriteLine($"MatchTable - size: {values.Count} elements : {string.Join("|", values)}");
          return values.ToArray();
       }
 
@@ -65,7 +64,6 @@ namespace LogLineHandler
          {
             temp[i] = defaultValue;
          }
-         Console.WriteLine($"ResizeArray - size: {temp.Length} elements : {string.Join("|", temp)}");
          return temp;
       }
 
@@ -213,6 +211,12 @@ namespace LogLineHandler
          return WFSCIMNOTENUMBERLIST.NoteNumberListFromTable(logLine, lUnitCount);
       }
 
+      protected static string[] GetFieldFromTable(string logLine, string fieldName)
+      {
+         string regex = $@"(?<={Regex.Escape(fieldName)}\s+)([^\r\n])(?=\s(?:\r?\n|$))";
+         return MatchTable(logLine, regex);
+      }
+
 
       // L I S T    A C C E S S    F U N C T I O N S 
 
@@ -270,7 +274,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.usNumber(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "usNumber").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -281,7 +285,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.usType(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "usType").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -291,7 +295,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.fwType(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "fwType").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -301,7 +305,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.fwItemType(part).xfsMatch.Trim());
+            values.Add(StringPropertyFromList(part, "fwItemType").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -312,7 +316,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.ulInitialCount(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulInitialCount").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -323,7 +327,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.ulCashInCount(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulCashInCount").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -334,7 +338,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.cUnitID(part).xfsMatch.Trim());
+            values.Add(StringPropertyFromList(part, "cUnitID").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -356,7 +360,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.ulValue(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulValues").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -367,7 +371,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.ulCount(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulCount").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -378,7 +382,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.ulMaximum(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulMaximum").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -389,7 +393,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.ulMinimum(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulMinimum").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -410,7 +414,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.ulRejectCount(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulRejectCount").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -421,7 +425,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.ulDispensedCount(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulDispensedCount").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -432,7 +436,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.ulPresentedCount(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulPresentedCount").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -443,7 +447,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.ulRetractedCount(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulRetractedCount").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -454,7 +458,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.usStatus(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "usStatus").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -464,7 +468,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.bAppLock(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "bAppLock").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -475,7 +479,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.usNumPhysicalCUs(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "usNumPhysicalCUs").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -485,7 +489,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.usCDMType(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "usCDMType").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -495,7 +499,8 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.lpszCashUnitName(part).xfsMatch.Trim());
+            values.Add(StringPropertyFromList(part, "lpszCashUnitName").xfsMatch.Trim());
+            //values.Add(WFSCUINFO.lpszCashUnitName(part).xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -515,7 +520,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in physicalParts)
          {
-            values.Add(WFSCUINFO.cUnitID(part).xfsMatch.Trim());
+            values.Add(StringPropertyFromList(part, "cUnitID").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -525,7 +530,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in physicalParts)
          {
-            values.Add(WFSCUINFO.ulInitialCount(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulInitialCount").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -535,7 +540,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in physicalParts)
          {
-            values.Add(WFSCUINFO.ulCashInCount(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulCashInCount").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -545,7 +550,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in physicalParts)
          {
-            values.Add(WFSCUINFO.ulCount(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulCount").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -555,7 +560,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in physicalParts)
          {
-            values.Add(WFSCUINFO.ulRejectCount(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulRejectCount").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -565,7 +570,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in physicalParts)
          {
-            values.Add(WFSCUINFO.ulMaximum(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulMaximum").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -575,7 +580,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in physicalParts)
          {
-            values.Add(WFSCUINFO.usPStatus(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "usPStatus").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -585,7 +590,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in physicalParts)
          {
-            values.Add(WFSCUINFO.bHardwareSensor(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "bHardwareSensor").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -605,7 +610,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in physicalParts)
          {
-            values.Add(WFSCUINFO.ulDispensedCount(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulDispensedCount").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -615,7 +620,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in physicalParts)
          {
-            values.Add(WFSCUINFO.ulPresentedCount(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulPresentedCount").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -625,7 +630,7 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in physicalParts)
          {
-            values.Add(WFSCUINFO.ulRetractedCount(part).xfsMatch.Trim());
+            values.Add(NumericPropertyFromList(part, "ulRetractedCount").xfsMatch.Trim());
          }
          return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
       }
@@ -635,127 +640,11 @@ namespace LogLineHandler
          return WFSCIMNOTENUMBERLIST.NoteNumberListFromList(logicalParts, lUnitCount);
       }
 
-      // I N D I V I D U A L   L I S T   A C C E S S O R S 
-
-      // Individual Accessors
-      protected static (bool success, string xfsMatch, string subLogLine) usNumber(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=usNumber\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) cUnitID(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=cUnitID\s*=\s*\[)([a-zA-Z0-9_]*)(?=\])", "");
-      }
+      //// I N D I V I D U A L   L I S T   A C C E S S O R S 
 
       protected static (bool success, string xfsMatch, string subLogLine) cCurrencyID(string logLine)
       {
          return Util.MatchList(logLine, @"(?<=cCurrencyID\s*=\s*\[)([a-zA-Z0-9 ]*)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) ulValue(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=ulValues\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) ulCount(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=ulCount\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) ulMaximum(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=ulMaximum\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) usStatus(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=usStatus\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) bAppLock(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=bAppLock\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) usType(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=usType\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) fwType(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=fwType\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) fwItemType(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=fwItemType\s*=\s*\[)([a-zA-Z0-9_]*)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) ulInitialCount(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=ulInitialCount\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) ulMinimum(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=ulMinimum\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) ulRejectCount(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=ulRejectCount\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) ulDispensedCount(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=ulDispensedCount\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) ulPresentedCount(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=ulPresentedCount\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) ulRetractedCount(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=ulRetractedCount\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) usNumPhysicalCUs(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=usNumPhysicalCUs\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) usCDMType(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=usCDMType\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) lpszCashUnitName(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=lpszCashUnitName\s*=\s*\[)([a-zA-Z0-9_]*)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) lppPhysicalBlock(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=lppPhysical\s*=\s*\{)(.*?(?=}\s*(?:ulDispensedCount|}|{)))", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) physical_cUnitID(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=cUnitID\s*=\s*\[)([a-zA-Z0-9_]*)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) physical_usPStatus(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=usPStatus\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) physical_bHardwareSensor(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=bHardwareSensor\s*=\s*\[)(\d+)(?=\])", "");
       }
 
       protected static (bool success, string xfsMatch, string subLogLine) lpPhysicalPositionName(string logLine)
@@ -771,16 +660,6 @@ namespace LogLineHandler
          return (false, "", logLine);
       }
 
-      protected static (bool success, string xfsMatch, string subLogLine) usPStatus(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=usPStatus\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      protected static (bool success, string xfsMatch, string subLogLine) bHardwareSensor(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=bHardwareSensor\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
       protected static (bool success, string xfsMatch, string subLogLine) lpszExtra(string logLine)
       {
          string pattern = @"(?<=lpszExtra\s*=\s*)(?:\[([^\]]*)\]|([^,\r\n]+))";
@@ -792,37 +671,6 @@ namespace LogLineHandler
          }
          return (false, "", logLine);
       }
-
-      // ulCashInCount
-      protected static (bool success, string xfsMatch, string subLogLine) ulCashInCount(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=ulCashInCount\s*=\s*\[)(\d+)(?=\])", "");
-      }
-
-      // lppPhysical  - singular search from a list-style log line
-      protected static (bool success, string xfsMatch, string subLogLine) lppPhysical(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=lppPhysical = {.*})");
-      }
-
-
-      //// wReason  - we dont need to search for this in the table log line, only in the list log line
-      //protected static (bool success, string xfsMatch, string subLogLine) wReasonFromList(string logLine)
-      //{
-      //   return Util.MatchList(logLine, @"(?<=wReason\s*=\s*\[)(\d+)(?=\])", "");
-      //}
-
-      //// wMediaLocation
-      //protected static (bool success, string xfsMatch, string subLogLine) wMediaLocationFromList(string logLine)
-      //{
-      //   return Util.MatchList(logLine, @"(?<=wMediaLocation\s*=\s*\[)(\d+)(?=\])", "");
-      //}
-
-      //// bPresentRequired
-      //protected static (bool success, string xfsMatch, string subLogLine) bPresentRequiredFromList(string logLine)
-      //{
-      //   return Util.MatchList(logLine, @"(?<=bPresentRequired\s*=\s*\[)(\d+)(?=\])", "");
-      //}
 
       /// <summary>
       /// Parses a numeric property value from a multi-line log string in list format (e.g., "wReason = [4]").
@@ -858,211 +706,8 @@ namespace LogLineHandler
          }
 
          // Match property anywhere in the string, allowing whitespace/newlines before it
-         string pattern = $@"(?<=[\n\s]*{Regex.Escape(propertyName)}\s*=\s*\[)([^\]]*])(?=\])";
+         string pattern = $@"(?<=[\n\s]*{Regex.Escape(propertyName)}\s*=\s*\[)([a-zA-Z0-9_]*)(?=\])";
          return Util.MatchList(logLine, pattern, "");
       }
-
-      //// L I S T    A C C E S S    F U N C T I O N S 
-
-      //protected static string[] usNumbersFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   List<string> values = new List<string>();
-      //   (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-
-      //   for (int i = 0; i < lUnitCount; i++)
-      //   {
-      //      values.Add(usNumber(logicalUnits.thisUnit).xfsMatch.Trim());
-      //      logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-      //   }
-      //   return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
-
-      //}
-
-      //protected static string[] fwTypesFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   List<string> values = new List<string>();
-      //   (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-
-      //   for (int i = 0; i < lUnitCount; i++)
-      //   {
-      //      values.Add(fwType(logicalUnits.thisUnit).xfsMatch.Trim());
-      //      logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-      //   }
-      //   return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
-      //}
-
-      //protected static string[] ulCashInCountsFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   List<string> values = new List<string>();
-      //   (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-
-      //   for (int i = 0; i < lUnitCount; i++)
-      //   {
-      //      values.Add(ulCashInCount(logicalUnits.thisUnit).xfsMatch.Trim());
-      //      logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-      //   }
-      //   return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
-      //}
-
-      //protected static string[] cUnitIDsFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   List<string> values = new List<string>();
-      //   (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-
-      //   for (int i = 0; i < lUnitCount; i++)
-      //   {
-      //      values.Add(cUnitID(logicalUnits.thisUnit).xfsMatch.Trim());
-      //      logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-      //   }
-      //   return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount, ""));
-      //}
-
-      //protected static string[] cCurrencyIDsFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   List<string> values = new List<string>();
-      //   (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-
-      //   for (int i = 0; i < lUnitCount; i++)
-      //   {
-      //      values.Add(cCurrencyID(logicalUnits.thisUnit).xfsMatch.Trim());
-      //      logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-      //   }
-      //   return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount, ""));
-      //}
-
-      //protected static string[] ulValuesFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   List<string> values = new List<string>();
-      //   (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-
-      //   for (int i = 0; i < lUnitCount; i++)
-      //   {
-      //      values.Add(ulValue(logicalUnits.thisUnit).xfsMatch.Trim());
-      //      logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-      //   }
-      //   return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
-      //}
-
-      //protected static string[] ulCountsFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   List<string> values = new List<string>();
-      //   (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-
-      //   for (int i = 0; i < lUnitCount; i++)
-      //   {
-      //      values.Add(ulCount(logicalUnits.thisUnit).xfsMatch.Trim());
-      //      logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-      //   }
-      //   return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
-      //}
-
-      //protected static string[] ulMaximumsFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   List<string> values = new List<string>();
-      //   (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-
-      //   for (int i = 0; i < lUnitCount; i++)
-      //   {
-      //      values.Add(ulMaximum(logicalUnits.thisUnit).xfsMatch.Trim());
-      //      logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-      //   }
-      //   return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
-      //}
-
-      //protected static string[] usStatusesFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   List<string> values = new List<string>();
-      //   (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-
-      //   for (int i = 0; i < lUnitCount; i++)
-      //   {
-      //      values.Add(usStatus(logicalUnits.thisUnit).xfsMatch.Trim());
-      //      logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-      //   }
-      //   return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
-      //}
-
-      //protected static string[,] noteNumberListFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   return WFSCIMNOTENUMBERLIST.NoteNumberListFromList(logLine, lUnitCount);
-      //}
-
-      //protected static string[] ulInitialCountsFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   List<string> values = new List<string>();
-      //   (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-
-      //   for (int i = 0; i < lUnitCount; i++)
-      //   {
-      //      values.Add(ulInitialCount(logicalUnits.thisUnit).xfsMatch.Trim());
-      //      logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-      //   }
-      //   return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
-      //}
-
-      //protected static string[] ulDispensedCountsFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   List<string> values = new List<string>();
-      //   (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-
-      //   for (int i = 0; i < lUnitCount; i++)
-      //   {
-      //      values.Add(ulDispensedCount(logicalUnits.thisUnit).xfsMatch.Trim());
-      //      logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-      //   }
-      //   return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
-      //}
-
-      //protected static string[] ulPresentedCountsFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   List<string> values = new List<string>();
-      //   (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-
-      //   for (int i = 0; i < lUnitCount; i++)
-      //   {
-      //      values.Add(ulPresentedCount(logicalUnits.thisUnit).xfsMatch.Trim());
-      //      logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-      //   }
-      //   return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
-      //}
-
-      //protected static string[] ulRetractedCountsFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   List<string> values = new List<string>();
-      //   (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-
-      //   for (int i = 0; i < lUnitCount; i++)
-      //   {
-      //      values.Add(ulRetractedCount(logicalUnits.thisUnit).xfsMatch.Trim());
-      //      logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-      //   }
-      //   return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
-      //}
-
-      //protected static string[] ulRejectCountsFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   List<string> values = new List<string>();
-      //   (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-
-      //   for (int i = 0; i < lUnitCount; i++)
-      //   {
-      //      values.Add(ulRejectCount(logicalUnits.thisUnit).xfsMatch.Trim());
-      //      logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-      //   }
-      //   return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
-      //}
-
-      //protected static string[] ulMinimumsFromList(string logLine, int lUnitCount = 1)
-      //{
-      //   List<string> values = new List<string>();
-      //   (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-
-      //   for (int i = 0; i < lUnitCount; i++)
-      //   {
-      //      values.Add(ulMinimum(logicalUnits.thisUnit).xfsMatch.Trim());
-      //      logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-      //   }
-      //   return Util.TrimAll(Util.Resize(values.ToArray(), lUnitCount));
-      //}
    }
 }
