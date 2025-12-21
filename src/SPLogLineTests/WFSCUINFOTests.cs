@@ -325,6 +325,21 @@ namespace SPLogLineTests
       }
 
       [TestMethod]
+      public void WFSCUINFO_usCountFromList_1()
+      {
+         // Arrange
+         (bool success, string xfsMatch, string subLogLine) expected = (false, "1", ""); // subLogLine is the match start
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         var result = (ValueTuple<bool, string, string>)privateType.InvokeStatic("usCountFromList", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4, 1);
+
+         // Assert
+         Assert.IsFalse(result.Item1, "Expected success");
+         Assert.AreEqual(expected.Item2, result.Item2, $"Expected xfsMatch: {expected.Item2}, Actual: {result.Item2}");
+      }
+
+      [TestMethod]
       public void WFSCUINFO_usNumbersFromList()
       {
          // Arrange
@@ -337,6 +352,30 @@ namespace SPLogLineTests
          var privateType = new PrivateType(WFSCUINFOType);
          string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 2);
          var result = (string[])privateType.InvokeStatic("usNumbersFromList", logicalUnits, 2);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
+      public void WFSCUINFO_usNumbersFromList_1()
+      {
+         // Arrange
+         string[] expected = { "4" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("usNumbersFromList", logicalUnits, 1);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -361,6 +400,30 @@ namespace SPLogLineTests
       }
 
       [TestMethod]
+      public void WFSCUINFO_fwTypesFromList_1()
+      {
+         // Arrange
+         string[] expected = { "1" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("fwTypesFromList", logicalUnits, 1);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
       public void WFSCUINFO_fwItemTypesFromList()
       {
          // Arrange
@@ -373,6 +436,30 @@ namespace SPLogLineTests
          var privateType = new PrivateType(WFSCUINFOType);
          string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 2);
          var result = (string[])privateType.InvokeStatic("fwItemTypesFromList", logicalUnits, 2);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
+      public void WFSCUINFO_fwItemTypesFromList_1()
+      {
+         // Arrange
+         string[] expected = { "0x0004" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("fwItemTypesFromList", logicalUnits, 1);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -397,6 +484,30 @@ namespace SPLogLineTests
       }
 
       [TestMethod]
+      public void WFSCUINFO_cUnitIDsFromList_1()
+      {
+         // Arrange
+         string[] expected = { "LCU03" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("cUnitIDsFromList", logicalUnits, 1);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
       public void WFSCUINFO_cCurrencyIDsFromList()
       {
          // Arrange
@@ -409,6 +520,30 @@ namespace SPLogLineTests
          var privateType = new PrivateType(WFSCUINFOType);
          string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 2);
          var result = (string[])privateType.InvokeStatic("cCurrencyIDsFromList", logicalUnits, 2);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
+      public void WFSCUINFO_cCurrencyIDsFromList_1()
+      {
+         // Arrange
+         string[] expected = { "USD" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("cCurrencyIDsFromList", logicalUnits, 1);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -433,6 +568,30 @@ namespace SPLogLineTests
       }
 
       [TestMethod]
+      public void WFSCUINFO_ulValuesFromList_1()
+      {
+         // Arrange
+         string[] expected = { "100" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("ulValuesFromList", logicalUnits, 1);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
       public void WFSCUINFO_ulCashInCountsFromList()
       {
          // Arrange
@@ -445,6 +604,30 @@ namespace SPLogLineTests
          var privateType = new PrivateType(WFSCUINFOType);
          string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 2);
          var result = (string[])privateType.InvokeStatic("ulCashInCountsFromList", logicalUnits, 2);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
+      public void WFSCUINFO_ulCashInCountsFromList_1()
+      {
+         // Arrange
+         string[] expected = { "104" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("ulCashInCountsFromList", logicalUnits, 1);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -469,6 +652,30 @@ namespace SPLogLineTests
       }
 
       [TestMethod]
+      public void WFSCUINFO_ulCountsFromList_1()
+      {
+         // Arrange
+         string[] expected = { "532" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("ulCountsFromList", logicalUnits, 1);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
       public void WFSCUINFO_ulMaximumsFromList()
       {
          // Arrange
@@ -481,6 +688,30 @@ namespace SPLogLineTests
          var privateType = new PrivateType(WFSCUINFOType);
          string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 2);
          var result = (string[])privateType.InvokeStatic("ulMaximumsFromList", logicalUnits, 2);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
+      public void WFSCUINFO_ulMaximumsFromList_1()
+      {
+         // Arrange
+         string[] expected = { "0" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("ulMaximumsFromList", logicalUnits, 1);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -505,6 +736,30 @@ namespace SPLogLineTests
       }
 
       [TestMethod]
+      public void WFSCUINFO_usStatusesFromList_1()
+      {
+         // Arrange
+         string[] expected = { "1" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("usStatusesFromList", logicalUnits, 1);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
       public void WFSCUINFO_bAppLocksFromList()
       {
          // Arrange
@@ -523,6 +778,30 @@ namespace SPLogLineTests
       }
 
       [TestMethod]
+      public void WFSCUINFO_bAppLocksFromList_1()
+      {
+         // Arrange
+         string[] expected = { "0" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("bAppLocksFromList", logicalUnits, 1);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
       public void WFSCUINFO_usNumPhysicalCUsFromList()
       {
          // Arrange
@@ -535,6 +814,31 @@ namespace SPLogLineTests
          var privateType = new PrivateType(WFSCUINFOType);
          string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 2);
          var result = (string[])privateType.InvokeStatic("usNumPhysicalCUsFromList", logicalUnits, 2);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+
+      [TestMethod]
+      public void WFSCUINFO_usNumPhysicalCUsFromList_1()
+      {
+         // Arrange
+         string[] expected = { "1" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("usNumPhysicalCUsFromList", logicalUnits, 1);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -559,6 +863,30 @@ namespace SPLogLineTests
       }
 
       [TestMethod]
+      public void WFSCUINFO_lpszExtrasFromList_1()
+      {
+         // Arrange
+         string[] expected = { "NULL" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("lpszExtrasFromList", logicalUnits, 1);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
       public void WFSCUINFO_usCDMTypesFromList()
       {
          // Arrange
@@ -577,6 +905,30 @@ namespace SPLogLineTests
       }
 
       [TestMethod]
+      public void WFSCUINFO_usCDMTypesFromList_1()
+      {
+         // Arrange
+         string[] expected = { "" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("usCDMTypesFromList", logicalUnits, 1);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
       public void WFSCUINFO_lpszCashUnitNamesFromList()
       {
          // Arrange
@@ -589,6 +941,29 @@ namespace SPLogLineTests
          var privateType = new PrivateType(WFSCUINFOType);
          string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 2);
          var result = (string[])privateType.InvokeStatic("lpszCashUnitNamesFromList", logicalUnits, 2);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+      [TestMethod]
+      public void WFSCUINFO_lpszCashUnitNamesFromList_1()
+      {
+         // Arrange
+         string[] expected = { "" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("lpszCashUnitNamesFromList", logicalUnits, 1);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -613,6 +988,30 @@ namespace SPLogLineTests
       }
 
       [TestMethod]
+      public void WFSCUINFO_ulInitialCountsFromList_1()
+      {
+         // Arrange
+         string[] expected = { "" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("ulInitialCountsFromList", logicalUnits, 1);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
       public void WFSCUINFO_ulDispensedCountsFromList()
       {
          // Arrange
@@ -625,6 +1024,30 @@ namespace SPLogLineTests
          var privateType = new PrivateType(WFSCUINFOType);
          string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 2);
          var result = (string[])privateType.InvokeStatic("ulDispensedCountsFromList", logicalUnits, 2);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
+      public void WFSCUINFO_ulDispensedCountsFromList_1()
+      {
+         // Arrange
+         string[] expected = { "" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("ulDispensedCountsFromList", logicalUnits, 1);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -649,6 +1072,30 @@ namespace SPLogLineTests
       }
 
       [TestMethod]
+      public void WFSCUINFO_ulPresentedCountsFromList_1()
+      {
+         // Arrange
+         string[] expected = { "" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("ulPresentedCountsFromList", logicalUnits, 1);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
       public void WFSCUINFO_ulRetractedCountsFromList()
       {
          // Arrange
@@ -661,6 +1108,30 @@ namespace SPLogLineTests
          var privateType = new PrivateType(WFSCUINFOType);
          string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 2);
          var result = (string[])privateType.InvokeStatic("ulRetractedCountsFromList", logicalUnits, 2);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
+      public void WFSCUINFO_ulRetractedCountsFromList_1()
+      {
+         // Arrange
+         string[] expected = { "" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("ulRetractedCountsFromList", logicalUnits, 1);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -685,6 +1156,30 @@ namespace SPLogLineTests
       }
 
       [TestMethod]
+      public void WFSCUINFO_ulRejectCountsFromList_1()
+      {
+         // Arrange
+         string[] expected = { "" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("ulRejectCountsFromList", logicalUnits, 1);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
       public void WFSCUINFO_ulMinimumsFromList()
       {
          // Arrange
@@ -697,6 +1192,30 @@ namespace SPLogLineTests
          var privateType = new PrivateType(WFSCUINFOType);
          string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 2);
          var result = (string[])privateType.InvokeStatic("ulMinimumsFromList", logicalUnits, 2);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
+      public void WFSCUINFO_ulMinimumsFromList_1()
+      {
+         // Arrange
+         string[] expected = { "" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] logicalUnits = (string[])privateType.InvokeStatic("GetLogicalUnits", logicalSubLogLine, 1);
+         var result = (string[])privateType.InvokeStatic("ulMinimumsFromList", logicalUnits, 1);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -718,6 +1237,33 @@ namespace SPLogLineTests
          foreach (string part in physicalUnitParts)
             Console.WriteLine($"PCU : {part}");
          var result = (string[])privateType.InvokeStatic("lpPhysicalPositionNamesFromList", physicalUnitParts, 2);
+
+         // Assert
+         CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
+      public void WFSCUINFO_lpPhysicalPositionNamesFromList_1()
+      {
+         // Arrange
+         string[] expected = { "CassetteB" };
+         string logLine = samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_4;
+
+         // Pull the Logical Unit parts out of the log line - take out the Physical and Note Number parts so 
+         // you only have logical unit settings, then iterate over the array pulling out individual settings
+         int indexOfList = logLine.IndexOf("lppCashIn =");
+         int indexOfBuffer = logLine.IndexOf("lpBuffer = ");
+         string logicalSubLogLine;
+         if (indexOfList > 0) logicalSubLogLine = logLine.Substring(indexOfList);
+         else logicalSubLogLine = logicalSubLogLine = logLine.Substring(indexOfBuffer);
+
+
+         // Act
+         var privateType = new PrivateType(WFSCUINFOType);
+         string[] physicalUnitParts = (string[])privateType.InvokeStatic("GetPhysicalUnits", logicalSubLogLine, 1);
+         foreach (string part in physicalUnitParts)
+            Console.WriteLine($"PCU : {part}");
+         var result = (string[])privateType.InvokeStatic("lpPhysicalPositionNamesFromList", physicalUnitParts, 1);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");

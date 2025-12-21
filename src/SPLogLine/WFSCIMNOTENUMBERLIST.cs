@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using Contract;
 using RegEx;
 
@@ -86,7 +87,7 @@ namespace LogLineHandler
          (bool success, string xfsMatch, string subLogLine) result = usNumOfNoteNumbers(logLine);
          if (result.success && int.Parse(result.xfsMatch.Trim()) == 0)
          {
-            Console.WriteLine("Should not get here, it means usNumOfNoteNumbers = 0");
+            // to get here means usNumOfNoteNumbers = 0"
             return lpNoteNumberList;
          }
 
@@ -112,7 +113,6 @@ namespace LogLineHandler
       {
          // resize the lpNoteNumberList array to hold all note numbers for all logical units
          string[,] lpNoteNumberList = new string[lUnitCount, 20];
-         Console.WriteLine($"lpNoteNumberList size : {lUnitCount},20");
 
          for (int i = 0; i < lUnitCount; i++)
          {
@@ -122,11 +122,11 @@ namespace LogLineHandler
             usNoteIDs = Util.Resize(usNoteIDs, 20, string.Empty);
             ulCounts = Util.Resize(ulCounts, 20, string.Empty);
 
-            Console.WriteLine($"i = {i}, usNoteIDs.Length = {usNoteIDs.Length}, ulCounts.Length = {ulCounts.Length}");
-
             for (int j = 0; j < 20; j++)
             {
                lpNoteNumberList[i, j] = usNoteIDs[j] + ":" + ulCounts[j];
+               if (lpNoteNumberList[i, j] == ":")
+                  lpNoteNumberList[i, j] = string.Empty; 
             }
          }
 

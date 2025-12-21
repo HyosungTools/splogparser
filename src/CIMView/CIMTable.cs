@@ -1,7 +1,8 @@
-﻿using Contract;
-using Impl;
-using System;
+﻿using System;
 using System.Data;
+using System.Dynamic;
+using Contract;
+using Impl;
 using LogLineHandler;
 
 namespace CIMView
@@ -260,6 +261,12 @@ namespace CIMView
          {
             // D E P O S I T   T A B L E
 
+            tableName = "Deposit";
+
+            //// COMPRESS
+            string[] columns = new string[] { "error", "position", "status", "refused", "amount", "N0","N1","N2","N3","N4","N5","N6","N7","N8","N9","N10","N11","N12","N13","N14","N15","N16","N17","N18","N19","N20" };
+            CompressTable(tableName, columns);
+
             // ADD ENGLISH
             string[,] colKeyMap = new string[2, 2]
             {
@@ -475,12 +482,15 @@ namespace CIMView
 
                      try
                      {
-                        for (int j = 0; j < 20; j++)
+                        if (cashInfo.noteNumbers != null)
                         {
-                           if (!string.IsNullOrEmpty(cashInfo.noteNumbers[i, j]) && cashInfo.noteNumbers[i, j].Contains(":"))
+                           for (int j = 0; j < 20; j++)
                            {
-                              string[] noteNum = cashInfo.noteNumbers[i, j].Split(':');
-                              cashUnitRow["N" + noteNum[0]] = noteNum[1];
+                              if (!string.IsNullOrEmpty(cashInfo.noteNumbers[i, j]) && cashInfo.noteNumbers[i, j].Contains(":"))
+                              {
+                                 string[] noteNum = cashInfo.noteNumbers[i, j].Split(':');
+                                 cashUnitRow["N" + noteNum[0]] = noteNum[1];
+                              }
                            }
                         }
                      }
@@ -525,12 +535,15 @@ namespace CIMView
 
                try
                {
-                  for (int j = 0; j < 20; j++)
+                  if (cashIn.noteNumbers != null)
                   {
-                     if (!string.IsNullOrEmpty(cashIn.noteNumbers[0, j]) && cashIn.noteNumbers[0, j].Contains(":"))
+                     for (int j = 0; j < 20; j++)
                      {
-                        string[] noteNum = cashIn.noteNumbers[0, j].Split(':');
-                        dataRow["N" + noteNum[0]] = noteNum[1];
+                        if (!string.IsNullOrEmpty(cashIn.noteNumbers[0, j]) && cashIn.noteNumbers[0, j].Contains(":"))
+                        {
+                           string[] noteNum = cashIn.noteNumbers[0, j].Split(':');
+                           dataRow["N" + noteNum[0]] = noteNum[1];
+                        }
                      }
                   }
                }
@@ -588,12 +601,15 @@ namespace CIMView
 
             try
             {
-               for (int j = 0; j < 20; j++)
+               if (noteNumberList != null)
                {
-                  if (!string.IsNullOrEmpty(noteNumberList[0, j]) && noteNumberList[0, j].Contains(":"))
+                  for (int j = 0; j < 20; j++)
                   {
-                     string[] noteNum = noteNumberList[0, j].Split(':');
-                     dataRow["N" + noteNum[0]] = noteNum[1];
+                     if (!string.IsNullOrEmpty(noteNumberList[0, j]) && noteNumberList[0, j].Contains(":"))
+                     {
+                        string[] noteNum = noteNumberList[0, j].Split(':');
+                        dataRow["N" + noteNum[0]] = noteNum[1];
+                     }
                   }
                }
             }
@@ -635,13 +651,15 @@ namespace CIMView
                {
                   if (cashInfo.lUnitCount > 0)
                   {
-
-                     for (int j = 0; j < 20; j++)
+                     if (cashInfo.noteNumbers != null)
                      {
-                        if (!string.IsNullOrEmpty(cashInfo.noteNumbers[0, j]) && cashInfo.noteNumbers[0, j].Contains(":"))
+                        for (int j = 0; j < 20; j++)
                         {
-                           string[] noteNum = cashInfo.noteNumbers[0, j].Split(':');
-                           dataRow["N" + noteNum[0]] = noteNum[1];
+                           if (!string.IsNullOrEmpty(cashInfo.noteNumbers[0, j]) && cashInfo.noteNumbers[0, j].Contains(":"))
+                           {
+                              string[] noteNum = cashInfo.noteNumbers[0, j].Split(':');
+                              dataRow["N" + noteNum[0]] = noteNum[1];
+                           }
                         }
                      }
                   }
@@ -682,12 +700,15 @@ namespace CIMView
 
                         try
                         {
-                           for (int j = 0; j < 20; j++)
+                           if (cashInfo.noteNumbers != null)
                            {
-                              if (!string.IsNullOrEmpty(cashInfo.noteNumbers[i, j]) && cashInfo.noteNumbers[i, j].Contains(":"))
+                              for (int j = 0; j < 20; j++)
                               {
-                                 string[] noteNum = cashInfo.noteNumbers[i, j].Split(':');
-                                 cashUnitRow["N" + noteNum[0]] = noteNum[1];
+                                 if (!string.IsNullOrEmpty(cashInfo.noteNumbers[i, j]) && cashInfo.noteNumbers[i, j].Contains(":"))
+                                 {
+                                    string[] noteNum = cashInfo.noteNumbers[i, j].Split(':');
+                                    cashUnitRow["N" + noteNum[0]] = noteNum[1];
+                                 }
                               }
                            }
                         }
@@ -754,12 +775,15 @@ namespace CIMView
 
                try
                {
-                  for (int j = 0; j < 20; j++)
+                  if (cashInfo.noteNumbers != null)
                   {
-                     if (!string.IsNullOrEmpty(cashInfo.noteNumbers[0, j]) && cashInfo.noteNumbers[0, j].Contains(":"))
+                     for (int j = 0; j < 20; j++)
                      {
-                        string[] noteNum = cashInfo.noteNumbers[0, j].Split(':');
-                        dataRow["N" + noteNum[0]] = noteNum[1];
+                        if (!string.IsNullOrEmpty(cashInfo.noteNumbers[0, j]) && cashInfo.noteNumbers[0, j].Contains(":"))
+                        {
+                           string[] noteNum = cashInfo.noteNumbers[0, j].Split(':');
+                           dataRow["N" + noteNum[0]] = noteNum[1];
+                        }
                      }
                   }
                }
@@ -803,12 +827,15 @@ namespace CIMView
 
                      try
                      {
-                        for (int j = 0; j < 20; j++)
+                        if (cashInfo.noteNumbers != null)
                         {
-                           if (!string.IsNullOrEmpty(cashInfo.noteNumbers[i, j]) && cashInfo.noteNumbers[i, j].Contains(":"))
+                           for (int j = 0; j < 20; j++)
                            {
-                              string[] noteNum = cashInfo.noteNumbers[i, j].Split(':');
-                              cashUnitRow["N" + noteNum[0]] = noteNum[1];
+                              if (!string.IsNullOrEmpty(cashInfo.noteNumbers[i, j]) && cashInfo.noteNumbers[i, j].Contains(":"))
+                              {
+                                 string[] noteNum = cashInfo.noteNumbers[i, j].Split(':');
+                                 cashUnitRow["N" + noteNum[0]] = noteNum[1];
+                              }
                            }
                         }
                      }
@@ -969,12 +996,15 @@ namespace CIMView
 
                   try
                   {
-                     for (int j = 0; j < 20; j++)
+                     if (cashInfo.noteNumbers != null)
                      {
-                        if (!string.IsNullOrEmpty(cashInfo.noteNumbers[0, j]) && cashInfo.noteNumbers[0, j].Contains(":"))
+                        for (int j = 0; j < 20; j++)
                         {
-                           string[] noteNum = cashInfo.noteNumbers[0, j].Split(':');
-                           cashUnitRow["N" + noteNum[0]] = noteNum[1];
+                           if (!string.IsNullOrEmpty(cashInfo.noteNumbers[0, j]) && cashInfo.noteNumbers[0, j].Contains(":"))
+                           {
+                              string[] noteNum = cashInfo.noteNumbers[0, j].Split(':');
+                              cashUnitRow["N" + noteNum[0]] = noteNum[1];
+                           }
                         }
                      }
                   }

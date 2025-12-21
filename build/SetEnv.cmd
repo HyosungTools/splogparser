@@ -2,6 +2,8 @@
 :: To best mimic github builds use the VS2022 build tools
 SET VisualStudioDir="C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools"
 IF EXIST %VisualStudioDir% GOTO VisualStudio2022
+SET VisualStudioDir="C:\Program Files\Microsoft Visual Studio\18\Community"
+IF EXIST %VisualStudioDir% GOTO VisualStudio2022
 ECHO Failed to find VS2022 build environment
 ECHO Visit https://visualstudio.microsoft.com/downloads/
 ECHO to install the VS2022 build tools. 

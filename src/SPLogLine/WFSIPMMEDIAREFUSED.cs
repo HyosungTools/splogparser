@@ -34,7 +34,7 @@ namespace LogLineHandler
 
          int indexOflpResult = logLine.IndexOf("lpResult =");
          string logicalSubLogLine = logLine.Substring(indexOflpResult);
-         Console.WriteLine(String.Format("WFSIPMMEDIAREFUSED : logicalSubLogLine : {0}", logicalSubLogLine));
+         // Console.WriteLine(String.Format("WFSIPMMEDIAREFUSED : logicalSubLogLine : {0}", logicalSubLogLine));
 
          // e.g wReason = [4],
          result = NumericPropertyFromList(logicalSubLogLine, "wReason");
