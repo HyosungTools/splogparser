@@ -7,6 +7,24 @@ using RegEx;
 
 namespace LogLineHandler
 {
+   public class PhysicalCIMCU
+   {
+      public string usNumPhysicalCU { get; set; } = "";
+      public string lpPhysicalPositionName { get; set; } = "";
+      public string cUnitID { get; set; } = "";
+      public string ulCashInCount { get; set; } = "";
+      public string ulCount { get; set; } = "";
+      public string ulMaximum { get; set; } = "";
+      public string usPStatus { get; set; } = "";
+      public string bHardwareSensor { get; set; } = "";
+      public string ulInitialCount { get; set; } = "";
+      public string ulDispensedCount { get; set; } = "";
+      public string ulPresentedCount { get; set; } = "";
+      public string ulRetractedCount { get; set; } = "";
+      public string ulRejectCount { get; set; } = "";
+      public string lpszExtra { get; set; } = "";
+   }
+
    public abstract class WFSCUINFO : SPLine
    {
 
@@ -230,7 +248,7 @@ namespace LogLineHandler
       {
          List<string> values = new List<string>();
          (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-         logicalUnits.thisUnit = Util.RemovePhysicalUnit(logicalUnits.thisUnit);
+         logicalUnits.thisUnit = RemovePhysicalUnit(logicalUnits.thisUnit);
 
          for (int i = 0; i < lUnitCount; i++)
          {
@@ -239,7 +257,7 @@ namespace LogLineHandler
                values.Add(logicalUnits.thisUnit);
             }
             logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-            logicalUnits.thisUnit = Util.RemovePhysicalUnit(logicalUnits.thisUnit);
+            logicalUnits.thisUnit = RemovePhysicalUnit(logicalUnits.thisUnit);
          }
          return values.ToArray();
       }
@@ -249,7 +267,7 @@ namespace LogLineHandler
       {
          List<string> values = new List<string>();
          (string thisUnit, string nextUnits) logicalUnits = Util.NextUnit(logLine);
-         List<string> physicalUnits = Util.ExtractPhysicalUnits(logicalUnits.thisUnit);
+         List<string> physicalUnits = ExtractPhysicalUnits(logicalUnits.thisUnit);
          foreach (string unit in physicalUnits)
          {
             values.Add(unit);
@@ -258,7 +276,7 @@ namespace LogLineHandler
          for (int i = 1; i < lUnitCount; i++)
          {
             logicalUnits = Util.NextUnit(logicalUnits.nextUnits);
-            physicalUnits = Util.ExtractPhysicalUnits(logicalUnits.thisUnit);
+            physicalUnits = ExtractPhysicalUnits(logicalUnits.thisUnit);
             foreach (string unit in physicalUnits)
             {
                values.Add(unit);
@@ -349,9 +367,14 @@ namespace LogLineHandler
          List<string> values = new List<string>();
          foreach (string part in logicalParts)
          {
-            values.Add(WFSCUINFO.cCurrencyID(part).xfsMatch/*.Trim()*/);  // preserve 3 spaces for no currency
+            values.Add(WFSCUINFO.cCurrencyID_Preserved(part).xfsMatch/*.Trim()*/);  // preserve 3 spaces for no currency
          }
          return /*Util.TrimAll*/(Util.Resize(values.ToArray(), lUnitCount)); // preserve 3 spaces for no currency
+      }
+
+      protected static (bool success, string xfsMatch, string subLogLine) cCurrencyID_Preserved(string logLine)
+      {
+         return Util.MatchList(logLine, @"(?<=cCurrencyID\s*=\s*\[)([a-zA-Z0-9 ]*)(?=\])", "");
       }
 
       // iterate over the logical units and pull out - ulValue
@@ -642,10 +665,10 @@ namespace LogLineHandler
 
       //// I N D I V I D U A L   L I S T   A C C E S S O R S 
 
-      protected static (bool success, string xfsMatch, string subLogLine) cCurrencyID(string logLine)
-      {
-         return Util.MatchList(logLine, @"(?<=cCurrencyID\s*=\s*\[)([a-zA-Z0-9 ]*)(?=\])", "");
-      }
+      //protected static (bool success, string xfsMatch, string subLogLine) cCurrencyID(string logLine)
+      //{
+      //   return Util.MatchList(logLine, @"(?<=cCurrencyID\s*=\s*\[)([a-zA-Z0-9 ]*)(?=\])", "");
+      //}
 
       protected static (bool success, string xfsMatch, string subLogLine) lpPhysicalPositionName(string logLine)
       {
@@ -708,6 +731,310 @@ namespace LogLineHandler
          // Match property anywhere in the string, allowing whitespace/newlines before it
          string pattern = $@"(?<=[\n\s]*{Regex.Escape(propertyName)}\s*=\s*\[)([a-zA-Z0-9_]*)(?=\])";
          return Util.MatchList(logLine, pattern, "");
+      }
+
+      public static string RemovePhysicalUnit(string logicalUnitString)
+      {
+         // Find usNumPhysicalCUs = [
+         string numKey = "usNumPhysicalCUs = [";
+         int numStart = logicalUnitString.IndexOf(numKey);
+         if (numStart == -1)
+         {
+            // no physical units
+            return logicalUnitString;
+         }
+         numStart += numKey.Length;
+         int numEnd = logicalUnitString.IndexOf("]", numStart);
+         if (numEnd == -1)
+         {
+            return logicalUnitString;
+         }
+         string numStr = logicalUnitString.Substring(numStart, numEnd - numStart);
+         if (!int.TryParse(numStr, out int numUnits) || numUnits <= 0)
+         {
+            // no physical units
+            return logicalUnitString;
+         }
+
+         // Find lppPhysical =
+         string physKey = "lppPhysical =";
+         int start = logicalUnitString.IndexOf(physKey, numEnd);
+         if (start == -1)
+         {
+            return logicalUnitString;
+         }
+
+         int i = start + physKey.Length;
+
+         // Process each physical unit block
+         for (int unit = 0; unit < numUnits; unit++)
+         {
+            // Skip whitespace to find next {
+            while (i < logicalUnitString.Length && char.IsWhiteSpace(logicalUnitString[i]))
+            {
+               i++;
+            }
+            if (i >= logicalUnitString.Length || logicalUnitString[i] != '{')
+            {
+               // Malformed, return original
+               return logicalUnitString;
+            }
+
+            int braceCount = 1;
+            i++; // Skip {
+            while (i < logicalUnitString.Length && braceCount > 0)
+            {
+               if (logicalUnitString[i] == '{')
+               {
+                  braceCount++;
+               }
+               else if (logicalUnitString[i] == '}')
+               {
+                  braceCount--;
+               }
+               i++;
+            }
+
+            if (braceCount != 0)
+            {
+               // Unbalanced, return original
+               return logicalUnitString;
+            }
+         }
+
+         // i is now after the last }
+         int end = i;
+
+         // Remove the section
+         return logicalUnitString.Substring(0, start) + logicalUnitString.Substring(end);
+      }
+
+      public static string RemoveNoteNumberList(string logicalUnitString)
+      {
+         // Find bAppLock = [
+         string numKey = "bAppLock = [";
+         int numStart = logicalUnitString.IndexOf(numKey);
+         if (numStart == -1)
+         {
+            return logicalUnitString;
+         }
+         numStart += numKey.Length;
+         int numEnd = logicalUnitString.IndexOf("]", numStart);
+         if (numEnd == -1)
+         {
+            return logicalUnitString;
+         }
+         string numStr = logicalUnitString.Substring(numStart, numEnd - numStart);
+         if (!int.TryParse(numStr, out int numUnits) || numUnits <= 0)
+         {
+            return logicalUnitString;
+         }
+
+         // Find lppPhysical =
+         string physKey = "lpNoteNumberList =";
+         int start = logicalUnitString.IndexOf(physKey, numEnd);
+         if (start == -1)
+         {
+            return logicalUnitString;
+         }
+
+         int i = start + physKey.Length;
+
+         // Process each physical unit block
+         for (int unit = 0; unit < numUnits; unit++)
+         {
+            // Skip whitespace to find next {
+            while (i < logicalUnitString.Length && char.IsWhiteSpace(logicalUnitString[i]))
+            {
+               i++;
+            }
+            if (i >= logicalUnitString.Length || logicalUnitString[i] != '{')
+            {
+               // Malformed, return original
+               return logicalUnitString;
+            }
+
+            int braceCount = 1;
+            i++; // Skip {
+            while (i < logicalUnitString.Length && braceCount > 0)
+            {
+               if (logicalUnitString[i] == '{')
+               {
+                  braceCount++;
+               }
+               else if (logicalUnitString[i] == '}')
+               {
+                  braceCount--;
+               }
+               i++;
+            }
+
+            if (braceCount != 0)
+            {
+               // Unbalanced, return original
+               return logicalUnitString;
+            }
+         }
+
+         // i is now after the last }
+         int end = i;
+
+         // Remove the section
+         return logicalUnitString.Substring(0, start) + logicalUnitString.Substring(end);
+      }
+
+      public static List<string> ExtractPhysicalUnits(string logicalUnitString)
+      {
+         List<string> physicalUnits = new List<string>();
+
+         // Find usNumPhysicalCUs = [
+         string numKey = "usNumPhysicalCUs = [";
+         int numStart = logicalUnitString.IndexOf(numKey);
+         if (numStart == -1)
+         {
+            return physicalUnits; // Empty list if not found
+         }
+         numStart += numKey.Length;
+         int numEnd = logicalUnitString.IndexOf("]", numStart);
+         if (numEnd == -1)
+         {
+            return physicalUnits;
+         }
+         string numStr = logicalUnitString.Substring(numStart, numEnd - numStart);
+         if (!int.TryParse(numStr, out int numUnits) || numUnits <= 0)
+         {
+            return physicalUnits;
+         }
+
+         // Find lppPhysical =
+         string physKey = "lppPhysical =";
+         int start = logicalUnitString.IndexOf(physKey, numEnd);
+         if (start == -1)
+         {
+            return physicalUnits;
+         }
+
+         int i = start + physKey.Length;
+
+         // Process each physical unit block
+         for (int unit = 0; unit < numUnits; unit++)
+         {
+            // Skip whitespace to find next {
+            while (i < logicalUnitString.Length && char.IsWhiteSpace(logicalUnitString[i]))
+            {
+               i++;
+            }
+            if (i >= logicalUnitString.Length || logicalUnitString[i] != '{')
+            {
+               // Malformed, stop and return what we have
+               break;
+            }
+
+            int blockStart = i;
+            int braceCount = 1;
+            i++; // Skip {
+            while (i < logicalUnitString.Length && braceCount > 0)
+            {
+               if (logicalUnitString[i] == '{')
+               {
+                  braceCount++;
+               }
+               else if (logicalUnitString[i] == '}')
+               {
+                  braceCount--;
+               }
+               i++;
+            }
+
+            if (braceCount != 0)
+            {
+               // Unbalanced, skip this one
+               continue;
+            }
+
+            // Extract the block from blockStart to i-1 (including braces)
+            string block = logicalUnitString.Substring(blockStart, i - blockStart);
+            physicalUnits.Add(block);
+         }
+
+         return physicalUnits;
+      }
+
+      public static List<string> ExtractNoteNumberList(string logicalUnitString)
+      {
+         List<string> noteNumberList = new List<string>();
+
+         // Find usNumOfNoteNumbers = [
+         string numKey = "usNumOfNoteNumbers = [";
+         int numStart = logicalUnitString.IndexOf(numKey);
+         if (numStart == -1)
+         {
+            return noteNumberList; // Empty list if not found
+         }
+         numStart += numKey.Length;
+         int numEnd = logicalUnitString.IndexOf("]", numStart);
+         if (numEnd == -1)
+         {
+            return noteNumberList;
+         }
+         string numStr = logicalUnitString.Substring(numStart, numEnd - numStart);
+         if (!int.TryParse(numStr, out int numUnits) || numUnits <= 0)
+         {
+            return noteNumberList;
+         }
+
+         // Find lppPhysical =
+         string physKey = "lppNoteNumber =";
+         int start = logicalUnitString.IndexOf(physKey, numEnd);
+         if (start == -1)
+         {
+            return noteNumberList;
+         }
+
+         int i = start + physKey.Length;
+
+         // Process each physical unit block
+         for (int unit = 0; unit < numUnits; unit++)
+         {
+            // Skip whitespace to find next {
+            while (i < logicalUnitString.Length && char.IsWhiteSpace(logicalUnitString[i]))
+            {
+               i++;
+            }
+            if (i >= logicalUnitString.Length || logicalUnitString[i] != '{')
+            {
+               // Malformed, stop and return what we have
+               break;
+            }
+
+            int blockStart = i;
+            int braceCount = 1;
+            i++; // Skip {
+            while (i < logicalUnitString.Length && braceCount > 0)
+            {
+               if (logicalUnitString[i] == '{')
+               {
+                  braceCount++;
+               }
+               else if (logicalUnitString[i] == '}')
+               {
+                  braceCount--;
+               }
+               i++;
+            }
+
+            if (braceCount != 0)
+            {
+               // Unbalanced, skip this one
+               continue;
+            }
+
+            // Extract the block from blockStart to i-1 (including braces)
+            string block = logicalUnitString.Substring(blockStart, i - blockStart);
+            noteNumberList.Add(block);
+         }
+
+         return noteNumberList;
       }
    }
 }

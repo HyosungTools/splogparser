@@ -861,6 +861,65 @@ lpResult =
 		......(More Data)......
 	}
 }";
+      public const string WFS_INF_CIM_CASH_UNIT_INFO_4 = @"12724294967295018002568287550034CashAcceptor NHBRM5X N/A 1564 18400009FRAMEWORK00102025/10/19001213:46 15.1490007DEVCALL0021CBaseService::GetInfo0049HSERVICE[15] CATEGORY[1303] IN BUFFER[0x00000000]01804294967295018102568287560025CDM NHBRM5X N/A 1564 59080009FRAMEWORK00102025/10/19001213:46 15.1500011INFORMATION0028CBaseService::BroadcastEvent0048hApp=0x6B0F2F57, pCursor->pData->hApp=0x6B0F2F5701814294967295015802568287570035CashAcceptor ATMAgent N/A 4752 39120003SPI00102025/10/19001213:46 15.1500011INFORMATION0026CServiceAgent::ReportEvent0023call UnPack(0x006580E8)01584294967295022002568287580033CIM MoniPlus2.Loade N/A 5984 59880007ACTIVEX00102025/10/19001213:46 15.1500006XFSAPI0023CContextMgr::MgrWndProc0091WFS_USER_EVENT(RequestID=0, hService=12, hResult=0, dwCommandCode=1303 lpBuffer=0x2A73D724)02204294967295015902568287590025CDM NHBRM5X N/A 1564 59080009FRAMEWORK00102025/10/19001213:46 15.1500011INFORMATION0028CBaseService::BroadcastEvent0026pData->wClass=3, wClass=1301594294967295126502568287600035CashAcceptor ATMAgent N/A 4752 39120003SPI00102025/10/19001213:46 15.1500009XFS_EVENT0016USER_EVENT[1303]1142WFS_USER_EVENT, 
+lpResult =
+{
+	hWnd = [0x00040622],
+	RequestID = [0],
+	hService = [15],
+	tsTimestamp = [2025/10/19 13:46 15.147],
+	hResult = [0],
+	u.dwEventID = [1303],
+	lpBuffer = [0x005bdb14]
+	{
+		usNumber = [4],
+		fwType = [1],
+		fwItemType = [0x0004],
+		cUnitID = [LCU03],
+		cCurrencyID = [USD],
+		ulValues = [100],
+		ulCashInCount = [104],
+		ulCount = [532],
+		ulMaximum = [0],
+		usStatus = [1],
+		bAppLock = [0],
+		lpNoteNumberList = 
+		{
+			usNumOfNoteNumbers = [3],
+			lppNoteNumber = 
+			{
+				usNoteID = [7],
+				ulCount = [532]
+			}
+			{
+				usNoteID = [12],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [17],
+				ulCount = [0]
+			}
+		}
+		usNumPhysicalCUs = [1],
+		lppPhysical = 
+		{
+			lpPhysicalPositionName = [CassetteB],
+			cUnitID = [CST_B],
+			ulCashInCount = [104],
+			ulCount = [532],
+			ulMaximum = [0],
+			usPStatus = [1],
+			bHardwareSensor = [1],
+			lpszExtra = [SerialNumber=CMKS203060,DipSW=10110]
+			ulInitialCount = [600],
+			ulDispensedCount = [172],
+			ulPresentedCount = [172],
+			ulRetractedCount = [0],
+			ulRejectCount = [0],
+		}
+		lpszExtra = NULL
+	}
+}";
 
       public const string WFS_INF_CIM_CASH_IN_STATUS_1 = @"02454294967295022500090887650006COMMON0009FRAMEWORK00102023/01/24001223:55 47.4390011INFORMATION0033CSpCmdDispatcher::DispatchCommand0106pService->GetInfo() {HSERVICE[12], HWND[0x000201e0], REQUESTID[10517], dwCmdCode[1307], dwTimeOut[300000]}02254294967295019200090887660003CIM0007ACTIVEX00102023/01/24001223:55 47.4390006XFSAPI0017CService::GetInfo0099WFSAsyncGetInfo(hService=12, dwCategory=1307, lpQueryDetails=0x00000000, RequestID=10517) hResult=001924294967295016600090887670006COMMON0009FRAMEWORK00102023/01/24001223:55 47.4400011INFORMATION0028CServiceProvider::GetService0052service OK {HSERVICE[12], LogicalName[CashAcceptor]}01664294967295016900090887680003CDM0009FRAMEWORK00102023/01/24001223:55 47.4400011INFORMATION0021CBaseService::GetInfo0065Srvc=1307 ReqID=10517 Wnd=0x000201E0 Cmd=1307 TimeOut=300000 IO=201694294967295015800090887690012CashAcceptor0009FRAMEWORK00102023/01/24001223:55 47.4410007DEVCALL0021CBaseService::GetInfo0049HSERVICE[12] CATEGORY[1307] IN BUFFER[0x00000000]01584294967295017100090887700012CashAcceptor0009FRAMEWORK00102023/01/24001223:55 47.4410007DEVRETN0021CBaseService::GetInfo0062HSERVICE[12] CATEGORY[1307] HRESULT[0], OUT BUFFER[0x1F7E7C44]01714294967295046600090887710003CIM0003SPI00102023/01/24001223:55 47.4410009XFS_EVENT0013GETINFO[1307]0378WFS_GETINFO_COMPLETE, 
 lpResult =
@@ -1629,7 +1688,7 @@ lpResult =
 }
 ";
 
-      public const string WFS_SRVE_CIM_CASHUNITINFOCHANGED_1 = @"12174294967295015900090672220003CDM0009FRAMEWORK00102023/01/24001221:44 59.5010011INFORMATION0028CBaseService::BroadcastEvent0048hApp=0x0BB04582, pCursor->pData->hApp=0x0E770CEA01594294967295019300090672230003CIM0007ACTIVEX00102023/01/24001221:44 59.5010006XFSAPI0023CContextMgr::MgrWndProc0094WFS_SERVICE_EVENT(RequestID=0, hService=12, hResult=0, dwCommandCode=1304 lpBuffer=0x0C59DB24)01934294967295013800090672240003CDM0009FRAMEWORK00102023/01/24001221:44 59.5020011INFORMATION0028CBaseService::BroadcastEvent0027pData->wClass=13, wClass=1301384294967295015900090672250003CIM0007ACTIVEX00102023/01/24001221:44 59.5020011INFORMATION0022CMsgWnd::DefWindowProc0056message=0x00000415, wParam=0x2E21D918, lParam=0x252068A401594294967295015900090672260003CDM0009FRAMEWORK00102023/01/24001221:44 59.5020011INFORMATION0028CBaseService::BroadcastEvent0048hApp=0x0E770CEA, pCursor->pData->hApp=0x0E770CEA01594294967295012600090672270003CIM0003SPI00102023/01/24001221:44 59.5020011INFORMATION0026CServiceAgent::ReportEvent0023call UnPack(0x05AF7508)01264294967295014800090672280003CIM0007ACTIVEX00102023/01/24001221:44 59.5020011INFORMATION0038CCimService::HandleCashUnitInfoChanged0029[AddEvent]FireCashUnitChanged01484294967295013700090672290003CDM0009FRAMEWORK00102023/01/24001221:44 59.5020011INFORMATION0028CBaseService::BroadcastEvent0026pData->wClass=3, wClass=1301374294967295121700090672300003CIM0003SPI00102023/01/24001221:44 59.5020009XFS_EVENT0019SERVICE_EVENT[1304]1123WFS_SERVICE_EVENT, 
+public const string WFS_SRVE_CIM_CASHUNITINFOCHANGED_1 = @"12174294967295015900090672220003CDM0009FRAMEWORK00102023/01/24001221:44 59.5010011INFORMATION0028CBaseService::BroadcastEvent0048hApp=0x0BB04582, pCursor->pData->hApp=0x0E770CEA01594294967295019300090672230003CIM0007ACTIVEX00102023/01/24001221:44 59.5010006XFSAPI0023CContextMgr::MgrWndProc0094WFS_SERVICE_EVENT(RequestID=0, hService=12, hResult=0, dwCommandCode=1304 lpBuffer=0x0C59DB24)01934294967295013800090672240003CDM0009FRAMEWORK00102023/01/24001221:44 59.5020011INFORMATION0028CBaseService::BroadcastEvent0027pData->wClass=13, wClass=1301384294967295015900090672250003CIM0007ACTIVEX00102023/01/24001221:44 59.5020011INFORMATION0022CMsgWnd::DefWindowProc0056message=0x00000415, wParam=0x2E21D918, lParam=0x252068A401594294967295015900090672260003CDM0009FRAMEWORK00102023/01/24001221:44 59.5020011INFORMATION0028CBaseService::BroadcastEvent0048hApp=0x0E770CEA, pCursor->pData->hApp=0x0E770CEA01594294967295012600090672270003CIM0003SPI00102023/01/24001221:44 59.5020011INFORMATION0026CServiceAgent::ReportEvent0023call UnPack(0x05AF7508)01264294967295014800090672280003CIM0007ACTIVEX00102023/01/24001221:44 59.5020011INFORMATION0038CCimService::HandleCashUnitInfoChanged0029[AddEvent]FireCashUnitChanged01484294967295013700090672290003CDM0009FRAMEWORK00102023/01/24001221:44 59.5020011INFORMATION0028CBaseService::BroadcastEvent0026pData->wClass=3, wClass=1301374294967295121700090672300003CIM0003SPI00102023/01/24001221:44 59.5020009XFS_EVENT0019SERVICE_EVENT[1304]1123WFS_SERVICE_EVENT, 
 lpResult =
 {
 	hWnd = [0x000206f8],
@@ -2041,6 +2100,246 @@ lpResult =
 			ulPresentedCount = [1581],
 			ulRetractedCount = [0],
 			ulRejectCount = [22],
+		}
+		lpszExtra = NULL
+	}
+}";
+
+      public const string WFS_SRVE_CIM_CASHUNITINFOCHANGED_6 = @"02554294967295015700627385350013CashDispenser0009FRAMEWORK00102025/09/29001215:44 52.4180007DEVCALL0021CBaseService::GetInfo0047HSERVICE[3] CATEGORY[301] IN BUFFER[0x00000000]01574294967295012500627385360006COMMON0003SPI00102025/09/29001215:44 52.4180011INFORMATION0010WFPGetInfo0035HSERVICE=17, SrvcVersion=5123(1403)01254294967295013800627385370003CDM0009FRAMEWORK00102025/09/29001215:44 52.4190011INFORMATION0028CBaseService::BroadcastEvent0027pData->wClass=13, wClass=1301384294967295202300627385380012CashAcceptor0003SPI00102025/09/29001215:44 52.4200009XFS_EVENT0019SERVICE_EVENT[1304]1920WFS_SERVICE_EVENT, 
+lpResult =
+{
+	hWnd = [0x00030214],
+	RequestID = [0],
+	hService = [12],
+	tsTimestamp = [2025/09/29 15:44 52.406],
+	hResult = [0],
+	u.dwEventID = [1304],
+	lpBuffer = [0x289a4fa4]
+	{
+		usNumber = [3],
+		fwType = [2],
+		fwItemType = [0x0003],
+		cUnitID = [LCU02],
+		cCurrencyID = [   ],
+		ulValues = [0],
+		ulCashInCount = [0],
+		ulCount = [0],
+		ulMaximum = [1400],
+		usStatus = [4],
+		bAppLock = [0],
+		lpNoteNumberList = 
+		{
+			usNumOfNoteNumbers = [18],
+			lppNoteNumber = 
+			{
+				usNoteID = [1],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [2],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [3],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [4],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [5],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [6],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [7],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [8],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [9],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [10],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [11],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [12],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [13],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [14],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [15],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [16],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [17],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [0],
+				ulCount = [0]
+			}
+		}
+		usNumPhysicalCUs = [1],
+		lppPhysical = 
+		{
+			lpPhysicalPositionName = [CassetteE],
+			cUnitID = [CST_E],
+			ulCashInCount = [0],
+			ulCount = [0],
+			ulMaximum = [1400],
+			usPStatus = [4],
+			bHardwareSensor = [1],
+			lpszExtra = [SerialNumber=CGJZ238571,DipSW=00000]
+			ulInitialCount = [0],
+			ulDispensedCount = [0],
+			ulPresentedCount = [0],
+			ulRetractedCount = [0],
+			ulRejectCount = [0],
+		}
+		lpszExtra = NULL
+	}
+}";
+
+      public const string WFS_SRVE_CIM_CASHUNITINFOCHANGED_7 = @"21344294967295016600622439700006COMMON0009FRAMEWORK00102025/09/29001210:04 00.8970011INFORMATION0028CServiceProvider::GetService0052service OK {HSERVICE[12], LogicalName[CashAcceptor]}01664294967295015900622439710003CDM0009FRAMEWORK00102025/09/29001210:04 00.8970011INFORMATION0028CBaseService::BroadcastEvent0048hApp=0x2088A406, pCursor->pData->hApp=0x2E1AAA8601594294967295013500622439720012CashAcceptor0003SPI00102025/09/29001210:04 00.8970011INFORMATION0026CServiceAgent::ReportEvent0023call UnPack(0x27E8FA10)01354294967295017000622439730003CDM0009FRAMEWORK00102025/09/29001210:04 00.8980011INFORMATION0021CBaseService::GetInfo0066Srvc=1303 ReqID=107249 Wnd=0x00030214 Cmd=1303 TimeOut=300000 IO=201704294967295013800622439740003CDM0009FRAMEWORK00102025/09/29001210:04 00.8980011INFORMATION0028CBaseService::BroadcastEvent0027pData->wClass=13, wClass=1301384294967295205000622439750012CashAcceptor0003SPI00102025/09/29001210:04 00.8980009XFS_EVENT0019SERVICE_EVENT[1304]1947WFS_SERVICE_EVENT, 
+lpResult =
+{
+	hWnd = [0x00030214],
+	RequestID = [0],
+	hService = [12],
+	tsTimestamp = [2025/09/29 10:04 00.895],
+	hResult = [0],
+	u.dwEventID = [1304],
+	lpBuffer = [0x3c0aa5fc]
+	{
+		usNumber = [3],
+		fwType = [2],
+		fwItemType = [0x0003],
+		cUnitID = [LCU02],
+		cCurrencyID = [   ],
+		ulValues = [0],
+		ulCashInCount = [1100],
+		ulCount = [1100],
+		ulMaximum = [1400],
+		usStatus = [6],
+		bAppLock = [0],
+		lpNoteNumberList = 
+		{
+			usNumOfNoteNumbers = [18],
+			lppNoteNumber = 
+			{
+				usNoteID = [1],
+				ulCount = [122]
+			}
+			{
+				usNoteID = [2],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [3],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [4],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [5],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [6],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [7],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [8],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [9],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [10],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [11],
+				ulCount = [0]
+			}
+			{
+				usNoteID = [12],
+				ulCount = [3]
+			}
+			{
+				usNoteID = [13],
+				ulCount = [68]
+			}
+			{
+				usNoteID = [14],
+				ulCount = [27]
+			}
+			{
+				usNoteID = [15],
+				ulCount = [686]
+			}
+			{
+				usNoteID = [16],
+				ulCount = [60]
+			}
+			{
+				usNoteID = [17],
+				ulCount = [134]
+			}
+			{
+				usNoteID = [0],
+				ulCount = [0]
+			}
+		}
+		usNumPhysicalCUs = [1],
+		lppPhysical = 
+		{
+			lpPhysicalPositionName = [CassetteE],
+			cUnitID = [CST_E],
+			ulCashInCount = [1100],
+			ulCount = [1100],
+			ulMaximum = [1400],
+			usPStatus = [6],
+			bHardwareSensor = [1],
+			lpszExtra = [SerialNumber=NULLSERIALNUMBER,DipSW=00000]
+			ulInitialCount = [0],
+			ulDispensedCount = [0],
+			ulPresentedCount = [0],
+			ulRetractedCount = [0],
+			ulRejectCount = [0],
 		}
 		lpszExtra = NULL
 	}

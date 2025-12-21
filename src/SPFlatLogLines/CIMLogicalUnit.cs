@@ -130,7 +130,7 @@ CIM_LogicalUnit_NumberOfPCU,
          }
       }
 
-      public new static ILogLine LUFactory(ILogFileHandler handler, string logLine)
+      public static ILogLine LUFactory(ILogFileHandler handler, string logLine)
       {
 
          if (logLine.Contains("].InitialCount["))
