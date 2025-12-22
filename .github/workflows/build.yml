@@ -14,23 +14,27 @@ jobs:
     # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md
     runs-on: windows-2022
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         
     - name: Fetch all tags
       run: git fetch --prune origin +refs/tags/*:refs/tags/*
     
-    # Semantic Versioning
-    - name: Semantic versioning  
-      id: versioning
-      uses: PaulHatch/semantic-version@v4.0.2
+    # GitVersion - respects existing tags
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0
       with:
-        branch: main
-        tag_prefix: "v"
-        major_pattern: "break:"
-        minor_pattern: "feat:"
-        format: "v${major}.${minor}.${patch}-prerelease${increment}"    
+        versionSpec: '5.x'
+
+    - name: Determine Version
+      id: versioning
+      uses: gittools/actions/gitversion/execute@v0
+      with:
+        useConfigFile: true
+
+    - name: Display Version
+      run: echo "Version - ${{ steps.versioning.outputs.semVer }}"
 
     # Install MSBuild tools and add to Path
     - name: Add msbuild to PATH
@@ -42,10 +46,6 @@ jobs:
     - name: List dependencies restored
       run: cd src && nuget restore && cd .. 
                   
-    # Install Office - https://github.com/actions/runner-images/issues/1117
-    #- name: Install Office
-    #  run: choco install office365business --version=16026.20170
-      
     # Make dist directory
     - name: Make Dir
       run: mkdir dist
@@ -58,9 +58,7 @@ jobs:
     - name: Setup VSTest Path
       uses: darenm/Setup-VSTest@v1.2
                  
-    # Test - Run 
-    # C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\CommonExtensions\Microsoft\TestWindow
-    # %VisualStudioDir%\Common7\IDE\CommonExtensions\Microsoft\TestWindow
+    # Test
     - name: Test
       run: msbuild src\\splogparser.sln /t:RunUnitTests /p:Configuration="Release" /p:Platform="Any CPU"
       
@@ -84,7 +82,7 @@ jobs:
       with:
         artifacts: release.zip
         generateReleaseNotes: true
-        tag: ${{ steps.versioning.outputs.version }}
-        name: ${{ steps.versioning.outputs.version }}
+        tag: v${{ steps.versioning.outputs.semVer }}
+        name: v${{ steps.versioning.outputs.semVer }}
         allowUpdates: true
         prerelease: true      
