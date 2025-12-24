@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Contract;
 using Impl;
 using LogLineHandler;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace OverView
 {
@@ -20,6 +23,265 @@ namespace OverView
       public OverTable(IContext ctx, string viewName) : base(ctx, viewName)
       {
       }
+
+      #region StateWallClock Analysis Support
+
+      /// <summary>
+      /// Gets the Summary DataTable for analysis.
+      /// </summary>
+      /// <returns>The Summary DataTable, or null if not found.</returns>
+      public DataTable GetSummaryTable()
+      {
+         if (dTableSet.Tables.Contains("Summary"))
+            return dTableSet.Tables["Summary"];
+         return null;
+      }
+
+      /// <summary>
+      /// Creates and populates the StateWallClock table from analyzer results.
+      /// </summary>
+      /// <param name="analyzer">The analyzer containing results.</param>
+      public void PopulateStateWallClockTable(StateWallClockAnalyzer analyzer)
+      {
+         // Create StateWallClock table if it doesn't exist
+         if (!dTableSet.Tables.Contains("StateWallClock"))
+         {
+            DataTable wallClockTable = new DataTable("StateWallClock");
+            wallClockTable.Columns.Add("Date", typeof(string));
+            wallClockTable.Columns.Add("Period", typeof(string));
+            wallClockTable.Columns.Add("State", typeof(string));
+            wallClockTable.Columns.Add("Label", typeof(string));
+            wallClockTable.Columns.Add("StartTime", typeof(string));
+            wallClockTable.Columns.Add("EndTime", typeof(string));
+            wallClockTable.Columns.Add("DurationSeconds", typeof(double));
+            wallClockTable.Columns.Add("DurationFormatted", typeof(string));
+            dTableSet.Tables.Add(wallClockTable);
+         }
+
+         DataTable table = dTableSet.Tables["StateWallClock"];
+         table.Clear();
+
+         analyzer.PopulateResultsTable(table);
+      }
+
+      /// <summary>
+      /// Writes the StateWallClock worksheet with wall clock pie charts.
+      /// </summary>
+      /// <param name="results">List of period state segments from the analyzer.</param>
+      public void WriteStateWallClockExcel(List<PeriodStateSegments> results)
+      {
+         if (results == null || results.Count == 0)
+            return;
+
+         string excelFileName = ctx.ExcelFileName;
+         ctx.ConsoleWriteLogLine("WriteStateWallClockExcel: Adding wall clock charts to " + excelFileName);
+
+         Excel.Application excelApp = new Excel.Application
+         {
+            Visible = false,
+            DisplayAlerts = false
+         };
+
+         Excel.Workbook activeBook = excelApp.Workbooks.Open(excelFileName);
+
+         // Add new worksheet
+         Excel._Worksheet worksheet = (Excel._Worksheet)activeBook.Sheets.Add(After: activeBook.Sheets[activeBook.Sheets.Count]);
+         worksheet.Name = "StateWallClock";
+
+         // Write summary table first
+         WriteStateWallClockSummaryTable(worksheet, results);
+
+         // State colors (BGR format for Excel)
+         var stateColors = new Dictionary<string, int>
+      {
+         { "InService", 0x00AA00 },      // Green
+         { "OutOfService", 0x0066FF },   // Orange
+         { "OffLine", 0x0000FF },        // Red
+         { "PowerUp", 0xFF6600 },        // Blue
+         { "Supervisor", 0xFF0099 },     // Purple
+         { "Unknown", 0xC0C0C0 }         // Light Gray
+      };
+
+         // Chart size and position: K1 to O14 for first chart
+         // row height 15, column width 8.43 (default)
+         int chartWidth = 240;
+         int chartHeight = 210;
+         int chartLeft = 480;   // Column K start (approximately 10 columns * 48 points)
+         int chartTop = 0;
+         int chartHGap = 250;   // Horizontal gap between AM and PM charts
+         int chartVGap = 220;   // Vertical gap between day rows
+
+         int chartIndex = 0;
+
+         var resultsByDate = results.GroupBy(r => r.Date).OrderBy(g => g.Key).ToList();
+
+         foreach (var dateGroup in resultsByDate)
+         {
+            DateTime date = dateGroup.Key;
+
+            foreach (var period in dateGroup.OrderBy(p => p.Period))
+            {
+               if (period.Segments.Count == 0)
+                  continue;
+
+               int rowPos = chartIndex / 2;
+               int colPos = chartIndex % 2;
+               int left = chartLeft + (colPos * chartHGap);
+               int top = chartTop + (rowPos * chartVGap);
+
+               var sortedSegments = period.Segments;  // Already in chronological order
+
+               // Build arrays for chart data
+               string[] labels = sortedSegments.Select(s => s.Label).ToArray();
+               double[] values = sortedSegments.Select(s => s.DurationSeconds).ToArray();
+
+               // Create chart
+               Excel.ChartObjects chartObjects = (Excel.ChartObjects)worksheet.ChartObjects(Type.Missing);
+               Excel.ChartObject chartObject = chartObjects.Add(left, top, chartWidth, chartHeight);
+               Excel.Chart chart = chartObject.Chart;
+               chart.ChartType = Excel.XlChartType.xlPie;
+
+               // Add series using arrays
+               Excel.SeriesCollection seriesCollection = (Excel.SeriesCollection)chart.SeriesCollection(Type.Missing);
+               Excel.Series series = seriesCollection.NewSeries();
+               series.Values = values;
+               series.XValues = labels;
+               series.Name = $"{date:yyyy-MM-dd} {period.Period}";
+
+               // Title only
+               chart.HasTitle = true;
+               chart.ChartTitle.Text = $"{date:yyyy-MM-dd} {period.Period}";
+               chart.ChartTitle.Font.Size = 10;
+               chart.ChartTitle.Font.Bold = true;
+
+               // No legend - color key is in the data table
+               chart.HasLegend = false;
+
+               // No data labels
+               series.HasDataLabels = false;
+
+               // Apply colors based on state
+               try
+               {
+                  for (int i = 0; i < sortedSegments.Count; i++)
+                  {
+                     string state = sortedSegments[i].State;
+                     if (stateColors.TryGetValue(state, out int color))
+                     {
+                        Excel.Point point = (Excel.Point)series.Points(i + 1);
+                        point.Interior.Color = color;
+                     }
+                  }
+               }
+               catch (Exception ex)
+               {
+                  ctx.ConsoleWriteLogLine($"Chart formatting error: {ex.Message}");
+               }
+
+               chartIndex++;
+            }
+         }
+
+         // Add color legend in the data area
+         WriteStateColorLegend(worksheet, stateColors);
+
+         activeBook.Save();
+         activeBook.Close();
+         excelApp.Quit();
+
+         ctx.ConsoleWriteLogLine("WriteStateWallClockExcel: Complete");
+      }
+
+      /// <summary>
+      /// Writes a summary table showing state segments for all periods.
+      /// </summary>
+      private void WriteStateWallClockSummaryTable(Excel._Worksheet worksheet, List<PeriodStateSegments> results)
+      {
+         int startRow = 1;
+         int startCol = 1;
+
+         // Header row
+         worksheet.Cells[startRow, startCol] = "Date";
+         worksheet.Cells[startRow, startCol + 1] = "Period";
+         worksheet.Cells[startRow, startCol + 2] = "Start";
+         worksheet.Cells[startRow, startCol + 3] = "End";
+         worksheet.Cells[startRow, startCol + 4] = "State";
+         worksheet.Cells[startRow, startCol + 5] = "Duration";
+         worksheet.Cells[startRow, startCol + 6] = "Percent";
+
+         // Format header row
+         Excel.Range headerRange = worksheet.Range[
+             worksheet.Cells[startRow, startCol],
+             worksheet.Cells[startRow, startCol + 6]
+         ];
+         headerRange.Font.Bold = true;
+         headerRange.Interior.Color = 0xF0E8D5;
+
+         // Data rows
+         int dataRow = startRow + 1;
+         double totalSeconds = 12 * 60 * 60; // 12 hours
+
+         foreach (var period in results)
+         {
+            foreach (var segment in period.Segments)
+            {
+               worksheet.Cells[dataRow, startCol] = period.Date.ToString("yyyy-MM-dd");
+               worksheet.Cells[dataRow, startCol + 1] = period.Period;
+               worksheet.Cells[dataRow, startCol + 2] = segment.StartTime.ToString("HH:mm:ss");
+               worksheet.Cells[dataRow, startCol + 3] = segment.EndTime.ToString("HH:mm:ss");
+               worksheet.Cells[dataRow, startCol + 4] = segment.State;
+
+               int hours = (int)segment.Duration.TotalHours;
+               int mins = segment.Duration.Minutes;
+               int secs = segment.Duration.Seconds;
+               worksheet.Cells[dataRow, startCol + 5] = $"{hours:D2}:{mins:D2}:{secs:D2}";
+
+               double percentage = (segment.DurationSeconds / totalSeconds) * 100;
+               worksheet.Cells[dataRow, startCol + 6] = $"{percentage:F1}%";
+
+               dataRow++;
+            }
+         }
+
+         // Auto-fit columns
+         Excel.Range allDataRange = worksheet.Range[
+             worksheet.Cells[startRow, startCol],
+             worksheet.Cells[dataRow - 1, startCol + 6]
+         ];
+         allDataRange.Columns.AutoFit();
+      }
+
+      /// <summary>
+      /// Writes a color legend showing what each state color means.
+      /// </summary>
+      private void WriteStateColorLegend(Excel._Worksheet worksheet, Dictionary<string, int> stateColors)
+      {
+         int startRow = 1;
+         int startCol = 9;  // Column I
+
+         worksheet.Cells[startRow, startCol] = "State Colors";
+         worksheet.Cells[startRow, startCol].Font.Bold = true;
+
+         int row = startRow + 1;
+         foreach (var kvp in stateColors.OrderBy(k => k.Key))
+         {
+            // Color swatch
+            Excel.Range colorCell = worksheet.Cells[row, startCol];
+            colorCell.Interior.Color = kvp.Value;
+            colorCell.Value2 = "";
+
+            // State name
+            worksheet.Cells[row, startCol + 1] = kvp.Key;
+
+            row++;
+         }
+
+         // Adjust column widths
+         ((Excel.Range)worksheet.Columns[startCol, Type.Missing]).ColumnWidth = 3;
+         ((Excel.Range)worksheet.Columns[startCol + 1, Type.Missing]).AutoFit();
+      }
+
+      #endregion
 
       /// <summary>
       /// Process one line from the merged log file. 
@@ -875,7 +1137,8 @@ namespace OverView
 
                   default:
                      break;
-               };
+               }
+               ;
             }
          }
          catch (Exception e)
@@ -949,15 +1212,15 @@ namespace OverView
          {
             if (addKey.keyName == "FITSwitchOnUsNextStateNumbers")
             {
-               FITSwitchOnUsNextStateNumbers = addKey.value; 
+               FITSwitchOnUsNextStateNumbers = addKey.value;
             }
             else if (addKey.keyName == "FITSwitchForeignNextStateNumbers")
             {
-               FITSwitchForeignNextStateNumbers = addKey.value; 
+               FITSwitchForeignNextStateNumbers = addKey.value;
             }
             else if (addKey.keyName == "FITSwitchOtherNextStateNumbers")
             {
-               FITSwitchOtherNextStateNumbers = addKey.value; 
+               FITSwitchOtherNextStateNumbers = addKey.value;
             }
 
             return;
@@ -999,7 +1262,7 @@ namespace OverView
             {
                dataRow["card"] = "other";
             }
-            else 
+            else
             {
                dataRow["card"] = lineField.field;
             }
