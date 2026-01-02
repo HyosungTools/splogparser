@@ -1,0 +1,82 @@
+<?xml version="1.0" standalone="yes"?>
+<WinCEJournal>
+  <!-- Summary table structure - one row per journal entry -->
+  <Summary>
+    <file></file>
+    <time></time>
+    <sequence></sequence>
+    <kindcode></kindcode>
+    <description></description>
+    <data></data>
+  </Summary>
+
+  <!-- KindCode Messages - maps codes to human-readable descriptions -->
+  <!-- Operation codes -->
+  <Messages>
+    <type>KindCode</type>
+    <code>SF</code>
+    <brief>System/Fiscal Start</brief>
+    <description>ATM system startup or fiscal day start</description>
+  </Messages>
+
+  <Messages>
+    <type>KindCode</type>
+    <code>OA</code>
+    <brief>Operational Alert</brief>
+    <description>Operational alert with message (e.g., Safe door status)</description>
+  </Messages>
+
+  <Messages>
+    <type>KindCode</type>
+    <code>SA</code>
+    <brief>Status Alert</brief>
+    <description>Status alert notification</description>
+  </Messages>
+
+  <Messages>
+    <type>KindCode</type>
+    <code>SD</code>
+    <brief>Status Change</brief>
+    <description>Status change (e.g., entering MASTER mode)</description>
+  </Messages>
+
+  <Messages>
+    <type>KindCode</type>
+    <code>SG</code>
+    <brief>System/General</brief>
+    <description>System or general status message</description>
+  </Messages>
+
+  <Messages>
+    <type>KindCode</type>
+    <code>D3</code>
+    <brief>Day Total</brief>
+    <description>Day total and cassette count report</description>
+  </Messages>
+
+  <!-- Transaction codes -->
+  <Messages>
+    <type>KindCode</type>
+    <code>SC</code>
+    <brief>Transaction Complete</brief>
+    <description>Transaction completion with extended fields</description>
+  </Messages>
+
+  <Messages>
+    <type>KindCode</type>
+    <code>CW</code>
+    <brief>Cash Withdrawal</brief>
+    <description>Cash withdrawal transaction</description>
+  </Messages>
+
+  <Messages>
+    <type>KindCode</type>
+    <code>BI</code>
+    <brief>Balance Inquiry</brief>
+    <description>Balance inquiry transaction</description>
+  </Messages>
+
+  <!-- Additional codes can be added as discovered from log analysis -->
+  <!-- Reference: JournalDefine.h from legacy viewer source -->
+
+</WinCEJournal>

@@ -4,7 +4,7 @@ namespace Contract
 {
    public enum ParseType
    {
-      AP, AT, AE, AW, AV, SP, SF, RT, SS, BE, II, A2, TCR
+      AP, AT, AE, AW, AV, SP, SF, RT, SS, BE, II, A2, TCR, WinCE
    }
 
    public interface IOptions
@@ -22,6 +22,7 @@ namespace Contract
       bool IsBE { get; }
       bool IsA2 { get; }
       bool IsTCR { get; }
+      bool IsWinCE { get; }
 
       bool RunView(ParseType parseType, string viewName);
 
@@ -38,6 +39,7 @@ namespace Contract
       string BEViews { get; set; }
       string A2Views { get; set; }
       string TCRViews { get; set; }
+      string WinCEViews { get; set; }
       bool RawLogLine { get; set; }
 
       string InputFile { get; set; }

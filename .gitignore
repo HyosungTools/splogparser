@@ -342,4 +342,8 @@ ASALocalRun/
 # sonarqube
 src/.sonarqube
 
+# Exception for test data
+!testdata/**/*.log
+!testdata/**/*.dat
+
 log.txt

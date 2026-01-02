@@ -56,6 +56,8 @@
     <Compile Include="SPFlatLogHandler.cs" />
     <Compile Include="SPLogHandler.cs" />
     <Compile Include="SSLogHandler.cs" />
+    <Compile Include="WinCEJournalHandler.cs" />
+    <Compile Include="WinCETraceLogHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\A2iALogLine\A2iALogLine.csproj">

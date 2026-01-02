@@ -103,6 +103,10 @@
       <Project>{BECB9C9A-59A9-42CB-90ED-152A509DE332}</Project>
       <Name>TCRLogLine</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WinCELine\WinCELogLine\WinCELogLine.csproj">
+      <Project>{be5ac004-1223-43bd-a77c-a54e20d86d72}</Project>
+      <Name>WinCELogLine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
