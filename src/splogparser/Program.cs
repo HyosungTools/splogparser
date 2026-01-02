@@ -182,6 +182,7 @@ namespace splogparser
          ctx.ConsoleWriteLogLine("opts.SSViews :" + ctx.opts.SSViews);
          ctx.ConsoleWriteLogLine("opts.A2Views :" + ctx.opts.A2Views);
          ctx.ConsoleWriteLogLine("opts.TCRViews :" + ctx.opts.TCRViews);
+         ctx.ConsoleWriteLogLine("opts.WinCEViews :" + ctx.opts.WinCEViews);
 
          ctx.ConsoleWriteLogLine(String.Format("IsAP : {0}", ctx.opts.IsAP ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("APView Contains  : {0}", ctx.opts.APViews));
@@ -219,6 +220,9 @@ namespace splogparser
          ctx.ConsoleWriteLogLine(String.Format("IsTCR : {0}", ctx.opts.IsTCR ? "true" : "false"));
          ctx.ConsoleWriteLogLine(String.Format("TCRView Contains  : {0}", ctx.opts.TCRViews));
 
+         ctx.ConsoleWriteLogLine(String.Format("IsWinCE : {0}", ctx.opts.IsWinCE ? "true" : "false"));
+         ctx.ConsoleWriteLogLine(String.Format("WinCEView Contains  : {0}", ctx.opts.WinCEViews)); 
+
          // Only create a LogFileHandler if their ParseType was specified on the command line
          ctx.ConsoleWriteLogLine(String.Format("Create the LogFileHandlers"));
 
@@ -254,6 +258,10 @@ namespace splogparser
 
          // TCR
          if (ctx.opts.IsTCR) ctx.logFileHandlers.Add((ILogFileHandler)new APLogHandler(new CreateTextStreamReader(), ParseType.TCR, TCRLogLine.Factory));
+
+         // WinCE
+         if (ctx.opts.IsWinCE) ctx.logFileHandlers.Add((ILogFileHandler)new WinCEJournalHandler(new CreateTextStreamReader(), ParseType.WinCE, WinCEJournalLine.Factory));
+         if (ctx.opts.IsWinCE) ctx.logFileHandlers.Add((ILogFileHandler)new WinCETraceLogHandler(new CreateTextStreamReader(), ParseType.WinCE, WinCETraceLine.Factory));
 
          // BE
          if (ctx.opts.IsBE) ctx.logFileHandlers.Add((ILogFileHandler)new BELogHandler(new CreateTextStreamReader()));

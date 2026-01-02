@@ -1,0 +1,64 @@
+<?xml version="1.0" standalone="yes"?>
+<WinCETrace>
+  <!-- Summary table structure - one row per trace entry -->
+  <Summary>
+    <file></file>
+    <time></time>
+    <type></type>
+    <code></code>
+    <message></message>
+  </Summary>
+
+  <!-- Log Type Messages -->
+  <Messages>
+    <type>LogType</type>
+    <code>o</code>
+    <brief>operation</brief>
+    <description>Normal operation trace</description>
+  </Messages>
+
+  <Messages>
+    <type>LogType</type>
+    <code>O</code>
+    <brief>Operation</brief>
+    <description>Operation trace (uppercase)</description>
+  </Messages>
+
+  <Messages>
+    <type>LogType</type>
+    <code>f</code>
+    <brief>fatal</brief>
+    <description>Fatal error trace</description>
+  </Messages>
+
+  <Messages>
+    <type>LogType</type>
+    <code>s</code>
+    <brief>system</brief>
+    <description>System trace</description>
+  </Messages>
+
+  <!-- Layer Code Messages (known codes from legacy viewer) -->
+  <!-- Add more codes as they are discovered from log analysis -->
+  <Messages>
+    <type>LayerCode</type>
+    <code>1A010000000</code>
+    <brief>ATM_ERROR</brief>
+    <description>ATM Error layer</description>
+  </Messages>
+
+  <Messages>
+    <type>LayerCode</type>
+    <code>551A0000000</code>
+    <brief>SYSTEM</brief>
+    <description>System layer</description>
+  </Messages>
+
+  <Messages>
+    <type>LayerCode</type>
+    <code>1V020000000</code>
+    <brief>DEVICE</brief>
+    <description>Device layer</description>
+  </Messages>
+
+</WinCETrace>

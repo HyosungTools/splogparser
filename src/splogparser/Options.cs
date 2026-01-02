@@ -36,6 +36,9 @@ namespace splogparser
       [Option('r', "rt", Default = "x", Required = false, HelpText = "Parse Retail logs.")]
       public string RTViews { get; set; }
 
+      [Option('c', "ce", Default = "x", Required = false, HelpText = "Parse WinCE logs.")]
+      public string WinCEViews { get; set; }
+
       [Option('i', "ii", Default = "x", Required = false, HelpText = "Parse IIS logs.")]
       public string IIViews { get; set; }
 
@@ -79,6 +82,8 @@ namespace splogparser
       public bool IsSS { get { return SSViews != "x"; } }
       public bool IsA2 { get { return A2Views != "x"; } }
       public bool IsTCR { get { return TCRViews != "x"; } }
+      public bool IsWinCE { get { return WinCEViews != "x"; } }
+
       public bool RunView(ParseType parseType, string viewName)
       {
          viewName = viewName.Replace("View", "");
@@ -96,6 +101,7 @@ namespace splogparser
               ( (IsBE && parseType == ParseType.BE) && (BEViews.Contains(viewName) || BEViews.Contains("*"))) ||
               ( (IsA2 && parseType == ParseType.A2) && (A2Views.Contains(viewName) || A2Views.Contains("*"))) ||
               ( (IsTCR && parseType == ParseType.TCR) && (TCRViews.Contains(viewName) || TCRViews.Contains("*"))) ||
+              ( (IsWinCE && parseType == ParseType.WinCE) && (WinCEViews.Contains(viewName) || WinCEViews.Contains("*"))) ||
               ( (IsAV && parseType == ParseType.AV) && (AVViews.Contains(viewName) || AVViews.Contains("*")))
             );
       }
@@ -121,6 +127,7 @@ namespace splogparser
          if (IsSS) suffix += _Suffix("__SS", SSViews);
          if (IsA2) suffix += _Suffix("__A2", A2Views);
          if (IsTCR) suffix += _Suffix("__TCR", TCRViews);
+         if (IsWinCE) suffix += _Suffix("__WinCE", WinCEViews);
          return suffix; 
       }
    }
