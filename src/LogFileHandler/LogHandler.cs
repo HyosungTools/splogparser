@@ -22,7 +22,9 @@ namespace LogFileHandler
       {
          get
          {
-            return ctx.ioProvider.GetFileName(fileName);
+            if (ctx?.ioProvider != null)
+               return ctx.ioProvider.GetFileName(fileName);
+            return Path.GetFileName(fileName);  // Fallback when ctx is not set
          }
       }
 
