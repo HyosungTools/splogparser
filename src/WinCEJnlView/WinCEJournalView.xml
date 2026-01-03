@@ -1,82 +1,613 @@
 <?xml version="1.0" standalone="yes"?>
-<WinCEJournal>
-  <!-- Summary table structure - one row per journal entry -->
+<WinCEJournalView>
   <Summary>
     <file></file>
     <time></time>
+    <stacknum></stacknum>
+    <type></type>
+    <typedesc></typedesc>
+    <trantype></trantype>
+    <trantypedesc></trantypedesc>
     <sequence></sequence>
-    <kindcode></kindcode>
     <description></description>
-    <data></data>
+    <requestedamt></requestedamt>
+    <dispensedamt></dispensedamt>
+    <surchargeamt></surchargeamt>
+    <errorcode></errorcode>
+    <trandatetime></trandatetime>
   </Summary>
+  <TransactionDetails>
+    <file></file>
+    <time></time>
+    <stacknum></stacknum>
+    <terminalid></terminalid>
+    <transno></transno>
+    <trantype></trantype>
+    <trantypedesc></trantypedesc>
+    <fromaccount></fromaccount>
+    <toaccount></toaccount>
+    <bankcode></bankcode>
+    <hostdate></hostdate>
+    <hosttime></hosttime>
+    <availablebalance></availablebalance>
+    <retrievalno></retrievalno>
+    <authorizationno></authorizationno>
+    <settledate></settledate>
+    <surchargeamt></surchargeamt>
+    <requestedamt></requestedamt>
+    <dispensedamt></dispensedamt>
+    <ledgerbalance></ledgerbalance>
+    <procedurecount></procedurecount>
+    <transactionresult></transactionresult>
+    <errorcode></errorcode>
+    <carddata></carddata>
+    <noncashvalue></noncashvalue>
+    <noncashtype></noncashtype>
+  </TransactionDetails>
+  <EMVDetails>
+    <file></file>
+    <time></time>
+    <stacknum></stacknum>
+    <terminalid></terminalid>
+    <transno></transno>
+    <authorizationno></authorizationno>
+    <aid></aid>
+    <appname></appname>
+    <arqc></arqc>
+    <arpc></arpc>
+    <servicecode></servicecode>
+    <terminalcapability></terminalcapability>
+    <posentrymode></posentrymode>
+    <tvr></tvr>
+    <issueractioncode></issueractioncode>
+    <rawdata></rawdata>
+  </EMVDetails>
 
-  <!-- KindCode Messages - maps codes to human-readable descriptions -->
-  <!-- Operation codes -->
+  <!-- Main Type lookup (O, T, A prefix) -->
   <Messages>
-    <type>KindCode</type>
-    <code>SF</code>
-    <brief>System/Fiscal Start</brief>
-    <description>ATM system startup or fiscal day start</description>
+    <type>MainType</type>
+    <code>O</code>
+    <description>Operation</description>
+  </Messages>
+  <Messages>
+    <type>MainType</type>
+    <code>T</code>
+    <description>Transaction</description>
+  </Messages>
+  <Messages>
+    <type>MainType</type>
+    <code>A</code>
+    <description>Account</description>
   </Messages>
 
+  <!-- Transaction Type lookup (from JournalDefine.h SUB_T_* defines) -->
   <Messages>
-    <type>KindCode</type>
-    <code>OA</code>
-    <brief>Operational Alert</brief>
-    <description>Operational alert with message (e.g., Safe door status)</description>
+    <type>TranType</type>
+    <code>CW</code>
+    <description>Withdrawal</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>AM</code>
+    <description>Amount Mismatch</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>BI</code>
+    <description>Balance Inquiry</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>TR</code>
+    <description>Transfer</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>DE</code>
+    <description>Deposit</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>CC</code>
+    <description>Check Cashing</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>NW</code>
+    <description>Non Cash Withdrawal</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>IA</code>
+    <description>Inquiry Amount</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>PL</code>
+    <description>PhoneCard LongDistance</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>PW</code>
+    <description>PhoneCard Wireless</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>MP</code>
+    <description>MasterCard Purchase</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>MI</code>
+    <description>MasterCard Inquiry</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>MR</code>
+    <description>MasterCard Reload</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>MG</code>
+    <description>GiftCard Purchase</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>BP</code>
+    <description>Bill Payment</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>MO</code>
+    <description>Money Order</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>MW</code>
+    <description>Money Wire Transfer</description>
+  </Messages>
+  <Messages>
+    <type>TranType</type>
+    <code>CA</code>
+    <description>Cancellation</description>
   </Messages>
 
+  <!-- KindCode descriptions (single character codes from JournalDefine.cpp) -->
   <Messages>
     <type>KindCode</type>
-    <code>SA</code>
-    <brief>Status Alert</brief>
-    <description>Status alert notification</description>
+    <code>A</code>
+    <description>System Power On</description>
   </Messages>
-
   <Messages>
     <type>KindCode</type>
-    <code>SD</code>
-    <brief>Status Change</brief>
-    <description>Status change (e.g., entering MASTER mode)</description>
+    <code>B</code>
+    <description>Normal Transaction</description>
   </Messages>
-
   <Messages>
     <type>KindCode</type>
-    <code>SG</code>
-    <brief>System/General</brief>
-    <description>System or general status message</description>
+    <code>C</code>
+    <description>Transaction Error</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>D</code>
+    <description>Reversal Transaction</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>E</code>
+    <description>Power Failed Transaction</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>F</code>
+    <description>In Service</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>G</code>
+    <description>Start Operator Function</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>H</code>
+    <description>Master Key Changed</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>I</code>
+    <description>Add Cash To Cassette1</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>J</code>
+    <description>Operator Password Changed</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>K</code>
+    <description>Master Password Changed</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>L</code>
+    <description>Day Total</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>M</code>
+    <description>Cassette Total</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>N</code>
+    <description>Add Cash To Cassette2</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>O</code>
+    <description>Communication Error</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>P</code>
+    <description>Out Of Service</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>Q</code>
+    <description>Operator Reset</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>R</code>
+    <description>Transaction not Approved</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>S</code>
+    <description>Cassette 1 Denomination Changed</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>T</code>
+    <description>Cassette 2 Denomination Changed</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>U</code>
+    <description>Comm. Key Download</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>V</code>
+    <description>Processor Changed</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>W</code>
+    <description>Trial Day Total</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>X</code>
+    <description>Service Password Changed</description>
   </Messages>
 
+  <!-- KindCode descriptions (multi-character codes) -->
+  <Messages>
+    <type>KindCode</type>
+    <code>A1</code>
+    <description>Add cash in cassette #1</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>A2</code>
+    <description>Add cash in cassette #2</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>A3</code>
+    <description>Add cash in cassette #1,2</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>A4</code>
+    <description>Add cash in cassette #3</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>A5</code>
+    <description>Add cash in cassette #1,3</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>A6</code>
+    <description>Add cash in cassette #2,3</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>A7</code>
+    <description>Add cash in cassette #1,2,3</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>A8</code>
+    <description>Add cash in cassette #4</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>A9</code>
+    <description>Add cash in cassette #1,4</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>AA</code>
+    <description>Add cash in cassette #2,4</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>AB</code>
+    <description>Add cash in cassette #1,2,4</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>AC</code>
+    <description>Add cash in cassette #3,4</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>AD</code>
+    <description>Add cash in cassette #1,3,4</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>AE</code>
+    <description>Add cash in cassette #2,3,4</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>AF</code>
+    <description>Add cash in cassette #1,2,3,4</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>BA</code>
+    <description>Day Total</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>BB</code>
+    <description>Cassette Total</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>BC</code>
+    <description>Trial Day Total</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>BD</code>
+    <description>Trial Cassette Total</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>D1</code>
+    <description>Change denomination of cassette #1</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>D2</code>
+    <description>Change denomination of cassette #2</description>
+  </Messages>
   <Messages>
     <type>KindCode</type>
     <code>D3</code>
-    <brief>Day Total</brief>
-    <description>Day total and cassette count report</description>
+    <description>Change denomination of cassette #1,2</description>
   </Messages>
-
-  <!-- Transaction codes -->
+  <Messages>
+    <type>KindCode</type>
+    <code>D4</code>
+    <description>Change denomination of cassette #3</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>D5</code>
+    <description>Change denomination of cassette #1,3</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>D6</code>
+    <description>Change denomination of cassette #2,3</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>D7</code>
+    <description>Change denomination of cassette #1,2,3</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>OA</code>
+    <description>Operator Action</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>OB</code>
+    <description>MoniView Action</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>OC</code>
+    <description>Host Action</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>OD</code>
+    <description>EMV Data</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>PA</code>
+    <description>Change Master Password</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>PB</code>
+    <description>Change Operator Password</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>PC</code>
+    <description>Change Service Password</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>SA</code>
+    <description>System power on</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>SB</code>
+    <description>Change into service mode[In Service]</description>
+  </Messages>
   <Messages>
     <type>KindCode</type>
     <code>SC</code>
-    <brief>Transaction Complete</brief>
-    <description>Transaction completion with extended fields</description>
+    <description>Change into error mode[Out of Service]</description>
   </Messages>
-
   <Messages>
     <type>KindCode</type>
-    <code>CW</code>
-    <brief>Cash Withdrawal</brief>
-    <description>Cash withdrawal transaction</description>
+    <code>SD</code>
+    <description>Change into operator mode[Start Operator Function]</description>
   </Messages>
-
   <Messages>
     <type>KindCode</type>
-    <code>BI</code>
-    <brief>Balance Inquiry</brief>
-    <description>Balance inquiry transaction</description>
+    <code>SE</code>
+    <description>Reset operator</description>
   </Messages>
-
-  <!-- Additional codes can be added as discovered from log analysis -->
-  <!-- Reference: JournalDefine.h from legacy viewer source -->
-
-</WinCEJournal>
+  <Messages>
+    <type>KindCode</type>
+    <code>SF</code>
+    <description>System reboot</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>SG</code>
+    <description>System power off</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>SR</code>
+    <description>System Auto Recovery</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>SS</code>
+    <description>Security Door Status</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>SV</code>
+    <description>Change into diagnostics mode</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>TA</code>
+    <description>Normal transaction</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>TB</code>
+    <description>Transaction error</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>TC</code>
+    <description>Reversal transaction</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>TD</code>
+    <description>Power-failed transaction</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>TE</code>
+    <description>Transaction is not approved</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>TF</code>
+    <description>Communication error</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>TX</code>
+    <description>Communication error</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>K0</code>
+    <description>Cancel at Card Reading</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>K1</code>
+    <description>Cancel at Language Selection</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>K2</code>
+    <description>Cancel at Pin Input</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>K3</code>
+    <description>Cancel at Transaction Selection</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>K4</code>
+    <description>Cancel at Surcharge Confirmation</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>K5</code>
+    <description>Cancel at Receipt Printing Selection</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>K6</code>
+    <description>Cancel at Continuation on Print Error</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>K7</code>
+    <description>Cancel at Receipt Display on Screen</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>K8</code>
+    <description>Cancel at From-Account Selection</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>K9</code>
+    <description>Cancel at To-Account Selection</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>KA</code>
+    <description>Cancel at FastCash Selection</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>KB</code>
+    <description>Cancel at Other Amount Input</description>
+  </Messages>
+  <Messages>
+    <type>KindCode</type>
+    <code>KC</code>
+    <description>Cancel at Transfer Amount Input</description>
+  </Messages>
+</WinCEJournalView>

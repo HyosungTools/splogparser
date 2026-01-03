@@ -1,6 +1,6 @@
 <?xml version="1.0" standalone="yes"?>
-<xs:schema id="WinCEJournal" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-  <xs:element name="WinCEJournal" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+<xs:schema id="WinCEJournalView" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="WinCEJournalView" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element name="Summary">
@@ -8,20 +8,72 @@
             <xs:sequence>
               <xs:element name="file" type="xs:string" minOccurs="0" />
               <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="stacknum" type="xs:string" minOccurs="0" />
+              <xs:element name="type" type="xs:string" minOccurs="0" />
+              <xs:element name="typedesc" type="xs:string" minOccurs="0" />
+              <xs:element name="trantype" type="xs:string" minOccurs="0" />
+              <xs:element name="trantypedesc" type="xs:string" minOccurs="0" />
               <xs:element name="sequence" type="xs:string" minOccurs="0" />
-              <xs:element name="kindcode" type="xs:string" minOccurs="0" />
               <xs:element name="description" type="xs:string" minOccurs="0" />
-              <xs:element name="data" type="xs:string" minOccurs="0" />
+              <xs:element name="requestedamt" type="xs:string" minOccurs="0" />
+              <xs:element name="dispensedamt" type="xs:string" minOccurs="0" />
+              <xs:element name="surchargeamt" type="xs:string" minOccurs="0" />
+              <xs:element name="errorcode" type="xs:string" minOccurs="0" />
+              <xs:element name="trandatetime" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Messages">
+        <xs:element name="TransactionDetails">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="type" type="xs:string" minOccurs="0" />
-              <xs:element name="code" type="xs:string" minOccurs="0" />
-              <xs:element name="brief" type="xs:string" minOccurs="0" />
-              <xs:element name="description" type="xs:string" minOccurs="0" />
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="stacknum" type="xs:string" minOccurs="0" />
+              <xs:element name="terminalid" type="xs:string" minOccurs="0" />
+              <xs:element name="transno" type="xs:string" minOccurs="0" />
+              <xs:element name="trantype" type="xs:string" minOccurs="0" />
+              <xs:element name="trantypedesc" type="xs:string" minOccurs="0" />
+              <xs:element name="fromaccount" type="xs:string" minOccurs="0" />
+              <xs:element name="toaccount" type="xs:string" minOccurs="0" />
+              <xs:element name="bankcode" type="xs:string" minOccurs="0" />
+              <xs:element name="hostdate" type="xs:string" minOccurs="0" />
+              <xs:element name="hosttime" type="xs:string" minOccurs="0" />
+              <xs:element name="availablebalance" type="xs:string" minOccurs="0" />
+              <xs:element name="retrievalno" type="xs:string" minOccurs="0" />
+              <xs:element name="authorizationno" type="xs:string" minOccurs="0" />
+              <xs:element name="settledate" type="xs:string" minOccurs="0" />
+              <xs:element name="surchargeamt" type="xs:string" minOccurs="0" />
+              <xs:element name="requestedamt" type="xs:string" minOccurs="0" />
+              <xs:element name="dispensedamt" type="xs:string" minOccurs="0" />
+              <xs:element name="ledgerbalance" type="xs:string" minOccurs="0" />
+              <xs:element name="procedurecount" type="xs:string" minOccurs="0" />
+              <xs:element name="transactionresult" type="xs:string" minOccurs="0" />
+              <xs:element name="errorcode" type="xs:string" minOccurs="0" />
+              <xs:element name="carddata" type="xs:string" minOccurs="0" />
+              <xs:element name="noncashvalue" type="xs:string" minOccurs="0" />
+              <xs:element name="noncashtype" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="EMVDetails">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="stacknum" type="xs:string" minOccurs="0" />
+              <xs:element name="terminalid" type="xs:string" minOccurs="0" />
+              <xs:element name="transno" type="xs:string" minOccurs="0" />
+              <xs:element name="authorizationno" type="xs:string" minOccurs="0" />
+              <xs:element name="aid" type="xs:string" minOccurs="0" />
+              <xs:element name="appname" type="xs:string" minOccurs="0" />
+              <xs:element name="arqc" type="xs:string" minOccurs="0" />
+              <xs:element name="arpc" type="xs:string" minOccurs="0" />
+              <xs:element name="servicecode" type="xs:string" minOccurs="0" />
+              <xs:element name="terminalcapability" type="xs:string" minOccurs="0" />
+              <xs:element name="posentrymode" type="xs:string" minOccurs="0" />
+              <xs:element name="tvr" type="xs:string" minOccurs="0" />
+              <xs:element name="issueractioncode" type="xs:string" minOccurs="0" />
+              <xs:element name="rawdata" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
