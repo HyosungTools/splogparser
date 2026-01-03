@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using Contract;
@@ -85,14 +85,13 @@ namespace LogFileHandlerTests
          // Assert
          Assert.IsNotNull(journalLine, "Should parse at least one record");
          Assert.IsFalse(string.IsNullOrEmpty(journalLine.KindCode), "KindCode should not be empty");
-         Assert.IsFalse(string.IsNullOrEmpty(journalLine.StackNum), "StackNum should not be empty");
+         Assert.IsFalse(string.IsNullOrEmpty(journalLine.Sequence), "Sequence should not be empty");
          Assert.IsTrue(journalLine.IsValidTimestamp, "Timestamp should be valid");
 
          Console.WriteLine($"KindCode: {journalLine.KindCode}");
-         Console.WriteLine($"FullType: {journalLine.FullType}");
-         Console.WriteLine($"StackNum: {journalLine.StackNum}");
+         Console.WriteLine($"Sequence: {journalLine.Sequence}");
          Console.WriteLine($"Timestamp: {journalLine.Timestamp}");
-         Console.WriteLine($"JournalType: {journalLine.journalType}");
+         Console.WriteLine($"Data: {journalLine.Data}");
       }
 
       [TestMethod]
