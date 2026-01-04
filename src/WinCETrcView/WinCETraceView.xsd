@@ -14,16 +14,6 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Messages">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="type" type="xs:string" minOccurs="0" />
-              <xs:element name="code" type="xs:string" minOccurs="0" />
-              <xs:element name="brief" type="xs:string" minOccurs="0" />
-              <xs:element name="description" type="xs:string" minOccurs="0" />
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
       </xs:choice>
     </xs:complexType>
   </xs:element>
