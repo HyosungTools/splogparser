@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Contract;
 using Impl;
 using LogLineHandler;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace WinCEJournalView
 {
@@ -55,7 +58,7 @@ namespace WinCEJournalView
       }
 
       /// <summary>
-      /// Prep the tables for Excel - add English descriptions
+      /// Prep the tables for Excel - add English descriptions and run analysis
       /// </summary>
       /// <returns>true if the write was successful</returns>
       public override bool WriteExcelFile()
@@ -88,83 +91,60 @@ namespace WinCEJournalView
             ctx.ConsoleWriteLogLine($"Exception processing the {tableName} table - {e.Message}");
          }
 
-         return base.WriteExcelFile();
-      }
+         // Write base Excel file first
+         bool result = base.WriteExcelFile();
 
-      /// <summary>
-      /// Add English descriptions to Summary table columns
-      /// </summary>
-      private void AddEnglishToSummaryTable()
-      {
-         if (!dTableSet.Tables.Contains("Summary"))
-            return;
-
-         DataTable summaryTable = dTableSet.Tables["Summary"];
-
-         foreach (DataRow row in summaryTable.Rows)
+         // Now add the CashDispense analysis charts
+         try
          {
-            try
+            tableName = "CashDispenseByHour";
+
+            // Run the analysis
+            CashDispenseAnalyzer analyzer = new CashDispenseAnalyzer();
+            DataTable transactionDetails = GetTransactionDetailsTable();
+            
+            ctx.ConsoleWriteLogLine($"CashDispense: TransactionDetails table exists: {transactionDetails != null}");
+            ctx.ConsoleWriteLogLine($"CashDispense: TransactionDetails rows: {transactionDetails?.Rows.Count ?? 0}");
+
+            if (transactionDetails != null && transactionDetails.Rows.Count > 0)
             {
-               // typedesc: Extract main type (first char) from type column and look up
-               string fullType = row["type"]?.ToString() ?? string.Empty;
-               if (!string.IsNullOrEmpty(fullType) && fullType.Length > 0)
+               // Log a sample dispensedamt value
+               if (transactionDetails.Rows.Count > 0 && transactionDetails.Columns.Contains("dispensedamt"))
                {
-                  string mainType = fullType.Substring(0, 1);
-                  row["typedesc"] = LookupMessage("MainType", mainType);
+                  ctx.ConsoleWriteLogLine($"CashDispense: Sample dispensedamt value: '{transactionDetails.Rows[0]["dispensedamt"]}'");
                }
 
-               // trantypedesc: Look up trantype code
-               string tranType = row["trantype"]?.ToString() ?? string.Empty;
-               if (!string.IsNullOrEmpty(tranType))
-               {
-                  row["trantypedesc"] = LookupMessage("TranType", tranType);
-               }
+               analyzer.Analyze(transactionDetails);
 
-               // description: Look up KindCode (extract from type column after underscore)
-               if (!string.IsNullOrEmpty(fullType) && fullType.Contains("_"))
+               ctx.ConsoleWriteLogLine($"CashDispense: Analyzer results count: {analyzer.Results?.Count ?? 0}");
+
+               if (analyzer.Results != null && analyzer.Results.Count > 0)
                {
-                  string kindCode = fullType.Substring(fullType.IndexOf('_') + 1);
-                  row["description"] = LookupMessage("KindCode", kindCode);
+                  // Populate the data table
+                  PopulateCashDispenseTable(analyzer);
+
+                  // Write the Excel charts
+                  WriteCashDispenseExcel(analyzer.Results);
+               }
+               else
+               {
+                  ctx.ConsoleWriteLogLine("CashDispense: No results from analyzer");
                }
             }
-            catch (Exception ex)
+            else
             {
-               ctx.ConsoleWriteLogLine($"AddEnglishToSummaryTable row exception: {ex.Message}");
+               ctx.ConsoleWriteLogLine("CashDispense: TransactionDetails table empty or missing");
             }
          }
-
-         summaryTable.AcceptChanges();
-      }
-
-      /// <summary>
-      /// Add English descriptions to TransactionDetails table columns
-      /// </summary>
-      private void AddEnglishToTransactionDetailsTable()
-      {
-         if (!dTableSet.Tables.Contains("TransactionDetails"))
-            return;
-
-         DataTable detailsTable = dTableSet.Tables["TransactionDetails"];
-
-         foreach (DataRow row in detailsTable.Rows)
+         catch (Exception e)
          {
-            try
-            {
-               // trantypedesc: Look up trantype code
-               string tranType = row["trantype"]?.ToString() ?? string.Empty;
-               if (!string.IsNullOrEmpty(tranType))
-               {
-                  row["trantypedesc"] = LookupMessage("TranType", tranType);
-               }
-            }
-            catch (Exception ex)
-            {
-               ctx.ConsoleWriteLogLine($"AddEnglishToTransactionDetailsTable row exception: {ex.Message}");
-            }
+            ctx.ConsoleWriteLogLine($"Exception processing the {tableName} table - {e.Message}");
          }
 
-         detailsTable.AcceptChanges();
+         return result;
       }
+
+      #region Row Addition Methods
 
       /// <summary>
       /// Add row to Summary worksheet
@@ -261,6 +241,89 @@ namespace WinCEJournalView
          dTableSet.Tables["EMVDetails"].Rows.Add(dataRow);
       }
 
+      #endregion
+
+      #region English Description Methods
+
+      /// <summary>
+      /// Add English descriptions to Summary table columns
+      /// </summary>
+      private void AddEnglishToSummaryTable()
+      {
+         if (!dTableSet.Tables.Contains("Summary"))
+            return;
+
+         DataTable summaryTable = dTableSet.Tables["Summary"];
+
+         foreach (DataRow row in summaryTable.Rows)
+         {
+            try
+            {
+               // typedesc: Extract main type (first char) from type column and look up
+               string fullType = row["type"]?.ToString() ?? string.Empty;
+               if (!string.IsNullOrEmpty(fullType) && fullType.Length > 0)
+               {
+                  string mainType = fullType.Substring(0, 1);
+                  row["typedesc"] = LookupMessage("MainType", mainType);
+               }
+
+               // trantypedesc: Look up trantype code
+               string tranType = row["trantype"]?.ToString() ?? string.Empty;
+               if (!string.IsNullOrEmpty(tranType))
+               {
+                  row["trantypedesc"] = LookupMessage("TranType", tranType);
+               }
+
+               // description: Look up KindCode (extract from type column after underscore)
+               if (!string.IsNullOrEmpty(fullType) && fullType.Contains("_"))
+               {
+                  string kindCode = fullType.Substring(fullType.IndexOf('_') + 1);
+                  row["description"] = LookupMessage("KindCode", kindCode);
+               }
+            }
+            catch (Exception ex)
+            {
+               ctx.ConsoleWriteLogLine($"AddEnglishToSummaryTable row exception: {ex.Message}");
+            }
+         }
+
+         summaryTable.AcceptChanges();
+      }
+
+      /// <summary>
+      /// Add English descriptions to TransactionDetails table columns
+      /// </summary>
+      private void AddEnglishToTransactionDetailsTable()
+      {
+         if (!dTableSet.Tables.Contains("TransactionDetails"))
+            return;
+
+         DataTable detailsTable = dTableSet.Tables["TransactionDetails"];
+
+         foreach (DataRow row in detailsTable.Rows)
+         {
+            try
+            {
+               // trantypedesc: Look up trantype code
+               string tranType = row["trantype"]?.ToString() ?? string.Empty;
+               if (!string.IsNullOrEmpty(tranType))
+               {
+                  row["trantypedesc"] = LookupMessage("TranType", tranType);
+               }
+            }
+            catch (Exception ex)
+            {
+               ctx.ConsoleWriteLogLine($"AddEnglishToTransactionDetailsTable row exception: {ex.Message}");
+            }
+         }
+
+         detailsTable.AcceptChanges();
+      }
+
+      #endregion
+
+      #region Utility Methods
+
       /// <summary>
       /// Format timestamp to MM/DD/YYYY HH:MM:SS format
       /// </summary>
@@ -317,5 +380,230 @@ namespace WinCEJournalView
 
          return string.Empty;
       }
+
+      #endregion
+
+      #region CashDispense Analysis Support
+
+      /// <summary>
+      /// Gets the TransactionDetails DataTable for analysis.
+      /// </summary>
+      /// <returns>The TransactionDetails DataTable, or null if not found.</returns>
+      public DataTable GetTransactionDetailsTable()
+      {
+         if (dTableSet.Tables.Contains("TransactionDetails"))
+            return dTableSet.Tables["TransactionDetails"];
+         return null;
+      }
+
+      /// <summary>
+      /// Creates and populates the CashDispenseByHour table from analyzer results.
+      /// </summary>
+      /// <param name="analyzer">The analyzer containing results.</param>
+      public void PopulateCashDispenseTable(CashDispenseAnalyzer analyzer)
+      {
+         // Create CashDispenseByHour table if it doesn't exist
+         if (!dTableSet.Tables.Contains("CashDispenseByHour"))
+         {
+            DataTable dispenseTable = new DataTable("CashDispenseByHour");
+            dispenseTable.Columns.Add("file", typeof(string));
+            dispenseTable.Columns.Add("time", typeof(string));
+            dispenseTable.Columns.Add("Date", typeof(string));
+            dispenseTable.Columns.Add("Hour", typeof(string));
+            dispenseTable.Columns.Add("HourLabel", typeof(string));
+            dispenseTable.Columns.Add("HourlyAmount", typeof(string));
+            dispenseTable.Columns.Add("CumulativeAmount", typeof(string));
+            dispenseTable.Columns.Add("TransactionCount", typeof(string));
+            dTableSet.Tables.Add(dispenseTable);
+         }
+
+         DataTable table = dTableSet.Tables["CashDispenseByHour"];
+         table.Clear();
+
+         analyzer.PopulateResultsTable(table);
+      }
+
+      /// <summary>
+      /// Writes the CashDispenseByHour worksheet with cumulative bar charts.
+      /// </summary>
+      /// <param name="results">List of daily dispense data from the analyzer.</param>
+      public void WriteCashDispenseExcel(List<DailyDispenseData> results)
+      {
+         if (results == null || results.Count == 0)
+            return;
+
+         string excelFileName = ctx.ExcelFileName;
+         ctx.ConsoleWriteLogLine("WriteCashDispenseExcel: Adding dispense charts to " + excelFileName);
+
+         Excel.Application excelApp = null;
+         Excel.Workbook activeBook = null;
+
+         try
+         {
+            excelApp = new Excel.Application
+            {
+               Visible = false,
+               DisplayAlerts = false
+            };
+
+            activeBook = excelApp.Workbooks.Open(excelFileName);
+
+            // Add new worksheet for charts
+            Excel.Worksheet worksheet = (Excel.Worksheet)activeBook.Sheets.Add(After: activeBook.Sheets[activeBook.Sheets.Count]);
+            worksheet.Name = "CashDispenseByHour";
+
+            // Write summary table first
+            int tableEndRow = WriteCashDispenseSummaryTable(worksheet, results);
+
+            // Chart size and position
+            int chartWidth = 500;
+            int chartHeight = 300;
+            int chartLeft = 480;   // Start to the right of the data table
+            int chartTop = 0;
+            int chartVGap = 320;   // Vertical gap between charts
+
+            int chartIndex = 0;
+
+            foreach (var daily in results)
+            {
+               if (daily.HourlyData.Count == 0)
+                  continue;
+
+               int top = chartTop + (chartIndex * chartVGap);
+
+               // Build arrays for chart data
+               string[] labels = daily.HourlyData.Select(h => h.HourLabel).ToArray();
+               decimal[] values = daily.HourlyData.Select(h => h.CumulativeAmount).ToArray();
+
+               // Convert to double array for Excel
+               double[] doubleValues = values.Select(v => (double)v).ToArray();
+
+               // Create chart
+               Excel.ChartObjects chartObjects = (Excel.ChartObjects)worksheet.ChartObjects(Type.Missing);
+               Excel.ChartObject chartObject = chartObjects.Add(chartLeft, top, chartWidth, chartHeight);
+               Excel.Chart chart = chartObject.Chart;
+               chart.ChartType = Excel.XlChartType.xlColumnClustered;
+
+               // Add series using arrays
+               Excel.SeriesCollection seriesCollection = (Excel.SeriesCollection)chart.SeriesCollection(Type.Missing);
+               Excel.Series series = seriesCollection.NewSeries();
+               series.Values = doubleValues;
+               series.XValues = labels;
+               series.Name = "Cumulative Dispensed";
+
+               // Format series - green bars
+               // Note: Advanced formatting like series.Format.Fill requires Office core reference
+               // Using simpler approach that works without it
+
+               // Title
+               chart.HasTitle = true;
+               chart.ChartTitle.Text = $"Cash Dispensed - {daily.Date:yyyy-MM-dd} (Total: ${daily.TotalDispensed:N2})";
+               chart.ChartTitle.Font.Size = 12;
+               chart.ChartTitle.Font.Bold = true;
+
+               // Axis titles
+               Excel.Axis xAxis = (Excel.Axis)chart.Axes(Excel.XlAxisType.xlCategory);
+               xAxis.HasTitle = true;
+               xAxis.AxisTitle.Text = "Hour of Day";
+
+               Excel.Axis yAxis = (Excel.Axis)chart.Axes(Excel.XlAxisType.xlValue);
+               yAxis.HasTitle = true;
+               yAxis.AxisTitle.Text = "Cumulative Amount ($)";
+               yAxis.TickLabels.NumberFormat = "$#,##0";
+
+               // No legend needed for single series
+               chart.HasLegend = false;
+
+               // Add data labels showing values
+               series.HasDataLabels = true;
+               series.DataLabels().NumberFormat = "$#,##0";
+               series.DataLabels().Font.Size = 8;
+               series.DataLabels().Position = Excel.XlDataLabelPosition.xlLabelPositionOutsideEnd;
+
+               chartIndex++;
+            }
+
+            activeBook.Save();
+         }
+         catch (Exception ex)
+         {
+            ctx.ConsoleWriteLogLine($"WriteCashDispenseExcel Exception: {ex.Message}");
+         }
+         finally
+         {
+            if (activeBook != null)
+            {
+               activeBook.Close();
+               System.Runtime.InteropServices.Marshal.ReleaseComObject(activeBook);
+            }
+            if (excelApp != null)
+            {
+               excelApp.Quit();
+               System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+            }
+         }
+
+         ctx.ConsoleWriteLogLine("WriteCashDispenseExcel: Complete");
+      }
+
+      /// <summary>
+      /// Writes a summary table showing hourly dispense data for all days.
+      /// </summary>
+      /// <returns>The last row used by the table.</returns>
+      private int WriteCashDispenseSummaryTable(Excel.Worksheet worksheet, List<DailyDispenseData> results)
+      {
+         int startRow = 1;
+         int startCol = 1;
+
+         // Header row
+         worksheet.Cells[startRow, startCol] = "Date";
+         worksheet.Cells[startRow, startCol + 1] = "Hour";
+         worksheet.Cells[startRow, startCol + 2] = "Hourly Amount";
+         worksheet.Cells[startRow, startCol + 3] = "Cumulative";
+         worksheet.Cells[startRow, startCol + 4] = "Transactions";
+
+         // Format header row
+         Excel.Range headerRange = worksheet.Range[
+             worksheet.Cells[startRow, startCol],
+             worksheet.Cells[startRow, startCol + 4]
+         ];
+         headerRange.Font.Bold = true;
+         headerRange.Interior.Color = 0xF0E8D5;
+
+         // Data rows
+         int dataRow = startRow + 1;
+
+         foreach (var daily in results)
+         {
+            foreach (var hourly in daily.HourlyData)
+            {
+               worksheet.Cells[dataRow, startCol] = daily.Date.ToString("yyyy-MM-dd");
+               worksheet.Cells[dataRow, startCol + 1] = hourly.HourLabel;
+               worksheet.Cells[dataRow, startCol + 2] = hourly.HourlyAmount;
+               worksheet.Cells[dataRow, startCol + 3] = hourly.CumulativeAmount;
+               worksheet.Cells[dataRow, startCol + 4] = hourly.TransactionCount;
+
+               // Format currency columns
+               ((Excel.Range)worksheet.Cells[dataRow, startCol + 2]).NumberFormat = "$#,##0.00";
+               ((Excel.Range)worksheet.Cells[dataRow, startCol + 3]).NumberFormat = "$#,##0.00";
+
+               dataRow++;
+            }
+
+            // Add a blank row between days for readability
+            dataRow++;
+         }
+
+         // Auto-fit columns
+         Excel.Range allDataRange = worksheet.Range[
+             worksheet.Cells[startRow, startCol],
+             worksheet.Cells[dataRow - 1, startCol + 4]
+         ];
+         allDataRange.Columns.AutoFit();
+
+         return dataRow;
+      }
+
+      #endregion
    }
 }
