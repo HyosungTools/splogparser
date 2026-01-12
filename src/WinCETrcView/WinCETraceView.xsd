@@ -1,19 +1,38 @@
 <?xml version="1.0" standalone="yes"?>
-<xs:schema id="WinCETrace" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-  <xs:element name="WinCETrace" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+<xs:schema id="WinCETraceView" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="WinCETraceView" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
+        
+        <!-- Summary table - one row per trace entry matching TraceViewer columns -->
         <xs:element name="Summary">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="file" type="xs:string" minOccurs="0" />
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="type" type="xs:string" minOccurs="0" />
-              <xs:element name="code" type="xs:string" minOccurs="0" />
-              <xs:element name="message" type="xs:string" minOccurs="0" />
+              <xs:element name="unit" type="xs:string" minOccurs="0" />
+              <xs:element name="func" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="data" type="xs:string" minOccurs="0" />
+              <xs:element name="modulename" type="xs:string" minOccurs="0" />
+              <xs:element name="classname" type="xs:string" minOccurs="0" />
+              <xs:element name="funcname" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+
+        <!-- Messages table for Unit+Func code lookups -->
+        <xs:element name="Messages">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="type" type="xs:string" minOccurs="0" />
+              <xs:element name="code" type="xs:string" minOccurs="0" />
+              <xs:element name="description" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
       </xs:choice>
     </xs:complexType>
   </xs:element>

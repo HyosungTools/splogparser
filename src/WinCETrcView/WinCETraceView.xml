@@ -1,64 +1,102 @@
 <?xml version="1.0" standalone="yes"?>
-<WinCETrace>
-  <!-- Summary table structure - one row per trace entry -->
+<WinCETraceView>
+  <!-- Summary table - one row per trace entry -->
   <Summary>
     <file></file>
     <time></time>
     <type></type>
-    <code></code>
-    <message></message>
+    <unit></unit>
+    <func></func>
+    <error></error>
+    <data></data>
+    <modulename></modulename>
+    <classname></classname>
+    <funcname></funcname>
   </Summary>
 
-  <!-- Log Type Messages -->
-  <Messages>
-    <type>LogType</type>
-    <code>o</code>
-    <brief>operation</brief>
-    <description>Normal operation trace</description>
-  </Messages>
+  <!-- Messages table for Unit+Func code lookups -->
+  <!-- type: "modulename", "classname", or "funcname" -->
+  <!-- code: Unit+Func concatenated (e.g., "1E12" = Unit "1E" + Func "12") -->
+  <!-- description: Human-readable value -->
 
-  <Messages>
-    <type>LogType</type>
-    <code>O</code>
-    <brief>Operation</brief>
-    <description>Operation trace (uppercase)</description>
-  </Messages>
+  <!-- Based on TraceViewer screenshot observations: -->
+  
+  <!-- Unit 1E (DevCtrl.dll / DevApl.cpp) -->
+  <Messages><type>modulename</type><code>1E12</code><description>DevCtrl.dll</description></Messages>
+  <Messages><type>classname</type><code>1E12</code><description>DevApl.cpp</description></Messages>
+  <Messages><type>funcname</type><code>1E12</code><description>fnAPL_SetProcCount</description></Messages>
 
-  <Messages>
-    <type>LogType</type>
-    <code>f</code>
-    <brief>fatal</brief>
-    <description>Fatal error trace</description>
-  </Messages>
+  <Messages><type>modulename</type><code>1E21</code><description>DevCtrl.dll</description></Messages>
+  <Messages><type>classname</type><code>1E21</code><description>DevApl.cpp</description></Messages>
+  <Messages><type>funcname</type><code>1E21</code><description>fnAPL_StackError</description></Messages>
 
-  <Messages>
-    <type>LogType</type>
-    <code>s</code>
-    <brief>system</brief>
-    <description>System trace</description>
-  </Messages>
+  <!-- Unit 1A (WinAtm.exe / CMainFrame) -->
+  <Messages><type>modulename</type><code>1A01</code><description>WinAtm.exe</description></Messages>
+  <Messages><type>classname</type><code>1A01</code><description>CMainFrame</description></Messages>
+  <Messages><type>funcname</type><code>1A01</code><description>AtmModeCtrl</description></Messages>
 
-  <!-- Layer Code Messages (known codes from legacy viewer) -->
-  <!-- Add more codes as they are discovered from log analysis -->
-  <Messages>
-    <type>LayerCode</type>
-    <code>1A010000000</code>
-    <brief>ATM_ERROR</brief>
-    <description>ATM Error layer</description>
-  </Messages>
+  <Messages><type>modulename</type><code>1A11</code><description>WinAtm.exe</description></Messages>
+  <Messages><type>classname</type><code>1A11</code><description>CMainFrame</description></Messages>
+  <Messages><type>funcname</type><code>1A11</code><description>Check_NVRamSetupValue</description></Messages>
 
-  <Messages>
-    <type>LayerCode</type>
-    <code>551A0000000</code>
-    <brief>SYSTEM</brief>
-    <description>System layer</description>
-  </Messages>
+  <!-- Unit 55 (NH_SIU.exe / CNH_SIUDev) -->
+  <Messages><type>modulename</type><code>551A</code><description>NH_SIU.exe</description></Messages>
+  <Messages><type>classname</type><code>551A</code><description>CNH_SIUDev</description></Messages>
+  <Messages><type>funcname</type><code>551A</code><description>SetGuidLight</description></Messages>
 
-  <Messages>
-    <type>LayerCode</type>
-    <code>1V020000000</code>
-    <brief>DEVICE</brief>
-    <description>Device layer</description>
-  </Messages>
+  <!-- Unit 1K (NetCtrl.dll / CVISAllCtrl) -->
+  <Messages><type>modulename</type><code>1K01</code><description>NetCtrl.dll</description></Messages>
+  <Messages><type>classname</type><code>1K01</code><description>CVISAllCtrl</description></Messages>
+  <Messages><type>funcname</type><code>1K01</code><description>FLOWSTART</description></Messages>
 
-</WinCETrace>
+  <!-- Unit 1V (LibUpdate.dll / CUpdateRepoService) -->
+  <Messages><type>modulename</type><code>1V00</code><description>LibUpdate.dll</description></Messages>
+  <Messages><type>classname</type><code>1V00</code><description>CUpdateRepoConfiguratio...</description></Messages>
+  <Messages><type>funcname</type><code>1V00</code><description>GetConfiguration</description></Messages>
+
+  <Messages><type>modulename</type><code>1V02</code><description>LibUpdate.dll</description></Messages>
+  <Messages><type>classname</type><code>1V02</code><description>CUpdateRepoService</description></Messages>
+  <Messages><type>funcname</type><code>1V02</code><description>GetComponentContents</description></Messages>
+
+  <Messages><type>modulename</type><code>1V04</code><description>LibUpdate.dll</description></Messages>
+  <Messages><type>classname</type><code>1V04</code><description>CUpdateRepoService</description></Messages>
+  <Messages><type>funcname</type><code>1V04</code><description>GetLatestPackageManifest</description></Messages>
+
+  <Messages><type>modulename</type><code>1V07</code><description>LibUpdate.dll</description></Messages>
+  <Messages><type>classname</type><code>1V07</code><description>CUpdateRepoService</description></Messages>
+  <Messages><type>funcname</type><code>1V07</code><description>ValidateManifest</description></Messages>
+
+  <!-- Unit 10 (various) -->
+  <Messages><type>modulename</type><code>1001</code><description></description></Messages>
+  <Messages><type>classname</type><code>1001</code><description></description></Messages>
+  <Messages><type>funcname</type><code>1001</code><description>ClerkProc</description></Messages>
+
+  <!-- Unit 54 (sensor status - typically no module/class/func) -->
+  <Messages><type>modulename</type><code>5430</code><description></description></Messages>
+  <Messages><type>classname</type><code>5430</code><description></description></Messages>
+  <Messages><type>funcname</type><code>5430</code><description></description></Messages>
+
+  <!-- Unit 51 -->
+  <Messages><type>modulename</type><code>513B</code><description></description></Messages>
+  <Messages><type>classname</type><code>513B</code><description></description></Messages>
+  <Messages><type>funcname</type><code>513B</code><description></description></Messages>
+
+  <Messages><type>modulename</type><code>5140</code><description></description></Messages>
+  <Messages><type>classname</type><code>5140</code><description></description></Messages>
+  <Messages><type>funcname</type><code>5140</code><description></description></Messages>
+
+  <!-- 
+  TODO: Add more Unit+Func combinations as discovered from log files.
+  The TraceViewer application has a built-in lookup table for these codes.
+  This XML can be extended to match that table.
+  
+  Pattern observed:
+  - Unit "1E" = DevCtrl.dll / DevApl.cpp
+  - Unit "1A" = WinAtm.exe / CMainFrame  
+  - Unit "1K" = NetCtrl.dll / CVISAllCtrl
+  - Unit "1V" = LibUpdate.dll / CUpdateRepoService
+  - Unit "55" = NH_SIU.exe / CNH_SIUDev
+  - Unit "54", "51" = Hardware/sensor status (usually no module info)
+  -->
+
+</WinCETraceView>
