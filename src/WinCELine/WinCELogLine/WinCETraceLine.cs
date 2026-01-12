@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 using Contract;
 
@@ -13,12 +13,19 @@ namespace LogLineHandler
       Operation,      // 'o'
       OperationUpper, // 'O'
       Fatal,          // 'f'
-      System          // 's'
+      FatalUpper,     // 'F'
+      System,         // 's'
+      Timeout         // 't'
    }
 
    /// <summary>
    /// Represents a parsed line from a WinCE trace log file (*.log).
-   /// Binary format: Type(1) + Timestamp(3) + Code(11) + Message(variable) + CRLF
+   /// Binary format: Type(1) + Hour(1) + Minute(1) + Second(1) + Code(11) + Message(variable) + CRLF
+   /// 
+   /// The Code field breaks down as:
+   ///   - Unit (2 chars): Module identifier (e.g., "1A", "1E", "54")
+   ///   - Func (2 chars): Function code (e.g., "01", "12", "30")
+   ///   - Error (7 chars): Error code (e.g., "0000000", "9999999")
    /// </summary>
    public class WinCETraceLine : LogLine, ILogLine
    {
@@ -32,22 +39,40 @@ namespace LogLineHandler
       public WinCETraceType traceType { get; set; }
 
       /// <summary>
-      /// Log level indicator character: 'o', 'O', 'f', 's'
+      /// Log level indicator character: 'o', 'O', 'f', 'F', 's', 't'
       /// </summary>
       public char LogType { get; set; }
 
       /// <summary>
-      /// 11-character layer/module identifier (e.g., "1A010000000")
+      /// Full 11-character code (Unit + Func + Error combined)
       /// </summary>
       public string Code { get; set; }
 
       /// <summary>
-      /// Trace message text
+      /// 2-character unit/module identifier (e.g., "1A", "1E", "54")
+      /// Maps to Module Name via lookup table
+      /// </summary>
+      public string Unit { get; set; }
+
+      /// <summary>
+      /// 2-character function code (e.g., "01", "12", "30")
+      /// Maps to Class Name and Func Name via lookup table
+      /// </summary>
+      public string Func { get; set; }
+
+      /// <summary>
+      /// 7-character error code (e.g., "0000000", "9999999")
+      /// Non-zero values indicate errors
+      /// </summary>
+      public string Error { get; set; }
+
+      /// <summary>
+      /// Trace message/data text
       /// </summary>
       public string Message { get; set; }
 
       /// <summary>
-      /// Date portion from filename (YYYY-MM format) used for timestamp construction
+      /// Date portion from filename (YYYY-MM-DD format) used for timestamp construction
       /// </summary>
       private string fileDate;
 
@@ -57,7 +82,7 @@ namespace LogLineHandler
       /// <param name="parent">The handler processing this line</param>
       /// <param name="logLine">Raw log line data</param>
       /// <param name="traceType">Parsed trace type</param>
-      /// <param name="fileDate">Date from filename (YYYY-MM format)</param>
+      /// <param name="fileDate">Date from filename (YYYY-MM-DD format)</param>
       public WinCETraceLine(ILogFileHandler parent, string logLine, WinCETraceType traceType, string fileDate) 
          : base(parent, logLine)
       {
@@ -86,6 +111,9 @@ namespace LogLineHandler
          {
             LogType = ' ';
             Code = string.Empty;
+            Unit = string.Empty;
+            Func = string.Empty;
+            Error = string.Empty;
             Message = string.Empty;
             return;
          }
@@ -96,13 +124,24 @@ namespace LogLineHandler
          // Code is bytes 4-14 (11 characters)
          Code = logLine.Substring(4, 11);
 
+         // Break down Code into components
+         // Unit: chars 0-1 (e.g., "1A", "1E", "54")
+         Unit = Code.Substring(0, 2);
+
+         // Func: chars 2-3 (e.g., "01", "12", "30")
+         Func = Code.Substring(2, 2);
+
+         // Error: chars 4-10 (e.g., "0000000", "9999999")
+         Error = Code.Substring(4, 7);
+
          // Message is everything after code, trimmed
          Message = logLine.Substring(15).TrimEnd('\r', '\n').Trim();
       }
 
       /// <summary>
       /// Extract timestamp from packed binary bytes + filename date
-      /// Format: fileDate (YYYY-MM) + Day + Hour:Minute
+      /// Binary bytes: Hour(1) + Minute(1) + Second(1)
+      /// Format: fileDate (YYYY-MM-DD) + Hour:Minute:Second
       /// </summary>
       protected override string tsTimestamp()
       {
@@ -115,16 +154,16 @@ namespace LogLineHandler
 
          try
          {
-            // Extract packed timestamp bytes
-            int day = (int)logLine[1];
-            int hour = (int)logLine[2];
-            int minute = (int)logLine[3];
+            // Extract packed timestamp bytes (bytes 1, 2, 3 are hour, minute, second)
+            int hour = (int)logLine[1];
+            int minute = (int)logLine[2];
+            int second = (int)logLine[3];
 
             // Validate ranges
-            if (day >= 1 && day <= 31 && hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59)
+            if (hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59 && second >= 0 && second <= 59)
             {
-               // Build timestamp using fileDate (YYYY-MM) + day + time
-               timestamp = $"{fileDate}-{day:D2} {hour:D2}:{minute:D2}:00.000";
+               // Build timestamp using fileDate (YYYY-MM-DD) + time with seconds
+               timestamp = $"{fileDate} {hour:D2}:{minute:D2}:{second:D2}.000";
             }
          }
          catch
@@ -143,16 +182,19 @@ namespace LogLineHandler
          return string.Empty;
       }
 
+      /// <summary>
+      /// Extract full date from filename (YYYY-MM-DD format)
+      /// </summary>
       private static string ExtractDateFromFilename(string fileName)
       {
-         // Parse NN_YYYYMMDD.log -> YYYY-MM
+         // Parse NN_YYYYMMDD.log -> YYYY-MM-DD
          string baseName = System.IO.Path.GetFileNameWithoutExtension(fileName);
-         var match = System.Text.RegularExpressions.Regex.Match(baseName, @"_(\d{4})(\d{2})\d{2}$");
+         var match = System.Text.RegularExpressions.Regex.Match(baseName, @"_(\d{4})(\d{2})(\d{2})$");
          if (match.Success)
          {
-            return $"{match.Groups[1].Value}-{match.Groups[2].Value}";
+            return $"{match.Groups[1].Value}-{match.Groups[2].Value}-{match.Groups[3].Value}";
          }
-         return DateTime.Now.ToString("yyyy-MM"); // fallback
+         return DateTime.Now.ToString("yyyy-MM-dd"); // fallback
       }
 
       /// <summary>
@@ -160,7 +202,6 @@ namespace LogLineHandler
       /// </summary>
       /// <param name="logFileHandler">The handler processing this line</param>
       /// <param name="logLine">Raw line data as string (may contain binary bytes)</param>
-      /// <param name="fileDate">Date portion (YYYY-MM) extracted from filename</param>
       /// <returns>WinCETraceLine if valid, null otherwise</returns>
       public static ILogLine Factory(ILogFileHandler logFileHandler, string logLine)
       {
@@ -197,19 +238,25 @@ namespace LogLineHandler
                case 'f':
                   traceType = WinCETraceType.Fatal;
                   break;
+               case 'F':
+                  traceType = WinCETraceType.FatalUpper;
+                  break;
                case 's':
                   traceType = WinCETraceType.System;
+                  break;
+               case 't':
+                  traceType = WinCETraceType.Timeout;
                   break;
                default:
                   return null; // Invalid log type
             }
 
-            // Validate timestamp bytes are in range
-            int day = (int)logLine[1];
-            int hour = (int)logLine[2];
-            int minute = (int)logLine[3];
+            // Validate timestamp bytes are in range (hour, minute, second)
+            int hour = (int)logLine[1];
+            int minute = (int)logLine[2];
+            int second = (int)logLine[3];
 
-            if (day < 1 || day > 31 || hour < 0 || hour > 23 || minute < 0 || minute > 59)
+            if (hour < 0 || hour > 23 || minute < 0 || minute > 59 || second < 0 || second > 59)
             {
                return null;
             }
