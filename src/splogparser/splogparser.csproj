@@ -99,6 +99,10 @@
       <Project>{1d59f4c4-6979-47e6-a88f-1c5e4b2f5698}</Project>
       <Name>SPFlatLogLine</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SPLogLine\SPLogLine.csproj">
+      <Project>{f0e36fc7-76a9-4bcd-9364-f8d5327729d6}</Project>
+      <Name>SPLogLine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TCLogLine\TCRLogLine.csproj">
       <Project>{BECB9C9A-59A9-42CB-90ED-152A509DE332}</Project>
       <Name>TCRLogLine</Name>

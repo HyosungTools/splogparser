@@ -264,12 +264,13 @@ namespace CIMView
             tableName = "Deposit";
 
             //// COMPRESS
-            string[] columns = new string[] { "error", "position", "status", "refused", "amount", "N0","N1","N2","N3","N4","N5","N6","N7","N8","N9","N10","N11","N12","N13","N14","N15","N16","N17","N18","N19","N20" };
+            string[] columns = new string[] { "error", "errcode", "position", "status", "refused", "amount", "N0","N1","N2","N3","N4","N5","N6","N7","N8","N9","N10","N11","N12","N13","N14","N15","N16","N17","N18","N19","N20" };
             CompressTable(tableName, columns);
 
             // ADD ENGLISH
-            string[,] colKeyMap = new string[2, 2]
+            string[,] colKeyMap = new string[3, 2]
             {
+               {"errcode", "errcode" },
                {"position", "position" },
                {"status", "wStatus" }
             };
@@ -1063,6 +1064,9 @@ namespace CIMView
                dataRow["file"] = spLogLine.LogFile;
                dataRow["time"] = spLogLine.Timestamp;
                dataRow["error"] = spLogLine.HResult;
+
+               // error code
+               dataRow["errcode"] = cimRefused.errorCode;
 
                // position
                dataRow["position"] = String.Format("input refused-{0}", cimRefused.usReason);

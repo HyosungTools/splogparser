@@ -811,8 +811,10 @@ namespace LogLineHandler
             result = GenericMatch(WFS_SRVE_CIM_ITEMSTAKEN, logLine);
             if (result.success) return new SPLine(logFileHandler, result.subLogLine, XFSType.WFS_SRVE_CIM_ITEMSTAKEN);
 
+            // Pass in the full log line - we need to cherry pick a reason from the front half
+
             result = GenericMatch(WFS_EXEE_CIM_INPUTREFUSE, logLine);
-            if (result.success) return new WFSCIMINPUTREFUSE(logFileHandler, result.subLogLine, XFSType.WFS_EXEE_CIM_INPUTREFUSE);
+            if (result.success) return new WFSCIMINPUTREFUSE(logFileHandler, logLine, XFSType.WFS_EXEE_CIM_INPUTREFUSE );
 
             result = GenericMatch(WFS_SRVE_CIM_ITEMSPRESENTED, logLine);
             if (result.success) return new SPLine(logFileHandler, result.subLogLine, XFSType.WFS_SRVE_CIM_ITEMSPRESENTED);
@@ -907,8 +909,10 @@ namespace LogLineHandler
             result = GenericMatch(WFS_EXEE_IPM_MEDIAPRESENTED, logLine);
             if (result.success) return new SPLine(logFileHandler, result.subLogLine, XFSType.WFS_EXEE_IPM_MEDIAPRESENTED);
 
+            // Pass in the full log line - we need to cherry pick a reason from the front half
+
             result = GenericMatch(WFS_EXEE_IPM_MEDIAREFUSED, logLine);
-            if (result.success) return new WFSIPMMEDIAREFUSED(logFileHandler, result.subLogLine, XFSType.WFS_EXEE_IPM_MEDIAREFUSED);
+            if (result.success) return new WFSIPMMEDIAREFUSED(logFileHandler, logLine, XFSType.WFS_EXEE_IPM_MEDIAREFUSED);
 
             result = GenericMatch(WFS_EXEE_IPM_MEDIAREJECTED, logLine);
             if (result.success) return new WFSIPMMEDIAREJECTED(logFileHandler, result.subLogLine, XFSType.WFS_EXEE_IPM_MEDIAREJECTED);

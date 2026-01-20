@@ -242,7 +242,7 @@ namespace splogparser
          if (ctx.opts.IsAV) ctx.logFileHandlers.Add((ILogFileHandler)new AVLogHandler(new CreateTextStreamReader()));
 
          // SP
-         if (ctx.opts.IsSP) ctx.logFileHandlers.Add((ILogFileHandler)new SPLogHandler(new CreateTextStreamReader()));
+         if (ctx.opts.IsSP) ctx.logFileHandlers.Add((ILogFileHandler)new SPLogHandler(new CreateTextStreamReader(), ParseType.SP, SPLine.Factory));
 
          // SF
          if (ctx.opts.IsSF) ctx.logFileHandlers.Add((ILogFileHandler)new SPFlatLogHandler(new CreateTextStreamReader(), SPFlatLine.Factory));

@@ -14,7 +14,7 @@ namespace LogFileHandler
       /// <summary>
       /// Constructor - reads the entire trace file into the traceFile array
       /// </summary>
-      public SPLogHandler(ICreateStreamReader createReader, Func<ILogFileHandler, string, ILogLine> Factory = null) : base(ParseType.SP, createReader, Factory)
+      public SPLogHandler(ICreateStreamReader createReader, ParseType parseType = ParseType.SP, Func<ILogFileHandler, string, ILogLine> Factory = null) : base(parseType, createReader, Factory)
       {
          LogExpression = "*.nwlog";
          Name = "SPLogFileHandler";
