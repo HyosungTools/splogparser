@@ -129,11 +129,26 @@ namespace Impl
                findByKeys[1] = dataRow[column].ToString().Trim();
 
                DataRow foundRow = messageTable.Rows.Find(findByKeys);
-               char[] trimChars = { ',' };
+               char[] trimChars = { ',', ' ' };
                if (foundRow != null)
                {
-                  dataRow[column] = foundRow["brief"];
-                  dataRow["comment"] = dataRow["comment"].ToString().TrimStart(trimChars) + "," + foundRow["description"];
+                  if (column == "errcode")
+                  {
+                     // if the column is errcode, we want both brief and description for clarity
+                     dataRow[column] = foundRow["brief"];
+                     dataRow["comment"] = dataRow["comment"] + "," + foundRow["brief"] + ":" + foundRow["description"];
+
+                  }
+                  else
+                  {
+                     dataRow[column] = foundRow["brief"];
+                     dataRow["comment"] = dataRow["comment"] + "," + foundRow["description"];
+                  }
+                  dataRow["comment"] = dataRow["comment"].ToString().TrimStart(trimChars);
+               }
+               else if (column == "errcode")
+               {
+                  ctx.ConsoleWriteLogLine(String.Format("WARNING errcode '{0}' NOT FOUND in message table", dataRow[column].ToString().Trim()));
                }
             }
 

@@ -813,6 +813,9 @@ namespace IPMView
                depRow["time"] = spLogLine.Timestamp;
                depRow["error"] = spLogLine.HResult;
 
+               // error code
+               depRow["errcode"] = binInfo.errorCode;
+
                depRow["trans"] = "refused";
                depRow["reason"] = binInfo.wReason;
 

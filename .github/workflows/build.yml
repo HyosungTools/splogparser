@@ -58,7 +58,7 @@ jobs:
     - name: Setup VSTest Path
       uses: darenm/Setup-VSTest@v1.2
                  
-    # Test
+    # Test C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\TestPlatform
     - name: Test
       run: msbuild src\\splogparser.sln /t:RunUnitTests /p:Configuration="Release" /p:Platform="Any CPU"
       
