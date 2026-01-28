@@ -9,6 +9,7 @@
               <xs:element name="file" type="xs:string" minOccurs="0" />
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="TID" type="xs:string" minOccurs="0" />
               <xs:element name="table" type="xs:string" minOccurs="0" />
               <xs:element name="key" type="xs:string" minOccurs="0" />
               <xs:element name="Value" type="xs:string" minOccurs="0" />

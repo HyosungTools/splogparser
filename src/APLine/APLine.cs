@@ -234,6 +234,9 @@ namespace LogLineHandler
 
       APLOG_OPERATOR_MENU,
 
+      /* Log Transaction Data */
+      APLOG_LOGTRANSACTIONDATA,
+
 
       /* ERROR */
 
@@ -250,6 +253,8 @@ namespace LogLineHandler
       public string Timestamp { get; set; }
       public string HResult { get; set; }
 
+      public string TID { get; set; }
+
       public APLine(ILogFileHandler parent, string logLine, APLogType apType) : base(parent, logLine)
       {
          this.apType = apType;
@@ -261,6 +266,7 @@ namespace LogLineHandler
          Timestamp = tsTimestamp();
          IsValidTimestamp = bCheckValidTimestamp(Timestamp);
          HResult = hResult();
+         TID = tsTID();
       }
 
       protected override string hResult()
@@ -293,6 +299,18 @@ namespace LogLineHandler
          }
 
          return timestamp;
+      }
+
+      protected virtual string tsTID()
+      {
+         // Match [TID:##] pattern
+         Regex tidRegex = new Regex(@"\[TID:(\d+)\]");
+         Match m = tidRegex.Match(logLine);
+         if (m.Success)
+         {
+            return m.Groups[1].Value;
+         }
+         return null;
       }
 
       public static ILogLine Factory(ILogFileHandler logFileHandler, string logLine)
@@ -602,7 +620,12 @@ namespace LogLineHandler
             if (iLine != null) return iLine;
          }
 
-
+         /* Log Transaction Data */
+         if( logLine.Contains("FlowPoint.LogTransactionData"))
+         {
+            ILogLine iLine = LogTransactionData.Factory(logFileHandler, logLine);
+            if (iLine != null) return iLine;
+         }
 
          /* CORE */
          if (logLine.Contains("WebServiceRequestFlowPoint"))

@@ -1,0 +1,38 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="TRANSDATA" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="TRANSDATA" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="TransData">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="tid" type="xs:string" minOccurs="0" />
+              <xs:element name="flowpoint" type="xs:string" minOccurs="0" />
+              <xs:element name="fp" type="xs:string" minOccurs="0" />
+              <xs:element name="onus" type="xs:string" minOccurs="0" />
+              <xs:element name="customerid" type="xs:string" minOccurs="0" />
+              <xs:element name="coreavailable" type="xs:string" minOccurs="0" />
+              <xs:element name="ndcavailable" type="xs:string" minOccurs="0" />
+              <xs:element name="transactiontype" type="xs:string" minOccurs="0" />
+              <xs:element name="message" type="xs:string" minOccurs="0" />
+              <xs:element name="accountnumber" type="xs:string" minOccurs="0" />
+              <xs:element name="accounttype" type="xs:string" minOccurs="0" />
+              <xs:element name="amount" type="xs:string" minOccurs="0" />
+              <xs:element name="totalamount" type="xs:string" minOccurs="0" />
+              <xs:element name="totalcashamount" type="xs:string" minOccurs="0" />
+              <xs:element name="totalcheckamount" type="xs:string" minOccurs="0" />
+              <xs:element name="billsinserted" type="xs:string" minOccurs="0" />
+              <xs:element name="iscontactless" type="xs:string" minOccurs="0" />
+              <xs:element name="track2" type="xs:string" minOccurs="0" />
+              <xs:element name="language" type="xs:string" minOccurs="0" />
+              <xs:element name="payload" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

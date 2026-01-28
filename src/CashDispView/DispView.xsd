@@ -9,6 +9,7 @@
               <xs:element name="file" type="xs:string" minOccurs="0" />
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="TID" type="xs:string" minOccurs="0" />
               <xs:element name="device" type="xs:string" minOccurs="0" />
               <xs:element name="position" type="xs:string" minOccurs="0" />
               <xs:element name="dispenser" type="xs:string" minOccurs="0" />
@@ -26,6 +27,7 @@
               <xs:element name="file" type="xs:string" minOccurs="0" />
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="TID" type="xs:string" minOccurs="0" />
               <xs:element name="position" type="xs:string" minOccurs="0" />
               <xs:element name="hostamount" type="xs:string" minOccurs="0" />
               <xs:element name="coreaccount" type="xs:string" minOccurs="0" />
@@ -51,6 +53,7 @@
               <xs:element name="file" type="xs:string" minOccurs="0" />
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="TID" type="xs:string" minOccurs="0" />
               <xs:element name="name" type="xs:string" minOccurs="0" />
               <xs:element name="currency" type="xs:string" minOccurs="0" />
               <xs:element name="denom" type="xs:string" minOccurs="0" />

@@ -443,6 +443,7 @@ namespace CashDispView
             dataRow["file"] = apLogLine.LogFile;
             dataRow["time"] = apLogLine.Timestamp;
             dataRow["error"] = apLogLine.HResult;
+            dataRow["TID"] = apLogLine.TID;
 
             dataRow[colName] = newStatus;
 
@@ -465,6 +466,7 @@ namespace CashDispView
             dataRow["file"] = apLogLine.LogFile;
             dataRow["time"] = apLogLine.Timestamp;
             dataRow["error"] = apLogLine.HResult;
+            dataRow["TID"] = apLogLine.TID;
 
             if (!string.IsNullOrEmpty(colName))
             {
@@ -498,6 +500,7 @@ namespace CashDispView
             dataRow["file"] = apLogLine.LogFile;
             dataRow["time"] = apLogLine.Timestamp;
             dataRow["error"] = apLogLine.HResult;
+            dataRow["TID"] = apLogLine.TID;
 
             dataRow["position"] = posValue;
             dataRow["billmix"] = billMixValue;
@@ -523,6 +526,7 @@ namespace CashDispView
             dataRow["file"] = dispSync.LogFile;
             dataRow["time"] = dispSync.Timestamp;
             dataRow["error"] = dispSync.HResult;
+            dataRow["TID"] = dispSync.TID;
 
             for (int i = 0; i < dispSync.dispense.Length; i++)
             {
@@ -551,6 +555,7 @@ namespace CashDispView
             m_lcuRow["file"] = lastDispensedCount.LogFile;
             m_lcuRow["time"] = lastDispensedCount.Timestamp;
             m_lcuRow["error"] = lastDispensedCount.HResult;
+            m_lcuRow["TID"] = lastDispensedCount.TID;
 
             m_lcuRow["position"] = "lastdispense";
 
@@ -603,6 +608,7 @@ namespace CashDispView
                   dataRow["file"] = setupNoteType.LogFile;
                   dataRow["time"] = setupNoteType.Timestamp;
                   dataRow["error"] = setupNoteType.HResult;
+                  dataRow["TID"] = setupNoteType.TID;
 
                   dataRow["name"] = setupNoteType.noteType;
                   dataRow["currency"] = setupNoteType.currency;

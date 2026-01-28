@@ -1,14 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{98624250-55F4-407E-9A99-242690D17F0F}</ProjectGuid>
+    <ProjectGuid>{40F7C1D0-0585-439C-91C2-C284581B4368}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>APSamples</RootNamespace>
-    <AssemblyName>APSamples</AssemblyName>
+    <RootNamespace>TransDataView</RootNamespace>
+    <AssemblyName>TransDataView</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,27 +42,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="samples_apfilereader.cs" />
-    <Compile Include="samples_card.cs" />
-    <Compile Include="samples_cashdepot_loglines.cs" />
-    <Compile Include="samples_exception.cs" />
-    <Compile Include="samples_helperfunctions.cs" />
-    <Compile Include="samples_core.cs" />
-    <Compile Include="samples_devices.cs" />
-    <Compile Include="samples_ejcommands.cs" />
-    <Compile Include="samples_ejinsert.cs" />
-    <Compile Include="samples_entirefile.cs" />
-    <Compile Include="samples_general.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="samples_logLine_eof.cs" />
-    <Compile Include="samples_logLine_installation.cs" />
-    <Compile Include="samples_logLine_multilines.cs" />
-    <Compile Include="samples_logLine_singleline.cs" />
-    <Compile Include="samples_logtransactiondata.cs" />
-    <Compile Include="samples_ndc.cs" />
+    <Compile Include="TransDataTable.cs" />
+    <Compile Include="TransDataView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\APLine\APLogLine.csproj">
+      <Project>{79fe7807-0694-473c-8dd5-7d7013e14edf}</Project>
+      <Name>APLogLine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BaseView\BaseView.csproj">
+      <Project>{db43982d-e960-4dba-83ef-1bb6e7a60a49}</Project>
+      <Name>BaseView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Contract\Contract.csproj">
+      <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
+      <Name>Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Impl\Impl.csproj">
+      <Project>{f89403e5-4c5c-4d8f-8401-b2d56f6d8a2b}</Project>
+      <Name>Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogLineHandler\LogLineHandler.csproj">
+      <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>
+      <Name>LogLineHandler</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent />
+    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\TransDataView.xsd" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\TransDataView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
   </PropertyGroup>
 </Project>
