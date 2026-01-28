@@ -67,6 +67,7 @@ namespace AddKeyView
             dataRow["file"] = akLogLine.LogFile;
             dataRow["time"] = akLogLine.Timestamp;
             dataRow["error"] = string.Empty;
+            dataRow["TID"] = akLogLine.TID;
 
             // set the value
             dataRow["table"] = akLogLine.tableName;

@@ -148,6 +148,7 @@ namespace CardView
             dataRow["file"] = lineField.LogFile;
             dataRow["time"] = lineField.Timestamp;
             dataRow["error"] = lineField.HResult;
+            dataRow["TID"] = lineField.TID;
 
             dataRow["status"] = string.Empty;
             dataRow["media"] = string.Empty;

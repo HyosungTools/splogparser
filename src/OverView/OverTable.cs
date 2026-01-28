@@ -1156,6 +1156,7 @@ namespace OverView
             dataRow["file"] = lineField.LogFile;
             dataRow["time"] = lineField.Timestamp;
             dataRow["error"] = lineField.HResult;
+            dataRow["TID"] = lineField.TID;
 
             dataRow["mode"] = string.Empty;
             dataRow["host"] = string.Empty;
@@ -1185,6 +1186,7 @@ namespace OverView
             dataRow["file"] = lineField.LogFile;
             dataRow["time"] = lineField.Timestamp;
             dataRow["error"] = lineField.HResult;
+            dataRow["TID"] = lineField.TID;
 
             dataRow["mode"] = string.Empty;
             dataRow["host"] = string.Empty;
@@ -1240,6 +1242,7 @@ namespace OverView
             dataRow["file"] = lineField.LogFile;
             dataRow["time"] = lineField.Timestamp;
             dataRow["error"] = lineField.HResult;
+            dataRow["TID"] = lineField.TID;
 
             dataRow["mode"] = string.Empty;
             dataRow["host"] = string.Empty;

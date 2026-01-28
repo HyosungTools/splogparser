@@ -447,7 +447,7 @@ namespace splogparser
                      // Only call a View if the View ParseType matches the LogFileHandler ParseType 
                      if (thisView.parseType == fileHandler.parseType)
                      {
-                        ctx.ConsoleWriteLogLine(String.Format("thisView.Name : {0} thisView.parseType {1} fileHandler.parseType : {2}", thisView.Name, thisView.parseType.ToString(), fileHandler.parseType.ToString()));
+                        // ctx.ConsoleWriteLogLine(String.Format("thisView.Name : {0} thisView.parseType {1} fileHandler.parseType : {2}", thisView.Name, thisView.parseType.ToString(), fileHandler.parseType.ToString()));
                         // Only call a View if the View Name is mentioned in the arguments, or the argument was '*'
                         if (ctx.opts.RunView(thisView.parseType, thisView.Name))
                         {
@@ -591,7 +591,6 @@ namespace splogparser
                // Import and use the plugins (they will be instantiated only when accessed)
                foreach (IView thisView in loader.Views)
                {
-
                   viewName = thisView.Name;
                   ctx.ConsoleWriteLogLine(String.Format("PostAnalyze view : {0}", viewName));
                   thisView.PostAnalyze(ctx);

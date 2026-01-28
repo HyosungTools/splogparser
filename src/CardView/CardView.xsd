@@ -9,6 +9,7 @@
               <xs:element name="file" type="xs:string" minOccurs="0" />
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="TID" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
               <xs:element name="media" type="xs:string" minOccurs="0" />
               <xs:element name="readraw" type="xs:string" minOccurs="0" />
