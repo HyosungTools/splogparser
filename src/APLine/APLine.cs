@@ -197,6 +197,61 @@ namespace LogLineHandler
       Core_DispensedAmount,
       Core_RequiredBillMixList,
 
+      // WebServiceRequestFlowPoint - Customer Identification
+      Core_ProcessCustomerIdentification_Start,
+      Core_ProcessCustomerIdentification_LocateCustomer,
+      Core_ProcessCustomerWarning,
+
+      // WebServiceRequestFlowPoint - Account Lists
+      Core_MakeAccountLists_Start,
+      Core_MakeAccountLists_AgreementCount,
+      Core_MakeAccountLists_TotalAccounts,
+      Core_MakeAccountLists_UniqueAccounts,
+
+      // WebServiceRequestFlowPoint - Flow Navigation
+      Core_DetermineNextFlowPoint,
+
+      // WebServiceRequestFlowPoint - Withdrawal (you already have these)
+      // Core_ProcessWithdrawalTransaction_Account,  <-- ALREADY EXISTS
+      // Core_ProcessWithdrawalTransaction_Amount,   <-- ALREADY EXISTS
+      Core_ProcessWithdrawalTransaction_Start,
+      Core_ProcessWithdrawalTransaction_SequenceNumber,
+
+      // WebServiceRequestFlowPoint - Deposit
+      Core_ProcessDepositTransaction_Start,
+      Core_ProcessDepositTransaction_Account,
+      Core_ProcessDepositTransaction_CashAmount,
+      Core_ProcessDepositTransaction_CheckAmount,
+      Core_ProcessDepositTransaction_TotalAmount,
+      Core_ProcessDepositTransaction_SequenceNumber,
+      Core_StoreCash,
+
+      // WebServiceRequestFlowPoint - Transfer
+      Core_ProcessTransferTransaction_DonorAccount,
+      Core_ProcessTransferTransaction_RecipientAccount,
+      Core_ProcessTransferTransaction_Amount,
+
+      // WebServiceRequestFlowPoint - Transaction Reply
+      Core_WriteTransactionReplyJournal_StatusCode,
+      Core_WriteTransactionReplyJournal_SequenceNumber,
+
+      // WebServiceRequestFlowPoint - Dispense (you already have these)
+      // Core_RequiredBillMixList,   <-- ALREADY EXISTS
+      // Core_DispensedAmount,       <-- ALREADY EXISTS
+      Core_DispenseCurrency_BillMix,
+      Core_UpdateDataFrameworkAmount,
+
+      // WebServiceRequestFlowPoint - Card
+      Core_EjectCard_Command,
+      Core_EjectCard_Result,
+      Core_EjectCard_MediaStatus,
+
+      // WebServiceRequestFlowPoint - Balance
+      Core_UpdateBalances,
+
+      // WebServiceRequestFlowPoint - Timing/Performance
+      Core_ExecuteState,
+
       /* HELPER FUNCTIONS */
       HelperFunctions,
       HelperFunctions_GetConfiguredBillMixList,

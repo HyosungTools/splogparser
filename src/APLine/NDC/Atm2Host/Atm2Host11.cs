@@ -126,7 +126,7 @@ namespace LogLineHandler
                return;
 
             // if the field is '2' field 'r' is Last Transaction Status Data
-            if (result.field.Length != 1 && result.field[0] != '2')
+            if (result.field.Length != 1 || result.field[0] != '2')
                return;
 
             // r     Var(71)  ?     Last Transaction Status Data

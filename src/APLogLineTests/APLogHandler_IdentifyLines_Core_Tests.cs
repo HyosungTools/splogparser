@@ -285,17 +285,19 @@ namespace APLogLineTests
       [TestMethod]
       public void Core_ProcessWithdrawalTransaction_Amount_5()
       {
-         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory); 
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
          ILogLine logLine = logFileHandler.IdentifyLine(samples_core.Core_ProcessWithdrawalTransaction_Amount_5);
-         Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Amount);
+
+         Assert.IsNotNull(logLine, "logLine is null");
+         Assert.IsTrue(logLine is Core_ProcessWithdrawalTransaction_Amount,
+            $"Expected Core_ProcessWithdrawalTransaction_Amount but got {logLine.GetType().Name}");
 
          Core_ProcessWithdrawalTransaction_Amount apLine = (Core_ProcessWithdrawalTransaction_Amount)logLine;
-         Assert.IsTrue(apLine.apType == APLogType.Core_ProcessWithdrawalTransaction_Amount);
-         Assert.IsTrue(apLine.Timestamp == "2023-12-04 10:32:45.152");
-         Assert.IsTrue(apLine.HResult == "");
-
-         Assert.IsTrue(apLine.name == "CMCFlex");
-         Assert.IsTrue(apLine.amount == "1");
+         Assert.AreEqual(APLogType.Core_ProcessWithdrawalTransaction_Amount, apLine.apType, "apType mismatch");
+         Assert.AreEqual("2023-12-04 10:32:45.152", apLine.Timestamp, "Timestamp mismatch");
+         Assert.AreEqual("", apLine.HResult, "HResult mismatch");
+         Assert.AreEqual("CMCFlex", apLine.name, "name mismatch");
+         Assert.AreEqual("1", apLine.amount, "amount mismatch");
       }
 
       [TestMethod]
