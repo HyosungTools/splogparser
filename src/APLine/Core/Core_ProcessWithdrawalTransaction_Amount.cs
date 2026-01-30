@@ -1,4 +1,4 @@
-﻿using Contract;
+using Contract;
 
 namespace LogLineHandler
 {
@@ -14,12 +14,35 @@ namespace LogLineHandler
       {
          base.Initialize();
 
-         string findMe = " ";
-         int idx = logLine.LastIndexOf(findMe);
-         if (idx != -1)
+         // FiservDNA, SymXchange, CUAnswers, KeyBridge, AccessAdvantage pattern: Total Amount: 40
+         if (logLine.Contains("Total Amount:"))
          {
-            // isolate amount
-            amount = logLine.Substring(idx + findMe.Length).Trim();
+            string findMe = "Total Amount:";
+            int idx = logLine.LastIndexOf(findMe);
+            if (idx != -1)
+            {
+               amount = logLine.Substring(idx + findMe.Length).Trim();
+            }
+         }
+         // JackHenry pattern: Amount - 650
+         else if (logLine.Contains("Amount -"))
+         {
+            string findMe = "Amount -";
+            int idx = logLine.LastIndexOf(findMe);
+            if (idx != -1)
+            {
+               amount = logLine.Substring(idx + findMe.Length).Trim();
+            }
+         }
+         // CMCFlex pattern: Amount: 1 (no "Total", uses colon)
+         else if (logLine.Contains("Amount:"))
+         {
+            string findMe = "Amount:";
+            int idx = logLine.LastIndexOf(findMe);
+            if (idx != -1)
+            {
+               amount = logLine.Substring(idx + findMe.Length).Trim();
+            }
          }
       }
    }
