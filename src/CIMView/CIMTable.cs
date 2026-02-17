@@ -4,6 +4,7 @@ using System.Dynamic;
 using Contract;
 using Impl;
 using LogLineHandler;
+using System.Collections.Generic;
 
 namespace CIMView
 {
@@ -330,6 +331,29 @@ namespace CIMView
 
          }
 
+         // E N H A N C E   C A S H I N   T A B L E S
+         //
+         // Add exchange summary rows and balance-sheet rows below "missing" events.
+         // Must run AFTER AddMoneyToTable (USD columns populated)
+         // and BEFORE rename (CashIn-* names still intact).
+
+         try
+         {
+            foreach (DataTable dTable in dTableSet.Tables)
+            {
+               if (dTable.TableName.StartsWith("CashIn-"))
+               {
+                  ctx.ConsoleWriteLogLine("Enhancing CashIn table: " + dTable.TableName);
+                  EnhanceCashInTable(dTable);
+               }
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WriteExcelFile Exception ENHANCE CASHIN TABLES: " + e.Message);
+         }
+
+
          // RENAME CASHIN TABLES - DO THIS LAST
 
          try
@@ -373,6 +397,388 @@ namespace CIMView
          }
 
          return base.WriteExcelFile();
+      }
+
+      /// <summary>
+      /// Denomination values for USD columns. Column name -> dollar value per note.
+      /// </summary>
+      private static readonly (string column, int value)[] USDDenominations = new (string, int)[]
+      {
+         ("USD1",   1),
+         ("USD2",   2),
+         ("USD5",   5),
+         ("USD10",  10),
+         ("USD20",  20),
+         ("USD50",  50),
+         ("USD100", 100)
+      };
+
+      /// <summary>
+      /// Safely parse a DataRow column value as an integer. Returns 0 for null, empty, or non-numeric.
+      /// </summary>
+      private static int SafeGetInt(DataRow row, string column)
+      {
+         try
+         {
+            object val = row[column];
+            if (val == null || val == DBNull.Value)
+               return 0;
+
+            string s = val.ToString().Trim();
+            if (string.IsNullOrEmpty(s))
+               return 0;
+
+            if (int.TryParse(s, out int result))
+               return result;
+
+            return 0;
+         }
+         catch
+         {
+            return 0;
+         }
+      }
+
+      /// <summary>
+      /// Calculate total dollar value from USD note-count columns in a DataRow.
+      /// </summary>
+      private static int CalcDollarValue(DataRow row)
+      {
+         int total = 0;
+         foreach (var (column, value) in USDDenominations)
+         {
+            total += SafeGetInt(row, column) * value;
+         }
+         return total;
+      }
+
+      /// <summary>
+      /// Test whether a row's status indicates "missing" (after AddEnglish translation).
+      /// Checks for both the English text and the raw XFS code.
+      /// </summary>
+      private static bool IsMissing(DataRow row)
+      {
+         string status = row["status"]?.ToString()?.Trim() ?? "";
+         return status.Equals("missing", StringComparison.OrdinalIgnoreCase) ||
+                status == "4";   // WFS_CIM_STATCUMISSING
+      }
+
+      /// <summary>
+      /// Enhance a CashIn-* table with exchange summary rows, balance-sheet
+      /// rows below each "missing" event, and computed delta rows where the
+      /// three-row pattern is absent.
+      /// </summary>
+      private void EnhanceCashInTable(DataTable table)
+      {
+         if (table.Rows.Count < 2)
+            return;
+
+         int rowCount = table.Rows.Count;
+
+         // -----------------------------------------------------------------
+         // Pass 1: Classify every row
+         // -----------------------------------------------------------------
+
+         string[] classification = new string[rowCount];
+
+         for (int i = 0; i < rowCount; i++)
+         {
+            DataRow row = table.Rows[i];
+            int cashin = SafeGetInt(row, "cashin");
+            int prevCashin = i > 0 ? SafeGetInt(table.Rows[i - 1], "cashin") : 0;
+            int nextCashin = i < rowCount - 1 ? SafeGetInt(table.Rows[i + 1], "cashin") : 0;
+
+            if (IsMissing(row))
+            {
+               classification[i] = "missing";
+            }
+            else if (i > 0 && i < rowCount - 1 &&
+                     cashin < prevCashin && nextCashin >= prevCashin)
+            {
+               // Delta: small value sandwiched between two higher values
+               classification[i] = "delta";
+            }
+            else if (i > 0 && cashin <= 1 && prevCashin > 5)
+            {
+               // Exchange reset: cashin drops to 0 or 1 from a significant value
+               classification[i] = "exchange";
+            }
+            else
+            {
+               classification[i] = "cumulative";
+            }
+         }
+
+         // -----------------------------------------------------------------
+         // Pass 2: Collect insertion points
+         // -----------------------------------------------------------------
+
+         var insertions = new List<(int afterIndex, List<Dictionary<string, string>> newRows)>();
+
+         DataRow peakRow = null;
+         int peakCashin = 0;
+         int exchangeNumber = 0;
+         DataRow lastPeakRef = null;
+         DataRow prevCumulative = null;
+
+         for (int i = 0; i < rowCount; i++)
+         {
+            DataRow row = table.Rows[i];
+            int cashin = SafeGetInt(row, "cashin");
+
+            // Track peak cumulative for current exchange period
+            if (classification[i] == "cumulative" && cashin > peakCashin)
+            {
+               peakRow = row;
+               peakCashin = cashin;
+            }
+
+            // ----- Missing delta detection -----
+            // If this is a cumulative and the previous cumulative exists with
+            // no delta row between them, insert a computed delta.
+            if (classification[i] == "cumulative" && prevCumulative != null)
+            {
+               int prevCI = SafeGetInt(prevCumulative, "cashin");
+
+               if (cashin > prevCI)
+               {
+                  // Check if any row between prevCumulative and this one is a delta
+                  bool hasDeltaBetween = false;
+                  for (int k = i - 1; k >= 0; k--)
+                  {
+                     if (table.Rows[k] == prevCumulative)
+                        break;
+                     if (classification[k] == "delta")
+                     {
+                        hasDeltaBetween = true;
+                        break;
+                     }
+                  }
+
+                  if (!hasDeltaBetween)
+                  {
+                     var deltaValues = BuildComputedDeltaValues(prevCumulative, row);
+                     if (deltaValues != null)
+                     {
+                        // Insert before this cumulative row
+                        insertions.Add((i - 1, new List<Dictionary<string, string>> { deltaValues }));
+                     }
+                  }
+               }
+            }
+
+            // ----- Exchange boundary -----
+            if (classification[i] == "exchange")
+            {
+               if (peakRow != null && peakCashin > 0)
+               {
+                  exchangeNumber++;
+                  var summary = BuildExchangeSummaryValues(peakRow, exchangeNumber);
+                  insertions.Add((i - 1, new List<Dictionary<string, string>> { summary }));
+                  lastPeakRef = peakRow;
+               }
+               peakRow = null;
+               peakCashin = 0;
+               prevCumulative = null;
+            }
+
+            // ----- Missing event: insert balance-sheet rows after -----
+            if (classification[i] == "missing")
+            {
+               bool isRogue = cashin > 0;
+               DataRow refRow = isRogue ? row : lastPeakRef;
+
+               if (refRow != null)
+               {
+                  var balanceRows = BuildBalanceSheetValues(row, refRow, isRogue);
+                  insertions.Add((i, balanceRows));
+               }
+
+               // Flag rogue in the comment column of the missing row itself
+               if (isRogue)
+               {
+                  string existing = row["comment"]?.ToString() ?? "";
+                  row["comment"] = existing + " WARNING: Counts not reset";
+               }
+            }
+
+            // Track previous cumulative
+            if (classification[i] == "cumulative")
+            {
+               prevCumulative = row;
+            }
+            else if (classification[i] == "exchange")
+            {
+               prevCumulative = null;
+            }
+         }
+
+         // Final exchange summary
+         if (peakRow != null && peakCashin > 0)
+         {
+            exchangeNumber++;
+            var summary = BuildExchangeSummaryValues(peakRow, exchangeNumber);
+            insertions.Add((rowCount - 1, new List<Dictionary<string, string>> { summary }));
+         }
+
+         // -----------------------------------------------------------------
+         // Pass 3: Insert rows in reverse order (preserves indices)
+         // -----------------------------------------------------------------
+
+         insertions.Sort((a, b) => b.afterIndex.CompareTo(a.afterIndex));
+
+         foreach (var (afterIndex, newRows) in insertions)
+         {
+            for (int j = 0; j < newRows.Count; j++)
+            {
+               DataRow newRow = table.NewRow();
+               foreach (var kvp in newRows[j])
+               {
+                  if (table.Columns.Contains(kvp.Key))
+                  {
+                     newRow[kvp.Key] = kvp.Value;
+                  }
+               }
+               table.Rows.InsertAt(newRow, afterIndex + 1 + j);
+            }
+         }
+
+         table.AcceptChanges();
+
+         ctx.ConsoleWriteLogLine(String.Format("EnhanceCashInTable '{0}': {1} exchanges, {2} insertions",
+            table.TableName, exchangeNumber, insertions.Count));
+      }
+
+      /// <summary>
+      /// Build column values for an Exchange Summary row.
+      /// </summary>
+      private Dictionary<string, string> BuildExchangeSummaryValues(DataRow peakRow, int exchangeNumber)
+      {
+         var values = new Dictionary<string, string>();
+
+         values["file"] = String.Format("Exchange {0}", exchangeNumber);
+         values["time"] = peakRow["time"]?.ToString() ?? "";
+         values["cashin"] = peakRow["cashin"]?.ToString() ?? "";
+
+         foreach (var (column, _) in USDDenominations)
+         {
+            int count = SafeGetInt(peakRow, column);
+            if (count > 0)
+            {
+               values[column] = count.ToString();
+            }
+         }
+
+         int totalDollars = CalcDollarValue(peakRow);
+         values["comment"] = String.Format("${0:N0}", totalDollars);
+
+         return values;
+      }
+
+      /// <summary>
+      /// Build two balance-sheet rows for insertion below a "missing" event.
+      ///
+      /// Row 1 (SUBTOTAL): each USD column = note_count x denomination_value
+      ///   error = "SUBTOTAL" (marker for Excel formatting: $ format, line top/bottom)
+      ///
+      /// Row 2 (TOTAL): dollar sum in USD100 column position
+      ///   error = "TOTAL" (marker for Excel formatting: $ format, double line below)
+      ///
+      /// Both rows carry the missing row's file and time for sort ordering.
+      /// </summary>
+      private List<Dictionary<string, string>> BuildBalanceSheetValues(DataRow missingRow, DataRow refRow, bool isRogue)
+      {
+         var subtotalRow = new Dictionary<string, string>();
+         var totalRow = new Dictionary<string, string>();
+
+         // Anchor to the missing row's timestamp for sort ordering
+         string file = missingRow["file"]?.ToString() ?? "";
+         string time = missingRow["time"]?.ToString() ?? "";
+
+         subtotalRow["file"] = file;
+         subtotalRow["time"] = time;
+         subtotalRow["error"] = "SUBTOTAL";
+
+         totalRow["file"] = file;
+         totalRow["time"] = time;
+         totalRow["error"] = "TOTAL";
+
+         int totalDollars = 0;
+
+         foreach (var (column, denomValue) in USDDenominations)
+         {
+            int noteCount = SafeGetInt(refRow, column);
+            if (noteCount > 0)
+            {
+               int dollars = noteCount * denomValue;
+               subtotalRow[column] = dollars.ToString();
+               totalDollars += dollars;
+            }
+         }
+
+         totalRow["USD100"] = String.Format("${0:N0}", totalDollars);
+
+         subtotalRow["comment"] = isRogue ? "WARNING: Counts not reset" : "$ per denomination";
+         totalRow["comment"] = String.Format("Total ${0:N0}", totalDollars);
+
+         return new List<Dictionary<string, string>> { subtotalRow, totalRow };
+      }
+
+      /// <summary>
+      /// All USD columns including USD0 (unrecognized notes). Used for delta
+      /// computation where we need to track every note, not just denominated ones.
+      /// </summary>
+      private static readonly string[] AllUSDColumns = new string[]
+      {
+         "USD0", "USD1", "USD2", "USD5", "USD10", "USD20", "USD50", "USD100"
+      };
+
+      /// <summary>
+      /// Build a computed delta row for insertion between two consecutive
+      /// cumulative rows that have no natural delta row between them.
+      ///
+      /// Shows the difference per denomination (cashin, count, all USD columns
+      /// including USD0 for unrecognized notes).
+      /// Uses the target (later) row's file and time for sort ordering.
+      /// Returns null if the delta is zero across all columns.
+      /// </summary>
+      private Dictionary<string, string> BuildComputedDeltaValues(DataRow prevRow, DataRow currRow)
+      {
+         var values = new Dictionary<string, string>();
+         bool hasDelta = false;
+
+         // Anchor to the current row's timestamp
+         values["file"] = currRow["file"]?.ToString() ?? "";
+         values["time"] = currRow["time"]?.ToString() ?? "";
+         values["status"] = currRow["status"]?.ToString() ?? "";
+
+         // Cashin delta
+         int deltaCashin = SafeGetInt(currRow, "cashin") - SafeGetInt(prevRow, "cashin");
+         if (deltaCashin > 0)
+         {
+            values["cashin"] = deltaCashin.ToString();
+            hasDelta = true;
+         }
+
+         // Count delta
+         int deltaCount = SafeGetInt(currRow, "count") - SafeGetInt(prevRow, "count");
+         if (deltaCount > 0)
+         {
+            values["count"] = deltaCount.ToString();
+         }
+
+         // All denomination deltas including USD0
+         foreach (string column in AllUSDColumns)
+         {
+            int delta = SafeGetInt(currRow, column) - SafeGetInt(prevRow, column);
+            if (delta > 0)
+            {
+               values[column] = delta.ToString();
+               hasDelta = true;
+            }
+         }
+
+         return hasDelta ? values : null;
       }
 
       protected void WFS_INF_CIM_STATUS(SPLine spLogLine)
@@ -650,7 +1056,7 @@ namespace CIMView
 
                try
                {
-                  if (cashInfo.lUnitCount > 0)
+                  if (spLogLine.HResult == "0" && cashInfo.lUnitCount > 0)
                   {
                      if (cashInfo.noteNumbers != null)
                      {
@@ -672,7 +1078,7 @@ namespace CIMView
 
                dTableSet.Tables["Deposit"].AcceptChanges();
 
-               if (cashInfo.lUnitCount > 0)
+               if (spLogLine.HResult == "0" && cashInfo.lUnitCount > 0)
                {
                   for (int i = 0; i < cashInfo.lUnitCount; i++)
                   {

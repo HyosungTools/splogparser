@@ -591,7 +591,7 @@ namespace Impl
                   foreach (int timeColumn in timeColumns)
                   {
                      Console.WriteLine($"Set the formula for the date/time column '{dTable.Columns[timeColumn].ToString()}'...");
-                     Microsoft.Office.Interop.Excel.Range timeColumnRange = activeSheet.Range[activeSheet.Cells[rowOffset, timeColumn+1], activeSheet.Cells[dataView.Count + 1, timeColumn+1]];
+                     Microsoft.Office.Interop.Excel.Range timeColumnRange = activeSheet.Range[activeSheet.Cells[rowOffset, timeColumn + 1], activeSheet.Cells[dataView.Count + 1, timeColumn + 1]];
                      timeColumnRange.Cells.NumberFormat = "yyyy-mm-dd hh:mm:ss.000";
                      timeColumnRange.Cells.ColumnWidth = 21;
                   }
@@ -620,7 +620,7 @@ namespace Impl
                   allCellRange.AutoFilter(2, Type.Missing, Excel.XlAutoFilterOperator.xlAnd, Type.Missing, true);
 
                   // disable text wrapping
-                  allCellRange.WrapText = false; 
+                  allCellRange.WrapText = false;
 
                   // freeze the top row so that column headers are always visible when scrolling
                   activeSheet.Application.ActiveWindow.SplitRow = 1;
@@ -632,10 +632,87 @@ namespace Impl
                                                    Type.Missing, Type.Missing, Type.Missing,
                                                    "Exception",
                                                    XlContainsOperator.xlContains,   //XlFormatConditionOperator.xlEqual,
-                                                   Type.Missing, Type.Missing)) ;
+                                                   Type.Missing, Type.Missing));
                   format.Font.Bold = true;
                   format.Font.Color = 0x000000FF;
 
+                  // F O R M A T   B A L A N C E   S H E E T   R O W S
+                  //
+                  // Find SUBTOTAL/TOTAL markers seeded in the error column by
+                  // CIMTable.EnhanceCashInTable, apply accounting-style borders
+                  // and $ formatting, then clear the marker text.
+
+                  try
+                  {
+                     // Find the error column index
+                     int errorColIndex = -1;
+                     for (int c = 0; c < colCount; c++)
+                     {
+                        if (dTable.Columns[c].ToString().Equals("error", StringComparison.OrdinalIgnoreCase))
+                        {
+                           errorColIndex = c;
+                           break;
+                        }
+                     }
+
+                     // Find USD column indices
+                     var usdColIndices = new List<int>();
+                     for (int c = 0; c < colCount; c++)
+                     {
+                        string colName = dTable.Columns[c].ToString();
+                        if (colName.StartsWith("USD"))
+                        {
+                           usdColIndices.Add(c);
+                        }
+                     }
+
+                     if (errorColIndex >= 0 && usdColIndices.Count > 0)
+                     {
+                        for (int r = 0; r < dataView.Count; r++)
+                        {
+                           string errorVal = rowData[r, errorColIndex]?.ToString()?.Trim() ?? "";
+
+                           if (errorVal == "SUBTOTAL" || errorVal == "TOTAL")
+                           {
+                              // Excel row (1-based, after header)
+                              int excelRow = rowOffset + r;
+
+                              // First and last USD column in Excel (1-based)
+                              int firstUsdCol = colOffset + usdColIndices[0];
+                              int lastUsdCol = colOffset + usdColIndices[usdColIndices.Count - 1];
+
+                              // Apply $ number format to USD cells in this row
+                              Excel.Range usdRange = activeSheet.Range[
+                                 activeSheet.Cells[excelRow, firstUsdCol],
+                                 activeSheet.Cells[excelRow, lastUsdCol]];
+                              usdRange.NumberFormat = "$#,##0";
+
+                              if (errorVal == "SUBTOTAL")
+                              {
+                                 // Thin border top and bottom
+                                 usdRange.Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+                                 usdRange.Borders[Excel.XlBordersIndex.xlEdgeTop].Weight = Excel.XlBorderWeight.xlThin;
+
+                                 usdRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+                                 usdRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].Weight = Excel.XlBorderWeight.xlThin;
+                              }
+                              else // TOTAL
+                              {
+                                 // Double border below
+                                 usdRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDouble;
+                                 usdRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].Weight = Excel.XlBorderWeight.xlThick;
+                              }
+
+                              // Clear the marker text from the error cell
+                              activeSheet.Cells[excelRow, colOffset + errorColIndex] = "";
+                           }
+                        }
+                     }
+                  }
+                  catch (Exception exBal)
+                  {
+                     ctx.ConsoleWriteLogLine("Balance sheet formatting exception: " + exBal.Message);
+                  }
                }
                catch (Exception ex)
                {
