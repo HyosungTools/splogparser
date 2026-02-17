@@ -303,6 +303,16 @@ namespace CDMView
                dataRow["transstat"] = cdmStatus.fwTransportStatus;
                dataRow["position"] = cdmStatus.wDevicePosition;
 
+               if (cdmStatus.lpszExtra != null)
+               {
+                  dataRow["errcode"] = cdmStatus.lpszExtra.ErrCode;
+                  dataRow["errmsg"] = cdmStatus.lpszExtra.ErrMsg;
+                  dataRow["devpos"] = cdmStatus.lpszExtra.Position;
+                  dataRow["spver"] = cdmStatus.lpszExtra.SP_Version;
+                  dataRow["epver"] = cdmStatus.lpszExtra.EP_Version;
+               }
+
+
                dTableSet.Tables["Status"].AcceptChanges();
             }
          }
