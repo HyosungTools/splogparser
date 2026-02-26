@@ -88,21 +88,22 @@
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
               <xs:element name="cashin" type="xs:string" minOccurs="0" />
+              <xs:element name="delta" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
               <xs:element name="presented" type="xs:string" minOccurs="0" />
               <xs:element name="retracted" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD0" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD1" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD2" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD5" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD10" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
-			  <xs:element name="N0" type="xs:string" minOccurs="0" />
-              <xs:element name="comment" type="xs:string" minOccurs="0" />			  
+              <xs:element name="USD0" type="xs:string" minOccurs="0" />
+              <xs:element name="USD1" type="xs:string" minOccurs="0" />
+              <xs:element name="USD2" type="xs:string" minOccurs="0" />
+              <xs:element name="USD5" type="xs:string" minOccurs="0" />
+              <xs:element name="USD10" type="xs:string" minOccurs="0" />
+              <xs:element name="USD20" type="xs:string" minOccurs="0" />
+              <xs:element name="USD50" type="xs:string" minOccurs="0" />
+              <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />	
+              <xs:element name="N0" type="xs:string" minOccurs="0" />			  
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
               <xs:element name="N3" type="xs:string" minOccurs="0" />
@@ -122,8 +123,8 @@
               <xs:element name="N17" type="xs:string" minOccurs="0" />
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
-			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
-		    </xs:sequence>
+              <xs:element name="N20" type="xs:string" minOccurs="0" />			  
+            </xs:sequence>
           </xs:complexType>
         </xs:element>
         <xs:element name="CashIn-2">
@@ -134,113 +135,22 @@
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
               <xs:element name="cashin" type="xs:string" minOccurs="0" />
+              <xs:element name="delta" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
               <xs:element name="presented" type="xs:string" minOccurs="0" />
               <xs:element name="retracted" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD0" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD1" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD2" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD5" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD10" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
-			  <xs:element name="comment" type="xs:string" minOccurs="0" />
-			  <xs:element name="N0" type="xs:string" minOccurs="0" />
-              <xs:element name="N1" type="xs:string" minOccurs="0" />
-              <xs:element name="N2" type="xs:string" minOccurs="0" />
-              <xs:element name="N3" type="xs:string" minOccurs="0" />
-              <xs:element name="N4" type="xs:string" minOccurs="0" />
-              <xs:element name="N5" type="xs:string" minOccurs="0" />
-              <xs:element name="N6" type="xs:string" minOccurs="0" />
-              <xs:element name="N7" type="xs:string" minOccurs="0" />
-              <xs:element name="N8" type="xs:string" minOccurs="0" />
-              <xs:element name="N9" type="xs:string" minOccurs="0" />
-              <xs:element name="N10" type="xs:string" minOccurs="0" />
-              <xs:element name="N11" type="xs:string" minOccurs="0" />
-              <xs:element name="N12" type="xs:string" minOccurs="0" />
-              <xs:element name="N13" type="xs:string" minOccurs="0" />
-              <xs:element name="N14" type="xs:string" minOccurs="0" />
-              <xs:element name="N15" type="xs:string" minOccurs="0" />
-              <xs:element name="N16" type="xs:string" minOccurs="0" />
-              <xs:element name="N17" type="xs:string" minOccurs="0" />
-              <xs:element name="N18" type="xs:string" minOccurs="0" />
-              <xs:element name="N19" type="xs:string" minOccurs="0" />
-			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-		<xs:element name="CashIn-3">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="file" type="xs:string" minOccurs="0" />
-              <xs:element name="time" type="xs:string" minOccurs="0" />
-              <xs:element name="error" type="xs:string" minOccurs="0" />
-              <xs:element name="status" type="xs:string" minOccurs="0" />
-              <xs:element name="cashin" type="xs:string" minOccurs="0" />
-              <xs:element name="count" type="xs:string" minOccurs="0" />
-              <xs:element name="reject" type="xs:string" minOccurs="0" />
-              <xs:element name="dispensed" type="xs:string" minOccurs="0" />
-              <xs:element name="presented" type="xs:string" minOccurs="0" />
-              <xs:element name="retracted" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD0" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD1" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD2" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD5" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD10" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
-			  <xs:element name="comment" type="xs:string" minOccurs="0" />
-			  <xs:element name="N0" type="xs:string" minOccurs="0" />
-              <xs:element name="N1" type="xs:string" minOccurs="0" />
-              <xs:element name="N2" type="xs:string" minOccurs="0" />
-              <xs:element name="N3" type="xs:string" minOccurs="0" />
-              <xs:element name="N4" type="xs:string" minOccurs="0" />
-              <xs:element name="N5" type="xs:string" minOccurs="0" />
-              <xs:element name="N6" type="xs:string" minOccurs="0" />
-              <xs:element name="N7" type="xs:string" minOccurs="0" />
-              <xs:element name="N8" type="xs:string" minOccurs="0" />
-              <xs:element name="N9" type="xs:string" minOccurs="0" />
-              <xs:element name="N10" type="xs:string" minOccurs="0" />
-              <xs:element name="N11" type="xs:string" minOccurs="0" />
-              <xs:element name="N12" type="xs:string" minOccurs="0" />
-              <xs:element name="N13" type="xs:string" minOccurs="0" />
-              <xs:element name="N14" type="xs:string" minOccurs="0" />
-              <xs:element name="N15" type="xs:string" minOccurs="0" />
-              <xs:element name="N16" type="xs:string" minOccurs="0" />
-              <xs:element name="N17" type="xs:string" minOccurs="0" />
-              <xs:element name="N18" type="xs:string" minOccurs="0" />
-              <xs:element name="N19" type="xs:string" minOccurs="0" />
-			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-		<xs:element name="CashIn-4">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="file" type="xs:string" minOccurs="0" />
-              <xs:element name="time" type="xs:string" minOccurs="0" />
-              <xs:element name="error" type="xs:string" minOccurs="0" />
-              <xs:element name="status" type="xs:string" minOccurs="0" />
-              <xs:element name="cashin" type="xs:string" minOccurs="0" />
-              <xs:element name="count" type="xs:string" minOccurs="0" />
-              <xs:element name="reject" type="xs:string" minOccurs="0" />
-              <xs:element name="dispensed" type="xs:string" minOccurs="0" />
-              <xs:element name="presented" type="xs:string" minOccurs="0" />
-              <xs:element name="retracted" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD0" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD1" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD2" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD5" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD10" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="USD0" type="xs:string" minOccurs="0" />
+              <xs:element name="USD1" type="xs:string" minOccurs="0" />
+              <xs:element name="USD2" type="xs:string" minOccurs="0" />
+              <xs:element name="USD5" type="xs:string" minOccurs="0" />
+              <xs:element name="USD10" type="xs:string" minOccurs="0" />
+              <xs:element name="USD20" type="xs:string" minOccurs="0" />
+              <xs:element name="USD50" type="xs:string" minOccurs="0" />
+              <xs:element name="USD100" type="xs:string" minOccurs="0" />
               <xs:element name="comment" type="xs:string" minOccurs="0" />
-			  <xs:element name="N0" type="xs:string" minOccurs="0" />
+              <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
               <xs:element name="N3" type="xs:string" minOccurs="0" />
@@ -260,11 +170,11 @@
               <xs:element name="N17" type="xs:string" minOccurs="0" />
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
-			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
+              <xs:element name="N20" type="xs:string" minOccurs="0" />			  
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-		<xs:element name="CashIn-5">
+        <xs:element name="CashIn-3">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="file" type="xs:string" minOccurs="0" />
@@ -272,21 +182,22 @@
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
               <xs:element name="cashin" type="xs:string" minOccurs="0" />
+              <xs:element name="delta" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
               <xs:element name="presented" type="xs:string" minOccurs="0" />
               <xs:element name="retracted" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD0" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD1" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD2" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD5" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD10" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="USD0" type="xs:string" minOccurs="0" />
+              <xs:element name="USD1" type="xs:string" minOccurs="0" />
+              <xs:element name="USD2" type="xs:string" minOccurs="0" />
+              <xs:element name="USD5" type="xs:string" minOccurs="0" />
+              <xs:element name="USD10" type="xs:string" minOccurs="0" />
+              <xs:element name="USD20" type="xs:string" minOccurs="0" />
+              <xs:element name="USD50" type="xs:string" minOccurs="0" />
+              <xs:element name="USD100" type="xs:string" minOccurs="0" />
               <xs:element name="comment" type="xs:string" minOccurs="0" />
-			  <xs:element name="N0" type="xs:string" minOccurs="0" />
+              <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
               <xs:element name="N3" type="xs:string" minOccurs="0" />
@@ -306,11 +217,11 @@
               <xs:element name="N17" type="xs:string" minOccurs="0" />
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
-			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
+              <xs:element name="N20" type="xs:string" minOccurs="0" />			  
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-		<xs:element name="CashIn-6">
+        <xs:element name="CashIn-4">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="file" type="xs:string" minOccurs="0" />
@@ -318,21 +229,22 @@
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
               <xs:element name="cashin" type="xs:string" minOccurs="0" />
+              <xs:element name="delta" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
               <xs:element name="presented" type="xs:string" minOccurs="0" />
               <xs:element name="retracted" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD0" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD1" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD2" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD5" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD10" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="USD0" type="xs:string" minOccurs="0" />
+              <xs:element name="USD1" type="xs:string" minOccurs="0" />
+              <xs:element name="USD2" type="xs:string" minOccurs="0" />
+              <xs:element name="USD5" type="xs:string" minOccurs="0" />
+              <xs:element name="USD10" type="xs:string" minOccurs="0" />
+              <xs:element name="USD20" type="xs:string" minOccurs="0" />
+              <xs:element name="USD50" type="xs:string" minOccurs="0" />
+              <xs:element name="USD100" type="xs:string" minOccurs="0" />
               <xs:element name="comment" type="xs:string" minOccurs="0" />
-			  <xs:element name="N0" type="xs:string" minOccurs="0" />
+              <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
               <xs:element name="N3" type="xs:string" minOccurs="0" />
@@ -352,11 +264,11 @@
               <xs:element name="N17" type="xs:string" minOccurs="0" />
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
-			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
+              <xs:element name="N20" type="xs:string" minOccurs="0" />			  
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-		<xs:element name="CashIn-7">
+        <xs:element name="CashIn-5">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="file" type="xs:string" minOccurs="0" />
@@ -364,21 +276,22 @@
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
               <xs:element name="cashin" type="xs:string" minOccurs="0" />
+              <xs:element name="delta" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
               <xs:element name="presented" type="xs:string" minOccurs="0" />
               <xs:element name="retracted" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD0" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD1" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD2" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD5" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD10" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="USD0" type="xs:string" minOccurs="0" />
+              <xs:element name="USD1" type="xs:string" minOccurs="0" />
+              <xs:element name="USD2" type="xs:string" minOccurs="0" />
+              <xs:element name="USD5" type="xs:string" minOccurs="0" />
+              <xs:element name="USD10" type="xs:string" minOccurs="0" />
+              <xs:element name="USD20" type="xs:string" minOccurs="0" />
+              <xs:element name="USD50" type="xs:string" minOccurs="0" />
+              <xs:element name="USD100" type="xs:string" minOccurs="0" />
               <xs:element name="comment" type="xs:string" minOccurs="0" />
-			  <xs:element name="N0" type="xs:string" minOccurs="0" />
+              <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
               <xs:element name="N3" type="xs:string" minOccurs="0" />
@@ -398,11 +311,11 @@
               <xs:element name="N17" type="xs:string" minOccurs="0" />
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
-			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
+              <xs:element name="N20" type="xs:string" minOccurs="0" />			  
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-		<xs:element name="CashIn-8">
+        <xs:element name="CashIn-6">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="file" type="xs:string" minOccurs="0" />
@@ -410,21 +323,22 @@
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
               <xs:element name="cashin" type="xs:string" minOccurs="0" />
+              <xs:element name="delta" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
               <xs:element name="presented" type="xs:string" minOccurs="0" />
               <xs:element name="retracted" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD0" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD1" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD2" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD5" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD10" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="USD0" type="xs:string" minOccurs="0" />
+              <xs:element name="USD1" type="xs:string" minOccurs="0" />
+              <xs:element name="USD2" type="xs:string" minOccurs="0" />
+              <xs:element name="USD5" type="xs:string" minOccurs="0" />
+              <xs:element name="USD10" type="xs:string" minOccurs="0" />
+              <xs:element name="USD20" type="xs:string" minOccurs="0" />
+              <xs:element name="USD50" type="xs:string" minOccurs="0" />
+              <xs:element name="USD100" type="xs:string" minOccurs="0" />
               <xs:element name="comment" type="xs:string" minOccurs="0" />
-			  <xs:element name="N0" type="xs:string" minOccurs="0" />
+              <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
               <xs:element name="N3" type="xs:string" minOccurs="0" />
@@ -444,11 +358,11 @@
               <xs:element name="N17" type="xs:string" minOccurs="0" />
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
-			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
+              <xs:element name="N20" type="xs:string" minOccurs="0" />			  
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-		<xs:element name="CashIn-9">
+        <xs:element name="CashIn-7">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="file" type="xs:string" minOccurs="0" />
@@ -456,21 +370,22 @@
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
               <xs:element name="cashin" type="xs:string" minOccurs="0" />
+              <xs:element name="delta" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
               <xs:element name="presented" type="xs:string" minOccurs="0" />
               <xs:element name="retracted" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD0" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD1" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD2" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD5" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD10" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD20" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD50" type="xs:string" minOccurs="0" />
-			  <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="USD0" type="xs:string" minOccurs="0" />
+              <xs:element name="USD1" type="xs:string" minOccurs="0" />
+              <xs:element name="USD2" type="xs:string" minOccurs="0" />
+              <xs:element name="USD5" type="xs:string" minOccurs="0" />
+              <xs:element name="USD10" type="xs:string" minOccurs="0" />
+              <xs:element name="USD20" type="xs:string" minOccurs="0" />
+              <xs:element name="USD50" type="xs:string" minOccurs="0" />
+              <xs:element name="USD100" type="xs:string" minOccurs="0" />
               <xs:element name="comment" type="xs:string" minOccurs="0" />
-			  <xs:element name="N0" type="xs:string" minOccurs="0" />
+              <xs:element name="N0" type="xs:string" minOccurs="0" />
               <xs:element name="N1" type="xs:string" minOccurs="0" />
               <xs:element name="N2" type="xs:string" minOccurs="0" />
               <xs:element name="N3" type="xs:string" minOccurs="0" />
@@ -490,7 +405,101 @@
               <xs:element name="N17" type="xs:string" minOccurs="0" />
               <xs:element name="N18" type="xs:string" minOccurs="0" />
               <xs:element name="N19" type="xs:string" minOccurs="0" />
-			  <xs:element name="N20" type="xs:string" minOccurs="0" />			  
+              <xs:element name="N20" type="xs:string" minOccurs="0" />			  
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CashIn-8">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="cashin" type="xs:string" minOccurs="0" />
+              <xs:element name="delta" type="xs:string" minOccurs="0" />
+              <xs:element name="count" type="xs:string" minOccurs="0" />
+              <xs:element name="reject" type="xs:string" minOccurs="0" />
+              <xs:element name="dispensed" type="xs:string" minOccurs="0" />
+              <xs:element name="presented" type="xs:string" minOccurs="0" />
+              <xs:element name="retracted" type="xs:string" minOccurs="0" />
+              <xs:element name="USD0" type="xs:string" minOccurs="0" />
+              <xs:element name="USD1" type="xs:string" minOccurs="0" />
+              <xs:element name="USD2" type="xs:string" minOccurs="0" />
+              <xs:element name="USD5" type="xs:string" minOccurs="0" />
+              <xs:element name="USD10" type="xs:string" minOccurs="0" />
+              <xs:element name="USD20" type="xs:string" minOccurs="0" />
+              <xs:element name="USD50" type="xs:string" minOccurs="0" />
+              <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
+              <xs:element name="N0" type="xs:string" minOccurs="0" />
+              <xs:element name="N1" type="xs:string" minOccurs="0" />
+              <xs:element name="N2" type="xs:string" minOccurs="0" />
+              <xs:element name="N3" type="xs:string" minOccurs="0" />
+              <xs:element name="N4" type="xs:string" minOccurs="0" />
+              <xs:element name="N5" type="xs:string" minOccurs="0" />
+              <xs:element name="N6" type="xs:string" minOccurs="0" />
+              <xs:element name="N7" type="xs:string" minOccurs="0" />
+              <xs:element name="N8" type="xs:string" minOccurs="0" />
+              <xs:element name="N9" type="xs:string" minOccurs="0" />
+              <xs:element name="N10" type="xs:string" minOccurs="0" />
+              <xs:element name="N11" type="xs:string" minOccurs="0" />
+              <xs:element name="N12" type="xs:string" minOccurs="0" />
+              <xs:element name="N13" type="xs:string" minOccurs="0" />
+              <xs:element name="N14" type="xs:string" minOccurs="0" />
+              <xs:element name="N15" type="xs:string" minOccurs="0" />
+              <xs:element name="N16" type="xs:string" minOccurs="0" />
+              <xs:element name="N17" type="xs:string" minOccurs="0" />
+              <xs:element name="N18" type="xs:string" minOccurs="0" />
+              <xs:element name="N19" type="xs:string" minOccurs="0" />
+              <xs:element name="N20" type="xs:string" minOccurs="0" />			  
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CashIn-9">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="cashin" type="xs:string" minOccurs="0" />
+              <xs:element name="delta" type="xs:string" minOccurs="0" />
+              <xs:element name="count" type="xs:string" minOccurs="0" />
+              <xs:element name="reject" type="xs:string" minOccurs="0" />
+              <xs:element name="dispensed" type="xs:string" minOccurs="0" />
+              <xs:element name="presented" type="xs:string" minOccurs="0" />
+              <xs:element name="retracted" type="xs:string" minOccurs="0" />
+              <xs:element name="USD0" type="xs:string" minOccurs="0" />
+              <xs:element name="USD1" type="xs:string" minOccurs="0" />
+              <xs:element name="USD2" type="xs:string" minOccurs="0" />
+              <xs:element name="USD5" type="xs:string" minOccurs="0" />
+              <xs:element name="USD10" type="xs:string" minOccurs="0" />
+              <xs:element name="USD20" type="xs:string" minOccurs="0" />
+              <xs:element name="USD50" type="xs:string" minOccurs="0" />
+              <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="comment" type="xs:string" minOccurs="0" />
+              <xs:element name="N0" type="xs:string" minOccurs="0" />
+              <xs:element name="N1" type="xs:string" minOccurs="0" />
+              <xs:element name="N2" type="xs:string" minOccurs="0" />
+              <xs:element name="N3" type="xs:string" minOccurs="0" />
+              <xs:element name="N4" type="xs:string" minOccurs="0" />
+              <xs:element name="N5" type="xs:string" minOccurs="0" />
+              <xs:element name="N6" type="xs:string" minOccurs="0" />
+              <xs:element name="N7" type="xs:string" minOccurs="0" />
+              <xs:element name="N8" type="xs:string" minOccurs="0" />
+              <xs:element name="N9" type="xs:string" minOccurs="0" />
+              <xs:element name="N10" type="xs:string" minOccurs="0" />
+              <xs:element name="N11" type="xs:string" minOccurs="0" />
+              <xs:element name="N12" type="xs:string" minOccurs="0" />
+              <xs:element name="N13" type="xs:string" minOccurs="0" />
+              <xs:element name="N14" type="xs:string" minOccurs="0" />
+              <xs:element name="N15" type="xs:string" minOccurs="0" />
+              <xs:element name="N16" type="xs:string" minOccurs="0" />
+              <xs:element name="N17" type="xs:string" minOccurs="0" />
+              <xs:element name="N18" type="xs:string" minOccurs="0" />
+              <xs:element name="N19" type="xs:string" minOccurs="0" />
+              <xs:element name="N20" type="xs:string" minOccurs="0" />			  
             </xs:sequence>
           </xs:complexType>
         </xs:element>

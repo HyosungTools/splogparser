@@ -641,6 +641,7 @@ namespace Impl
                   // Find SUBTOTAL/TOTAL markers seeded in the error column by
                   // CIMTable.EnhanceCashInTable, apply accounting-style borders
                   // and $ formatting, then clear the marker text.
+                  // Also populate the delta column with Excel formulas.
 
                   try
                   {
@@ -666,45 +667,104 @@ namespace Impl
                         }
                      }
 
+                     // Find the cashin and delta column indices
+                     int cashinColIndex = -1;
+                     int deltaColIndex = -1;
+                     for (int c = 0; c < colCount; c++)
+                     {
+                        string colName = dTable.Columns[c].ToString();
+                        if (colName.Equals("cashin", StringComparison.OrdinalIgnoreCase))
+                           cashinColIndex = c;
+                        else if (colName.Equals("delta", StringComparison.OrdinalIgnoreCase))
+                           deltaColIndex = c;
+                     }
+
+                     // Apply SUBTOTAL/TOTAL formatting
                      if (errorColIndex >= 0 && usdColIndices.Count > 0)
                      {
                         for (int r = 0; r < dataView.Count; r++)
                         {
                            string errorVal = rowData[r, errorColIndex]?.ToString()?.Trim() ?? "";
 
-                           if (errorVal == "SUBTOTAL" || errorVal == "TOTAL")
+                           if (errorVal == "SUBTOTAL" || errorVal == "TOTAL" || errorVal == "EXCHANGE")
                            {
-                              // Excel row (1-based, after header)
                               int excelRow = rowOffset + r;
 
-                              // First and last USD column in Excel (1-based)
-                              int firstUsdCol = colOffset + usdColIndices[0];
-                              int lastUsdCol = colOffset + usdColIndices[usdColIndices.Count - 1];
+                              // Light grey background for all enhanced rows
+                              Excel.Range fullRow = activeSheet.Range[
+                                  activeSheet.Cells[excelRow, colOffset],
+                                  activeSheet.Cells[excelRow, colCount + colOffset - 1]];
+                              fullRow.Interior.Color = System.Drawing.ColorTranslator.ToOle(
+                                  System.Drawing.Color.FromArgb(242, 242, 242));
 
-                              // Apply $ number format to USD cells in this row
-                              Excel.Range usdRange = activeSheet.Range[
-                                 activeSheet.Cells[excelRow, firstUsdCol],
-                                 activeSheet.Cells[excelRow, lastUsdCol]];
-                              usdRange.NumberFormat = "$#,##0";
-
-                              if (errorVal == "SUBTOTAL")
+                              if (errorVal == "SUBTOTAL" || errorVal == "TOTAL")
                               {
-                                 // Thin border top and bottom
-                                 usdRange.Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
-                                 usdRange.Borders[Excel.XlBordersIndex.xlEdgeTop].Weight = Excel.XlBorderWeight.xlThin;
+                                 int firstUsdCol = colOffset + usdColIndices[0];
+                                 int lastUsdCol = colOffset + usdColIndices[usdColIndices.Count - 1];
+                                 Excel.Range usdRange = activeSheet.Range[
+                                    activeSheet.Cells[excelRow, firstUsdCol],
+                                    activeSheet.Cells[excelRow, lastUsdCol]];
+                                 usdRange.NumberFormat = "$#,##0";
 
-                                 usdRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
-                                 usdRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].Weight = Excel.XlBorderWeight.xlThin;
-                              }
-                              else // TOTAL
-                              {
-                                 // Double border below
-                                 usdRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDouble;
-                                 usdRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].Weight = Excel.XlBorderWeight.xlThick;
+                                 if (errorVal == "SUBTOTAL")
+                                 {
+                                    usdRange.Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+                                    usdRange.Borders[Excel.XlBordersIndex.xlEdgeTop].Weight = Excel.XlBorderWeight.xlThin;
+                                    usdRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+                                    usdRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].Weight = Excel.XlBorderWeight.xlThin;
+                                 }
+                                 else // TOTAL
+                                 {
+                                    usdRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDouble;
+                                    usdRange.Borders[Excel.XlBordersIndex.xlEdgeBottom].Weight = Excel.XlBorderWeight.xlThick;
+                                 }
                               }
 
-                              // Clear the marker text from the error cell
+                              // Clear the marker
                               activeSheet.Cells[excelRow, colOffset + errorColIndex] = "";
+                           }
+                        }
+                     }
+
+                     // Populate delta column with Excel formulas
+                     // Formula computes cashin[this row] - cashin[prev row] when both are positive
+                     // and increasing. This runs post-dedup so the formula always references the
+                     // correct visible predecessor row.
+                     if (cashinColIndex >= 0 && deltaColIndex >= 0)
+                     {
+                        int excelCashinCol = colOffset + cashinColIndex;
+                        int excelDeltaCol = colOffset + deltaColIndex;
+                        string cashinLetter = GetExcelColumnLetter(excelCashinCol);
+
+                        // Shade the entire delta column light grey to indicate computed data
+                        Excel.Range deltaColumnRange = activeSheet.Range[
+                           activeSheet.Cells[rowOffset, excelDeltaCol],
+                           activeSheet.Cells[dataView.Count + rowOffset - 1, excelDeltaCol]];
+                        deltaColumnRange.Interior.Color = System.Drawing.ColorTranslator.ToOle(
+                           System.Drawing.Color.FromArgb(217, 217, 217));
+
+                        for (int r = 0; r < dataView.Count; r++)
+                        {
+                           int excelRow = rowOffset + r;
+
+                           if (excelRow <= rowOffset)
+                           {
+                              // First data row — delta is just the cashin value if positive
+                              string firstFormula = String.Format(
+                                 "=IF({0}{1}>0,{0}{1},\"\")",
+                                 cashinLetter, excelRow);
+                              activeSheet.Cells[excelRow, excelDeltaCol] = firstFormula;
+                           }
+                           else
+                           {
+                              // =IF(AND(E3>0, E2>=0, E3>E2), E3-E2, IF(AND(E3>0, E2=0), E3, ""))
+                              // Case 1: both positive and increasing → difference
+                              // Case 2: prev is 0 (reset) and this is positive → show full count
+                              // Case 3: otherwise blank
+                              string formula = String.Format(
+                                 "=IF(AND({0}{1}>0,{0}{2}>0,{0}{1}>{0}{2}),{0}{1}-{0}{2},IF(AND({0}{1}>0,{0}{2}=0),{0}{1},\"\"))",
+                                 cashinLetter, excelRow, excelRow - 1);
+                              activeSheet.Cells[excelRow, excelDeltaCol] = formula;
                            }
                         }
                      }
@@ -735,6 +795,21 @@ namespace Impl
          ctx.ConsoleWriteLogLine("Finished writing Excel.");
          ctx.ConsoleWriteLogLine("Wrote Excel file: " + excelFileName);
          return true;
+      }
+
+      /// <summary>
+      /// Convert a 1-based column number to an Excel column letter (1=A, 27=AA, etc.)
+      /// </summary>
+      private static string GetExcelColumnLetter(int colNumber)
+      {
+         string result = "";
+         while (colNumber > 0)
+         {
+            colNumber--;
+            result = (char)('A' + colNumber % 26) + result;
+            colNumber /= 26;
+         }
+         return result;
       }
    }
 }

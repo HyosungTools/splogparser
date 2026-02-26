@@ -333,7 +333,7 @@ namespace CIMView
 
          // E N H A N C E   C A S H I N   T A B L E S
          //
-         // Add exchange summary rows and balance-sheet rows below "missing" events.
+         // Add exchange summaries and balance-sheet rows below "missing" events.
          // Must run AFTER AddMoneyToTable (USD columns populated)
          // and BEFORE rename (CashIn-* names still intact).
 
@@ -464,9 +464,8 @@ namespace CIMView
       }
 
       /// <summary>
-      /// Enhance a CashIn-* table with exchange summary rows, balance-sheet
-      /// rows below each "missing" event, and computed delta rows where the
-      /// three-row pattern is absent.
+      /// Enhance a CashIn-* table with exchange summary rows and balance-sheet
+      /// rows below each "missing" event.
       /// </summary>
       private void EnhanceCashInTable(DataTable table)
       {
@@ -477,6 +476,10 @@ namespace CIMView
 
          // -----------------------------------------------------------------
          // Pass 1: Classify every row
+         // -----------------------------------------------------------------
+         //   cumulative  - normal running-total snapshot
+         //   exchange    - cassette reset (cashin drops to 0 or 1, next row stays low)
+         //   missing     - status indicates cassette was removed
          // -----------------------------------------------------------------
 
          string[] classification = new string[rowCount];
@@ -492,15 +495,11 @@ namespace CIMView
             {
                classification[i] = "missing";
             }
-            else if (i > 0 && i < rowCount - 1 &&
-                     cashin < prevCashin && nextCashin >= prevCashin)
-            {
-               // Delta: small value sandwiched between two higher values
-               classification[i] = "delta";
-            }
-            else if (i > 0 && cashin <= 1 && prevCashin > 5)
+            else if (i > 0 && cashin <= 1 && prevCashin > 5 &&
+                     (i >= rowCount - 1 || nextCashin <= 1))
             {
                // Exchange reset: cashin drops to 0 or 1 from a significant value
+               // and the next row also stays low (confirms it's a real reset)
                classification[i] = "exchange";
             }
             else
@@ -519,7 +518,6 @@ namespace CIMView
          int peakCashin = 0;
          int exchangeNumber = 0;
          DataRow lastPeakRef = null;
-         DataRow prevCumulative = null;
 
          for (int i = 0; i < rowCount; i++)
          {
@@ -531,40 +529,6 @@ namespace CIMView
             {
                peakRow = row;
                peakCashin = cashin;
-            }
-
-            // ----- Missing delta detection -----
-            // If this is a cumulative and the previous cumulative exists with
-            // no delta row between them, insert a computed delta.
-            if (classification[i] == "cumulative" && prevCumulative != null)
-            {
-               int prevCI = SafeGetInt(prevCumulative, "cashin");
-
-               if (cashin > prevCI)
-               {
-                  // Check if any row between prevCumulative and this one is a delta
-                  bool hasDeltaBetween = false;
-                  for (int k = i - 1; k >= 0; k--)
-                  {
-                     if (table.Rows[k] == prevCumulative)
-                        break;
-                     if (classification[k] == "delta")
-                     {
-                        hasDeltaBetween = true;
-                        break;
-                     }
-                  }
-
-                  if (!hasDeltaBetween)
-                  {
-                     var deltaValues = BuildComputedDeltaValues(prevCumulative, row);
-                     if (deltaValues != null)
-                     {
-                        // Insert before this cumulative row
-                        insertions.Add((i - 1, new List<Dictionary<string, string>> { deltaValues }));
-                     }
-                  }
-               }
             }
 
             // ----- Exchange boundary -----
@@ -579,7 +543,6 @@ namespace CIMView
                }
                peakRow = null;
                peakCashin = 0;
-               prevCumulative = null;
             }
 
             // ----- Missing event: insert balance-sheet rows after -----
@@ -600,16 +563,6 @@ namespace CIMView
                   string existing = row["comment"]?.ToString() ?? "";
                   row["comment"] = existing + " WARNING: Counts not reset";
                }
-            }
-
-            // Track previous cumulative
-            if (classification[i] == "cumulative")
-            {
-               prevCumulative = row;
-            }
-            else if (classification[i] == "exchange")
-            {
-               prevCumulative = null;
             }
          }
 
@@ -671,6 +624,7 @@ namespace CIMView
 
          int totalDollars = CalcDollarValue(peakRow);
          values["comment"] = String.Format("${0:N0}", totalDollars);
+         values["error"] = "EXCHANGE";
 
          return values;
       }
@@ -724,62 +678,7 @@ namespace CIMView
          return new List<Dictionary<string, string>> { subtotalRow, totalRow };
       }
 
-      /// <summary>
-      /// All USD columns including USD0 (unrecognized notes). Used for delta
-      /// computation where we need to track every note, not just denominated ones.
-      /// </summary>
-      private static readonly string[] AllUSDColumns = new string[]
-      {
-         "USD0", "USD1", "USD2", "USD5", "USD10", "USD20", "USD50", "USD100"
-      };
 
-      /// <summary>
-      /// Build a computed delta row for insertion between two consecutive
-      /// cumulative rows that have no natural delta row between them.
-      ///
-      /// Shows the difference per denomination (cashin, count, all USD columns
-      /// including USD0 for unrecognized notes).
-      /// Uses the target (later) row's file and time for sort ordering.
-      /// Returns null if the delta is zero across all columns.
-      /// </summary>
-      private Dictionary<string, string> BuildComputedDeltaValues(DataRow prevRow, DataRow currRow)
-      {
-         var values = new Dictionary<string, string>();
-         bool hasDelta = false;
-
-         // Anchor to the current row's timestamp
-         values["file"] = currRow["file"]?.ToString() ?? "";
-         values["time"] = currRow["time"]?.ToString() ?? "";
-         values["status"] = currRow["status"]?.ToString() ?? "";
-
-         // Cashin delta
-         int deltaCashin = SafeGetInt(currRow, "cashin") - SafeGetInt(prevRow, "cashin");
-         if (deltaCashin > 0)
-         {
-            values["cashin"] = deltaCashin.ToString();
-            hasDelta = true;
-         }
-
-         // Count delta
-         int deltaCount = SafeGetInt(currRow, "count") - SafeGetInt(prevRow, "count");
-         if (deltaCount > 0)
-         {
-            values["count"] = deltaCount.ToString();
-         }
-
-         // All denomination deltas including USD0
-         foreach (string column in AllUSDColumns)
-         {
-            int delta = SafeGetInt(currRow, column) - SafeGetInt(prevRow, column);
-            if (delta > 0)
-            {
-               values[column] = delta.ToString();
-               hasDelta = true;
-            }
-         }
-
-         return hasDelta ? values : null;
-      }
 
       protected void WFS_INF_CIM_STATUS(SPLine spLogLine)
       {
