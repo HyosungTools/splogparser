@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using System.Text.Json;
 using Contract;
@@ -166,28 +166,21 @@ namespace LogLineHandler
       {
          try
          {
-            // Remove [FLOWPOINT] prefix
             string jsonStr = Payload;
             if (jsonStr.StartsWith("[FLOWPOINT]"))
-            {
                jsonStr = jsonStr.Substring("[FLOWPOINT]".Length).Trim();
-            }
 
-            // Parse JSON
             using (JsonDocument doc = JsonDocument.Parse(jsonStr))
             {
                JsonElement root = doc.RootElement;
 
-               // FP field - strip PLACEHOLDER- and Common-
                if (root.TryGetProperty("fp", out JsonElement fpElement))
                {
-                  string fpRaw = fpElement.GetString() ?? string.Empty;
-                  FP = fpRaw
+                  FP = SafeGetString(fpElement)
                       .Replace("PLACEHOLDER-", "")
                       .Replace("Common-", "");
                }
 
-               // CurrentSession
                if (root.TryGetProperty("CurrentSession", out JsonElement sessionElement))
                {
                   if (sessionElement.TryGetProperty("OnUs", out JsonElement onUsElement))
@@ -215,26 +208,25 @@ namespace LogLineHandler
                   }
 
                   if (sessionElement.TryGetProperty("Language", out JsonElement langElement))
-                     Language = langElement.GetString();
+                     Language = SafeGetString(langElement);
 
                   if (sessionElement.TryGetProperty("IdentificationNumber", out JsonElement idElement))
-                     CustomerId = idElement.GetString();
+                     CustomerId = SafeGetString(idElement);
                }
 
-               // CurrentTransaction
                if (root.TryGetProperty("CurrentTransaction", out JsonElement transElement))
                {
                   if (transElement.TryGetProperty("Type", out JsonElement typeElement))
-                     TransactionType = typeElement.GetString();
+                     TransactionType = SafeGetString(typeElement);
 
                   if (transElement.TryGetProperty("Message", out JsonElement msgElement))
-                     Message = msgElement.GetString();
+                     Message = SafeGetString(msgElement);
 
                   if (transElement.TryGetProperty("AccountNumber", out JsonElement acctNumElement))
-                     AccountNumber = acctNumElement.GetString();
+                     AccountNumber = SafeGetString(acctNumElement);
 
                   if (transElement.TryGetProperty("AccountType", out JsonElement acctTypeElement))
-                     AccountType = acctTypeElement.GetString();
+                     AccountType = SafeGetString(acctTypeElement);
 
                   if (transElement.TryGetProperty("Amount", out JsonElement amountElement))
                      Amount = FormatAmount(amountElement.ToString());
@@ -252,14 +244,12 @@ namespace LogLineHandler
                      BillsInserted = billsElement.ToString();
                }
 
-               // TransactionInfo
                if (root.TryGetProperty("TransactionInfo", out JsonElement infoElement))
                {
                   if (infoElement.TryGetProperty("Track2", out JsonElement track2Element))
-                     Track2 = track2Element.GetString();
+                     Track2 = SafeGetString(track2Element);
                }
 
-               // TransactionFlag
                if (root.TryGetProperty("TransactionFlag", out JsonElement flagElement))
                {
                   if (flagElement.TryGetProperty("IsContactlessTransaction", out JsonElement contactlessElement))
@@ -276,6 +266,20 @@ namespace LogLineHandler
          {
             // JSON parsing failed - leave fields as null
          }
+      }
+
+      /// <summary>
+      /// Gets a string value from a JsonElement regardless of its ValueKind.
+      /// Required because some fields changed from quoted strings to bare numbers
+      /// between firmware versions (e.g. IdentificationNumber, AccountNumber).
+      /// </summary>
+      private static string SafeGetString(JsonElement element)
+      {
+         if (element.ValueKind == JsonValueKind.String)
+            return element.GetString() ?? string.Empty;
+         if (element.ValueKind == JsonValueKind.Null)
+            return string.Empty;
+         return element.GetRawText();
       }
 
       private void ParsePipeDelimitedPayload()
