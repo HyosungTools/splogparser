@@ -186,6 +186,18 @@ namespace LogLineHandler
                }
             case APLogType.APLOG_SCREENWINDOW:
                {
+                  // Pivot format: pScreenNumber=[ScreenName]
+                  lookFor = "pScreenNumber=[";
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
+                     // trim stops at the next space (rest of line has more params)
+                     int spaceIdx = field.IndexOf(' ');
+                     if (spaceIdx != -1) field = field.Substring(0, spaceIdx).Trim().Trim(trimChars);
+                     break;
+                  }
+                  // Traditional format: last [...] in line
                   lookFor = "[";
                   idx = logLine.LastIndexOf(lookFor);
                   if (idx != -1)
@@ -236,16 +248,24 @@ namespace LogLineHandler
                }
             case APLogType.APLOG_FUNCTIONKEY_SELECTED2:
                {
+                  // Pivot format: FunctionKey[Value],
+                  lookFor = "FunctionKey[";
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
+                     int commaIdx = field.IndexOf(',');
+                     if (commaIdx != -1) field = field.Substring(0, commaIdx).Trim().Trim(trimChars);
+                     break;
+                  }
+                  // Traditional format: " The No button was pressed"
                   lookFor = " The ";
                   idx = logLine.LastIndexOf(lookFor);
                   if (idx != -1)
                   {
                      field = logLine.Substring(idx + lookFor.Length);
-                     idx = field.IndexOf(" ");
-                     if (idx != -1)
-                     {
-                        field = field.Substring(0, idx).Trim().Trim(trimChars);
-                     }
+                     int spaceIdx = field.IndexOf(' ');
+                     if (spaceIdx != -1) field = field.Substring(0, spaceIdx).Trim().Trim(trimChars);
                   }
                   break;
                }

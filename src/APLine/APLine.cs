@@ -358,20 +358,24 @@ namespace LogLineHandler
 
       protected virtual string tsTID()
       {
-         // Match [TID:##] pattern
-         Regex tidRegex = new Regex(@"\[TID:(\d+)\]");
-         Match m = tidRegex.Match(logLine);
-         if (m.Success)
-         {
-            return m.Groups[1].Value;
-         }
+         // Traditional format: [TID:27] in payload
+         Match m = new Regex(@"\[TID:(\d+)\]").Match(logLine);
+         if (m.Success) return m.Groups[1].Value;
+
+         // Pivot format: second bracket field [timestamp][TID][...
+         m = new Regex(@"^\[\d{4}-\d{2}-\d{2}[^\]]+\]\[(\d+)\]").Match(logLine);
+         if (m.Success) return m.Groups[1].Value;
+
          return null;
       }
 
       public static ILogLine Factory(ILogFileHandler logFileHandler, string logLine)
       {
+         /* get rid of noise loglines in the Pivot AP logs */
+         if (logLine.Contains("[HtmlScreenWindow") && logLine.Contains("webFrame_ConsoleMessage"))
+            return null;
 
-         /* Test for Exception first. Don't try to parse a line with an exception error */ 
+         /* Test for Exception first. Don't try to parse a line with an exception error */
          if (logLine.Contains("?????????????????????????????????????????????"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_EXCEPTION);
 
@@ -513,43 +517,46 @@ namespace LogLineHandler
 
 
          /* [Pinpad              */
-         if (logLine.Contains("[Pinpad") && logLine.Contains("Open"))
+         if ((logLine.Contains("[Pinpad") || logLine.Contains("[RetailPinpad")) && logLine.Contains("Open"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_OPEN);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("Close"))
+         if ((logLine.Contains("[Pinpad") || logLine.Contains("[RetailPinpad")) && logLine.Contains("Close"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_CLOSE);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("CheckTheEppIsPci"))
+         if ((logLine.Contains("[Pinpad") || logLine.Contains("[RetailPinpad")) && logLine.Contains("CheckTheEppIsPci"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_PIN_ISPCI);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("CheckTheEppSupportTR31"))
+         if ((logLine.Contains("[Pinpad") || logLine.Contains("[RetailPinpad")) && logLine.Contains("CheckTheEppSupportTR31"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_PIN_ISTR31);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("CheckTheEppSupportTR34"))
+         if ((logLine.Contains("[Pinpad") || logLine.Contains("[RetailPinpad")) && logLine.Contains("CheckTheEppSupportTR34"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_PIN_ISTR34);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("OnKeyImported"))
+         if ((logLine.Contains("[Pinpad") || logLine.Contains("[RetailPinpad")) && logLine.Contains("OnKeyImported"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_KEYIMPORTED);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("OnRandomNumberGenerated"))
+         if ((logLine.Contains("[Pinpad") || logLine.Contains("[RetailPinpad")) && logLine.Contains("OnRandomNumberGenerated"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_RAND);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("OnPinBlockComplete"))
+         if ((logLine.Contains("[Pinpad") || logLine.Contains("[RetailPinpad")) && logLine.Contains("OnPinBlockComplete"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_PINBLOCK);
 
          if (logLine.Contains("[PinEntryState") && logLine.Contains("BuildPINBlock failed"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_PINBLOCK_FAILED);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("OnTimeout"))
+         if ((logLine.Contains("[Pinpad") || logLine.Contains("[RetailPinpad")) && logLine.Contains("OnTimeout"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_TIMEOUT);
 
-         if (logLine.Contains("[Pinpad") && logLine.Contains("OnReadPinComplete"))
+         if ((logLine.Contains("[Pinpad") || logLine.Contains("[RetailPinpad")) && logLine.Contains("OnReadPinComplete"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_READCOMPLETE);
 
 
 
          if (logLine.Contains("[LocalScreenWindowEx") && logLine.Contains("DisplayLoadCompleted"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_DISPLAYLOAD);
+
+         if (logLine.Contains("[ScreenFramework") && logLine.Contains("ShowScreenCore") && logLine.Contains("pScreenNumber="))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_SCREENWINDOW); // or new enum
 
          if (logLine.Contains("[ScreenWindow") && logLine.Contains("LogAdditionalInformation"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_SCREENWINDOW);
@@ -572,6 +579,10 @@ namespace LogLineHandler
 
          /* NEW [ScreenDecoratorLocal.OnFunctionKeySelected] The No button was pressed.*/
          if (logLine.Contains("[ScreenDecoratorLocal.OnFunctionKeySelected]"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_FUNCTIONKEY_SELECTED2);
+
+         /* Pivot */
+         if (logLine.Contains("[Screen_FunctionKeySelected") && logLine.Contains("FunctionKeySelected event with values of FunctionKey"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_FUNCTIONKEY_SELECTED2);
 
 
@@ -737,7 +748,7 @@ namespace LogLineHandler
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_ACCOUNT_ENTERED);
 
          /* Operator Menu */
-         if (logLine.Contains("[OperatorWindow") && logLine.Contains("Parameter pMenuName:"))
+         if ((logLine.Contains("[OperatorWindow") || logLine.Contains("[PivotOperatorWindow")) && logLine.Contains("Parameter pMenuName:"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_OPERATOR_MENU);
 
          /* Error */
