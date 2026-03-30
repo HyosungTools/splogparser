@@ -347,3 +347,9 @@ src/.sonarqube
 !testdata/**/*.dat
 
 log.txt
+
+# Build output
+dist/
+
+# Claude Code
+.claude/
