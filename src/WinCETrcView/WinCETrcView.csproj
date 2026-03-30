@@ -25,7 +25,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -55,17 +54,17 @@
     <None Include="WinCETraceView.xsc">
       <DependentUpon>WinCETraceView.xsd</DependentUpon>
     </None>
-    <None Include="WinCETraceView.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>WinCETraceView.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
+    <Content Include="WinCETraceView.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="WinCETraceView.xss">
       <DependentUpon>WinCETraceView.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="WinCETraceView.xml" />
+    <Content Include="WinCETraceView.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseView\BaseView.csproj">
@@ -86,11 +85,4 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\*.dll" $(SolutionDir)\..\dist
-
-copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\WinCETrcView.dll" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\WinCETraceView.xsd" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\WinCETraceView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
-  </PropertyGroup>
 </Project>

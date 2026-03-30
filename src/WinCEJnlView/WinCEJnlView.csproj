@@ -25,7 +25,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -53,10 +52,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="WinCEJournalView.xsd" />
+    <Content Include="WinCEJournalView.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="WinCEJournalView.xml" />
+    <Content Include="WinCEJournalView.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseView\BaseView.csproj">
@@ -77,9 +80,4 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\WinCEJnlView.dll" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\WinCEJournalView.xsd" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\WinCEJournalView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
-  </PropertyGroup>
 </Project>

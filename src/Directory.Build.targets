@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
- <Target 
+
+  <Target
     Name="RunUnitTests"
-	Condition="$(TargetPath.EndsWith('Tests.dll'))"
+    Condition="$(TargetPath.EndsWith('Tests.dll'))"
     Inputs="$(TargetPath)"
     Outputs="$(TargetPath).LastUnitTestsSucceeded">
-	<Exec Command="vstest.console.exe $(TargetPath)" />
- </Target>
+    <Exec Command="vstest.console.exe $(TargetPath)" />
+  </Target>
+
+  <Target Name="CopyViewDataFiles"
+          AfterTargets="Build"
+          Condition="'$(Configuration)' == 'Release'
+                     AND '$(IsTestProject)' == 'false'
+                     AND !$(MSBuildProjectName.EndsWith('Samples'))">
+    <ItemGroup>
+      <_ViewDataFiles Include="$(MSBuildProjectDirectory)\*.xml" />
+      <_ViewDataFiles Include="$(MSBuildProjectDirectory)\*.xsd" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_ViewDataFiles)"
+          DestinationFolder="$(SolutionDir)..\dist\"
+          SkipUnchangedFiles="true"
+          Condition="'@(_ViewDataFiles)' != ''" />
+  </Target>
+
 </Project>

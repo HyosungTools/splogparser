@@ -27,7 +27,6 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -113,10 +112,6 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\$(MSBuildProjectName).exe" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\CommandLine.dll" $(SolutionDir)\..\dist</PostBuildEvent>
-  </PropertyGroup>
   <Target Name="DeleteFiles" AfterTargets="Clean">
     <ItemGroup>
       <FilesToDelete Include="$(SolutionDir)\..\dist\*.dll" />
