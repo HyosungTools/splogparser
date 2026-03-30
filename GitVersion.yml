@@ -5,3 +5,5 @@ branches:
     tag: prerelease
     increment: Patch
 tag-prefix: v
+assembly-versioning-scheme: MajorMinorPatch
+assembly-file-versioning-scheme: MajorMinorPatch
