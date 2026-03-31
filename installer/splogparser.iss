@@ -2,7 +2,9 @@
 #define MyAppPublisher "HyosungTools"
 #define MyAppURL "https://github.com/HyosungTools/splogparser"
 #define MyAppExeName "splogparser.exe"
-#define MyAppVersion GetStringFileInfo("..\dist\splogparser.exe", "ProductVersion")
+#ifndef MyAppVersion
+  #define MyAppVersion GetStringFileInfo("..\dist\splogparser.exe", "ProductVersion")
+#endif
 
 [Setup]
 AppId={{A7B3C2D4-E5F6-4A7B-8C9D-0E1F2A3B4C5D}
