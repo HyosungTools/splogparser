@@ -50,7 +50,7 @@ jobs:
     - name: Make Dir
       run: mkdir dist
             
-    # Build
+    # Build splogparser (.NET Framework 4.7.2)
     - name: Build
       run: msbuild src\\splogparser.sln /m:1 /t:Clean,Build /p:Configuration="Release" /p:Platform="Any CPU" /nodeReuse:false
 
@@ -58,10 +58,19 @@ jobs:
     - name: Setup VSTest Path
       uses: darenm/Setup-VSTest@v1.2
                  
-    # Test C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\TestPlatform
+    # Test
     - name: Test
       run: msbuild src\\splogparser.sln /t:RunUnitTests /p:Configuration="Release" /p:Platform="Any CPU"
-      
+
+    # Build hylogparser (.NET 10 WPF, single-file publish into dist\)
+    - name: Setup .NET 10
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: Build hylogparser
+      run: dotnet publish src\hylogparser\hylogparser.csproj -c Release -o dist
+
     # List artifacts
     - name: List artifacts
       run: cd dist && dir && cd ..

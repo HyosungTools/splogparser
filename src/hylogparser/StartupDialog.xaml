@@ -1,0 +1,27 @@
+<Window x:Class="hylogparser.StartupDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="hylogparser" 
+        Width="360" Height="180"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="ToolWindow">
+
+    <StackPanel Margin="24" VerticalAlignment="Center">
+        <TextBlock Text="What would you like to parse?" 
+                   FontSize="14" FontWeight="SemiBold" Margin="0,0,0,16"
+                   HorizontalAlignment="Center"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="Open Zip Archive" 
+                    Padding="12,10" Click="btnOpenZip_Click"/>
+            <Button Grid.Column="2" Content="Open Log Folder" 
+                    Padding="12,10" Click="btnOpenFolder_Click"/>
+        </Grid>
+    </StackPanel>
+</Window>
