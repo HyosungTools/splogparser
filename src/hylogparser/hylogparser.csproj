@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>hylogparser</AssemblyName>
+    <RootNamespace>hylogparser</RootNamespace>
+    <ApplicationIcon Condition="Exists('hylogparser.ico')">hylogparser.ico</ApplicationIcon>
+    <Version>1.0.0</Version>
+    <Description>Hyosung ATM Log Parser GUI</Description>
+  </PropertyGroup>
+</Project>
