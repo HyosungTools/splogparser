@@ -16,11 +16,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 6.0.x
-
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v1.1
         with:
@@ -32,8 +27,16 @@ jobs:
       - name: Make Dir
         run: mkdir dist
 
-      - name: Build
+      - name: Build splogparser
         run: msbuild src\\splogparser.sln /m:1 /t:Clean,Build /p:Configuration="Release" /p:Platform="Any CPU" /nodeReuse:false
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Build hylogparser
+        run: dotnet publish src\hylogparser\hylogparser.csproj -c Release -o dist
 
       - name: Package Build Output
         run: Compress-Archive -Path dist\\* -Destination splogparser-${{ github.event.inputs.version }}.zip

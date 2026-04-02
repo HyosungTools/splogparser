@@ -33,9 +33,29 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "modifypath"; Description: "Add {app} to the system PATH"; Flags: checkedonce
+Name: "contextmenu"; Description: "Add ""Parse with hylogparser"" to .zip right-click menu"; Flags: checkedonce
 
 [Files]
 Source: "..\dist\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "*.pdb"
+
+[Icons]
+Name: "{group}\hylogparser"; Filename: "{app}\hylogparser.exe"; Comment: "ATM Log Parser GUI"
+
+[Registry]
+; Register a ProgId for hylogparser
+Root: HKA; Subkey: "Software\Classes\hylogparser.zip"; \
+    ValueType: string; ValueData: "ATM Log Archive"; \
+    Flags: uninsdeletekey; Tasks: contextmenu
+Root: HKA; Subkey: "Software\Classes\hylogparser.zip\shell\parse"; \
+    ValueType: string; ValueData: "Parse with hylogparser"; \
+    Tasks: contextmenu
+Root: HKA; Subkey: "Software\Classes\hylogparser.zip\shell\parse\command"; \
+    ValueType: string; ValueData: """{app}\hylogparser.exe"" ""%1"""; \
+    Tasks: contextmenu
+; Associate the ProgId with .zip files (adds to Open With, does not replace default)
+Root: HKA; Subkey: "Software\Classes\.zip\OpenWithProgids"; \
+    ValueType: string; ValueName: "hylogparser.zip"; \
+    Flags: uninsdeletevalue; Tasks: contextmenu
 
 [InstallDelete]
 Type: filesandordirs; Name: "{app}"

@@ -1,0 +1,154 @@
+<Window x:Class="hylogparser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="hylogparser — ATM Log Parser" 
+        Width="520" Height="620"
+        MinWidth="480" MinHeight="520"
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>   <!-- Input display -->
+            <RowDefinition Height="Auto"/>   <!-- Tabs -->
+            <RowDefinition Height="Auto"/>   <!-- Options -->
+            <RowDefinition Height="Auto"/>   <!-- Buttons -->
+            <RowDefinition Height="*"/>      <!-- Output log -->
+        </Grid.RowDefinitions>
+
+        <!-- ============================================================ -->
+        <!--  ROW 0: Input path (read-only)                               -->
+        <!-- ============================================================ -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,12">
+            <TextBlock x:Name="lblInputType" Text="Log Source" FontWeight="SemiBold" Margin="0,0,0,4"/>
+            <Border Background="#F0F0F0" CornerRadius="4" Padding="10,8">
+                <TextBlock x:Name="lblZipPath" Text="(none)" 
+                           TextTrimming="CharacterEllipsis"
+                           ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
+                           Foreground="#333"/>
+            </Border>
+        </StackPanel>
+
+        <!-- ============================================================ -->
+        <!--  ROW 1: Tabbed view selection                                -->
+        <!-- ============================================================ -->
+        <TabControl Grid.Row="1" Margin="0,0,0,8" MinHeight="200">
+
+            <!-- AP Tab -->
+            <TabItem Header="  AP  ">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Application Log Views (-a)" 
+                               Foreground="Gray" FontSize="11" Margin="0,0,0,6"/>
+                    <ItemsControl Grid.Row="1" x:Name="icAPViews"/>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,8,0,0">
+                        <Button Content="All" Style="{StaticResource SubtleButton}" Click="btnAPAll_Click"/>
+                        <TextBlock Text="·" Margin="6,0" VerticalAlignment="Center" Foreground="Gray"/>
+                        <Button Content="None" Style="{StaticResource SubtleButton}" Click="btnAPNone_Click"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- SP Tab -->
+            <TabItem Header="  SP  ">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Service Provider / XFS Views (-s)" 
+                               Foreground="Gray" FontSize="11" Margin="0,0,0,6"/>
+                    <ItemsControl Grid.Row="1" x:Name="icSPViews"/>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,8,0,0">
+                        <Button Content="All" Style="{StaticResource SubtleButton}" Click="btnSPAll_Click"/>
+                        <TextBlock Text="·" Margin="6,0" VerticalAlignment="Center" Foreground="Gray"/>
+                        <Button Content="None" Style="{StaticResource SubtleButton}" Click="btnSPNone_Click"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- SP Flat Tab -->
+            <TabItem Header="  SP Flat  ">
+                <StackPanel Margin="8">
+                    <TextBlock Text="SP Flat Log Views (-p)" 
+                               Foreground="Gray" FontSize="11" Margin="0,0,0,6"/>
+                    <CheckBox x:Name="chkSPFlatAll" Content="All SP Flat views" Margin="0,4"/>
+                </StackPanel>
+            </TabItem>
+
+            <!-- WinCE Tab -->
+            <TabItem Header="  WinCE  ">
+                <StackPanel Margin="8">
+                    <TextBlock Text="WinCE Log Views (--wince)" 
+                               Foreground="Gray" FontSize="11" Margin="0,0,0,6"/>
+                    <CheckBox x:Name="chkWinCEAll" Content="All WinCE views" Margin="0,4"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <!-- ============================================================ -->
+        <!--  ROW 2: Options                                              -->
+        <!-- ============================================================ -->
+        <GroupBox Grid.Row="2" Margin="0,0,0,8">
+            <GroupBox.Header>
+                <TextBlock Text="Options" FontWeight="SemiBold"/>
+            </GroupBox.Header>
+            <StackPanel>
+                <WrapPanel VerticalAlignment="Center">
+                    <TextBlock Text="Start time" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <TextBox x:Name="txtTimeStart" Width="130" Padding="4,3" Margin="0,0,16,0"
+                             ToolTip="Format: yyyyMMddhhmm (e.g. 202601231200)"/>
+                    <TextBlock Text="Span (min)" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <TextBox x:Name="txtTimeSpan" Width="60" Padding="4,3" Margin="0,0,16,0"/>
+                    <CheckBox x:Name="chkRawLogLine" Content="Include raw log lines" VerticalAlignment="Center"/>
+                </WrapPanel>
+                <CheckBox x:Name="chkOpenExcel" Content="Open Excel when finished" 
+                          IsChecked="True" Margin="0,6,0,0"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- ============================================================ -->
+        <!--  ROW 3: Run / Cancel                                         -->
+        <!-- ============================================================ -->
+        <Grid Grid.Row="3" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnRun" Grid.Column="0" Content="Run" 
+                    Style="{StaticResource AccentButton}" Click="btnRun_Click"
+                    MinWidth="90"/>
+            <Button x:Name="btnCancel" Grid.Column="1" Content="Cancel" 
+                    Margin="8,0,0,0" Padding="16,6" IsEnabled="False" Click="btnCancel_Click"/>
+            <TextBlock x:Name="lblStatus" Grid.Column="2" Text="Ready" 
+                       VerticalAlignment="Center" Margin="12,0,0,0" Foreground="Gray"/>
+            <TextBlock x:Name="lblVersion" Grid.Column="3" 
+                       VerticalAlignment="Center" Foreground="LightGray" FontSize="11"/>
+        </Grid>
+
+        <!-- ============================================================ -->
+        <!--  ROW 4: Output console                                       -->
+        <!-- ============================================================ -->
+        <Border Grid.Row="4" Background="#1E1E1E" CornerRadius="4" Padding="2">
+            <TextBox x:Name="txtOutput" 
+                     IsReadOnly="True" 
+                     TextWrapping="NoWrap"
+                     AcceptsReturn="True"
+                     VerticalScrollBarVisibility="Auto"
+                     HorizontalScrollBarVisibility="Auto"
+                     Background="#1E1E1E" Foreground="#CCCCCC"
+                     BorderThickness="0"
+                     FontFamily="Cascadia Mono, Consolas, Courier New"
+                     FontSize="12"
+                     Padding="6"/>
+        </Border>
+    </Grid>
+</Window>
