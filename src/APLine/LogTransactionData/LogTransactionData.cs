@@ -262,9 +262,11 @@ namespace LogLineHandler
                }
             }
          }
-         catch (JsonException)
+         catch (Exception ex) when (ex is JsonException || ex is InvalidOperationException)
          {
             // JSON parsing failed - leave fields as null
+            // InvalidOperationException can occur when GetString() is called
+            // on a Number-typed element in unexpected JSON structures
          }
       }
 
