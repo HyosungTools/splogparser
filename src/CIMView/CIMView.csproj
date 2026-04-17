@@ -77,5 +77,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="CIMView.xsc">
+      <DependentUpon>CIMView.xsd</DependentUpon>
+    </None>
+    <None Include="CIMView.xss">
+      <DependentUpon>CIMView.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

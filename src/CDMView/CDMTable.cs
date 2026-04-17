@@ -97,6 +97,13 @@ namespace CDMView
                         WFS_SRVE_CDM_ITEMSTAKEN(spLogLine);
                         break;
                      }
+                  case LogLineHandler.XFSType.DEVICE_ERROR:
+                     {
+                        base.ProcessRow(spLogLine);
+                        DEVICE_ERROR(spLogLine);
+                        break;
+                     }
+
                   default:
                      break;
 
@@ -755,6 +762,27 @@ namespace CDMView
          catch (Exception e)
          {
             ctx.ConsoleWriteLogLine("WFS_SRVE_CDM_ITEMSTAKEN Exception : " + e.Message);
+         }
+      }
+      protected void DEVICE_ERROR(SPLine spLogLine)
+      {
+         try
+         {
+            if (spLogLine is SPDEVICEERROR deviceError)
+            {
+               DataRow dataRow = dTableSet.Tables["Dispense"].Rows.Add();
+
+               dataRow["file"] = spLogLine.LogFile;
+               dataRow["time"] = spLogLine.Timestamp;
+               dataRow["error"] = spLogLine.HResult;
+               dataRow["position"] = deviceError.ClassName + "::" + deviceError.Operation;
+
+               dTableSet.Tables["Dispense"].AcceptChanges();
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("CDMTable.DEVICE_ERROR Exception : " + e.Message);
          }
       }
    }

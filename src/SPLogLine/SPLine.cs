@@ -200,6 +200,9 @@ namespace LogLineHandler
 
       WFS_SYSEVENT,
 
+      /* Device-level errors (packed binary, not XFS protocol) */
+      DEVICE_ERROR,
+
       /* ERROR */
       Error
    }
@@ -464,6 +467,11 @@ namespace LogLineHandler
 
       static Regex WFPOpen = new Regex("(XFS_CMD[a-zA-Z0-9 ]*)(OPEN[a-zA-Z0-9 ]*)(hResult\\[(\\d+)\\] = WFPOpen)");
       static Regex WFPClose = new Regex("(XFS_CMD[a-zA-Z0-9 ]*)(CLOSE[a-zA-Z0-9 ]*)(hResult\\[(\\d+)\\] = WFPClose)");
+
+      /* Device-level errors */
+      private static readonly Regex deviceErrorRegex = new Regex(
+         @"Fail(?:ed)? to \w+ with.*?error=\[([A-Fa-f0-9]+)\]",
+         RegexOptions.Compiled);
 
       // implementations of the ILogLine interface
       public string Timestamp { get; set; }
@@ -948,6 +956,15 @@ namespace LogLineHandler
          if (logLine.Contains("lpbDescription"))
          {
             return new SPLine(logFileHandler, logLine, XFSType.WFS_SYSEVENT);
+         }
+
+         /* Device-level errors (packed binary, not XFS protocol) */
+         if (logLine.Contains("Fail to ") || logLine.Contains("Failed to "))
+         {
+            if (deviceErrorRegex.Match(logLine).Success)
+            {
+               return new SPDEVICEERROR(logFileHandler, logLine, XFSType.DEVICE_ERROR);
+            }
          }
 
          return new SPLine(logFileHandler, logLine, XFSType.None);
