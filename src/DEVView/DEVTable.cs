@@ -133,6 +133,12 @@ namespace DeviceView
                         WFSSYSEVENT(spLogLine);
                         break;
                      }
+                  case LogLineHandler.XFSType.DEVICE_ERROR:
+                     {
+                        base.ProcessRow(spLogLine);
+                        DEVICE_ERROR(spLogLine);
+                        break;
+                     }
                   default:
                      break;
                }
@@ -307,5 +313,36 @@ namespace DeviceView
             ctx.ConsoleWriteLogLine("WFSSYSEVENT Exception : " + e.Message);
          }
       }
+      protected void DEVICE_ERROR(SPLine spLogLine)
+      {
+         try
+         {
+            if (spLogLine is SPDEVICEERROR deviceError)
+            {
+               DataRow dataRow = dTableSet.Tables["Status"].Rows.Add();
+
+               dataRow["file"] = spLogLine.LogFile;
+               dataRow["time"] = spLogLine.Timestamp;
+               dataRow["error"] = spLogLine.HResult;
+
+               // Put the class name in the matching device column
+               string deviceCol = string.Empty;
+               if (deviceError.ClassName.Contains("CIM") || deviceError.ClassName.Contains("BRM"))
+                  deviceCol = "CIM";
+               else if (deviceError.ClassName.Contains("CDM"))
+                  deviceCol = "CDM";
+
+               if (!string.IsNullOrEmpty(deviceCol))
+                  dataRow[deviceCol] = deviceError.Operation + " error=[" + deviceError.ErrorCode + "]";
+
+               dTableSet.Tables["Status"].AcceptChanges();
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("DEVTable.DEVICE_ERROR Exception : " + e.Message);
+         }
+      }
+
    }
 }

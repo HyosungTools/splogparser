@@ -150,6 +150,13 @@ namespace CIMView
                         CIM_UPDATE_POSITION(spLogLine, "detected", "WFS_SRVE_IPM_MEDIADETECTED");
                         break;
                      }
+                  case LogLineHandler.XFSType.DEVICE_ERROR:
+                     {
+                        base.ProcessRow(spLogLine);
+                        DEVICE_ERROR(spLogLine);
+                        break;
+                     }
+
                   default:
                      break;
                }
@@ -1431,6 +1438,30 @@ namespace CIMView
          catch (Exception e)
          {
             ctx.ConsoleWriteLogLine(xfsString + " Exception : " + e.Message);
+         }
+      }
+      protected void DEVICE_ERROR(SPLine spLogLine)
+      {
+         try
+         {
+            if (spLogLine is SPDEVICEERROR deviceError)
+            {
+               // Deposit table has errcode from PR #217
+               DataRow dataRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+               dataRow["file"] = spLogLine.LogFile;
+               dataRow["time"] = spLogLine.Timestamp;
+               dataRow["error"] = spLogLine.HResult;
+               dataRow["errcode"] = deviceError.ErrorCode;
+               dataRow["position"] = deviceError.ClassName + "::" + deviceError.Operation;
+               dataRow["comment"] = deviceError.ErrorMessage;
+
+               dTableSet.Tables["Deposit"].AcceptChanges();
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("CIMTable.DEVICE_ERROR Exception : " + e.Message);
          }
       }
    }
