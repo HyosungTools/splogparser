@@ -575,8 +575,8 @@ namespace LogLineHandler
          if (logLine.Contains("[LocalScreenWindowEx") && logLine.Contains("DisplayLoadCompleted"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_DISPLAYLOAD);
 
-         if (logLine.Contains("[ScreenFramework") && logLine.Contains("ShowScreenCore") && logLine.Contains("pScreenNumber="))
-            return new APLineField(logFileHandler, logLine, APLogType.APLOG_SCREENWINDOW); // or new enum
+         //if (logLine.Contains("[ScreenFramework") && logLine.Contains("ShowScreenCore") && logLine.Contains("pScreenNumber="))
+         //   return new APLineField(logFileHandler, logLine, APLogType.APLOG_SCREENWINDOW); // or new enum
 
          if (logLine.Contains("[ScreenWindow") && logLine.Contains("LogAdditionalInformation"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_SCREENWINDOW);
