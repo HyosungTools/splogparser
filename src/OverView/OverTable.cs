@@ -642,6 +642,33 @@ namespace OverView
                         break;
                      }
 
+                  case APLogType.APLOG_PIN_EXECUTECOMMAND:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLinePinCommand pinCmd)
+                        {
+                           APLINE(pinCmd, "pin", pinCmd.field);
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_PIN_XFSCODE_ERROR:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLineField lineField)
+                        {
+                           APLINE2(lineField, "pin", "ERROR", "error", lineField.field);
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_PIN_FATALERROR:
+                     {
+                        base.ProcessRow(logLine);
+                        APLINE2(apLogLine, "pin", "FATAL ERROR", "error", "OnFatalError");
+                        break;
+                     }
+
                   /* device */
 
                   case APLogType.APLOG_CDM_ONLINE:
