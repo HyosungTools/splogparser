@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="AddKey.cs" />
     <Compile Include="APLine.cs" />
+    <Compile Include="APLineCommand.cs" />
     <Compile Include="APLineField.cs" />
     <Compile Include="CashDispenser\CashDispener.cs" />
     <Compile Include="CashDispenser\CashDispenser_DispenseSyncAsync.cs" />

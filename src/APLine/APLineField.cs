@@ -174,6 +174,17 @@ namespace LogLineHandler
                   }
                   break;
                }
+            case APLogType.APLOG_PIN_XFSCODE_ERROR:
+               {
+                  // e.g. "Pinpad.CMD_PIN_GET_CERTIFICATE returned -400. WFS_ERR_PIN_KEYNOTFOUND | The specified key was not found."
+                  lookFor = "Pinpad.";
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
+                  }
+                  break;
+               }
             case APLogType.APLOG_DISPLAYLOAD:
                {
                   lookFor = "for screen ";

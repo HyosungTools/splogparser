@@ -67,6 +67,9 @@ namespace LogLineHandler
       APLOG_PIN_PINBLOCK_FAILED,
       APLOG_PIN_TIMEOUT,
       APLOG_PIN_READCOMPLETE,
+      APLOG_PIN_EXECUTECOMMAND,
+      APLOG_PIN_XFSCODE_ERROR,
+      APLOG_PIN_FATALERROR,
 
       APLOG_DISPLAYLOAD,
       APLOG_SCREENWINDOW, 
@@ -517,6 +520,23 @@ namespace LogLineHandler
 
 
          /* [Pinpad              */
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("ExecuteDeviceCommand") && logLine.Contains("\"command\""))
+         {
+            if (logLine.Contains("\"ReadData\""))
+               return null;
+            return new APLinePinCommand(logFileHandler, logLine);
+         }
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("LogXfsCode") && logLine.Contains(" ERROR ["))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_PIN_XFSCODE_ERROR);
+
+         if (logLine.Contains("[Pinpad") && logLine.Contains("OnFatalError"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_FATALERROR);
+
+         /* [Pinpad.OnFatalError] */
+         if (logLine.Contains("[Pinpad") && logLine.Contains("OnFatalError"))
+            return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_FATALERROR);
          if ((logLine.Contains("[Pinpad") || logLine.Contains("[RetailPinpad")) && logLine.Contains("Open"))
             return new APLine(logFileHandler, logLine, APLogType.APLOG_PIN_OPEN);
 
