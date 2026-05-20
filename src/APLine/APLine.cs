@@ -28,6 +28,7 @@ namespace LogLineHandler
       APLOG_CARD_ONEJECTCOMPLETE,
       APLOG_CARD_ONMEDIAREMOVED,
       APLOG_CARD_PAN,
+      APLOG_CARD_TIMEOUT,
 
       APLOG_RFID_DELETE,
       APLOG_RFID_ACCEPTCANCELLED,
@@ -471,6 +472,9 @@ namespace LogLineHandler
 
             if (logLine.Contains("OnMediaRemoved"))
                return new APLine(logFileHandler, logLine, APLogType.APLOG_CARD_ONMEDIAREMOVED);
+
+            if (logLine.Contains("Timeout result: TIMEOUT"))
+               return new APLine(logFileHandler, logLine, APLogType.APLOG_CARD_TIMEOUT);
          }
 
          if (logLine.Contains("Device.CardReader.PANData    :"))

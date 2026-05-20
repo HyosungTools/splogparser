@@ -374,6 +374,12 @@ namespace OverView
                         }
                         break;
                      }
+                  case APLogType.APLOG_CARD_TIMEOUT:
+                     {
+                        base.ProcessRow(logLine);
+                        APLINE(apLogLine, "card", "timeout");
+                        break;
+                     }
 
                   case APLogType.APLOG_TRANSACTION_TIMEOUT:
                      {
