@@ -235,6 +235,80 @@ namespace LogLineHandler
          return MatchTable(logLine, regex);
       }
 
+      // T A B L E   A C C E S S   F U N C T I O N S - R E V I S I T E D
+
+      protected static string[] MatchTableAllOccurrences(string logLine, string regStr)
+      {
+         List<string> values = new List<string>();
+         Regex regEx = new Regex(regStr);
+         MatchCollection matches = regEx.Matches(logLine);
+         foreach (Match m in matches)
+         {
+            string[] row = m.Groups[1].Value.Split('\t');
+            foreach (string val in row)
+            {
+               string trimmed = val.Trim();
+               if (!string.IsNullOrEmpty(trimmed))
+                  values.Add(trimmed);
+            }
+         }
+         return values.ToArray();
+      }
+
+      protected static string[] lpPhysicalPositionNamesFromTableAll(string logLine)
+      {
+         return MatchTableAllOccurrences(logLine, @"(?<=lpPhysicalPositionName\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
+      }
+
+      protected static string[] cUnitIDsFromTableAll(string logLine)
+      {
+         return MatchTableAllOccurrences(logLine, @"(?<=cUnitID\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
+      }
+
+      protected static string[] ulInitialCountsFromTableAll(string logLine)
+      {
+         return MatchTableAllOccurrences(logLine, @"(?<=ulInitialCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
+      }
+
+      protected static string[] ulCountsFromTableAll(string logLine)
+      {
+         return MatchTableAllOccurrences(logLine, @"(?<=ulCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
+      }
+
+      protected static string[] ulRejectCountsFromTableAll(string logLine)
+      {
+         return MatchTableAllOccurrences(logLine, @"(?<=ulRejectCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
+      }
+
+      protected static string[] ulMaximumsFromTableAll(string logLine)
+      {
+         return MatchTableAllOccurrences(logLine, @"(?<=ulMaximum\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
+      }
+
+      protected static string[] usPStatusesFromTableAll(string logLine)
+      {
+         return MatchTableAllOccurrences(logLine, @"(?<=usPStatus\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
+      }
+
+      protected static string[] bHardwareSensorsFromTableAll(string logLine)
+      {
+         return MatchTableAllOccurrences(logLine, @"(?<=bHardwareSensor\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
+      }
+
+      protected static string[] ulDispensedCountsFromTableAll(string logLine)
+      {
+         return MatchTableAllOccurrences(logLine, @"(?<=ulDispensedCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
+      }
+
+      protected static string[] ulPresentedCountsFromTableAll(string logLine)
+      {
+         return MatchTableAllOccurrences(logLine, @"(?<=ulPresentedCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
+      }
+
+      protected static string[] ulRetractedCountsFromTableAll(string logLine)
+      {
+         return MatchTableAllOccurrences(logLine, @"(?<=ulRetractedCount\s+)([^\r\n]*)(?=\s*(?:\r?\n|$))");
+      }
 
       // L I S T    A C C E S S    F U N C T I O N S 
 

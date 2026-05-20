@@ -413,6 +413,68 @@ lpResult =
 		......(More Data)......
 	}
 }";
+      public const string WFS_INF_CDM_CASH_UNIT_INFO_4 =
+@"02824294967295180000014277620043CashDispenser MoniPlus2.Loade N/A 8016 77240003SPI00102025/10/17001222:43 08.0290009XFS_EVENT0012GETINFO[303]1673WFS_GETINFO_COMPLETE, 
+lpResult =
+{
+	hWnd = [0x00010324],
+	RequestID = [20403],
+	hService = [2],
+	tsTimestamp = [2025/10/17 22:43 08.029],
+	hResult = [0],
+	u.dwCommandCode = [303],
+	lpBuffer = [0x2c44522c]
+	{
+		usTellerID=0
+		usCount=5
+		lppList->
+		{
+			usNumber		1		2		3		4		5
+			usType			2		3		3		3		3
+			lpszCashUnitName	NULL		NULL		NULL		NULL		NULL		
+			cUnitID			LCU00		LCU01		LCU02		LCU03		LCU04
+			cCurrencyID		   		USD		USD		USD		USD
+			ulValues		0		1		10		20		50
+			ulInitialCount		0		768		295		2255		1012
+			ulCount			0		753		286		2196		992
+			ulRejectCount		0		0		0		0		0
+			ulMinimum		0		0		0		0		0
+			ulMaximum		0		0		0		0		0
+			bAppLock		0		0		0		0		0
+			usStatus		0		0		3		0		0
+			ulDispensedCount	0		0		0		0		0		
+			ulPresentedCount	0		0		0		0		0		
+			ulRetractedCount	0		0		0		0		0		
+
+			lppPhysical->
+			usNumPhysicalCUs	1		1		1		2		1		
+			lpPhysicalPositionName	Cst_0		Cst_1		Cst_2		Cst_3		Cst_5		
+			cUnitID			PCU00		PCU01		PCU02		PCU03		PCU05
+			ulInitialCount		0		768		295		1140		1012
+			ulCount			0		753		286		1111		992
+			ulRejectCount		0		0		0		0		0
+			ulMaximum		0		0		0		0		0
+			usPStatus		0		0		3		0		0
+			bHardwareSensor		0		1		1		1		1
+			ulDispensedCount	0		0		0		0		0		
+			ulPresentedCount	0		0		0		0		0		
+			ulRetractedCount	0		0		0		0		0		
+
+			lpPhysicalPositionName							Cst_4				
+			cUnitID									PCU04		
+			ulInitialCount								1115		
+			ulCount									1085		
+			ulRejectCount								0		
+			ulMaximum								0		
+			usPStatus								0		
+			bHardwareSensor								1		
+			ulDispensedCount							0				
+			ulPresentedCount							0				
+			ulRetractedCount							0				
+
+		}
+	}
+}";
 
       public const string WFS_SRVE_CDM_CASHUNITINFOCHANGED_1 = @"
 02504294967295022100003108950006COMMON0009FRAMEWORK00102023/11/01001209:37 41.0130011INFORMATION0033CSpCmdDispatcher::DispatchCommand0102pService->GetInfo() {HSERVICE[2], HWND[0x000103f0], REQUESTID[221], dwCmdCode[303], dwTimeOut[300000]}02214294967295013600003108960013CashDispenser0003SPI00102023/11/01001209:37 41.0130011INFORMATION0026CServiceAgent::ReportEvent0023call UnPack(0x1B586928)01364294967295015100003108970003BRM0002SP00102023/11/01001209:37 41.0130011INFORMATION0019CMonitorThread::Run0056m_oldBrmCimInfo.LCU[i].ulDispensedCount changed(91->106)01514294967295019300003108980003CDM0007ACTIVEX00102023/11/01001209:37 41.0130006XFSAPI0022CService::AsyncGetInfo0095WFSAsyncGetInfo(hService=2, dwCategory=303, lpQueryDetails=0x00000000, RequestID=221) hResult=001934294967295016600003108990006COMMON0009FRAMEWORK00102023/11/01001209:37 41.0130011INFORMATION0028CServiceProvider::GetService0052service OK {HSERVICE[2], LogicalName[CashDispenser]}01664294967295161800003109000013CashDispenser0003SPI00102023/11/01001209:37 41.0130009XFS_EVENT0018SERVICE_EVENT[304]1515WFS_SERVICE_EVENT, 

@@ -55,7 +55,7 @@ namespace LogLineHandler
             ErrorMessage = errorMatch.Value;
          }
 
-         Console.WriteLine($"SPDEVICEERROR: {Timestamp} {ClassName}::{Operation} error=[{ErrorCode}]");
+         //Console.WriteLine($"SPDEVICEERROR: {Timestamp} {ClassName}::{Operation} error=[{ErrorCode}]");
       }
 
       protected override string tsTimestamp()

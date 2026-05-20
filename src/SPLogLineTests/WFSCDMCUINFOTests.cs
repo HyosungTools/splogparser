@@ -88,7 +88,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("cUnitIDsFromTable", subLogLine);
+         var result = (string[])privateType.InvokeStatic("cUnitIDsFromTableAll", subLogLine);
          Console.WriteLine($"result: {string.Join("|", result)}");
 
          // Assert
@@ -139,7 +139,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulInitialCountsFromTable", subLogLine);
+         var result = (string[])privateType.InvokeStatic("ulInitialCountsFromTableAll", subLogLine);
          Console.WriteLine($"result: {string.Join("|", result)}");
 
          // Assert
@@ -156,7 +156,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulCountsFromTable", subLogLine);
+         var result = (string[])privateType.InvokeStatic("ulCountsFromTableAll", subLogLine);
          Console.WriteLine($"result: {string.Join("|", result)}");
 
          // Assert
@@ -173,7 +173,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulRejectCountsFromTable", subLogLine);
+         var result = (string[])privateType.InvokeStatic("ulRejectCountsFromTableAll", subLogLine);
          Console.WriteLine($"result: {string.Join("|", result)}");
 
          // Assert
@@ -207,7 +207,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulMaximumsFromTable", subLogLine);
+         var result = (string[])privateType.InvokeStatic("ulMaximumsFromTableAll", subLogLine);
          Console.WriteLine($"result: {string.Join("|", result)}");
 
          // Assert
@@ -241,7 +241,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulDispensedCountsFromTable", subLogLine);
+         var result = (string[])privateType.InvokeStatic("ulDispensedCountsFromTableAll", subLogLine);
          Console.WriteLine($"result: {string.Join("|", result)}");
 
          // Assert
@@ -258,7 +258,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulPresentedCountsFromTable", subLogLine);
+         var result = (string[])privateType.InvokeStatic("ulPresentedCountsFromTableAll", subLogLine);
          Console.WriteLine($"result: {string.Join("|", result)}");
 
          // Assert
@@ -275,7 +275,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulRetractedCountsFromTable", subLogLine);
+         var result = (string[])privateType.InvokeStatic("ulRetractedCountsFromTableAll", subLogLine);
          Console.WriteLine($"result: {string.Join("|", result)}");
 
          // Assert
@@ -314,7 +314,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("lpPhysicalPositionNamesFromTable", physicalSubLogLine);
+         var result = (string[])privateType.InvokeStatic("lpPhysicalPositionNamesFromTableAll", physicalSubLogLine);
 
          // Assert
          Assert.AreEqual(expected.Length, result.Length, $"Expected {expected.Length} Actual {result.Length}");
@@ -331,7 +331,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("cUnitIDsFromTable", physicalSubLogLine);
+         var result = (string[])privateType.InvokeStatic("cUnitIDsFromTableAll", physicalSubLogLine);
 
          // Assert
          Assert.AreEqual(expected.Length, result.Length, $"Expected {expected.Length} Actual {result.Length}");
@@ -348,7 +348,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulInitialCountsFromTable", physicalSubLogLine);
+         var result = (string[])privateType.InvokeStatic("ulInitialCountsFromTableAll", physicalSubLogLine);
 
          // Assert
          Assert.AreEqual(expected.Length, result.Length, $"Expected {expected.Length} Actual {result.Length}");
@@ -365,7 +365,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulCountsFromTable", physicalSubLogLine);
+         var result = (string[])privateType.InvokeStatic("ulCountsFromTableAll", physicalSubLogLine);
 
          // Assert
          Assert.AreEqual(expected.Length, result.Length, $"Expected {expected.Length} Actual {result.Length}");
@@ -382,7 +382,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulRejectCountsFromTable", physicalSubLogLine);
+         var result = (string[])privateType.InvokeStatic("ulRejectCountsFromTableAll", physicalSubLogLine);
 
          // Assert
          Assert.AreEqual(expected.Length, result.Length, $"Expected {expected.Length} Actual {result.Length}");
@@ -399,7 +399,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulMaximumsFromTable", physicalSubLogLine);
+         var result = (string[])privateType.InvokeStatic("ulMaximumsFromTableAll", physicalSubLogLine);
 
          // Assert
          Assert.AreEqual(expected.Length, result.Length, $"Expected {expected.Length} Actual {result.Length}");
@@ -416,7 +416,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("usPStatusesFromTable", physicalSubLogLine);
+         var result = (string[])privateType.InvokeStatic("usPStatusesFromTableAll", physicalSubLogLine);
 
          // Assert
          Assert.AreEqual(expected.Length, result.Length, $"Expected {expected.Length} Actual {result.Length}");
@@ -433,7 +433,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("bHardwareSensorsFromTable", physicalSubLogLine);
+         var result = (string[])privateType.InvokeStatic("bHardwareSensorsFromTableAll", physicalSubLogLine);
 
          // Assert
          Assert.AreEqual(expected.Length, result.Length, $"Expected {expected.Length} Actual {result.Length}");
@@ -450,7 +450,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulDispensedCountsFromTable", physicalSubLogLine);
+         var result = (string[])privateType.InvokeStatic("ulDispensedCountsFromTableAll", physicalSubLogLine);
 
          // Assert
          Assert.AreEqual(expected.Length, result.Length, $"Expected {expected.Length} Actual {result.Length}");
@@ -467,7 +467,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulPresentedCountsFromTable", physicalSubLogLine);
+         var result = (string[])privateType.InvokeStatic("ulPresentedCountsFromTableAll", physicalSubLogLine);
 
          // Assert
          Assert.AreEqual(expected.Length, result.Length, $"Expected {expected.Length} Actual {result.Length}");
@@ -484,7 +484,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCDMCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulRetractedCountsFromTable", physicalSubLogLine);
+         var result = (string[])privateType.InvokeStatic("ulRetractedCountsFromTableAll", physicalSubLogLine);
 
          // Assert
          Assert.AreEqual(expected.Length, result.Length, $"Expected {expected.Length} Actual {result.Length}");

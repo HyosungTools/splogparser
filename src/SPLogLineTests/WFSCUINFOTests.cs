@@ -77,7 +77,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCUINFOType);
-         var result = (string[])privateType.InvokeStatic("cUnitIDsFromTable", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_TABLE);
+         var result = (string[])privateType.InvokeStatic("cUnitIDsFromTableAll", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_TABLE);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -133,7 +133,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulCountsFromTable", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_TABLE);
+         var result = (string[])privateType.InvokeStatic("ulCountsFromTableAll", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_TABLE);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -147,7 +147,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulMaximumsFromTable", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_TABLE);
+         var result = (string[])privateType.InvokeStatic("ulMaximumsFromTableAll", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_TABLE);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -217,7 +217,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulInitialCountsFromTable", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_ETC);
+         var result = (string[])privateType.InvokeStatic("ulInitialCountsFromTableAll", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_ETC);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -231,7 +231,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulDispensedCountsFromTable", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_ETC);
+         var result = (string[])privateType.InvokeStatic("ulDispensedCountsFromTableAll", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_ETC);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -245,7 +245,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulPresentedCountsFromTable", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_ETC);
+         var result = (string[])privateType.InvokeStatic("ulPresentedCountsFromTableAll", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_ETC);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -259,7 +259,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulRetractedCountsFromTable", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_ETC);
+         var result = (string[])privateType.InvokeStatic("ulRetractedCountsFromTableAll", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_ETC);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -273,7 +273,7 @@ namespace SPLogLineTests
 
          // Act
          var privateType = new PrivateType(WFSCUINFOType);
-         var result = (string[])privateType.InvokeStatic("ulRejectCountsFromTable", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_ETC);
+         var result = (string[])privateType.InvokeStatic("ulRejectCountsFromTableAll", samples_cim.WFS_INF_CIM_CASH_UNIT_INFO_LCU_ETC);
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
@@ -1288,6 +1288,33 @@ namespace SPLogLineTests
 
          // Assert
          CollectionAssert.AreEqual(expected, result, $"Expected {string.Join("|", expected)} Actual {string.Join("|", result)} .");
+      }
+
+      [TestMethod]
+      public void WFSCDMCUINFO_listPhysical_SingleBlock()
+      {
+         // Arrange - use existing single-block sample
+         var cdmCuInfo = new WFSCDMCUINFO(null, samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_1);
+
+         // Assert
+         Assert.IsTrue(cdmCuInfo.listPhysical.Count > 0, "Expected at least one physical unit");
+         Assert.IsFalse(string.IsNullOrEmpty(cdmCuInfo.listPhysical[0].cUnitID), "Expected cUnitID to be populated");
+      }
+
+      [TestMethod]
+      public void WFSCDMCUINFO_listPhysical_TwoBlock()
+      {
+         // Arrange - two-block physical sample where LCU03 maps to PCU03 and PCU04
+         var cdmCuInfo = new WFSCDMCUINFO(null, samples_cdm.WFS_INF_CDM_CASH_UNIT_INFO_4);
+
+         // Assert
+         Assert.AreEqual(6, cdmCuInfo.listPhysical.Count, "Expected 6 physical units");
+         Assert.AreEqual("PCU00", cdmCuInfo.listPhysical[0].cUnitID);
+         Assert.AreEqual("PCU01", cdmCuInfo.listPhysical[1].cUnitID);
+         Assert.AreEqual("PCU02", cdmCuInfo.listPhysical[2].cUnitID);
+         Assert.AreEqual("PCU03", cdmCuInfo.listPhysical[3].cUnitID);
+         Assert.AreEqual("PCU05", cdmCuInfo.listPhysical[4].cUnitID);
+         Assert.AreEqual("PCU04", cdmCuInfo.listPhysical[5].cUnitID);
       }
    }
 }

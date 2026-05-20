@@ -133,19 +133,32 @@ namespace LogLineHandler
                string physicalSubLogLine = logLine.Substring(indexOfPhysical);
 
                string[] p_numPhysicalCUs = usNumPhysicalCUsFromTable(physicalSubLogLine);
-               string[] p_lpPhysicalPositionNames = lpPhysicalPositionNamesFromTable(physicalSubLogLine);
-               string[] p_cUnitIDs = cUnitIDsFromTable(physicalSubLogLine);
-               string[] p_ulInitialCounts = ulInitialCountsFromTable(physicalSubLogLine);
-               string[] p_ulCounts = ulCountsFromTable(physicalSubLogLine);
-               string[] p_ulRejectCounts = ulRejectCountsFromTable(physicalSubLogLine);
-               string[] p_ulMaximums = ulMaximumsFromTable(physicalSubLogLine);
-               string[] p_usPStatuses = usPStatusesFromTable(physicalSubLogLine);
-               string[] p_bHardwareSensors = bHardwareSensorsFromTable(physicalSubLogLine);
-               string[] p_ulDispensedCounts = ulDispensedCountsFromTable(physicalSubLogLine);
-               string[] p_ulPresentedCounts = ulPresentedCountsFromTable(physicalSubLogLine);
-               string[] p_ulRetractedCounts = ulRetractedCountsFromTable(physicalSubLogLine);
+               string[] p_lpPhysicalPositionNames = lpPhysicalPositionNamesFromTableAll(physicalSubLogLine);
+               string[] p_cUnitIDs = cUnitIDsFromTableAll(physicalSubLogLine);
+               string[] p_ulInitialCounts = ulInitialCountsFromTableAll(physicalSubLogLine);
+               string[] p_ulCounts = ulCountsFromTableAll(physicalSubLogLine);
+               string[] p_ulRejectCounts = ulRejectCountsFromTableAll(physicalSubLogLine);
+               string[] p_ulMaximums = ulMaximumsFromTableAll(physicalSubLogLine);
+               string[] p_usPStatuses = usPStatusesFromTableAll(physicalSubLogLine);
+               string[] p_bHardwareSensors = bHardwareSensorsFromTableAll(physicalSubLogLine);
+               string[] p_ulDispensedCounts = ulDispensedCountsFromTableAll(physicalSubLogLine);
+               string[] p_ulPresentedCounts = ulPresentedCountsFromTableAll(physicalSubLogLine);
+               string[] p_ulRetractedCounts = ulRetractedCountsFromTableAll(physicalSubLogLine);
 
-               for (int i = 0; i < p_numPhysicalCUs.Length; i++)
+               // This makes cashInfo.usNumPhysicalCUss available to PHYTable for the currency/denom mapping.
+               usNumPhysicalCUss = p_numPhysicalCUs;
+
+               // p_numPhysicalCUs is one entry per LOGICAL unit showing how many physical units it has
+               // e.g. [1, 1, 1, 2, 1] means 6 physical units total
+               // We must sum these to get the correct loop count, not use .Length (which is the logical count)
+               int totalPhysical = 0;
+               foreach (string n in p_numPhysicalCUs)
+               {
+                  if (int.TryParse(n.Trim(), out int val))
+                     totalPhysical += val;
+               }
+
+               for (int i = 0; i < totalPhysical; i++)
                {
                   var pcu = new PhysicalCDMCU
                   {
