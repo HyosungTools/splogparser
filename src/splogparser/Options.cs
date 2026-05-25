@@ -87,23 +87,25 @@ namespace splogparser
       public bool RunView(ParseType parseType, string viewName)
       {
          viewName = viewName.Replace("View", "");
-         return
-            ( ( (IsAP && parseType == ParseType.AP) && (APViews.Contains(viewName) || APViews.Contains("*"))) ||
-              ( (IsSP && parseType == ParseType.SP) && (SPViews.Contains(viewName) || SPViews.Contains("*"))) ||
-              ( (IsSF && parseType == ParseType.SF) && (SFViews.Contains(viewName) || SFViews.Contains("*"))) ||
-              ( (IsRT && parseType == ParseType.RT) && (RTViews.Contains(viewName) || RTViews.Contains("*"))) ||
-              ( (IsSS && parseType == ParseType.SS) && (SSViews.Contains(viewName) || SSViews.Contains("*"))) ||
-              ( (IsII && parseType == ParseType.II) && (IIViews.Contains(viewName) || IIViews.Contains("*"))) ||
-              ( (IsSS && parseType == ParseType.SS) && (SSViews.Contains(viewName) || SSViews.Contains("*"))) ||
-              ( (IsAE && parseType == ParseType.AE) && (AEViews.Contains(viewName) || AEViews.Contains("*"))) ||
-              ( (IsAT && parseType == ParseType.AT) && (ATViews.Contains(viewName) || ATViews.Contains("*"))) ||
-              ( (IsAW && parseType == ParseType.AW) && (AWViews.Contains(viewName) || AWViews.Contains("*"))) ||
-              ( (IsBE && parseType == ParseType.BE) && (BEViews.Contains(viewName) || BEViews.Contains("*"))) ||
-              ( (IsA2 && parseType == ParseType.A2) && (A2Views.Contains(viewName) || A2Views.Contains("*"))) ||
-              ( (IsTCR && parseType == ParseType.TCR) && (TCRViews.Contains(viewName) || TCRViews.Contains("*"))) ||
-              ( (IsWinCE && parseType == ParseType.WinCE) && (WinCEViews.Contains(viewName) || WinCEViews.Contains("*"))) ||
-              ( (IsAV && parseType == ParseType.AV) && (AVViews.Contains(viewName) || AVViews.Contains("*")))
-            );
+
+         bool apMatch = IsAP && parseType == ParseType.AP && (("," + APViews + ",").Contains("," + viewName + ",") || APViews.Contains("*"));
+         bool spMatch = IsSP && parseType == ParseType.SP && (("," + SPViews + ",").Contains("," + viewName + ",") || SPViews.Contains("*"));
+         bool sfMatch = IsSF && parseType == ParseType.SF && (("," + SFViews + ",").Contains("," + viewName + ",") || SFViews.Contains("*"));
+         bool rtMatch = IsRT && parseType == ParseType.RT && (("," + RTViews + ",").Contains("," + viewName + ",") || RTViews.Contains("*"));
+         bool ssMatch = IsSS && parseType == ParseType.SS && (("," + SSViews + ",").Contains("," + viewName + ",") || SSViews.Contains("*"));
+         bool iiMatch = IsII && parseType == ParseType.II && (("," + IIViews + ",").Contains("," + viewName + ",") || IIViews.Contains("*"));
+         bool aeMatch = IsAE && parseType == ParseType.AE && (("," + AEViews + ",").Contains("," + viewName + ",") || AEViews.Contains("*"));
+         bool atMatch = IsAT && parseType == ParseType.AT && (("," + ATViews + ",").Contains("," + viewName + ",") || ATViews.Contains("*"));
+         bool awMatch = IsAW && parseType == ParseType.AW && (("," + AWViews + ",").Contains("," + viewName + ",") || AWViews.Contains("*"));
+         bool beMatch = IsBE && parseType == ParseType.BE && (("," + BEViews + ",").Contains("," + viewName + ",") || BEViews.Contains("*"));
+         bool a2Match = IsA2 && parseType == ParseType.A2 && (("," + A2Views + ",").Contains("," + viewName + ",") || A2Views.Contains("*"));
+         bool tcrMatch = IsTCR && parseType == ParseType.TCR && (("," + TCRViews + ",").Contains("," + viewName + ",") || TCRViews.Contains("*"));
+         bool winceMatch = IsWinCE && parseType == ParseType.WinCE && (("," + WinCEViews + ",").Contains("," + viewName + ",") || WinCEViews.Contains("*"));
+         bool avMatch = IsAV && parseType == ParseType.AV && (("," + AVViews + ",").Contains("," + viewName + ",") || AVViews.Contains("*"));
+
+         return apMatch || spMatch || sfMatch || rtMatch || ssMatch || iiMatch ||
+                aeMatch || atMatch || awMatch || beMatch || a2Match || tcrMatch ||
+                winceMatch || avMatch;
       }
 
       protected string _Suffix(string parseType, string arguments)

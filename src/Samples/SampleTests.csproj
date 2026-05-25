@@ -51,6 +51,7 @@
     <Compile Include="samples_idc.cs" />
     <Compile Include="samples_ipm.cs" />
     <Compile Include="samples_lppcashin.cs" />
+    <Compile Include="samples_nhcdm.cs" />
     <Compile Include="samples_note_numbers.cs" />
     <Compile Include="samples_pin.cs" />
     <Compile Include="samples_tracefilereader.cs" />

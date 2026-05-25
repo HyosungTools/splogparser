@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Contract;
@@ -9,6 +10,8 @@ namespace CDMView
 {
    internal class PHYTable : BaseTable
    {
+      private readonly Dictionary<string, string> _unitIdToTableName = new Dictionary<string, string>();
+
       /// <summary>
       /// constructor
       /// </summary>
@@ -184,7 +187,9 @@ namespace CDMView
                   try
                   {
                      string tableName = "Phy-" + phyNumber.ToString();
+                     _unitIdToTableName[unit.cUnitID] = tableName;
                      DataTable dTable = dTableSet.Tables[tableName];
+
                      if (dTable == null)
                      {
                         ctx.ConsoleWriteLogLine(String.Format("WFS_INF_CDM_CASH_UNIT_INFO: table not found {0}", tableName));
@@ -283,7 +288,13 @@ namespace CDMView
                {
                   try
                   {
-                     string tableName = "Phy-" + (i + 1).ToString();
+                     string cUnitID = cashInfo.listPhysical[i].cUnitID;
+                     if (!_unitIdToTableName.TryGetValue(cUnitID, out string tableName))
+                     {
+                        ctx.ConsoleWriteLogLine(String.Format("WFS_SRVE_CDM_CASHUNITINFOCHANGED: no table mapping for unitid={0}", cUnitID));
+                        continue;
+                     }
+
                      DataTable dTable = dTableSet.Tables[tableName];
                      if (dTable == null)
                      {

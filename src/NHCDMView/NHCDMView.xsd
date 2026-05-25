@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="NHCDMView" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="NHCDMView" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+
+        <xs:element name="Summary">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file"         type="xs:string" minOccurs="0" />
+              <xs:element name="time"         type="xs:string" minOccurs="0" />
+              <xs:element name="error"        type="xs:string" minOccurs="0" />
+              <xs:element name="cstnumber"    type="xs:string" minOccurs="0" />
+              <xs:element name="cstid"        type="xs:string" minOccurs="0" />
+              <xs:element name="currency"     type="xs:string" minOccurs="0" />
+              <xs:element name="denom"        type="xs:string" minOccurs="0" />
+              <xs:element name="noterev"      type="xs:string" minOccurs="0" />
+              <xs:element name="calibration"  type="xs:string" minOccurs="0" />
+              <xs:element name="missingcheck" type="xs:string" minOccurs="0" />
+              <xs:element name="initial"      type="xs:string" minOccurs="0" />
+              <xs:element name="serial"       type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="NHCDM-1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file"         type="xs:string" minOccurs="0" />
+              <xs:element name="time"         type="xs:string" minOccurs="0" />
+              <xs:element name="error"        type="xs:string" minOccurs="0" />
+              <xs:element name="status"       type="xs:string" minOccurs="0" />
+              <xs:element name="serial"       type="xs:string" minOccurs="0" />
+              <xs:element name="current"      type="xs:string" minOccurs="0" />
+              <xs:element name="initial"      type="xs:string" minOccurs="0" />
+              <xs:element name="dispensed"    type="xs:string" minOccurs="0" />
+              <xs:element name="presented"    type="xs:string" minOccurs="0" />
+              <xs:element name="rejected"     type="xs:string" minOccurs="0" />
+              <xs:element name="retracted"    type="xs:string" minOccurs="0" />
+              <xs:element name="noterev"      type="xs:string" minOccurs="0" />
+              <xs:element name="calibration"  type="xs:string" minOccurs="0" />
+              <xs:element name="missingcheck" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="NHCDM-2">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file"         type="xs:string" minOccurs="0" />
+              <xs:element name="time"         type="xs:string" minOccurs="0" />
+              <xs:element name="error"        type="xs:string" minOccurs="0" />
+              <xs:element name="status"       type="xs:string" minOccurs="0" />
+              <xs:element name="serial"       type="xs:string" minOccurs="0" />
+              <xs:element name="current"      type="xs:string" minOccurs="0" />
+              <xs:element name="initial"      type="xs:string" minOccurs="0" />
+              <xs:element name="dispensed"    type="xs:string" minOccurs="0" />
+              <xs:element name="presented"    type="xs:string" minOccurs="0" />
+              <xs:element name="rejected"     type="xs:string" minOccurs="0" />
+              <xs:element name="retracted"    type="xs:string" minOccurs="0" />
+              <xs:element name="noterev"      type="xs:string" minOccurs="0" />
+              <xs:element name="calibration"  type="xs:string" minOccurs="0" />
+              <xs:element name="missingcheck" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="NHCDM-3">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file"         type="xs:string" minOccurs="0" />
+              <xs:element name="time"         type="xs:string" minOccurs="0" />
+              <xs:element name="error"        type="xs:string" minOccurs="0" />
+              <xs:element name="status"       type="xs:string" minOccurs="0" />
+              <xs:element name="serial"       type="xs:string" minOccurs="0" />
+              <xs:element name="current"      type="xs:string" minOccurs="0" />
+              <xs:element name="initial"      type="xs:string" minOccurs="0" />
+              <xs:element name="dispensed"    type="xs:string" minOccurs="0" />
+              <xs:element name="presented"    type="xs:string" minOccurs="0" />
+              <xs:element name="rejected"     type="xs:string" minOccurs="0" />
+              <xs:element name="retracted"    type="xs:string" minOccurs="0" />
+              <xs:element name="noterev"      type="xs:string" minOccurs="0" />
+              <xs:element name="calibration"  type="xs:string" minOccurs="0" />
+              <xs:element name="missingcheck" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		
+		<xs:element name="NHCDM-4">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file"         type="xs:string" minOccurs="0" />
+              <xs:element name="time"         type="xs:string" minOccurs="0" />
+              <xs:element name="error"        type="xs:string" minOccurs="0" />
+              <xs:element name="status"       type="xs:string" minOccurs="0" />
+              <xs:element name="serial"       type="xs:string" minOccurs="0" />
+              <xs:element name="current"      type="xs:string" minOccurs="0" />
+              <xs:element name="initial"      type="xs:string" minOccurs="0" />
+              <xs:element name="dispensed"    type="xs:string" minOccurs="0" />
+              <xs:element name="presented"    type="xs:string" minOccurs="0" />
+              <xs:element name="rejected"     type="xs:string" minOccurs="0" />
+              <xs:element name="retracted"    type="xs:string" minOccurs="0" />
+              <xs:element name="noterev"      type="xs:string" minOccurs="0" />
+              <xs:element name="calibration"  type="xs:string" minOccurs="0" />
+              <xs:element name="missingcheck" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		
+        <xs:element name="NHCDM-5">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file"         type="xs:string" minOccurs="0" />
+              <xs:element name="time"         type="xs:string" minOccurs="0" />
+              <xs:element name="error"        type="xs:string" minOccurs="0" />
+              <xs:element name="status"       type="xs:string" minOccurs="0" />
+              <xs:element name="serial"       type="xs:string" minOccurs="0" />
+              <xs:element name="current"      type="xs:string" minOccurs="0" />
+              <xs:element name="initial"      type="xs:string" minOccurs="0" />
+              <xs:element name="dispensed"    type="xs:string" minOccurs="0" />
+              <xs:element name="presented"    type="xs:string" minOccurs="0" />
+              <xs:element name="rejected"     type="xs:string" minOccurs="0" />
+              <xs:element name="retracted"    type="xs:string" minOccurs="0" />
+              <xs:element name="noterev"      type="xs:string" minOccurs="0" />
+              <xs:element name="calibration"  type="xs:string" minOccurs="0" />
+              <xs:element name="missingcheck" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		
+        <xs:element name="NHCDM-6">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file"         type="xs:string" minOccurs="0" />
+              <xs:element name="time"         type="xs:string" minOccurs="0" />
+              <xs:element name="error"        type="xs:string" minOccurs="0" />
+              <xs:element name="status"       type="xs:string" minOccurs="0" />
+              <xs:element name="serial"       type="xs:string" minOccurs="0" />
+              <xs:element name="current"      type="xs:string" minOccurs="0" />
+              <xs:element name="initial"      type="xs:string" minOccurs="0" />
+              <xs:element name="dispensed"    type="xs:string" minOccurs="0" />
+              <xs:element name="presented"    type="xs:string" minOccurs="0" />
+              <xs:element name="rejected"     type="xs:string" minOccurs="0" />
+              <xs:element name="retracted"    type="xs:string" minOccurs="0" />
+              <xs:element name="noterev"      type="xs:string" minOccurs="0" />
+              <xs:element name="calibration"  type="xs:string" minOccurs="0" />
+              <xs:element name="missingcheck" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		
+        <xs:element name="NHCDM-7">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file"         type="xs:string" minOccurs="0" />
+              <xs:element name="time"         type="xs:string" minOccurs="0" />
+              <xs:element name="error"        type="xs:string" minOccurs="0" />
+              <xs:element name="status"       type="xs:string" minOccurs="0" />
+              <xs:element name="serial"       type="xs:string" minOccurs="0" />
+              <xs:element name="current"      type="xs:string" minOccurs="0" />
+              <xs:element name="initial"      type="xs:string" minOccurs="0" />
+              <xs:element name="dispensed"    type="xs:string" minOccurs="0" />
+              <xs:element name="presented"    type="xs:string" minOccurs="0" />
+              <xs:element name="rejected"     type="xs:string" minOccurs="0" />
+              <xs:element name="retracted"    type="xs:string" minOccurs="0" />
+              <xs:element name="noterev"      type="xs:string" minOccurs="0" />
+              <xs:element name="calibration"  type="xs:string" minOccurs="0" />
+              <xs:element name="missingcheck" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		
+        <xs:element name="NHCDM-8">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file"         type="xs:string" minOccurs="0" />
+              <xs:element name="time"         type="xs:string" minOccurs="0" />
+              <xs:element name="error"        type="xs:string" minOccurs="0" />
+              <xs:element name="status"       type="xs:string" minOccurs="0" />
+              <xs:element name="serial"       type="xs:string" minOccurs="0" />
+              <xs:element name="current"      type="xs:string" minOccurs="0" />
+              <xs:element name="initial"      type="xs:string" minOccurs="0" />
+              <xs:element name="dispensed"    type="xs:string" minOccurs="0" />
+              <xs:element name="presented"    type="xs:string" minOccurs="0" />
+              <xs:element name="rejected"     type="xs:string" minOccurs="0" />
+              <xs:element name="retracted"    type="xs:string" minOccurs="0" />
+              <xs:element name="noterev"      type="xs:string" minOccurs="0" />
+              <xs:element name="calibration"  type="xs:string" minOccurs="0" />
+              <xs:element name="missingcheck" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		
+        <xs:element name="NHCDM-9">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file"         type="xs:string" minOccurs="0" />
+              <xs:element name="time"         type="xs:string" minOccurs="0" />
+              <xs:element name="error"        type="xs:string" minOccurs="0" />
+              <xs:element name="status"       type="xs:string" minOccurs="0" />
+              <xs:element name="serial"       type="xs:string" minOccurs="0" />
+              <xs:element name="current"      type="xs:string" minOccurs="0" />
+              <xs:element name="initial"      type="xs:string" minOccurs="0" />
+              <xs:element name="dispensed"    type="xs:string" minOccurs="0" />
+              <xs:element name="presented"    type="xs:string" minOccurs="0" />
+              <xs:element name="rejected"     type="xs:string" minOccurs="0" />
+              <xs:element name="retracted"    type="xs:string" minOccurs="0" />
+              <xs:element name="noterev"      type="xs:string" minOccurs="0" />
+              <xs:element name="calibration"  type="xs:string" minOccurs="0" />
+              <xs:element name="missingcheck" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

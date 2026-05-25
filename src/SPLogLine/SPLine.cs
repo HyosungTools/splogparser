@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
 using Contract;
 
@@ -62,6 +64,8 @@ namespace LogLineHandler
       WFS_CMD_CDM_ENDEX,
       WFS_SRVE_CDM_CASHUNITINFOCHANGED,
       WFS_SRVE_CDM_ITEMSTAKEN,
+      NHCDM_SETCASHUNITINFORESULT,     // CHCDUDevControl::SetCashUnitInfoResult (physical cassette summary)
+
 
       /* 4 - PIN */
       WFS_INF_PIN_STATUS,
@@ -965,6 +969,12 @@ namespace LogLineHandler
             {
                return new SPDEVICEERROR(logFileHandler, logLine, XFSType.DEVICE_ERROR);
             }
+         }
+
+         /* CHCDUDevControl::SetCashUnitInfoResult — physical cassette summary (NORMAL severity, ## payload) */
+         if (logLine.Contains("CHCDUDevControl::SetCashUnitInfoResult") && logLine.Contains("##"))
+         {
+            return new NHCDMSetCashUnitInfoResult(logFileHandler, logLine);
          }
 
          return new SPLine(logFileHandler, logLine, XFSType.None);
