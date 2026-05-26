@@ -1,9 +1,9 @@
-mode: ContinuousDeployment
+deployment-mode: ContinuousDelivery
 branches:
   main:
     regex: ^main$
-    tag: prerelease
+    label: prerelease
     increment: Patch
-tag-prefix: v
+tag-prefix: '[vV]?'
 assembly-versioning-scheme: MajorMinorPatch
 assembly-file-versioning-scheme: MajorMinorPatch
