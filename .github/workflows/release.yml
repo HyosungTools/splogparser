@@ -14,10 +14,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Add MSBuild to PATH
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v3
         with:
           vs-version: '17.4'
 
@@ -31,17 +31,25 @@ jobs:
         run: msbuild src\\splogparser.sln /m:1 /t:Clean,Build /p:Configuration="Release" /p:Platform="Any CPU" /nodeReuse:false
 
       - name: Setup .NET 10
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '10.0.x'
-
+          
       - name: Build hylogparser
         run: dotnet publish src\hylogparser\hylogparser.csproj -c Release -o dist
+
+      # Install Inno Setup
+      - name: Install Inno Setup
+        run: choco install innosetup --yes
+
+      # Build installer
+      - name: Build Installer
+        run: '& "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" /DMyAppVersion=${{ github.event.inputs.version }} installer\splogparser.iss'
 
       - name: Package Build Output
         run: Compress-Archive -Path dist\\* -Destination splogparser-${{ github.event.inputs.version }}.zip
         shell: pwsh
-
+        
       - name: Create Git Tag
         run: |
           git config user.name "github-actions"
@@ -54,6 +62,8 @@ jobs:
         with:
           tag_name: v${{ github.event.inputs.version }}
           name: splogparser v${{ github.event.inputs.version }}
-          files: splogparser-${{ github.event.inputs.version }}.zip
+          files: |
+            splogparser-${{ github.event.inputs.version }}.zip
+            installer\output\splogparser-setup-${{ github.event.inputs.version }}.exe
           prerelease: false
           make_latest: true
