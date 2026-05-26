@@ -36,6 +36,13 @@ jobs:
     - name: Display Version
       run: echo "Version - ${{ steps.versioning.outputs.semVer }}"
 
+    - name: Update VersionInfo
+      run: |
+        $version = "${{ steps.versioning.outputs.semVer }}"
+        $content = "// Auto-generated version file`nnamespace SplogParser`n{`n    public static class VersionInfo`n    {`n        public const string Current = `"$version`";`n    }`n}"
+        Set-Content -Path src\splogparser\VersionInfo.cs -Value $content
+      shell: pwsh      
+
     # Install MSBuild tools and add to Path
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v3
