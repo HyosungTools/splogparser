@@ -72,6 +72,27 @@ namespace NHCDMView
 
          try
          {
+            // A D D  E N G L I S H
+            string[,] colKeyMap = new string[1, 2]
+            {
+               { "status", "usPStatus" }
+            };
+            foreach (DataTable dTable in dTableSet.Tables)
+            {
+               if (dTable.TableName.StartsWith("NHCDM-"))
+               {
+                  tableName = dTable.TableName;
+                  AddEnglishToTable(tableName, colKeyMap);
+               }
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("Exception adding English to {0} table - {1}", tableName, e.Message));
+         }
+
+         try
+         {
             // R E N A M E  C A S S E T T E S
             DataRow[] allRows = dTableSet.Tables["Summary"].Select();
             foreach (DataTable dTable in dTableSet.Tables)
