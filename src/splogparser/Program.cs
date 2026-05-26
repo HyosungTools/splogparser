@@ -75,6 +75,7 @@ namespace splogparser
              .WithNotParsed(HandleParseError);
       }
 
+
       private static void HandleParseError(IEnumerable<Error> errs)
       {
          Console.WriteLine($"Running SplogParser version {VersionInfo.Current}");
@@ -88,10 +89,39 @@ namespace splogparser
          if (errs.IsHelp())
          {
             Console.WriteLine("Help Request");
+            PrintVerbHelp();
             return;
          }
+
          Console.WriteLine("Parser Fail");
+         PrintVerbHelp();
       }
+
+      private static void PrintVerbHelp()
+      {
+         Console.WriteLine();
+         Console.WriteLine("-s (--sp) View Options:");
+         Console.WriteLine("  CDM      Cash Dispense Module status, dispense operations and counts");
+         Console.WriteLine("  PHY      Physical cash dispenser cassettes - summary and time-series");
+         Console.WriteLine("  NHCDM    NH CDM physical cassette serial numbers and swap history (NH hardware only)");
+         Console.WriteLine("  CIM      Cash-In Module status, deposit operations and counts");
+         Console.WriteLine("  DEV      Device status over time");
+         Console.WriteLine("  Extra    lpszExtra values from device status - good for error codes");
+         Console.WriteLine("  IDC      Card reader status and inserts");
+         Console.WriteLine("  IPM      Check depositor status, deposits and counts");
+         Console.WriteLine("  PIN      PinPad status");
+         Console.WriteLine("  SIU      Status and indicator status (safe open/close, supervisor)");
+         Console.WriteLine("  *        All of the above");
+         Console.WriteLine();
+         Console.WriteLine("-a (--ap) View Options:");
+         Console.WriteLine("  Over     Overview of transactions");
+         Console.WriteLine("  Disp     Cash dispense");
+         Console.WriteLine("  EJ       EJ insert commands");
+         Console.WriteLine("  XmlParam Config files and parameters in table form");
+         Console.WriteLine("  AddKey   Keys loaded on start-up");
+         Console.WriteLine("  *        All of the above");
+      }
+
 
       private static void Run(Options opts)
       {
