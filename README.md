@@ -86,7 +86,7 @@ The list of Parse Types supported is:
 |       | --ss | Parse the Settlement Server (e.g. settlement-api-all-*.log) in the target file |
 | -v    | --atserver | Parse Active Teller Server logs (e.g. ActiveTellerServer*.*) in the target file |
 | -w    | --atworkstation | Parse Active Teller Workstation logs (e.g. Workstation*.*) in the target file |
-| -r    | --rt | TBD            |
+|       | --ce | Parse WinCE logs, use * only (e.g. --ce *) |
 |       | --a2 | Parse A2iAResult log files in the target file  |
 |       | --tcr | Parse TCR AP logs  |
 
@@ -115,7 +115,8 @@ Combine one or more *Parse Type* with one or more *View* to tell the parse what 
 | View     | Description |
 |----------|----------------------|
 | CDM      | Cash Dispense Module Status, Dispense operation and Counts |
-| PHY      | Physical Cash Dispenser Cassettes |
+| PHY      | Physical Cash Dispenser Cassettes — Summary of physical cassette configuration (position, unit ID, currency, denomination) and time-series status and counts per cassette |
+| NHCDM    | NH CDM Physical Cassette Serial Numbers — Summary and time-series of physical cassette configuration including serial numbers, note revision, calibration and missing check. Use to track cassette swaps. Requires NH CDM hardware |
 | CIM      | Cash-In Module Status, Deposits operations and Counts|
 | DEV      | Device Status over time |
 | Extra    | The lpszExtra values from device status. Good for flagging error codes |
@@ -165,6 +166,12 @@ Parse the [SP] logs and show me all Dispense and Deposit operations:
 
 ```text
 splogparser -s CDM,CIM -f 20221116175903.zip
+```
+
+Parse the [SP] logs and show physical cassette configuration and serial number history:
+
+```text
+splogparser -s PHY,NHCDM -f 20221116175903.zip
 ```
 
 Parse the [AP] logs and show me the configuration settings in table form:
