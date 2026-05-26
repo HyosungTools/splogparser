@@ -1,8 +1,10 @@
-// Auto-generated version file
+﻿// Auto-generated version file
 namespace SplogParser
 {
-    public static class VersionInfo
-    {
-        public const string Current = "8.0.21";
-    }
+   public static class VersionInfo
+   {
+      public static string Current =>
+          System.Reflection.Assembly.GetExecutingAssembly()
+              .GetName().Version.ToString();
+   }
 }

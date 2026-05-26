@@ -50,6 +50,12 @@
   <PropertyGroup>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(GitVersion_AssemblySemVer)' != ''">
+    <AssemblyVersion>$(GitVersion_AssemblySemVer)</AssemblyVersion>
+    <FileVersion>$(GitVersion_AssemblySemFileVer)</FileVersion>
+    <InformationalVersion>$(GitVersion_InformationalVersion)</InformationalVersion>
+  </PropertyGroup>
 
   <Target Name="Package" />
 
