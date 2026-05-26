@@ -23,6 +23,13 @@ jobs:
 
       - name: Restore Dependencies
         run: cd src && nuget restore && cd ..
+
+      - name: Update VersionInfo
+        run: |
+          $version = "${{ github.event.inputs.version }}"
+          $content = "// Auto-generated version file`nnamespace SplogParser`n{`n    public static class VersionInfo`n    {`n        public const string Current = `"$version`";`n    }`n}"
+          Set-Content -Path src\splogparser\VersionInfo.cs -Value $content
+        shell: pwsh        
         
       - name: Make Dir
         run: mkdir dist
