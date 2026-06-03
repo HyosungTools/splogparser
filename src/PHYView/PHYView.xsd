@@ -26,6 +26,7 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="serial" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
@@ -42,6 +43,7 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="serial" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
@@ -58,6 +60,7 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="serial" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
@@ -74,6 +77,7 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="serial" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
@@ -90,6 +94,7 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="serial" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
@@ -106,6 +111,7 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="serial" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
@@ -122,6 +128,7 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="serial" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
@@ -138,6 +145,7 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="serial" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
@@ -154,6 +162,7 @@
               <xs:element name="time" type="xs:string" minOccurs="0" />
               <xs:element name="error" type="xs:string" minOccurs="0" />
               <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="serial" type="xs:string" minOccurs="0" />
               <xs:element name="count" type="xs:string" minOccurs="0" />
               <xs:element name="reject" type="xs:string" minOccurs="0" />
               <xs:element name="dispensed" type="xs:string" minOccurs="0" />
@@ -163,6 +172,18 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="Scratch">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="cunitid" type="xs:string" minOccurs="0" />
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="error" type="xs:string" minOccurs="0" />
+              <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="serial" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>		
       </xs:choice>
     </xs:complexType>
   </xs:element>

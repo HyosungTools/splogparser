@@ -12,6 +12,21 @@ namespace CDMView
    {
       private readonly Dictionary<string, string> _unitIdToTableName = new Dictionary<string, string>();
 
+      private class SerialScratchEntry
+      {
+         public string LogFile { get; set; }
+         public string Timestamp { get; set; }
+         public string HResult { get; set; }
+         public string CUnitID { get; set; }
+         public string UsPStatus { get; set; }
+         public string UlCount { get; set; }
+         public string UlRejectCount { get; set; }
+         public string UlDispensedCount { get; set; }
+         public string UlPresentedCount { get; set; }
+         public string UlRetractedCount { get; set; }
+         public string Serial { get; set; }
+      }
+
       /// <summary>
       /// constructor
       /// </summary>
@@ -41,10 +56,17 @@ namespace CDMView
                         WFS_INF_CDM_CASH_UNIT_INFO(spLogLine);
                         break;
                      }
-                  case LogLineHandler.XFSType.WFS_SRVE_CDM_CASHUNITINFOCHANGED:
+                  // CASH UNIT INFO CHANGED is delivering a lot of zeros when there should be data, so skipping for now until we can understand why
+                  //case LogLineHandler.XFSType.WFS_SRVE_CDM_CASHUNITINFOCHANGED:
+                  //   {
+                  //      base.ProcessRow(spLogLine);
+                  //      WFS_SRVE_CDM_CASHUNITINFOCHANGED(spLogLine);
+                  //      break;
+                  //   }
+                  case LogLineHandler.XFSType.WFS_SRVE_CIM_CASHUNITINFOCHANGED:
                      {
                         base.ProcessRow(spLogLine);
-                        WFS_SRVE_CDM_CASHUNITINFOCHANGED(spLogLine);
+                        WFS_SRVE_CIM_CASHUNITINFOCHANGED(spLogLine);
                         break;
                      }
                   default:
@@ -78,8 +100,75 @@ namespace CDMView
 
          try
          {
+            // M E R G E  C I M  S E R I A L  S C R A T C H P A D
+            ctx.ConsoleWriteLogLine(String.Format("CIM serial scratchpad: {0} entries", dTableSet.Tables["Scratch"].Rows.Count));
+
+            // get the unique cUnitIDs in the scratch table
+            var cUnitIDs = dTableSet.Tables["Scratch"].AsEnumerable()
+               .Select(r => r["cunitid"].ToString().Trim())
+               .Distinct();
+
+            foreach (string cUnitID in cUnitIDs)
+            {
+               // find the Phy-x table for this cUnitID via Summary
+               DataRow[] summaryRows = dTableSet.Tables["Summary"].Select();
+               string phyTableName = null;
+               for (int i = 0; i < summaryRows.Length; i++)
+               {
+                  if (summaryRows[i]["unitid"].ToString().Trim() == cUnitID)
+                  {
+                     phyTableName = "Phy-" + (i + 1).ToString();
+                     break;
+                  }
+               }
+
+               if (phyTableName == null)
+               {
+                  ctx.ConsoleWriteLogLine(String.Format("CIM serial scratchpad: no Summary row for unitid={0}", cUnitID));
+                  continue;
+               }
+
+               DataTable dTable = dTableSet.Tables[phyTableName];
+               if (dTable == null)
+               {
+                  ctx.ConsoleWriteLogLine(String.Format("CIM serial scratchpad: table not found {0}", phyTableName));
+                  continue;
+               }
+
+               // get scratch rows for this cUnitID sorted by time
+               DataRow[] scratchRows = dTableSet.Tables["Scratch"].Select(
+                  String.Format("cunitid = '{0}'", cUnitID), "time ASC");
+
+               // get Phy-x rows sorted by time
+               DataView phyView = new DataView(dTable) { Sort = "time ASC" };
+
+               // for each scratch row, stamp serial onto Phy-x rows from that time forward
+               for (int s = 0; s < scratchRows.Length; s++)
+               {
+                  string serial = scratchRows[s]["serial"].ToString().Trim();
+                  string scratchTime = scratchRows[s]["time"].ToString().Trim();
+
+                  for (int p = 0; p < phyView.Count; p++)
+                  {
+                     string phyTime = phyView[p]["time"].ToString().Trim();
+                     if (string.Compare(phyTime, scratchTime) < 0) continue;
+                     phyView[p]["serial"] = serial;
+                  }
+               }
+               dTable.AcceptChanges();
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine(String.Format("Exception merging CIM serial scratchpad - {0}", e.Message));
+         }
+         dTableSet.Tables["Scratch"].Clear();
+         dTableSet.Tables.Remove("Scratch");
+
+         try
+         {
             // C O M P R E S S  P H Y - x  T A B L E S
-            string[] columns = new string[] { "error", "status", "count", "reject", "dispensed", "presented", "retracted" };
+            string[] columns = new string[] { "error", "status", "count", "reject", "dispensed", "presented", "retracted", "serial" };
             foreach (DataTable dTable in dTableSet.Tables)
             {
                if (dTable.TableName.StartsWith("Phy-"))
@@ -99,7 +188,7 @@ namespace CDMView
             // A D D  E N G L I S H
             string[,] colKeyMap = new string[1, 2]
             {
-         { "status", "usPStatus" }
+               { "status", "usPStatus" }
             };
             foreach (DataTable dTable in dTableSet.Tables)
             {
@@ -122,13 +211,8 @@ namespace CDMView
             {
                if (dTable.TableName.StartsWith("Phy-"))
                {
-                  // Isolate the number (e.g. from Phy-1, isolate the '1')
                   string phyNumber = dTable.TableName.Replace("Phy-", string.Empty);
-
-                  // From Summary, find the row where phyNumber matches position index
                   DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
-
-                  // dataRows are 1-based seeded rows; index matches phyNumber
                   int idx = int.Parse(phyNumber) - 1;
                   if (idx < dataRows.Length && !string.IsNullOrWhiteSpace(dataRows[idx]["unitid"].ToString()))
                   {
@@ -152,13 +236,13 @@ namespace CDMView
          return base.WriteExcelFile();
       }
 
+
       protected void WFS_INF_CDM_CASH_UNIT_INFO(SPLine spLogLine)
       {
          try
          {
             if (spLogLine is LogLineHandler.WFSCDMCUINFO cashInfo)
             {
-
                // S U M M A R Y
                DataRow[] dataRows = dTableSet.Tables["Summary"].Select();
 
@@ -215,7 +299,6 @@ namespace CDMView
                   }
                }
 
-
                // Map currency and denom from logical to physical using usNumPhysicalCUs
                int physIdx = 0;
                for (int l = 0; l < cashInfo.usNumPhysicalCUss.Length; l++)
@@ -228,7 +311,7 @@ namespace CDMView
 
                   for (int p = 0; p < numPhys; p++)
                   {
-                     int rowIdx = physIdx + 1; // 1-based seed row index
+                     int rowIdx = physIdx + 1;
                      if (rowIdx < dataRows.Length)
                      {
                         try
@@ -326,6 +409,55 @@ namespace CDMView
          {
             ctx.ConsoleWriteLogLine("WFS_SRVE_CDM_CASHUNITINFOCHANGED Exception : " + e.Message);
          }
+      }
+
+      protected void WFS_SRVE_CIM_CASHUNITINFOCHANGED(SPLine spLogLine)
+      {
+         try
+         {
+            if (spLogLine is WFSCIMCASHINFO cashInfo)
+            {
+               for (int i = 0; i < cashInfo.listPhysical.Count; i++)
+               {
+                  try
+                  {
+                     string cUnitID = cashInfo.listPhysical[i].cUnitID;
+                     if (!cUnitID.StartsWith("CST_")) continue;
+
+                     string serial = ParseSerialNumber(cashInfo.listPhysical[i].lpszExtra);
+                     if (string.IsNullOrEmpty(serial)) continue;
+
+                     DataRow scratchRow = dTableSet.Tables["Scratch"].NewRow();
+                     scratchRow["cunitid"] = cUnitID;
+                     scratchRow["file"] = cashInfo.LogFile;
+                     scratchRow["time"] = cashInfo.Timestamp;
+                     scratchRow["error"] = cashInfo.HResult;
+                     scratchRow["status"] = cashInfo.listPhysical[i].usPStatus;
+                     scratchRow["serial"] = serial;
+                     dTableSet.Tables["Scratch"].Rows.Add(scratchRow);
+                     dTableSet.Tables["Scratch"].AcceptChanges();
+                  }
+                  catch (Exception e)
+                  {
+                     ctx.ConsoleWriteLogLine(String.Format("WFS_SRVE_CIM_CASHUNITINFOCHANGED PHYTable Exception {0}, {1}, {2}, {3}", spLogLine.LogFile, spLogLine.Timestamp, e.Message, i));
+                  }
+               }
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_SRVE_CIM_CASHUNITINFOCHANGED Exception : " + e.Message);
+         }
+      }
+
+      protected static string ParseSerialNumber(string lpszExtra)
+      {
+         const string key = "SerialNumber=";
+         int start = lpszExtra.IndexOf(key);
+         if (start < 0) return string.Empty;
+         start += key.Length;
+         int end = lpszExtra.IndexOf(',', start);
+         return end < 0 ? lpszExtra.Substring(start) : lpszExtra.Substring(start, end - start);
       }
    }
 }
