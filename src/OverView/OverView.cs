@@ -1,4 +1,4 @@
-using Contract;
+﻿using Contract;
 using Impl;
 using System.ComponentModel.Composition;
 using System.Data;
@@ -12,6 +12,8 @@ namespace OverView
       /// The analyzer for calculating ATM state segments.
       /// </summary>
       private StateWallClockAnalyzer _wallClockAnalyzer;
+
+      private ResourceWallClockAnalyzer _resourceAnalyzer;
 
       /// <summary>
       /// Reference to the OverTable for analysis phase.
@@ -50,6 +52,8 @@ namespace OverView
 
          // Initialize the analyzer
          _wallClockAnalyzer = new StateWallClockAnalyzer();
+
+         _resourceAnalyzer = new ResourceWallClockAnalyzer();
 
          ctx.LogWriteLine("PreAnalyze: Data loaded for analysis");
       }
@@ -96,6 +100,14 @@ namespace OverView
                }
             }
          }
+
+         // Resource wall-clock: bucket snapshot rows into per-day 15-minute grids
+         DataTable resourceTable = _analyzeTable.GetResourceTable();
+         if (resourceTable != null)
+         {
+            _resourceAnalyzer.Analyze(resourceTable);
+            ctx.LogWriteLine($"Analyze: Generated {_resourceAnalyzer.Results.Count} resource day grids");
+         }
       }
 
       /// <summary>
@@ -141,6 +153,16 @@ namespace OverView
             ctx.ConsoleWriteLogLine("WriteExcel: Writing StateWallClock worksheet with wall clock charts");
             overTable.WriteStateWallClockExcel(_wallClockAnalyzer.Results);
          }
+
+         // Resource snapshots: one auto-scaled line chart per metric
+         if (_resourceAnalyzer?.Results != null && _resourceAnalyzer.Results.Count > 0)
+         {
+            ctx.ConsoleWriteLogLine("WriteExcel: Writing ResourceWallClock worksheet");
+            overTable.WriteResourceWallClockExcel(_resourceAnalyzer.Results);
+         }
+
+         // Order analytical worksheets left-to-right where present
+         overTable.OrderWorksheets();
 
          ctx.ConsoleWriteLogLine("End WriteExcel: " + viewName);
       }
