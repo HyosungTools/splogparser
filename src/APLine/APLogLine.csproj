@@ -114,6 +114,7 @@
     <Compile Include="EJInsert.cs" />
     <Compile Include="LogTransactionData\LogTransactionData.cs" />
     <Compile Include="MachineInfo.cs" />
+    <Compile Include="MemoryLine.cs" />
     <Compile Include="NDC\Atm2Host\Atm2Host.cs" />
     <Compile Include="NDC\Atm2Host\Atm2Host11.cs" />
     <Compile Include="NDC\Atm2Host\Atm2Host12.cs" />

@@ -53,6 +53,7 @@
       <DependentUpon>OverView.xsd</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceWallClockAnalyzer.cs" />
     <Compile Include="StateWallClockAnalyzer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +98,7 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup></ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

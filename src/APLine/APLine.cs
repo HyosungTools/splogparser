@@ -765,6 +765,12 @@ namespace LogLineHandler
 
          ///* status - shutter, position, stacker, transport */
 
+         /* RESOURCE USAGE : periodic memory / handle snapshot lines (APLOG_MEMORY) */
+         if (logLine.Contains("Memory") || logLine.Contains("size:") || logLine.Contains("count:"))
+         {
+            ILogLine iLine = MemoryLine.Factory(logFileHandler, logLine);
+            if (iLine != null) return iLine;
+         }
 
          /* Account */
 

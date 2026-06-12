@@ -15,6 +15,9 @@ namespace OverView
       string FITSwitchForeignNextStateNumbers = string.Empty;
       string FITSwitchOtherNextStateNumbers = string.Empty;
 
+      /// <summary>Resource row being assembled from a group of snapshot lines.</summary>
+      private DataRow _pendingResourceRow = null;
+
       /// <summary>
       /// constructor
       /// </summary>
@@ -34,6 +37,14 @@ namespace OverView
       {
          if (dTableSet.Tables.Contains("Summary"))
             return dTableSet.Tables["Summary"];
+         return null;
+      }
+
+      /// <summary>Accessor for the raw Resource snapshot table.</summary>
+      public DataTable GetResourceTable()
+      {
+         if (dTableSet.Tables.Contains("Resource"))
+            return dTableSet.Tables["Resource"];
          return null;
       }
 
@@ -251,6 +262,151 @@ namespace OverView
          allDataRange.Columns.AutoFit();
       }
 
+      /// <summary>The 32-bit user address-space ceiling in MB. 4096 assumes XTM is
+      /// LargeAddressAware (its VM size exceeding 2 GB proves it is); use 2048 for a
+      /// non-LAA build.</summary>
+      private const double Win32AddressCeilingMB = 4096.0;
+
+      /// <summary>
+      /// Writes the ResourceWallClock worksheet: per day, a 96-slot (15-minute)
+      /// grid of resource metrics with four line charts (memory, VM size, private
+      /// bytes, handles) over a fixed 24-hour x-axis. VM and private charts carry a
+      /// dashed reference line at the 32-bit address-space ceiling.
+      /// </summary>
+      public void WriteResourceWallClockExcel(List<ResourceDaySlots> results)
+      {
+         if (results == null || results.Count == 0)
+            return;
+
+         string excelFileName = ctx.ExcelFileName;
+         ctx.ConsoleWriteLogLine("WriteResourceWallClockExcel: Adding resource charts to " + excelFileName);
+
+         Excel.Application excelApp = new Excel.Application
+         {
+            Visible = false,
+            DisplayAlerts = false
+         };
+
+         Excel.Workbook activeBook = excelApp.Workbooks.Open(excelFileName);
+
+         try
+         {
+            Excel._Worksheet worksheet = (Excel._Worksheet)activeBook.Sheets.Add(After: activeBook.Sheets[activeBook.Sheets.Count]);
+            worksheet.Name = "ResourceWallClock";
+
+            string[] metricTitles = { "Memory (MB)", "VM Size (MB)", "Private Size (MB)", "Handles" };
+            int[] metricColumns = { 2, 3, 4, 5 };
+            int[] metricColors = { 0x00DD8A37, 0x00759E1D, 0x00004AE2, 0x001775BA };  // BGR
+
+            // Rectangular charts: 2:1 (wider on x than y).
+            double chartW = 480, chartH = 240, hGap = 500, vGap = 260;
+
+            int currentRow = 1;
+
+            foreach (ResourceDaySlots day in results)
+            {
+               int headerRow = currentRow;
+               int dataFirst = headerRow + 1;
+               int dataLast = headerRow + ResourceDaySlots.SlotCount;
+
+               worksheet.Cells[headerRow, 1] = day.Date.ToString("yyyy-MM-dd");
+               ((Excel.Range)worksheet.Cells[headerRow, 1]).Font.Bold = true;
+               worksheet.Cells[headerRow, 2] = "Memory";
+               worksheet.Cells[headerRow, 3] = "VM";
+               worksheet.Cells[headerRow, 4] = "Private";
+               worksheet.Cells[headerRow, 5] = "Handles";
+
+               object[,] block = new object[ResourceDaySlots.SlotCount, 5];
+               for (int slot = 0; slot < ResourceDaySlots.SlotCount; slot++)
+               {
+                  block[slot, 0] = ResourceDaySlots.SlotLabel(slot);
+                  block[slot, 1] = day.Memory[slot].HasValue ? (object)day.Memory[slot].Value : null;
+                  block[slot, 2] = day.VmSize[slot].HasValue ? (object)day.VmSize[slot].Value : null;
+                  block[slot, 3] = day.Private[slot].HasValue ? (object)day.Private[slot].Value : null;
+                  block[slot, 4] = day.Handles[slot].HasValue ? (object)day.Handles[slot].Value : null;
+               }
+               worksheet.Range[worksheet.Cells[dataFirst, 1], worksheet.Cells[dataLast, 5]].Value2 = block;
+
+               Excel.Range anchor = (Excel.Range)worksheet.Cells[headerRow, 7];
+               double baseLeft = (double)anchor.Left;
+               double baseTop = (double)anchor.Top;
+
+               Excel.Range xValues = worksheet.Range[worksheet.Cells[dataFirst, 1], worksheet.Cells[dataLast, 1]];
+               Excel.ChartObjects chartObjects = (Excel.ChartObjects)worksheet.ChartObjects(Type.Missing);
+
+               for (int m = 0; m < metricColumns.Length; m++)
+               {
+                  bool addWall = (m == 1 || m == 2);   // VM Size, Private Size
+
+                  double left = baseLeft + ((m % 2) * hGap);
+                  double top = baseTop + ((m / 2) * vGap);
+
+                  Excel.ChartObject chartObject = chartObjects.Add(left, top, chartW, chartH);
+                  Excel.Chart chart = chartObject.Chart;
+                  chart.ChartType = Excel.XlChartType.xlLine;
+
+                  Excel.SeriesCollection seriesCollection = (Excel.SeriesCollection)chart.SeriesCollection(Type.Missing);
+
+                  Excel.Series series = seriesCollection.NewSeries();
+                  series.XValues = xValues;
+                  series.Values = worksheet.Range[worksheet.Cells[dataFirst, metricColumns[m]], worksheet.Cells[dataLast, metricColumns[m]]];
+                  series.Name = metricTitles[m];
+                  series.Border.Color = metricColors[m];
+                  series.Border.Weight = Excel.XlBorderWeight.xlMedium;
+                  series.MarkerStyle = Excel.XlMarkerStyle.xlMarkerStyleNone;
+
+                  if (addWall)
+                  {
+                     double[] ceiling = new double[ResourceDaySlots.SlotCount];
+                     for (int k = 0; k < ceiling.Length; k++)
+                     {
+                        ceiling[k] = Win32AddressCeilingMB;
+                     }
+
+                     Excel.Series wallSeries = seriesCollection.NewSeries();
+                     wallSeries.XValues = xValues;
+                     wallSeries.Values = ceiling;
+                     wallSeries.Name = "32-bit limit";
+                     wallSeries.Border.Color = 0x000000FF;   // red (BGR)
+                     wallSeries.Border.LineStyle = Excel.XlLineStyle.xlDash;
+                     wallSeries.MarkerStyle = Excel.XlMarkerStyle.xlMarkerStyleNone;
+                  }
+
+                  string title = day.Date.ToString("yyyy-MM-dd") + "  " + metricTitles[m];
+                  if (addWall)
+                  {
+                     title += "  (red dash = 4 GB cap)";
+                  }
+                  chart.HasTitle = true;
+                  chart.ChartTitle.Text = title;
+                  chart.HasLegend = false;
+
+                  Excel.Axis categoryAxis = (Excel.Axis)chart.Axes(Excel.XlAxisType.xlCategory, Excel.XlAxisGroup.xlPrimary);
+                  categoryAxis.TickLabelSpacing = 8;
+                  categoryAxis.TickLabels.Orientation = (Excel.XlTickLabelOrientation)45;
+
+                  Excel.Axis valueAxis = (Excel.Axis)chart.Axes(Excel.XlAxisType.xlValue, Excel.XlAxisGroup.xlPrimary);
+                  valueAxis.MinimumScaleIsAuto = true;
+                  valueAxis.MaximumScaleIsAuto = true;
+               }
+
+               currentRow = dataLast + 2;
+            }
+         }
+         catch (Exception ex)
+         {
+            ctx.ConsoleWriteLogLine("WriteResourceWallClockExcel EXCEPTION: " + ex.Message);
+         }
+         finally
+         {
+            activeBook.Save();
+            activeBook.Close();
+            excelApp.Quit();
+         }
+
+         ctx.ConsoleWriteLogLine("WriteResourceWallClockExcel: Complete");
+      }
+
       /// <summary>
       /// Writes a color legend showing what each state color means.
       /// </summary>
@@ -279,6 +435,67 @@ namespace OverView
          // Adjust column widths
          ((Excel.Range)worksheet.Columns[startCol, Type.Missing]).ColumnWidth = 3;
          ((Excel.Range)worksheet.Columns[startCol + 1, Type.Missing]).AutoFit();
+      }
+
+      /// <summary>
+      /// Orders the analytical worksheets left-to-right where present:
+      /// StateWallClock, then ResourceWallClock, then OverSummary. Missing sheets
+      /// are skipped; any other sheets stay to the right of these.
+      /// </summary>
+      public void OrderWorksheets()
+      {
+         string excelFileName = ctx.ExcelFileName;
+
+         Excel.Application excelApp = new Excel.Application
+         {
+            Visible = false,
+            DisplayAlerts = false
+         };
+         Excel.Workbook activeBook = excelApp.Workbooks.Open(excelFileName);
+
+         try
+         {
+            string[] desiredOrder = { "StateWallClock", "ResourceWallClock", "OverSummary" };
+            Excel._Worksheet previous = null;
+
+            foreach (string name in desiredOrder)
+            {
+               Excel._Worksheet sheet = null;
+               foreach (Excel._Worksheet candidate in activeBook.Sheets)
+               {
+                  if (candidate.Name == name)
+                  {
+                     sheet = candidate;
+                     break;
+                  }
+               }
+
+               if (sheet == null)
+               {
+                  continue;
+               }
+
+               if (previous == null)
+               {
+                  sheet.Move(Before: activeBook.Sheets[1]);
+               }
+               else
+               {
+                  sheet.Move(After: previous);
+               }
+               previous = sheet;
+            }
+         }
+         catch (Exception ex)
+         {
+            ctx.ConsoleWriteLogLine("OrderWorksheets EXCEPTION: " + ex.Message);
+         }
+         finally
+         {
+            activeBook.Save();
+            activeBook.Close();
+            excelApp.Quit();
+         }
       }
 
       #endregion
@@ -1168,6 +1385,16 @@ namespace OverView
 
                   /* deposit */
 
+                  case APLogType.APLOG_MEMORY:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is MemoryLine memoryLine)
+                        {
+                           APLOG_MEMORY(memoryLine);
+                        }
+                        break;
+                     }
+
                   default:
                      break;
                }
@@ -1309,6 +1536,73 @@ namespace OverView
          {
             ctx.ConsoleWriteLogLine("APLINE2 Exception : " + e.Message);
          }
+      }
+
+      protected void APLOG_MEMORY(MemoryLine memoryLine)
+      {
+         try
+         {
+            DataTable resourceTable = dTableSet.Tables["Resource"];
+
+            // A 'Date Time' line always starts a new snapshot row. Also start fresh if there
+            // is no pending row, or the pending row is stale (snapshot lines arrive within ms).
+            bool startNewRow = (memoryLine.metric == MemoryMetric.DateTimeCount) || (_pendingResourceRow == null);
+
+            if (!startNewRow)
+            {
+               DateTime pendingTime;
+               DateTime lineTime;
+               if (DateTime.TryParse((string)_pendingResourceRow["time"], out pendingTime) &&
+                   DateTime.TryParse(memoryLine.Timestamp, out lineTime) &&
+                   (lineTime - pendingTime).TotalSeconds > 5)
+               {
+                  startNewRow = true;
+               }
+            }
+
+            if (startNewRow)
+            {
+               _pendingResourceRow = resourceTable.Rows.Add();
+               _pendingResourceRow["file"] = memoryLine.LogFile;
+               _pendingResourceRow["time"] = memoryLine.Timestamp;
+               _pendingResourceRow["count"] = string.Empty;
+               _pendingResourceRow["memoryMB"] = string.Empty;
+               _pendingResourceRow["vmSizeMB"] = string.Empty;
+               _pendingResourceRow["privateSizeMB"] = string.Empty;
+               _pendingResourceRow["handles"] = string.Empty;
+            }
+
+            switch (memoryLine.metric)
+            {
+               case MemoryMetric.DateTimeCount:
+                  _pendingResourceRow["count"] = memoryLine.value.ToString();
+                  break;
+               case MemoryMetric.Memory:
+                  _pendingResourceRow["memoryMB"] = BytesToMB(memoryLine.value);
+                  break;
+               case MemoryMetric.VMSize:
+                  _pendingResourceRow["vmSizeMB"] = BytesToMB(memoryLine.value);
+                  break;
+               case MemoryMetric.PrivateSize:
+                  _pendingResourceRow["privateSizeMB"] = BytesToMB(memoryLine.value);
+                  break;
+               case MemoryMetric.HandleCount:
+                  _pendingResourceRow["handles"] = memoryLine.value.ToString();
+                  break;
+            }
+
+            resourceTable.AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("APLOG_MEMORY Exception : " + e.Message);
+         }
+      }
+
+      private static string BytesToMB(long bytes)
+      {
+         double megabytes = bytes / (1024.0 * 1024.0);
+         return megabytes.ToString("F1");
       }
    }
 }
