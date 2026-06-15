@@ -163,7 +163,7 @@ namespace OverView
                chart.HasTitle = true;
                chart.ChartTitle.Text = $"{date:yyyy-MM-dd} {period.Period}";
                chart.ChartTitle.Font.Size = 10;
-               chart.ChartTitle.Font.Bold = true;
+               chart.ChartTitle.Font.Bold = false;
 
                // No legend - color key is in the data table
                chart.HasLegend = false;
@@ -262,16 +262,11 @@ namespace OverView
          allDataRange.Columns.AutoFit();
       }
 
-      /// <summary>The 32-bit user address-space ceiling in MB. 4096 assumes XTM is
-      /// LargeAddressAware (its VM size exceeding 2 GB proves it is); use 2048 for a
-      /// non-LAA build.</summary>
-      private const double Win32AddressCeilingMB = 4096.0;
-
       /// <summary>
-      /// Writes the ResourceWallClock worksheet: per day, a 96-slot (15-minute)
-      /// grid of resource metrics with four line charts (memory, VM size, private
-      /// bytes, handles) over a fixed 24-hour x-axis. VM and private charts carry a
-      /// dashed reference line at the 32-bit address-space ceiling.
+      /// Writes the ResourceWallClock worksheet as a metric-by-day grid: one ROW
+      /// of charts per metric (Memory, VM, Private, Handles), one COLUMN per day,
+      /// days increasing left-to-right. The grid widens with the number of days.
+      /// Source data blocks are written off to the right (column 30+), out of view.
       /// </summary>
       public void WriteResourceWallClockExcel(List<ResourceDaySlots> results)
       {
@@ -298,23 +293,27 @@ namespace OverView
             int[] metricColumns = { 2, 3, 4, 5 };
             int[] metricColors = { 0x00DD8A37, 0x00759E1D, 0x00004AE2, 0x001775BA };  // BGR
 
-            // Rectangular charts: 2:1 (wider on x than y).
-            double chartW = 480, chartH = 240, hGap = 500, vGap = 260;
+            // Rectangular charts, 2:1. Grid: column = day, row = metric. Snug gaps.
+            double chartW = 480, chartH = 280, hGap = 490, vGap = 290;
+            double gridLeft = 10, gridTop = 10;
 
-            int currentRow = 1;
+            // Data blocks off-screen to the right; 6 columns per day.
+            int dataAnchorCol = 30;
+            int dataHeaderRow = 1;
+            int dataFirst = dataHeaderRow + 1;
+            int dataLast = dataHeaderRow + ResourceDaySlots.SlotCount;
 
-            foreach (ResourceDaySlots day in results)
+            Excel.ChartObjects chartObjects = (Excel.ChartObjects)worksheet.ChartObjects(Type.Missing);
+
+            for (int d = 0; d < results.Count; d++)
             {
-               int headerRow = currentRow;
-               int dataFirst = headerRow + 1;
-               int dataLast = headerRow + ResourceDaySlots.SlotCount;
+               ResourceDaySlots day = results[d];
 
-               worksheet.Cells[headerRow, 1] = day.Date.ToString("yyyy-MM-dd");
-               ((Excel.Range)worksheet.Cells[headerRow, 1]).Font.Bold = true;
-               worksheet.Cells[headerRow, 2] = "Memory";
-               worksheet.Cells[headerRow, 3] = "VM";
-               worksheet.Cells[headerRow, 4] = "Private";
-               worksheet.Cells[headerRow, 5] = "Handles";
+               int blockCol = dataAnchorCol + (d * 6);
+               int timeCol = blockCol;
+               int firstMetricCol = blockCol + 1;
+
+               worksheet.Cells[dataHeaderRow, blockCol] = day.Date.ToString("yyyy-MM-dd");
 
                object[,] block = new object[ResourceDaySlots.SlotCount, 5];
                for (int slot = 0; slot < ResourceDaySlots.SlotCount; slot++)
@@ -325,21 +324,14 @@ namespace OverView
                   block[slot, 3] = day.Private[slot].HasValue ? (object)day.Private[slot].Value : null;
                   block[slot, 4] = day.Handles[slot].HasValue ? (object)day.Handles[slot].Value : null;
                }
-               worksheet.Range[worksheet.Cells[dataFirst, 1], worksheet.Cells[dataLast, 5]].Value2 = block;
+               worksheet.Range[worksheet.Cells[dataFirst, timeCol], worksheet.Cells[dataLast, timeCol + 4]].Value2 = block;
 
-               Excel.Range anchor = (Excel.Range)worksheet.Cells[headerRow, 7];
-               double baseLeft = (double)anchor.Left;
-               double baseTop = (double)anchor.Top;
-
-               Excel.Range xValues = worksheet.Range[worksheet.Cells[dataFirst, 1], worksheet.Cells[dataLast, 1]];
-               Excel.ChartObjects chartObjects = (Excel.ChartObjects)worksheet.ChartObjects(Type.Missing);
+               Excel.Range xValues = worksheet.Range[worksheet.Cells[dataFirst, timeCol], worksheet.Cells[dataLast, timeCol]];
 
                for (int m = 0; m < metricColumns.Length; m++)
                {
-                  bool addWall = (m == 1 || m == 2);   // VM Size, Private Size
-
-                  double left = baseLeft + ((m % 2) * hGap);
-                  double top = baseTop + ((m / 2) * vGap);
+                  double left = gridLeft + (d * hGap);
+                  double top = gridTop + (m * vGap);
 
                   Excel.ChartObject chartObject = chartObjects.Add(left, top, chartW, chartH);
                   Excel.Chart chart = chartObject.Chart;
@@ -347,38 +339,19 @@ namespace OverView
 
                   Excel.SeriesCollection seriesCollection = (Excel.SeriesCollection)chart.SeriesCollection(Type.Missing);
 
+                  int valueCol = firstMetricCol + (metricColumns[m] - 2);
                   Excel.Series series = seriesCollection.NewSeries();
                   series.XValues = xValues;
-                  series.Values = worksheet.Range[worksheet.Cells[dataFirst, metricColumns[m]], worksheet.Cells[dataLast, metricColumns[m]]];
+                  series.Values = worksheet.Range[worksheet.Cells[dataFirst, valueCol], worksheet.Cells[dataLast, valueCol]];
                   series.Name = metricTitles[m];
                   series.Border.Color = metricColors[m];
                   series.Border.Weight = Excel.XlBorderWeight.xlMedium;
                   series.MarkerStyle = Excel.XlMarkerStyle.xlMarkerStyleNone;
 
-                  if (addWall)
-                  {
-                     double[] ceiling = new double[ResourceDaySlots.SlotCount];
-                     for (int k = 0; k < ceiling.Length; k++)
-                     {
-                        ceiling[k] = Win32AddressCeilingMB;
-                     }
-
-                     Excel.Series wallSeries = seriesCollection.NewSeries();
-                     wallSeries.XValues = xValues;
-                     wallSeries.Values = ceiling;
-                     wallSeries.Name = "32-bit limit";
-                     wallSeries.Border.Color = 0x000000FF;   // red (BGR)
-                     wallSeries.Border.LineStyle = Excel.XlLineStyle.xlDash;
-                     wallSeries.MarkerStyle = Excel.XlMarkerStyle.xlMarkerStyleNone;
-                  }
-
-                  string title = day.Date.ToString("yyyy-MM-dd") + "  " + metricTitles[m];
-                  if (addWall)
-                  {
-                     title += "  (red dash = 4 GB cap)";
-                  }
                   chart.HasTitle = true;
-                  chart.ChartTitle.Text = title;
+                  chart.ChartTitle.Text = day.Date.ToString("yyyy-MM-dd") + "  " + metricTitles[m];
+                  chart.ChartTitle.Font.Size = 10;
+                  chart.ChartTitle.Font.Bold = false;
                   chart.HasLegend = false;
 
                   Excel.Axis categoryAxis = (Excel.Axis)chart.Axes(Excel.XlAxisType.xlCategory, Excel.XlAxisGroup.xlPrimary);
@@ -389,8 +362,6 @@ namespace OverView
                   valueAxis.MinimumScaleIsAuto = true;
                   valueAxis.MaximumScaleIsAuto = true;
                }
-
-               currentRow = dataLast + 2;
             }
          }
          catch (Exception ex)
@@ -406,6 +377,7 @@ namespace OverView
 
          ctx.ConsoleWriteLogLine("WriteResourceWallClockExcel: Complete");
       }
+
 
       /// <summary>
       /// Writes a color legend showing what each state color means.
@@ -1391,6 +1363,17 @@ namespace OverView
                         if (apLogLine is MemoryLine memoryLine)
                         {
                            APLOG_MEMORY(memoryLine);
+                        }
+                        break;
+                     }
+
+                  case APLogType.APLOG_SSL_CERT_ERROR:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLineField)
+                        {
+                           APLineField lineField = (APLineField)apLogLine;
+                           APLINE2(lineField, "error", "ERROR", "comment", "TLS cert validation failed: " + lineField.field);
                         }
                         break;
                      }
