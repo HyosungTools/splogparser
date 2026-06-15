@@ -133,6 +133,8 @@ namespace LogLineHandler
       APLOG_RCT_DEVERROR,
       APLOG_RCT_ONOK,
 
+      APLOG_SSL_CERT_ERROR,
+
       /* position status */
 
       CashDispenser_NotInPosition,
@@ -780,6 +782,10 @@ namespace LogLineHandler
          /* Operator Menu */
          if ((logLine.Contains("[OperatorWindow") || logLine.Contains("[PivotOperatorWindow")) && logLine.Contains("Parameter pMenuName:"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_OPERATOR_MENU);
+
+         /* TLS / SSL certificate validation failure */
+         if (logLine.Contains("[SSLDelegate") && logLine.Contains("Error:") && logLine.Contains("RemoteCertificate"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_SSL_CERT_ERROR);
 
          /* Error */
          if (logLine.Contains(" ERROR ["))

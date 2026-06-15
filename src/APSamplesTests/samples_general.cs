@@ -344,6 +344,8 @@ namespace APSamples
 @" ERROR [2024-08-29 17:44:54-672] [Encryption.EncryptString] Error found while encrypting:  no certificate was found
 ";
 
-
+      public const string APLOG_SSL_CERT_ERROR =
+@"  INFO [2026-06-11 00:00:21-932] [v02.02.06.02] [SSLDelegate.LogCertificateInformation] [TID:36] Error: RemoteCertificateNameMismatch, RemoteCertificateChainErrors
+";
    }
 }

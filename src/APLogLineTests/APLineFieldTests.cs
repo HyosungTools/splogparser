@@ -708,5 +708,20 @@ namespace APLogLineTests
 
          Assert.IsTrue(apLine.field == "EXCEPTION MESSAGE : GetAccountRecord() Exception: GetAccountSelectFields() Exception: [MessageId=getAccountSelectFields]  The requested record was not found : The requested record was not found");
       }
+
+      [TestMethod]
+      public void APLOG_SSL_CERT_ERROR()
+      {
+         // Test Sample Line
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_general.APLOG_SSL_CERT_ERROR);
+         Assert.IsInstanceOfType(logLine, typeof(APLineField));
+
+         APLineField apLine = (APLineField)logLine;
+         Assert.AreEqual(APLogType.APLOG_SSL_CERT_ERROR, apLine.apType);
+         Assert.AreEqual("2026-06-11 00:00:21.932", apLine.Timestamp);
+         Assert.AreEqual("", apLine.HResult);
+         Assert.AreEqual("RemoteCertificateNameMismatch, RemoteCertificateChainErrors", apLine.field);
+      }
    }
 }

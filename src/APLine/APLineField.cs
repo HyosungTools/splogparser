@@ -366,6 +366,25 @@ namespace LogLineHandler
                   }
                   break;
                }
+            case APLogType.APLOG_SSL_CERT_ERROR:
+               {
+                  // e.g. "[SSLDelegate.LogCertificateInformation] [TID:36] Error: RemoteCertificateNameMismatch, RemoteCertificateChainErrors"
+                  lookFor = "Error: ";
+                  idx = logLine.LastIndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars);
+                  }
+                  break;
+               }
+            default:
+               {
+                  // No extraction rule for this apType — field stays empty.
+                  // Surfaces the gap instead of failing silently.
+                  if (parentHandler != null && parentHandler.ctx != null)
+                     parentHandler.ctx.ConsoleWriteLogLine("APLineField: no field extraction case for apType " + this.apType);
+                  break;
+               }
          }
       }
    }
