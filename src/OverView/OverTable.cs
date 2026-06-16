@@ -305,6 +305,38 @@ namespace OverView
 
             Excel.ChartObjects chartObjects = (Excel.ChartObjects)worksheet.ChartObjects(Type.Missing);
 
+            // Per-metric max across ALL days, so each metric row shares one y-scale
+            // and day-over-day growth is comparable at a glance.
+            double[] metricMax = new double[4];
+            foreach (ResourceDaySlots dayScan in results)
+            {
+               double[][] seriesForDay =
+               {
+                  Array.ConvertAll(dayScan.Memory, v => v ?? 0.0),
+                  Array.ConvertAll(dayScan.VmSize, v => v ?? 0.0),
+                  Array.ConvertAll(dayScan.Private, v => v ?? 0.0),
+                  Array.ConvertAll(dayScan.Handles, v => v ?? 0.0)
+               };
+               for (int mm = 0; mm < 4; mm++)
+               {
+                  foreach (double v in seriesForDay[mm])
+                  {
+                     if (v > metricMax[mm])
+                     {
+                        metricMax[mm] = v;
+                     }
+                  }
+               }
+            }
+
+            // Round each ceiling up to a clean number and add ~5% headroom.
+            for (int mm = 0; mm < 4; mm++)
+            {
+               double top = metricMax[mm] * 1.05;
+               metricMax[mm] = (top <= 0) ? 1.0 : Math.Ceiling(top / 100.0) * 100.0;
+            }
+
+
             for (int d = 0; d < results.Count; d++)
             {
                ResourceDaySlots day = results[d];
@@ -359,8 +391,8 @@ namespace OverView
                   categoryAxis.TickLabels.Orientation = (Excel.XlTickLabelOrientation)45;
 
                   Excel.Axis valueAxis = (Excel.Axis)chart.Axes(Excel.XlAxisType.xlValue, Excel.XlAxisGroup.xlPrimary);
-                  valueAxis.MinimumScaleIsAuto = true;
-                  valueAxis.MaximumScaleIsAuto = true;
+                  valueAxis.MinimumScale = 0;
+                  valueAxis.MaximumScale = metricMax[m];
                }
             }
          }
