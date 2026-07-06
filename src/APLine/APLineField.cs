@@ -339,6 +339,18 @@ namespace LogLineHandler
                   break;
                }
 
+            case APLogType.APLOG_ERRORCODE:
+               {
+                  lookFor = "New error code has been set: [";
+
+                  idx = logLine.IndexOf(lookFor);
+                  if (idx != -1)
+                  {
+                     field = logLine.Substring(idx + lookFor.Length).Trim().Trim(trimChars).Replace("]", "");
+                  }
+                  break;
+               }
+
             case APLogType.APLOG_ERROR:
                {
                   lookFor = "]";

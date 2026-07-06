@@ -301,6 +301,7 @@ namespace LogLineHandler
 
       /* ERROR */
 
+      APLOG_ERRORCODE,
       APLOG_ERROR, 
 
       Error
@@ -581,6 +582,14 @@ namespace LogLineHandler
          if (logLine.Contains("[LocalScreenWindowEx") && logLine.Contains("DisplayLoadCompleted"))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_DISPLAYLOAD);
 
+         /* MP2s Retail Logs */
+         // [2026-05-13 00:47:54-807][3][][LocalScreenWindow][DisplayLoadCompleted][INFO] [MainFrame.LoadCompleted] for screen [DisplayFee].
+
+         if (logLine.Contains("[LocalScreenWindow]") && logLine.Contains("[DisplayLoadCompleted]"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_DISPLAYLOAD);
+
+
+
          //if (logLine.Contains("[ScreenFramework") && logLine.Contains("ShowScreenCore") && logLine.Contains("pScreenNumber="))
          //   return new APLineField(logFileHandler, logLine, APLogType.APLOG_SCREENWINDOW); // or new enum
 
@@ -788,6 +797,13 @@ namespace LogLineHandler
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_SSL_CERT_ERROR);
 
          /* Error */
+
+         /* MP2s Retail Logs */
+         // [2026-05-13 00:47:59-865][3][][RetailErrorCodeHelper][SetErrorCode][INFO] New error code has been set: [DA05500]
+
+         if (logLine.Contains("[RetailErrorCodeHelper][SetErrorCode][INFO]"))
+            return new APLineField(logFileHandler, logLine, APLogType.APLOG_ERRORCODE);
+
          if (logLine.Contains(" ERROR ["))
             return new APLineField(logFileHandler, logLine, APLogType.APLOG_ERROR);
          

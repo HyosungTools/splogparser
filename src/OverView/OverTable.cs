@@ -1307,7 +1307,10 @@ namespace OverView
 
                   /* Error */
 
+
+
                   case APLogType.APLOG_ERROR:
+                  case APLogType.APLOG_ERRORCODE:
                      {
                         base.ProcessRow(logLine);
                         if (apLogLine is APLineField)
