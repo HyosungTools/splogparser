@@ -1,16 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using Contract;
 
 namespace LogLineHandler
 {
+   /// <summary>
+   /// Parses per-property CIM logical unit lines (FI-style flat logs), one field per line:
+   ///
+   ///    PROPERTY Ctrl::GetLogicalUnit.Type  LogicalUnit[1].Type[CDMSPECIFIC]
+   ///    PROPERTY Ctrl::GetLogicalUnit.InitialCount  LogicalUnit[1].InitialCount[3000]
+   ///
+   /// DieboldNixdorf flat logs use the consolidated CLogicalUnit::TraceCIMCashUnitInfo
+   /// format instead - see CIMCashUnitTrace. The SPFlatLine Factory routes each shape
+   /// to the right class.
+   /// </summary>
    public class CIMLogicalUnit : SPFlatLine
    {
-      string logicalUnit;
-      string logicalValue;
+      /// <summary>The logical unit index n from LogicalUnit[n].*, or empty if not found.</summary>
+      public string LogicalUnit { get; private set; }
 
+      /// <summary>The extracted field value, or empty if not found.</summary>
+      public string LogicalValue { get; private set; }
 
       public CIMLogicalUnit(ILogFileHandler handler, string line, SPFlatType flatType) : base(handler, line, flatType)
       {
@@ -18,121 +28,94 @@ namespace LogLineHandler
 
       protected override void Initialize()
       {
-         /*
-CIM_LogicalUnit,
-CIM_LogicalUnit_InitialCount,
-CIM_LogicalUnit_RejectCount,
-CIM_LogicalUnit_RetractedCount,
-CIM_LogicalUnit_DispensedCount,
-CIM_LogicalUnit_PresentedCount,
-CIM_LogicalUnit_TotalCount,
-CIM_LogicalUnit_MaximumCount,
-CIM_LogicalUnit_CashInCount,
+         base.Initialize();
 
-CIM_LogicalUnit_Type,
-CIM_LogicalUnit_Status,
-CIM_LogicalUnit_Number,
-CIM_LogicalUnit_UnitID,
-CIM_LogicalUnit_CurrencyID,
-CIM_LogicalUnit_NumberOfItems,
-CIM_LogicalUnit_NumberOfPCU,
-*/
-         try
+         LogicalUnit = string.Empty;
+         LogicalValue = string.Empty;
+
+         string fieldName = string.Empty;
+
+         switch (flatType)
          {
-            base.Initialize();
-            string pattern = string.Empty;
+            case SPFlatType.CIM_LogicalUnit_InitialCount:
+               fieldName = "InitialCount";
+               break;
 
-            switch (flatType)
-            {
-               case SPFlatType.CIM_LogicalUnit_InitialCount:
-                  pattern = @"LogicalUnit\[(\d+)\]\.InitialCount\[([^\]]*)\]";
-                  break;
+            case SPFlatType.CIM_LogicalUnit_RejectCount:
+               fieldName = "RejectCount";
+               break;
 
-               case SPFlatType.CIM_LogicalUnit_RejectCount:
-                  pattern = @"LogicalUnit\[(\d+)\]\.RejectCount\[([^\]]*)\]";
-                  break;
+            case SPFlatType.CIM_LogicalUnit_RetractedCount:
+               fieldName = "RetractedCount";
+               break;
 
-               case SPFlatType.CIM_LogicalUnit_RetractedCount:
-                  pattern = @"LogicalUnit\[(\d+)\]\.RetractedCount\[([^\]]*)\]";
-                  break;
+            case SPFlatType.CIM_LogicalUnit_DispensedCount:
+               fieldName = "DispensedCount";
+               break;
 
-               case SPFlatType.CIM_LogicalUnit_DispensedCount:
-                  pattern = @"LogicalUnit\[(\d+)\]\.DispensedCount\[([^\]]*)\]";
-                  break;
+            case SPFlatType.CIM_LogicalUnit_PresentedCount:
+               fieldName = "PresentedCount";
+               break;
 
-               case SPFlatType.CIM_LogicalUnit_PresentedCount:
-                  pattern = @"LogicalUnit\[(\d+)\]\.PresentedCount\[([^\]]*)\]";
-                  break;
+            case SPFlatType.CIM_LogicalUnit_TotalCount:
+               fieldName = "TotalCount";
+               break;
 
-               case SPFlatType.CIM_LogicalUnit_TotalCount:
-                  pattern = @"LogicalUnit\[(\d+)\]\.TotalCount\[([^\]]*)\]";
-                  break;
+            case SPFlatType.CIM_LogicalUnit_MaximumCount:
+               fieldName = "MaximumCount";
+               break;
 
-               case SPFlatType.CIM_LogicalUnit_MaximumCount:
-                  pattern = @"LogicalUnit\[(\d+)\]\.MaximumCount\[([^\]]*)\]";
-                  break;
+            case SPFlatType.CIM_LogicalUnit_CashInCount:
+               fieldName = "CashInCount";
+               break;
 
-               case SPFlatType.CIM_LogicalUnit_CashInCount:
-                  pattern = @"LogicalUnit\[(\d+)\]\.CashInCount\[([^\]]*)\]";
-                  break; 
+            case SPFlatType.CIM_LogicalUnit_Type:
+               fieldName = "Type";
+               break;
 
-               // 8/20/2025 6:04:26 PM : 2025/07/04001200:13 58.7660008PROPERTY0025Ctrl::GetLogicalUnit.Type0032LogicalUnit[1].Type[CDMSPECIFIC]01354294967295013001584828210003CIM0007ACTIVEX0010
-               case SPFlatType.CIM_LogicalUnit_Type:
-                  pattern = @"LogicalUnit\[(\d+)\]\.Type\[([^\]]*)\]";
-                  break;
+            case SPFlatType.CIM_LogicalUnit_Status:
+               fieldName = "Status";
+               break;
 
-               // 
-               case SPFlatType.CIM_LogicalUnit_Status:
-                  pattern = @"LogicalUnit\[(\d+)\]\.Status\[([^\]]*)\]";
-                  break;
+            case SPFlatType.CIM_LogicalUnit_Number:
+               fieldName = "Number";
+               break;
 
-               case SPFlatType.CIM_LogicalUnit_Number:
-                  pattern = @"LogicalUnit\[(\d+)\]\.Number\[([^\]]*)\]";
-                  break;
+            case SPFlatType.CIM_LogicalUnit_UnitID:
+               fieldName = "UnitID";
+               break;
 
-               case SPFlatType.CIM_LogicalUnit_UnitID:
-                  pattern = @"LogicalUnit\[(\d+)\]\.UnitID\[([^\]]*)\]";
-                  break;
+            case SPFlatType.CIM_LogicalUnit_CurrencyID:
+               fieldName = "CurrencyID";
+               break;
 
-               case SPFlatType.CIM_LogicalUnit_CurrencyID:
-                  pattern = @"LogicalUnit\[(\d+)\]\.CurrencyID\[([^\]]*)\]";
-                  break;
+            case SPFlatType.CIM_LogicalUnit_NumberOfItems:
+               fieldName = "NumberOfItems";
+               break;
 
-               case SPFlatType.CIM_LogicalUnit_NumberOfItems:
-                  pattern = @"LogicalUnit\[(\d+)\]\.NumberOfItems\[([^\]]*)\]";
-                  break;
+            case SPFlatType.CIM_LogicalUnit_NumberOfPCU:
+               fieldName = "NumberOfPCU";
+               break;
 
-               case SPFlatType.CIM_LogicalUnit_NumberOfPCU:
-                  pattern = @"LogicalUnit\[(\d+)\]\.NumberOfPCU\[([^\]]*)\]";
-                  break;
-
-               default:
-                  break;
-            }
-
-            Match match = Regex.Match(logLine, pattern);
-            if (match.Success)
-            {
-               logicalUnit = match.Groups[1].Value;
-               logicalValue = match.Groups[2].Value;
-               Console.WriteLine($"Logical Unit Number: {logicalUnit}");
-               Console.WriteLine($"Type: {logicalValue}");
-            }
-            else
-            {
-               Console.WriteLine("No match found.");
-            }
-
+            default:
+               break;
          }
-         catch (Exception e)
+
+         if (fieldName.Length == 0)
          {
-            Console.WriteLine("Exception in Initialize()");
+            return;
+         }
+
+         Match match = Regex.Match(logLine, @"LogicalUnit\[(\d+)\]\." + fieldName + @"\[([^\]]*)\]");
+         if (match.Success)
+         {
+            LogicalUnit = match.Groups[1].Value;
+            LogicalValue = match.Groups[2].Value;
          }
       }
 
       public static ILogLine LUFactory(ILogFileHandler handler, string logLine)
       {
-
          if (logLine.Contains("].InitialCount["))
             return new CIMLogicalUnit(handler, logLine, SPFlatType.CIM_LogicalUnit_InitialCount);
 
@@ -178,9 +161,7 @@ CIM_LogicalUnit_NumberOfPCU,
          if (logLine.Contains("].NumberOfPCU["))
             return new CIMLogicalUnit(handler, logLine, SPFlatType.CIM_LogicalUnit_NumberOfPCU);
 
-
          return null;
       }
    }
 }
-
