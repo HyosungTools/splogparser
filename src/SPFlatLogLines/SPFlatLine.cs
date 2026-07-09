@@ -33,12 +33,46 @@ namespace LogLineHandler
 
       CDM_HandleItemsTaken,
 
+      /* CIM deposit lifecycle - methods invoked */
       CIM_StartCashIn,
+      CIM_SetCashInLimit,
       CIM_AcceptCash,
+      CIM_StoreCash,
+      CIM_RollbackCash,
       CIM_OpenShutter,
       CIM_CloseShutter,
 
-      /* CIM LOgical Unit */
+      /* CIM deposit lifecycle - results and events */
+      CIM_HandleCashInStart,
+      CIM_HandleCashIn,
+      CIM_HandleCashInEnd,
+      CIM_StoreCashComplete,
+      CIM_HandleRollback,
+      CIM_HandleRetract,
+      CIM_HandleReset,
+      CIM_HandleOpenShutter,
+      CIM_HandleCloseShutter,
+      CIM_ItemsInserted,
+      CIM_ItemsTaken,
+      CIM_InputRefuse,
+      CIM_CountsChanged,
+      CIM_CashUnitInfo,
+      CIM_CashUnitTrace,
+
+      /* CIM accepted note detail */
+      CIM_NoteID,
+      CIM_NoteCount,
+      CIM_CashInStatus,
+      CIM_CashInRefused,
+      CIM_LastCashInStatus,
+      CIM_NumberOfCashInStatus,
+      CIM_CashInStatusValue,
+      CIM_CashInStatusID,
+      CIM_CashInStatusItemCount,
+      CIM_CashInStatusCurrencyID,
+      CIM_CashInStatusExponent,
+
+      /* CIM Logical Unit */
       CIM_LogicalUnit,
       CIM_LogicalUnit_InitialCount,
       CIM_LogicalUnit_RejectCount,
@@ -113,18 +147,35 @@ namespace LogLineHandler
       {
          string hResult = "0";
 
-         // Example: hResult = [0],
-         Regex timeRegex = new Regex("hResult = \\[(.*)\\]");
-         Match mtch = timeRegex.Match(logLine);
+         // Flat lines carry hResult in three shapes:
+         //    Execute-Result[CashInEnd] = {hResult[-1316]}   (service handler result)
+         //    hResult = [0]                                  (legacy bracketed form)
+         //    hResult=-1316                                  (WFS_EXECUTE_COMPLETE / WFS_GETINFO_COMPLETE)
+         Regex bracketRegex = new Regex(@"hResult\s*=?\s*\[([^\]]*)\]");
+         Match mtch = bracketRegex.Match(logLine);
          if (mtch.Success)
          {
             hResult = mtch.Groups[1].Value.Trim();
+         }
+         else
+         {
+            Regex plainRegex = new Regex(@"hResult=(-?\d+)");
+            mtch = plainRegex.Match(logLine);
+            if (mtch.Success)
+            {
+               hResult = mtch.Groups[1].Value.Trim();
+            }
          }
 
          return hResult == "0" ? "" : hResult;
       }
       public static ILogLine Factory(ILogFileHandler handler, string logLine)
       {
+         // Generic SP-level failure: any XFS completion message reporting a negative hResult
+         // (e.g. WFS_EXECUTE_COMPLETE(RequestID=846, hService=13, hResult=-1316, dwCommandCode=1303 ...))
+         if (logLine.Contains("_COMPLETE(") && logLine.Contains("hResult=-"))
+            return new SPFlatLine(handler, logLine, SPFlatType.Error);
+
          // Specialized route for CDM Dispense lines
          #region CDM
 
@@ -148,13 +199,6 @@ namespace LogLineHandler
 
          if (logLine.Contains("EVENT") && logLine.Contains("CCdmService::HandleItemsTaken") && logLine.Contains("FireItemsTaken"))
             return new SPFlatLine(handler, logLine, SPFlatType.CDM_HandleItemsTaken);
-
-         //if (logLine.Contains("EVENT") || logLine.Contains("METHOD") || logLine.Contains("INFORMATION"))
-         //   handler.ctx.LogWriteLine(logLine);
-
-
-         //if (logLine.Contains("CIM0007ACTIVEX"))
-         //   handler.ctx.LogWriteLine(logLine);
 
          // L O G I C A L  U N I T S
 
@@ -202,24 +246,128 @@ namespace LogLineHandler
 
          #endregion
 
-         // C I M  
+         #region CIM
 
-         //if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::StartCashIn") && logLine.Contains("Invoked"))
-         //   return new SPFlatLine(handler, logLine, SPFlatType.CIM_StartCashIn);
+         // C A S H  U N I T  /  C A S S E T T E  C O U N T S
 
-         //if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::AcceptCash") && logLine.Contains("Invoked"))
-         //   return new SPFlatLine(handler, logLine, SPFlatType.CIM_AcceptCash);
+         // Consolidated dump (DieboldNixdorf flat logs): one line carries every field for one
+         // logical unit. Must be checked BEFORE LUFactory - the Trace line contains
+         // "].InitialCount[" etc. and would otherwise be misclassified as a single field.
+         if (logLine.Contains("CLogicalUnit::TraceCIMCashUnitInfo"))
+            return new CIMCashUnitTrace(handler, logLine);
 
-         //if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::OpenShutter") && logLine.Contains("Invoked"))
-         //   return new SPFlatLine(handler, logLine, SPFlatType.CIM_AcceptCash);
+         // Per-property format (FI-style flat logs): Ctrl::GetLogicalUnit.X -> LogicalUnit[n].X[v]
+         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetLogicalUnit."))
+            return CIMLogicalUnit.LUFactory(handler, logLine);
 
-         //if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::CloseShutter") && logLine.Contains("Invoked"))
-         //   return new SPFlatLine(handler, logLine, SPFlatType.CIM_AcceptCash);
+         // D E P O S I T  L I F E C Y C L E  -  M E T H O D S  I N V O K E D
 
-         //// Logical Units
+         if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::StartCashInEx") && logLine.Contains("Invoked"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_StartCashIn);
 
-         //if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetLogicalUnit.Type"))
-         //   return CIMLogicalUnit.LUFactory(handler, logLine);
+         if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::SetCashInLimit") && logLine.Contains("Invoked"))
+            return new CIMCashInLine(handler, logLine, SPFlatType.CIM_SetCashInLimit);
+
+         if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::AcceptCash") && logLine.Contains("Invoked"))
+            return new CIMCashInLine(handler, logLine, SPFlatType.CIM_AcceptCash);
+
+         if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::StoreCash") && logLine.Contains("Invoked"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_StoreCash);
+
+         if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::RollbackCash") && logLine.Contains("Invoked"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_RollbackCash);
+
+         // NOTE: Ctrl::OpenShutter / Ctrl::CloseShutter / Ctrl::RetractEx / Ctrl::ResetEx are not
+         // CIM-unique method names (IPM and CDM controls expose the same names) and the flat record
+         // format does not let us cheaply attribute a METHOD line to a device. The unambiguous
+         // CCimService::Handle* result lines below carry the outcome, timestamp and hResult instead.
+
+         // D E P O S I T  L I F E C Y C L E  -  R E S U L T S  A N D  E V E N T S
+
+         // Handler class name appears as both CCimService:: and CCIMService:: in the same log,
+         // so match on the unique Execute-Result payload token where possible.
+
+         if (logLine.Contains("Execute-Result[CashInStart]"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleCashInStart);
+
+         if (logLine.Contains("Execute-Result[CashInEnd]"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleCashInEnd);
+
+         if (logLine.Contains("Execute-Result[CashInRollback]"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleRollback);
+
+         if (logLine.Contains("Execute-Result[CashIn]"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleCashIn);
+
+         if (logLine.Contains("EVENT") && logLine.Contains("FireStoreCashComplete"))
+            return new CIMCashInLine(handler, logLine, SPFlatType.CIM_StoreCashComplete);
+
+         if ((logLine.Contains("CimService::HandleRetract") || logLine.Contains("CIMService::HandleRetract")) && logLine.Contains("Execute-Result[Retract]"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleRetract);
+
+         if ((logLine.Contains("CimService::HandleReset") || logLine.Contains("CIMService::HandleReset")) && logLine.Contains("Execute-Result[Reset]"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleReset);
+
+         // CDM emits the same OpenShutter/CloseShutter/CashUnitInfo/CountsChanged payloads via
+         // CCdmService::, so these checks must be constrained to the CIM service class name.
+
+         if ((logLine.Contains("CimService::HandleOpenSht") || logLine.Contains("CIMService::HandleOpenSht")) && logLine.Contains("Execute-Result[OpenShutter]"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleOpenShutter);
+
+         if ((logLine.Contains("CimService::HandleCloseSht") || logLine.Contains("CIMService::HandleCloseSht")) && logLine.Contains("Execute-Result[CloseShutter]"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleCloseShutter);
+
+         if ((logLine.Contains("CimService::HandleItemsInserted") || logLine.Contains("CIMService::HandleItemsInserted")) && logLine.Contains("INFORMATION"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_ItemsInserted);
+
+         if ((logLine.Contains("CimService::HandleItemsTaken") || logLine.Contains("CIMService::HandleItemsTaken")) && logLine.Contains("INFORMATION"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_ItemsTaken);
+
+         if (logLine.Contains("CimService::HandleInputRefuse") || logLine.Contains("CIMService::HandleInputRefuse"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_InputRefuse);
+
+         if (logLine.Contains("CimService::HandleCountsChanged") || logLine.Contains("CIMService::HandleCountsChanged"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_CountsChanged);
+
+         if ((logLine.Contains("CimService::HandleCashUnitInfo") || logLine.Contains("CIMService::HandleCashUnitInfo")) && logLine.Contains("GetInfo-Result[CashUnitInfo]"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CIM_CashUnitInfo);
+
+         // A C C E P T E D  N O T E  D E T A I L
+
+         if ((logLine.Contains("CimService::HandleCashIn") || logLine.Contains("CIMService::HandleCashIn")) && logLine.Contains("NoteID("))
+            return new CIMCashInLine(handler, logLine, SPFlatType.CIM_NoteID);
+
+         if ((logLine.Contains("CimService::HandleCashIn") || logLine.Contains("CIMService::HandleCashIn")) && logLine.Contains("NoteCount("))
+            return new CIMCashInLine(handler, logLine, SPFlatType.CIM_NoteCount);
+
+         if (logLine.Contains("Ctrl::HandleCashInStatus") && logLine.Contains("CashIn_Status["))
+            return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInStatus);
+
+         if (logLine.Contains("Ctrl::HandleCashInStatus") && logLine.Contains("CashIn_Refused["))
+            return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInRefused);
+
+         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetLastCashInStatus"))
+            return new CIMCashInLine(handler, logLine, SPFlatType.CIM_LastCashInStatus);
+
+         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetNumberOfCashInStatus"))
+            return new CIMCashInLine(handler, logLine, SPFlatType.CIM_NumberOfCashInStatus);
+
+         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetCashInStatus.Value"))
+            return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInStatusValue);
+
+         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetCashInStatus.ID"))
+            return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInStatusID);
+
+         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetCashInStatus.ItemCount"))
+            return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInStatusItemCount);
+
+         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetCashInStatus.CurrencyID"))
+            return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInStatusCurrencyID);
+
+         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetCashInStatus.Exponent"))
+            return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInStatusExponent);
+
+         #endregion
 
          return null;
       }

@@ -1,14 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1D59F4C4-6979-47E6-A88F-1C5E4B2F5698}</ProjectGuid>
+    <ProjectGuid>{3B7E5A91-8C24-4D6F-B0A2-6E94D1C75F38}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SPFlatLogLines</RootNamespace>
-    <AssemblyName>SPFlatLogLines</AssemblyName>
+    <RootNamespace>CIMView_Flat</RootNamespace>
+    <AssemblyName>CIMView_Flat</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,25 +42,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CDMDenominateLine.cs" />
-    <Compile Include="CDMDispenseLine.cs" />
-    <Compile Include="CDMUnitList.cs" />
-    <Compile Include="CIMCashInLine.cs" />
-    <Compile Include="CIMCashUnitTrace.cs" />
-    <Compile Include="CIMLogicalUnit.cs" />
-    <Compile Include="CIMLogicalUnitValues.cs" />
+    <Compile Include="CIMTable_Flat.cs" />
+    <Compile Include="CIMView_Flat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SPFlatLine.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BaseView\BaseView.csproj">
+      <Project>{db43982d-e960-4dba-83ef-1bb6e7a60a49}</Project>
+      <Name>BaseView</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Contract\Contract.csproj">
       <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
       <Name>Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Impl\Impl.csproj">
+      <Project>{f89403e5-4c5c-4d8f-8401-b2d56f6d8a2b}</Project>
+      <Name>Impl</Name>
     </ProjectReference>
     <ProjectReference Include="..\LogLineHandler\LogLineHandler.csproj">
       <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>
       <Name>LogLineHandler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SPFlatLogLines\SPFlatLogLine.csproj">
+      <Project>{1d59f4c4-6979-47e6-a88f-1c5e4b2f5698}</Project>
+      <Name>SPFlatLogLine</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CIMView_Flat.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CIMView_Flat.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\CIMView_Flat.dll" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\CIMView_Flat.xsd" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\CIMView_Flat.xml" $(SolutionDir)\..\dist</PostBuildEvent>
+  </PropertyGroup>
 </Project>

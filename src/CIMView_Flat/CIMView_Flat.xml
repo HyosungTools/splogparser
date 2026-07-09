@@ -1,0 +1,440 @@
+<?xml version="1.0" standalone="yes"?>
+<CIM_Flat>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>0</number>
+	<type></type>
+	<id></id>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<total></total>
+	<cashin></cashin>
+	<dispensed></dispensed>
+	<presented></presented>
+	<retracted></retracted>
+	<reject></reject>
+	<status></status>
+	<slot></slot>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>1</number>
+	<type></type>
+	<id></id>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<total></total>
+	<cashin></cashin>
+	<dispensed></dispensed>
+	<presented></presented>
+	<retracted></retracted>
+	<reject></reject>
+	<status></status>
+	<slot></slot>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>2</number>
+	<type></type>
+	<id></id>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<total></total>
+	<cashin></cashin>
+	<dispensed></dispensed>
+	<presented></presented>
+	<retracted></retracted>
+	<reject></reject>
+	<status></status>
+	<slot></slot>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>3</number>
+	<type></type>
+	<id></id>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<total></total>
+	<cashin></cashin>
+	<dispensed></dispensed>
+	<presented></presented>
+	<retracted></retracted>
+	<reject></reject>
+	<status></status>
+	<slot></slot>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>4</number>
+	<type></type>
+	<id></id>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<total></total>
+	<cashin></cashin>
+	<dispensed></dispensed>
+	<presented></presented>
+	<retracted></retracted>
+	<reject></reject>
+	<status></status>
+	<slot></slot>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>5</number>
+	<type></type>
+	<id></id>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<total></total>
+	<cashin></cashin>
+	<dispensed></dispensed>
+	<presented></presented>
+	<retracted></retracted>
+	<reject></reject>
+	<status></status>
+	<slot></slot>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>6</number>
+	<type></type>
+	<id></id>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<total></total>
+	<cashin></cashin>
+	<dispensed></dispensed>
+	<presented></presented>
+	<retracted></retracted>
+	<reject></reject>
+	<status></status>
+	<slot></slot>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>7</number>
+	<type></type>
+	<id></id>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<total></total>
+	<cashin></cashin>
+	<dispensed></dispensed>
+	<presented></presented>
+	<retracted></retracted>
+	<reject></reject>
+	<status></status>
+	<slot></slot>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>8</number>
+	<type></type>
+	<id></id>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<total></total>
+	<cashin></cashin>
+	<dispensed></dispensed>
+	<presented></presented>
+	<retracted></retracted>
+	<reject></reject>
+	<status></status>
+	<slot></slot>
+	<comment></comment>
+  </Summary>
+
+  <Summary>
+    <file></file>
+	<time></time>
+	<error></error>
+	<number>9</number>
+	<type></type>
+	<id></id>
+	<currency></currency>
+	<denom></denom>
+	<initial></initial>
+	<total></total>
+	<cashin></cashin>
+	<dispensed></dispensed>
+	<presented></presented>
+	<retracted></retracted>
+	<reject></reject>
+	<status></status>
+	<slot></slot>
+	<comment></comment>
+  </Summary>
+
+  <!-- error : XFS CIM error codes (xfscim.h, CIM_SERVICE_OFFSET = 1300) -->
+
+  <Messages>
+    <type>error</type>
+    <code>-1300</code>
+    <brief>invalid currency</brief>
+    <description>There are no cash units of the currency specified.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1301</code>
+    <brief>invalid teller id</brief>
+    <description>The teller ID is not valid.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1302</code>
+    <brief>cash unit error</brief>
+    <description>There is a problem with a cash unit. A WFS_EXEE_CIM_CASHUNITERROR event will be posted with the details.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1307</code>
+    <brief>too many items</brief>
+    <description>There were too many items inserted. The cash-in stacker is full.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1308</code>
+    <brief>unsup position</brief>
+    <description>The specified position is not supported.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1310</code>
+    <brief>safedoor open</brief>
+    <description>The safe door is open. This device requires the safe door to be closed in order to perform this operation.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1312</code>
+    <brief>shutter not open</brief>
+    <description>The shutter is not open or did not open when it should have.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1313</code>
+    <brief>shutter open</brief>
+    <description>The shutter is open when it should be closed.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1314</code>
+    <brief>shutter closed</brief>
+    <description>The shutter was already closed / is closed when it should be open.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1315</code>
+    <brief>invalid cash unit</brief>
+    <description>The cash unit number specified is not valid.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1316</code>
+    <brief>no items</brief>
+    <description>There were no items to cash in / no items on the stacker.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1317</code>
+    <brief>exchange active</brief>
+    <description>The CIM is in an exchange state.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1318</code>
+    <brief>no exchange active</brief>
+    <description>There is no exchange active.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1319</code>
+    <brief>shutter not closed</brief>
+    <description>The shutter failed to close.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1323</code>
+    <brief>items taken</brief>
+    <description>Items were removed by the user before the operation completed.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1325</code>
+    <brief>cashin active</brief>
+    <description>A cash-in transaction is active. The command is not allowed at this time.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1326</code>
+    <brief>no cashin active</brief>
+    <description>There is no cash-in transaction active.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1328</code>
+    <brief>pos not empty</brief>
+    <description>The input or output position is not empty.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1334</code>
+    <brief>invalid retract pos</brief>
+    <description>The retract position (usIndex) specified is not valid.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1335</code>
+    <brief>not retract area</brief>
+    <description>The retract area specified in usRetractArea is not supported.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1336</code>
+    <brief>invalid port</brief>
+    <description>An attempt to set a guidance light to a new value was invalid because the guidance light does not exist.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1337</code>
+    <brief>foreign items</brief>
+    <description>Foreign items have been detected in the input position.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1338</code>
+    <brief>load failed</brief>
+    <description>The load operation failed.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1339</code>
+    <brief>cash unit not empty</brief>
+    <description>The cash unit is not empty.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1340</code>
+    <brief>invalid ref sig</brief>
+    <description>The reference signature is not valid.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1341</code>
+    <brief>invalid trn sig</brief>
+    <description>The transaction signature is not valid.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1342</code>
+    <brief>power save short</brief>
+    <description>The power saving mode has not been activated because the device cannot resume within the specified recovery time.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1343</code>
+    <brief>power save media present</brief>
+    <description>The power saving mode has not been activated because media is present inside the device.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1344</code>
+    <brief>device lock failure</brief>
+    <description>The device and/or the cash units could not be locked or unlocked.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1345</code>
+    <brief>too many items to count</brief>
+    <description>There were too many items to count. The cash-in limitation has been reached.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1346</code>
+    <brief>count pos not empty</brief>
+    <description>The output position is not empty so the count operation is not possible.</description>
+  </Messages>
+
+  <Messages>
+    <type>error</type>
+    <code>-1347</code>
+    <brief>media inactive</brief>
+    <description>The banknote type is inactive and therefore cannot be modified.</description>
+  </Messages>
+
+</CIM_Flat>
