@@ -122,6 +122,7 @@
     <Compile Include="NDC\Atm2Host\Atm2Host23.cs" />
     <Compile Include="NDC\Atm2Host\Atm2Host51.cs" />
     <Compile Include="NDC\Atm2Host\Atm2Host61.cs" />
+    <Compile Include="NDC\EMVParser.cs" />
     <Compile Include="NDC\Host2Atm\Host2Atm.cs" />
     <Compile Include="NDC\Host2Atm\Host2Atm1.cs" />
     <Compile Include="NDC\Host2Atm\Host2Atm3.cs" />
