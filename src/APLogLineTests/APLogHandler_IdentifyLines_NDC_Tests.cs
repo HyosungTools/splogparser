@@ -464,5 +464,18 @@ namespace APLogLineTests
          StringAssert.Contains(apLine.english, "Notes retracted after Present time-out");
          StringAssert.Contains(apLine.english, "type1=20");
       }
+
+      [TestMethod]
+      public void Atm2Host23_EncryptorKVV()
+      {
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST23_6);
+         Assert.IsTrue(logLine is Atm2Host23, String.Format("logLine is not Atm2Host23"));
+
+         Atm2Host23 apLine = (Atm2Host23)logLine;
+         StringAssert.Contains(apLine.english, "Encryptor Initialisation Data", String.Format("apLine does not contain Encryptor Initialisation Data"));
+         StringAssert.Contains(apLine.english, "New Key Verification Value", String.Format("apLine does not contain New Key Verification Value"));
+         StringAssert.Contains(apLine.english, "5783FD", String.Format("apLine does not contain 5783FD"));
+      }
    }
 }

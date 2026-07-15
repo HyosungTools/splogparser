@@ -96,6 +96,9 @@ namespace Samples
       public const string ATM2HOST23_5 =
          @"[2023-03-30 03:08:19-477][0][][Log                 ][Send                ][SEND]ATM2HOST: 23050401DFDD058B2B000000000000";
 
+      public const string ATM2HOST23_6 =
+         @"  INFO [2026-06-10 03:02:40-950] [v02.02.06.04] [Log.Send] [TID:3] ATM2HOST: 2305035783FD";
+
       public const string ATM2HOST51_1 =
          @"[2023-03-17 01:34:18-209][0][][Log                 ][Send                ][SEND]ATM2HOST: 61015920230317013418130566130604038";
 
