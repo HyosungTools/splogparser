@@ -451,5 +451,18 @@ namespace APLogLineTests
          Assert.IsTrue(apLine.msgclass == "3" && apLine.msgsubclass == "");
          Assert.IsTrue(apLine.english.StartsWith("Data Command"));
       }
+
+      [TestMethod]
+      public void Atm2Host12_CashHandler_NotesRetracted()
+      {
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_ndc.ATM2HOST12_6);
+         Assert.IsTrue(logLine is Atm2Host12);
+
+         Atm2Host12 apLine = (Atm2Host12)logLine;
+         StringAssert.Contains(apLine.english, "E (Cash Handler)");
+         StringAssert.Contains(apLine.english, "Notes retracted after Present time-out");
+         StringAssert.Contains(apLine.english, "type1=20");
+      }
    }
 }
