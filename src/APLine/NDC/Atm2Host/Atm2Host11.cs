@@ -81,13 +81,13 @@ namespace LogLineHandler
 
             if (!string.IsNullOrEmpty(result.field))
             {
-               if (int.Parse(result.field) == 0)
+               // Amount Entry Field is 8 or 12 bytes, right-justified zero-filled
+               // (Table 9-1, field k). int.Parse overflows on the 12-byte variant
+               // and throws on any non-numeric fill; decimal.TryParse handles both.
+               decimal amountValue;
+               if (decimal.TryParse(result.field, out amountValue) && amountValue > 0)
                {
-                  //English = English + String.Format(" amount $0.00, ");
-               }
-               else
-               {
-                  amount = (Convert.ToDecimal(result.field) / 100).ToString();
+                  amount = (amountValue / 100).ToString("0.00");
                   english = english + String.Format(" amount ${0}, ", amount);
                }
             }
