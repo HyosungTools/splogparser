@@ -35,7 +35,7 @@ namespace LogLineHandler
                return new Host2Atm6(logFileHandler, logLine, APLogType.NDC_HOST2ATM6);
 
             if (result2.success && result2.field.StartsWith("7"))
-               return new Host2Atm6(logFileHandler, logLine, APLogType.NDC_HOST2ATM7);
+               return new Host2Atm7(logFileHandler, logLine, APLogType.NDC_HOST2ATM7);
          }
          catch (Exception e)
          {
