@@ -31,6 +31,17 @@ namespace LogLineHandler
 
             english = "Transaction Request to Host, ";
 
+            // Decode embedded EMV chip data if present (chip transactions carry a
+            // TLV block after the track/buffer fields). Operates on the full
+            // message, independent of the field walk below, since that walk may
+            // return early before reaching the EMV section.
+            string emv = EMVParser.ParseToEnglish(ndcmsg);
+            if (emv.Length > 0)
+            {
+               english = english + emv + ", ";
+            }
+
+
             // d     3/9      M     Logical Unit Number - 
             // FS    1        M
             // FS    1        M
