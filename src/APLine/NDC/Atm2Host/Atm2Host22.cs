@@ -27,14 +27,14 @@ namespace LogLineHandler
             // c     1     M        Message Sub-Class : '2' - Status message
             (bool success, string field, string subMessage) result = NDC.GetNextFieldBySeparator(ndcmsg);
             if (!result.success || !result.field.StartsWith("22"))
-               return ;
- 
+               return;
+
             english = "Solicited Status to Host, ";
 
             // d     3/9      M     Logical Unit Number -
             result = NDC.GetNextFieldBySeparator(result.subMessage);
             if (!result.success)
-               return ;
+               return;
 
             english = english + string.Format("LUNO '{0}',", result.field);
 
@@ -45,7 +45,7 @@ namespace LogLineHandler
 
 
             (bool success, string msgMatch, string remainder) regExResult;
-            char f = (char) 0;
+            char f = (char)0;
 
             // is Time Variant present? 
             regExResult = NDC.NDCMatch(result.subMessage, "\u001c([0-9A-Fa-f]{8})\u001c([89ABCF]).*");
@@ -62,7 +62,7 @@ namespace LogLineHandler
                   f = regExResult.msgMatch[0];
                }
             }
-            
+
             switch (f)
             {
                case '8':
@@ -117,14 +117,14 @@ namespace LogLineHandler
                english = english + SolicitedDevice(myName, result.subMessage);
             }
 
-            return ;
+            return;
          }
          catch (Exception e)
          {
             this.parentHandler.ctx.ConsoleWriteLogLine(String.Format("{0} Unexpected parse in message : {1}, {2}", myName, ndcmsg, e.Message));
          }
 
-         return ;
+         return;
       }
 
       private static string SpecificCommandReject(string myName, string subMessage)
@@ -135,7 +135,7 @@ namespace LogLineHandler
          // Field Size     M/O   Description
          // g1    1        M     Status Value - Gives the reason for the reject command
 
-         return English; 
+         return English;
       }
 
       private static string TerminalState(string myName, string subMessage)
@@ -164,7 +164,7 @@ namespace LogLineHandler
 
       private static string SolicitedDevice(string myName, string subMessage)
       {
-         string English = string.Empty; 
+         string English = string.Empty;
 
          try
          {
@@ -174,11 +174,12 @@ namespace LogLineHandler
             if (m.Success)
             {
                // Device Identification Graphic
-               string DIG = m.Groups["g1"].Value; 
+               string DIG = m.Groups["g1"].Value;
                English = English + NDC.DeviceIdInEnglish(DIG);
 
-               // Transaction Status
-               English = English + " Trans Status : " + m.Groups["g2"].Value + ",";
+               // Transaction Status - device-specific decode
+               // (see Atm2Host base: Tables 9-34/9-35/9-36, Advance NDC Reference Manual)
+               English = English + " Trans Status : " + DeviceStatusInEnglish(DIG, m.Groups["g2"].Value) + ",";
 
                if (m.Groups["rest"].Value.Length > 0)
                {
@@ -188,12 +189,9 @@ namespace LogLineHandler
                   m = regex.Match(subMessage);
                   if (m.Success)
                   {
-                     English = English + " Error Severity :";
-                     if (m.Groups["g3"].Value.Contains("4")) English = English + " Fatal,";
-                     else if (m.Groups["g3"].Value.Contains("3")) English = English + " Suspend,";
-                     else if (m.Groups["g3"].Value.Contains("2")) English = English + " Warning,";
-                     else if (m.Groups["g3"].Value.Contains("1")) English = English + " Routine,";
-                     else English = English + " No Error,";
+                     // Error Severity - one standard-coded character per unit (p 9-60);
+                     // for the Cash Handler, char 0 = device, chars 1-n = cassette types
+                     English = English + " Error Severity : " + ErrorSeverityInEnglish(DIG, m.Groups["g3"].Value) + ",";
 
                      if (m.Groups["rest"].Value.Length > 0)
                      {
@@ -206,11 +204,18 @@ namespace LogLineHandler
                            English = English + " Diagnostic Status :";
 
                            // Characters 1 and 2 contain a main error status value (M-Status) in the range 0 - 99,
-                           // transmitted as two characters which give the decimal representation of the M - Status value.
-                           English = English + "#MStatus#" + NDC.DeviceIdInEnglish(DIG) + "#" + m.Groups["g4"].Value.Substring(0, 2) + "#,";
+                           // transmitted as two characters which give the decimal representation of the M-Status value.
+                           if (m.Groups["g4"].Value.Length >= 2)
+                           {
+                              English = English + "#MStatus#" + NDC.DeviceIdInEnglish(DIG) + "#" + m.Groups["g4"].Value.Substring(0, 2) + "#,";
 
-                           // Characters 3 to n (M-Data) contain detailed diagnostic information related to the device.
-                           English = English + "#MData#" + DIG + "#" + m.Groups["g4"].Value.Substring(2) + "#,";
+                              // Characters 3 to n (M-Data) contain detailed diagnostic information related to the device.
+                              English = English + "#MData#" + DIG + "#" + m.Groups["g4"].Value.Substring(2) + "#,";
+                           }
+                           else
+                           {
+                              English = English + " " + m.Groups["g4"].Value + ",";
+                           }
 
                            if (m.Groups["rest"].Value.Length > 0)
                            {
@@ -220,12 +225,8 @@ namespace LogLineHandler
                               m = regex.Match(subMessage);
                               if (m.Success)
                               {
-                                 English = English + " Supplies Status :";
-                                 if (m.Groups["g5"].Value.Contains("4")) English = English + " Overfill,";
-                                 else if (m.Groups["g5"].Value.Contains("3")) English = English + " Media Out,";
-                                 else if (m.Groups["g5"].Value.Contains("2")) English = English + " Media Low,";
-                                 else if (m.Groups["g5"].Value.Contains("1")) English = English + " Good,";
-                                 else English = English + " No New State,";
+                                 // Supplies Status - device-specific decode
+                                 English = English + " Supplies Status : " + SuppliesStatusInEnglish(DIG, m.Groups["g5"].Value) + ",";
                               }
                            }
                         }
@@ -235,12 +236,12 @@ namespace LogLineHandler
                }
             }
          }
-         catch(Exception e)
+         catch (Exception e)
          {
-            string err = e.Message; 
+            string err = e.Message;
          }
 
-         return English; 
+         return English;
       }
    }
 }
