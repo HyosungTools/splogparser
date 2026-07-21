@@ -299,6 +299,11 @@ namespace splogparser
          // II
          if (ctx.opts.IsII) ctx.logFileHandlers.Add((ILogFileHandler)new IILogHandler(new CreateTextStreamReader()));
 
+         // MV MoniView server logs
+         if (ctx.opts.IsMV) ctx.logFileHandlers.Add((ILogFileHandler)new MVLogHandler(new CreateTextStreamReader(), ParseType.MV, MVServerLine.Factory));
+
+         if (ctx.opts.IsMV) ctx.logFileHandlers.Add((ILogFileHandler)new TcpLogHandler(new CreateTextStreamReader(), ParseType.MV, TcpLine.Factory));
+
          if (zipFileName.ToLower().EndsWith(".zip"))
          {
             // if the unzip folder already exists delete it

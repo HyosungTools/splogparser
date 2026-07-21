@@ -64,6 +64,9 @@ namespace splogparser
       [Option("tcr", Default = "x", Required = false, HelpText = "Parse TCR AP Logs.")]
       public string TCRViews { get; set; }
 
+      [Option("mv", Default = "x", Required = false, HelpText = "Parse MoniView server logs. Use --mv * or --mv MVErrors,MVRoster")]
+      public string MVViews { get; set; }
+
       // default time range includes-all
       public DateTime StartTime { get; set; } = DateTime.MinValue;
       public DateTime EndTime { get; set; } = DateTime.MaxValue;
@@ -83,6 +86,7 @@ namespace splogparser
       public bool IsA2 { get { return A2Views != "x"; } }
       public bool IsTCR { get { return TCRViews != "x"; } }
       public bool IsWinCE { get { return WinCEViews != "x"; } }
+      public bool IsMV { get { return MVViews != "x"; } }
 
       public bool RunView(ParseType parseType, string viewName)
       {
@@ -102,10 +106,11 @@ namespace splogparser
          bool tcrMatch = IsTCR && parseType == ParseType.TCR && (("," + TCRViews + ",").Contains("," + viewName + ",") || TCRViews.Contains("*"));
          bool winceMatch = IsWinCE && parseType == ParseType.WinCE && (("," + WinCEViews + ",").Contains("," + viewName + ",") || WinCEViews.Contains("*"));
          bool avMatch = IsAV && parseType == ParseType.AV && (("," + AVViews + ",").Contains("," + viewName + ",") || AVViews.Contains("*"));
+         bool mvMatch = IsMV && parseType == ParseType.MV && (("," + MVViews + ",").Contains("," + viewName + ",") || MVViews.Contains("*"));
 
          return apMatch || spMatch || sfMatch || rtMatch || ssMatch || iiMatch ||
                 aeMatch || atMatch || awMatch || beMatch || a2Match || tcrMatch ||
-                winceMatch || avMatch;
+                winceMatch || avMatch || mvMatch;
       }
 
       protected string _Suffix(string parseType, string arguments)
@@ -130,6 +135,7 @@ namespace splogparser
          if (IsA2) suffix += _Suffix("__A2", A2Views);
          if (IsTCR) suffix += _Suffix("__TCR", TCRViews);
          if (IsWinCE) suffix += _Suffix("__WinCE", WinCEViews);
+         if (IsMV) suffix += _Suffix("__MV", MVViews);
          return suffix; 
       }
    }
