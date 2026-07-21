@@ -51,11 +51,13 @@
     <Compile Include="BELogHandler.cs" />
     <Compile Include="CreateTextStreamReader.cs" />
     <Compile Include="LogHandler.cs" />
+    <Compile Include="MVLogHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RTLogHandler.cs" />
     <Compile Include="SPFlatLogHandler.cs" />
     <Compile Include="SPLogHandler.cs" />
     <Compile Include="SSLogHandler.cs" />
+    <Compile Include="TcpLogHandler.cs" />
     <Compile Include="WinCEJournalHandler.cs" />
     <Compile Include="WinCETraceLogHandler.cs" />
   </ItemGroup>

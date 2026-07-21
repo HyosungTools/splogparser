@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A1B2C3D4-0004-4E5F-9A01-000000000004}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MVRosterView</RootNamespace>
+    <AssemblyName>MVRosterView</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MVRosterTable.cs" />
+    <Compile Include="MVRosterView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseView\BaseView.csproj">
+      <Project>{DB43982D-E960-4DBA-83EF-1BB6E7A60A49}</Project>
+      <Name>BaseView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Contract\Contract.csproj">
+      <Project>{9EF4286E-DC11-479C-84A0-EB43A70E1BDE}</Project>
+      <Name>Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Impl\Impl.csproj">
+      <Project>{F89403E5-4C5C-4D8F-8401-B2D56F6D8A2B}</Project>
+      <Name>Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogLineHandler\LogLineHandler.csproj">
+      <Project>{43796EA3-F9FB-4BE0-8730-A9D5B807C9C3}</Project>
+      <Name>LogLineHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MVLogLine\MVLogLine.csproj">
+      <Project>{A1B2C3D4-0001-4E5F-9A01-000000000001}</Project>
+      <Name>MVLogLine</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MVRosterView.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MVRosterView.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\MVRosterView.dll" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\MVRosterView.xsd" $(SolutionDir)\..\dist
+copy "$(MSBuildProjectDirectory)\MVRosterView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
+  </PropertyGroup>
+</Project>

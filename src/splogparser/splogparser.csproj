@@ -90,6 +90,10 @@
       <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>
       <Name>LogLineHandler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MVLogLine\MVLogLine.csproj">
+      <Project>{a1b2c3d4-0001-4e5f-9a01-000000000001}</Project>
+      <Name>MVLogLine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RTLogLine\RTLogLine.csproj">
       <Project>{94e4d663-ed8e-4605-b551-31b5d18d8a1a}</Project>
       <Name>RTLogLine</Name>
