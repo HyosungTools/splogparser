@@ -8,4 +8,8 @@
   </NextwareEvents>
   <MoniPlus2sEvents>
   </MoniPlus2sEvents>
+  <RecordingUploadEvents>
+  </RecordingUploadEvents>
+  <UnmodeledEvents>
+  </UnmodeledEvents>
 </AeView>

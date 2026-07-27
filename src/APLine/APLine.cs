@@ -197,6 +197,9 @@ namespace LogLineHandler
       CashDispenser_GetLCULastDispensedCount,
       CashDispenser_UpdateTypeInfoToDispense,
 
+      CashDispenser_DispensedCount,
+      CashDispenser_UnitValue,
+
       /* CORE */
       Core_ProcessWithdrawalTransaction_Account,
       Core_ProcessWithdrawalTransaction_Amount,
@@ -763,6 +766,15 @@ namespace LogLineHandler
 
          if (logLine.Contains("[CashDispenser") && logLine.Contains("OnItemsTaken"))
             return new APLine(logFileHandler, logLine, APLogType.CashDispenser_OnItemsTaken);
+
+         if (logLine.Contains("[CashDispenser") && logLine.Contains("OnDispenseComplete"))
+            return new APLine(logFileHandler, logLine, APLogType.CashDispenser_OnDispenseComplete);
+
+         if (logLine.Contains("Last Dispensed Count"))
+            return new APLine(logFileHandler, logLine, APLogType.CashDispenser_DispensedCount);
+
+         if (logLine.Contains("Dispenser Unit Value"))
+            return new APLine(logFileHandler, logLine, APLogType.CashDispenser_UnitValue);
 
 
 

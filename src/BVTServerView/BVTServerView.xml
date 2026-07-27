@@ -1,0 +1,5 @@
+<?xml version="1.0" standalone="yes"?>
+<BVTSRV>
+  <!-- Seed for BVTServerView. Allocation and ServerFaults tables are defined by -->
+  <!-- BVTServerView.xsd and populated at run time from the BlueVerse Teller server logs. -->
+</BVTSRV>

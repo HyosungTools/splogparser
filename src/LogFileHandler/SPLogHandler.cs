@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Contract;
 using LogLineHandler;
+using System.Linq;
 
 namespace LogFileHandler
 {
@@ -19,6 +20,16 @@ namespace LogFileHandler
          LogExpression = "*.nwlog";
          Name = "SPLogFileHandler";
       }
+
+      public override bool Initialize(IContext ctx)
+      {
+         base.Initialize(ctx);
+         FilesFound = FilesFound
+            .Where(f => NwLogSniffer.Classify(f, createReader) != NwLogSniffer.Kind.ApApplication)
+            .ToArray();
+         return FilesFound.Length > 0;
+      }
+
 
       /// <summary>
       /// EOF test

@@ -1,0 +1,6 @@
+<?xml version="1.0" standalone="yes"?>
+<CALL>
+  <!-- Seed file for CallView. The CallLedger and DroppedCalls tables are defined by -->
+  <!-- CallView.xsd and are populated at run time from the Workstation log. This view -->
+  <!-- needs no lookup Messages, so the seed is intentionally empty. -->
+</CALL>

@@ -259,6 +259,9 @@ namespace splogparser
          // AP 
          if (ctx.opts.IsAP) ctx.logFileHandlers.Add((ILogFileHandler)new APLogHandler(new CreateTextStreamReader(), ParseType.AP, APLine.Factory));
 
+         // AP nwlog — ActiveTeller *.nwlog are AP application logs; ride the -a verb into the AP views
+         if (ctx.opts.IsAP) ctx.logFileHandlers.Add((ILogFileHandler)new ATNwLogHandler(new CreateTextStreamReader(), ParseType.AP, APLine.Factory));
+
          // AT ActiveTeller
          if (ctx.opts.IsAT) ctx.logFileHandlers.Add((ILogFileHandler)new ATLogHandler(new CreateTextStreamReader()));
 
@@ -560,10 +563,13 @@ namespace splogparser
                // Import and use the plugins (they will be instantiated only when accessed)
                foreach (IView thisView in loader.Views)
                {
-
-                  viewName = thisView.Name;
-                  ctx.ConsoleWriteLogLine(String.Format("PreAnalyze view : {0}", viewName));
-                  thisView.PreAnalyze(ctx);
+                  // Only PreAnalyze a View if their ParseType was specified in the command line
+                  if (ctx.opts.RunView(thisView.parseType, thisView.Name))
+                  {
+                     viewName = thisView.Name;
+                     ctx.ConsoleWriteLogLine(String.Format("PreAnalyze view : {0}", viewName));
+                     thisView.PreAnalyze(ctx);
+                  }
                }
             }
             catch (Exception ex)
@@ -593,10 +599,13 @@ namespace splogparser
                // Import and use the plugins (they will be instantiated only when accessed)
                foreach (IView thisView in loader.Views)
                {
-
-                  viewName = thisView.Name;
-                  ctx.ConsoleWriteLogLine(String.Format("Analyze view : {0}", viewName));
-                  thisView.Analyze(ctx);
+                  // Only Analyze a View if their ParseType was specified in the command line
+                  if (ctx.opts.RunView(thisView.parseType, thisView.Name))
+                  {
+                     viewName = thisView.Name;
+                     ctx.ConsoleWriteLogLine(String.Format("Analyze view : {0}", viewName));
+                     thisView.Analyze(ctx);
+                  }
                }
             }
             catch (Exception ex)
@@ -626,9 +635,13 @@ namespace splogparser
                // Import and use the plugins (they will be instantiated only when accessed)
                foreach (IView thisView in loader.Views)
                {
-                  viewName = thisView.Name;
-                  ctx.ConsoleWriteLogLine(String.Format("PostAnalyze view : {0}", viewName));
-                  thisView.PostAnalyze(ctx);
+                  // Only PostAnalyze a View if their ParseType was specified in the command line
+                  if (ctx.opts.RunView(thisView.parseType, thisView.Name))
+                  {
+                     viewName = thisView.Name;
+                     ctx.ConsoleWriteLogLine(String.Format("PostAnalyze view : {0}", viewName));
+                     thisView.PostAnalyze(ctx);
+                  }
                }
             }
             catch (Exception ex)

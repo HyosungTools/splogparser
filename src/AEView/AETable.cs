@@ -131,6 +131,54 @@ namespace AEView
                AddMoniPlus2sExtensionEvent(mpLogLine);
             }
          }
+
+         if (logLine is LogLineHandler.RecordingUploadManager ruLogLine)
+         {
+            try
+            {
+               switch (ruLogLine.aeType)
+               {
+                  case AELogType.RecordingUploadManager:
+                     base.ProcessRow(ruLogLine);
+                     break;
+
+                  default:
+                     throw new Exception($"Unhandled LogType {ruLogLine.aeType.ToString()}");
+               }
+            }
+            catch (Exception e)
+            {
+               ctx.LogWriteLine($"AETable.ProcessRow RecordingUploadManager EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddRecordingUploadEvent(ruLogLine);
+            }
+         }
+
+         if (logLine is LogLineHandler.Unmodeled unLogLine)
+         {
+            try
+            {
+               switch (unLogLine.aeType)
+               {
+                  case AELogType.Unmodeled:
+                     base.ProcessRow(unLogLine);
+                     break;
+
+                  default:
+                     throw new Exception($"Unhandled LogType {unLogLine.aeType.ToString()}");
+               }
+            }
+            catch (Exception e)
+            {
+               ctx.LogWriteLine($"AETable.ProcessRow Unmodeled EXCEPTION: {e}");
+            }
+            finally
+            {
+               AddUnmodeledEvent(unLogLine);
+            }
+         }
       }
 
 
@@ -508,6 +556,55 @@ namespace AEView
          catch (Exception e)
          {
             ctx.ConsoleWriteLogLine("AddMoniPlus2sExtensionEvent Exception : " + e.Message);
+         }
+      }
+
+      protected void AddRecordingUploadEvent(LogLineHandler.RecordingUploadManager logLine)
+      {
+         try
+         {
+            string tableName = "RecordingUploadEvents";
+
+            DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
+
+            dataRow["file"] = logLine.LogFile;
+            dataRow["time"] = logLine.Timestamp;
+
+            if (isOptionIncludePayload || !logLine.IsRecognized)
+            {
+               dataRow["Payload"] = logLine.logLine;
+            }
+
+            dataRow["Action"] = logLine.Action;
+            dataRow["TellerSessionId"] = logLine.TellerSessionId;
+            dataRow["Error"] = logLine.Error;
+
+            dTableSet.Tables[tableName].AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("AddRecordingUploadEvent Exception : " + e.Message);
+         }
+      }
+
+      protected void AddUnmodeledEvent(LogLineHandler.Unmodeled logLine)
+      {
+         try
+         {
+            string tableName = "UnmodeledEvents";
+
+            DataRow dataRow = dTableSet.Tables[tableName].Rows.Add();
+
+            dataRow["file"] = logLine.LogFile;
+            dataRow["time"] = logLine.Timestamp;
+            dataRow["Tag"] = logLine.Tag;
+            dataRow["Payload"] = logLine.logLine;
+
+            dTableSet.Tables[tableName].AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("AddUnmodeledEvent Exception : " + e.Message);
          }
       }
 

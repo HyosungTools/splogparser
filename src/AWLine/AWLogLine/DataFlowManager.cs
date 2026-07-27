@@ -297,9 +297,40 @@ namespace LogLineHandler
                Event = $"Customer search {m.Groups["action"].Value}";
                IsRecognized = true;
             }
+
+            subtag = "Teller statistics changed for asset";
+            if (subLogLine.StartsWith(subtag))
+            {
+               Event = "Teller statistics changed";
+               IsRecognized = true;
+            }
+
+            regex = new Regex("Current remote control session id = (?<sessionid>[0-9]*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               RemoteControlSessionState = $"CURRENT remote control session id {m.Groups["sessionid"].Value}";
+               IsRecognized = true;
+            }
+
+            regex = new Regex("Retrieved teller session request for id (?<id>[0-9]*)");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               TellerSessionRequest = $"RETRIEVED teller session request id {m.Groups["id"].Value}";
+               IsRecognized = true;
+            }
+
+            regex = new Regex("Transaction item (?<item>[0-9]*) (?<action>.*) for amount (?<amount>[0-9]*) with reason");
+            m = regex.Match(subLogLine);
+            if (m.Success)
+            {
+               TransactionItemStatusChange = $"{m.Groups["action"].Value} item-number {m.Groups["item"].Value}, amount {m.Groups["amount"].Value}";
+               IsRecognized = true;
+            }
          }
 
-         if (!IsRecognized)
+         if (!IsRecognized && ThrowExceptionIfNotRecognized)
          {
             throw new Exception($"AWLogLine.{className}: did not recognize the log line '{logLine}'");
          }
