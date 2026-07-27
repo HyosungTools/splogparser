@@ -55,7 +55,7 @@ namespace LogFileHandler
          this.Factory = Factory;
       }
 
-      public bool Initialize(IContext ctx)
+      public virtual bool Initialize(IContext ctx)
       {
          // find all files
          this.ctx = ctx;

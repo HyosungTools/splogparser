@@ -1,0 +1,37 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="CALL" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="CALL" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="CallLedger">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="endtime" type="xs:string" minOccurs="0" />
+              <xs:element name="duration" type="xs:string" minOccurs="0" />
+              <xs:element name="asset" type="xs:string" minOccurs="0" />
+              <xs:element name="teller" type="xs:string" minOccurs="0" />
+              <xs:element name="transaction" type="xs:string" minOccurs="0" />
+              <xs:element name="approvals" type="xs:string" minOccurs="0" />
+              <xs:element name="disposition" type="xs:string" minOccurs="0" />
+              <xs:element name="rootcause" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DroppedCalls">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="asset" type="xs:string" minOccurs="0" />
+              <xs:element name="teller" type="xs:string" minOccurs="0" />
+              <xs:element name="event" type="xs:string" minOccurs="0" />
+              <xs:element name="detail" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

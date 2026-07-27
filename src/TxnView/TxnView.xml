@@ -1,0 +1,6 @@
+<?xml version="1.0" standalone="yes"?>
+<TXN>
+  <!-- Seed for TxnView. The TransactionLedger table is defined by TxnView.xsd and -->
+  <!-- populated at run time from the AP log. Cassette denominations are read from the -->
+  <!-- log's "Dispenser Unit Value" lines, not hardcoded. No lookup Messages required. -->
+</TXN>

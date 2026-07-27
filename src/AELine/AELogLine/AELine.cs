@@ -16,6 +16,10 @@ namespace LogLineHandler
       NetOpExtension,
       NextwareExtension,
       MoniPlus2sExtension,
+      RecordingUploadManager,
+
+      /* Any tagged agent-extension component we don't model yet (captured, not dropped) */
+      Unmodeled,
 
       /* ERROR */
       Error
