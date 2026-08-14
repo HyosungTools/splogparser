@@ -151,9 +151,9 @@ namespace splogparser
             DateTime endTime;
             int spanMinutes;
 
-            if (!DateTime.TryParseExact(opts.TimeStart, "yyyyMMddhhmm", CultureInfo.InvariantCulture, DateTimeStyles.None, out startTime))
+            if (!DateTime.TryParseExact(opts.TimeStart, "yyyyMMddHHmm", CultureInfo.InvariantCulture, DateTimeStyles.None, out startTime))
             {
-               ctx.ConsoleWriteLogLine("Invalid start time: " + $"{opts.TimeStart}, expecting yyyyMMddhhmm");
+               ctx.ConsoleWriteLogLine("Invalid start time: " + $"{opts.TimeStart}, expecting yyyyMMddHHmm e.g. 202608051430 ");
                return;
             }
 

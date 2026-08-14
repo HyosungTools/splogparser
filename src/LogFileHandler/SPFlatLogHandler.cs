@@ -25,6 +25,16 @@ namespace LogLineHandler
          Name = "SPFlatLogHandler";
       }
 
+      /// <summary>
+      /// See SPLogHandler: nwlog traces also live with the ActiveTeller logs, outside the ATM's [SP]
+      /// folder. Widen the search to the whole work folder so every *.nwlog is found, not only those
+      /// under the unzipped input folder (SubFolder).
+      /// </summary>
+      protected override string LogSearchRoot(IContext ctx)
+      {
+         return ctx.WorkFolder;
+      }
+
       public override void OpenLogFile(string fileName, int offset = 0)
       {
          base.OpenLogFile(fileName);

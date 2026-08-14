@@ -3,7 +3,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Contract;
 using LogLineHandler;
-using System.Linq;
 
 namespace LogFileHandler
 {
@@ -21,15 +20,16 @@ namespace LogFileHandler
          Name = "SPLogFileHandler";
       }
 
-      public override bool Initialize(IContext ctx)
+      /// <summary>
+      /// nwlog traces are not confined to the ATM's [SP] folder: the ActiveTeller software writes its
+      /// own *.nwlog next to the ActiveTeller logs (a sibling of the unzipped input folder). Search
+      /// the whole work folder so those device traces are picked up too, not just the ones under
+      /// SubFolder. GetFiles already recurses AllDirectories, so widening the root is all that's needed.
+      /// </summary>
+      protected override string LogSearchRoot(IContext ctx)
       {
-         base.Initialize(ctx);
-         FilesFound = FilesFound
-            .Where(f => NwLogSniffer.Classify(f, createReader) != NwLogSniffer.Kind.ApApplication)
-            .ToArray();
-         return FilesFound.Length > 0;
+         return ctx.WorkFolder;
       }
-
 
       /// <summary>
       /// EOF test
