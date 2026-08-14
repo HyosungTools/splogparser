@@ -1,0 +1,43 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="TELLERTXN" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="TELLERTXN" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="TellerTransactions">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="endtime" type="xs:string" minOccurs="0" />
+              <xs:element name="duration" type="xs:string" minOccurs="0" />
+              <xs:element name="asset" type="xs:string" minOccurs="0" />
+              <xs:element name="teller" type="xs:string" minOccurs="0" />
+              <xs:element name="customer" type="xs:string" minOccurs="0" />
+              <xs:element name="type" type="xs:string" minOccurs="0" />
+              <xs:element name="amount" type="xs:string" minOccurs="0" />
+              <xs:element name="detail" type="xs:string" minOccurs="0" />
+              <xs:element name="tellerApproval" type="xs:string" minOccurs="0" />
+              <xs:element name="reviewReason" type="xs:string" minOccurs="0" />
+              <xs:element name="cashDispensed" type="xs:string" minOccurs="0" />
+              <xs:element name="checkDisposition" type="xs:string" minOccurs="0" />
+              <xs:element name="deviceFault" type="xs:string" minOccurs="0" />
+              <xs:element name="outcome" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="TellerDevice">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="device" type="xs:string" minOccurs="0" />
+              <xs:element name="action" type="xs:string" minOccurs="0" />
+              <xs:element name="status" type="xs:string" minOccurs="0" />
+              <xs:element name="elapsed" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

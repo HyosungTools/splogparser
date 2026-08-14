@@ -761,6 +761,69 @@ namespace LogLineHandler
                   MonitoringDeviceName = $"{m.Groups["device"].Value}";
                   MonitoringElapsed = m.Groups["timespan"].Value;
                }
+
+               //OpenSession failed: Device = NXCashDispenser, Elapsed = 00:00:00.0132456
+               regex = new Regex(@"OpenSession failed: Device = (?<device>[^,]*)(, Elapsed = (?<timespan>.*))?$");
+               m = regex.Match(subLogLine);
+               if (m.Success)
+               {
+                  IsRecognized = true;
+                  MonitoringDeviceChanges = "OPEN SESSION FAILED";
+                  MonitoringDeviceName = m.Groups["device"].Value;
+                  MonitoringElapsed = m.Groups["timespan"].Value;
+               }
+
+               //Calling CloseSession: Device = NXItemProcessor
+               regex = new Regex("Calling CloseSession: Device = (?<device>.*)$");
+               m = regex.Match(subLogLine);
+               if (m.Success)
+               {
+                  IsRecognized = true;
+                  MonitoringDeviceChanges = "CLOSE SESSION";
+                  MonitoringDeviceName = m.Groups["device"].Value;
+               }
+
+               //CloseSession succeeded: Device = NXItemProcessor, Elapsed = 00:00:00.2
+               regex = new Regex("CloseSession succeeded: Device = (?<device>.*), Elapsed = (?<timespan>.*)$");
+               m = regex.Match(subLogLine);
+               if (m.Success)
+               {
+                  IsRecognized = true;
+                  MonitoringDeviceChanges = "CLOSE SESSION SUCCEEDED";
+                  MonitoringDeviceName = m.Groups["device"].Value;
+                  MonitoringElapsed = m.Groups["timespan"].Value;
+               }
+
+               //CloseSession failed: Device = NXCashDispenser, Elapsed = 00:00:00.x
+               regex = new Regex(@"CloseSession failed: Device = (?<device>[^,]*)(, Elapsed = (?<timespan>.*))?$");
+               m = regex.Match(subLogLine);
+               if (m.Success)
+               {
+                  IsRecognized = true;
+                  MonitoringDeviceChanges = "CLOSE SESSION FAILED";
+                  MonitoringDeviceName = m.Groups["device"].Value;
+                  MonitoringElapsed = m.Groups["timespan"].Value;
+               }
+
+               //[CDM] OpenSession: Error - returned unknown status of -41.
+               //[CDM] CloseSession: Error - ...
+               regex = new Regex(@"^\[(?<device>[^\]]+)\] (?<verb>OpenSession|CloseSession): Error - (?<error>.*)$");
+               m = regex.Match(subLogLine);
+               if (m.Success)
+               {
+                  IsRecognized = true;
+                  MonitoringDeviceChanges = $"{(m.Groups["verb"].Value == "OpenSession" ? "OPEN" : "CLOSE")} SESSION ERROR: {m.Groups["error"].Value}";
+                  MonitoringDeviceName = m.Groups["device"].Value;
+               }
+
+               //StopMonitoring: Start / StopMonitoring: End
+               regex = new Regex("StopMonitoring: (?<action>.*)$");
+               m = regex.Match(subLogLine);
+               if (m.Success)
+               {
+                  IsRecognized = true;
+                  MonitoringDeviceChanges = $"MONITORING STOP {m.Groups["action"].Value.ToUpper()}";
+               }
             }
          }
 

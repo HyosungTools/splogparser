@@ -94,6 +94,15 @@ namespace splogparser
 
          bool apMatch = IsAP && parseType == ParseType.AP && (("," + APViews + ",").Contains("," + viewName + ",") || APViews.Contains("*"));
          bool spMatch = IsSP && parseType == ParseType.SP && (("," + SPViews + ",").Contains("," + viewName + ",") || SPViews.Contains("*"));
+
+         // The coin dispenser shares the CDM device (device 3). Selecting CDM (or *) also produces the
+         // separate Coin worksheets, so the tech gets both cash and coin without a second verb.
+         if (IsSP && parseType == ParseType.SP && viewName == "Coin"
+             && ((("," + SPViews + ",").Contains(",CDM,")) || SPViews.Contains("*")))
+         {
+            spMatch = true;
+         }
+
          bool sfMatch = IsSF && parseType == ParseType.SF && (("," + SFViews + ",").Contains("," + viewName + ",") || SFViews.Contains("*"));
          bool rtMatch = IsRT && parseType == ParseType.RT && (("," + RTViews + ",").Contains("," + viewName + ",") || RTViews.Contains("*"));
          bool ssMatch = IsSS && parseType == ParseType.SS && (("," + SSViews + ",").Contains("," + viewName + ",") || SSViews.Contains("*"));

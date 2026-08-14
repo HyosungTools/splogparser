@@ -66,6 +66,13 @@ namespace LogLineHandler
       WFS_SRVE_CDM_ITEMSTAKEN,
       NHCDM_SETCASHUNITINFORESULT,     // CHCDUDevControl::SetCashUnitInfoResult (physical cassette summary)
 
+      /* 3 - COIN  (coin dispenser: shares the CDM device/service class - device 3, same command codes -
+                          distinguished only by the logical name "CoinDispenser" vs "CashDispenser".) */
+      WFS_INF_COIN_STATUS,
+      WFS_INF_COIN_CASH_UNIT_INFO,
+      WFS_CMD_COIN_DISPENSE,
+      WFS_SRVE_COIN_ITEMSTAKEN,
+
 
       /* 4 - PIN */
       WFS_INF_PIN_STATUS,
@@ -299,6 +306,7 @@ namespace LogLineHandler
       /* EVENTS */
       static Regex WFS_SRVE_CDM_CASHUNITINFOCHANGED_COIN = new Regex(@"CoinDispenser.*SERVICE_EVENT.304.[0-9]+WFS_SERVICE_EVENT.*Coin", RegexOptions.Compiled);
       static Regex WFS_SRVE_CDM_ITEMSTAKEN_COIN = new Regex(@"CoinDispenser.*SERVICE_EVENT.309.[0-9]+WFS_SERVICE_EVENT.*Coin", RegexOptions.Compiled);
+
 
 
       /* 4 - PIN */
@@ -641,6 +649,19 @@ namespace LogLineHandler
          /* 3 - CDM */
          if (IsMyLine(logLine, "3"))
          {
+
+            result = GenericMatch(WFS_INF_CDM_STATUS_COIN, logLine);
+            if (result.success) return new WFSCDMSTATUS(logFileHandler, result.subLogLine, XFSType.WFS_INF_COIN_STATUS);
+
+            result = GenericMatch(WFS_INF_CDM_CASH_UNIT_INFO_COIN, logLine);
+            if (result.success) return new WFSCDMCUINFO(logFileHandler, result.subLogLine, XFSType.WFS_INF_COIN_CASH_UNIT_INFO);
+
+            result = GenericMatch(WFS_CMD_CDM_DISPENSE_COIN, logLine);
+            if (result.success) return new WFSCDMDENOMINATION(logFileHandler, result.subLogLine, XFSType.WFS_CMD_COIN_DISPENSE);
+
+            result = GenericMatch(WFS_SRVE_CDM_ITEMSTAKEN_COIN, logLine);
+            if (result.success) return new SPLine(logFileHandler, result.subLogLine, XFSType.WFS_SRVE_COIN_ITEMSTAKEN);
+
             /* Test for INFO */
             result = GenericMatch(WFS_INF_CDM_STATUS, logLine);
             if (result.success) return new WFSCDMSTATUS(logFileHandler, result.subLogLine);

@@ -55,11 +55,24 @@ namespace LogFileHandler
          this.Factory = Factory;
       }
 
+      /// <summary>
+      /// Root folder under which Initialize() searches (recursively) for this handler's log files.
+      /// Defaults to the unzipped input folder (WorkFolder\SubFolder). A handler whose files can live
+      /// OUTSIDE that folder overrides this to widen the search - e.g. the *.nwlog trace the
+      /// ActiveTeller software writes alongside its own logs, which is not inside the ATM's [SP] folder.
+      /// </summary>
+      protected virtual string LogSearchRoot(IContext ctx)
+      {
+         return ctx.WorkFolder + "\\" + ctx.SubFolder;
+      }
+
+      // virtual so a handler can replace file discovery wholesale (e.g. ATNwLogHandler). Most handlers
+      // only need to widen WHERE it searches - override LogSearchRoot for that instead of Initialize.
       public virtual bool Initialize(IContext ctx)
       {
-         // find all files
+         // find all files (GetFiles recurses AllDirectories under the search root)
          this.ctx = ctx;
-         FilesFound = ctx.ioProvider.GetFiles(ctx.WorkFolder + "\\" + ctx.SubFolder, LogExpression);
+         FilesFound = ctx.ioProvider.GetFiles(LogSearchRoot(ctx), LogExpression);
          return FilesFound.Length > 0;
       }
 

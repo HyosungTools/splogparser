@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Source tables for TellerTxnView.
+
+  Each <Source> names a view and a table inside that view's WorkFolder XML that the teller-
+  transaction summary pulls in during the Analyze phase. Edit this file (no rebuild needed) to
+  change which tables feed the summary; the matching view must actually be parsed in the run
+  (e.g. OverView needs -a Over, IPMView needs -s IPM) or its columns are left blank.
+
+  If this file is missing or empty, TellerTxnView falls back to the same built-in defaults.
+-->
+<TellerTxnSources>
+  <Source view="AEView"   table="MoniPlus2sEvents" />  <!-- required: the transaction -->
+  <Source view="AEView"   table="NextwareEvents"   />  <!-- required: device session faults -->
+  <Source view="OverView" table="OverSummary"      />  <!-- optional: cash dispensed -->
+  <Source view="IPMView"  table="IPMDeposit"       />  <!-- optional: check disposition -->
+</TellerTxnSources>
