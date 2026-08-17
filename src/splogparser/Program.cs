@@ -398,7 +398,7 @@ namespace splogparser
                         ctx.ioProvider.Delete(oldFile);
                      }
 
-                     thisView.Initialize(ctx);
+                     try { thisView.Initialize(ctx); } catch (Exception viewEx) { ctx.ConsoleWriteLogLine("EXCEPTION in view " + thisView.Name + " (Initialize) - skipping this view: " + viewEx.Message); }
                      continue;
                   }
                }
@@ -435,7 +435,7 @@ namespace splogparser
                   {
                      viewName = thisView.Name;
                      ctx.ConsoleWriteLogLine(String.Format("PreProcessing view : {0}", viewName));
-                     thisView.PreProcess(ctx);
+                     try { thisView.PreProcess(ctx); } catch (Exception viewEx) { ctx.ConsoleWriteLogLine("EXCEPTION in view " + thisView.Name + " (PreProcess) - skipping this view: " + viewEx.Message); }
                   }
                }
             }
@@ -491,7 +491,7 @@ namespace splogparser
                         {
                            viewName = thisView.Name;
                            ctx.ConsoleWriteLogLine(String.Format("\nProcessing view : {0}", viewName));
-                           thisView.Process(ctx);
+                           try { thisView.Process(ctx); } catch (Exception viewEx) { ctx.ConsoleWriteLogLine("EXCEPTION in view " + thisView.Name + " (Process) - skipping this view: " + viewEx.Message); }
                         }
                      }
                   }
@@ -532,7 +532,7 @@ namespace splogparser
                   {
                      viewName = thisView.Name;
                      ctx.ConsoleWriteLogLine(String.Format("Post-Processing view : {0}", viewName));
-                     thisView.PostProcess(ctx);
+                     try { thisView.PostProcess(ctx); } catch (Exception viewEx) { ctx.ConsoleWriteLogLine("EXCEPTION in view " + thisView.Name + " (PostProcess) - skipping this view: " + viewEx.Message); }
                   }
                }
             }
@@ -568,7 +568,7 @@ namespace splogparser
                   {
                      viewName = thisView.Name;
                      ctx.ConsoleWriteLogLine(String.Format("PreAnalyze view : {0}", viewName));
-                     thisView.PreAnalyze(ctx);
+                     try { thisView.PreAnalyze(ctx); } catch (Exception viewEx) { ctx.ConsoleWriteLogLine("EXCEPTION in view " + thisView.Name + " (PreAnalyze) - skipping this view: " + viewEx.Message); }
                   }
                }
             }
@@ -604,7 +604,7 @@ namespace splogparser
                   {
                      viewName = thisView.Name;
                      ctx.ConsoleWriteLogLine(String.Format("Analyze view : {0}", viewName));
-                     thisView.Analyze(ctx);
+                     try { thisView.Analyze(ctx); } catch (Exception viewEx) { ctx.ConsoleWriteLogLine("EXCEPTION in view " + thisView.Name + " (Analyze) - skipping this view: " + viewEx.Message); }
                   }
                }
             }
@@ -640,7 +640,7 @@ namespace splogparser
                   {
                      viewName = thisView.Name;
                      ctx.ConsoleWriteLogLine(String.Format("PostAnalyze view : {0}", viewName));
-                     thisView.PostAnalyze(ctx);
+                     try { thisView.PostAnalyze(ctx); } catch (Exception viewEx) { ctx.ConsoleWriteLogLine("EXCEPTION in view " + thisView.Name + " (PostAnalyze) - skipping this view: " + viewEx.Message); }
                   }
                }
             }
@@ -687,7 +687,7 @@ namespace splogparser
                   {
                      viewName = thisView.Name;
                      ctx.ConsoleWriteLogLine(String.Format("Write Excel view : {0}", viewName));
-                     thisView.WriteExcel(ctx);
+                     try { thisView.WriteExcel(ctx); } catch (Exception viewEx) { ctx.ConsoleWriteLogLine("EXCEPTION in view " + thisView.Name + " (WriteExcel) - skipping this view: " + viewEx.Message); }
                   }
                }
             }
@@ -722,7 +722,7 @@ namespace splogparser
                   {
                      viewName = thisView.Name;
                      ctx.ConsoleWriteLogLine(String.Format("Cleanup view : {0}", viewName));
-                     thisView.Cleanup(ctx);
+                     try { thisView.Cleanup(ctx); } catch (Exception viewEx) { ctx.ConsoleWriteLogLine("EXCEPTION in view " + thisView.Name + " (Cleanup) - skipping this view: " + viewEx.Message); }
                   }
                }
             }

@@ -93,15 +93,15 @@ namespace splogparser
          viewName = viewName.Replace("View", "");
 
          bool apMatch = IsAP && parseType == ParseType.AP && (("," + APViews + ",").Contains("," + viewName + ",") || APViews.Contains("*"));
-         bool spMatch = IsSP && parseType == ParseType.SP && (("," + SPViews + ",").Contains("," + viewName + ",") || SPViews.Contains("*"));
-
-         // The coin dispenser shares the CDM device (device 3). Selecting CDM (or *) also produces the
-         // separate Coin worksheets, so the tech gets both cash and coin without a second verb.
-         if (IsSP && parseType == ParseType.SP && viewName == "Coin"
-             && ((("," + SPViews + ",").Contains(",CDM,")) || SPViews.Contains("*")))
-         {
-            spMatch = true;
-         }
+         // Coin dispenser is deliberately opt-in. Coin is a CDM-class (device 3) SP device, but ATMs
+         // with a coin dispenser are rare and we mostly only look at cash dispense / cash accept, so
+         // Coin is produced ONLY when named explicitly (e.g. -s Coin, or -s CDM,Coin). It is NOT pulled
+         // in by -s CDM, and NOT included in -s * (which would otherwise emit empty CoinStatus/
+         // CoinDispense/CoinUnit sheets on cash-only machines). Coin XFS never leaks into the cash CDM
+         // worksheets either - the factory tags coin lines WFS_*_COIN_* and only CoinView consumes them.
+         bool spMatch = IsSP && parseType == ParseType.SP
+            && ((("," + SPViews + ",").Contains("," + viewName + ","))
+                || (SPViews.Contains("*") && viewName != "Coin"));
 
          bool sfMatch = IsSF && parseType == ParseType.SF && (("," + SFViews + ",").Contains("," + viewName + ",") || SFViews.Contains("*"));
          bool rtMatch = IsRT && parseType == ParseType.RT && (("," + RTViews + ",").Contains("," + viewName + ",") || RTViews.Contains("*"));
