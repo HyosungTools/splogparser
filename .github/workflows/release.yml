@@ -37,13 +37,6 @@ jobs:
       - name: Build splogparser
         run: msbuild src\\splogparser.sln /m:1 /t:Clean,Build /p:Configuration="Release" /p:Platform="Any CPU" /nodeReuse:false
 
-      - name: Setup .NET 10
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: '10.0.x'
-          
-      - name: Build hylogparser
-        run: dotnet publish src\hylogparser\hylogparser.csproj -c Release -o dist
 
       # Install Inno Setup
       - name: Install Inno Setup

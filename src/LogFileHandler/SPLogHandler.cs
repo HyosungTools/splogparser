@@ -62,8 +62,11 @@ namespace LogFileHandler
                // generally, '\n' means EOL
                if (c.Equals('\n'))
                {
-                  // if the next char after '\n' is a '\t', '{', '(', '<', ' ', '-'  or letter, we are not at EOL
-                  char cNext = logFile[traceFilePos + 1];
+                  // if the next char after '\n' is a '\t', '{', '(', '<', ' ', '-'  or letter, we are not at EOL.
+                  // Guard the lookahead: at the last char (a trailing '\n') traceFilePos+1 is past the buffer;
+                  // reading it threw IndexOutOfRange *before* traceFilePos++ ran, and BaseView's while(!EOF())
+                  // loop then re-read the same position forever (a hang). Treat past-end as end-of-line.
+                  char cNext = (traceFilePos + 1 < logFile.Length) ? logFile[traceFilePos + 1] : '\0';
                   endOfLine = !(cNext == '\r' || cNext == '\t' || cNext == '(' || cNext == '{' || cNext == '<' || cNext == ' ' || cNext == '-' || char.IsLetter(cNext));
 
                   // if we are at EOL and the next char is a ')' or '}' add it

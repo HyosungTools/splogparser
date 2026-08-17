@@ -513,17 +513,21 @@ namespace LogLineHandler
 
       protected override string tsTimestamp()
       {
-         // the string from the log file, but return is in normal form
-         // (replace '/' with '-' and the 2nd space with a ':')
-         string logTime = "2022/01/01 00:00 00.000";
-
          // Example: tsTimestamp = [2023/02/01 21:03 11.557],
          Regex timeRegex = new Regex("tsTimestamp = \\[(.{23})\\]");
          Match mtch = timeRegex.Match(logLine);
-         if (mtch.Success)
+         if (!mtch.Success)
          {
-            logTime = mtch.Groups[1].Value;
+            // No parseable timestamp on this record: return the shared sentinel so
+            // bCheckValidTimestamp() marks it invalid. It used to default to a live-looking
+            // "2022-01-01" that passed validation and got mis-filtered / planted at 2022 in the
+            // time-range and WallClock summaries.
+            return DefaultTimestamp;
          }
+
+         // the string from the log file, returned in normal form
+         // (replace '/' with '-' and the 2nd space with a ':')
+         string logTime = mtch.Groups[1].Value;
 
          // replace / with -
          logTime = logTime.Replace('/', '-');
@@ -571,7 +575,12 @@ namespace LogLineHandler
          Match m = regEx.Match(matchLine);
          if (m.Success)
          {
-            string subLogLine = logLine.Substring(m.Index + m.Length + 4);
+            // Skip the 4 glue chars after the match, but clamp to the string length: on a record
+            // truncated at file end / rotation, the WFS_*_COMPLETE token can land within 4 chars of
+            // the end, and an unclamped Substring(m.Index + m.Length + 4) throws (dropping the very
+            // line we just classified).
+            int start = Math.Min(m.Index + m.Length + 4, logLine.Length);
+            string subLogLine = logLine.Substring(start);
             return (true, subLogLine);
          }
 

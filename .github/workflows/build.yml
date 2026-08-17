@@ -61,22 +61,40 @@ jobs:
     - name: Build
       run: msbuild src\\splogparser.sln /m:1 /t:Clean,Build /p:Configuration="Release" /p:Platform="Any CPU" /nodeReuse:false
 
-    # Setup VSTest 
+    # Setup VSTest
     - name: Setup VSTest Path
       uses: darenm/Setup-VSTest@v1.2
-                 
-    # Test C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\TestPlatform
-    - name: Test 
-      run: msbuild src\\splogparser.sln /t:RunUnitTests /p:Configuration="Release" /p:Platform="Any CPU"
 
-    # Build hylogparser (.NET 10 WPF, single-file publish into dist\)
-    - name: Setup .NET 10
-      uses: actions/setup-dotnet@v5
+    # Coverage collector - instruments the .NET Framework test host that vstest launches
+    - name: Install dotnet-coverage
+      run: dotnet tool install --global dotnet-coverage
+
+    # Test, under coverage. dotnet-coverage wraps the existing RunUnitTests target (msbuild -> vstest
+    # -> testhost) and writes a single Cobertura report for all *Tests.dll projects.
+    - name: Test (with coverage)
+      shell: bash
+      run: dotnet-coverage collect 'msbuild src/splogparser.sln /t:RunUnitTests /p:Configuration=Release /p:Platform="Any CPU"' -f cobertura -o coverage.cobertura.xml
+
+    # Turn the Cobertura file into an HTML report + a Markdown summary (no external service, no badge)
+    - name: Generate coverage report
+      uses: danielpalme/ReportGenerator-GitHub-Action@5
       with:
-        dotnet-version: '10.0.x'
+        reports: coverage.cobertura.xml
+        targetdir: coverage-report
+        reporttypes: Html;MarkdownSummaryGithub
 
-    - name: Build hylogparser
-      run: dotnet publish src\hylogparser\hylogparser.csproj -c Release -o dist
+    # Show the coverage summary right in the Actions run (Summary panel)
+    - name: Coverage summary
+      shell: bash
+      run: cat coverage-report/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY"
+
+    # Keep the full HTML report (per-file / per-parser coverage) as a downloadable artifact
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: coverage-report
+
 
     # List artifacts
     - name: List artifacts

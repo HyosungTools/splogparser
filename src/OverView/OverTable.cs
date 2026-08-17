@@ -1511,6 +1511,28 @@ namespace OverView
          }
       }
 
+      /// <summary>
+      /// Exact-token membership test for a FITSwitch AddKey value (a delimited list of state numbers).
+      /// Using string.Contains() here was a bug: "13,20".Contains("3") is true (substring match), and an
+      /// empty field made Contains("") true -> every unparsed FIT-switch line was mislabeled "foreign".
+      /// </summary>
+      private static bool StateInList(string list, string field)
+      {
+         if (string.IsNullOrEmpty(field) || string.IsNullOrEmpty(list))
+         {
+            return false;
+         }
+
+         foreach (string token in list.Split(new[] { ',', ';', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries))
+         {
+            if (token == field)
+            {
+               return true;
+            }
+         }
+         return false;
+      }
+
       protected void APLINE_FLW_SWITCH_FIT(APLineField lineField)
       {
          try
@@ -1531,15 +1553,15 @@ namespace OverView
             dataRow["functionkey"] = string.Empty;
             dataRow["comment"] = string.Empty;
 
-            if (FITSwitchForeignNextStateNumbers.Contains(lineField.field))
+            if (StateInList(FITSwitchForeignNextStateNumbers, lineField.field))
             {
                dataRow["card"] = "foreign";
             }
-            else if (FITSwitchOnUsNextStateNumbers.Contains(lineField.field))
+            else if (StateInList(FITSwitchOnUsNextStateNumbers, lineField.field))
             {
                dataRow["card"] = "on-us";
             }
-            else if (FITSwitchOtherNextStateNumbers.Contains(lineField.field))
+            else if (StateInList(FITSwitchOtherNextStateNumbers, lineField.field))
             {
                dataRow["card"] = "other";
             }
