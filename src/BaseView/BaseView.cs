@@ -72,12 +72,39 @@ namespace Impl
          return;
       }
 
+      /// <summary>
+      /// Interim MoniView performance guard. A view's Process runs once for every LogFileHandler
+      /// that shares this view's ParseType. Usually that is exactly one handler, but MoniView has
+      /// two handlers under ParseType.MV - MVLogHandler (MoniViewServerLog*.txt) and TcpLogHandler
+      /// (TcpTrace_*.txt). A view that only consumes one of the two file families would otherwise
+      /// still open and parse the other family's files (thousands of TcpTrace files on a fleet
+      /// capture) and discard every line in ProcessRow. Overriding this lets a view decline a
+      /// handler up front, before the read loop, so it never touches files it cannot use.
+      ///
+      /// Default: accept every handler that matched this view's ParseType - unchanged behaviour for
+      /// all non-MoniView views.
+      /// </summary>
+      /// <param name="handler">the handler about to be processed (ctx.activeHandler)</param>
+      /// <returns>true to run the read loop for this handler; false to skip it</returns>
+      protected virtual bool HandlesActiveHandler(ILogFileHandler handler)
+      {
+         return true;
+      }
+
       /// <summary>Call to process the datatable (merge of all log lines)</summary>
       /// <returns>void</returns>
       public virtual void Process(IContext ctx)
       {
          ctx.LogWriteLine("BaseView.------------------------------------------------");
          ctx.LogWriteLine("BaseView.Process: " + viewName);
+
+         // MoniView perf guard: don't read files this view can't consume (e.g. server-log views
+         // skipping thousands of TcpTrace_*.txt captures, and vice-versa). No-op for other views.
+         if (!HandlesActiveHandler(ctx.activeHandler))
+         {
+            ctx.ConsoleWriteLogLine(String.Format("BaseView.Process: {0} does not consume {1} files - skipping", viewName, ctx.activeHandler.Name));
+            return;
+         }
 
          // For each file found by this log handler...
          foreach (string fileName in ctx.activeHandler.FilesFound)

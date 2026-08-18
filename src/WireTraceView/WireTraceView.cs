@@ -19,5 +19,15 @@ namespace WireTraceView
          wireTable.ReadXmlFile();
          return wireTable;
       }
+
+      /// <summary>
+      /// WireTrace only consumes the TcpTrace_*.txt captures (TcpLogHandler). Skip the
+      /// MoniViewServerLog*.txt files (MVLogHandler) - it discards every server-log line anyway.
+      /// See BaseView.HandlesActiveHandler.
+      /// </summary>
+      protected override bool HandlesActiveHandler(ILogFileHandler handler)
+      {
+         return handler != null && handler.Name == "TcpLogFileHandler";
+      }
    }
 }

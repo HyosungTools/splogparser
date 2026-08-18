@@ -58,13 +58,31 @@ namespace MVErrorsView
             dataRow["kind"] = mvLine.Kind;
             dataRow["comment"] = mvLine.Comment;
             dataRow["detail"] = Truncate(mvLine.Detail, SENSIBLE_EXCEL_CELL_DATA_LENGTH);
-
-            dTableSet.Tables[TABLE_NAME].AcceptChanges();
          }
          catch (Exception e)
          {
             ctx.ConsoleWriteLogLine("MVErrorsTable.AddErrorRow Exception : " + e.Message);
          }
+      }
+
+      /// <summary>
+      /// Commit all added rows once, at the end. AcceptChanges() walks the whole table, so calling
+      /// it per row (as AddErrorRow used to) makes a growing table O(n^2) - the MoniView fleet-scale
+      /// slowdown. One call here is equivalent: WriteXml serializes current row values regardless of
+      /// RowState.
+      /// </summary>
+      public override void PostProcess()
+      {
+         try
+         {
+            dTableSet.Tables[TABLE_NAME].AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("MVErrorsTable.PostProcess Exception : " + e.Message);
+         }
+
+         base.PostProcess();
       }
 
       private string Truncate(string value, int max)
