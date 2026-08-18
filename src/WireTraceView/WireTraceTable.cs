@@ -92,7 +92,9 @@ namespace WireTraceView
             row["encidx"] = tcp.EncIndexHex;
             row["frameok"] = (tcp.MsgType == TcpMsgType.Data) ? (tcp.FrameOk ? "yes" : "NO") : "";
             row["comment"] = RowComment(tcp);
-            dTableSet.Tables[WIRE].AcceptChanges();
+            // NOTE: AcceptChanges() is deliberately NOT called here. It walks the whole table, so
+            // committing per frame made this O(n^2) - catastrophic at fleet scale (one row per frame
+            // over 2GB of TcpTrace). Both sheets are committed once in PostProcess instead.
          }
          catch (Exception e)
          {
@@ -211,8 +213,11 @@ namespace WireTraceView
                row["avgsize"] = avgSize.ToString();
                row["firstseen"] = agg.First;
                row["comment"] = SummaryComment(agg, cleanPct);
-               dTableSet.Tables[SUMMARY].AcceptChanges();
             }
+
+            // Commit both sheets once (per-frame AcceptChanges was O(n^2) - see AddWireRow).
+            dTableSet.Tables[WIRE].AcceptChanges();
+            dTableSet.Tables[SUMMARY].AcceptChanges();
          }
          catch (Exception e)
          {

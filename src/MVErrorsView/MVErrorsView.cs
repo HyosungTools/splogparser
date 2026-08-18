@@ -23,5 +23,15 @@ namespace MVErrorsView
          errorsTable.ReadXmlFile();
          return errorsTable;
       }
+
+      /// <summary>
+      /// Server-log view: only consume MoniViewServerLog*.txt (MVLogHandler). Skip the
+      /// TcpTrace_*.txt captures (TcpLogHandler) - a fleet capture has thousands and every line
+      /// would be discarded in ProcessRow. See BaseView.HandlesActiveHandler.
+      /// </summary>
+      protected override bool HandlesActiveHandler(ILogFileHandler handler)
+      {
+         return handler != null && handler.Name == "MVLogFileHandler";
+      }
    }
 }
