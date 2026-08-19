@@ -57,7 +57,8 @@ namespace CDMView_Flat
                   case SPFlatType.CDM_HandleDenominate:
                      {
                         base.ProcessRow(spFlatLine);
-                        AddInformation(spFlatLine, "denominate");
+                        // (removed AddInformation(spFlatLine, "denominate") - it added a blank
+                        //  duplicate row per denominate, doubling the sheet. The invoke row remains.)
                         break;
                      }
 
@@ -210,6 +211,26 @@ namespace CDMView_Flat
                         if (spFlatLine is CDMUnitList unitList)
                         {
                            AddPhysicalStatusRow(unitList, "reject");
+                        }
+                        break;
+                     }
+
+                  case SPFlatType.CDM_CashUnitTrace:
+                     {
+                        base.ProcessRow(spFlatLine);
+                        if (spFlatLine is CDMCashUnitTrace trace)
+                        {
+                           AddSummaryFromTrace(trace);
+                        }
+                        break;
+                     }
+
+                  case SPFlatType.CDM_XFSResult:
+                     {
+                        base.ProcessRow(spFlatLine);
+                        if (spFlatLine is CDMXFSResultLine xfs)
+                        {
+                           AddOperationRow(xfs);
                         }
                         break;
                      }
@@ -389,5 +410,96 @@ namespace CDMView_Flat
                 "AddRowConditionally", line.LogFile, line.Timestamp, e.Message));
          }
       }
+
+      // DN consolidated CDM cash-unit dump -> the 'Summary' worksheet. One row per logical unit, laid
+      // into the seed rows by index. UnitValue is the per-cassette denomination. Column-defensive + logs
+      // a one-line diagnostic so Trace.log shows whether it ran and how many rows it wrote.
+      private void AddSummaryFromTrace(CDMCashUnitTrace trace)
+      {
+         try
+         {
+            DataTable summary = dTableSet.Tables["Summary"];
+            if (summary == null)
+            {
+               ctx.ConsoleWriteLogLine("AddSummaryFromTrace: no 'Summary' table!");
+               return;
+            }
+
+            DataRow[] rows = summary.Select();
+            ctx.ConsoleWriteLogLine(String.Format(
+               "AddSummaryFromTrace: trace.Count={0}, seed rows={1}, cols=[{2}]",
+               trace.Count, rows.Length,
+               String.Join(",", summary.Columns.Cast<DataColumn>().Select(c => c.ColumnName))));
+
+            int written = 0;
+            for (int i = 0; i < trace.Count && i < rows.Length; i++)
+            {
+               Set(rows[i], "file", trace.LogFile);
+               Set(rows[i], "time", trace.Timestamp);
+               Set(rows[i], "error", trace.HResult);
+               Set(rows[i], "number", trace.At("UnitNumber", i));   // CIM-style key column, if present
+               Set(rows[i], "id", trace.At("UnitID", i));
+               Set(rows[i], "type", trace.At("UnitType", i));
+               Set(rows[i], "name", trace.At("UnitType", i));       // XML-seed column, if present
+               Set(rows[i], "currency", trace.At("UnitCurrencyID", i));
+               Set(rows[i], "denom", trace.At("UnitValue", i));     // <-- the denomination
+               Set(rows[i], "initial", trace.At("UnitInitialCount", i));
+               Set(rows[i], "comment", "count " + trace.At("UnitCount", i) + ", " + trace.At("UnitStatus", i));
+               written++;
+            }
+            summary.AcceptChanges();
+            ctx.ConsoleWriteLogLine("AddSummaryFromTrace: wrote " + written + " summary row(s)");
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("CDMTable_Flat.AddSummaryFromTrace Exception: " + e.Message);
+         }
+      }
+
+      // Write a column only if it exists on the row's table (schema differs between XSD and seed XML).
+      private void Set(DataRow row, string column, object value)
+      {
+         if (row.Table.Columns.Contains(column))
+         {
+            row[column] = value;
+         }
+      }
+      // DN dispense-lifecycle event (CCDMService::HandleXFSResult / FireXFSEvent). The command number
+      // is named from the Messages lookup (type "dwCommandCode") - team-maintained data, not hardcoded.
+      // A row is written when the command is known (has a Messages entry) OR it faulted, so real
+      // operations and every fault are visible while un-mapped successful chatter stays out.
+      private void AddOperationRow(CDMXFSResultLine xfs)
+      {
+         try
+         {
+            // Denominate is already covered by the Ctrl::Denominate invoke row (with the amount).
+            if (xfs.CommandCode == 301)
+            {
+               return;
+            }
+
+            (bool found, DataRow msg) = FindMessages("dwCommandCode", xfs.CommandCode.ToString());
+            bool failed = !string.IsNullOrEmpty(xfs.HResult);
+
+            if (!found && !failed)
+            {
+               return;   // un-mapped and succeeded -> internal chatter, skip
+            }
+
+            string name = found ? msg["brief"].ToString() : ("command " + xfs.CommandCode);
+
+            DataRow row = dTableSet.Tables["Dispense"].Rows.Add();
+            row["file"] = xfs.LogFile;
+            row["time"] = xfs.Timestamp;
+            row["error"] = xfs.HResult;
+            row["position"] = name;
+            dTableSet.Tables["Dispense"].AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("CDMTable_Flat.AddOperationRow Exception: " + e.Message);
+         }
+      }
+
    }
 }
