@@ -1049,6 +1049,14 @@
     <code>-343</code>
     <brief>sync unsup</brief>
     <description>The preparation for the command specified in the dwCommand with the parameter specified in the lpCmdData is not supported by the Service Provider.</description>
-  </Messages>   
+  </Messages>  
+
+  <Messages><type>dwCommandCode</type><code>301</code><brief>denominate</brief><description>WFS_CMD_CDM_DENOMINATE</description></Messages>
+  <Messages><type>dwCommandCode</type><code>302</code><brief>dispense</brief><description>WFS_CMD_CDM_DISPENSE</description></Messages>
+  <Messages><type>dwCommandCode</type><code>303</code><brief>present</brief><description>WFS_CMD_CDM_PRESENT</description></Messages>
+  <Messages><type>dwCommandCode</type><code>304</code><brief>reject</brief><description>WFS_CMD_CDM_REJECT</description></Messages>
+  <Messages><type>dwCommandCode</type><code>311</code><brief>start exchange</brief><description>from DN log: Ctrl::StartExchangeSync</description></Messages>
+  <Messages><type>dwCommandCode</type><code>312</code><brief>end exchange</brief><description>from DN log: Ctrl::EndExchangeSync</description></Messages>
+  <Messages><type>dwCommandCode</type><code>321</code><brief>reset</brief><description>WFS_CMD_CDM_RESET / Ctrl::ResetEx</description></Messages>  
 
 </CDM_Flat>

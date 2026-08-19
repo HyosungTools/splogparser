@@ -41,15 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CDMCashUnitTrace.cs" />
     <Compile Include="CDMDenominateLine.cs" />
     <Compile Include="CDMDispenseLine.cs" />
     <Compile Include="CDMUnitList.cs" />
+    <Compile Include="CDMXFSResultLine.cs" />
     <Compile Include="CIMCashInLine.cs" />
     <Compile Include="CIMCashUnitTrace.cs" />
     <Compile Include="CIMLogicalUnit.cs" />
     <Compile Include="CIMLogicalUnitValues.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SPFlatLine.cs" />
+    <Compile Include="SPFlatRecord.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contract\Contract.csproj">

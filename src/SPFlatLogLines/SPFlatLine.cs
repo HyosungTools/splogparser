@@ -33,6 +33,9 @@ namespace LogLineHandler
 
       CDM_HandleItemsTaken,
 
+      CDM_CashUnitTrace,
+      CDM_XFSResult,
+
       /* CIM deposit lifecycle - methods invoked */
       CIM_StartCashIn,
       CIM_SetCashInLimit,
@@ -169,207 +172,202 @@ namespace LogLineHandler
 
          return hResult == "0" ? "" : hResult;
       }
+
       public static ILogLine Factory(ILogFileHandler handler, string logLine)
       {
-         // Generic SP-level failure: any XFS completion message reporting a negative hResult
-         // (e.g. WFS_EXECUTE_COMPLETE(RequestID=846, hService=13, hResult=-1316, dwCommandCode=1303 ...))
+         if (string.IsNullOrEmpty(logLine))
+            return null;
+
+         // Generic SP-level failure: any XFS completion reporting a negative hResult, e.g.
+         //   WFS_EXECUTE_COMPLETE(RequestID=846, hService=13, hResult=-1316, dwCommandCode=1303 ...)
+         // Checked on the raw line because it is unambiguous and framing-independent.
          if (logLine.Contains("_COMPLETE(") && logLine.Contains("hResult=-"))
             return new SPFlatLine(handler, logLine, SPFlatType.Error);
 
-         // Specialized route for CDM Dispense lines
-         #region CDM
+         // Decode the record into fields. Route on Method/Payload (reliable regardless of framing).
+         SPFlatRecord rec = SPFlatRecord.Decode(logLine);
+         if (!rec.Ok)
+            return null;
 
-         if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::Denominate") && logLine.Contains("Invoked"))
+         string method = rec.Method;      // e.g. "Ctrl::GetCashInStatus.Value", "CCimService::HandleCashIn"
+         string payload = rec.Payload;    // e.g. "CashInStatus[0].Value[5]"
+         string category = rec.Category;  // PROPERTY / INFORMATION / METHOD / EVENT / XFSAPI / ERROR
+
+         // Small helpers so service-class case variants (CCimService vs CCIMService) don't matter.
+         bool MethodHas(string s) { return method.IndexOf(s, System.StringComparison.OrdinalIgnoreCase) >= 0; }
+         bool PayloadHas(string s) { return payload.IndexOf(s, System.StringComparison.OrdinalIgnoreCase) >= 0; }
+
+         // =========================================================================================
+         // C D M
+         // =========================================================================================
+
+         // Dispense lifecycle (DN uses Denominate; FI machines also emit Dispense/Present).
+         if (method == "Ctrl::Denominate" && category == "METHOD" && PayloadHas("Invoked"))
             return new CDMDenominateLine(handler, logLine);
 
-         //if (logLine.Contains("INFORMATION") && logLine.Contains("HandleDenominate") && logLine.Contains("Execute-Result"))
-         //   return new SPFlatLine(handler, logLine, SPFlatType.CDM_HandleDenominate);
+         if (MethodHas("HandleDenominate") && PayloadHas("Execute-Result[Denominate]"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CDM_HandleDenominate);
 
-         if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::Dispense") && logLine.Contains("Invoked"))
+         if (method == "Ctrl::Dispense" && category == "METHOD" && PayloadHas("Invoked"))
             return new CDMDispenseLine(handler, logLine);
 
-         //if (logLine.Contains("INFORMATION") && logLine.Contains("HandleDispense") && logLine.Contains("Execute-Result"))
-         //   return new SPFlatLine(handler, logLine, SPFlatType.CDM_HandleDispense);
+         if (MethodHas("HandleDispense") && PayloadHas("Execute-Result[Dispense]"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CDM_HandleDispense);
 
-         if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::Present") && logLine.Contains("Invoked"))
+         if (method == "Ctrl::Present" && category == "METHOD" && PayloadHas("Invoked"))
             return new SPFlatLine(handler, logLine, SPFlatType.CDM_PresentInvoked);
 
-         //if (logLine.Contains("INFORMATION") && logLine.Contains("HandlePresent") && logLine.Contains("Execute-Result"))
-         //   return new SPFlatLine(handler, logLine, SPFlatType.CDM_HandlePresent);
+         if (MethodHas("HandlePresent") && PayloadHas("Execute-Result[Present]"))
+            return new SPFlatLine(handler, logLine, SPFlatType.CDM_HandlePresent);
 
-         if (logLine.Contains("EVENT") && logLine.Contains("CCdmService::HandleItemsTaken") && logLine.Contains("FireItemsTaken"))
+         if (MethodHas("HandleItemsTaken") && MethodHas("Cdm"))
             return new SPFlatLine(handler, logLine, SPFlatType.CDM_HandleItemsTaken);
 
-         // L O G I C A L  U N I T S
+         // Consolidated CDM cash-unit dump (DN dialect): every logical unit in one line as parallel
+         // arrays incl. UnitValue (the per-cassette denomination). Feeds the CDM 'Summary' worksheet -
+         // the DN equivalent of the FI per-property GetUnit* lines below.
+         if (method == "Ctrl::TraceCDMCashUnitInfo")
+            return new CDMCashUnitTrace(handler, logLine);
 
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetUnitID"))
+         // DN dispense lifecycle: DN logs dispense/present/retract as XFS command-code events
+         // (FireXFSEvent [dwCommandCode=NNN, hResult=N]) via CCDMService::HandleXFSResult, NOT as
+         // Ctrl::Dispense / HandleDispense. Scoped to the CDM service class so CIM's HandleXFSResult
+         // (CCIMService::) is not swept in. The line carries the command code + hResult.
+         if (MethodHas("CDMService::HandleXFSResult") && PayloadHas("FireXFSEvent"))
+            return new CDMXFSResultLine(handler, logLine);
+
+         // FI-dialect per-property logical units (kept for Hyosung-flat machines).
+         if (category == "PROPERTY" && method == "Ctrl::GetUnitID")
             return new CDMUnitList(handler, logLine, SPFlatType.CDM_UnitIDs);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetUnitType"))
+         if (category == "PROPERTY" && method == "Ctrl::GetUnitType")
             return new CDMUnitList(handler, logLine, SPFlatType.CDM_UnitTypes);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetUnitCurrency"))
+         if (category == "PROPERTY" && method == "Ctrl::GetUnitCurrencyID")   // FI method is ...CurrencyID
             return new CDMUnitList(handler, logLine, SPFlatType.CDM_UnitCurrencies);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetUnitValue"))
+         if (category == "PROPERTY" && method == "Ctrl::GetUnitValue")
             return new CDMUnitList(handler, logLine, SPFlatType.CDM_UnitValues);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetUnitCount"))
+         if (category == "PROPERTY" && method == "Ctrl::GetUnitCount")
             return new CDMUnitList(handler, logLine, SPFlatType.CDM_UnitCounts);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetUnitStatus"))
+         if (category == "PROPERTY" && method == "Ctrl::GetUnitStatus")
             return new CDMUnitList(handler, logLine, SPFlatType.CDM_UnitStatuses);
 
-         // P H Y S I C A L  U N I T S
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetUnitPUNumber"))
+         // FI-dialect physical units.
+         if (category == "PROPERTY" && method == "Ctrl::GetUnitPUNumber")
             return new CDMUnitList(handler, logLine, SPFlatType.CDM_PhysicalUnitNumbers);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetPhysicalID"))
+         if (category == "PROPERTY" && method == "Ctrl::GetPhysicalID")
             return new CDMUnitList(handler, logLine, SPFlatType.CDM_PhysicalIDs);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetPhysicalPositionName"))
+         if (category == "PROPERTY" && method == "Ctrl::GetPhysicalPositionName")
             return new CDMUnitList(handler, logLine, SPFlatType.CDM_PhysicalPositionNames);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetPhysicalInitialCount"))
+         if (category == "PROPERTY" && method == "Ctrl::GetPhysicalInitialCount")
             return new CDMUnitList(handler, logLine, SPFlatType.CDM_PhysicalInitialCounts);
-
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetPhysicalStatus"))
+         if (category == "PROPERTY" && method == "Ctrl::GetPhysicalStatus")
             return new CDMUnitList(handler, logLine, SPFlatType.CDM_PhysicalStatuses);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetPhysicalRejectCount"))
+         if (category == "PROPERTY" && method == "Ctrl::GetPhysicalRejectCount")
             return new CDMUnitList(handler, logLine, SPFlatType.CDM_PhysicalRejectCounts);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetPhysicalCount"))
+         if (category == "PROPERTY" && method == "Ctrl::GetPhysicalCount")
             return new CDMUnitList(handler, logLine, SPFlatType.CDM_PhysicalCounts);
 
-         #endregion
+         // =========================================================================================
+         // C I M
+         // =========================================================================================
 
-         #region CIM
-
-         // C A S H  U N I T  /  C A S S E T T E  C O U N T S
-
-         // Consolidated dump (DieboldNixdorf flat logs): one line carries every field for one
-         // logical unit. Must be checked BEFORE LUFactory - the Trace line contains
-         // "].InitialCount[" etc. and would otherwise be misclassified as a single field.
-         if (logLine.Contains("CLogicalUnit::TraceCIMCashUnitInfo"))
+         // Consolidated cash-unit dump (DN + FI both emit this). Must precede LUFactory.
+         if (MethodHas("TraceCIMCashUnitInfo") || PayloadHas("LogicalUnit[0].Number["))
             return new CIMCashUnitTrace(handler, logLine);
 
-         // Per-property format (FI-style flat logs): Ctrl::GetLogicalUnit.X -> LogicalUnit[n].X[v]
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetLogicalUnit."))
+         // FI-dialect per-property logical unit (Ctrl::GetLogicalUnit.X -> LogicalUnit[n].X[v]).
+         if (category == "PROPERTY" && method.StartsWith("Ctrl::GetLogicalUnit."))
             return CIMLogicalUnit.LUFactory(handler, logLine);
 
-         // D E P O S I T  L I F E C Y C L E  -  M E T H O D S  I N V O K E D
-
-         if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::StartCashInEx") && logLine.Contains("Invoked"))
+         // Deposit lifecycle - methods invoked. NOTE the DN fix: Ctrl::StartCashIn (no "Ex").
+         if ((method == "Ctrl::StartCashIn" || method == "Ctrl::StartCashInEx") && category == "METHOD")
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_StartCashIn);
-
-         if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::SetCashInLimit") && logLine.Contains("Invoked"))
+         if (method == "Ctrl::SetCashInLimit" && category == "METHOD")
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_SetCashInLimit);
-
-         if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::AcceptCash") && logLine.Contains("Invoked"))
+         if (method == "Ctrl::AcceptCash" && category == "METHOD")
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_AcceptCash);
-
-         if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::StoreCash") && logLine.Contains("Invoked"))
+         if (method == "Ctrl::StoreCash" && category == "METHOD")
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_StoreCash);
-
-         if (logLine.Contains("METHOD") && logLine.Contains("Ctrl::RollbackCash") && logLine.Contains("Invoked"))
+         if (method == "Ctrl::RollbackCash" && category == "METHOD")
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_RollbackCash);
 
-         // NOTE: Ctrl::OpenShutter / Ctrl::CloseShutter / Ctrl::RetractEx / Ctrl::ResetEx are not
-         // CIM-unique method names (IPM and CDM controls expose the same names) and the flat record
-         // format does not let us cheaply attribute a METHOD line to a device. The unambiguous
-         // CCimService::Handle* result lines below carry the outcome, timestamp and hResult instead.
-
-         // D E P O S I T  L I F E C Y C L E  -  R E S U L T S  A N D  E V E N T S
-
-         // Handler class name appears as both CCimService:: and CCIMService:: in the same log,
-         // so match on the unique Execute-Result payload token where possible.
-
-         if (logLine.Contains("Execute-Result[CashInStart]"))
+         // Deposit lifecycle - results (Execute-Result payload token is the unambiguous discriminator).
+         if (PayloadHas("Execute-Result[CashInStart]"))
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleCashInStart);
-
-         if (logLine.Contains("Execute-Result[CashInEnd]"))
+         if (PayloadHas("Execute-Result[CashInEnd]"))
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleCashInEnd);
-
-         if (logLine.Contains("Execute-Result[CashInRollback]"))
+         if (PayloadHas("Execute-Result[CashInRollback]"))
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleRollback);
-
-         if (logLine.Contains("Execute-Result[CashIn]"))
+         if (PayloadHas("Execute-Result[CashIn]"))
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleCashIn);
-
-         if (logLine.Contains("EVENT") && logLine.Contains("FireStoreCashComplete"))
+         if (MethodHas("FireStoreCashComplete") || PayloadHas("FireStoreCashComplete"))
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_StoreCashComplete);
-
-         if ((logLine.Contains("CimService::HandleRetract") || logLine.Contains("CIMService::HandleRetract")) && logLine.Contains("Execute-Result[Retract]"))
+         if (MethodHas("HandleRetract") && PayloadHas("Execute-Result[Retract]"))
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleRetract);
-
-         if ((logLine.Contains("CimService::HandleReset") || logLine.Contains("CIMService::HandleReset")) && logLine.Contains("Execute-Result[Reset]"))
+         if (MethodHas("HandleReset") && PayloadHas("Execute-Result[Reset]"))
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleReset);
-
-         // CDM emits the same OpenShutter/CloseShutter/CashUnitInfo/CountsChanged payloads via
-         // CCdmService::, so these checks must be constrained to the CIM service class name.
-
-         if ((logLine.Contains("CimService::HandleOpenSht") || logLine.Contains("CIMService::HandleOpenSht")) && logLine.Contains("Execute-Result[OpenShutter]"))
+         if (MethodHas("HandleOpenSht") && PayloadHas("Execute-Result[OpenShutter]"))
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleOpenShutter);
-
-         if ((logLine.Contains("CimService::HandleCloseSht") || logLine.Contains("CIMService::HandleCloseSht")) && logLine.Contains("Execute-Result[CloseShutter]"))
+         if (MethodHas("HandleCloseSht") && PayloadHas("Execute-Result[CloseShutter]"))
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_HandleCloseShutter);
-
-         if ((logLine.Contains("CimService::HandleItemsInserted") || logLine.Contains("CIMService::HandleItemsInserted")) && logLine.Contains("INFORMATION"))
+         if (MethodHas("HandleItemsInserted") && category == "INFORMATION")
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_ItemsInserted);
-
-         if ((logLine.Contains("CimService::HandleItemsTaken") || logLine.Contains("CIMService::HandleItemsTaken")) && logLine.Contains("INFORMATION"))
+         if (MethodHas("CimService::HandleItemsTaken") && category == "INFORMATION")
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_ItemsTaken);
-
-         if (logLine.Contains("CimService::HandleInputRefuse") || logLine.Contains("CIMService::HandleInputRefuse"))
+         if (MethodHas("HandleInputRefuse"))
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_InputRefuse);
-
-         if (logLine.Contains("CimService::HandleCountsChanged") || logLine.Contains("CIMService::HandleCountsChanged"))
+         if (MethodHas("HandleCountsChanged"))
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_CountsChanged);
-
-         if ((logLine.Contains("CimService::HandleCashUnitInfo") || logLine.Contains("CIMService::HandleCashUnitInfo")) && logLine.Contains("GetInfo-Result[CashUnitInfo]"))
+         if (MethodHas("HandleCashUnitInfo") && PayloadHas("GetInfo-Result[CashUnitInfo]"))
             return new SPFlatLine(handler, logLine, SPFlatType.CIM_CashUnitInfo);
 
-         // A C C E P T E D  N O T E  D E T A I L
-
-         if ((logLine.Contains("CimService::HandleCashIn") || logLine.Contains("CIMService::HandleCashIn")) && logLine.Contains("NoteID("))
+         // Accepted-note detail.
+         if (MethodHas("HandleCashIn") && PayloadHas("NoteID("))
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_NoteID);
-
-         if ((logLine.Contains("CimService::HandleCashIn") || logLine.Contains("CIMService::HandleCashIn")) && logLine.Contains("NoteCount("))
+         if (MethodHas("HandleCashIn") && PayloadHas("NoteCount("))
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_NoteCount);
 
-         if (logLine.Contains("Ctrl::HandleCashInStatus") && logLine.Contains("CashIn_Status["))
+         // Cash-in status.
+         if (method == "Ctrl::HandleCashInStatus" && PayloadHas("CashIn_Status["))
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInStatus);
-
-         if (logLine.Contains("Ctrl::HandleCashInStatus") && logLine.Contains("CashIn_Refused["))
+         if (method == "Ctrl::HandleCashInStatus" && PayloadHas("CashIn_Refused["))
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInRefused);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetLastCashInStatus"))
+         if (method == "Ctrl::GetLastCashInStatus")
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_LastCashInStatus);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetNumberOfCashInStatus"))
+         if (method == "Ctrl::GetNumberOfCashInStatus")
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_NumberOfCashInStatus);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetCashInStatus.Value"))
+         if (method == "Ctrl::GetCashInStatus.Value")
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInStatusValue);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetCashInStatus.ID"))
+         if (method == "Ctrl::GetCashInStatus.ID")
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInStatusID);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetCashInStatus.ItemCount"))
+         if (method == "Ctrl::GetCashInStatus.ItemCount")
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInStatusItemCount);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetCashInStatus.CurrencyID"))
+         if (method == "Ctrl::GetCashInStatus.CurrencyID")
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInStatusCurrencyID);
-
-         if (logLine.Contains("PROPERTY") && logLine.Contains("Ctrl::GetCashInStatus.Exponent"))
+         if (method == "Ctrl::GetCashInStatus.Exponent")
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInStatusExponent);
 
-         #endregion
+         // =========================================================================================
+         // TODO - NEXT INCREMENT (needs new SPFlatType values + a new line class + table cases).
+         // These are the DN-only routes with no existing home yet. Left here (as comments) so the full
+         // intended routing is visible; uncomment as each new type lands so the project keeps compiling.
+         //
+         //   // CDM consolidated cash-unit dump (the DN equivalent of CIM's TraceCIMCashUnitInfo).
+         //   // Add: enum SPFlatType.CDM_CashUnitTrace  +  class CDMCashUnitTrace : SPFlatLine
+         //   //      (parse NumberOfLogicalUnits[n], UnitNumber[(..)], UnitType[(..)], UnitID[(..)],
+         //   //       UnitCurrencyID[(..)], UnitValue[(..)], UnitCount[(..)], UnitStatus[(..)]).
+         //   if (method == "Ctrl::TraceCDMCashUnitInfo")
+         //      return new CDMCashUnitTrace(handler, logLine);
+         //
+         //   // Device / dispenser / acceptor / shutter status over time (both CDM and CIM).
+         //   // Add: enum SPFlatType.DeviceStatus  +  a generic status line carrying method+payload.
+         //   if (category == "PROPERTY" && (method == "Ctrl::GetDeviceStatus"
+         //         || method == "Ctrl::GetDispenserStatus" || method == "Ctrl::GetAcceptorStatus"
+         //         || method == "Ctrl::GetShutterStatus"   || method == "Ctrl::GetSafeDoorStatus"))
+         //      return new SPFlatStatusLine(handler, logLine, rec);   // carry rec so the table reads fields
+         // =========================================================================================
 
          return null;
       }
    }
+
 }
