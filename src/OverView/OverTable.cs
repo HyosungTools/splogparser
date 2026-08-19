@@ -15,6 +15,11 @@ namespace OverView
       string FITSwitchForeignNextStateNumbers = string.Empty;
       string FITSwitchOtherNextStateNumbers = string.Empty;
 
+      // Last transaction summary emitted to the Summary sheet - LogTransactionData is logged at every
+      // flow point, so we only add a row when the composed summary changes (change-detection).
+      string _lastTxnSummary = string.Empty;
+
+
       /// <summary>Resource row being assembled from a group of snapshot lines.</summary>
       private DataRow _pendingResourceRow = null;
 
@@ -25,6 +30,62 @@ namespace OverView
       /// <param name="viewName">The (unique) name of the view being created.</param>
       public OverTable(IContext ctx, string viewName) : base(ctx, viewName)
       {
+      }
+
+      /// <summary>
+      /// Fold the standalone "Transaction" rows into the row above them, then write as usual. The
+      /// transaction summary (from LogTransactionData) and the NDC opcode line (ATM2HOST) come from
+      /// different places in the log and only land next to each other after the Time sort - which
+      /// happens in the base WriteExcelFile. So we compress here, on the time-sorted data, before the
+      /// base method writes: the opcode row ends up reading e.g.
+      ///   "...opcode 'B A     ' - FastCash from Checking x4361, $100.00"
+      /// and the low-value standalone row is gone.
+      /// </summary>
+      public override bool WriteExcelFile()
+      {
+         CompressTransactionRows();
+         return base.WriteExcelFile();
+      }
+
+      /// <summary>
+      /// Walk the Summary rows bottom-up in Time order; when a row's state is "Transaction", append
+      /// its comment to the row above and delete it. Bottom-up so indexes above stay valid as we
+      /// delete, and so a run of Transaction rows chains up onto the first non-Transaction row.
+      /// </summary>
+      private void CompressTransactionRows()
+      {
+         try
+         {
+            if (!dTableSet.Tables.Contains("Summary")) return;
+            DataTable summary = dTableSet.Tables["Summary"];
+
+            // Time-sorted view over the real table: deletes/edits write back to Summary. This is what
+            // makes "the row above" mean the row above in the sheet, not in log-read order.
+            DataView view = new DataView(summary) { Sort = "time ASC" };
+
+            for (int i = view.Count - 1; i >= 1; i--)
+            {
+               string state = view[i]["state"] == null ? "" : view[i]["state"].ToString();
+               if (state != "Transaction") continue;
+
+               string summaryText = view[i]["comment"] == null ? "" : view[i]["comment"].ToString();
+
+               DataRowView above = view[i - 1];
+               string existing = above["comment"] == null ? "" : above["comment"].ToString();
+
+               above["comment"] = string.IsNullOrWhiteSpace(existing)
+                  ? summaryText
+                  : existing.TrimEnd().TrimEnd(',') + " - " + summaryText;
+
+               view[i].Delete();
+            }
+
+            summary.AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("CompressTransactionRows Exception : " + e.Message);
+         }
       }
 
       #region StateWallClock Analysis Support
@@ -1240,6 +1301,29 @@ namespace OverView
                         break;
                      }
 
+                  /* LogTransactionData [FLOWPOINT] - the ATM app's own plain-English record of the
+                     transaction (type / account / amount). The NDC opcode (e.g. 'B A     ') is a
+                     host-defined buffer the ATM builds from its state tables and carries no fixed
+                     meaning on its own; this row surfaces what the transaction actually IS, in the
+                     same time sequence, so it lands right next to the ATM2HOST opcode line. Only
+                     emitted when the composed summary changes, so the repeated flow-point logging
+                     doesn't flood the sheet. */
+                  case APLogType.APLOG_LOGTRANSACTIONDATA:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is LogTransactionData txn)
+                        {
+                           string summary = BuildTransactionSummary(txn);
+                           if (!string.IsNullOrEmpty(summary) && summary != _lastTxnSummary)
+                           {
+                              _lastTxnSummary = summary;
+                              APLINE2(txn, "state", "Transaction", "comment", summary);
+                           }
+                        }
+                        break;
+                     }
+
+
                   case APLogType.Core_DispensedAmount:
                      {
                         base.ProcessRow(logLine);
@@ -1644,5 +1728,96 @@ namespace OverView
          double megabytes = bytes / (1024.0 * 1024.0);
          return megabytes.ToString("F1");
       }
+
+      /// <summary>
+      /// Compose a plain-English one-line transaction summary from an already-parsed
+      /// LogTransactionData [FLOWPOINT] record (Type / Account / Amount / flags). No lookup tables -
+      /// these fields are the ATM app's own words for the transaction, extracted by LogTransactionData.
+      /// Returns "" when the record has no transaction content yet (early flow points), so those rows
+      /// are skipped. Example: "FastCash from Checking x4361, $100.00, on-us".
+      /// </summary>
+      protected string BuildTransactionSummary(LogTransactionData txn)
+      {
+         try
+         {
+            List<string> parts = new List<string>();
+
+            // What kind of transaction (Type, falling back to Message).
+            string kind = !string.IsNullOrWhiteSpace(txn.TransactionType) ? txn.TransactionType.Trim()
+                        : (!string.IsNullOrWhiteSpace(txn.Message) ? txn.Message.Trim() : string.Empty);
+
+            // Account (type + last 4 of the number, when present).
+            string account = !string.IsNullOrWhiteSpace(txn.AccountType) ? txn.AccountType.Trim() : string.Empty;
+            if (!string.IsNullOrWhiteSpace(txn.AccountNumber))
+            {
+               string acct = txn.AccountNumber.Trim();
+               string last4 = acct.Length > 4 ? acct.Substring(acct.Length - 4) : acct;
+               account = string.IsNullOrWhiteSpace(account) ? ("acct x" + last4) : (account + " x" + last4);
+            }
+
+            if (!string.IsNullOrWhiteSpace(kind))
+            {
+               parts.Add(!string.IsNullOrWhiteSpace(account)
+                  ? (kind + " " + AccountPreposition(kind) + " " + account)
+                  : kind);
+            }
+            else if (!string.IsNullOrWhiteSpace(account))
+            {
+               parts.Add(account);
+            }
+
+            // Amount - prefer the transaction Amount, then the totals.
+            string amount = FirstNonEmpty(txn.Amount, txn.TotalAmount, txn.TotalCashAmount);
+            if (!string.IsNullOrWhiteSpace(amount))
+            {
+               parts.Add("$" + amount);
+            }
+
+            if (!string.IsNullOrWhiteSpace(txn.BillsInserted) && txn.BillsInserted.Trim() != "0")
+            {
+               parts.Add(txn.BillsInserted.Trim() + " bills");
+            }
+
+            if (string.Equals(txn.IsContactless, "true", StringComparison.OrdinalIgnoreCase))
+            {
+               parts.Add("contactless");
+            }
+
+            if (!string.IsNullOrWhiteSpace(txn.OnUs))
+            {
+               parts.Add(txn.OnUs.Trim());   // "on-us" / "foreign"
+            }
+
+            return string.Join(", ", parts);
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("BuildTransactionSummary Exception : " + e.Message);
+            return string.Empty;
+         }
+      }
+
+      /// <summary>
+      /// Light grammar for readability only (not a data mapping): "to" for deposits, "from" for
+      /// withdrawals / cash, "on" for balance / inquiry, else a plain "-". Unknown types stay safe.
+      /// </summary>
+      private static string AccountPreposition(string kind)
+      {
+         string k = kind.ToLowerInvariant();
+         if (k.Contains("deposit")) return "to";
+         if (k.Contains("balance") || k.Contains("inquiry")) return "on";
+         if (k.Contains("withdraw") || k.Contains("cash") || k.Contains("dispense")) return "from";
+         return "-";
+      }
+
+      private static string FirstNonEmpty(params string[] values)
+      {
+         foreach (string v in values)
+         {
+            if (!string.IsNullOrWhiteSpace(v)) return v;
+         }
+         return string.Empty;
+      }
+
    }
 }
