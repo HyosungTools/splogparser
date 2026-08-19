@@ -12,6 +12,11 @@ namespace LogLineHandler
       private static readonly Regex TimestampRegex =
           new Regex(@"\d{4}/\d{2}/\d{2}\d{6}:\d{2} \d{2}\.\d{3}", RegexOptions.Compiled);
 
+      // A device envelope that can sit immediately before a record's date: 0003<DEV>0007ACTIVEX0010
+      // (device tag + source "ACTIVEX" + the date field's 4-char length prefix). Exactly 22 chars.
+      private static readonly Regex DeviceEnvelopeRegex =
+          new Regex(@"^0003[A-Z]{3}0007ACTIVEX0010$", RegexOptions.Compiled);
+
       private List<int> _lineOffsets = new List<int>();
       private int _currentLineIndex = 0;
       private string _fullText = "";
@@ -53,11 +58,23 @@ namespace LogLineHandler
 
          _fullText = sb.ToString();
 
-         // Match all timestamp starts
+         // Match all timestamp starts. The timestamp (record date) is the reliable per-record
+         // delimiter - every record has one. Only ~70% of records carry a device envelope, so we do
+         // NOT frame on the device tag (that would swallow the ~30% framework/SP records).
+         //
+         // Device attribution: when a device envelope (0003<DEV>0007ACTIVEX0010) sits immediately
+         // before a record's date, extend that line back to include it, so the record carries its own
+         // device tag and SPFlatRecord.Decode can attribute it. Records without an envelope (framework
+         // chatter) are unaffected, and no record is dropped - still one line per timestamp.
          var matches = TimestampRegex.Matches(_fullText);
          foreach (Match match in matches)
          {
-            _lineOffsets.Add(match.Index);
+            int start = match.Index;
+            if (start >= 22 && DeviceEnvelopeRegex.IsMatch(_fullText.Substring(start - 22, 22)))
+            {
+               start -= 22;
+            }
+            _lineOffsets.Add(start);
          }
 
          Console.WriteLine($"[SUMMARY] Found {_lineOffsets.Count} timestamp lines.");

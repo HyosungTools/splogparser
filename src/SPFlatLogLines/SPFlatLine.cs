@@ -94,6 +94,7 @@ namespace LogLineHandler
       CIM_LogicalUnit_NumberOfItems,
       CIM_LogicalUnit_NumberOfPCU,
 
+      Device,
 
       flat_none,
 
@@ -345,6 +346,13 @@ namespace LogLineHandler
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInStatusCurrencyID);
          if (method == "Ctrl::GetCashInStatus.Exponent")
             return new CIMCashInLine(handler, logLine, SPFlatType.CIM_CashInStatusExponent);
+
+         // Per-device flat views (IPM/IDC/PIN): any record attributed to a device that has its own flat
+         // view becomes a generic device line; that device's table filters by rec.Device and routes on
+         // method/payload. Requires the device-attributing framing in SPFlatLogHandler. CDM/CIM already
+         // returned above, so they never reach here.
+         if (rec.Device == "IPM" || rec.Device == "IDC" || rec.Device == "PIN")
+            return new SPFlatDeviceLine(handler, logLine);
 
          // =========================================================================================
          // TODO - NEXT INCREMENT (needs new SPFlatType values + a new line class + table cases).

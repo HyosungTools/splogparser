@@ -1,0 +1,19 @@
+<?xml version="1.0" standalone="yes"?>
+<IDC_Flat>
+  <!-- Status and Cards rows are added at runtime. Messages is the (data-driven) lookup: the Cards
+       sheet names XFS command codes from the dwCommandCode rows below. Add codes here to name them -
+       no recompile. Names derived from the DN log (triggering Ctrl:: method) and the XFS WFS_CMD_IDC_*
+       enum. -->
+
+  <Messages><type>DeviceStatus</type><code>DEVONLINE</code><brief>online</brief><description>Card reader online.</description></Messages>
+  <Messages><type>MediaStatus</type><code>PRESENT</code><brief>card present</brief><description>A card is present in the reader.</description></Messages>
+
+  <Messages><type>dwCommandCode</type><code>203</code><brief>eject card</brief><description>WFS_CMD_IDC_EJECT_CARD (Ctrl::EjectMedia)</description></Messages>
+  <Messages><type>dwCommandCode</type><code>204</code><brief>retain card</brief><description>WFS_CMD_IDC_RETAIN_CARD</description></Messages>
+  <Messages><type>dwCommandCode</type><code>207</code><brief>read card</brief><description>WFS_CMD_IDC_READ_RAW_DATA (Ctrl::ReadRawData)</description></Messages>
+  <Messages><type>dwCommandCode</type><code>209</code><brief>chip io</brief><description>WFS_CMD_IDC_CHIP_IO (Ctrl::ChipIO)</description></Messages>
+  <Messages><type>dwCommandCode</type><code>210</code><brief>reset</brief><description>WFS_CMD_IDC_RESET (Ctrl::Reset)</description></Messages>
+  <Messages><type>dwCommandCode</type><code>212</code><brief>parse data</brief><description>WFS_CMD_IDC_PARSE_DATA</description></Messages>
+  <Messages><type>dwCommandCode</type><code>215</code><brief>power save</brief><description>WFS_CMD_IDC_POWER_SAVE_CONTROL</description></Messages>
+
+</IDC_Flat>
