@@ -1,0 +1,17 @@
+<?xml version="1.0" standalone="yes"?>
+<PIN_Flat>
+  <!-- Status, Keys and Ops rows are added at runtime. Messages is the (data-driven) lookup: the Ops
+       sheet names XFS command codes from the dwCommandCode rows below. Add codes here to name them -
+       no recompile. Names derived from the DN log (triggering Ctrl:: method) and WFS_CMD_PIN_*. -->
+
+  <Messages><type>DeviceStatus</type><code>DEVONLINE</code><brief>online</brief><description>PIN pad online.</description></Messages>
+
+  <Messages><type>dwCommandCode</type><code>401</code><brief>generate random</brief><description>GenerateRandomNumber</description></Messages>
+  <Messages><type>dwCommandCode</type><code>405</code><brief>read pin</brief><description>WFS_CMD_PIN_GET_PIN (Ctrl::ReadPin)</description></Messages>
+  <Messages><type>dwCommandCode</type><code>407</code><brief>build pin block</brief><description>WFS_CMD_PIN_GET_PINBLOCK (Ctrl::BuildPinBlock)</description></Messages>
+  <Messages><type>dwCommandCode</type><code>408</code><brief>read data</brief><description>WFS_CMD_PIN_GET_DATA (Ctrl::ReadData)</description></Messages>
+  <Messages><type>dwCommandCode</type><code>432</code><brief>get certificate</brief><description>Ctrl::GetCertificate</description></Messages>
+  <Messages><type>dwCommandCode</type><code>439</code><brief>generate kcv</brief><description>Ctrl::GenerateKCV</description></Messages>
+  <Messages><type>dwCommandCode</type><code>446</code><brief>import key block</brief><description>Ctrl::ImportKeyBlock</description></Messages>
+
+</PIN_Flat>

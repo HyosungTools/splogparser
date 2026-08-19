@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="yes"?>
+<IPM_Flat>
+
+  <!-- Status and Bins rows are added at runtime (like CIM_Flat's Deposit). Only the Messages lookup
+       is seeded here; it is not written to Excel. Reference rows only - the view does not yet look
+       them up, but they document the status values a tech will see. -->
+
+  <Messages>
+    <type>DeviceStatus</type>
+    <code>DEVONLINE</code>
+    <brief>online</brief>
+    <description>Device is online and operational.</description>
+  </Messages>
+
+  <Messages>
+    <type>MediaStatus</type>
+    <code>NOTPRESENT</code>
+    <brief>no media</brief>
+    <description>No media (check) present in the transport.</description>
+  </Messages>
+
+  <Messages>
+    <type>InkStatus</type>
+    <code>NOTSUPP</code>
+    <brief>not supported</brief>
+    <description>Endorser ink status not supported by this device.</description>
+  </Messages>
+
+</IPM_Flat>

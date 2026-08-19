@@ -297,7 +297,9 @@ namespace CIMView_Flat
       {
          try
          {
-            DataRow[] dataRows = dTableSet.Tables["Summary"].Select(String.Format("number = '{0}'", line.UnitIndex));
+            // Key on the machine's 1-based logical-unit Number, NOT the 0-based LogicalUnit[n] index -
+            // otherwise the Summary row labelled "n" shows unit n+1's data (off-by-one).
+            DataRow[] dataRows = dTableSet.Tables["Summary"].Select(String.Format("number = '{0}'", line.Number));
             if (dataRows.Length == 0)
             {
                return;
