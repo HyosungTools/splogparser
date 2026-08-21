@@ -41,11 +41,11 @@ namespace OverView
       ///   "...opcode 'B A     ' - FastCash from Checking x4361, $100.00"
       /// and the low-value standalone row is gone.
       /// </summary>
-      public override bool WriteExcelFile()
-      {
-         CompressTransactionRows();
-         return base.WriteExcelFile();
-      }
+      //public override bool WriteExcelFile()
+      //{
+      //   CompressTransactionRows();
+      //   return base.WriteExcelFile();
+      //}
 
       /// <summary>
       /// Walk the Summary rows bottom-up in Time order; when a row's state is "Transaction", append
