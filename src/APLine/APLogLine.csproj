@@ -27,7 +27,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -134,10 +133,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\APSamplesTests\APSamples.csproj">
-      <Project>{98624250-55f4-407e-9a99-242690d17f0f}</Project>
-      <Name>APSamples</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Contract\Contract.csproj">
       <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
       <Name>Contract</Name>
@@ -155,10 +150,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\APLine.dll" $(SolutionDir)\..\dist
-</PostBuildEvent>
-  </PropertyGroup>
   <Import Project="..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets" Condition="Exists('..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

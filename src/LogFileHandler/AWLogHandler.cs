@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;          // ADD
 using System.Data.Odbc;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;      // ADD
 using Contract;
 using LogLineHandler;
 
@@ -18,6 +20,74 @@ namespace LogFileHandler
          Name = "AWLogFileHandler";
       }
 
+      /// <summary>
+      /// Inserted between a record's first physical line and each continuation line
+      /// when they are assembled into one logical record.
+      /// </summary>
+      public const string ContinuationSeparator = " ~ ";
+
+      /// <summary>
+      /// Every Workstation log record begins "[yyyy-MM-dd HH:mm:ss-fff]".
+      /// </summary>
+      private static readonly Regex RecordStartRegex =
+         new Regex(@"^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}-\d{3}\]", RegexOptions.Compiled);
+
+      /// <summary>
+      /// True when the physical line carries a log record header.
+      /// </summary>
+      public static bool IsTimestampedRecord(string line)
+      {
+         return !string.IsNullOrEmpty(line) && RecordStartRegex.IsMatch(line);
+      }
+
+      /// <summary>
+      /// True when the physical line begins a new record - a timestamped record, or one
+      /// of the banner lines at the top of the file.
+      /// </summary>
+      public static bool IsRecordStart(string line)
+      {
+         if (string.IsNullOrEmpty(line)) return false;
+         if (IsTimestampedRecord(line)) return true;
+         if (line.StartsWith("====")) return true;
+         if (line.StartsWith(" - ")) return true;
+         return false;
+      }
+
+      /// <summary>
+      /// True when the physical line continues the record before it. Blank lines
+      /// terminate a record.
+      /// </summary>
+      public static bool IsContinuation(string line)
+      {
+         if (line == null) return false;
+         if (line.Trim().Length == 0) return false;
+         return !IsRecordStart(line);
+      }
+
+      /// <summary>
+      /// Pure form of the assembly performed by ReadLine. Same predicates, no stream -
+      /// this is what the unit tests exercise.
+      /// </summary>
+      public static List<string> AssembleRecords(IEnumerable<string> physicalLines)
+      {
+         List<string> records = new List<string>();
+
+         foreach (string line in physicalLines)
+         {
+            int last = records.Count - 1;
+
+            if (last >= 0 && IsTimestampedRecord(records[last]) && IsContinuation(line))
+            {
+               records[last] = records[last] + ContinuationSeparator + line.Trim();
+            }
+            else
+            {
+               records.Add(line);
+            }
+         }
+
+         return records;
+      }
 
       /// <summary>
       /// EOF test
@@ -32,7 +102,11 @@ namespace LogFileHandler
       /// Read one log line from a twlog file. 
       /// </summary>
       /// <returns></returns>
-      public string ReadLine()
+
+      /// <summary>
+      /// Read one physical line from a Workstation log file.
+      /// </summary>
+      private string ReadPhysicalLine()
       {
          // builder will hold the line
          StringBuilder builder = new StringBuilder();
@@ -66,6 +140,52 @@ namespace LogFileHandler
          return builder.ToString();
       }
 
+      /// <summary>
+      /// Read one logical log record.
+      ///
+      /// Most records are one physical line. A few - today only the DataFlowManager
+      /// remote-control handoff - are written as a header line followed by unprefixed
+      /// continuation lines:
+      ///
+      ///   [2026-08-18 14:16:41-702][3][DataFlowManager     ]Current remote control session id = 0
+      ///   Incoming event remote control session id = 86524
+      ///   Current teller session id  = 0
+      ///   Incoming event teller session id = 9220
+      ///
+      /// Before this change the three continuation lines were handed to IdentifyLine on
+      /// their own, matched no class tag, became AWLogType.None and were discarded - so
+      /// the incoming session id, the number that makes the record mean anything, never
+      /// reached a DataTable. They are now appended to the record that owns them.
+      /// </summary>
+      public string ReadLine()
+      {
+         string record = ReadPhysicalLine();
+
+         // banners, blank lines and anything else unprefixed are returned as-is
+         if (!IsTimestampedRecord(record))
+         {
+            return record;
+         }
+
+         StringBuilder builder = new StringBuilder(record);
+
+         while (!EOF())
+         {
+            int mark = traceFilePos;
+            string next = ReadPhysicalLine();
+
+            if (!IsContinuation(next))
+            {
+               // belongs to the next record - put it back
+               traceFilePos = mark;
+               break;
+            }
+
+            builder.Append(ContinuationSeparator).Append(next.Trim());
+         }
+
+         return builder.ToString();
+      }
 
       public ILogLine IdentifyLine(string logLine)
       {

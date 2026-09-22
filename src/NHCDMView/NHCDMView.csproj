@@ -25,7 +25,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -75,9 +74,4 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\NHCDMView.dll" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\NHCDMView.xsd" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\NHCDMView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
-  </PropertyGroup>
 </Project>

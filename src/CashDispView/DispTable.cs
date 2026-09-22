@@ -10,6 +10,7 @@ namespace CashDispView
    internal class DispTable : BaseTable
    {
       DataRow m_lcuRow;
+      DateTime m_lcuRowTime = DateTime.MinValue;
 
       /// <summary>
       /// constructor
@@ -400,6 +401,16 @@ namespace CashDispView
                         break;
                      }
 
+                  case APLogType.CashDispenser_GetLCULastDispensedCount:
+                     {
+                        base.ProcessRow(apLogLine);
+                        if (apLogLine is CashDispenser_GetLCULastDispensedCount lastDispensedCount)
+                        {
+                           UPDATE_LDC(lastDispensedCount);
+                        }
+                        break;
+                     }
+
                   /* UPDATE SUMMARY */
 
                   case APLogType.CashDispenser_SetupCSTList:
@@ -543,30 +554,61 @@ namespace CashDispView
          return;
       }
 
+      /// <summary>
+      /// 'Last Dispensed Count A = 2' - notes the device reports it dispensed, one line per note type.
+      /// MoniPlus2 logs the full A..D set twice per dispense (a few ms apart), so both sets are
+      /// written to the same row. The count lands in the LUn column for that note type's logical
+      /// unit (from SetupNoteTypeInfo), so PostProcess renames it to USD20 etc. like the other rows.
+      /// </summary>
       protected void UPDATE_LDC(CashDispenser_GetLCULastDispensedCount lastDispensedCount)
       {
          try
          {
+            DateTime lineTime;
+            DateTime.TryParse(lastDispensedCount.Timestamp, out lineTime);
+
             if (lastDispensedCount.noteType == "A")
             {
-               m_lcuRow = dTableSet.Tables["Dispense"].Rows.Add();
+               // start a new row unless this is the repeat of the set we just wrote
+               bool isRepeat = m_lcuRow != null && m_lcuRow.RowState != DataRowState.Detached &&
+                               Math.Abs((lineTime - m_lcuRowTime).TotalSeconds) < 1.0;
+               if (!isRepeat)
+               {
+                  m_lcuRow = dTableSet.Tables["Dispense"].Rows.Add();
+                  m_lcuRowTime = lineTime;
+
+                  m_lcuRow["file"] = lastDispensedCount.LogFile;
+                  m_lcuRow["time"] = lastDispensedCount.Timestamp;
+                  m_lcuRow["error"] = lastDispensedCount.HResult;
+                  m_lcuRow["TID"] = lastDispensedCount.TID;
+                  m_lcuRow["position"] = "lastdispense";
+               }
             }
 
-            m_lcuRow["file"] = lastDispensedCount.LogFile;
-            m_lcuRow["time"] = lastDispensedCount.Timestamp;
-            m_lcuRow["error"] = lastDispensedCount.HResult;
-            m_lcuRow["TID"] = lastDispensedCount.TID;
+            if (m_lcuRow == null)
+            {
+               return;
+            }
 
-            m_lcuRow["position"] = "lastdispense";
-
-            m_lcuRow[lastDispensedCount.noteType] = lastDispensedCount.amount;
+            // map note type (A, B, ...) to its logical unit via the Summary table
+            foreach (DataRow summaryRow in dTableSet.Tables["Summary"].Rows)
+            {
+               if (summaryRow["name"].ToString() == lastDispensedCount.noteType)
+               {
+                  string colName = "LU" + summaryRow["splcu"].ToString();
+                  if (dTableSet.Tables["Dispense"].Columns.Contains(colName))
+                  {
+                     m_lcuRow[colName] = lastDispensedCount.amount;
+                  }
+                  break;
+               }
+            }
 
             dTableSet.Tables["Dispense"].AcceptChanges();
-
          }
          catch (Exception e)
          {
-            ctx.ConsoleWriteLogLine("UPDATE_DISPENSE Exception : " + e.Message);
+            ctx.ConsoleWriteLogLine("UPDATE_LDC Exception : " + e.Message);
          }
 
          return;

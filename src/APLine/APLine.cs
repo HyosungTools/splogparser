@@ -742,10 +742,10 @@ namespace LogLineHandler
 
 
          /* HELPER FUNCTIONS */
-         if (logLine.Contains("[HelperFunctions") && logLine.Contains("[GetConfiguredBillMixList") && logLine.Contains("ConfiguredBillMixList:"))
+         if (logLine.Contains("HelperFunctions") && (logLine.Contains("[GetConfiguredBillMixList") || logLine.Contains("HelperFunctions.GetConfiguredBillMixList]")) && logLine.Contains("ConfiguredBillMixList:"))
             return new APLineField(logFileHandler, logLine, APLogType.HelperFunctions_GetConfiguredBillMixList);
 
-         if (logLine.Contains("[HelperFunctions") && logLine.Contains("[GetFewestBillMixList") && logLine.Contains("FewestBillMixList:"))
+         if (logLine.Contains("HelperFunctions") && (logLine.Contains("[GetFewestBillMixList") || logLine.Contains("HelperFunctions.GetFewestBillMixList]")) && logLine.Contains("FewestBillMixList:"))
             return new APLineField(logFileHandler, logLine, APLogType.HelperFunctions_GetFewestBillMixList);
 
          /* NDC */

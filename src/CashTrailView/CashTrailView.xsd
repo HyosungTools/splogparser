@@ -1,0 +1,78 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="CashTrailView" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="CashTrailView" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+
+        <xs:element name="CashBalance">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="period" type="xs:string" minOccurs="0" />
+              <xs:element name="item" type="xs:string" minOccurs="0" />
+              <xs:element name="notes" type="xs:string" minOccurs="0" />
+              <xs:element name="amount" type="xs:string" minOccurs="0" />
+              <xs:element name="variance" type="xs:string" minOccurs="0" />
+              <xs:element name="flags" type="xs:string" minOccurs="0" />
+              <xs:element name="explain" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="CashTrail">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="session" type="xs:string" minOccurs="0" />
+              <xs:element name="card" type="xs:string" minOccurs="0" />
+              <xs:element name="account" type="xs:string" minOccurs="0" />
+              <xs:element name="event" type="xs:string" minOccurs="0" />
+              <xs:element name="device" type="xs:string" minOccurs="0" />
+              <xs:element name="requested" type="xs:string" minOccurs="0" />
+              <xs:element name="toCustomer" type="xs:string" minOccurs="0" />
+              <xs:element name="fromCustomer" type="xs:string" minOccurs="0" />
+              <xs:element name="toBin" type="xs:string" minOccurs="0" />
+              <xs:element name="hostPosted" type="xs:string" minOccurs="0" />
+              <xs:element name="variance" type="xs:string" minOccurs="0" />
+              <xs:element name="outcome" type="xs:string" minOccurs="0" />
+              <xs:element name="flags" type="xs:string" minOccurs="0" />
+              <xs:element name="explain" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="CashBins">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="file" type="xs:string" minOccurs="0" />
+              <xs:element name="time" type="xs:string" minOccurs="0" />
+              <xs:element name="bin" type="xs:string" minOccurs="0" />
+              <xs:element name="sharedWith" type="xs:string" minOccurs="0" />
+              <xs:element name="notes" type="xs:string" minOccurs="0" />
+              <xs:element name="USD0" type="xs:string" minOccurs="0" />
+              <xs:element name="USD1" type="xs:string" minOccurs="0" />
+              <xs:element name="USD2" type="xs:string" minOccurs="0" />
+              <xs:element name="USD5" type="xs:string" minOccurs="0" />
+              <xs:element name="USD10" type="xs:string" minOccurs="0" />
+              <xs:element name="USD20" type="xs:string" minOccurs="0" />
+              <xs:element name="USD50" type="xs:string" minOccurs="0" />
+              <xs:element name="USD100" type="xs:string" minOccurs="0" />
+              <xs:element name="amount" type="xs:string" minOccurs="0" />
+              <xs:element name="origin" type="xs:string" minOccurs="0" />
+              <xs:element name="confidence" type="xs:string" minOccurs="0" />
+              <xs:element name="session" type="xs:string" minOccurs="0" />
+              <xs:element name="card" type="xs:string" minOccurs="0" />
+              <xs:element name="account" type="xs:string" minOccurs="0" />
+              <xs:element name="evidence" type="xs:string" minOccurs="0" />
+              <xs:element name="flags" type="xs:string" minOccurs="0" />
+              <xs:element name="explain" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

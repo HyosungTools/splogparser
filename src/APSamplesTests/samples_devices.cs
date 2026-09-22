@@ -215,5 +215,42 @@ namespace APSamples
 
       */
 
+      /* MoniPlus2 v25 log format: [Class.Method] [TID:n] - exact lines from APLog20260909.log (HB3328) */
+
+      public const string CashDispenser_SetupNoteType_v25 =
+         "  INFO [2026-09-09 02:12:10-070] [v25.02.01.01] [CashDispenser.SetupNoteTypeInfo] [TID:7] Set NoteTypeC Currency:[USD] Value:[20] SPLCUIndex:[4] SPPCUIndex:[-1]\r\n";
+
+      public const string CashDispenser_SetupCSTList_v25 =
+         "  INFO [2026-09-09 02:12:10-070] [v25.02.01.01] [CashDispenser.SetupCSTListInHostTypeInfo] [TID:7] 1:N matching C Add CassetteIdxList 5\r\n";
+
+      public const string CashDispenser_UpdateTypeInfoToDispense_v25 =
+         "  INFO [2026-09-09 02:12:20-906] [v25.02.01.01] [CashDispenser.UpdateTypeInfoToDispense] [TID:7] Dispensing amount in total is 80\r\n";
+
+      public const string CashDispenser_ExecDispense_v25 =
+         "  INFO [2026-09-09 02:12:20-906] [v25.02.01.01] [CashDispenser.ExecDispense_NDCDDC_LCU] [TID:7] Host amount is 80\r\n";
+
+      public const string CashDispenser_DispenseSyncAsync_v25 =
+         "  INFO [2026-09-09 02:12:20-923] [v25.02.01.01] [CashDispenser.DispenseSyncAsync] [TID:7] MixAlgo=0, Currency=USD, Amount=0, Disp=0 0 2 1 1 \r\n";
+
+      public const string CashDispenser_OnDispenseComplete_v25 =
+         "  INFO [2026-09-09 02:12:31-607] [v25.02.01.01] [CashDispenser.OnDispenseComplete] [TID:1] m_NxCashDispenser.OnDispenseComplete event received\r\n";
+
+      public const string CashDispenser_OnPresentComplete_v25 =
+         "  INFO [2026-09-09 02:12:34-037] [v25.02.01.01] [CashDispenser.OnPresentComplete] [TID:1] m_NxCashDispenser.OnPresentComplete event received\r\n";
+
+      public const string CashDispenser_GetLCULastDispensedCount_v25 =
+         "  INFO [2026-09-09 02:12:34-042] [v25.02.01.01] [CashDispenser.GetLCULastDispensedCount] [TID:1] Last Dispensed Count B = 2\r\n";
+
+      public const string CashDispenser_OnItemsTaken_v25 =
+         "  INFO [2026-09-09 02:12:34-805] [v25.02.01.01] [CashDispenser.OnItemsTaken] [TID:1] m_NxCashDispenser.OnItemsTaken event received\r\n";
+
+      public const string CashDispenser_OnShutterOpen_v25 =
+         "  INFO [2026-09-09 02:12:34-029] [v25.02.01.01] [CashDispenser.OnShutterStatusChanged] [TID:1] m_NxCashDispenser.OnShutterStatusChanged event received,OPEN\r\n";
+
+      public const string CashDispenser_OnStackerEmpty_v25 =
+         "  INFO [2026-09-09 02:12:34-027] [v25.02.01.01] [CashDispenser.OnStackerStatusChanged] [TID:1] m_NxCashDispenser.OnStackerStatusChanged event received,EMPTY\r\n";
+
+      public const string HelperFunctions_GetFewestBillMixList_HNB_v25 =
+         "  INFO [2026-09-09 02:12:18-347] [v25.02.01.01] [HNBHelperFunctions.GetFewestBillMixList] [TID:7] FewestBillMixList:50~1|20~1|5~2|1~0\r\n";
    }
 }

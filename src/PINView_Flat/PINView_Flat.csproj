@@ -25,7 +25,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -75,9 +74,4 @@
     <Content Include="PINView_Flat.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\PINView_Flat.dll" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\PINView_Flat.xsd" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\PINView_Flat.xml" $(SolutionDir)\..\dist</PostBuildEvent>
-  </PropertyGroup>
 </Project>
