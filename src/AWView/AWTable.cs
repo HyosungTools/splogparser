@@ -429,6 +429,7 @@ namespace AWView
                   dataRow["ActiveTellerState"] = mwLine.ActiveTellerState;
                   dataRow["VideoSessionState"] = mwLine.VideoSessionState;
                   dataRow["Asset"] = mwLine.Asset;
+                  dataRow["RemoteDesktopLaunch"] = mwLine.RemoteDesktopLaunch;
                   break;
 
                case AWLogType.IdleEmpty:

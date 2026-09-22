@@ -25,7 +25,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -72,9 +71,4 @@
     <Content Include="MVRosterView.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\bin\$(Configuration)\MVRosterView.dll" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\MVRosterView.xsd" $(SolutionDir)\..\dist
-copy "$(MSBuildProjectDirectory)\MVRosterView.xml" $(SolutionDir)\..\dist</PostBuildEvent>
-  </PropertyGroup>
 </Project>

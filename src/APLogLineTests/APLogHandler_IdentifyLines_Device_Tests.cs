@@ -697,5 +697,105 @@ namespace APLogLineTests
          Assert.IsTrue(apLine.noteType == "A");
          Assert.IsTrue(apLine.amount == "0");
       }
+
+      /* MoniPlus2 v25 log format: [CashDispenser.Method] - DispView stopped working when this format arrived */
+
+      private static ILogLine Identify(string line)
+      {
+         ILogFileHandler logFileHandler = new APLogHandler(new CreateTextStreamReaderMock(), ParseType.AP, APLine.Factory);
+         return logFileHandler.IdentifyLine(line);
+      }
+
+      [TestMethod]
+      public void CashDispenser_SetupNoteType_v25()
+      {
+         ILogLine logLine = Identify(samples_devices.CashDispenser_SetupNoteType_v25);
+         Assert.IsTrue(logLine is CashDispenser_SetupNoteType);
+         CashDispenser_SetupNoteType apLine = (CashDispenser_SetupNoteType)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.CashDispenser_SetupNoteType);
+         Assert.IsTrue(apLine.Timestamp == "2026-09-09 02:12:10.070");
+         Assert.IsTrue(apLine.noteType == "C");
+         Assert.IsTrue(apLine.currency == "USD");
+         Assert.IsTrue(apLine.value == "20");
+         Assert.IsTrue(apLine.splcu == "4");
+         Assert.IsTrue(apLine.sppcu == "-1");
+      }
+
+      [TestMethod]
+      public void CashDispenser_SetupCSTList_v25()
+      {
+         ILogLine logLine = Identify(samples_devices.CashDispenser_SetupCSTList_v25);
+         Assert.IsTrue(logLine is CashDispenser_SetupCSTList);
+         CashDispenser_SetupCSTList apLine = (CashDispenser_SetupCSTList)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.CashDispenser_SetupCSTList);
+         Assert.IsTrue(apLine.parent == "C");
+         Assert.IsTrue(apLine.child == "5");
+      }
+
+      [TestMethod]
+      public void CashDispenser_UpdateTypeInfoToDispense_v25()
+      {
+         ILogLine logLine = Identify(samples_devices.CashDispenser_UpdateTypeInfoToDispense_v25);
+         Assert.IsTrue(logLine is CashDispenser_UpdateTypeInfoToDispense);
+         CashDispenser_UpdateTypeInfoToDispense apLine = (CashDispenser_UpdateTypeInfoToDispense)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.CashDispenser_UpdateTypeInfoToDispense);
+         Assert.IsTrue(apLine.dispenseAmount == "80");
+      }
+
+      [TestMethod]
+      public void CashDispenser_ExecDispense_v25()
+      {
+         ILogLine logLine = Identify(samples_devices.CashDispenser_ExecDispense_v25);
+         Assert.IsTrue(logLine is CashDispenser_ExecDispense);
+         CashDispenser_ExecDispense apLine = (CashDispenser_ExecDispense)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.CashDispenser_ExecDispense);
+         Assert.IsTrue(apLine.hostAmount == "80");
+      }
+
+      [TestMethod]
+      public void CashDispenser_DispenseSyncAsync_v25()
+      {
+         ILogLine logLine = Identify(samples_devices.CashDispenser_DispenseSyncAsync_v25);
+         Assert.IsTrue(logLine is CashDispenser_DispenseSyncAsync);
+         CashDispenser_DispenseSyncAsync apLine = (CashDispenser_DispenseSyncAsync)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.CashDispenser_DispenseSyncAsync);
+         Assert.IsTrue(apLine.currency == "USD");
+         // one entry per logical unit, index 0 unused: LU2=$5 x2, LU3=$50 x1, LU4=$20 x1
+         Assert.IsTrue(apLine.dispense.Length == 5);
+         Assert.IsTrue(apLine.dispense[2] == "2");
+         Assert.IsTrue(apLine.dispense[3] == "1");
+         Assert.IsTrue(apLine.dispense[4] == "1");
+      }
+
+      [TestMethod]
+      public void CashDispenser_GetLCULastDispensedCount_v25()
+      {
+         ILogLine logLine = Identify(samples_devices.CashDispenser_GetLCULastDispensedCount_v25);
+         Assert.IsTrue(logLine is CashDispenser_GetLCULastDispensedCount);
+         CashDispenser_GetLCULastDispensedCount apLine = (CashDispenser_GetLCULastDispensedCount)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.CashDispenser_GetLCULastDispensedCount);
+         Assert.IsTrue(apLine.noteType == "B");
+         Assert.IsTrue(apLine.amount == "2");
+      }
+
+      [TestMethod]
+      public void CashDispenser_Lifecycle_v25()
+      {
+         Assert.IsTrue(((APLine)Identify(samples_devices.CashDispenser_OnDispenseComplete_v25)).apType == APLogType.CashDispenser_OnDispenseComplete);
+         Assert.IsTrue(((APLine)Identify(samples_devices.CashDispenser_OnPresentComplete_v25)).apType == APLogType.CashDispenser_OnPresentComplete);
+         Assert.IsTrue(((APLine)Identify(samples_devices.CashDispenser_OnItemsTaken_v25)).apType == APLogType.CashDispenser_OnItemsTaken);
+         Assert.IsTrue(((APLine)Identify(samples_devices.CashDispenser_OnShutterOpen_v25)).apType == APLogType.CashDispenser_OnShutterOpen);
+         Assert.IsTrue(((APLine)Identify(samples_devices.CashDispenser_OnStackerEmpty_v25)).apType == APLogType.CashDispenser_OnStackerEmpty);
+      }
+
+      [TestMethod]
+      public void HelperFunctions_GetFewestBillMixList_HNB_v25()
+      {
+         ILogLine logLine = Identify(samples_devices.HelperFunctions_GetFewestBillMixList_HNB_v25);
+         Assert.IsTrue(logLine is APLineField);
+         APLineField apLine = (APLineField)logLine;
+         Assert.IsTrue(apLine.apType == APLogType.HelperFunctions_GetFewestBillMixList);
+         Assert.IsTrue(apLine.field == "50~1|20~1|5~2|1~0");
+      }
    }
 }

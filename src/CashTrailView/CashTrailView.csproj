@@ -1,14 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{25D2E0E0-BD02-4D91-9C1B-F4CE61912228}</ProjectGuid>
+    <ProjectGuid>{6D6B0C2E-6D2E-4C6A-9A5C-3B0F8B1D77A1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>A2iALogLine</RootNamespace>
-    <AssemblyName>A2iALogLine</AssemblyName>
+    <RootNamespace>CashTrailView</RootNamespace>
+    <AssemblyName>CashTrailView</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -22,6 +22,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <!--
+    NOTE: no <OutputPath> in the Release group, deliberately.
+    src\Directory.Build.props sets OutputPath to $(SolutionDir)..\dist\ for every Release,
+    non-test, non-Samples project. Setting it here overrides that and the DLL lands in
+    bin\Release instead of dist, where ViewLoader never sees it. CIMView/OverView/etc. all
+    omit it for the same reason. Data files are deployed by CopyViewDataFiles in
+    src\Directory.Build.targets - no PostBuildEvent needed.
+  -->
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
@@ -31,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,18 +49,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="A2iALine.cs" />
+    <Compile Include="CashTrailTable.cs" />
+    <Compile Include="CashTrailView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BaseView\BaseView.csproj">
+      <Project>{db43982d-e960-4dba-83ef-1bb6e7a60a49}</Project>
+      <Name>BaseView</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Contract\Contract.csproj">
       <Project>{9ef4286e-dc11-479c-84a0-eb43a70e1bde}</Project>
       <Name>Contract</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LogLineHandler\LogLineHandler.csproj">
-      <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>
-      <Name>LogLineHandler</Name>
+    <ProjectReference Include="..\Impl\Impl.csproj">
+      <Project>{f89403e5-4c5c-4d8f-8401-b2d56f6d8a2b}</Project>
+      <Name>Impl</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CashTrailView.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CashTrailView.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -27,7 +27,7 @@ namespace LogLineHandler
          {
             string subLogLine = logLine.Substring(idx);
 
-            Regex regex = new Regex("^MixAlgo=(?<mixAlgo>.), Currency=(?<currency>.*?), Amount=(?<amount>.*?), Disp=(?<dispense>.*?)\r\n");
+            Regex regex = new Regex("^MixAlgo=(?<mixAlgo>.), Currency=(?<currency>.*?), Amount=(?<amount>.*?), Disp=(?<dispense>[0-9 ]*)");
             Match m = regex.Match(subLogLine);
             if (!m.Success)
             {

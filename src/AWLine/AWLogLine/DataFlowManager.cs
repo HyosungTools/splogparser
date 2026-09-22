@@ -23,6 +23,11 @@ namespace LogLineHandler
       public string TransactionItemStatusChange { get; private set; } = string.Empty;
       public string TransactionReviewRequest { get; private set; } = string.Empty;
 
+      public string RemoteControlHandoff { get; private set; } = string.Empty;
+      public string RcSessionIdCurrent { get; private set; } = string.Empty;
+      public string RcSessionIdIncoming { get; private set; } = string.Empty;
+      public string TellerSessionIdCurrent { get; private set; } = string.Empty;
+      public string TellerSessionIdIncoming { get; private set; } = string.Empty;
 
 
       public DataFlowManager(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.DataFlowManager) : base(parent, logLine, awType)
@@ -305,12 +310,65 @@ namespace LogLineHandler
                IsRecognized = true;
             }
 
-            regex = new Regex("Current remote control session id = (?<sessionid>[0-9]*)");
+            // The workstation logs the remote-control handoff as a four-line record, which
+            // AWLogHandler.ReadLine now assembles into one logical line separated by
+            // AWLogHandler.ContinuationSeparator:
+            //
+            //   Current remote control session id = 0 ~ Incoming event remote control session id = 86524
+            //   ~ Current teller session id  = 0 ~ Incoming event teller session id = 9220
+            //
+            // When Current is 0 and Incoming is not, the workstation has no session to attach
+            // the event to, the event is discarded, and the Remote Desktop never opens for the
+            // teller. Nothing else in the log reports it. NHSWS-18832: 3 of the 10 sessions
+            // that attempted remote control on 2026-08-18 failed this way.
+            regex = new Regex("Current remote control session id\\s*=\\s*(?<rccur>[0-9]+)");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
-               RemoteControlSessionState = $"CURRENT remote control session id {m.Groups["sessionid"].Value}";
+               RcSessionIdCurrent = m.Groups["rccur"].Value;
                IsRecognized = true;
+
+               Match mRcIn = new Regex("Incoming event remote control session id\\s*=\\s*(?<rcinc>[0-9]+)").Match(subLogLine);
+               if (mRcIn.Success) RcSessionIdIncoming = mRcIn.Groups["rcinc"].Value;
+
+               Match mTsCur = new Regex("Current teller session id\\s*=\\s*(?<tscur>[0-9]+)").Match(subLogLine);
+               if (mTsCur.Success) TellerSessionIdCurrent = mTsCur.Groups["tscur"].Value;
+
+               Match mTsIn = new Regex("Incoming event teller session id\\s*=\\s*(?<tsinc>[0-9]+)").Match(subLogLine);
+               if (mTsIn.Success) TellerSessionIdIncoming = mTsIn.Groups["tsinc"].Value;
+
+               if (string.IsNullOrEmpty(RcSessionIdIncoming))
+               {
+                  // no continuation lines - older capture, or a single-line variant.
+                  // Keep the pre-change behaviour exactly.
+                  RemoteControlSessionState = $"CURRENT remote control session id {RcSessionIdCurrent}";
+               }
+               else
+               {
+                  RemoteControlSessionState =
+                     $"CURRENT remote control session id {RcSessionIdCurrent}, INCOMING {RcSessionIdIncoming}";
+
+                  string tellerSuffix = string.IsNullOrEmpty(TellerSessionIdIncoming)
+                     ? string.Empty
+                     : $" (teller session {TellerSessionIdIncoming})";
+
+                  if (RcSessionIdCurrent == "0" && RcSessionIdIncoming != "0")
+                  {
+                     RemoteControlHandoff =
+                        $"DROPPED - incoming remote control session {RcSessionIdIncoming}{tellerSuffix} " +
+                        "discarded, workstation had no current session. Remote Desktop did not open.";
+                  }
+                  else if (RcSessionIdCurrent == RcSessionIdIncoming)
+                  {
+                     RemoteControlHandoff = $"MATCHED - remote control session {RcSessionIdCurrent}{tellerSuffix}";
+                  }
+                  else
+                  {
+                     RemoteControlHandoff =
+                        $"MISMATCH - current remote control session {RcSessionIdCurrent}, " +
+                        $"incoming {RcSessionIdIncoming}{tellerSuffix}";
+                  }
+               }
             }
 
             regex = new Regex("Retrieved teller session request for id (?<id>[0-9]*)");

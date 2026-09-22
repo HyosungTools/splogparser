@@ -13,6 +13,8 @@ namespace LogLineHandler
       public string Asset { get; private set; } = string.Empty;
       public string VideoSessionState { get; private set; } = string.Empty;
 
+      public string RemoteDesktopLaunch { get; private set; } = string.Empty;
+
 
       public MainWindow(ILogFileHandler parent, string logLine, AWLogType awType = AWLogType.MainWindow) : base(parent, logLine, awType)
       {
@@ -200,10 +202,11 @@ namespace LogLineHandler
                IsRecognized = true;
             }
 
-            regex = new Regex("Started the ImperoConnect Guest application to IP: (?<ip>.*).");
+            regex = new Regex(@"Started the ImperoConnect Guest application to IP:\s*(?<ip>\S+?)\.?\s*$");
             m = regex.Match(subLogLine);
             if (m.Success)
             {
+               RemoteDesktopLaunch = m.Groups["ip"].Value;
                ActiveTellerState = $"IMPEROCONNECT GUEST IP {m.Groups["ip"].Value}";
                IsRecognized = true;
             }
