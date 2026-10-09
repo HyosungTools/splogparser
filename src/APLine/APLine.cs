@@ -29,6 +29,9 @@ namespace LogLineHandler
       APLOG_CARD_ONMEDIAREMOVED,
       APLOG_CARD_PAN,
       APLOG_CARD_TIMEOUT,
+      APLOG_CARD_SKIMMER_CHANGED,
+      APLOG_CARD_SKIMMER_OUTOFSERVICE,
+      APLOG_CARD_SKIMMER_RESET,
 
       APLOG_RFID_DELETE,
       APLOG_RFID_ACCEPTCANCELLED,
@@ -444,8 +447,20 @@ namespace LogLineHandler
 
          /* [CardReader          ] */
 
+         /* Anti-skimming (not CardReader class lines) */
+         if (logLine.Contains("[CardReadState") && logLine.Contains("Skimmer is detected") && logLine.Contains("OutOfService"))
+            return new APLineSkimmer(logFileHandler, logLine, APLogType.APLOG_CARD_SKIMMER_OUTOFSERVICE);
+
+         if (logLine.Contains("[AntiSkimmingProcessHelper") && logLine.Contains("Change to previous mode"))
+            return new APLineSkimmer(logFileHandler, logLine, APLogType.APLOG_CARD_SKIMMER_RESET);
+
+         /* [CardReader          ] */
+
          if (logLine.Contains("[CardReader") && !logLine.Contains("[RFIDReader"))
          {
+            if (logLine.Contains("RaiseDeviceUnSolEvent") && logLine.Contains("SkimmerDetectChanged"))
+               return new APLineSkimmer(logFileHandler, logLine, APLogType.APLOG_CARD_SKIMMER_CHANGED);
+
             if (logLine.Contains("[Open") || logLine.Contains("CardReader.Open"))
                return new APLine(logFileHandler, logLine, APLogType.APLOG_CARD_OPEN);
 

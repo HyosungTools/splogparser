@@ -604,6 +604,32 @@ namespace OverView
                   /* headset */
 
                   /* card */
+
+                  case APLogType.APLOG_CARD_SKIMMER_CHANGED:
+                  case APLogType.APLOG_CARD_SKIMMER_OUTOFSERVICE:
+                  case APLogType.APLOG_CARD_SKIMMER_RESET:
+                     {
+                        base.ProcessRow(logLine);
+                        if (apLogLine is APLineSkimmer skim)
+                        {
+                           string text;
+                           switch (skim.apType)
+                           {
+                              case APLogType.APLOG_CARD_SKIMMER_CHANGED:
+                                 text = "skimmer: " + skim.detail.ToLowerInvariant();
+                                 break;
+                              case APLogType.APLOG_CARD_SKIMMER_OUTOFSERVICE:
+                                 text = "skimmer: out of service";
+                                 break;
+                              default:
+                                 text = "skimmer: auto-reset (prev mode " + skim.detail.ToLowerInvariant() + ")";
+                                 break;
+                           }
+                           APLINE2(skim, "card", text, "comment", "anti-skimming sensor event");
+                        }
+                        break;
+                     }
+
                   case APLogType.APLOG_CARD_OPEN:
                      {
                         base.ProcessRow(logLine);
