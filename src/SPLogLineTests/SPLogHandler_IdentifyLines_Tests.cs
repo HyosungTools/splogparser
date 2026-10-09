@@ -699,7 +699,7 @@ namespace SPLogLineTests
          Assert.AreEqual(XFSType.WFS_EXEE_IPM_MEDIAREFUSED, spLine.xfsType, $"Expected xfsType: WFS_EXEE_IPM_MEDIAREFUSED, Actual: {spLine.xfsType}");
          Assert.AreEqual("2023-09-06 13:29:33.919", spLine.Timestamp, $"Expected Timestamp: 2023-08-22 22:31:13.977, Actual: {spLine.Timestamp}");
          Assert.AreEqual("", spLine.HResult, $"Expected HResult: '', Actual: {spLine.HResult}");
-         Assert.AreEqual("4", spLine.wReason, $"Expected wReason: 4, Actual: {spLine.wReason}");
+         Assert.AreEqual("204", spLine.wReason, $"Expected wReason: 204, Actual: {spLine.wReason}");
          Assert.AreEqual("2", spLine.wMediaLocation, $"Expected wMediaLocation: 2, Actual: {spLine.wMediaLocation}");
          Assert.AreEqual("0", spLine.bPresentRequired, $"Expected bPresentRequired: 0, Actual: {spLine.bPresentRequired}");
       }

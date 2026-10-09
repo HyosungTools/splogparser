@@ -33,14 +33,13 @@ namespace LogLineHandler
          wMediaLocation = string.Empty;
          bPresentRequired = string.Empty;
 
-
+         // guard: truncated ("more data") records may not contain lpResult
          int indexOflpResult = logLine.IndexOf("lpResult =");
-         string logicalSubLogLine = logLine.Substring(indexOflpResult);
-         // Console.WriteLine(String.Format("WFSIPMMEDIAREFUSED : logicalSubLogLine : {0}", logicalSubLogLine));
+         string logicalSubLogLine = indexOflpResult >= 0 ? logLine.Substring(indexOflpResult) : logLine;
 
-         // e.g wReason = [4],
+         // e.g wReason = [4],  ->  "204" to match IPMView.xml wReason codes (201..2018)
          result = NumericPropertyFromList(logicalSubLogLine, "wReason");
-         if (result.success) wReason = result.xfsMatch.Trim();
+         if (result.success) wReason = prefix + result.xfsMatch.Trim();
 
          // e.g. wMediaLocation = [2],
          result = NumericPropertyFromList(logicalSubLogLine, "wMediaLocation");
