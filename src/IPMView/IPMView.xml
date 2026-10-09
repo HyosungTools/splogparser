@@ -596,6 +596,36 @@
     <code>309</code>
     <brief>other</brief>
     <description>The media was rejected due to a reason other than those listed above.</description>
+  </Messages>
+
+  <!-- wMediaValidity from WFS_EXEE_IPM_MEDIADATA (prefix 40) -->
+
+  <Messages>
+	<type>wReason</type>
+    <code>400</code>
+    <brief>item ok</brief>
+    <description>The device validated the item: WFS_IPM_ITEMOK.</description>
+  </Messages>
+
+  <Messages>
+	<type>wReason</type>
+    <code>401</code>
+    <brief>item suspect</brief>
+    <description>The device flagged the item as suspect: WFS_IPM_ITEMSUSPECT.</description>
+  </Messages>
+
+  <Messages>
+	<type>wReason</type>
+    <code>402</code>
+    <brief>item unknown</brief>
+    <description>The device could not determine whether the item is valid: WFS_IPM_ITEMUNKNOWN.</description>
+  </Messages>
+
+  <Messages>
+	<type>wReason</type>
+    <code>403</code>
+    <brief>no validation</brief>
+    <description>The device did not validate the item: WFS_IPM_ITEMNOVALIDATION.</description>
   </Messages> 
   
   <!-- Values of WFSIPMMEDIABIN.fwType -->

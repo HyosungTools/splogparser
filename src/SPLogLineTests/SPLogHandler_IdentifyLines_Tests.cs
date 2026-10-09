@@ -699,9 +699,32 @@ namespace SPLogLineTests
          Assert.AreEqual(XFSType.WFS_EXEE_IPM_MEDIAREFUSED, spLine.xfsType, $"Expected xfsType: WFS_EXEE_IPM_MEDIAREFUSED, Actual: {spLine.xfsType}");
          Assert.AreEqual("2023-09-06 13:29:33.919", spLine.Timestamp, $"Expected Timestamp: 2023-08-22 22:31:13.977, Actual: {spLine.Timestamp}");
          Assert.AreEqual("", spLine.HResult, $"Expected HResult: '', Actual: {spLine.HResult}");
-         Assert.AreEqual("4", spLine.wReason, $"Expected wReason: 4, Actual: {spLine.wReason}");
+         Assert.AreEqual("204", spLine.wReason, $"Expected wReason: 204, Actual: {spLine.wReason}");
          Assert.AreEqual("2", spLine.wMediaLocation, $"Expected wMediaLocation: 2, Actual: {spLine.wMediaLocation}");
          Assert.AreEqual("0", spLine.bPresentRequired, $"Expected bPresentRequired: 0, Actual: {spLine.bPresentRequired}");
+      }
+
+      [TestMethod]
+      public void ShouldParseWfsExeeIpmMediaDataCorrectly()
+      {
+         ILogFileHandler logFileHandler = new SPLogHandler(new CreateTextStreamReaderMock());
+         ILogLine logLine = logFileHandler.IdentifyLine(samples_ipm.WFS_EXEE_IPM_MEDIADATA_1);
+         Assert.IsInstanceOfType(logLine, typeof(WFSIPMMEDIADATA), $"Expected type: WFSIPMMEDIADATA, Actual: {logLine.GetType()}");
+
+         WFSIPMMEDIADATA spLine = (WFSIPMMEDIADATA)logLine;
+         Assert.AreEqual(XFSType.WFS_EXEE_IPM_MEDIADATA, spLine.xfsType, $"Expected xfsType: WFS_EXEE_IPM_MEDIADATA, Actual: {spLine.xfsType}");
+         Assert.AreEqual("2026-10-08 16:24:23.029", spLine.Timestamp, $"Expected Timestamp: 2026-10-08 16:24:23.029, Actual: {spLine.Timestamp}");
+         Assert.AreEqual("1", spLine.usMediaID);
+         Assert.AreEqual("30", spLine.ulCodelineDataLength);
+         Assert.AreEqual("1", spLine.wMagneticReadIndicator);
+         Assert.AreEqual("not MICR (image/OCR)", spLine.MagneticReadText());
+         Assert.AreEqual("0x0012", spLine.fwInsertOrientation);
+         Assert.AreEqual("codeline left face up", spLine.InsertOrientationText());
+         Assert.AreEqual("69", spLine.ulSizeX);
+         Assert.AreEqual("190", spLine.ulSizeY);
+         Assert.AreEqual("400", spLine.wMediaValidity, "wMediaValidity 0 (ITEMOK) should carry the 40 prefix");
+         Assert.AreEqual(2, spLine.wImageStatuses.Count, "front and back images");
+         Assert.AreEqual("ok/ok", spLine.ImageStatusText());
       }
 
       //[TestMethod]

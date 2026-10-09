@@ -203,6 +203,7 @@ namespace LogLineHandler
       WFS_SRVE_IPM_MEDIADETECTED,
       WFS_EXEE_IPM_MEDIAPRESENTED,
       WFS_EXEE_IPM_MEDIAREFUSED,
+      WFS_EXEE_IPM_MEDIADATA,
       WFS_EXEE_IPM_MEDIAREJECTED,
 
       /* WFPOpen() and WFPClose() */
@@ -475,6 +476,7 @@ namespace LogLineHandler
       static Regex WFS_SRVE_IPM_MEDIADETECTED = new Regex("SERVICE_EVENT.1610.[0-9]+WFS_SERVICE_EVENT");
       static Regex WFS_EXEE_IPM_MEDIAPRESENTED = new Regex("EXECUTE_EVENT.1611.[0-9]+WFS_EXECUTE_EVENT");
       static Regex WFS_EXEE_IPM_MEDIAREFUSED = new Regex("EXECUTE_EVENT.1612.[0-9]+WFS_EXECUTE_EVENT");
+      static Regex WFS_EXEE_IPM_MEDIADATA = new Regex("EXECUTE_EVENT.1613.[0-9]+WFS_EXECUTE_EVENT");
       static Regex WFS_EXEE_IPM_MEDIAREJECTED = new Regex("EXECUTE_EVENT.1615.[0-9]+WFS_EXECUTE_EVENT");
 
       static Regex WFPOpen = new Regex("(XFS_CMD[a-zA-Z0-9 ]*)(OPEN[a-zA-Z0-9 ]*)(hResult\\[(\\d+)\\] = WFPOpen)");
@@ -955,6 +957,9 @@ namespace LogLineHandler
 
             result = GenericMatch(WFS_EXEE_IPM_MEDIAREFUSED, logLine);
             if (result.success) return new WFSIPMMEDIAREFUSED(logFileHandler, logLine, XFSType.WFS_EXEE_IPM_MEDIAREFUSED);
+
+            result = GenericMatch(WFS_EXEE_IPM_MEDIADATA, logLine);
+            if (result.success) return new WFSIPMMEDIADATA(logFileHandler, result.subLogLine, XFSType.WFS_EXEE_IPM_MEDIADATA);
 
             result = GenericMatch(WFS_EXEE_IPM_MEDIAREJECTED, logLine);
             if (result.success) return new WFSIPMMEDIAREJECTED(logFileHandler, result.subLogLine, XFSType.WFS_EXEE_IPM_MEDIAREJECTED);

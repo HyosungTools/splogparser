@@ -149,6 +149,12 @@ namespace IPMView
                         WFS_EXEE_IPM_MEDIAREFUSED(spLogLine);
                         break;
                      }
+                  case LogLineHandler.XFSType.WFS_EXEE_IPM_MEDIADATA:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_EXEE_IPM_MEDIADATA(spLogLine);
+                        break;
+                     }
                   case LogLineHandler.XFSType.WFS_EXEE_IPM_MEDIAREJECTED:
                      {
                         base.ProcessRow(spLogLine);
@@ -266,23 +272,27 @@ namespace IPMView
          {
             // D E P O S I T   T A B L E
 
+            tableName = "Deposit";
+
+            // DEDUPLICATE - the same XFS record can appear more than once when
+            // overlapping zips or rolled-over nwlog files cover the same period.
+            // 'file' is deliberately left out of the key so cross-file copies collapse.
+            string[] depositKey = new string[]
+            {
+      "time", "error", "errcode", "trans", "onstacker", "lasttotal", "accepted",
+      "totalitems", "itemsreturned", "totalrefsd", "totlbnchrefsd", "reason", "comment"
+            };
+            RemoveDuplicateRows(tableName, depositKey);
+
+            // ADD ENGLISH
             string[,] colKeyMap = new string[4, 2]
             {
-               {"trans","wMediaInTransaction" },
-               {"status", "wStatus" },
-               {"reason", "wFailure" },
-               {"reason", "wReason" }
+      {"trans","wMediaInTransaction" },
+      {"status", "wStatus" },
+      {"reason", "wFailure" },
+      {"reason", "wReason" }
             };
-
-            foreach (DataTable dTable in dTableSet.Tables)
-            {
-               if (dTable.TableName.Equals("Deposit"))
-               {
-                  // ADD ENGLISH
-                  tableName = dTable.TableName;
-                  AddEnglishToTable(tableName, colKeyMap);
-               }
-            }
+            AddEnglishToTable(tableName, colKeyMap);
          }
          catch (Exception e)
          {
@@ -819,12 +829,59 @@ namespace IPMView
                depRow["trans"] = "refused";
                depRow["reason"] = binInfo.wReason;
 
+               // where the refused item is (WFS_IPM_REFUSE_*) and whether PRESENT_MEDIA is needed to return it
+               string loc;
+               switch (binInfo.wMediaLocation)
+               {
+                  case "1": loc = "input"; break;
+                  case "2": loc = "refuse pocket"; break;
+                  case "3": loc = "rebuncher"; break;
+                  case "4": loc = "stacker"; break;
+                  default: loc = binInfo.wMediaLocation; break;
+               }
+               depRow["comment"] = String.Format("location={0}, presentRequired={1}", loc, binInfo.bPresentRequired);
+
                dTableSet.Tables["Deposit"].AcceptChanges();
             }
          }
          catch (Exception e)
          {
             ctx.ConsoleWriteLogLine("WFS_EXEE_IPM_MEDIAREFUSED Exception : " + e.Message);
+         }
+      }
+
+      protected void WFS_EXEE_IPM_MEDIADATA(SPLine spLogLine)
+      {
+         try
+         {
+            if (spLogLine is WFSIPMMEDIADATA mediaData)
+            {
+               DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+               depRow["file"] = spLogLine.LogFile;
+               depRow["time"] = spLogLine.Timestamp;
+               depRow["error"] = spLogLine.HResult;
+
+               depRow["trans"] = "media data";
+
+               // device verdict on the item (40x -> IPMView.xml wReason: item ok / suspect / unknown / no validation)
+               depRow["reason"] = mediaData.wMediaValidity;
+
+               // what was captured - the code line itself is account data, so only its length is shown
+               depRow["comment"] = String.Format("item={0}, codeline len={1} read={2}, insert={3}, size={4}x{5}, images={6}",
+                  mediaData.usMediaID,
+                  mediaData.ulCodelineDataLength,
+                  mediaData.MagneticReadText(),
+                  mediaData.InsertOrientationText(),
+                  mediaData.ulSizeX, mediaData.ulSizeY,
+                  mediaData.ImageStatusText());
+
+               dTableSet.Tables["Deposit"].AcceptChanges();
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_EXEE_IPM_MEDIADATA Exception : " + e.Message);
          }
       }
 
