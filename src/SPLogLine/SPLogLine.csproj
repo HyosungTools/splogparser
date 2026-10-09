@@ -72,6 +72,7 @@
     <Compile Include="WFSIPMMEDIABININFO.cs" />
     <Compile Include="WFSIPMMEDIAIN.cs" />
     <Compile Include="WFSIPMMEDIAINEND.cs" />
+    <Compile Include="WFSIPMMEDIADATA.cs" />
     <Compile Include="WFSIPMMEDIAPRESENTED.cs" />
     <Compile Include="WFSIPMMEDIAREFUSED.cs" />
     <Compile Include="WFSIPMMEDIAREJECTED.cs" />

@@ -149,6 +149,12 @@ namespace IPMView
                         WFS_EXEE_IPM_MEDIAREFUSED(spLogLine);
                         break;
                      }
+                  case LogLineHandler.XFSType.WFS_EXEE_IPM_MEDIADATA:
+                     {
+                        base.ProcessRow(spLogLine);
+                        WFS_EXEE_IPM_MEDIADATA(spLogLine);
+                        break;
+                     }
                   case LogLineHandler.XFSType.WFS_EXEE_IPM_MEDIAREJECTED:
                      {
                         base.ProcessRow(spLogLine);
@@ -841,6 +847,41 @@ namespace IPMView
          catch (Exception e)
          {
             ctx.ConsoleWriteLogLine("WFS_EXEE_IPM_MEDIAREFUSED Exception : " + e.Message);
+         }
+      }
+
+      protected void WFS_EXEE_IPM_MEDIADATA(SPLine spLogLine)
+      {
+         try
+         {
+            if (spLogLine is WFSIPMMEDIADATA mediaData)
+            {
+               DataRow depRow = dTableSet.Tables["Deposit"].Rows.Add();
+
+               depRow["file"] = spLogLine.LogFile;
+               depRow["time"] = spLogLine.Timestamp;
+               depRow["error"] = spLogLine.HResult;
+
+               depRow["trans"] = "media data";
+
+               // device verdict on the item (40x -> IPMView.xml wReason: item ok / suspect / unknown / no validation)
+               depRow["reason"] = mediaData.wMediaValidity;
+
+               // what was captured - the code line itself is account data, so only its length is shown
+               depRow["comment"] = String.Format("item={0}, codeline len={1} read={2}, insert={3}, size={4}x{5}, images={6}",
+                  mediaData.usMediaID,
+                  mediaData.ulCodelineDataLength,
+                  mediaData.MagneticReadText(),
+                  mediaData.InsertOrientationText(),
+                  mediaData.ulSizeX, mediaData.ulSizeY,
+                  mediaData.ImageStatusText());
+
+               dTableSet.Tables["Deposit"].AcceptChanges();
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.ConsoleWriteLogLine("WFS_EXEE_IPM_MEDIADATA Exception : " + e.Message);
          }
       }
 

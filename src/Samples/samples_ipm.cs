@@ -615,6 +615,50 @@ lpResult =
 		}
 	}
 }";
+      // 2026-10-08 NHSWS-19269 : MEDIADATA from a CCIM (NHCCIM) check deposit, newer SP trace header layout
+      // (the record name is NUL-separated: logical name, app, N/A, pid, tid). Code line masked by the SP (***).
+      public const string WFS_EXEE_IPM_MEDIADATA_1 =
+"01344294967295101400223142850031ItemProcessor\0atm\0N/A\01892\04940" + @"0003SPI00102026/10/08001216:24 23.0290009XFS_EVENT0019EXECUTE_EVENT[1613]0892WFS_EXECUTE_EVENT, 
+lpResult =
+{
+	hWnd = [0x000203f8],
+	RequestID = [482],
+	hService = [4],
+	tsTimestamp = [2026/10/08 16:24 23.029],
+	hResult = [0],
+	u.dwEventID = [1613],
+	lpBuffer = [0x04c59bfc]
+	{
+		usMediaID = [1],
+		ulCodelineDataLength = [30],
+		lpbCodelineData = ***,
+		wMagneticReadIndicator = [1],
+		lppImage =
+		{
+			wImageSource = [0x0001],
+			wImageType = [0x0001],
+			wImageColorFormat = [0x0002],
+			wImageScanColor = [0x0010],
+			wImageStatus = [0],
+			lpszImageFile = [c:\efts\atm\CHECKS\FRONT\Top1.tif]
+		}
+		{
+			wImageSource = [0x0002],
+			wImageType = [0x0001],
+			wImageColorFormat = [0x0002],
+			wImageScanColor = [0x0010],
+			wImageStatus = [0],
+			lpszImageFile = [c:\efts\atm\CHECKS\BACK\Bottom1.tif]
+		}
+		fwInsertOrientation = [0x0012],
+		lpMediaSize
+		{
+			ulSizeX = [69],
+			ulSizeY = [190]
+		}
+		wMediaValidity = [0]
+	}
+}";
       public const string WFS_CMD_IPM_RESET_1 =
 @"0050h: 36 FE BC 17 DB 04 78 57 23 72 FD F9 04304294967295014901394759020007nh CCIM0002SP00102023/08/11001218:16 44.6730004DATA0038CNHUsb6::SendControlDataWithEPUSBReset0038-> [8] 0000h: C0 41 0A 6C 00 00 40 00 01494294967295013701394759030004CCIM0002SP00102023/08/11001218:16 44.6730011INFORMATION0025CCCIMDev::BackUpEPLogFile0035<<<<< Main EP/BC EP Log Request End01374294967295010701394759040004CCIM0002SP00102023/08/11001218:16 44.6730011INFORMATION0009LogThread0021>>> BCLogThread Start01074294967295017001394759050013ItemProcessor0009FRAMEWORK00102023/08/11001218:16 44.6740007DEVRETN0021CBaseService::Execute0060HSERVICE[12] COMMAND[1610] HRESULT[0] OUT BUFFER[0x00000000]01704294967295012201394759060006COMMON0009FRAMEWORK00102023/08/11001218:16 44.6740011INFORMATION0015CProcessor::Run0021---- Wait [4816] ----01224294967295029901394759070003IPM0003SPI00102023/08/11001218:16 44.6740009XFS_EVENT0013EXECUTE[1610]0211WFS_EXECUTE_COMPLETE, 
 lpResult =
