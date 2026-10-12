@@ -11,10 +11,14 @@ on:
 jobs:
   release:
     runs-on: windows-2022
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v3
@@ -58,12 +62,24 @@ jobs:
           git push origin v${{ github.event.inputs.version }}
 
       - name: Publish GitHub Release
-        uses: softprops/action-gh-release@v3
-        with:
-          tag_name: v${{ github.event.inputs.version }}
-          name: splogparser v${{ github.event.inputs.version }}
-          files: |
-            splogparser-${{ github.event.inputs.version }}.zip
-            installer/output/splogparser-setup-${{ github.event.inputs.version }}.exe
-          prerelease: false
-          make_latest: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          $version = "${{ github.event.inputs.version }}"
+          $tag = "v$version"
+
+          # Previous full release: newest v* tag that isn't a prerelease and isn't the one we just pushed
+          $prev = git tag --list "v*" --sort=-v:refname |
+                  Where-Object { $_ -notmatch "prerelease" -and $_ -ne $tag } |
+                  Select-Object -First 1
+
+          $notesArgs = @("--generate-notes")
+          if ($prev) { $notesArgs += @("--notes-start-tag", $prev) }
+
+          gh release create $tag `
+            "splogparser-$version.zip" `
+            "installer/output/splogparser-setup-$version.exe" `
+            --title "splogparser $tag" `
+            --latest `
+            @notesArgs

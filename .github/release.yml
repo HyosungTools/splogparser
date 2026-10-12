@@ -1,0 +1,16 @@
+changelog:
+  exclude:
+    labels:
+      - internal
+      - ci
+  categories:
+    - title: 🆕 New Views & Worksheets
+      labels: [new-view]
+    - title: ✨ Improvements
+      labels: [enhancement]
+    - title: 🐛 Parsing Fixes
+      labels: [bug, parsing]
+    - title: 📋 Config / Known Issues Data
+      labels: [data]
+    - title: Other Changes
+      labels: ["*"]
