@@ -71,7 +71,7 @@ jobs:
 
           # Previous full release: newest v* tag that isn't a prerelease and isn't the one we just pushed
           $prev = git tag --list "v*" --sort=-v:refname |
-                  Where-Object { $_ -notmatch "prerelease" -and $_ -ne $tag } |
+                  Where-Object { $_ -match '^v\d+\.\d+\.\d+$' -and $_ -ne $tag } |
                   Select-Object -First 1
 
           $notesArgs = @("--generate-notes")
