@@ -38,9 +38,21 @@ namespace LogLineHandler
       {
          base.Initialize(); 
 
+         model = HeaderValue("Model");
          installedPackages = InstalledPackages();
          installedPrograms = InstalledPrograms();
 
+      }
+
+      /// <summary>
+      /// Value of a " - Key = Value" line in the machine header, e.g. HeaderValue("Model") -> "8300I".
+      /// Returns an empty string if the line is not present.
+      /// </summary>
+      protected string HeaderValue(string key)
+      {
+         Regex regex = new Regex(@"^\s*-\s*" + Regex.Escape(key) + @"\s*=\s*(?<value>.*?)\s*$", RegexOptions.Multiline);
+         Match m = regex.Match(logLine);
+         return m.Success ? m.Groups["value"].Value : string.Empty;
       }
 
       protected string[,] InstalledPackages()

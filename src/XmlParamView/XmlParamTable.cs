@@ -1,5 +1,6 @@
 ﻿using Contract;
 using Impl;
+using LogLineHandler;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -206,6 +207,18 @@ namespace XmlParamsView
 
             ctx.ConsoleWriteLogLine(String.Format("XMLPARAM_SETTINGS_CONFIG found [AP] subfolder '{0}'", apFolder));
 
+            // Conditions reference the DataDictionary, which MoniPlus2 builds from the config itself
+            // (e.g. ConfigModel\Application\NHApplication.xml sets System.ModelName / System.ModelVariation).
+            // Lookups use config values resolved so far, in load order. Blank or missing means unknown.
+            Dictionary<string, string> merged = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            int unresolvedCount = 0;
+
+            Func<string, string, string> lookup = (ddSection, ddKey) =>
+            {
+               string cfgValue;
+               return merged.TryGetValue(ddSection + "." + ddKey, out cfgValue) && !string.IsNullOrWhiteSpace(cfgValue) ? cfgValue : null;
+            };
+
             // For each subdirectory, iterate over each Xml file and load up XmlParams
             foreach (string applFolder in applicationFolders)
             {
@@ -237,8 +250,8 @@ namespace XmlParamsView
                   // Select the XmlParam node
                   XmlNodeList xmlParamNodes = xmlDoc.SelectNodes("//ns:XmlParam", nsmgr);
 
-                  List<string> keys = new List<string>();
-                  List<string> values = new List<string>();
+                  // key -> value for this file; a later satisfied entry for the same key wins (document order)
+                  Dictionary<string, string> fileValues = new Dictionary<string, string>();
 
                   // Record the found elements
                   foreach (XmlNode xmlParamNode in xmlParamNodes)
@@ -259,6 +272,21 @@ namespace XmlParamsView
                         string key = ancestorName + "." + xmlParamNode.Attributes["Key"].Value;
                         string value = xmlParamNode.Attributes["Value"].Value;
 
+                        // Does this XmlParam apply to this machine? Checks the param's own Condition
+                        // and the Condition on its enclosing XmlSection.
+                        List<string> reasons = new List<string>();
+                        bool? applies = XmlConditionEvaluator.EvaluateWithAncestors(xmlParamNode, nsmgr, lookup, reasons);
+                        if (applies == false)
+                        {
+                           continue;
+                        }
+                        if (applies == null)
+                        {
+                           unresolvedCount++;
+                           ctx.ConsoleWriteLogLine(String.Format("XMLPARAM_SETTINGS_CONFIG : cannot evaluate Condition for {0}={1} in '{2}'", key, value, xmlFile));
+                           continue;
+                        }
+
                         // If the column doesnt exist create it now. We only want one occurrance of the 
                         // key (XmlParam) but possibly multiple values - representing overrides
                         if (!dTableSet.Tables["XmlParam"].Columns.Contains(key))
@@ -266,12 +294,11 @@ namespace XmlParamsView
                            dTableSet.Tables["XmlParam"].Columns.Add(key);
                         }
 
-                        // save key and value for later
-                        if (!string.IsNullOrEmpty(key) && key.Length > 0)
-                        {
-                           keys.Add(key);
-                           values.Add(value);
-                        }
+                        // save key and value; also visible to Conditions evaluated later (e.g. MultiVendor.SupportNoteCounting)
+                        // The cell shows how a conditional value was chosen, e.g. "BRM (8300I, Recycler)".
+                        // merged keeps the raw value - later Conditions compare against it.
+                        fileValues[key] = reasons.Count > 0 ? String.Format("{0} ({1})", value, string.Join(", ", reasons)) : value;
+                        merged[key] = value;
                      }
                      catch (Exception e)
                      {
@@ -279,28 +306,114 @@ namespace XmlParamsView
                      }
                   }
 
-                  // Convert list of values to an array
-                  string[] valueArray = values.ToArray();
-                  int i = 0;
-
                   // create the new row and add the values
                   ctx.ConsoleWriteLogLine(String.Format("XMLPARAM_SETTINGS_CONFIG : Add Row for : {0}", xmlFile));
                   DataRow dataRow = dTableSet.Tables["XmlParam"].Rows.Add();
 
                   // Use the applFolder and xmlFile for the xpath
                   dataRow["xpath"] = xmlFile.Replace(apFolder, "");
-                  foreach (string key in keys)
+                  foreach (KeyValuePair<string, string> kv in fileValues)
                   {
-                     dataRow[key] = valueArray[i++];
+                     dataRow[kv.Key] = kv.Value;
                   }
 
                   dTableSet.Tables["XmlParam"].AcceptChanges();
                }
             }
+
+            if (unresolvedCount > 0)
+            {
+               ctx.ConsoleWriteLogLine(String.Format("XMLPARAM_SETTINGS_CONFIG : {0} conditional XmlParams skipped because their Condition could not be evaluated (value unknown or operator not supported)", unresolvedCount));
+            }
          }
          catch (Exception e)
          {
             ctx.ConsoleWriteLogLine("XMLPARAM_SETTINGS_CONFIG Exception : " + e.Message);
+         }
+      }
+
+      // xpath used for rows that come from the APLog machine header rather than a config file
+      private const string HeaderRowName = "APLog header";
+
+      /// <summary>
+      /// The machine header at the top of each APLog reports the model. Add it as a row so the
+      /// System.ModelName line in the sheet shows the header value next to the config values.
+      /// </summary>
+      /// <param name="logLine">logline from the file</param>
+      public override void ProcessRow(ILogLine logLine)
+      {
+         try
+         {
+            if (logLine is MachineInfo machineInfo && !string.IsNullOrWhiteSpace(machineInfo.model))
+            {
+               DataTable table = dTableSet.Tables["XmlParam"];
+               if (!table.Columns.Contains("System.ModelName"))
+               {
+                  table.Columns.Add("System.ModelName");
+               }
+
+               DataRow dataRow = table.Rows.Add();
+               dataRow["xpath"] = HeaderRowName;
+               dataRow["System.ModelName"] = machineInfo.model.Trim();
+            }
+         }
+         catch (Exception e)
+         {
+            ctx.LogWriteLine("XmlParamTable.ProcessRow EXCEPTION:" + e.Message);
+         }
+      }
+
+      /// <summary>
+      /// Compare the model the config says (last non-blank System.ModelName in load order)
+      /// with the model the APLog header reports, and flag any disagreement in the header row.
+      /// </summary>
+      /// <param name="ctx">Context for the command.</param>
+      public override void Analyze(IContext ctx)
+      {
+         try
+         {
+            DataTable table = dTableSet.Tables["XmlParam"];
+            if (!table.Columns.Contains("System.ModelName"))
+            {
+               return;
+            }
+
+            string configModel = null;
+            List<DataRow> headerRows = new List<DataRow>();
+
+            foreach (DataRow row in table.Rows)
+            {
+               string value = row["System.ModelName"].ToString().Trim();
+               if (row["xpath"].ToString() == HeaderRowName)
+               {
+                  headerRows.Add(row);
+               }
+               else if (value.Length > 0)
+               {
+                  configModel = value;
+               }
+            }
+
+            if (configModel == null)
+            {
+               return;
+            }
+
+            foreach (DataRow row in headerRows)
+            {
+               string headerModel = row["System.ModelName"].ToString().Trim();
+               if (!string.Equals(headerModel, configModel, StringComparison.OrdinalIgnoreCase))
+               {
+                  ctx.ConsoleWriteLogLine(String.Format("XMLPARAM_SETTINGS_CONFIG : MISMATCH System.ModelName config='{0}' APLog header='{1}'", configModel, headerModel));
+                  row["System.ModelName"] = String.Format("{0} (config says {1})", headerModel, configModel);
+               }
+            }
+
+            table.AcceptChanges();
+         }
+         catch (Exception e)
+         {
+            ctx.LogWriteLine("XmlParamTable.Analyze EXCEPTION:" + e.Message);
          }
       }
 
