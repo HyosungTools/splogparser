@@ -55,6 +55,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\APLine\APLogLine.csproj">
+      <Project>{79fe7807-0694-473c-8dd5-7d7013e14edf}</Project>
+      <Name>APLogLine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BaseView\BaseView.csproj">
       <Project>{db43982d-e960-4dba-83ef-1bb6e7a60a49}</Project>
       <Name>BaseView</Name>
@@ -66,6 +70,10 @@
     <ProjectReference Include="..\Impl\Impl.csproj">
       <Project>{f89403e5-4c5c-4d8f-8401-b2d56f6d8a2b}</Project>
       <Name>Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogLineHandler\LogLineHandler.csproj">
+      <Project>{43796ea3-f9fb-4be0-8730-a9d5b807c9c3}</Project>
+      <Name>LogLineHandler</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

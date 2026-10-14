@@ -28,5 +28,11 @@ namespace XmlParamsView
       {
          bTable.PreProcess(ctx);
       }
+
+      public override void Analyze(IContext ctx)
+      {
+         base.Analyze(ctx);
+         bTable.Analyze(ctx);
+      }
    }
 }

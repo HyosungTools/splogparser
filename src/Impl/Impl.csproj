@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="XmlConditionEvaluator.cs" />
     <Compile Include="_datatable_ops.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="FileSystemProvider.cs" />
