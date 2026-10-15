@@ -20,8 +20,10 @@ Always start from the latest `main`. Never reuse an old branch or a long-lived m
 
 ```text
 git fetch origin
-git switch -c 278-ipm-mediadata origin/main
+git switch -c 278-ipm-mediadata --no-track origin/main
 ```
+
+`--no-track` stops the new branch from tracking `origin/main`, so `git push` goes to your branch rather than trying to push to main.
 
 If you created the branch on GitHub, just fetch and check it out:
 
