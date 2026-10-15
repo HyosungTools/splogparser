@@ -89,8 +89,9 @@ jobs:
         path: .\\dist\\
 
     # Create Release
+    # Only publish a prerelease for merges to main, never for PR builds
     - name: Create Release
-      if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       uses: ncipollo/release-action@v1
       env:
         GITHUB_TOKEN: ${{ secrets.github_token }}
