@@ -20,6 +20,21 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Fail fast on a bad version, a duplicate tag, or running from the wrong branch
+      - name: Validate Inputs
+        shell: pwsh
+        run: |
+          $version = "${{ github.event.inputs.version }}"
+          if ("${{ github.ref }}" -ne "refs/heads/main") {
+            Write-Error "Releases must be run from main (got ${{ github.ref }})"; exit 1
+          }
+          if ($version -notmatch '^\d+\.\d+\.\d+$') {
+            Write-Error "Version must be MAJOR.MINOR.PATCH with no leading 'v' (got '$version')"; exit 1
+          }
+          if (git tag --list "v$version") {
+            Write-Error "Tag v$version already exists"; exit 1
+          }
+
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v3
         with:
@@ -41,6 +56,13 @@ jobs:
       - name: Build splogparser
         run: msbuild src\\splogparser.sln /m:1 /t:Clean,Build /p:Configuration="Release" /p:Platform="Any CPU" /nodeReuse:false
 
+
+      # Run the unit tests before anything is tagged or published
+      - name: Setup VSTest Path
+        uses: darenm/Setup-VSTest@v1.2
+
+      - name: Test
+        run: msbuild src\\splogparser.sln /t:RunUnitTests /p:Configuration="Release" /p:Platform="Any CPU"
 
       # Install Inno Setup
       - name: Install Inno Setup
